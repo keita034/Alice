@@ -1,0 +1,3 @@
+[submodule "Alice/lib/vcpkg"]
+	path = Alice/lib/vcpkg
+	url = https://github.com/microsoft/vcpkg.git
