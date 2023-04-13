@@ -1,0 +1,448 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{247ea196-f17d-4bb1-8bba-43eb5693c032}</ProjectGuid>
+    <RootNamespace>ALICE</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <SpectreMitigation>false</SpectreMitigation>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <SpectreMitigation>false</SpectreMitigation>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(SolutionDir)AliceCore\Incluede;$(SolutionDir)AliceCore\Incluede\Buffer;$(SolutionDir)AliceCore\Incluede\DescriptorHeap;$(SolutionDir)AliceCore\lib\x64-windows\include;$(SolutionDir)AliceMath\Incluede;$(SolutionDir)AliceMath\Incluede\Collision;$(SolutionDir)AliceMath\Incluede\Collision\2D;$(SolutionDir)AliceMath\Incluede\Collision\3D;$(SolutionDir)AliceMath\Incluede\Double;$(SolutionDir)AliceMath\Incluede\Double\Matrix;$(SolutionDir)AliceMath\Incluede\Double\Vector;$(SolutionDir)AliceMath\Incluede\Float;$(SolutionDir)AliceMath\Incluede\Float\Matrix;$(SolutionDir)AliceMath\Incluede\Float\Vector</IncludePath>
+    <ExternalIncludePath>$(ExternalIncludePath)</ExternalIncludePath>
+    <LibraryPath>$(SolutionDir)AliceCore\lib\x64-windows\lib;$(LibraryPath)</LibraryPath>
+    <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)Lib\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(SolutionDir)AliceCore\Incluede;$(SolutionDir)AliceCore\Incluede\Buffer;$(SolutionDir)AliceCore\Incluede\DescriptorHeap;$(SolutionDir)AliceCore\lib\x64-windows-static\include;$(SolutionDir)AliceMath\Incluede;$(SolutionDir)AliceMath\Incluede\Collision;$(SolutionDir)AliceMath\Incluede\Collision\2D;$(SolutionDir)AliceMath\Incluede\Collision\3D;$(SolutionDir)AliceMath\Incluede\Double;$(SolutionDir)AliceMath\Incluede\Double\Matrix;$(SolutionDir)AliceMath\Incluede\Double\Vector;$(SolutionDir)AliceMath\Incluede\Float;$(SolutionDir)AliceMath\Incluede\Float\Matrix;$(SolutionDir)AliceMath\Incluede\Float\Vector</IncludePath>
+    <LibraryPath>$(SolutionDir)AliceCore\lib\x64-windows-static\lib;$(LibraryPath)</LibraryPath>
+    <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)Lib\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <VcpkgUseStatic>true</VcpkgUseStatic>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Incluede\2D;$(ProjectDir)Incluede\2D\PostEffect;$(ProjectDir)Incluede\2D\Particle;$(ProjectDir)Incluede\2D\Sprite;$(ProjectDir)Incluede\3D;$(ProjectDir)Incluede\3D\Model;$(ProjectDir)Incluede\AliceMath;$(ProjectDir)Incluede\AliceMath\Collision;$(ProjectDir)Incluede\AliceMath\float;$(ProjectDir)Incluede\AliceMath\double;$(ProjectDir)Incluede\Audio;$(ProjectDir)Incluede\Camera;$(ProjectDir)Incluede\Core;$(ProjectDir)Incluede\Core\DirectX;$(ProjectDir)Incluede\Core\Buffer;$(ProjectDir)Incluede\Core\Framework;$(ProjectDir)Incluede\Input;$(ProjectDir)Incluede\Scene;$(ProjectDir)Incluede\Light;$(ProjectDir)Incluede\Util;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <DisableSpecificWarnings>5045;4061</DisableSpecificWarnings>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>assimp-vc143-mtd.lib;DirectX-Guids.lib;DirectXTex.lib;draco.lib;GlU32.Lib;imguid.lib;jpeg.lib;kubazip.lib;libpng16d.lib;lzma.lib;minizip.lib;opencv_calib3dd.lib;opencv_contribd.lib;opencv_cored.lib;opencv_features2dd.lib;opencv_flannd.lib;opencv_gpud.lib;opencv_highguid.lib;opencv_imgprocd.lib;opencv_legacyd.lib;opencv_mld.lib;opencv_nonfreed.lib;opencv_objdetectd.lib;opencv_ocld.lib;opencv_photod.lib;opencv_stitchingd.lib;opencv_superresd.lib;opencv_tsd.lib;opencv_videod.lib;opencv_videostabd.lib;OpenGL32.Lib;poly2tri.lib;pugixml.lib;tiffd.lib;turbojpeg.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>
+      </AdditionalOptions>
+    </Link>
+    <FxCompile>
+      <ShaderModel>5.0</ShaderModel>
+    </FxCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Incluede\2D;$(ProjectDir)Incluede\2D\PostEffect;$(ProjectDir)Incluede\2D\Particle;$(ProjectDir)Incluede\2D\Sprite;$(ProjectDir)Incluede\3D;$(ProjectDir)Incluede\3D\Model;$(ProjectDir)Incluede\AliceMath;$(ProjectDir)Incluede\AliceMath\Collision;$(ProjectDir)Incluede\AliceMath\float;$(ProjectDir)Incluede\AliceMath\double;$(ProjectDir)Incluede\Audio;$(ProjectDir)Incluede\Camera;$(ProjectDir)Incluede\Core;$(ProjectDir)Incluede\Core\DirectX;$(ProjectDir)Incluede\Core\Buffer;$(ProjectDir)Incluede\Core\Framework;$(ProjectDir)Incluede\Input;$(ProjectDir)Incluede\Scene;$(ProjectDir)Incluede\Light;$(ProjectDir)Incluede\Util;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <DisableSpecificWarnings>5045;4061</DisableSpecificWarnings>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>assimp-vc143-mt.lib;DirectX-Guids.lib;DirectXTex.lib;draco.lib;imgui.lib;kubazip.lib;minizip.lib;poly2tri.lib;pugixml.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>
+      </AdditionalOptions>
+    </Link>
+    <FxCompile>
+      <ShaderModel>5.0</ShaderModel>
+    </FxCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="Incluede\2D\Particle\IcosahedronParticle.h" />
+    <ClInclude Include="Incluede\Util\BaseTransform.h" />
+    <ClInclude Include="Incluede\Util\Game2DObject.h" />
+    <ClInclude Include="Incluede\Util\GameObject.h" />
+    <ClInclude Include="Incluede\2D\Particle\BasicParticle.h" />
+    <ClInclude Include="Incluede\2D\PostEffect\PostEffectFactory.h" />
+    <ClInclude Include="Incluede\3D\Model\AliceFileStream.h" />
+    <ClInclude Include="Incluede\3D\Model\AliceModel.h" />
+    <ClInclude Include="Incluede\3D\Model\AliceMotionData.h" />
+    <ClInclude Include="Incluede\2D\PostEffect\GaussianXBlurPostEffect.h" />
+    <ClInclude Include="Incluede\2D\PostEffect\GaussianYBlurPostEffect.h" />
+    <ClInclude Include="Incluede\2D\PostEffect\GaussianBlurPostEffect.h" />
+    <ClInclude Include="Incluede\2D\PostEffect\AbstractPostEffectFactory.h" />
+    <ClInclude Include="Incluede\2D\PostEffect\BasePostEffect.h" />
+    <ClInclude Include="Incluede\2D\PostEffect\LutPostEffect.h" />
+    <ClInclude Include="Incluede\2D\PostEffect\PostEffectSprite.h" />
+    <ClInclude Include="Incluede\3D\Model\ModelCollider.h" />
+    <ClInclude Include="Incluede\Core\DirectX\DirectX12Core.h" />
+    <ClInclude Include="Incluede\Core\DirectX\RenderTarget.h" />
+    <ClInclude Include="Incluede\Scene\AbstractSceneFactory.h" />
+    <ClInclude Include="Incluede\Scene\BaseScene.h" />
+    <ClInclude Include="Incluede\Core\Framework\AliceFramework.h" />
+    <ClInclude Include="Incluede\Core\ImGuiManager.h" />
+    <ClInclude Include="Incluede\2D\Button.h" />
+    <ClInclude Include="Incluede\2D\Cursor.h" />
+    <ClInclude Include="Incluede\2D\Mesh.h" />
+    <ClInclude Include="Incluede\2D\Particle\Particle.h" />
+    <ClInclude Include="Incluede\2D\Particle\ParticleEmitter.h" />
+    <ClInclude Include="Incluede\2D\Particle\RainParticle.h" />
+    <ClInclude Include="Incluede\2D\PostEffect\PostEffectManager.h" />
+    <ClInclude Include="Incluede\2D\Sprite\Sprite.h" />
+    <ClInclude Include="Incluede\2D\Sprite\Sprite2D.h" />
+    <ClInclude Include="Incluede\2D\Sprite\Sprite3D.h" />
+    <ClInclude Include="Incluede\3D\3DMesh.h" />
+    <ClInclude Include="Incluede\3D\Model\ModelMesh.h" />
+    <ClInclude Include="Incluede\Util\Transform.h" />
+    <ClInclude Include="Incluede\Audio\AudioManager.h" />
+    <ClInclude Include="Incluede\Camera\Camera.h" />
+    <ClInclude Include="Incluede\Camera\CinemaCamera.h" />
+    <ClInclude Include="Incluede\Core\DirectX\ComputePipelineState.h" />
+    <ClInclude Include="Incluede\Core\DefaultMaterial.h" />
+    <ClInclude Include="Incluede\Core\FPS.h" />
+    <ClInclude Include="Incluede\Core\Material.h" />
+    <ClInclude Include="Incluede\Core\DirectX\PipelineState.h" />
+    <ClInclude Include="Incluede\Core\DirectX\RootSignature.h" />
+    <ClInclude Include="Incluede\Core\DirectX\Shader.h" />
+    <ClInclude Include="Incluede\Core\TextureManager.h" />
+    <ClInclude Include="Incluede\Input\Controller.h" />
+    <ClInclude Include="Incluede\Input\Input.h" />
+    <ClInclude Include="Incluede\Input\Keyboard.h" />
+    <ClInclude Include="Incluede\Input\Mouse.h" />
+    <ClInclude Include="Incluede\Light\Light.h" />
+    <ClInclude Include="Incluede\Util\AliceFunctionUtility.h" />
+    <ClInclude Include="Incluede\Util\AliceUtility.h" />
+    <ClInclude Include="Incluede\Scene\SceneManager.h" />
+    <ClInclude Include="Incluede\2D\PostEffect\VignettePostEffect.h" />
+    <ClInclude Include="Incluede\Util\Transform2D.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Resources\Shaders\2D\Mesh.hlsli" />
+    <None Include="..\Resources\Shaders\2D\Particle.hlsli" />
+    <None Include="..\Resources\Shaders\2D\PostEffect\GaussianBlur.hlsli" />
+    <None Include="..\Resources\Shaders\2D\PostEffect\LutShader.hlsli" />
+    <None Include="..\Resources\Shaders\2D\PostEffect\PostEffectTest.hlsli" />
+    <None Include="..\Resources\Shaders\2D\PostEffect\VignetteShader.hlsli" />
+    <None Include="..\Resources\Shaders\2D\RainParticle.hlsli" />
+    <None Include="..\Resources\Shaders\2D\Sprite.hlsli" />
+    <None Include="..\Resources\Shaders\3D\Model\Lambert.hlsli" />
+    <None Include="..\Resources\Shaders\3D\Model\ModelBasic.hlsli" />
+    <None Include="..\Resources\Shaders\3D\Model\ModelSimple.hlsli" />
+    <None Include="..\Resources\Shaders\3D\Model\Phong.hlsli" />
+    <None Include="cpp.hint" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\2D\Particle\IcosahedronParticle.cpp" />
+    <ClCompile Include="Source\Util\BaseTransform.cpp" />
+    <ClCompile Include="Source\Util\Game2DObject.cpp" />
+    <ClCompile Include="Source\Util\GameObject.cpp" />
+    <ClCompile Include="Source\2D\PostEffect\PostEffectFactory.cpp" />
+    <ClCompile Include="Source\3D\Model\AliceFileStream.cpp" />
+    <ClCompile Include="Source\3D\Model\AliceModel.cpp" />
+    <ClCompile Include="Source\3D\Model\AliceMotionData.cpp" />
+    <ClCompile Include="Source\2D\PostEffect\GaussianXBlurPostEffect.cpp" />
+    <ClCompile Include="Source\2D\PostEffect\GaussianYBlurPostEffect.cpp" />
+    <ClCompile Include="Source\2D\PostEffect\GaussianBlurPostEffect.cpp" />
+    <ClCompile Include="Source\2D\PostEffect\BasePostEffect.cpp" />
+    <ClCompile Include="Source\2D\PostEffect\LutPostEffect.cpp" />
+    <ClCompile Include="Source\2D\PostEffect\PostEffectSprite.cpp" />
+    <ClCompile Include="Source\3D\Model\ModelCollider.cpp" />
+    <ClCompile Include="Source\Core\DirectX\DirectX12Core.cpp" />
+    <ClCompile Include="Source\Core\DirectX\RenderTarget.cpp" />
+    <ClCompile Include="Source\2D\Particle\BasicParticle.cpp" />
+    <ClCompile Include="Source\Scene\BaseScene.cpp" />
+    <ClCompile Include="Source\Core\Framework\AliceFramework.cpp" />
+    <ClCompile Include="Source\Core\ImGuiManager.cpp" />
+    <ClCompile Include="Source\2D\Button.cpp" />
+    <ClCompile Include="Source\2D\Cursor.cpp" />
+    <ClCompile Include="Source\2D\Mesh.cpp" />
+    <ClCompile Include="Source\2D\Particle\Particle.cpp" />
+    <ClCompile Include="Source\2D\Particle\ParticleEmitter.cpp" />
+    <ClCompile Include="Source\2D\Particle\RainParticle.cpp" />
+    <ClCompile Include="Source\2D\PostEffect\PostEffectManager.cpp" />
+    <ClCompile Include="Source\2D\Sprite\Sprite.cpp" />
+    <ClCompile Include="Source\2D\Sprite\Sprite2D.cpp" />
+    <ClCompile Include="Source\2D\Sprite\Sprite3D.cpp" />
+    <ClCompile Include="Source\3D\3DMesh.cpp" />
+    <ClCompile Include="Source\3D\Model\ModelMesh.cpp" />
+    <ClCompile Include="Source\Util\Transform.cpp" />
+    <ClCompile Include="Source\Audio\AudioManager.cpp" />
+    <ClCompile Include="Source\Camera\Camera.cpp" />
+    <ClCompile Include="Source\Camera\CinemaCamera.cpp" />
+    <ClCompile Include="Source\Core\DirectX\ComputePipelineState.cpp" />
+    <ClCompile Include="Source\Core\DefaultMaterial.cpp" />
+    <ClCompile Include="Source\Core\FPS.cpp" />
+    <ClCompile Include="Source\Core\Material.cpp" />
+    <ClCompile Include="Source\Core\DirectX\PipelineState.cpp" />
+    <ClCompile Include="Source\Core\DirectX\RootSignature.cpp" />
+    <ClCompile Include="Source\Core\DirectX\Shader.cpp" />
+    <ClCompile Include="Source\Core\TextureManager.cpp" />
+    <ClCompile Include="Source\Input\Controller.cpp" />
+    <ClCompile Include="Source\Input\Input.cpp" />
+    <ClCompile Include="Source\Input\Keyboard.cpp" />
+    <ClCompile Include="Source\Input\Mouse.cpp" />
+    <ClCompile Include="Source\Light\Light.cpp" />
+    <ClCompile Include="Source\Util\AliceFunctionUtility.cpp" />
+    <ClCompile Include="Source\Util\AliceUtility.cpp" />
+    <ClCompile Include="Source\Scene\SceneManager.cpp" />
+    <ClCompile Include="Source\2D\PostEffect\VignettePostEffect.cpp" />
+    <ClCompile Include="Source\Util\Transform2D.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\Resources\Shaders\2D\IcosahedronGS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\MeshPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\MeshVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\ParticleGS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\ParticlePS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\ParticleVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\GaussianBlurPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\GaussianXBlurVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\GaussianYBlurVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\LutShaderPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\LutShaderVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\PostEffectTestPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\PostEffectTestVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\VignetteShaderPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\VignetteShaderVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\RainParticleGS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\RainParticlePS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\RainParticleVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\SpritePS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\SpriteVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\3D\Model\BlendShapeCS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\3D\Model\GpuSkinningCS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\3D\Model\LambertPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\3D\Model\LambertVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\3D\Model\ModelAnimationVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\3D\Model\ModelBasicPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\3D\Model\ModelBasicVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\3D\Model\ModelPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\3D\Model\ModelVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\3D\Model\PhongPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\3D\Model\PhongVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\3D\Model\PolygonEffectGS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AliceCore\AliceCore.vcxproj">
+      <Project>{0c4e6eb7-9df9-4089-b866-c3b8815bf856}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\AliceMath\AliceMath.vcxproj">
+      <Project>{e19a2bfb-b038-4bef-a6c7-364d5488e9ba}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

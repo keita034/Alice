@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\DescriptorHeap">
+      <UniqueIdentifier>{e780006a-016b-4702-9102-f4dcce3e1617}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\DescriptorHeap">
+      <UniqueIdentifier>{164c7769-9804-4ce1-bca0-c92271181455}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Buffer">
+      <UniqueIdentifier>{e72a8b48-f0fb-423b-abba-1d935b5a446d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Buffer">
+      <UniqueIdentifier>{25c4e90a-635f-40d1-80fc-5bb4c85e0458}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Incluede\ErrorException.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Incluede\DescriptorHeap\DSVDescriptorHeap.h">
+      <Filter>ヘッダー ファイル\DescriptorHeap</Filter>
+    </ClInclude>
+    <ClInclude Include="Incluede\DescriptorHeap\RTVDescriptorHeap.h">
+      <Filter>ヘッダー ファイル\DescriptorHeap</Filter>
+    </ClInclude>
+    <ClInclude Include="Incluede\DescriptorHeap\DescriptorHeap.h">
+      <Filter>ヘッダー ファイル\DescriptorHeap</Filter>
+    </ClInclude>
+    <ClInclude Include="Incluede\Buffer\VertexBuffer.h">
+      <Filter>ヘッダー ファイル\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Incluede\Buffer\StructuredBuffer.h">
+      <Filter>ヘッダー ファイル\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Incluede\Buffer\BaseBuffer.h">
+      <Filter>ヘッダー ファイル\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Incluede\Buffer\RWStructuredBuffer.h">
+      <Filter>ヘッダー ファイル\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Incluede\Buffer\RenderTargetBuffer.h">
+      <Filter>ヘッダー ファイル\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Incluede\Buffer\ComputeVertexBuffer.h">
+      <Filter>ヘッダー ファイル\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Incluede\Buffer\ConstantBuffer.h">
+      <Filter>ヘッダー ファイル\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Incluede\Buffer\DepthStencilBuffer.h">
+      <Filter>ヘッダー ファイル\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Incluede\Buffer\IndexBuffer.h">
+      <Filter>ヘッダー ファイル\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Incluede\DescriptorHeap\BaseDescriptorHeap.h">
+      <Filter>ヘッダー ファイル\DescriptorHeap</Filter>
+    </ClInclude>
+    <ClInclude Include="Incluede\WindowsApp.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Incluede\SwapChain.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\DescriptorHeap\RTVDescriptorHeap.cpp">
+      <Filter>ソース ファイル\DescriptorHeap</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DescriptorHeap\DescriptorHeap.cpp">
+      <Filter>ソース ファイル\DescriptorHeap</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DescriptorHeap\DSVDescriptorHeap.cpp">
+      <Filter>ソース ファイル\DescriptorHeap</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Buffer\VertexBuffer.cpp">
+      <Filter>ソース ファイル\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Buffer\BaseBuffer.cpp">
+      <Filter>ソース ファイル\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Buffer\StructuredBuffer.cpp">
+      <Filter>ソース ファイル\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Buffer\RWStructuredBuffer.cpp">
+      <Filter>ソース ファイル\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Buffer\RenderTargetBuffer.cpp">
+      <Filter>ソース ファイル\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Buffer\ComputeVertexBuffer.cpp">
+      <Filter>ソース ファイル\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Buffer\ConstantBuffer.cpp">
+      <Filter>ソース ファイル\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Buffer\DepthStencilBuffer.cpp">
+      <Filter>ソース ファイル\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Buffer\IndexBuffer.cpp">
+      <Filter>ソース ファイル\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DescriptorHeap\BaseDescriptorHeap.cpp">
+      <Filter>ソース ファイル\DescriptorHeap</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\WindowsApp.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SwapChain.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

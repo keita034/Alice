@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{e19a2bfb-b038-4bef-a6c7-364d5488e9ba}</ProjectGuid>
+    <RootNamespace>AliceMath</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(SolutionDir)AliceCore\lib\x64-windows\include;$(SolutionDir)AliceCore\Incluede;$(SolutionDir)AliceCore\Incluede\Buffer;$(SolutionDir)AliceCore\Incluede\DescriptorHeap;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)Lib\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
+    <LibraryPath>$(SolutionDir)AliceCore\lib\x64-windows\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(SolutionDir)AliceCore\Incluede;$(SolutionDir)AliceCore\Incluede\Buffer;$(SolutionDir)AliceCore\Incluede\DescriptorHeap;$(SolutionDir)AliceCore\lib\x64-windows-static\include;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)Lib\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
+    <LibraryPath>$(SolutionDir)AliceCore\lib\x64-windows-static\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <VcpkgUseStatic>true</VcpkgUseStatic>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)Incluede;$(ProjectDir)Incluede\Collision\2D;$(ProjectDir)Incluede\Collision\3D;$(ProjectDir)Incluede\Collision;$(ProjectDir)Incluede\Float;$(ProjectDir)Incluede\Float\Matrix;$(ProjectDir)Incluede\Float\Vector;$(ProjectDir)Incluede\Double;$(ProjectDir)Incluede\Double\Matrix;$(ProjectDir)Incluede\Double\Vector;$(SolutionDir)Alice;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>5045</DisableSpecificWarnings>
+      <AdditionalOptions>/utf-8 </AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)Incluede;$(ProjectDir)Incluede\Collision\2D;$(ProjectDir)Incluede\Collision\3D;$(ProjectDir)Incluede\Collision;$(ProjectDir)Incluede\Float;$(ProjectDir)Incluede\Float\Matrix;$(ProjectDir)Incluede\Float\Vector;$(ProjectDir)Incluede\Double;$(ProjectDir)Incluede\Double\Matrix;$(ProjectDir)Incluede\Double\Vector;$(SolutionDir)Alice;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>5045</DisableSpecificWarnings>
+      <AdditionalOptions>
+      </AdditionalOptions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="Incluede\Float\Easing.h" />
+    <ClInclude Include="Incluede\Collision\2D\Base2DCollider.h" />
+    <ClInclude Include="Incluede\Collision\2D\BoxCollider2D.h" />
+    <ClInclude Include="Incluede\Collision\2D\CapsuleCllider2D.h" />
+    <ClInclude Include="Incluede\Collision\2D\Collider2DObject.h" />
+    <ClInclude Include="Incluede\Collision\3D\ColliderObject.h" />
+    <ClInclude Include="Incluede\Collision\3D\CapsuleCollider.h" />
+    <ClInclude Include="Incluede\Collision\3D\AABBCollider.h" />
+    <ClInclude Include="Incluede\Collision\3D\BaseCollider.h" />
+    <ClInclude Include="Incluede\AliceMathUtility.h" />
+    <ClInclude Include="Incluede\Collision\Collision.h" />
+    <ClInclude Include="Incluede\Collision\2D\Collision2DManager.h" />
+    <ClInclude Include="Incluede\Collision\3D\CollisionPrimitive.h" />
+    <ClInclude Include="Incluede\Collision\CollisionShapeType.h" />
+    <ClInclude Include="Incluede\Double\AliceMath.h" />
+    <ClInclude Include="Incluede\Float\AliceMathF.h" />
+    <ClInclude Include="Incluede\Float\Matrix\Matrix.h" />
+    <ClInclude Include="Incluede\Float\Matrix\Matrix3.h" />
+    <ClInclude Include="Incluede\Float\Matrix\Matrix4.h" />
+    <ClInclude Include="Incluede\Float\Quaternion.h" />
+    <ClInclude Include="Incluede\Float\Vector\Vector.h" />
+    <ClInclude Include="Incluede\Float\Vector\Vector2.h" />
+    <ClInclude Include="Incluede\Float\Vector\Vector3.h" />
+    <ClInclude Include="Incluede\Float\Vector\Vector4.h" />
+    <ClInclude Include="Incluede\Float\Matrix\Matrix2.h" />
+    <ClInclude Include="Incluede\Float\Matrix\Matrix2x3.h" />
+    <ClInclude Include="Incluede\Float\Matrix\Matrix2x4.h" />
+    <ClInclude Include="Incluede\Float\Matrix\Matrix3x4.h" />
+    <ClInclude Include="Incluede\Float\Matrix\Matrix3x2.h" />
+    <ClInclude Include="Incluede\Float\Matrix\Matrix4x2.h" />
+    <ClInclude Include="Incluede\Float\Matrix\Matrix4x3.h" />
+    <ClInclude Include="Incluede\Float\Matrix\MatrixT.h" />
+    <ClInclude Include="Incluede\Float\Vector\VectorT.h" />
+    <ClInclude Include="Incluede\Collision\3D\OBBCollider.h" />
+    <ClInclude Include="Incluede\Collision\3D\PlaneCollider.h" />
+    <ClInclude Include="Incluede\Collision\3D\RayCastCollider.h" />
+    <ClInclude Include="Incluede\Collision\3D\RayCollider.h" />
+    <ClInclude Include="Incluede\Collision\3D\SphereCollider.h" />
+    <ClInclude Include="Incluede\Collision\3D\MeshCollider.h" />
+    <ClInclude Include="Incluede\Structure.h" />
+    <ClInclude Include="Incluede\Collision\3D\TriangleCollider.h" />
+    <ClInclude Include="Incluede\Float\Segment2D.h" />
+    <ClInclude Include="Incluede\Float\Line2D.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\float\Easing.cpp" />
+    <ClCompile Include="Source\float\Line2D.cpp" />
+    <ClCompile Include="Source\float\Segment2D.cpp" />
+    <ClCompile Include="Source\Collision\2D\Base2DCollider.cpp" />
+    <ClCompile Include="Source\Collision\2D\Collider2DObject.cpp" />
+    <ClCompile Include="Source\Collision\2D\Collision2DManager.cpp" />
+    <ClCompile Include="Source\Collision\2D\BoxCollider2D.cpp" />
+    <ClCompile Include="Source\Collision\2D\CapsuleCllider2D.cpp" />
+    <ClCompile Include="Source\Collision\3D\ColliderObject.cpp" />
+    <ClCompile Include="Source\Collision\3D\CapsuleCollider.cpp" />
+    <ClCompile Include="Source\Collision\3D\MeshCollider.cpp" />
+    <ClCompile Include="Source\AliceMathUtility.cpp" />
+    <ClCompile Include="Source\Collision\3D\AABBCollider.cpp" />
+    <ClCompile Include="Source\Collision\3D\BaseCollider.cpp" />
+    <ClCompile Include="Source\Collision\3D\OBBCollider.cpp" />
+    <ClCompile Include="Source\Collision\3D\PlaneCollider.cpp" />
+    <ClCompile Include="Source\Collision\3D\RayCastCollider.cpp" />
+    <ClCompile Include="Source\Collision\3D\RayCollider.cpp" />
+    <ClCompile Include="Source\float\AliceMathF.cpp" />
+    <ClCompile Include="Source\float\Matrix\MatrixT.cpp" />
+    <ClCompile Include="Source\float\Matrix\Matrix2.cpp" />
+    <ClCompile Include="Source\float\Matrix\Matrix2x3.cpp" />
+    <ClCompile Include="Source\float\Matrix\Matrix2x4.cpp" />
+    <ClCompile Include="Source\float\Matrix\Matrix3x4.cpp" />
+    <ClCompile Include="Source\float\Matrix\Matrix3x2.cpp" />
+    <ClCompile Include="Source\float\Matrix\Matrix4x2.cpp" />
+    <ClCompile Include="Source\float\Matrix\Matrix4x3.cpp" />
+    <ClCompile Include="Source\Collision\Collision.cpp" />
+    <ClCompile Include="Source\double\AliceMath.cpp" />
+    <ClCompile Include="Source\float\Matrix\Matrix.cpp" />
+    <ClCompile Include="Source\float\Matrix\Matrix3.cpp" />
+    <ClCompile Include="Source\float\Matrix\Matrix4.cpp" />
+    <ClCompile Include="Source\float\Quaternion.cpp" />
+    <ClCompile Include="Source\float\Vector\Vector.cpp" />
+    <ClCompile Include="Source\float\Vector\Vector2.cpp" />
+    <ClCompile Include="Source\float\Vector\Vector3.cpp" />
+    <ClCompile Include="Source\float\Vector\Vector4.cpp" />
+    <ClCompile Include="Source\float\Vector\VectorT.cpp" />
+    <ClCompile Include="Source\Collision\3D\SphereCollider.cpp" />
+    <ClCompile Include="Source\Collision\3D\TriangleCollider.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AliceCore\AliceCore.vcxproj">
+      <Project>{0c4e6eb7-9df9-4089-b866-c3b8815bf856}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
