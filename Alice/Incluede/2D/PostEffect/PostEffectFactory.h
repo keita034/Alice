@@ -19,7 +19,7 @@ public:
 
 private:
 
-	PostEffectFactory() = default;
+	PostEffectFactory();
 	~PostEffectFactory() = default;
 
 	//コピーコンストラクタ・代入演算子削除

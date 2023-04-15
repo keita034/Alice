@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include"ErrorException.h"
+
 #include"VertexBuffer.h"
 #include"IndexBuffer.h"
 #include"Transform.h"
@@ -89,7 +89,7 @@ public:
 	/// カラーを設定
 	/// </summary>
 	/// <param name="color">RGBA</param>
-	virtual void SetColor(const AliceMathF::Vector4& color);
+	virtual void SetColor(const AliceMathF::Vector4& col);
 
 	/// <summary>
 	/// 画像の切り取り範囲を指定

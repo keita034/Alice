@@ -13,8 +13,8 @@ void Sprite2D::Initialize(uint32_t handle)
 {
 	SpriteInitialize();
 
-	width = static_cast<float>(WindowsApp::GetInstance()->GetWindowSize().width);
-	height = static_cast<float>(WindowsApp::GetInstance()->GetWindowSize().height);
+	float width = static_cast<float>(WindowsApp::GetInstance()->GetWindowSize().width);
+	float height = static_cast<float>(WindowsApp::GetInstance()->GetWindowSize().height);
 
 	AliceMathF::MakeOrthogonalL(0.0f, width, height, 0.0f, 0.0f, 1.0f, matProjection);
 

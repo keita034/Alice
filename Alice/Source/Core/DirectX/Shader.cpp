@@ -1,4 +1,14 @@
-﻿#include "Shader.h"
+﻿#pragma warning(push)
+#pragma warning(disable: 4668)
+#pragma warning(disable: 4820)
+#pragma warning(disable: 5039)
+
+#include<d3dcompiler.h>
+#include<cassert>
+
+#pragma warning(pop)
+
+#include "Shader.h"
 #include"AliceFunctionUtility.h"
 
 void Shader::Create(const std::string& fileName, const std::string& entryPoint, const std::string& target, const ShaderType& type_)

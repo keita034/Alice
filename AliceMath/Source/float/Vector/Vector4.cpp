@@ -1,4 +1,15 @@
-﻿#include "Vector4.h"
+﻿#pragma once
+#pragma once
+#pragma warning(push)
+#pragma warning(disable: 4365)
+#pragma warning(disable: 4619)
+#pragma warning(disable: 4668)
+
+#include<assimp/quaternion.h>
+
+#pragma warning(pop)
+
+#include "Vector4.h"
 #include"Vector3.h"
 #include"AliceMathUtility.h"
 
@@ -12,12 +23,12 @@ namespace AliceMathF
 	{
 	}
 
-	Vector4::Vector4(aiQuaternion& aiQuaternion)
+	Vector4::Vector4(aiQuaternion& quaternion)
 	{
-		x = aiQuaternion.x;
-		y = aiQuaternion.y;
-		z = aiQuaternion.z;
-		w = aiQuaternion.w;
+		x = quaternion.x;
+		y = quaternion.y;
+		z = quaternion.z;
+		w = quaternion.w;
 	}
 
 	Vector4::Vector4(const DirectX::XMVECTOR& vec)

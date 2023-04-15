@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include"ErrorException.h"
 #include"Particle.h"
 
 class RainParticle : private Particle

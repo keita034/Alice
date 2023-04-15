@@ -1,6 +1,5 @@
 #pragma once
 
-#include"ErrorException.h"
 #include"Camera.h"
 #include"Sprite2D.h"
 #include"Sprite3D.h"

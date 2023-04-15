@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include"ErrorException.h"
 #include"Vector4.h"
 #include"Vector3.h"
 #include"Matrix4.h"

@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include<ErrorException.h>
 #include<AliceMathUtility.h>
 #include<Camera.h>
 #include<Particle.h>

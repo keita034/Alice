@@ -1,5 +1,28 @@
 ﻿#pragma once
-#include"ErrorException.h"
+#pragma warning(push)
+#pragma warning(disable: 4265)
+#pragma warning(disable: 4365)
+#pragma warning(disable: 4514)
+#pragma warning(disable: 4625)
+#pragma warning(disable: 4626)
+#pragma warning(disable: 4668)
+#pragma warning(disable: 4820)
+#pragma warning(disable: 5039)
+#pragma warning(disable: 5204)
+#pragma warning(disable: 5220)
+#pragma warning(disable: 5246)
+
+#include<xaudio2.h>
+#include<string>
+#include<vector>
+#include<mfapi.h>
+#include<mfidl.h>
+#include<mfreadwrite.h>
+#include<wrl.h>
+#include<list>
+
+#pragma warning(pop)
+
 
 #pragma comment(lib,"xaudio2.lib")
 #pragma comment(lib, "Mf.lib")

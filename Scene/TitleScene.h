@@ -1,6 +1,5 @@
 #pragma once
 #include"BaseScene.h"
-#include "ErrorException.h"
 #include "TextureManager.h"
 #include "Transform.h"
 #include "Sprite2D.h"

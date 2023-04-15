@@ -1,5 +1,10 @@
 ﻿#include "SceneManager.h"
 #include"PostEffectManager.h"
+
+SceneManager::SceneManager()
+{
+}
+
 SceneManager::~SceneManager()
 {
 	scene->Finalize();

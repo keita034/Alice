@@ -1,6 +1,4 @@
 ﻿#pragma once
-//#DirectXのやつ
-#include"ErrorException.h"
 
 //自作.h
 #include"AliceMathUtility.h"

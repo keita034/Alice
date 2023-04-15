@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include"ErrorException.h"
 #include"ModelMesh.h"
 #include"StructuredBuffer.h"
 #include"AliceMotionData.h"
@@ -18,6 +17,7 @@ private:
 	std::string filePath;
 
 	uint32_t modelHandle;
+	char PADING[4]{};
 
 	//モデル名
 	std::string name;
@@ -41,7 +41,11 @@ private:
 
 	//アニメーションできるか
 	bool canAnimation = false;
+	char PADING2[5]{};
 
+	//コピーコンストラクタ・代入演算子削除
+	AliceModelData& operator=(const AliceModelData&) = delete;
+	AliceModelData(const AliceModelData&) = delete;
 };
 
 
@@ -173,8 +177,8 @@ private:
 	bool FindRotation(float AnimationTime, const MotionNode* pNodeAnim, UINT& nRotationIndex);
 	void CalcInterpolatedPosition(AliceMathF::Vector3& mxOut, float AnimationTime, const MotionNode* pNodeAnim);
 	bool FindPosition(float AnimationTime, const MotionNode* pNodeAnim, UINT& nPosIndex);
-	void ModelDraw(Transform& transform, Material* material = nullptr);
-	void ModelAnimationDraw(Transform& transform, Material* material = nullptr);
+	void ModelDraw(Transform& transform);
+	void ModelAnimationDraw(Transform& transform);
 
 	//コピーコンストラクタ・代入演算子削除
 	AliceModel& operator=(const AliceModel&) = delete;

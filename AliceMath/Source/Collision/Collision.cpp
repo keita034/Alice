@@ -1,4 +1,17 @@
-﻿#include "Collision.h"
+﻿#pragma once
+#pragma warning(push)
+#pragma warning(disable: 4365)
+#pragma warning(disable: 4514)
+#pragma warning(disable: 4619)
+#pragma warning(disable: 4668)
+#pragma warning(disable: 5039)
+
+#include<cmath>
+#include<memory>
+
+#pragma warning(pop)
+
+#include "Collision.h"
 
 #pragma region 点
 

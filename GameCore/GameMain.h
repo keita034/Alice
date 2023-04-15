@@ -1,7 +1,6 @@
 #pragma once
 
 //#DirectX‚Ì‚â‚Â
-#include"ErrorException.h"
 
 
 //©ì.h

@@ -1,4 +1,15 @@
 ﻿#pragma once
+#pragma warning(push)
+#pragma warning(disable: 4365)
+#pragma warning(disable: 4514)
+#pragma warning(disable: 4619)
+#pragma warning(disable: 4668)
+#pragma warning(disable: 5039)
+
+#include<fstream>
+
+#pragma warning(pop)
+
 #include"AliceModel.h"
 
 class AliceFileStream
@@ -76,7 +87,7 @@ private:
 	static void ReadMotionHesderData(std::stringstream& data, std::string& str, MotionData* motion);
 
 	static void ReadMotionNodesData(std::stringstream& data, std::string& str, MotionData* motion);
-	static void ReadMotionNodeData(std::stringstream& data, std::string& str, MotionNode& node, MotionData* motion);
+	static void ReadMotionNodeData(std::stringstream& data, std::string& str, MotionNode& node);
 
 #pragma endregion
 

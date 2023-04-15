@@ -1,4 +1,15 @@
-﻿#include "ComputePipelineState.h"
+﻿#pragma warning(push)
+#pragma warning(disable: 4365)
+#pragma warning(disable: 4514)
+#pragma warning(disable: 4619)
+#pragma warning(disable: 4668)
+#pragma warning(disable: 5039)
+
+#include<cassert>
+
+#pragma warning(pop)
+
+#include "ComputePipelineState.h"
 
 void ComputePipelineState::SetShader(D3D12_SHADER_BYTECODE& shader)
 {

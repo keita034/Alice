@@ -12,14 +12,20 @@ protected:
 
 	//ワールド変換データ
 	Transform transform;
+
 	//モデル
 	std::unique_ptr<AliceModel>model;
+
 	//モデルハンドル
 	uint32_t modelHandle;
+	char PADING[4];
 
 	//スプライト
 	std::unique_ptr<Sprite2D>sprite;
+
 	uint32_t spriteHandle;
+	char PADING2[4];
+
 
 public:
 
@@ -61,5 +67,12 @@ public:
 	virtual void OnCollision()override;
 
 	virtual void CollisionUpdate()override;
+
+private:
+
+	// コピーコンストラクタを禁止
+	Game2DObject(const Game2DObject& obj) = delete;
+	// コピー代入演算子を禁止
+	void operator=(const Game2DObject& obj) = delete;
 };
 

@@ -28,3 +28,7 @@ BasePostEffect* PostEffectFactory::CreatePostEffect(const std::string& postEffec
 	
 	return postEffect;
 }
+
+PostEffectFactory::PostEffectFactory()
+{
+}

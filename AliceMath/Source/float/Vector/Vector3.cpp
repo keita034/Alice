@@ -1,4 +1,15 @@
-﻿#include "Vector3.h"
+﻿#pragma once
+#pragma once
+#pragma warning(push)
+#pragma warning(disable: 4365)
+#pragma warning(disable: 4619)
+#pragma warning(disable: 4668)
+
+#include<assimp/vector3.h>
+
+#pragma warning(pop)
+
+#include "Vector3.h"
 #include"AliceMathF.h"
 
 namespace AliceMathF

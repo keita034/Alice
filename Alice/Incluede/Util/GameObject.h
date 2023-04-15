@@ -13,8 +13,10 @@ protected:
 	Transform transform;
 	//モデル
 	std::unique_ptr<AliceModel>model;
+
 	//モデルハンドル
 	uint32_t modelHandle;
+	char PADING[4];
 
 	virtual ~GameObject() = default;
 
@@ -54,5 +56,13 @@ public:
 	/// 衝突時に呼ばれる関数
 	/// </summary>
 	virtual void OnCollision()override;
+
+private:
+
+	// コピーコンストラクタを禁止
+	GameObject(const GameObject& obj) = delete;
+	// コピー代入演算子を禁止
+	void operator=(const GameObject& obj) = delete;
+
 };
 

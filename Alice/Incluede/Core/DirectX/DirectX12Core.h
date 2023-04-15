@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include<ErrorException.h>
 #include<DescriptorHeap.h>
 #include<DSVDescriptorHeap.h>
 #include<RTVDescriptorHeap.h>
@@ -70,14 +69,19 @@ private:
 	static DirectX12Core* DirectX12Core_;
 	
 	bool tearingSupport;
-
-	char PADING2[4]{};
+	char PADING2[3]{};
 
 	float height;
+	char PADING3[4]{};
+
 	float width;
+	char PADING4[4]{};
+
 	HWND* handle;
 	WindowsApp* windowsApp = nullptr;
+
 	WindowMode windowMode;
+	char PADING5[4]{};
 public:
 
 	//シングルトンインスタンスの取得

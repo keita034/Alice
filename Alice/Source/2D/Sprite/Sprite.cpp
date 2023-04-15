@@ -72,9 +72,9 @@ void Sprite::SetFlipFlag(bool isFlipX, bool isFlipY)
 	flipY = isFlipY;
 }
 
-void Sprite::SetColor(const AliceMathF::Vector4& color)
+void Sprite::SetColor(const AliceMathF::Vector4& col)
 {
-	this->color = color;
+	color = col;
 }
 
 void Sprite::SetTextureTrimmingRange(const AliceMathF::Vector2& leftTop, const AliceMathF::Vector2& rightDown)

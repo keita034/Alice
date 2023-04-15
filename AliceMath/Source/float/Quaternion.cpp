@@ -1,4 +1,15 @@
-﻿#include "Quaternion.h"
+﻿#pragma once
+#pragma once
+#pragma warning(push)
+#pragma warning(disable: 4365)
+#pragma warning(disable: 4619)
+#pragma warning(disable: 4668)
+
+#include<assimp/quaternion.h>
+
+#pragma warning(pop)
+
+#include "Quaternion.h"
 #include"AliceMathUtility.h"
 
 float AngleNormalize(float x)
@@ -105,14 +116,14 @@ namespace AliceMathF
 
 		Vector3 axis = cross.Normalization();
 
-		float theta = acos(dot);
+		float theta = Acos(dot);
 
-		float sin = sinf(theta / 2.0f);
+		float sin = Sin(theta / 2.0f);
 
 		x = sin * axis.x;
 		y = sin * axis.y;
 		z = sin * axis.z;
-		w = cosf(theta / 2.0f);
+		w = Cos(theta / 2.0f);
 	}
 
 	float Quaternion::Dot(const Quaternion& q)const

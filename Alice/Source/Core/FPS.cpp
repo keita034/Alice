@@ -1,5 +1,7 @@
 ﻿#include "FPS.h"
 
+#pragma comment(lib,"winmm.lib")
+
 void FPS::FpsControlBegin()
 {
 	//周波数取得

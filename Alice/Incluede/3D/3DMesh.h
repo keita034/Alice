@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include"ErrorException.h"
 
 #include "DirectX12Core.h"
 #include"AliceMathUtility.h"

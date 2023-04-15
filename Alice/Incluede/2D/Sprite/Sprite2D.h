@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include"ErrorException.h"
 
 #include"AliceMathUtility.h"
 #include"Sprite.h"
@@ -14,9 +13,6 @@ private:
 	float rightScale = 1.0f;
 	float topScale = 1.0f;
 	float bottomScale = 1.0f;
-
-	float width;
-	float height;
 public:
 
 	Sprite2D();

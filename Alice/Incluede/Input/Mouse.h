@@ -1,6 +1,21 @@
 ﻿#pragma once
-#include"ErrorException.h"
-#include <dinput.h>
+#pragma warning(push)
+#pragma warning(disable: 4265)
+#pragma warning(disable: 4365)
+#pragma warning(disable: 4625)
+#pragma warning(disable: 4626)
+#pragma warning(disable: 4668)
+#pragma warning(disable: 4820)
+#pragma warning(disable: 5039)
+#pragma warning(disable: 5204)
+#pragma warning(disable: 5220)
+
+#define DIRECTINPUT_VERSION 0x0800	//DirectInputのバージョン指定
+#include<dinput.h>
+#include<wrl.h>
+
+#pragma warning(pop)
+
 #include"AliceMathUtility.h"
 #include"WindowsApp.h"
 
@@ -20,7 +35,9 @@ private:
 	DIMOUSESTATE2 oldMouseState = {};
 	//マウスのゲーム空間内でのレイ
 	AliceMathF::Vector2 mousePos;
+
 	AliceMathF::Vector3 mouseMove;
+	char PADING[4];
 
 public:
 
@@ -66,7 +83,5 @@ public:
 	/// </summary>
 	/// <returns>マウスの位置</returns>
 	const AliceMathF::Vector3 GetMouseMove();
-
-	char PADDING[4];
 };
 

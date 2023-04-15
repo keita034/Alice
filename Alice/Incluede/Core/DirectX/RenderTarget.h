@@ -1,9 +1,9 @@
 ﻿#pragma once
-#include"ErrorException.h"
 #include"AliceUtility.h"
 #include"RenderTargetBuffer.h"
 #include"DepthStencilBuffer.h"
 #include"DescriptorHeap.h"
+
 class RenderTarget
 {
 private:
@@ -74,5 +74,8 @@ public:
 private:
 
 	RenderTarget() = delete;
+		//コピーコンストラクタ・代入演算子削除
+	RenderTarget& operator=(const RenderTarget&) = delete;
+	RenderTarget(const RenderTarget&) = delete;
 };
 

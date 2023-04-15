@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include<ErrorException.h>
 #include<AliceUtility.h>
 #include<VertexBuffer.h>
 #include<IndexBuffer.h>

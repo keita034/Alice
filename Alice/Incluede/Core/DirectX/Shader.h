@@ -1,5 +1,23 @@
 ﻿#pragma once
-#include"ErrorException.h"
+#pragma warning(push)
+#pragma warning(disable: 4265)
+#pragma warning(disable: 4365)
+#pragma warning(disable: 4514)
+#pragma warning(disable: 4625)
+#pragma warning(disable: 4626)
+#pragma warning(disable: 4668)
+#pragma warning(disable: 4820)
+#pragma warning(disable: 5039)
+#pragma warning(disable: 5204)
+#pragma warning(disable: 5220)
+
+#include<d3d12.h>
+#include<wrl.h>
+#include<string>
+#include<d3dx12.h>
+
+#pragma warning(pop)
+
 
 /// <summary>
 /// シェーダオブジェクト

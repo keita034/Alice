@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include"ErrorException.h"
 #include"AliceMathUtility.h"
 #include"ConstantBuffer.h"
 
@@ -28,7 +27,7 @@ private:
 	AliceMathF::Vector4 lightcolor = { 1,1,1,1 };
 	//ダーティフラグ
 	bool dirty = false;
-	char PADING[7]{};
+	char PADING[3]{};
 public:
 
 	/// <summary>

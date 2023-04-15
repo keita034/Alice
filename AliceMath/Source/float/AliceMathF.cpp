@@ -1,4 +1,17 @@
-﻿#include "AliceMathF.h"
+﻿#pragma once
+#pragma warning(push)
+#pragma warning(disable: 4365)
+#pragma warning(disable: 4514)
+#pragma warning(disable: 4619)
+#pragma warning(disable: 4668)
+#pragma warning(disable: 5039)
+
+#include<cmath>
+#include<random>
+
+#pragma warning(pop)
+
+#include "AliceMathF.h"
 #include"AliceMathUtility.h"
 
 namespace AliceMathF

@@ -1,11 +1,21 @@
 ﻿#pragma once
-#include"ErrorException.h"
-#include"AliceMathUtility.h"
-#include"Camera.h"
-#include"ConstantBuffer.h"
-#include"VertexBuffer.h"
-#include"AliceUtility.h"
-#include"Material.h"
+#pragma warning(push)
+#pragma warning(disable: 4365)
+#pragma warning(disable: 4514)
+#pragma warning(disable: 4619)
+#pragma warning(disable: 4668)
+#pragma warning(disable: 5039)
+
+#include<forward_list>
+
+#pragma warning(pop)
+
+#include<VertexBuffer.h>
+#include<AliceUtility.h>
+#include<Material.h>
+#include<ConstantBuffer.h>
+#include<Camera.h>
+#include<AliceMathUtility.h>
 
 struct VerPosColScaRot
 {

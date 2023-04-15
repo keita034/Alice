@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include"ErrorException.h"
 #include"ComputePipelineState.h"
 #include"Shader.h"
 #include"Material.h"

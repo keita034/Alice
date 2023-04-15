@@ -1,5 +1,16 @@
 ﻿#pragma once
-#include"ErrorException.h"
+#pragma warning(push)
+#pragma warning(disable: 4365)
+#pragma warning(disable: 4514)
+#pragma warning(disable: 4619)
+#pragma warning(disable: 4668)
+#pragma warning(disable: 5039)
+
+#include<string>
+#include<vector>
+
+#pragma warning(pop)
+
 
 namespace AliceFunctionUtility
 {

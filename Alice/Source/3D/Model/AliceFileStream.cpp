@@ -818,7 +818,7 @@ bool AliceFileStream::ReadMeshBinaryData(AliceModelData* model, FILE* fp)
 			size_t TextureNum;
 			fread(&TextureNum, sizeof(size_t), 1, fp);
 			model->meshes[i].texturesNormal.resize(TextureNum);
-			for (size_t i = 0; i < TextureNum; i++)
+			for (size_t j = 0; j < TextureNum; j++)
 			{
 				size_t nameNum;
 				fread(&nameNum, sizeof(size_t), 1, fp);
@@ -828,7 +828,7 @@ bool AliceFileStream::ReadMeshBinaryData(AliceModelData* model, FILE* fp)
 
 					std::string filepath = std::string(buffC.data(), nameNum);
 					filepath = directoryPath + filepath;
-					model->meshes[i].texturesNormal[i] = TextureManager::GetTextureData(TextureManager::Load(filepath));
+					model->meshes[i].texturesNormal[j] = TextureManager::GetTextureData(TextureManager::Load(filepath));
 				}
 				else
 				{
@@ -1051,7 +1051,7 @@ void AliceFileStream::ReadMotionNodesData(std::stringstream& data, std::string& 
 
 		for (size_t i = 0; i < motion->channels.size(); i++)
 		{
-			ReadMotionNodeData(data, line, motion->channels[i], motion);
+			ReadMotionNodeData(data, line, motion->channels[i]);
 		}
 
 		if (str == line)
@@ -1061,7 +1061,7 @@ void AliceFileStream::ReadMotionNodesData(std::stringstream& data, std::string& 
 	}
 }
 
-void AliceFileStream::ReadMotionNodeData(std::stringstream& data, std::string& str, MotionNode& node, MotionData* model)
+void AliceFileStream::ReadMotionNodeData(std::stringstream& data, std::string& str, MotionNode& node)
 {
 		//1行分の文字列を入れる変数
 	std::string line;

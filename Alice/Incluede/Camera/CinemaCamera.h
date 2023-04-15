@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include"ErrorException.h"
 #include"AliceMathUtility.h"
 #include"Camera.h"
 
@@ -72,6 +71,8 @@ private:
 	SensorSize sensorSize = SensorSize::MEDIUM_FORMAT;
 	//画角計算フラグ
 	bool updatefovAngleY;
+	char PDING[3];
+
 	//センサーサイズ
 	CinemaCameraSensorSize cameraSensorSize = { 43.8f,32.8f };
 	//F値

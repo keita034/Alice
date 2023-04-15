@@ -1,5 +1,17 @@
 ﻿#pragma once
-#include"ErrorException.h"
+#pragma warning(push)
+#pragma warning(disable: 4365)
+#pragma warning(disable: 4514)
+#pragma warning(disable: 4619)
+#pragma warning(disable: 4668)
+
+#include<DirectXMath.h>
+#pragma warning(pop)
+
+template <typename TReal>
+class aiVector3t;
+typedef float ai_real;
+typedef aiVector3t<ai_real> aiVector3D;
 
 namespace AliceMathF
 {

@@ -82,7 +82,7 @@ bool DirectX12Core::SetWindowType(WindowMode mode, UINT windowHeight, UINT windo
 
 		swapChain->SetFullScreen(false);
 
-		windowsApp->ShowDefaultWindow(windowHeight, windowWidth);
+		windowsApp->ShowDefaultWindow(static_cast<LONG>(windowHeight), static_cast<LONG>(windowWidth));
 
 		WindowsApp::WindowsSize winSize = windowsApp->GetNowWindowSize();
 
@@ -105,25 +105,25 @@ bool DirectX12Core::SetWindowType(WindowMode mode, UINT windowHeight, UINT windo
 
 			swapChain->SetFullScreen(true);
 
-			WindowsApp::WindowsSize winSize = windowsApp->GetNowWindowSize();
+			WindowsApp::WindowsSize size = windowsApp->GetNowWindowSize();
 
-			width = static_cast<float>(winSize.width);
-			height = static_cast<float>(winSize.height);
+			width = static_cast<float>(size.width);
+			height = static_cast<float>(size.height);
 
 			DXGI_MODE_DESC desc{};
 			desc.Format = surfaceFormat;
-			desc.Width = winSize.width;
-			desc.Height = winSize.height;
+			desc.Width = size.width;
+			desc.Height = size.height;
 			desc.RefreshRate.Denominator = 1;
 			desc.RefreshRate.Numerator = 60;
 			desc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
 			desc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
 			swapChain->ResizeTarget(&desc);
 
-			swapChain->ResizeBuffers(winSize.width, winSize.height);
+			swapChain->ResizeBuffers(size.width, size.height);
 
 			//レンダーサイズ変更
-			RenderSizeChanged(winSize.width, winSize.height);
+			RenderSizeChanged(size.width, size.height);
 		}
 
 		break;
@@ -136,15 +136,15 @@ bool DirectX12Core::SetWindowType(WindowMode mode, UINT windowHeight, UINT windo
 
 			windowsApp->ShowFullScreen();
 
-			WindowsApp::WindowsSize winSize = windowsApp->GetNowWindowSize();
+			WindowsApp::WindowsSize size = windowsApp->GetNowWindowSize();
 
-			width = static_cast<float>(winSize.width);
-			height = static_cast<float>(winSize.height);
+			width = static_cast<float>(size.width);
+			height = static_cast<float>(size.height);
 
-			swapChain->ResizeBuffers(winSize.width, winSize.height);
+			swapChain->ResizeBuffers(size.width, size.height);
 
 			//レンダーサイズ変更
-			RenderSizeChanged(winSize.width, winSize.height);
+			RenderSizeChanged(size.width, size.height);
 		}
 
 		break;
@@ -420,7 +420,7 @@ void DirectX12Core::EnableInfoQueue()
 void DirectX12Core::CheckTearingSupport()
 {
 	Microsoft::WRL::ComPtr<IDXGIFactory6> factory;
-	HRESULT result = CreateDXGIFactory1(IID_PPV_ARGS(&factory));
+	result = CreateDXGIFactory1(IID_PPV_ARGS(&factory));
 
 	BOOL allowTearing = FALSE;
 

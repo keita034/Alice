@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include"ErrorException.h"
 #include"Keyboard.h"
 #include"Mouse.h"
 #include"Controller.h"

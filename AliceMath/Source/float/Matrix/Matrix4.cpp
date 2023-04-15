@@ -1,4 +1,15 @@
-﻿#include "Matrix4.h"
+﻿#pragma once
+#pragma once
+#pragma warning(push)
+#pragma warning(disable: 4365)
+#pragma warning(disable: 4619)
+#pragma warning(disable: 4668)
+
+#include<assimp/matrix4x4.h>
+
+#pragma warning(pop)
+
+#include "Matrix4.h"
 #include "Matrix4.h"
 #include"AliceMathF.h"
 

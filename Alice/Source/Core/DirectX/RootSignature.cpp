@@ -1,4 +1,15 @@
-﻿#include "RootSignature.h"
+﻿#pragma warning(push)
+#pragma warning(disable: 4365)
+#pragma warning(disable: 4668)
+#pragma warning(disable: 4820)
+#pragma warning(disable: 5039)
+
+#include<d3dx12.h>
+#include<cassert>
+
+#pragma warning(pop)
+
+#include "RootSignature.h"
 
 void RootSignature::Add(RootType type, UINT shaderRegister, UINT registerSpace)
 {

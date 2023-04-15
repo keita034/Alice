@@ -1,5 +1,17 @@
 ﻿#pragma once
-#include"ErrorException.h"
+#pragma warning(push)
+#pragma warning(disable: 4365)
+#pragma warning(disable: 4514)
+#pragma warning(disable: 4619)
+#pragma warning(disable: 4668)
+
+#include<DirectXMath.h>
+#pragma warning(pop)
+
+template <typename TReal>
+class aiQuaterniont;
+typedef float ai_real;
+typedef aiQuaterniont<ai_real> aiQuaternion;
 
 namespace AliceMathF
 {
@@ -17,7 +29,7 @@ namespace AliceMathF
 		Vector4();//零ベクトル
 		Vector4(float x, float y, float z, float w);//成分を指定して生成
 
-		Vector4(aiQuaternion& aiQuaternion);//成分を指定して生成
+		Vector4(aiQuaternion& quaternion);//成分を指定して生成
 
 		Vector4(const DirectX::XMVECTOR& vec);//成分を指定して生成
 

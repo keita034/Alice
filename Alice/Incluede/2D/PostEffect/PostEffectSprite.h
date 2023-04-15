@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include"ErrorException.h"
+
 #include"VertexBuffer.h"
 #include"IndexBuffer.h"
 #include"Material.h"
@@ -23,10 +23,18 @@ private:
 
 public:
 
+	PostEffectSprite() = default;
+	~PostEffectSprite() = default;
+
 	void Initialize(ID3D12GraphicsCommandList* commandList, DescriptorHeap* descriptorHeap);
 
 	void SetSize(const AliceMathF::Vector2& size);
 
 	void Draw(Material* material, D3D12_GPU_DESCRIPTOR_HANDLE handle);
+
+private:
+
+	PostEffectSprite(const PostEffectSprite&) = delete;
+	PostEffectSprite& operator=(const PostEffectSprite&) = delete;
 };
 

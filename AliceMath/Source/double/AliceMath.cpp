@@ -1,6 +1,12 @@
-﻿#include "AliceMath.h"
-#include"AliceMathUtility.h"
+﻿#pragma warning(push)
+#pragma warning(disable: 4365)
+
 #include<random>
+
+#pragma warning(pop)
+
+#include "AliceMath.h"
+#include"AliceMathUtility.h"
 
 namespace AliceMath
 {

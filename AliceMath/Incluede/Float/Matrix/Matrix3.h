@@ -1,6 +1,21 @@
 ﻿#pragma once
-#include"ErrorException.h"
+#pragma warning(push)
+#pragma warning(disable: 4365)
+#pragma warning(disable: 4514)
+#pragma warning(disable: 4619)
+#pragma warning(disable: 4668)
+#pragma warning(disable: 5039)
+
+#include<array>
+
+#pragma warning(pop)
+
 #include"Vector2.h"
+
+template <typename TReal>
+class aiMatrix3x3t;
+typedef float ai_real;
+typedef aiMatrix3x3t<ai_real> aiMatrix3x3;
 
 namespace AliceMathF
 {

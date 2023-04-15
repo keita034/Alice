@@ -3,7 +3,9 @@
 void RenderTarget::Initialize(UINT w, UINT h, D3D12_RESOURCE_STATES resourceStates, const AliceMathF::Vector4& col, DXGI_FORMAT rtFormat, DXGI_FORMAT dsFormat)
 {
 	//クリアカラー
-	clearColor = { col.x,col.y,col.z,col.w };
+	
+		clearColor = {{ col.x,col.y,col.z,col.w }};
+	
 
 	//レンダーターゲットの生成
 	renderTargetBuffer->Create(w, h, resourceStates, 0, 1, rtFormat, clearColor);

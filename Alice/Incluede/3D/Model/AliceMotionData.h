@@ -1,9 +1,20 @@
 ﻿#pragma once
-#include"ErrorException.h"
+#pragma warning(push)
+#pragma warning(disable: 4365)
+#pragma warning(disable: 4514)
+#pragma warning(disable: 4619)
+#pragma warning(disable: 4668)
+#pragma warning(disable: 5039)
+
+#include<unordered_map>
+#include<filesystem>
+
+#pragma warning(pop)
+
+
+
 #include"AliceMathUtility.h"
 #include"AliceUtility.h"
-
-
 
 class MotionData
 {
@@ -15,6 +26,7 @@ private:
 	std::string filePath;
 
 	uint32_t modelHandle;
+	char PADING[4]{};
 
 	//名前
 	std::string name;

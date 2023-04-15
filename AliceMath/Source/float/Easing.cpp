@@ -107,7 +107,7 @@ namespace AliceMathF
 
 		float EaseOutCirc(float time)
 		{
-			return sqrt(1.0f - Pow(time - 1.0f, 2.0f));
+			return Sqrt(1.0f - Pow(time - 1.0f, 2.0f));
 		}
 
 		float EaseInOutCirc(float time)

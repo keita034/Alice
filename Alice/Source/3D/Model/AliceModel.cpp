@@ -1,4 +1,16 @@
-﻿#include "AliceModel.h"
+﻿#pragma warning(push)
+#pragma warning(disable: 4365)
+#pragma warning(disable: 4514)
+#pragma warning(disable: 4619)
+#pragma warning(disable: 4668)
+#pragma warning(disable: 5039)
+
+#include<Windows.h>
+#include<atldef.h>
+
+#pragma warning(pop)
+
+#include "AliceModel.h"
 #include"AliceFileStream.h"
 #include<AliceFunctionUtility.h>
 
@@ -64,12 +76,12 @@ uint32_t AliceModel::CreateModel(const std::string& fileDirectoryPath)
 			{
 				if (data->nodes[i].parent)
 				{
-					auto itr = std::find_if(data->nodes.begin(), data->nodes.end(), [&](Node& node)
+					auto parentItr = std::find_if(data->nodes.begin(), data->nodes.end(), [&](Node& node)
 						{
 							return node.name == data->nodes[i].parent->name;
 						});
 
-					itr->childrens.push_back(&data->nodes[i]);
+					parentItr->childrens.push_back(&data->nodes[i]);
 				}
 
 			}
@@ -106,7 +118,7 @@ uint32_t AliceModel::CreateModel(const std::string& fileDirectoryPath)
 		return modelHandle;
 	}
 
-	return -1;
+	return INT32_MAX;
 }
 
 void AliceModel::Draw(Transform& transform, const AliceMotionData* animation, float frame, Material* material)
@@ -124,7 +136,7 @@ void AliceModel::Draw(Transform& transform, const AliceMotionData* animation, fl
 
 		AnimationUpdate(animation, frame);
 
-		ModelAnimationDraw(transform, material);
+		ModelAnimationDraw(transform);
 	}
 	else
 	{
@@ -137,7 +149,7 @@ void AliceModel::Draw(Transform& transform, const AliceMotionData* animation, fl
 			modelMaterialData = material;
 		}
 
-		ModelDraw(transform, material);
+		ModelDraw(transform);
 	}
 
 	modelData->IsAnime = false;
@@ -513,7 +525,7 @@ bool AliceModel::FindPosition(float AnimationTime, const MotionNode* pNodeAnim, 
 	return false;
 }
 
-void AliceModel::ModelDraw(Transform& transform, Material* material)
+void AliceModel::ModelDraw(Transform& transform)
 {
 	for (size_t i = 0; i < modelData->meshes.size(); i++)
 	{
@@ -534,7 +546,7 @@ void AliceModel::ModelDraw(Transform& transform, Material* material)
 	}
 }
 
-void AliceModel::ModelAnimationDraw(Transform& transform, Material* material)
+void AliceModel::ModelAnimationDraw(Transform& transform)
 {
 	for (size_t i = 0; i < modelData->meshes.size(); i++)
 	{

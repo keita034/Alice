@@ -91,9 +91,6 @@
     <Filter Include="Engine\ソース ファイル\Core\DirectX">
       <UniqueIdentifier>{ece1eb6e-0f77-4364-b554-d2c8f7da3f2a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\ソース ファイル\Core\Buffer">
-      <UniqueIdentifier>{1f33ea8a-869a-424e-903b-242ac01fe65a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\ソース ファイル\Core\Framework">
       <UniqueIdentifier>{8b9d55a0-a011-4f03-ab3b-f510ea55d9c5}</UniqueIdentifier>
     </Filter>
