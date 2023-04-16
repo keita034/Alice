@@ -1,10 +1,10 @@
 ﻿#pragma once
-#include"AliceMathUtility.h"
-#include"DirectX12Core.h"
-#include"AliceUtility.h"
-#include"Shader.h"
-#include"PipelineState.h"
-#include"RootSignature.h"
+#include<AliceMathUtility.h>
+#include<DirectX12Core.h>
+#include<AliceUtility.h>
+#include<Shader.h>
+#include<PipelineState.h>
+#include<RootSignature.h>
 
 class Material
 {

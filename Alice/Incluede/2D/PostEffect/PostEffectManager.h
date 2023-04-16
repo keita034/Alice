@@ -1,11 +1,11 @@
 ﻿#pragma once
-#include"VertexBuffer.h"
-#include"IndexBuffer.h"
-#include"AliceMathUtility.h"
-#include"Material.h"
-#include"BasePostEffect.h"
-#include"RWStructuredBuffer.h"
-#include"RenderTarget.h"
+#include<VertexBuffer.h>
+#include<IndexBuffer.h>
+#include<AliceMathUtility.h>
+#include<Material.h>
+#include<BasePostEffect.h>
+#include<RWStructuredBuffer.h>
+#include<RenderTarget.h>
 
 class PostEffectFactory;
 

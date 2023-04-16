@@ -1,5 +1,5 @@
-﻿#include "Sprite2D.h"
-#include"WindowsApp.h"
+﻿#include<Sprite2D.h>
+#include<WindowsApp.h>
 
 Sprite2D::Sprite2D()
 {

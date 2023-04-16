@@ -1,8 +1,8 @@
-﻿#include "LutPostEffect.h"
-#include "DirectX12Core.h"
-#include "TextureManager.h"
-#include "WindowsApp.h"
-#include"DefaultMaterial.h"
+﻿#include<LutPostEffect.h>
+#include<DirectX12Core.h>
+#include<TextureManager.h>
+#include<WindowsApp.h>
+#include<DefaultMaterial.h>
 
 LutPostEffect* LutPostEffect::GetInstance()
 {

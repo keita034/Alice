@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include "BaseCollider.h"
-#include "MeshCollider.h"
+#include<BaseCollider.h>
+#include<MeshCollider.h>
 
 class ModelMesh;
 

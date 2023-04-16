@@ -1,9 +1,9 @@
 ﻿#pragma once
-#include"BasePostEffect.h"
-#include"ConstantBuffer.h"
-#include"AliceMathUtility.h"
-#include "GaussianYBlurPostEffect.h"
-#include "GaussianXBlurPostEffect.h"
+#include<BasePostEffect.h>
+#include<ConstantBuffer.h>
+#include<AliceMathUtility.h>
+#include<GaussianYBlurPostEffect.h>
+#include<GaussianXBlurPostEffect.h>
 
 class GaussianBlurPostEffect final: public BasePostEffect
 {

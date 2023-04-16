@@ -1,8 +1,8 @@
-﻿#include "Sprite.h"
-#include "Sprite.h"
-#include "DirectX12Core.h"
-#include"Sprite2D.h"
-#include"Sprite3D.h"
+﻿#include<Sprite.h>
+#include<Sprite.h>
+#include<DirectX12Core.h>
+#include<Sprite2D.h>
+#include<Sprite3D.h>
 
 void Sprite::SpriteInitialize()
 {

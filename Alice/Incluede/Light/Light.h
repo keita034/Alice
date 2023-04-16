@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include"AliceMathUtility.h"
-#include"ConstantBuffer.h"
+#include<AliceMathUtility.h>
+#include<ConstantBuffer.h>
 
 /// <summary>
 /// ライト

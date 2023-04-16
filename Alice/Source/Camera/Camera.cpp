@@ -1,5 +1,5 @@
-﻿#include "Camera.h"
-#include"WindowsApp.h"
+﻿#include<Camera.h>
+#include<WindowsApp.h>
 
 void GameCamera::Initialize(UpdateProjMatrixFunc matFunc)
 {

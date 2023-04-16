@@ -76,6 +76,6 @@ public:
 	void Update();
 
 	BoxCollider2D();
-	virtual ~BoxCollider2D() = default;
+	virtual ~BoxCollider2D();
 };
 

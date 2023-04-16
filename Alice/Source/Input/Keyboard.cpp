@@ -1,4 +1,4 @@
-﻿#include "Keyboard.h"
+﻿#include<Keyboard.h>
 
 void Keyboard::Initialize(IDirectInput8* directInput)
 {

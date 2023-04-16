@@ -1,4 +1,4 @@
-﻿#include "RenderTarget.h"
+﻿#include<RenderTarget.h>
 
 void RenderTarget::Initialize(UINT w, UINT h, D3D12_RESOURCE_STATES resourceStates, const AliceMathF::Vector4& col, DXGI_FORMAT rtFormat, DXGI_FORMAT dsFormat)
 {

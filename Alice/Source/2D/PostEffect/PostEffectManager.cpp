@@ -1,7 +1,7 @@
-﻿#include "PostEffectManager.h"
-#include "WindowsApp.h"
-#include "DefaultMaterial.h"
-#include "PostEffectFactory.h"
+﻿#include<PostEffectManager.h>
+#include<WindowsApp.h>
+#include<DefaultMaterial.h>
+#include<PostEffectFactory.h>
 
 const float PostEffectManager::clearColor[4] = { 1.0f,1.0f,1.0f,0.0f };
 

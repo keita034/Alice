@@ -1,4 +1,4 @@
-﻿#include "AliceFileStream.h"
+﻿#include<AliceFileStream.h>
 #include<AliceFunctionUtility.h>
 
 std::string AliceFileStream::buff;

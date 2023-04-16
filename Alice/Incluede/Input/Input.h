@@ -1,7 +1,7 @@
 ﻿#pragma once
-#include"Keyboard.h"
-#include"Mouse.h"
-#include"Controller.h"
+#include<Keyboard.h>
+#include<Mouse.h>
+#include<Controller.h>
 
 class Input
 {

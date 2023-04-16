@@ -52,3 +52,7 @@ BoxCollider2D::BoxCollider2D()
 {
 	shapeType = COLLISIONSHAPE_BOX;
 }
+
+BoxCollider2D::~BoxCollider2D()
+{
+}

@@ -8,8 +8,8 @@
 
 #pragma warning(pop)
 
-#include "Shader.h"
-#include"AliceFunctionUtility.h"
+#include <Shader.h>
+#include<AliceFunctionUtility.h>
 
 void Shader::Create(const std::string& fileName, const std::string& entryPoint, const std::string& target, const ShaderType& type_)
 {

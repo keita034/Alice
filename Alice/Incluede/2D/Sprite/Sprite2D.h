@@ -1,9 +1,9 @@
 ﻿#pragma once
 
-#include"AliceMathUtility.h"
-#include"Sprite.h"
-#include"DefaultMaterial.h"
-#include"AliceUtility.h"
+#include<AliceMathUtility.h>
+#include<Sprite.h>
+#include<DefaultMaterial.h>
+#include<AliceUtility.h>
 
 class Sprite2D : public Sprite
 {

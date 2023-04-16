@@ -9,7 +9,7 @@
 
 #pragma warning(pop)
 
-#include "ComputePipelineState.h"
+#include<ComputePipelineState.h>
 
 void ComputePipelineState::SetShader(D3D12_SHADER_BYTECODE& shader)
 {

@@ -5,6 +5,10 @@ CapsuleCllider2D::CapsuleCllider2D()
 	shapeType = COLLISIONSHAPE_CAPSULE;
 }
 
+CapsuleCllider2D::~CapsuleCllider2D()
+{
+}
+
 void CapsuleCllider2D::SetRadius(float rad)
 {
 	radius = rad;

@@ -23,7 +23,7 @@ private:
 public:
 
 	CapsuleCllider2D();
-	virtual ~CapsuleCllider2D() = default;
+	virtual ~CapsuleCllider2D();
 
 	/// <summary>
 	/// 半径をセット

@@ -1,17 +1,17 @@
 ﻿#pragma once
-#include"TextureManager.h"
-#include"AudioManager.h"
-#include"ImGuiManager.h"
-#include"DefaultMaterial.h"
-#include"FPS.h"
-#include"Mesh.h"
-#include"3DMesh.h"
-#include"WindowsApp.h"
-#include"Input.h"
-#include"DirectX12Core.h"
-#include"SceneManager.h"
-#include"AbstractSceneFactory.h"
-#include"PostEffectManager.h"
+#include<TextureManager.h>
+#include<AudioManager.h>
+#include<ImGuiManager.h>
+#include<DefaultMaterial.h>
+#include<FPS.h>
+#include<Mesh.h>
+#include<3DMesh.h>
+#include<WindowsApp.h>
+#include<Input.h>
+#include<DirectX12Core.h>
+#include<SceneManager.h>
+#include<AbstractSceneFactory.h>
+#include<PostEffectManager.h>
 class AliceFramework
 {
 protected:

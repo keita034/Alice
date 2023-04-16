@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include"AliceMathUtility.h"
-#include"BasicParticle.h"
+#include<AliceMathUtility.h>
+#include<BasicParticle.h>
 
 class ParticleEmitter
 {

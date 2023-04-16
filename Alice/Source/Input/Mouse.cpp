@@ -1,4 +1,4 @@
-﻿#include "Mouse.h"
+﻿#include<Mouse.h>
 #include<WindowsApp.h>
 void Mouse::Initialize(IDirectInput8* dinput)
 {

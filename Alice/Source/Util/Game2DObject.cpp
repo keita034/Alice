@@ -1,4 +1,4 @@
-﻿#include "Game2DObject.h"
+﻿#include<Game2DObject.h>
 
 void Game2DObject::SetCollider(Base2DCollider* coll)
 {

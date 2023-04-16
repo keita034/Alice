@@ -1,8 +1,8 @@
 ﻿#pragma once
 
-#include"Particle.h"
-#include"AliceMathUtility.h"
-#include "Camera.h"
+#include<Particle.h>
+#include<AliceMathUtility.h>
+#include<Camera.h>
 
 class BasicParticle : public Particle
 {

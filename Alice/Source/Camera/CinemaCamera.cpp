@@ -1,5 +1,5 @@
-﻿#include "CinemaCamera.h"
-#include"WindowsApp.h"
+﻿#include<CinemaCamera.h>
+#include<WindowsApp.h>
 
 void CinemaCamera::Initialize()
 {

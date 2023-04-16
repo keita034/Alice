@@ -5,6 +5,7 @@
 #pragma warning(disable: 4514)
 #pragma warning(disable: 4619)
 #pragma warning(disable: 4668)
+#pragma warning(disable: 4711)
 #pragma warning(disable: 4820)
 #pragma warning(disable: 5039)
 
@@ -13,8 +14,8 @@
 
 #pragma warning(pop)
 
-#include"AliceUtility.h"
-#include"DirectX12Core.h"
+#include<AliceUtility.h>
+#include<DirectX12Core.h>
 
 class TextureManager
 {

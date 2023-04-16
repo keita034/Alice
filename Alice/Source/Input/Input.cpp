@@ -1,6 +1,5 @@
-﻿
-#include "Input.h"
-#include"WindowsApp.h"
+﻿#include<Input.h>
+#include<WindowsApp.h>
 
 #pragma comment(lib,"dinput8.lib")
 #pragma comment(lib,"dxguid.lib")

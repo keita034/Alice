@@ -1,4 +1,4 @@
-﻿#include "Sprite3D.h"
+﻿#include<Sprite3D.h>
 
 
 Sprite3D::Sprite3D()

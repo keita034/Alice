@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include"AliceMathUtility.h"
-#include"Camera.h"
+#include<AliceMathUtility.h>
+#include<Camera.h>
 
 enum class SensorSize
 {

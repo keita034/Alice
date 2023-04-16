@@ -1,4 +1,4 @@
-﻿#include "PostEffectSprite.h"
+﻿#include<PostEffectSprite.h>
 
 void PostEffectSprite::Initialize(ID3D12GraphicsCommandList* commandList, DescriptorHeap* descriptorHeap)
 {

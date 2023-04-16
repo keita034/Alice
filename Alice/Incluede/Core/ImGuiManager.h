@@ -1,7 +1,7 @@
 ﻿#pragma once
 
-#include"DirectX12Core.h"
-#include "WindowsApp.h"
+#include<DirectX12Core.h>
+#include<WindowsApp.h>
 
 //ImGUIの管理
 class ImGuiManager

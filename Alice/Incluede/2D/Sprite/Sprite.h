@@ -1,10 +1,10 @@
 ﻿#pragma once
 
-#include"VertexBuffer.h"
-#include"IndexBuffer.h"
-#include"Transform.h"
-#include"Camera.h"
-#include"Material.h"
+#include<VertexBuffer.h>
+#include<IndexBuffer.h>
+#include<Transform.h>
+#include<Camera.h>
+#include<Material.h>
 
 enum BillboardFlag
 {

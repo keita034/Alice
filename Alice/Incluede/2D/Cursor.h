@@ -1,11 +1,10 @@
 ﻿#pragma once
 
-//自作.h
-#include"AliceMathUtility.h"
-#include"Transform.h"
-#include"Mesh.h"
-#include"Input.h"
-#include"Sprite2D.h"
+#include<AliceMathUtility.h>
+#include<Transform.h>
+#include<Mesh.h>
+#include<Input.h>
+#include<Sprite2D.h>
 
 class Cursor
 {

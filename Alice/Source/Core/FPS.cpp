@@ -1,4 +1,4 @@
-﻿#include "FPS.h"
+﻿#include<FPS.h>
 
 #pragma comment(lib,"winmm.lib")
 

@@ -16,8 +16,8 @@
 
 #pragma warning(pop)
 
-#include"AliceMathUtility.h"
-#include"WindowsApp.h"
+#include<AliceMathUtility.h>
+#include<WindowsApp.h>
 
 enum MouseButton
 {

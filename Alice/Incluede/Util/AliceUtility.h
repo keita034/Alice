@@ -1,11 +1,11 @@
 ﻿#pragma once
-#include"AliceMathUtility.h"
-#include"VertexBuffer.h"
-#include"IndexBuffer.h"
-#include"ComputePipelineState.h"
-#include"RootSignature.h"
-#include"Shader.h"
-#include"Structure.h"
+#include<AliceMathUtility.h>
+#include<VertexBuffer.h>
+#include<IndexBuffer.h>
+#include<ComputePipelineState.h>
+#include<RootSignature.h>
+#include<Shader.h>
+#include<Structure.h>
 
 struct TextureData
 {

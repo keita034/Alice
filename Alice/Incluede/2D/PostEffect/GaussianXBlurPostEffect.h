@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include "BasePostEffect.h"
-#include"ConstantBuffer.h"
+#include<BasePostEffect.h>
+#include<ConstantBuffer.h>
 
 class GaussianXBlurPostEffect final :public BasePostEffect
 {

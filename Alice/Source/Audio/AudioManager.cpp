@@ -8,8 +8,8 @@
 #include<cassert>
 #pragma warning(pop)
 
-#include "AudioManager.h"
-#include"AliceFunctionUtility.h"
+#include<AudioManager.h>
+#include<AliceFunctionUtility.h>
 
 AudioManager* AudioManager::instance = nullptr;
 

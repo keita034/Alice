@@ -1,5 +1,5 @@
-﻿#include "TextureManager.h"
-#include"AliceFunctionUtility.h"
+﻿#include<TextureManager.h>
+#include<AliceFunctionUtility.h>
 
 TextureManager* TextureManager::textureManager = nullptr;
 std::vector<std::string>TextureManager::filePaths;

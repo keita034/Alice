@@ -1,6 +1,6 @@
-﻿#include "BasicParticle.h"
-#include"DefaultMaterial.h"
-#include"DirectX12Core.h"
+﻿#include<BasicParticle.h>
+#include<DefaultMaterial.h>
+#include<DirectX12Core.h>
 
 BasicParticle::~BasicParticle()
 {

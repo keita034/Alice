@@ -1,7 +1,7 @@
 ﻿#pragma once
-#include"ModelMesh.h"
-#include"StructuredBuffer.h"
-#include"AliceMotionData.h"
+#include<ModelMesh.h>
+#include<StructuredBuffer.h>
+#include<AliceMotionData.h>
 
 class AliceModelData
 {

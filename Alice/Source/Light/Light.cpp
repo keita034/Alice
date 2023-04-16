@@ -1,5 +1,5 @@
-﻿#include "Light.h"
-#include"DirectX12Core.h"
+﻿#include<Light.h>
+#include<DirectX12Core.h>
 Light* Light::Create()
 {
 	//3Dオブジェクトのインスタンス生成

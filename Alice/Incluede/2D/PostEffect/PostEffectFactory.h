@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include"AbstractPostEffectFactory.h"
+#include<AbstractPostEffectFactory.h>
 
 /// <summary>
 /// ポストエフェクト工場

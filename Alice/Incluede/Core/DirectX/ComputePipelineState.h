@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include"RootSignature.h"
+#include<RootSignature.h>
 
 /// <summary>
 /// 計算シェーダ用パイプラインステート

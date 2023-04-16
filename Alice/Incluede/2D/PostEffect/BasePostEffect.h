@@ -1,9 +1,9 @@
 ﻿#pragma once
-#include"ComputePipelineState.h"
-#include"Shader.h"
-#include"Material.h"
-#include"RenderTarget.h"
-#include"PostEffectSprite.h"
+#include<ComputePipelineState.h>
+#include<Shader.h>
+#include<Material.h>
+#include<RenderTarget.h>
+#include<PostEffectSprite.h>
 
 class BasePostEffect 
 {
