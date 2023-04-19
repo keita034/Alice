@@ -7,7 +7,7 @@
 #pragma warning(disable: 4820)
 #pragma warning(disable: 5039)
 
-#include<d3dx12.h>
+#include<directx/d3dx12.h>
 
 #pragma warning(pop)
 

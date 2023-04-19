@@ -62,7 +62,7 @@ public:
 	/// <param name="title">タイトル(ワイド文字)</param>
 	/// <param name="width">ウィンドウ横幅</param>
 	/// <param name="height">ウィンドウ横幅</param>
-	void CreatWindow(const wchar_t* title, UINT width, UINT height);
+	void CreatWindow(const wchar_t* title = L"DirectXGame", UINT width = 1280, UINT height = 720);
 	
 	/// <summary>
 	/// メッセージ処理

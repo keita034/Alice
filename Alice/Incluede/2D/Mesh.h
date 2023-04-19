@@ -1,15 +1,12 @@
 ﻿#pragma once
 
 //自作.h
-#include<DirectX12Core.h>
+
 #include<WindowsApp.h>
 #include<AliceMathUtility.h>
 #include<ConstantBuffer.h>
 #include<AliceUtility.h>
-
-//pragma comment
-#pragma comment(lib, "d3dcompiler.lib")
-
+#include<DefaultMaterial.h>
 
 //using namespace
 

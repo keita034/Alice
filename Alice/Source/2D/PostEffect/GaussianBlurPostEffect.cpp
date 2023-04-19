@@ -1,7 +1,4 @@
 ﻿#include<GaussianBlurPostEffect.h>
-#include<GaussianBlurPostEffect.h>
-#include<DirectX12Core.h>
-#include<WindowsApp.h>
 
 void GaussianBlurPostEffect::Initialize()
 {

@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include<Shader.h>
+#include<DirectX12Core.h>
 
 /// <summary>
 /// パイプラインステート

@@ -1,5 +1,4 @@
 ﻿#include<PipelineState.h>
-#include<DirectX12Core.h>
 
 bool PipelineState::Create()
 {

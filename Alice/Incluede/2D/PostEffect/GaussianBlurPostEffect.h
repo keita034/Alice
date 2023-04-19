@@ -4,6 +4,8 @@
 #include<AliceMathUtility.h>
 #include<GaussianYBlurPostEffect.h>
 #include<GaussianXBlurPostEffect.h>
+#include<DirectX12Core.h>
+#include<WindowsApp.h>
 
 class GaussianBlurPostEffect final: public BasePostEffect
 {

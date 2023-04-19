@@ -1,6 +1,5 @@
 ﻿#include<3DMesh.h>
-#include<WindowsApp.h>
-#include<DefaultMaterial.h>
+
 
 Mesh3D* Mesh3D::mesh = nullptr;
 

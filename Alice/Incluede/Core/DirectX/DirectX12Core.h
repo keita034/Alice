@@ -1,11 +1,9 @@
 ﻿#pragma once
-#include<DescriptorHeap.h>
-#include<DSVDescriptorHeap.h>
-#include<RTVDescriptorHeap.h>
-#include<RenderTargetBuffer.h>
+#include<string>
+
+#include<WindowsApp.h>
 #include<DepthStencilBuffer.h>
 #include<SwapChain.h>
-#include<WindowsApp.h>
 
 enum class WindowMode
 {

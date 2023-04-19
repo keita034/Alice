@@ -1,5 +1,4 @@
 ﻿#include<Mesh.h>
-#include<DefaultMaterial.h>
 
 Mesh* Mesh::mesh = nullptr;
 

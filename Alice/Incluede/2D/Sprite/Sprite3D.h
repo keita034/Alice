@@ -3,7 +3,6 @@
 //自作.h
 #include<AliceMathUtility.h>
 #include<WindowsApp.h>
-#include<DirectX12Core.h>
 #include<Camera.h>
 #include<Sprite.h>
 #include<DefaultMaterial.h>

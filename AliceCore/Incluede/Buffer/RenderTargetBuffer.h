@@ -11,7 +11,6 @@
 #include<array>
 #include<cassert>
 #include<dxgi1_6.h>
-#include<d3dx12.h>
 
 #pragma warning(pop)
 

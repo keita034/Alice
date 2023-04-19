@@ -1,15 +1,7 @@
-﻿#pragma warning(push)
-#pragma warning(disable: 4514)
-#pragma warning(disable: 4820)
-
-#include<imgui.h>
-#include <imgui_impl_win32.h>
-#include <imgui_impl_dx12.h>
-
-#pragma warning(pop)
+﻿
 
 #include<ImGuiManager.h>
-#include<DescriptorHeap.h>
+
 
 void ImGuiManager::Initialize(WindowsApp* windowsApp, DirectX12Core* core)
 {
@@ -35,6 +27,7 @@ void ImGuiManager::Initialize(WindowsApp* windowsApp, DirectX12Core* core)
 
 	ImGuiIO& io = ImGui::GetIO();
 	io.Fonts->AddFontFromFileTTF("Resources/Fonts/NotoSansJP-Bold.otf", 18.0f, nullptr, io.Fonts->GetGlyphRangesJapanese());
+
 }
 
 void ImGuiManager::Finalize()
@@ -50,6 +43,7 @@ void ImGuiManager::Bigin()
 	ImGui_ImplDX12_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
+
 }
 
 void ImGuiManager::End()

@@ -12,9 +12,12 @@
 #pragma warning(disable: 5204)
 #pragma warning(disable: 5220)
 
-#include<d3d12.h>
+#include<directx/d3d12.h>
 #include<wrl.h>
 #include<vector>
+#include<directx/d3dx12.h>
+#include<cassert>
+
 
 #pragma warning(pop)
 

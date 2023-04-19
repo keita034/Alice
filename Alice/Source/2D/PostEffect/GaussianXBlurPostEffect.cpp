@@ -1,8 +1,4 @@
 ﻿#include<GaussianXBlurPostEffect.h>
-#include<DirectX12Core.h>
-#include<TextureManager.h>
-#include<WindowsApp.h>
-#include<DefaultMaterial.h>
 
 void GaussianXBlurPostEffect::Initialize()
 {

@@ -5,6 +5,7 @@
 #include<Shader.h>
 #include<PipelineState.h>
 #include<RootSignature.h>
+#include<TextureManager.h>
 
 class Material
 {

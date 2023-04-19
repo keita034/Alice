@@ -1,6 +1,8 @@
 ﻿#include <AliceFramework.h>
+
 #include<AliceModel.h>
 #include<AliceMotionData.h>
+#include<DefaultMaterial.h>
 #include<Collision2DManager.h>
 
 void AliceFramework::DebugInitialize()
@@ -15,8 +17,7 @@ void AliceFramework::DebugInitialize()
 void AliceFramework::Initialize()
 {
 	windowsApp = WindowsApp::GetInstance();//WindowsAppクラス読み込み
-	windowsApp->CreatWindow(L"げむたいとる", 1920, 1080);//ウィンドウ生成
-	//windowsApp->CreatWindow(L"げむたいとる",1280,720);//ウィンドウ生成
+	windowsApp->CreatWindow();//ウィンドウ生成
 
 	//DirectX初期化処理ここから
 

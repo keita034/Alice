@@ -1,41 +1,11 @@
 ﻿#pragma once
 #include<AliceMathUtility.h>
+#include<Structure.h>
+#include<Shader.h>
 #include<VertexBuffer.h>
 #include<IndexBuffer.h>
 #include<ComputePipelineState.h>
 #include<RootSignature.h>
-#include<Shader.h>
-#include<Structure.h>
-
-struct TextureData
-{
-	//テクスチャバッファ
-	Microsoft::WRL::ComPtr<ID3D12Resource> texBuff;
-
-	//デスクプリタヒープ
-	ID3D12DescriptorHeap* srvHeap;
-
-	//GPUデスクプリタハンドル
-	D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle{};
-
-	//横幅
-	size_t width = 0;
-	//縦幅
-	size_t height = 0;
-
-	//カラー
-	AliceMathF::Vector4 color = { 1.0f,1.0f,1.0f,1.0f };
-
-	std::string path;
-
-	uint32_t textureHandle;
-
-	~TextureData();
-
-private:
-	char PADING[4]{};
-};
-
 
 typedef struct
 {

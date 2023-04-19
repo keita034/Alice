@@ -1,6 +1,4 @@
 ﻿#include<VignettePostEffect.h>
-#include<WindowsApp.h>
-#include<DirectX12Core.h>
 
 VignettePostEffect* VignettePostEffect::GetInstance()
 {

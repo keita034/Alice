@@ -46,9 +46,9 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)Alice\lib\vcpkg\installed\x64-windows\include;$(SolutionDir)AliceCore\Incluede;$(SolutionDir)AliceCore\Incluede\Buffer;$(SolutionDir)AliceCore\Incluede\DescriptorHeap;$(SolutionDir)AliceMath\Incluede;$(SolutionDir)AliceMath\Incluede\Collision;$(SolutionDir)AliceMath\Incluede\Collision\2D;$(SolutionDir)AliceMath\Incluede\Collision\3D;$(SolutionDir)AliceMath\Incluede\Double;$(SolutionDir)AliceMath\Incluede\Double\Matrix;$(SolutionDir)AliceMath\Incluede\Double\Vector;$(SolutionDir)AliceMath\Incluede\Float;$(SolutionDir)AliceMath\Incluede\Float\Matrix;$(SolutionDir)AliceMath\Incluede\Float\Vector</IncludePath>
-    <ExternalIncludePath>$(ExternalIncludePath)</ExternalIncludePath>
-    <LibraryPath>$(SolutionDir)Alice\lib\vcpkg\installed\x64-windows\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)lib\vcpkg\installed\x64-windows-static\include;$(SolutionDir)AliceCore\Incluede;$(SolutionDir)AliceCore\Incluede\Buffer;$(SolutionDir)AliceCore\Incluede\DescriptorHeap;$(SolutionDir)AliceMath\Incluede;$(SolutionDir)AliceMath\Incluede\Collision;$(SolutionDir)AliceMath\Incluede\Collision\2D;$(SolutionDir)AliceMath\Incluede\Collision\3D;$(SolutionDir)AliceMath\Incluede\Double;$(SolutionDir)AliceMath\Incluede\Double\Matrix;$(SolutionDir)AliceMath\Incluede\Double\Vector;$(SolutionDir)AliceMath\Incluede\Float;$(SolutionDir)AliceMath\Incluede\Float\Matrix;$(SolutionDir)AliceMath\Incluede\Float\Vector</IncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</ExternalIncludePath>
+    <LibraryPath>$(ProjectDir)lib\vcpkg\installed\x64-windows-static\debug\lib;$(LibraryPath)</LibraryPath>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)Lib\$(Configuration)\</OutDir>
   </PropertyGroup>
@@ -65,13 +65,14 @@
     <ClCompile>
       <WarningLevel>EnableAllWarnings</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Incluede\2D;$(ProjectDir)Incluede\2D\PostEffect;$(ProjectDir)Incluede\2D\Particle;$(ProjectDir)Incluede\2D\Sprite;$(ProjectDir)Incluede\3D;$(ProjectDir)Incluede\3D\Model;$(ProjectDir)Incluede\AliceMath;$(ProjectDir)Incluede\AliceMath\Collision;$(ProjectDir)Incluede\AliceMath\float;$(ProjectDir)Incluede\AliceMath\double;$(ProjectDir)Incluede\Audio;$(ProjectDir)Incluede\Camera;$(ProjectDir)Incluede\Core;$(ProjectDir)Incluede\Core\DirectX;$(ProjectDir)Incluede\Core\Buffer;$(ProjectDir)Incluede\Core\Framework;$(ProjectDir)Incluede\Input;$(ProjectDir)Incluede\Scene;$(ProjectDir)Incluede\Light;$(ProjectDir)Incluede\Util;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <DisableSpecificWarnings>5045;4061</DisableSpecificWarnings>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -83,6 +84,9 @@
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
     </FxCompile>
+    <Lib>
+      <AdditionalDependencies>assimp-vc143-mtd.lib;DirectX-Guids.lib;DirectX-Headers.lib;DirectXTex.lib;draco.lib;imguid.lib;kubazip.lib;minizip.lib;poly2tri.lib;pugixml.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -112,6 +116,9 @@
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
     </FxCompile>
+    <Lib>
+      <AdditionalDependencies>assimp-vc143-mt.lib;DirectXTex.lib;draco.lib;imgui.lib;kubazip.lib;minizip.lib;poly2tri.lib;pugixml.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Incluede\2D\Particle\IcosahedronParticle.h" />

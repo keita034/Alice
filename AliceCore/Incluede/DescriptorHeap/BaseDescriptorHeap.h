@@ -12,7 +12,8 @@
 #pragma warning(disable: 5220)
 #pragma warning(disable: 4514)
 
-#include<d3d12.h>
+#include<cassert>
+#include<directx/d3d12.h>
 #include<wrl.h>
 #pragma warning(pop)
 

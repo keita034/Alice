@@ -1,7 +1,4 @@
 ﻿#pragma once
-
-#include<cassert>
-
 #include"BaseDescriptorHeap.h"
 
 class DSVDescriptorHeap : public BaseDescriptorHeap

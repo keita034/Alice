@@ -1,6 +1,4 @@
 ﻿#include<IcosahedronParticle.h>
-#include<DefaultMaterial.h>
-#include<DirectX12Core.h>
 
 IcosahedronParticle::~IcosahedronParticle()
 {

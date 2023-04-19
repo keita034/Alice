@@ -2,6 +2,8 @@
 #include<AliceMathUtility.h>
 #include<Camera.h>
 #include<Particle.h>
+#include<DefaultMaterial.h>
+#include<DirectX12Core.h>
 
 class IcosahedronParticle : public Particle
 {

@@ -1,5 +1,4 @@
 ﻿#include<RainParticle.h>
-#include<DefaultMaterial.h>
 
 RainParticle::~RainParticle()
 {

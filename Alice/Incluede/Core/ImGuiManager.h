@@ -1,7 +1,17 @@
 ﻿#pragma once
+#pragma warning(push)
+#pragma warning(disable: 4514)
+#pragma warning(disable: 4820)
 
-#include<DirectX12Core.h>
+#include <imgui_impl_win32.h>
+#include <imgui_impl_dx12.h>
+
+#pragma warning(pop)
+
+
 #include<WindowsApp.h>
+#include<DescriptorHeap.h>
+#include<DirectX12Core.h>
 
 //ImGUIの管理
 class ImGuiManager

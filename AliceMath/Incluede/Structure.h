@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include"AliceMathUtility.h"
 
+#include<string>
+
 #pragma warning(push)
 #pragma warning(disable: 5264)
 //ボーンの最大数

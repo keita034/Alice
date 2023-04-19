@@ -16,6 +16,7 @@
 #include<ConstantBuffer.h>
 #include<Camera.h>
 #include<AliceMathUtility.h>
+#include<TextureManager.h>
 
 struct VerPosColScaRot
 {

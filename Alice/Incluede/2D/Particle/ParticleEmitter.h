@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include<AliceMathUtility.h>
 #include<BasicParticle.h>
+#include<TextureManager.h>
 
 class ParticleEmitter
 {

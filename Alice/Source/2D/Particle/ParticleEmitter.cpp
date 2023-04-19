@@ -1,5 +1,4 @@
 ﻿#include<ParticleEmitter.h>
-#include<TextureManager.h>
 
 void ParticleEmitter::SetPosition(const AliceMathF::Vector3& pos)
 {

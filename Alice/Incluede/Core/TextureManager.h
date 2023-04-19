@@ -13,9 +13,40 @@
 #include<DirectXTex.h>
 
 #pragma warning(pop)
+#include<AliceMathUtility.h>
 
-#include<AliceUtility.h>
+#include<AliceFunctionUtility.h>
 #include<DirectX12Core.h>
+
+struct TextureData
+{
+	//テクスチャバッファ
+	Microsoft::WRL::ComPtr<ID3D12Resource> texBuff;
+
+	//デスクプリタヒープ
+	ID3D12DescriptorHeap* srvHeap;
+
+	//GPUデスクプリタハンドル
+	D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle{};
+
+	//横幅
+	size_t width = 0;
+	//縦幅
+	size_t height = 0;
+
+	//カラー
+	AliceMathF::Vector4 color = { 1.0f,1.0f,1.0f,1.0f };
+
+	std::string path;
+
+	uint32_t textureHandle;
+
+	~TextureData();
+
+private:
+	char PADING[4]{};
+};
+
 
 class TextureManager
 {

@@ -44,16 +44,16 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)AliceCore\Incluede;$(SolutionDir)AliceCore\Incluede\Buffer;$(SolutionDir)AliceCore\Incluede\DescriptorHeap;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Alice\lib\vcpkg\installed\x64-windows-static\include;$(SolutionDir)AliceCore\Incluede;$(SolutionDir)AliceCore\Incluede\Buffer;$(SolutionDir)AliceCore\Incluede\DescriptorHeap</IncludePath>
     <OutDir>$(SolutionDir)Lib\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
-    <LibraryPath>$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)Alice\lib\vcpkg\installed\x64-windows-static\debug\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)AliceCore\Incluede;$(SolutionDir)AliceCore\Incluede\Buffer;$(SolutionDir)AliceCore\Incluede\DescriptorHeap;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Alice\lib\vcpkg\installed\x64-windows-static\include;$(SolutionDir)AliceCore\Incluede;$(SolutionDir)AliceCore\Incluede\Buffer;$(SolutionDir)AliceCore\Incluede\DescriptorHeap;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)Lib\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
-    <LibraryPath>$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)Alice\lib\vcpkg\installed\x64-windows-static\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <VcpkgUseStatic>true</VcpkgUseStatic>
@@ -68,6 +68,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir)Incluede;$(ProjectDir)Incluede\Collision\2D;$(ProjectDir)Incluede\Collision\3D;$(ProjectDir)Incluede\Collision;$(ProjectDir)Incluede\Float;$(ProjectDir)Incluede\Float\Matrix;$(ProjectDir)Incluede\Float\Vector;$(ProjectDir)Incluede\Double;$(ProjectDir)Incluede\Double\Matrix;$(ProjectDir)Incluede\Double\Vector;$(SolutionDir)Alice;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>5045</DisableSpecificWarnings>
       <AdditionalOptions>/utf-8 </AdditionalOptions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -75,6 +76,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib />
+    <Lib>
+      <AdditionalDependencies>assimp-vc143-mtd.lib;DirectX-Guids.lib;DirectX-Headers.lib;DirectXTex.lib;draco.lib;imguid.lib;kubazip.lib;minizip.lib;poly2tri.lib;pugixml.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -99,6 +103,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib />
+    <Lib>
+      <AdditionalDependencies>assimp-vc143-mt.lib;DirectX-Guids.lib;DirectX-Headers.lib;DirectXTex.lib;draco.lib;imgui.lib;kubazip.lib;minizip.lib;poly2tri.lib;pugixml.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Incluede\Float\Easing.h" />
@@ -186,11 +193,6 @@
     <ClCompile Include="Source\float\Vector\VectorT.cpp" />
     <ClCompile Include="Source\Collision\3D\SphereCollider.cpp" />
     <ClCompile Include="Source\Collision\3D\TriangleCollider.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AliceCore\AliceCore.vcxproj">
-      <Project>{0c4e6eb7-9df9-4089-b866-c3b8815bf856}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

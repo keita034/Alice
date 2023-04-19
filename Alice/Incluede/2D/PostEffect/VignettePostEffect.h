@@ -2,6 +2,8 @@
 #include<BasePostEffect.h>
 #include<ConstantBuffer.h>
 #include<AliceMathUtility.h>
+#include<WindowsApp.h>
+#include<DirectX12Core.h>
 
 class VignettePostEffect : public BasePostEffect
 {

@@ -1,5 +1,4 @@
 ﻿#include<TextureManager.h>
-#include<AliceFunctionUtility.h>
 
 TextureManager* TextureManager::textureManager = nullptr;
 std::vector<std::string>TextureManager::filePaths;
@@ -245,4 +244,8 @@ D3D12_GPU_DESCRIPTOR_HANDLE TextureManager::CreateShaderResourceView(ID3D12Resou
 	result.ptr = directX12Core->GetSRVDescriptorHeap()->CreateSRV(srvDesc, texBuff);
 
 	return result;
+}
+
+TextureData::~TextureData()
+{
 }

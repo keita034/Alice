@@ -1,6 +1,4 @@
 ﻿#pragma once
-#include<cassert>
-
 #include"BaseDescriptorHeap.h"
 
 /// <summary>

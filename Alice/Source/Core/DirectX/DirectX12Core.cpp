@@ -1,6 +1,6 @@
 ﻿#include<DirectX12Core.h>
-#include<BaseDescriptorHeap.h>
-#include<BaseBuffer.h>
+
+#include<directx/d3dx12.h>
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")

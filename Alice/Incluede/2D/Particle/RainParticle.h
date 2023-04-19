@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include<Particle.h>
+#include<DefaultMaterial.h>
 
 class RainParticle : private Particle
 {

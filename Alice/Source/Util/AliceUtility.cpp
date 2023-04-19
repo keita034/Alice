@@ -17,7 +17,3 @@ ComputeRelation::ComputeRelation()
 ComputeRelation::~ComputeRelation()
 {
 }
-
-TextureData::~TextureData()
-{
-}

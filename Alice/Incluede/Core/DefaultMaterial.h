@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include<Material.h>
 #include<TextureManager.h>
-#include<AliceMathUtility.h>
 
 class MaterialManager
 {

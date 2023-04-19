@@ -1,13 +1,24 @@
 #pragma once
-#include "BaseScene.h"
-#include "Input.h"
+#include"Camera.h"
+#include"Sprite2D.h"
+#include"Sprite3D.h"
+#include"Input.h"
+#include"BasicParticle.h"
+#include"RainParticle.h"
+#include"ParticleEmitter.h"
+#include"Light.h"
+#include"Mesh.h"
+#include"3DMesh.h"
+#include"Transform.h"
+#include"DefaultMaterial.h"
 #include"AudioManager.h"
-#include "TextureManager.h"
-#include "Sprite2D.h"
-#include "Camera.h"
-#include "Transform.h"
-#include "AliceModel.h"
-#include "AliceMotionData.h"
+#include"Button.h"
+#include"Cursor.h"
+#include"AliceModel.h"
+#include "CinemaCamera.h"
+#include "BaseScene.h"
+#include "Light.h"
+
 
 class ResultScene : public BaseScene
 {

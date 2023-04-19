@@ -1,7 +1,5 @@
 ﻿#pragma once
 
-#include<cassert>
-
 #include"BaseDescriptorHeap.h"
 
 class RTVDescriptorHeap : public BaseDescriptorHeap

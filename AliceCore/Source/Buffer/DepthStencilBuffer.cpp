@@ -1,5 +1,16 @@
 ﻿#include "DepthStencilBuffer.h"
 
+#pragma warning(push)
+#pragma warning(disable: 4061)
+#pragma warning(disable: 4365)
+#pragma warning(disable: 4668)
+#pragma warning(disable: 4820)
+#pragma warning(disable: 5039)
+
+#include<directx/d3dx12.h>
+
+#pragma warning(pop)
+
 bool DepthStencilBuffer::Create(UINT w, UINT h, DXGI_FORMAT format)
 {
 	height = h;

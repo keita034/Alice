@@ -1,6 +1,10 @@
 ﻿#pragma once
 #include<BasePostEffect.h>
 #include<ConstantBuffer.h>
+#include "DirectX12Core.h"
+#include "TextureManager.h"
+#include "WindowsApp.h"
+#include"DefaultMaterial.h"
 
 class GaussianYBlurPostEffect final :public BasePostEffect
 {

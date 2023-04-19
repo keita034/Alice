@@ -3,6 +3,8 @@
 #include<Particle.h>
 #include<AliceMathUtility.h>
 #include<Camera.h>
+#include<DefaultMaterial.h>
+#include<DirectX12Core.h>
 
 class BasicParticle : public Particle
 {

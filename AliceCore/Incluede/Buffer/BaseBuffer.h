@@ -1,4 +1,5 @@
 ﻿#pragma once
+
 #include"DescriptorHeap.h"
 #include"RTVDescriptorHeap.h"
 #include"DSVDescriptorHeap.h"
@@ -32,4 +33,3 @@ public:
 	static void SetRTVDescriptorHeap(RTVDescriptorHeap* rtv);
 	static void SetDSVDescriptorHeap(DSVDescriptorHeap* dsv);
 };
-

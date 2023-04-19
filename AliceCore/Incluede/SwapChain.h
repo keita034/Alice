@@ -10,12 +10,10 @@
 
 #include<vector>
 #include<memory>
-#include<dxgi1_6.h>
 
 #pragma warning(pop)
 
 #include<RenderTargetBuffer.h>
-#include<RTVDescriptorHeap.h>
 
 class SwapChain
 {

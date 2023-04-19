@@ -1,16 +1,5 @@
 ﻿#pragma once
 
-#pragma warning(push)
-#pragma warning(disable: 4061)
-#pragma warning(disable: 4365)
-#pragma warning(disable: 4668)
-#pragma warning(disable: 4820)
-#pragma warning(disable: 5039)
-
-#include<d3dx12.h>
-
-#pragma warning(pop)
-
 #include"BaseBuffer.h"
 
 class DepthStencilBuffer : public BaseBuffer
