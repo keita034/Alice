@@ -178,6 +178,7 @@
     <ClInclude Include="Incluede\Scene\SceneManager.h" />
     <ClInclude Include="Incluede\2D\PostEffect\VignettePostEffect.h" />
     <ClInclude Include="Incluede\Util\Transform2D.h" />
+    <ClInclude Include="StripedPostEffect.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Resources\Shaders\2D\Mesh.hlsli" />
@@ -250,6 +251,7 @@
     <ClCompile Include="Source\Scene\SceneManager.cpp" />
     <ClCompile Include="Source\2D\PostEffect\VignettePostEffect.cpp" />
     <ClCompile Include="Source\Util\Transform2D.cpp" />
+    <ClCompile Include="StripedPostEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Resources\Shaders\2D\IcosahedronGS.hlsl">

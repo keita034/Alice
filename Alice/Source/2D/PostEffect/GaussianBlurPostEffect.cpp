@@ -4,8 +4,6 @@ void GaussianBlurPostEffect::Initialize()
 {
 	if (needsInit)
 	{
-
-
 		needsInit = false;
 
 		type = "GAUSSIANBLUR";
