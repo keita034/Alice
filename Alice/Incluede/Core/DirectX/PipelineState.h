@@ -2,6 +2,16 @@
 #include<Shader.h>
 #include<DirectX12Core.h>
 
+struct RenderTargetFormat
+{
+	//描画対象数
+	UINT NumRenderTargets;
+	//描画対象のフォーマット
+	std::array<DXGI_FORMAT, 8> RTVFormats;
+
+	RenderTargetFormat();
+};
+
 /// <summary>
 /// パイプラインステート
 /// </summary>
@@ -22,9 +32,6 @@ private:
 	D3D12_SHADER_BYTECODE* hsByte = nullptr;
 	//ドメインシェーダオブジェクト
 	D3D12_SHADER_BYTECODE* dsByte = nullptr;
-	//深度フラグ
-	bool depthFlag = true;
-	char PADING[7]{};
 
 	//インプットレイアウトデータ
 	D3D12_INPUT_ELEMENT_DESC* inputLayoutData;
@@ -36,8 +43,16 @@ private:
 	//プリミティブ形状
 	D3D12_PRIMITIVE_TOPOLOGY_TYPE primitiveType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 	
-
+	//カリングのモード
 	D3D12_CULL_MODE cullMode = D3D12_CULL_MODE_BACK;
+
+	//レンダーターゲットのフォーマット
+	RenderTargetFormat renderTargetFormat;
+
+	//深度フラグ
+	bool depthFlag = true;
+	char PADING[3]{};
+
 public:
 
 	/// <summary>
@@ -106,6 +121,8 @@ public:
 	/// </summary>
 	/// <param name="model">モード</param>
 	void SetCullMode(D3D12_CULL_MODE model);
+
+	void SetRenderTargetFormat(const RenderTargetFormat& format);
 
 	/// <summary>
 	/// パイプラインステートを生成

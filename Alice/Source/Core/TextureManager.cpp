@@ -1,4 +1,18 @@
-﻿#include<TextureManager.h>
+﻿#pragma warning(push)
+#pragma warning(disable: 4365)
+#pragma warning(disable: 4514)
+#pragma warning(disable: 4619)
+#pragma warning(disable: 4668)
+#pragma warning(disable: 4711)
+#pragma warning(disable: 4820)
+#pragma warning(disable: 5039)
+
+#include<directx/d3dx12.h>
+
+#pragma warning(pop)
+
+#include "TextureManager.h"
+#include"AliceFunctionUtility.h"
 
 TextureManager* TextureManager::textureManager = nullptr;
 std::vector<std::string>TextureManager::filePaths;
@@ -157,9 +171,7 @@ void TextureManager::Initialize()
 	directX12Core = DirectX12Core::GetInstance();
 
 	// ヒープ設定
-	textureHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
-	textureHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
-	textureHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
+	textureHeapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
 
 	filePaths.resize(static_cast<size_t>(2024));
 }
@@ -191,16 +203,29 @@ TextureData* TextureManager::GetTextureData(uint32_t handle)
 
 Microsoft::WRL::ComPtr<ID3D12Resource> TextureManager::CreateTexBuff(DirectX::TexMetadata& metadata, DirectX::ScratchImage& scratchImg)
 {
+	directX12Core->BeginCommand();
+
+	std::vector<D3D12_SUBRESOURCE_DATA> textureSubresources;
+
+	for (size_t i = 0; i < metadata.mipLevels; i++)
+	{
+		D3D12_SUBRESOURCE_DATA subresouce;
+
+		subresouce.pData = scratchImg.GetImages()[i].pixels;
+		subresouce.RowPitch = static_cast<LONG_PTR>(scratchImg.GetImages()[i].rowPitch);
+		subresouce.SlicePitch = static_cast<LONG_PTR>(scratchImg.GetImages()[i].slicePitch);
+
+		textureSubresources.push_back(subresouce);
+	}
+
 	Microsoft::WRL::ComPtr<ID3D12Resource> result;
 	// リソース設定
-	D3D12_RESOURCE_DESC textureResourceDesc{};
-	textureResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
-	textureResourceDesc.Format = metadata.format;
-	textureResourceDesc.Width = metadata.width;//幅
-	textureResourceDesc.Height = (UINT)metadata.height;//高さ
-	textureResourceDesc.DepthOrArraySize = (UINT16)metadata.arraySize;
-	textureResourceDesc.MipLevels = (UINT16)metadata.mipLevels;
-	textureResourceDesc.SampleDesc.Count = 1;
+	D3D12_RESOURCE_DESC textureResourceDesc = 
+		CD3DX12_RESOURCE_DESC::Tex2D(metadata.format,
+			metadata.width,
+		static_cast<UINT>(metadata.height),
+			static_cast<UINT16>(metadata.arraySize),
+			static_cast<UINT16>(metadata.mipLevels));
 
 	// テクスチャバッファの生成
 	HRESULT hr = directX12Core->GetDevice()->CreateCommittedResource(
@@ -212,20 +237,43 @@ Microsoft::WRL::ComPtr<ID3D12Resource> TextureManager::CreateTexBuff(DirectX::Te
 		IID_PPV_ARGS(result.ReleaseAndGetAddressOf()));
 
 	//テクスチャバッファにデータ転送
-	for (size_t i = 0; i < metadata.mipLevels; i++)
-	{
-		// ミップマップレベルを指定してイメージを取得
-		const DirectX::Image* img = scratchImg.GetImage(i, 0, 0);
-		// テクスチャバッファにデータ転送
-		hr = result->WriteToSubresource(
-			(UINT)i,
-			nullptr,              // 全領域へコピー
-			img->pixels,          // 元データアドレス
-			(UINT)img->rowPitch,  // 1ラインサイズ
-			(UINT)img->slicePitch // 1枚サイズ
-		);
-		assert(SUCCEEDED(hr));
-	}
+	directX12Core->GetDevice()->CreateCommittedResource(
+		&textureHeapProp,
+		D3D12_HEAP_FLAG_NONE,
+		&textureResourceDesc,
+		D3D12_RESOURCE_STATE_COPY_DEST,
+		nullptr,
+		IID_PPV_ARGS(&result)
+	);
+
+	// ステージングバッファ準備
+	UINT64 totalBytes;
+
+	totalBytes = GetRequiredIntermediateSize(result.Get(), 0, static_cast<UINT>(textureSubresources.size()));
+
+	Microsoft::WRL::ComPtr<ID3D12Resource> stagingBuffer;
+	const auto heapProps = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+	const auto resDesc = CD3DX12_RESOURCE_DESC::Buffer(totalBytes);
+	hr = directX12Core->GetDevice()->CreateCommittedResource(
+		&heapProps,
+		D3D12_HEAP_FLAG_NONE,
+		&resDesc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&stagingBuffer)
+	);
+
+	UpdateSubresources(directX12Core->GetCommandList().Get(), result.Get(), stagingBuffer.Get(), 0, 0, uint32_t(textureSubresources.size()), textureSubresources.data());
+
+	// コピー後にはテクスチャとしてのステートへ.
+	auto barrierTex = CD3DX12_RESOURCE_BARRIER::Transition(
+		result.Get(),
+		D3D12_RESOURCE_STATE_COPY_DEST,
+		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE
+	);
+	directX12Core->GetCommandList()->ResourceBarrier(1, &barrierTex);
+
+	directX12Core->ExecuteCommand(false);
 
 	return result;
 }

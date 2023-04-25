@@ -22,7 +22,7 @@ private:
 	//定数バッファのマップ
 	LightConstBuffData constMap;
 	//ライト光線方向(単位ベクトル)
-	AliceMathF::Vector3 lightdir = {1,0,0};
+	AliceMathF::Vector3 lightdir = {1.0f,0.0f,0.0f};
 	//ライトの色
 	AliceMathF::Vector4 lightcolor = { 1,1,1,1 };
 	//ダーティフラグ

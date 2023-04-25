@@ -2,7 +2,7 @@
 
 void ResultScene::Initialize()
 {
-	input = Input::GetInstance();
+
 }
 
 void ResultScene::Update()

@@ -49,7 +49,10 @@ void Material::Initialize()
 	//プリミティブ形状を設定
 	pipelineState->SetPrimitiveType(primitiveType);
 
+	//カウリングのモードを設定
 	pipelineState->SetCullMode(cullMode);
+
+	pipelineState->SetRenderTargetFormat(renderTargetFormat);
 
 	//生成
 	if (!pipelineState->Create())

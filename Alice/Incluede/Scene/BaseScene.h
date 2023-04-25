@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include"Input.h"
 /// <summary>
 /// シーン基底クラス
 /// </summary>
@@ -8,6 +9,8 @@ class SceneManager;
 class BaseScene
 {
 private:
+
+	static AliceInput::IInput* input;
 
 	//シーンマネージャー
 	SceneManager* sceneManager = nullptr;
@@ -37,5 +40,7 @@ public:
 	virtual void Finalize() = 0;
 
 	virtual void SetSceneManager(SceneManager* manager);
+
+	static void SetInput(AliceInput::IInput* iInput);
 };
 

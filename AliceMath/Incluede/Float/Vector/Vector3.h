@@ -4,8 +4,10 @@
 #pragma warning(disable: 4514)
 #pragma warning(disable: 4619)
 #pragma warning(disable: 4668)
+#pragma warning(disable: 5039)
 
 #include<DirectXMath.h>
+#include<Windows.h>
 #pragma warning(pop)
 
 template <typename TReal>
@@ -29,6 +31,9 @@ namespace AliceMathF
 		//コンストラクタ
 		Vector3();//零ベクトル
 		Vector3(float x, float y, float z);//成分を指定して生成
+		Vector3(uint32_t x, uint32_t y, uint32_t z);//成分を指定して生成
+		Vector3(int32_t x, int32_t y, int32_t z);//成分を指定して生成
+		Vector3(LONG x, LONG y, LONG z);//成分を指定して生成
 		Vector3(aiVector3D& aiVector);
 		Vector3(const Vector2& vec,float z);
 

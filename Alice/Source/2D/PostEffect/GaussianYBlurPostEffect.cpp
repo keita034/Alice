@@ -49,9 +49,9 @@ void GaussianYBlurPostEffect::Initialize()
 		//生成
 		material->Initialize();
 
-		renderTarget = std::make_unique<RenderTarget>(DirectX12Core::GetInstance()->GetSRVDescriptorHeap(),cmdList);
+		renderTargets.push_back(std::make_unique<RenderTarget>(DirectX12Core::GetInstance()->GetSRVDescriptorHeap(),cmdList));
 
-		renderTarget->Initialize(WindowsApp::GetInstance()->GetWindowSize().width / 2, WindowsApp::GetInstance()->GetWindowSize().height/2, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+		renderTargets.back()->Initialize(WindowsApp::GetInstance()->GetWindowSize().width / 2, WindowsApp::GetInstance()->GetWindowSize().height / 2, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 		weightBuff = std::make_unique<ConstantBuffer>();
 		weightBuff->Create(sizeof(weight));
@@ -82,9 +82,9 @@ void GaussianYBlurPostEffect::SetWeight(std::array<float, 8>& weightPtr)
 
 void GaussianYBlurPostEffect::Draw(RenderTarget* mainRenderTarget)
 {
-	renderTarget->Transition(D3D12_RESOURCE_STATE_RENDER_TARGET);
+	renderTargets.back()->Transition(D3D12_RESOURCE_STATE_RENDER_TARGET);
 
-	renderTarget->SetRenderTarget();
+	renderTargets.back()->SetRenderTarget();
 
 	CD3DX12_VIEWPORT viewPort = CD3DX12_VIEWPORT(0.0f, 0.0f, width, height);
 	cmdList->RSSetViewports(1, &viewPort);
@@ -92,7 +92,7 @@ void GaussianYBlurPostEffect::Draw(RenderTarget* mainRenderTarget)
 	CD3DX12_RECT rect = CD3DX12_RECT(0, 0, static_cast<LONG>(width), static_cast<LONG>(height));
 	cmdList->RSSetScissorRects(1, &rect);
 
-	renderTarget->ClearRenderTarget();
+	renderTargets.back()->ClearRenderTarget();
 	sprite->SetSize({ 1.0f,1.0f });
 
 	sprite->Draw(material.get(), mainRenderTarget->GetGpuHandle());
@@ -103,7 +103,7 @@ void GaussianYBlurPostEffect::Draw(RenderTarget* mainRenderTarget)
 	// 描画コマンド
 	cmdList->DrawIndexedInstanced(6, 1, 0, 0, 0);
 
-	renderTarget->Transition(D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	renderTargets.back()->Transition(D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 }
 
 void GaussianYBlurPostEffect::MainRenderTargetDraw(RenderTarget* mainRenderTarget)
@@ -118,7 +118,7 @@ void GaussianYBlurPostEffect::MainRenderTargetDraw(RenderTarget* mainRenderTarge
 	CD3DX12_RECT rect = CD3DX12_RECT(0, 0, static_cast<LONG>(width * 2.0f), static_cast<LONG>(height * 2.00f));
 	cmdList->RSSetScissorRects(1, &rect);
 	sprite->SetSize({1.01f,1.01f });
-	sprite->Draw(MaterialManager::GetMaterial("DefaultPostEffect"), renderTarget->GetGpuHandle());
+	sprite->Draw(MaterialManager::GetMaterial("DefaultPostEffect"), renderTargets.back()->GetGpuHandle());
 
 	// 描画コマンド
 	cmdList->DrawIndexedInstanced(6, 1, 0, 0, 0);

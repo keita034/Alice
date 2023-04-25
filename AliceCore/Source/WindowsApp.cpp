@@ -168,7 +168,7 @@ void WindowsApp::ShowFullScreen()
 
 	SetWindowPos(
 		hwnd,
-		HWND_TOPMOST,
+		HWND_TOP,
 		windowRect.left,
 		windowRect.top,
 		windowRect.right,

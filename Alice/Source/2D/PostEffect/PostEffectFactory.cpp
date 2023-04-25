@@ -2,6 +2,7 @@
 #include<LutPostEffect.h>
 #include<VignettePostEffect.h>
 #include<GaussianBlurPostEffect.h>
+#include<StripedPostEffect.h>
 
 PostEffectFactory* PostEffectFactory::GetInstance()
 {
@@ -25,7 +26,10 @@ BasePostEffect* PostEffectFactory::CreatePostEffect(const std::string& postEffec
 	{
 		postEffect = GaussianBlurPostEffect::GetInstance();
 	}
-	
+	else if (postEffectName == "STRIPEDPOSTEFFECT")
+	{
+		postEffect = new StripedPostEffect();
+	}
 	return postEffect;
 }
 

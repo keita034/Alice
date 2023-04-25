@@ -26,6 +26,7 @@ namespace AliceMathF
 		Vector2(size_t x, size_t y);//x成分、y成分を指定しての生成
 		Vector2(SHORT x, SHORT y);//x成分、y成分を指定しての生成
 		Vector2(int32_t x, int32_t y);//x成分、y成分を指定しての生成
+		Vector2(LONG x, LONG y);//x成分、y成分を指定しての生成
 
 		//メンバ関数
 		float Length()const;//ノルムを求める

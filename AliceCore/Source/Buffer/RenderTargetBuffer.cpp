@@ -1,6 +1,16 @@
 ﻿#include "RenderTargetBuffer.h"
 
+#pragma warning(push)
+#pragma warning(disable: 4061)
+#pragma warning(disable: 4514)
+#pragma warning(disable: 4365)
+#pragma warning(disable: 4668)
+#pragma warning(disable: 4820)
+#pragma warning(disable: 5039)
+
 #include<directx/d3dx12.h>
+
+#pragma warning(pop)
 
 bool RenderTargetBuffer::Create(UINT w, UINT h, D3D12_RESOURCE_STATES resourceStates, UINT16 mipLevel, UINT16 arraySize, DXGI_FORMAT format, const std::array<float, 4>& clearColor)
 {

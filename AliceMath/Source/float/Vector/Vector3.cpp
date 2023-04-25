@@ -18,6 +18,15 @@ namespace AliceMathF
 	Vector3::Vector3(float x, float y, float z) : x(x), y(y), z(z)
 	{}
 
+	Vector3::Vector3(LONG x, LONG y, LONG z) : x(static_cast<float>(x)), y(static_cast<float>(y)), z(static_cast<float>(z))
+	{}
+
+	Vector3::Vector3(uint32_t x, uint32_t y, uint32_t z) : x(static_cast<float>(x)), y(static_cast<float>(y)), z(static_cast<float>(z))
+	{}
+
+	Vector3::Vector3(int32_t x, int32_t y, int32_t z) : x(static_cast<float>(x)), y(static_cast<float>(y)), z(static_cast<float>(z))
+	{}
+
 	Vector3::Vector3(aiVector3D& aiVector)
 	{
 		x = aiVector.x;

@@ -12,8 +12,6 @@
 #include"Transform.h"
 #include"DefaultMaterial.h"
 #include"AudioManager.h"
-#include"Button.h"
-#include"Cursor.h"
 #include"AliceModel.h"
 #include "CinemaCamera.h"
 #include "BaseScene.h"
@@ -23,7 +21,6 @@
 class ResultScene : public BaseScene
 {
 private:
-	Input* input = nullptr;
 	
 public:
 	ResultScene() = default;

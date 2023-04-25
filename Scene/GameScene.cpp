@@ -12,7 +12,6 @@ GameScene::~GameScene()
 
 void GameScene::Initialize()
 {
-	input = Input::GetInstance();
 	mesh2D = Mesh::GetInstance();
 	audioManager = AudioManager::GetInstance();
 
@@ -25,7 +24,7 @@ void GameScene::Initialize()
 
 	camera = std::make_unique<GameCamera>();
 	camera->Initialize(UpdateProjMatrixFunc_Perspective);
-	camera->SetEye({ 0,70,-180.0f });
+	camera->SetEye({ 0,70,-180 });
 	camera->SetTarget({ 0.0f,70.0f,0.0f});
 
 	playerModelHandle = AliceModel::CreateModel("Resources/Default/cube");
@@ -33,6 +32,8 @@ void GameScene::Initialize()
 	playerModel->SetModel(playerModelHandle);
 	playerTransform.translation = { 0.0f,0.0f,0.0f };
 	playerTransform.Initialize();
+
+	PostEffectManager::GetInstance()->AddPostEffect("STRIPEDPOSTEFFECT");
 }
 
 void GameScene::Update()

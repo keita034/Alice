@@ -1,6 +1,16 @@
 ﻿#include<DirectX12Core.h>
 
+#pragma warning(push)
+#pragma warning(disable: 4061)
+#pragma warning(disable: 4514)
+#pragma warning(disable: 4365)
+#pragma warning(disable: 4668)
+#pragma warning(disable: 4820)
+#pragma warning(disable: 5039)
+
 #include<directx/d3dx12.h>
+
+#pragma warning(pop)
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
@@ -438,16 +448,7 @@ DirectX12Core::~DirectX12Core()
 
 void DirectX12Core::BeginDraw()
 {
-	//1バックバッファ番号を取得
-	bbIndex = swapChain->GetCurrentBackBufferIndex();
-
-	//キューをクリア
-	result = commandAllocators[bbIndex]->Reset();
-	assert(SUCCEEDED(result));
-
-	//コマンドリストを貯める準備
-	result = commandList->Reset(commandAllocators[bbIndex].Get(), nullptr);
-	assert(SUCCEEDED(result));
+	BeginCommand();
 
 	//書き込み可能に変更
 	swapChain->Transition(bbIndex, D3D12_RESOURCE_STATE_RENDER_TARGET);
@@ -476,7 +477,7 @@ void DirectX12Core::EndDraw()
 	windowsApp->RenderShouldFalse();
 }
 
-void DirectX12Core::ExecuteCommand()
+void DirectX12Core::ExecuteCommand(bool flip)
 {
 	//命令のクローズ
 	result = commandList->Close();
@@ -485,12 +486,29 @@ void DirectX12Core::ExecuteCommand()
 	ID3D12CommandList* commandListts[] = { commandList.Get() };
 	commandQueue->ExecuteCommandLists(1, commandListts);
 
-	//フリップ
-	result = swapChain->Present(1, 0);
-	assert(SUCCEEDED(result));
+	if (flip)
+	{
+		//フリップ
+		result = swapChain->Present(1, 0);
+		assert(SUCCEEDED(result));
+	}
 
 	//コマンド実行完了を待つ
 	swapChain->WaitPreviousFrame();
+}
+
+void DirectX12Core::BeginCommand()
+{
+	//1バックバッファ番号を取得
+	bbIndex = swapChain->GetCurrentBackBufferIndex();
+
+	//キューをクリア
+	result = commandAllocators[bbIndex]->Reset();
+	assert(SUCCEEDED(result));
+
+	//コマンドリストを貯める準備
+	result = commandList->Reset(commandAllocators[bbIndex].Get(), nullptr);
+	assert(SUCCEEDED(result));
 }
 
 void DirectX12Core::Destroy()

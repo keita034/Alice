@@ -123,7 +123,9 @@ public:
 	/// <summary>
 	/// コマンド後始末
 	/// </summary>
-	void ExecuteCommand();
+	void ExecuteCommand(bool flip = true);
+
+	void BeginCommand();
 
 	/// <summary>
 	/// 開放

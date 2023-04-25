@@ -42,9 +42,9 @@ void AliceFramework::Initialize()
 	audioManager = AudioManager::GetInstance();
 	audioManager->Initialize();
 
-	input = Input::GetInstance();
-	input->Initialize();
+	input = AliceInput::CreateInput(windowsApp->GetHwnd(), &windowsApp->GetWndclassex()->hInstance);
 
+	BaseScene::SetInput(input);
 	fps = new FPS;
 
 	AliceModel::CommonInitialize();
@@ -82,7 +82,7 @@ void AliceFramework::Update()
 	mesh->DrawReset();
 	mesh3D->DrawReset();
 
-	input->Update();
+	input->Update(static_cast<float>(windowsApp->GetWindowsSize().width), static_cast<float>(windowsApp->GetWindowsSize().height));
 	audioManager->Update();
 
 	imGuiManager->Bigin();
@@ -104,6 +104,7 @@ void AliceFramework::Draw()
 {
 	if (postEffectManager->IsAalid())
 	{
+		directX12Core->BeginCommand();
 		//描画処理
 		postEffectManager->PreDrawScen();
 
@@ -112,6 +113,8 @@ void AliceFramework::Draw()
 		postEffectManager->PostDrawScen();
 
 		postEffectManager->Update();
+
+		directX12Core->ExecuteCommand();
 
 		directX12Core->BeginDraw();//描画準備
 		postEffectManager->Draw();
@@ -133,7 +136,7 @@ void AliceFramework::Draw()
 
 bool AliceFramework::IsEndRequst()
 {
-	return !windowsApp->MessageWindow()|| input->TriggerPush(DIK_ESCAPE);
+	return !windowsApp->MessageWindow()|| input->TriggerKey(Keys::ESC);
 }
 
 void AliceFramework::Run()

@@ -19,7 +19,7 @@ protected:
 
 	std::unique_ptr<PostEffectSprite> sprite;
 
-	std::unique_ptr<RenderTarget> renderTarget;
+	std::vector<std::unique_ptr<RenderTarget>> renderTargets;
 
 	std::string type;
 

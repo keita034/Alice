@@ -43,6 +43,8 @@ public:
 	/// </summary>
 	void ClearRenderTarget();
 
+	void Clear();
+
 	/// <summary>
 	/// 
 	/// </summary>

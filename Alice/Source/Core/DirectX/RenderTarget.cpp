@@ -48,6 +48,11 @@ void RenderTarget::ClearRenderTarget()
 	cmdList->ClearDepthStencilView(depthStencilBuffer->GetHandle(), D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 }
 
+void RenderTarget::Clear()
+{
+	cmdList->ClearRenderTargetView(renderTargetBuffer->GetHandle(), clearColor.data(), 0, nullptr);
+}
+
 void RenderTarget::Transition(D3D12_RESOURCE_STATES resourceStates)
 {
 	renderTargetBuffer->Transition(resourceStates);

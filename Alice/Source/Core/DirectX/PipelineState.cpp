@@ -7,7 +7,6 @@ bool PipelineState::Create()
 
 	// グラフィックスパイプライン設定
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc{};
-
 	// シェーダーの設定
 	if (vsByte)
 	{
@@ -48,13 +47,20 @@ bool PipelineState::Create()
 	// 図形の形状設定
 	pipelineDesc.PrimitiveTopologyType = primitiveType;
 	//デプスステンシルステートの設定
-	pipelineDesc.DepthStencilState.DepthEnable = depthFlag;//深度テストを行う
+	//深度テストを行うか
+	pipelineDesc.DepthStencilState.DepthEnable = depthFlag;
 	pipelineDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;//書き込み許可
 	pipelineDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;//小さければ合格
 	pipelineDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;//深度フォーマット
+	
 	// その他の設定
-	pipelineDesc.NumRenderTargets = 1; // 描画対象は1つ
-	pipelineDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB; // 0～255指定のRGBA
+	
+	//描画対象数
+	pipelineDesc.NumRenderTargets = renderTargetFormat.NumRenderTargets;
+	
+	//描画対象のフォーマット
+	std::memcpy(pipelineDesc.RTVFormats, renderTargetFormat.RTVFormats.data(), sizeof(DXGI_FORMAT) * 8);
+
 	pipelineDesc.SampleDesc.Count = 1; // 1ピクセルにつき1回サンプリング
 
 	// パイプラインにルートシグネチャをセット
@@ -89,6 +95,11 @@ void PipelineState::SetPrimitiveType(D3D12_PRIMITIVE_TOPOLOGY_TYPE type)
 void PipelineState::SetCullMode(D3D12_CULL_MODE model)
 {
 	cullMode = model;
+}
+
+void PipelineState::SetRenderTargetFormat(const RenderTargetFormat& format)
+{
+	std::memcpy(&renderTargetFormat, &format, sizeof(RenderTargetFormat));
 }
 
 ID3D12PipelineState* PipelineState::GetPipelineState()
@@ -130,4 +141,12 @@ void PipelineState::SetPixelShader(D3D12_SHADER_BYTECODE* pPsByte)
 void PipelineState::SetGeometryShader(D3D12_SHADER_BYTECODE* pGsByte)
 {
 	gsByte = pGsByte;
+}
+
+RenderTargetFormat::RenderTargetFormat()
+{
+	//描画対象は1つ
+	NumRenderTargets = 1;
+	//0～255指定のRGBA
+	RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 }

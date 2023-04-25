@@ -35,9 +35,6 @@
     <Filter Include="ソース ファイル\Core\Framework">
       <UniqueIdentifier>{8b9d55a0-a011-4f03-ab3b-f510ea55d9c5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Input">
-      <UniqueIdentifier>{0555bf3d-4358-4f8d-8a7b-d1d1ddd1f9c0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Light">
       <UniqueIdentifier>{209fad85-2044-4779-95ee-258b1314a073}</UniqueIdentifier>
     </Filter>
@@ -83,9 +80,6 @@
     </Filter>
     <Filter Include="ヘッダー ファイル\Core\Framework">
       <UniqueIdentifier>{2896c3ee-894b-4fd0-ab16-73a638092e66}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Input">
-      <UniqueIdentifier>{be7d1b4e-e13e-4770-9a66-2546c7dd7f5e}</UniqueIdentifier>
     </Filter>
     <Filter Include="ヘッダー ファイル\Light">
       <UniqueIdentifier>{b68b129b-cdd0-40e7-b83c-734eaed6d4e2}</UniqueIdentifier>
@@ -159,18 +153,6 @@
     <ClInclude Include="Incluede\Camera\Camera.h">
       <Filter>ヘッダー ファイル\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Input\Mouse.h">
-      <Filter>ヘッダー ファイル\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Input\Keyboard.h">
-      <Filter>ヘッダー ファイル\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Input\Input.h">
-      <Filter>ヘッダー ファイル\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Input\Controller.h">
-      <Filter>ヘッダー ファイル\Input</Filter>
-    </ClInclude>
     <ClInclude Include="Incluede\Audio\AudioManager.h">
       <Filter>ヘッダー ファイル\Audio</Filter>
     </ClInclude>
@@ -185,12 +167,6 @@
     </ClInclude>
     <ClInclude Include="Incluede\3D\Model\ModelMesh.h">
       <Filter>ヘッダー ファイル\3D\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\2D\Cursor.h">
-      <Filter>ヘッダー ファイル\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\2D\Button.h">
-      <Filter>ヘッダー ファイル\2D</Filter>
     </ClInclude>
     <ClInclude Include="Incluede\2D\Particle\RainParticle.h">
       <Filter>ヘッダー ファイル\2D\Particle</Filter>
@@ -294,8 +270,8 @@
     <ClInclude Include="Incluede\2D\Particle\IcosahedronParticle.h">
       <Filter>ヘッダー ファイル\2D\Particle</Filter>
     </ClInclude>
-    <ClInclude Include="StripedPostEffect.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Incluede\2D\PostEffect\StripedPostEffect.h">
+      <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -305,15 +281,6 @@
     </None>
     <None Include="..\Resources\Shaders\2D\Sprite.hlsli">
       <Filter>リソース ファイル\シェーダー\2D</Filter>
-    </None>
-    <None Include="..\Resources\Shaders\2D\PostEffect\GaussianBlur.hlsli">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
-    </None>
-    <None Include="..\Resources\Shaders\2D\PostEffect\LutShader.hlsli">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
-    </None>
-    <None Include="..\Resources\Shaders\2D\PostEffect\PostEffectTest.hlsli">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
     </None>
     <None Include="..\Resources\Shaders\2D\Particle.hlsli">
       <Filter>リソース ファイル\シェーダー\2D\Particle</Filter>
@@ -334,6 +301,18 @@
       <Filter>リソース ファイル\シェーダー\3D\Model</Filter>
     </None>
     <None Include="..\Resources\Shaders\2D\PostEffect\VignetteShader.hlsli">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\2D\PostEffect\GaussianBlur.hlsli">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\2D\PostEffect\LutShader.hlsli">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\2D\PostEffect\PostEffectTest.hlsli">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\2D\PostEffect\Striped.hlsli">
       <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
     </None>
   </ItemGroup>
@@ -365,18 +344,6 @@
     <ClCompile Include="Source\Util\Transform.cpp">
       <Filter>ソース ファイル\3D</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Input\Mouse.cpp">
-      <Filter>ソース ファイル\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Input\Controller.cpp">
-      <Filter>ソース ファイル\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Input\Input.cpp">
-      <Filter>ソース ファイル\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Input\Keyboard.cpp">
-      <Filter>ソース ファイル\Input</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Light\Light.cpp">
       <Filter>ソース ファイル\Light</Filter>
     </ClCompile>
@@ -391,12 +358,6 @@
     </ClCompile>
     <ClCompile Include="Source\3D\3DMesh.cpp">
       <Filter>ソース ファイル\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\Cursor.cpp">
-      <Filter>ソース ファイル\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\Button.cpp">
-      <Filter>ソース ファイル\2D</Filter>
     </ClCompile>
     <ClCompile Include="Source\2D\Particle\Particle.cpp">
       <Filter>ソース ファイル\2D\Particle</Filter>
@@ -503,8 +464,8 @@
     <ClCompile Include="Source\2D\Particle\IcosahedronParticle.cpp">
       <Filter>ソース ファイル\2D\Particle</Filter>
     </ClCompile>
-    <ClCompile Include="StripedPostEffect.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Source\2D\PostEffect\StripedPostEffect.cpp">
+      <Filter>ソース ファイル\2D\PostEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -519,27 +480,6 @@
     </FxCompile>
     <FxCompile Include="..\Resources\Shaders\2D\SpriteVS.hlsl">
       <Filter>リソース ファイル\シェーダー\2D</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\GaussianBlurPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\GaussianXBlurVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\GaussianYBlurVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\LutShaderPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\LutShaderVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\PostEffectTestPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\PostEffectTestVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
     </FxCompile>
     <FxCompile Include="..\Resources\Shaders\2D\ParticleGS.hlsl">
       <Filter>リソース ファイル\シェーダー\2D\Particle</Filter>
@@ -592,17 +532,44 @@
     <FxCompile Include="..\Resources\Shaders\3D\Model\PolygonEffectGS.hlsl">
       <Filter>リソース ファイル\シェーダー\3D\Model</Filter>
     </FxCompile>
-    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\VignetteShaderVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\VignetteShaderPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
-    </FxCompile>
     <FxCompile Include="..\Resources\Shaders\3D\Model\ModelAnimationVS.hlsl">
       <Filter>リソース ファイル\シェーダー\3D\Model</Filter>
     </FxCompile>
     <FxCompile Include="..\Resources\Shaders\2D\IcosahedronGS.hlsl">
       <Filter>リソース ファイル\シェーダー\2D\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\StripedPS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\StripedVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\VignetteShaderPS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\VignetteShaderVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\GaussianBlurPS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\GaussianXBlurVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\GaussianYBlurVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\LutShaderPS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\LutShaderVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\PostEffectTestPS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\PostEffectTestVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

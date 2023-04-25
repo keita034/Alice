@@ -46,14 +46,14 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)lib\vcpkg\installed\x64-windows-static\include;$(SolutionDir)AliceCore\Incluede;$(SolutionDir)AliceCore\Incluede\Buffer;$(SolutionDir)AliceCore\Incluede\DescriptorHeap;$(SolutionDir)AliceMath\Incluede;$(SolutionDir)AliceMath\Incluede\Collision;$(SolutionDir)AliceMath\Incluede\Collision\2D;$(SolutionDir)AliceMath\Incluede\Collision\3D;$(SolutionDir)AliceMath\Incluede\Double;$(SolutionDir)AliceMath\Incluede\Double\Matrix;$(SolutionDir)AliceMath\Incluede\Double\Vector;$(SolutionDir)AliceMath\Incluede\Float;$(SolutionDir)AliceMath\Incluede\Float\Matrix;$(SolutionDir)AliceMath\Incluede\Float\Vector</IncludePath>
+    <IncludePath>$(ProjectDir)lib\vcpkg\installed\x64-windows-static\include;$(SolutionDir)AliceCore\Incluede;$(SolutionDir)AliceCore\Incluede\Buffer;$(SolutionDir)AliceCore\Incluede\DescriptorHeap;$(SolutionDir)AliceMath\Incluede;$(SolutionDir)AliceMath\Incluede\Collision;$(SolutionDir)AliceMath\Incluede\Collision\2D;$(SolutionDir)AliceMath\Incluede\Collision\3D;$(SolutionDir)AliceMath\Incluede\Double;$(SolutionDir)AliceMath\Incluede\Double\Matrix;$(SolutionDir)AliceMath\Incluede\Double\Vector;$(SolutionDir)AliceMath\Incluede\Float;$(SolutionDir)AliceMath\Incluede\Float\Matrix;$(SolutionDir)AliceMath\Incluede\Float\Vector;$(SolutionDir)AliceInput\Incluede</IncludePath>
     <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</ExternalIncludePath>
     <LibraryPath>$(ProjectDir)lib\vcpkg\installed\x64-windows-static\debug\lib;$(LibraryPath)</LibraryPath>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)Lib\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)Alice\lib\vcpkg\installed\x64-windows-static\include;$(SolutionDir)AliceCore\Incluede;$(SolutionDir)AliceCore\Incluede\Buffer;$(SolutionDir)AliceCore\Incluede\DescriptorHeap;$(SolutionDir)AliceMath\Incluede;$(SolutionDir)AliceMath\Incluede\Collision;$(SolutionDir)AliceMath\Incluede\Collision\2D;$(SolutionDir)AliceMath\Incluede\Collision\3D;$(SolutionDir)AliceMath\Incluede\Double;$(SolutionDir)AliceMath\Incluede\Double\Matrix;$(SolutionDir)AliceMath\Incluede\Double\Vector;$(SolutionDir)AliceMath\Incluede\Float;$(SolutionDir)AliceMath\Incluede\Float\Matrix;$(SolutionDir)AliceMath\Incluede\Float\Vector</IncludePath>
+    <IncludePath>$(SolutionDir)Alice\lib\vcpkg\installed\x64-windows-static\include;$(SolutionDir)AliceCore\Incluede;$(SolutionDir)AliceCore\Incluede\Buffer;$(SolutionDir)AliceCore\Incluede\DescriptorHeap;$(SolutionDir)AliceMath\Incluede;$(SolutionDir)AliceMath\Incluede\Collision;$(SolutionDir)AliceMath\Incluede\Collision\2D;$(SolutionDir)AliceMath\Incluede\Collision\3D;$(SolutionDir)AliceMath\Incluede\Double;$(SolutionDir)AliceMath\Incluede\Double\Matrix;$(SolutionDir)AliceMath\Incluede\Double\Vector;$(SolutionDir)AliceMath\Incluede\Float;$(SolutionDir)AliceMath\Incluede\Float\Matrix;$(SolutionDir)AliceMath\Incluede\Float\Vector;$(SolutionDir)AliceInput\Incluede</IncludePath>
     <LibraryPath>$(SolutionDir)Alice\lib\vcpkg\installed\x64-windows-static\lib;$(LibraryPath)</LibraryPath>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)Lib\$(Configuration)\</OutDir>
@@ -85,7 +85,7 @@
       <ShaderModel>5.0</ShaderModel>
     </FxCompile>
     <Lib>
-      <AdditionalDependencies>assimp-vc143-mtd.lib;DirectX-Guids.lib;DirectX-Headers.lib;DirectXTex.lib;draco.lib;imguid.lib;kubazip.lib;minizip.lib;poly2tri.lib;pugixml.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>assimp-vc143-mtd.lib;DirectX-Headers.lib;DirectXTex.lib;imguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -144,8 +144,6 @@
     <ClInclude Include="Incluede\Scene\BaseScene.h" />
     <ClInclude Include="Incluede\Core\Framework\AliceFramework.h" />
     <ClInclude Include="Incluede\Core\ImGuiManager.h" />
-    <ClInclude Include="Incluede\2D\Button.h" />
-    <ClInclude Include="Incluede\2D\Cursor.h" />
     <ClInclude Include="Incluede\2D\Mesh.h" />
     <ClInclude Include="Incluede\2D\Particle\Particle.h" />
     <ClInclude Include="Incluede\2D\Particle\ParticleEmitter.h" />
@@ -168,17 +166,13 @@
     <ClInclude Include="Incluede\Core\DirectX\RootSignature.h" />
     <ClInclude Include="Incluede\Core\DirectX\Shader.h" />
     <ClInclude Include="Incluede\Core\TextureManager.h" />
-    <ClInclude Include="Incluede\Input\Controller.h" />
-    <ClInclude Include="Incluede\Input\Input.h" />
-    <ClInclude Include="Incluede\Input\Keyboard.h" />
-    <ClInclude Include="Incluede\Input\Mouse.h" />
     <ClInclude Include="Incluede\Light\Light.h" />
     <ClInclude Include="Incluede\Util\AliceFunctionUtility.h" />
     <ClInclude Include="Incluede\Util\AliceUtility.h" />
     <ClInclude Include="Incluede\Scene\SceneManager.h" />
     <ClInclude Include="Incluede\2D\PostEffect\VignettePostEffect.h" />
     <ClInclude Include="Incluede\Util\Transform2D.h" />
-    <ClInclude Include="StripedPostEffect.h" />
+    <ClInclude Include="Incluede\2D\PostEffect\StripedPostEffect.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Resources\Shaders\2D\Mesh.hlsli" />
@@ -186,6 +180,7 @@
     <None Include="..\Resources\Shaders\2D\PostEffect\GaussianBlur.hlsli" />
     <None Include="..\Resources\Shaders\2D\PostEffect\LutShader.hlsli" />
     <None Include="..\Resources\Shaders\2D\PostEffect\PostEffectTest.hlsli" />
+    <None Include="..\Resources\Shaders\2D\PostEffect\Striped.hlsli" />
     <None Include="..\Resources\Shaders\2D\PostEffect\VignetteShader.hlsli" />
     <None Include="..\Resources\Shaders\2D\RainParticle.hlsli" />
     <None Include="..\Resources\Shaders\2D\Sprite.hlsli" />
@@ -217,8 +212,6 @@
     <ClCompile Include="Source\Scene\BaseScene.cpp" />
     <ClCompile Include="Source\Core\Framework\AliceFramework.cpp" />
     <ClCompile Include="Source\Core\ImGuiManager.cpp" />
-    <ClCompile Include="Source\2D\Button.cpp" />
-    <ClCompile Include="Source\2D\Cursor.cpp" />
     <ClCompile Include="Source\2D\Mesh.cpp" />
     <ClCompile Include="Source\2D\Particle\Particle.cpp" />
     <ClCompile Include="Source\2D\Particle\ParticleEmitter.cpp" />
@@ -241,17 +234,13 @@
     <ClCompile Include="Source\Core\DirectX\RootSignature.cpp" />
     <ClCompile Include="Source\Core\DirectX\Shader.cpp" />
     <ClCompile Include="Source\Core\TextureManager.cpp" />
-    <ClCompile Include="Source\Input\Controller.cpp" />
-    <ClCompile Include="Source\Input\Input.cpp" />
-    <ClCompile Include="Source\Input\Keyboard.cpp" />
-    <ClCompile Include="Source\Input\Mouse.cpp" />
     <ClCompile Include="Source\Light\Light.cpp" />
     <ClCompile Include="Source\Util\AliceFunctionUtility.cpp" />
     <ClCompile Include="Source\Util\AliceUtility.cpp" />
     <ClCompile Include="Source\Scene\SceneManager.cpp" />
     <ClCompile Include="Source\2D\PostEffect\VignettePostEffect.cpp" />
     <ClCompile Include="Source\Util\Transform2D.cpp" />
-    <ClCompile Include="StripedPostEffect.cpp" />
+    <ClCompile Include="Source\2D\PostEffect\StripedPostEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Resources\Shaders\2D\IcosahedronGS.hlsl">
@@ -291,56 +280,46 @@
     <FxCompile Include="..\Resources\Shaders\2D\PostEffect\GaussianBlurPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="..\Resources\Shaders\2D\PostEffect\GaussianXBlurVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="..\Resources\Shaders\2D\PostEffect\GaussianYBlurVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="..\Resources\Shaders\2D\PostEffect\LutShaderPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="..\Resources\Shaders\2D\PostEffect\LutShaderVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="..\Resources\Shaders\2D\PostEffect\PostEffectTestPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="..\Resources\Shaders\2D\PostEffect\PostEffectTestVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\StripedPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\StripedVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="..\Resources\Shaders\2D\PostEffect\VignetteShaderPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="..\Resources\Shaders\2D\PostEffect\VignetteShaderVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="..\Resources\Shaders\2D\RainParticleGS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
@@ -446,6 +425,9 @@
   <ItemGroup>
     <ProjectReference Include="..\AliceCore\AliceCore.vcxproj">
       <Project>{0c4e6eb7-9df9-4089-b866-c3b8815bf856}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\AliceInput\AliceInput.vcxproj">
+      <Project>{e2f9fc0a-2aab-4962-bc4d-b3c96ad2f71d}</Project>
     </ProjectReference>
     <ProjectReference Include="..\AliceMath\AliceMath.vcxproj">
       <Project>{e19a2bfb-b038-4bef-a6c7-364d5488e9ba}</Project>

@@ -29,6 +29,10 @@ namespace AliceMathF
 	{
 	}
 
+	Vector2::Vector2(LONG x, LONG y) : x(static_cast<float>(x)), y(static_cast<float>(y))
+	{
+	}
+
 	// ベクトルの長さを計算する
 	float Vector2::Length() const
 	{
