@@ -1,5 +1,11 @@
 ﻿#pragma once
+
+#pragma warning(push)
+#pragma warning(disable: 4365)
+
 #include<string>
+
+#pragma warning(pop)
 
 #include<WindowsApp.h>
 #include<DepthStencilBuffer.h>

@@ -1,5 +1,11 @@
 ﻿#include "StripedPostEffect.h"
 
+StripedPostEffect* StripedPostEffect::GetInstance()
+{
+	static StripedPostEffect instance;
+	return &instance;
+}
+
 void StripedPostEffect::Initialize()
 {
 	if (needsInit)
@@ -7,7 +13,6 @@ void StripedPostEffect::Initialize()
 		needsInit = false;
 
 		type = "STRIPEDPOSTEFFECT";
-
 
 		cmdList = DirectX12Core::GetInstance()->GetCommandList().Get();
 
@@ -62,13 +67,79 @@ void StripedPostEffect::Initialize()
 		//生成
 		material->Initialize();
 
-		renderTargets.push_back(std::make_unique<RenderTarget>(DirectX12Core::GetInstance()->GetSRVDescriptorHeap(), cmdList));
-		renderTargets.push_back(std::make_unique<RenderTarget>(DirectX12Core::GetInstance()->GetSRVDescriptorHeap(), cmdList));
+		for (size_t i = 0; i < 2; i++)
+		{
+			//レンダーターゲットの生成
+			std::unique_ptr<RenderTargetBuffer> buff = std::make_unique<RenderTargetBuffer>();
+			buff->Create(static_cast<UINT>(width), static_cast<UINT>(height), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+			
+			{//SRV作成
 
-		renderTargets[0]->Initialize(WindowsApp::GetInstance()->GetWindowSize().width, WindowsApp::GetInstance()->GetWindowSize().height, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
-		renderTargets[1]->Initialize(WindowsApp::GetInstance()->GetWindowSize().width, WindowsApp::GetInstance()->GetWindowSize().height, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+				D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+				srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+				srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+				srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+				srvDesc.Texture2D.MipLevels = 1;
+				D3D12_GPU_DESCRIPTOR_HANDLE handle{};
+				handle.ptr = srvHeap->CreateSRV(srvDesc, buff->GetTexture());
+				handles.push_back(handle);
+			}
+
+			renderTargetBuffers.push_back(std::move(buff));
+		}
+
+		{
+			//デプスステンシルの生成
+			std::unique_ptr<DepthStencilBuffer> buff = std::make_unique<DepthStencilBuffer>();
+			buff->Create(static_cast<UINT>(width), static_cast<UINT>(height), DXGI_FORMAT_D32_FLOAT);
+			depthStencilBuffers.push_back(std::move(buff));
+		}
+
 
 		needsInit = false;
+
+
+		material2= std::make_unique<Material>();
+
+		//頂点シェーダの読み込み
+		material2->vertexShader = std::make_unique<Shader>();
+		material2->vertexShader->Create("Resources/Shaders/2D/PostEffect/StripedDrawVS.hlsl");
+
+		//ピクセルシェーダの読み込み
+		material2->pixelShader = std::make_unique<Shader>();
+		material2->pixelShader->Create("Resources/Shaders/2D/PostEffect/StripedDrawPS.hlsl", "main", "ps_5_0");
+
+		//頂点レイアウト設定
+		material2->inputLayouts =
+		{
+			// xyz座標
+			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,D3D12_APPEND_ALIGNED_ELEMENT,D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+			// uv座標
+			{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0,D3D12_APPEND_ALIGNED_ELEMENT,D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+			//カラー
+			{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0,D3D12_APPEND_ALIGNED_ELEMENT,D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+		};
+
+		material2->depthFlag = false;
+
+		material2->blenddesc.RenderTarget[0].BlendEnable = true;// ブレンドを有効
+		material2->blenddesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;// ソースのアルファ値
+		material2->blenddesc.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;// 1.0f-ソースのアルファ値
+
+		material2->renderTargetFormat.NumRenderTargets = 1;
+		material2->renderTargetFormat.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+
+		//ルートシグネチャ設定
+		material2->rootSignature = std::make_unique<RootSignature>();
+		material2->rootSignature->Add(RootSignature::RangeType::SRV, 0);//t0
+		material2->rootSignature->AddStaticSampler(0);//s0
+		material2->rootSignature->Add(RootSignature::RangeType::SRV, 1);//t0
+		material2->rootSignature->AddStaticSampler(1);//s0
+		material2->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
+
+		//生成
+		material2->Initialize();
+
 	}
 }
 
@@ -89,16 +160,8 @@ void StripedPostEffect::Draw(RenderTarget* mainRenderTarget)
 {
 	for (size_t i = 0; i < 2; i++)
 	{
-		renderTargets[i]->Transition(D3D12_RESOURCE_STATE_RENDER_TARGET);
+		renderTargetBuffers[i]->Transition(D3D12_RESOURCE_STATE_RENDER_TARGET);
 	}
-
-	D3D12_CPU_DESCRIPTOR_HANDLE rtvHs[] =
-	{
-		renderTargets[0]->GetRenderTargetBuffer()->GetHandle(),
-		renderTargets[1]->GetRenderTargetBuffer()->GetHandle(),
-	};
-
-	cmdList->OMSetRenderTargets(2, rtvHs, false, &renderTargets[0]->GetDepthStencilBuffer()->GetHandle());
 
 	CD3DX12_VIEWPORT viewPorts[2]{};
 	CD3DX12_RECT rects[2]{};
@@ -113,10 +176,22 @@ void StripedPostEffect::Draw(RenderTarget* mainRenderTarget)
 	cmdList->RSSetViewports(2, viewPorts);
 	cmdList->RSSetScissorRects(2, rects);
 
+	D3D12_CPU_DESCRIPTOR_HANDLE rtvHs[] =
+	{
+		renderTargetBuffers[0]->GetHandle(),
+		renderTargetBuffers[1]->GetHandle(),
+	};
+
+	cmdList->OMSetRenderTargets(2, rtvHs, false, &depthStencilBuffers[0]->GetHandle());
+
+
 	for (size_t i = 0; i < 2; i++)
 	{
-		renderTargets[i]->Clear();
+		cmdList->ClearRenderTargetView(renderTargetBuffers[i]->GetHandle(), clearColor.data(), 0, nullptr);
 	}
+
+	cmdList->ClearDepthStencilView(depthStencilBuffers[0]->GetHandle(), D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+
 
 	sprite->SetSize({ 1.0f,1.0f });
 
@@ -127,7 +202,7 @@ void StripedPostEffect::Draw(RenderTarget* mainRenderTarget)
 
 	for (size_t i = 0; i < 2; i++)
 	{
-		renderTargets[i]->Transition(D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+		renderTargetBuffers[i]->Transition(D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 	}
 }
 
@@ -144,10 +219,15 @@ void StripedPostEffect::MainRenderTargetDraw(RenderTarget* mainRenderTarget)
 	cmdList->RSSetScissorRects(1, &rect);
 
 
-	sprite->Draw(MaterialManager::GetMaterial("DefaultPostEffect"), renderTargets.back()->GetGpuHandle());
-
+	sprite->Draw(material2.get(), handles[0]);
+	cmdList->SetGraphicsRootDescriptorTable(1, handles[1]);
 	// 描画コマンド
 	cmdList->DrawIndexedInstanced(6, 1, 0, 0, 0);
 
 	mainRenderTarget->Transition(D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+}
+
+StripedPostEffect::StripedPostEffect()
+{
+
 }

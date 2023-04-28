@@ -27,7 +27,7 @@ bool RenderTargetBuffer::Create(UINT w, UINT h, D3D12_RESOURCE_STATES resourceSt
 	CD3DX12_CLEAR_VALUE cleaVal = CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, clearColor.data());
 
 	//リソースを作成。
-	CD3DX12_HEAP_PROPERTIES heapProp = CD3DX12_HEAP_PROPERTIES(D3D12_CPU_PAGE_PROPERTY_WRITE_BACK, D3D12_MEMORY_POOL_L0);;
+	CD3DX12_HEAP_PROPERTIES heapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
 
 	HRESULT hr = device->CreateCommittedResource(
 		&heapProp,
@@ -46,6 +46,7 @@ bool RenderTargetBuffer::Create(UINT w, UINT h, D3D12_RESOURCE_STATES resourceSt
 
 	//ターゲットビューの設定
 	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
+	
 	//計算結果をSRGBに変換
 	rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;

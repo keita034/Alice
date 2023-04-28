@@ -273,6 +273,12 @@
     <ClInclude Include="Incluede\2D\PostEffect\StripedPostEffect.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
+    <ClInclude Include="Incluede\2D\PostEffect\OilPaintingPostEffect.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Incluede\2D\PostEffect\ChromaticAberrationPostEffect.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
@@ -313,6 +319,15 @@
       <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
     </None>
     <None Include="..\Resources\Shaders\2D\PostEffect\Striped.hlsli">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\2D\PostEffect\StripedDraw.hlsli">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\2D\PostEffect\OilPainting.hlsli">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\2D\PostEffect\ChromaticAberration.hlsli">
       <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
     </None>
   </ItemGroup>
@@ -467,6 +482,12 @@
     <ClCompile Include="Source\2D\PostEffect\StripedPostEffect.cpp">
       <Filter>ソース ファイル\2D\PostEffect</Filter>
     </ClCompile>
+    <ClCompile Include="Source\2D\PostEffect\OilPaintingPostEffect.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\2D\PostEffect\ChromaticAberrationPostEffect.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Resources\Shaders\2D\MeshPS.hlsl">
@@ -569,6 +590,24 @@
       <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
     </FxCompile>
     <FxCompile Include="..\Resources\Shaders\2D\PostEffect\PostEffectTestVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\StripedDrawPS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\StripedDrawVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\OilPaintingPS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\OilPaintingVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\ChromaticAberrationPS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\ChromaticAberrationVS.hlsl">
       <Filter>リソース ファイル\シェーダー\2D\PostEffect</Filter>
     </FxCompile>
   </ItemGroup>

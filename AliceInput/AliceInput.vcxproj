@@ -81,6 +81,7 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\Incluede;</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4711</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -100,6 +101,7 @@
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\Incluede;</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4711</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>

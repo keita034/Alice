@@ -344,10 +344,10 @@ void AliceModel::ReadNodeHeirarchy(ModelMesh* mesh, const AliceMotionData* pAnim
 		AliceMathF::Matrix4 mxTranslationM;
 		mxTranslationM.MakeTranslation(vTranslation);
 
-		mxNodeTransformation = mxScaling.MatrixMultiply(mxRotationM).MatrixMultiply(mxTranslationM);
+		mxNodeTransformation = mxScaling * mxRotationM * mxTranslationM;
 	}
 
-	AliceMathF::Matrix4 mxGlobalTransformation = mxNodeTransformation.MatrixMultiply(mxParentTransform);
+	AliceMathF::Matrix4 mxGlobalTransformation = mxNodeTransformation * mxParentTransform;
 
 	AliceMathF::Matrix4 offsetMatirx;
 	AliceMathF::Matrix4 matirx;
@@ -356,8 +356,7 @@ void AliceModel::ReadNodeHeirarchy(ModelMesh* mesh, const AliceMotionData* pAnim
 		offsetMatirx = mesh->bones[strNodeName]->offsetMatirx;
 
 		matirx
-			= offsetMatirx.MatrixMultiply(mxGlobalTransformation).
-			MatrixMultiply(modelData->globalInverseTransform);
+			= offsetMatirx * mxGlobalTransformation * modelData->globalInverseTransform;
 
 		mesh->bones[strNodeName]->matrix = matirx;
 

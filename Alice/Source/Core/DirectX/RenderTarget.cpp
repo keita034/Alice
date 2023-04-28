@@ -4,7 +4,7 @@ void RenderTarget::Initialize(UINT w, UINT h, D3D12_RESOURCE_STATES resourceStat
 {
 	//クリアカラー
 	
-		clearColor = {{ col.x,col.y,col.z,col.w }};
+	clearColor = {{ col.x,col.y,col.z,col.w }};
 	
 
 	//レンダーターゲットの生成

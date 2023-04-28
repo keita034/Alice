@@ -39,7 +39,7 @@ private:
 	void Draw(RenderTarget* mainRenderTarget)override;
 
 	void MainRenderTargetDraw(RenderTarget* mainRenderTarget)override;
-	GaussianBlurPostEffect() = default;
+	GaussianBlurPostEffect();
 	~GaussianBlurPostEffect() = default;
 
 	//コピーコンストラクタ・代入演算子削除

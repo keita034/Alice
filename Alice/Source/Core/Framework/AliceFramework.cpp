@@ -55,6 +55,8 @@ void AliceFramework::Initialize()
 	
 	sceneManager = SceneManager::GetInstance();
 
+	BasePostEffect::SetSrvHeap(directX12Core->GetSRVDescriptorHeap());
+
 	postEffectManager = PostEffectManager::GetInstance();
 
 	postEffectManager->Initialize();
@@ -114,7 +116,7 @@ void AliceFramework::Draw()
 
 		postEffectManager->Update();
 
-		directX12Core->ExecuteCommand();
+		directX12Core->ExecuteCommand(false);
 
 		directX12Core->BeginDraw();//描画準備
 		postEffectManager->Draw();

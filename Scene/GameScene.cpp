@@ -33,7 +33,7 @@ void GameScene::Initialize()
 	playerTransform.translation = { 0.0f,0.0f,0.0f };
 	playerTransform.Initialize();
 
-	PostEffectManager::GetInstance()->AddPostEffect("STRIPEDPOSTEFFECT");
+	PostEffectManager::GetInstance()->AddPostEffect("CHROMATICABERRATION");
 }
 
 void GameScene::Update()

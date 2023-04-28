@@ -92,6 +92,4 @@ namespace AliceMathF
 	const Vector3 operator*(Quaternion q, Vector3 vec);
 
 	void QuaternionSlerp(Quaternion& vOut, const Quaternion& qStart, const Quaternion& qEnd, float t);
-
-	void QuaternionSlerp(Vector4& vOut, const aiQuaternion& qStart, const aiQuaternion& qEnd, float t);
 }

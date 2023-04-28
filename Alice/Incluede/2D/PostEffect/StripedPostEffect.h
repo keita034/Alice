@@ -11,7 +11,11 @@ class StripedPostEffect : public BasePostEffect
 {
 private:
 
+	std::unique_ptr<Material>material2;
+
 public:
+
+	static StripedPostEffect* GetInstance();
 
 	/// <summary>
 	/// 初期化
@@ -28,10 +32,10 @@ public:
 	/// </summary>
 	const std::string& GetType()override;
 
-	StripedPostEffect() = default;
-	~StripedPostEffect() = default;
-
 private:
+
+	StripedPostEffect();
+	~StripedPostEffect() = default;
 
 	//描画
 	void Draw(RenderTarget* mainRenderTarget)override;

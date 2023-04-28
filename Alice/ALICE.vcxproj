@@ -83,6 +83,7 @@
     </Link>
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
+      <ObjectFileOutput>$(SolutionDir)..\Generated\Obj\%(Filename).cso</ObjectFileOutput>
     </FxCompile>
     <Lib>
       <AdditionalDependencies>assimp-vc143-mtd.lib;DirectX-Headers.lib;DirectXTex.lib;imguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -115,12 +116,14 @@
     </Link>
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
+      <ObjectFileOutput>$(SolutionDir)..\Generated\Obj\%(Filename).cso</ObjectFileOutput>
     </FxCompile>
     <Lib>
       <AdditionalDependencies>assimp-vc143-mt.lib;DirectXTex.lib;draco.lib;imgui.lib;kubazip.lib;minizip.lib;poly2tri.lib;pugixml.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Incluede\2D\PostEffect\ChromaticAberrationPostEffect.h" />
     <ClInclude Include="Incluede\2D\Particle\IcosahedronParticle.h" />
     <ClInclude Include="Incluede\Util\BaseTransform.h" />
     <ClInclude Include="Incluede\Util\Game2DObject.h" />
@@ -173,14 +176,18 @@
     <ClInclude Include="Incluede\2D\PostEffect\VignettePostEffect.h" />
     <ClInclude Include="Incluede\Util\Transform2D.h" />
     <ClInclude Include="Incluede\2D\PostEffect\StripedPostEffect.h" />
+    <ClInclude Include="Incluede\2D\PostEffect\OilPaintingPostEffect.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Resources\Shaders\2D\Mesh.hlsli" />
     <None Include="..\Resources\Shaders\2D\Particle.hlsli" />
+    <None Include="..\Resources\Shaders\2D\PostEffect\ChromaticAberration.hlsli" />
     <None Include="..\Resources\Shaders\2D\PostEffect\GaussianBlur.hlsli" />
     <None Include="..\Resources\Shaders\2D\PostEffect\LutShader.hlsli" />
+    <None Include="..\Resources\Shaders\2D\PostEffect\OilPainting.hlsli" />
     <None Include="..\Resources\Shaders\2D\PostEffect\PostEffectTest.hlsli" />
     <None Include="..\Resources\Shaders\2D\PostEffect\Striped.hlsli" />
+    <None Include="..\Resources\Shaders\2D\PostEffect\StripedDraw.hlsli" />
     <None Include="..\Resources\Shaders\2D\PostEffect\VignetteShader.hlsli" />
     <None Include="..\Resources\Shaders\2D\RainParticle.hlsli" />
     <None Include="..\Resources\Shaders\2D\Sprite.hlsli" />
@@ -191,6 +198,8 @@
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\2D\PostEffect\ChromaticAberrationPostEffect.cpp" />
+    <ClCompile Include="Source\2D\PostEffect\OilPaintingPostEffect.cpp" />
     <ClCompile Include="Source\2D\Particle\IcosahedronParticle.cpp" />
     <ClCompile Include="Source\Util\BaseTransform.cpp" />
     <ClCompile Include="Source\Util\Game2DObject.cpp" />
@@ -277,6 +286,14 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\ChromaticAberrationPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\ChromaticAberrationVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="..\Resources\Shaders\2D\PostEffect\GaussianBlurPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
@@ -297,11 +314,27 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\OilPaintingPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\OilPaintingVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="..\Resources\Shaders\2D\PostEffect\PostEffectTestPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
     <FxCompile Include="..\Resources\Shaders\2D\PostEffect\PostEffectTestVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\StripedDrawPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\2D\PostEffect\StripedDrawVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>

@@ -19,7 +19,16 @@ protected:
 
 	std::unique_ptr<PostEffectSprite> sprite;
 
-	std::vector<std::unique_ptr<RenderTarget>> renderTargets;
+	//レンダーターゲットテクスチャ
+	std::vector<std::unique_ptr<RenderTargetBuffer>>renderTargetBuffers;
+	//デプステクスチャ
+	std::vector<std::unique_ptr<DepthStencilBuffer>>depthStencilBuffers;
+	//クリアーカラー
+	std::array<float, 4> clearColor = { {1.0f,1.0f,1.0f,1.0f} };
+
+	static DescriptorHeap* srvHeap;
+
+	std::vector<D3D12_GPU_DESCRIPTOR_HANDLE> handles;
 
 	std::string type;
 
@@ -36,6 +45,8 @@ public:
 	virtual void PostUpdate(RenderTarget* mainRenderTarget) = 0;
 
 	virtual const std::string& GetType() = 0;
+
+	static void SetSrvHeap(DescriptorHeap* heap);
 
 protected:
 

@@ -3,6 +3,8 @@
 #include<VignettePostEffect.h>
 #include<GaussianBlurPostEffect.h>
 #include<StripedPostEffect.h>
+#include<OilPaintingPostEffect.h>
+#include<ChromaticAberrationPostEffect.h>
 
 PostEffectFactory* PostEffectFactory::GetInstance()
 {
@@ -26,10 +28,19 @@ BasePostEffect* PostEffectFactory::CreatePostEffect(const std::string& postEffec
 	{
 		postEffect = GaussianBlurPostEffect::GetInstance();
 	}
-	else if (postEffectName == "STRIPEDPOSTEFFECT")
+	else if (postEffectName == "STRIPED")
 	{
-		postEffect = new StripedPostEffect();
+		postEffect = StripedPostEffect::GetInstance();
 	}
+	else if(postEffectName == "OILPAINTING")
+	{
+		postEffect = OilPaintingPostEffect::GetInstance();
+	}
+	else if(postEffectName == "CHROMATICABERRATION")
+	{
+		postEffect = ChromaticAberrationPostEffect::GetInstance();
+	}
+
 	return postEffect;
 }
 
