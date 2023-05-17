@@ -1,6 +1,6 @@
 ﻿#include "PlaneCollider.h"
 
-const float PlaneCollider::GetDistance()
+float PlaneCollider::GetDistance()
 {
     return distance;
 }

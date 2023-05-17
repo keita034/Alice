@@ -58,7 +58,7 @@ const AliceMathF::Vector3& OBBCollider::GetDirect(uint16_t elem)
 	return normaDirect[elem];
 }
 
-const float OBBCollider::GetLen(uint16_t elem)
+float OBBCollider::GetLen(uint16_t elem)
 {
 	return Length[elem];
 }

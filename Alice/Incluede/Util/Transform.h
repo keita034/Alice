@@ -23,6 +23,6 @@ public:
 
 	worldViewpojCamera* GetWorldViewpojCamera();
 
-	const D3D12_GPU_VIRTUAL_ADDRESS GetAddress();
+	D3D12_GPU_VIRTUAL_ADDRESS GetAddress();
 };
 

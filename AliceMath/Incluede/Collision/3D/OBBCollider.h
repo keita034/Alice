@@ -12,7 +12,7 @@ private:
 public:
 
 	const AliceMathF::Vector3& GetDirect(uint16_t elem);//指定軸番号の方向ベクトルを取得
-	const float GetLen(uint16_t elem);// 指定軸方向の長さを取得
+	float GetLen(uint16_t elem);// 指定軸方向の長さを取得
 	const AliceMathF::Vector3& GetCenter();// 位置を取得
 
 	void CreateOBB(const std::vector<PosNormalUv>& vertex,const  AliceMathF::Vector3& trans,const AliceMathF::Vector3& rot,const AliceMathF::Vector3& scal);

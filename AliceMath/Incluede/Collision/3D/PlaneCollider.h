@@ -12,7 +12,7 @@ private:
 	char PADING[4]{};
 public:
 	//原点点(0,0,0)からの距離を取得
-	const float GetDistance();
+	float GetDistance();
 	//原点点(0,0,0)からの距離を設定
 	void SetDistance(float distance_);
 	//法線ベクトルを取得

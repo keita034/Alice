@@ -1,5 +1,5 @@
-﻿#include<Camera.h>
-#include<WindowsApp.h>
+﻿#include "Camera.h"
+#include"WindowsApp.h"
 
 void GameCamera::Initialize(UpdateProjMatrixFunc matFunc)
 {
@@ -12,15 +12,19 @@ void GameCamera::Initialize(UpdateProjMatrixFunc matFunc)
 
 	if (matFunc == UpdateProjMatrixFunc_Ortho)//平行投影
 	{
+		if (near_ == 0.0f)
+		{
+			near_ = 0.1f;
+		}
 		if (far_ == 0.0f)
 		{
-			far_ = 1.0f;
+			far_ = 1000.0f;
 		}
 		right = static_cast<float>(WindowsApp::GetInstance()->GetWindowSize().width);
 		bottom = static_cast<float>(WindowsApp::GetInstance()->GetWindowSize().height);
 
 		//平行投影の計算
-		AliceMathF::MakeOrthogonalL(left, right, bottom, top, near_, far_, projectionMatrix);
+		AliceMathF::MakeOrthogonalL(right, bottom, near_, far_, projectionMatrix);
 
 	}
 	else//透視投影
@@ -73,7 +77,7 @@ void GameCamera::Update()
 
 			right = static_cast<float>(WindowsApp::GetInstance()->GetWindowSize().width);
 			bottom = static_cast<float>(WindowsApp::GetInstance()->GetWindowSize().height);
-			AliceMathF::MakeOrthogonalL(left, right, bottom, top, near_, far_, projectionMatrix);
+			AliceMathF::MakeOrthogonalL(right, bottom, near_, far_, projectionMatrix);
 
 		}
 		else

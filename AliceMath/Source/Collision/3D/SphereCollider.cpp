@@ -1,6 +1,6 @@
 ﻿#include "SphereCollider.h"
 
-const float SphereCollider::GetRadius()
+float SphereCollider::GetRadius()
 {
 	return radius;
 }

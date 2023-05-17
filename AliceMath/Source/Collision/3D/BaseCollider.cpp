@@ -6,7 +6,7 @@ void BaseCollider::OnCollision()
 	object->OnCollision();
 }
 
-const uint32_t BaseCollider::GetCollisionAttribute()
+uint32_t BaseCollider::GetCollisionAttribute()
 {
 	return collisionAttribute;
 }
@@ -16,7 +16,7 @@ void BaseCollider::SetCollisionAttribute(uint32_t collisionAttribute_)
 	collisionAttribute = collisionAttribute_;
 }
 
-const uint32_t BaseCollider::GetCollisionMask()
+uint32_t BaseCollider::GetCollisionMask()
 {
 	return CollisionMask;
 }

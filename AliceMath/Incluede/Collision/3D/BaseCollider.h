@@ -46,7 +46,7 @@ public:
 	/// <summary>
 	/// 衝突属性(自分)を取得
 	/// </summary>
-	const uint32_t GetCollisionAttribute();
+	uint32_t GetCollisionAttribute();
 
 	/// <summary>
 	/// 衝突属性(自分)を取得
@@ -56,7 +56,7 @@ public:
 	/// <summary>
 	/// 衝突属性(相手)を取得
 	/// </summary>
-	const uint32_t GetCollisionMask();
+	uint32_t GetCollisionMask();
 
 	/// <summary>
 	/// 衝突属性(相手)を設定

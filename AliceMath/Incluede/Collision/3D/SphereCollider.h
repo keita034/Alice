@@ -18,7 +18,7 @@ private:
 public:
 
 	//半径を取得
-	const float GetRadius();
+	float GetRadius();
 	//半径をを設定
 	void SetRadius(float radius_);
 

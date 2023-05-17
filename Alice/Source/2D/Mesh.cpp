@@ -432,7 +432,7 @@ void Mesh::CreatConstBuff()
 	constBuffTransform = std::make_unique<ConstantBuffer>();
 	constBuffTransform->Create(sizeof(ConstBufferDataTransform));
 
-	AliceMathF::MakeOrthogonalL(
+	AliceMathF::MakeOrthogonalLOffCenter(
 		0.0f, static_cast<float>(WindowsApp::GetInstance()->GetWindowSize().width),
 		static_cast<float>(WindowsApp::GetInstance()->GetWindowSize().height), 0.0f,
 		0.0f, 1.0f, constMapTransform.mat);

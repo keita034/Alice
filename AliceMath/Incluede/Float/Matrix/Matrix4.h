@@ -155,7 +155,7 @@ namespace AliceMathF
 	Matrix4 MakeInverse(const Matrix4* mat);
 
 	/// <summary>
-	/// 平行投影変換行列を生成(左手系)
+	/// 平行投影変換行列を生成(左手系,原点左上)
 	/// </summary>
 	/// <param name="left"> : 左側</param>
 	/// <param name="right"> : 右側</param>
@@ -164,7 +164,17 @@ namespace AliceMathF
 	/// <param name="near_"> : ニアクリップ距離</param>
 	/// <param name="far_"> : ファークリップ距離</param>
 	/// <param name="matrix"> : 代入する行列</param>
-	void MakeOrthogonalL(float left, float right, float bottom, float top, float near_, float far_, Matrix4& matrix);
+	void MakeOrthogonalLOffCenter(float left, float right, float bottom, float top, float near_, float far_, Matrix4& matrix);
+
+	/// <summary>
+	/// 平行投影変換行列を生成(左手系)
+	/// </summary>
+	/// <param name="width"> : 横幅</param>
+	/// <param name="height"> : 縦幅</param>
+	/// <param name="near_"> : ニアクリップ距離</param>
+	/// <param name="far_"> : ファークリップ距離</param>
+	/// <param name="matrix"> : 代入する行列</param>
+	void MakeOrthogonalL(float width, float height, float near_, float far_, Matrix4& matrix);
 
 	/// <summary>
 	/// 平行投影変換行列を生成(右手系)

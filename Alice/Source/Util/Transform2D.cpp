@@ -109,7 +109,7 @@ worldViewpojCamera* Transform2D::GetWorldViewpojCamera()
 	return &constBuffMap;
 }
 
-const D3D12_GPU_VIRTUAL_ADDRESS Transform2D::GetAddress()
+D3D12_GPU_VIRTUAL_ADDRESS Transform2D::GetAddress()
 {
 	return constBuff->GetAddress();
 }

@@ -415,7 +415,7 @@ namespace AliceMathF
 		return temp;
 	}
 
-	void MakeOrthogonalL(float left, float right, float bottom, float top, float near_, float far_, Matrix4& matrix)
+	void MakeOrthogonalLOffCenter(float left, float right, float bottom, float top, float near_, float far_, Matrix4& matrix)
 	{
 
 		float width = 1.0f / (right - left);
@@ -436,8 +436,26 @@ namespace AliceMathF
 		matrix.m[0][1] = matrix.m[0][2] = matrix.m[0][3] =
 			matrix.m[1][0] = matrix.m[1][2] = matrix.m[1][3] =
 			matrix.m[2][0] = matrix.m[2][1] = matrix.m[2][3] = 0.0f;
+	}
 
-		matrix = DirectX::XMMatrixOrthographicOffCenterLH(left, right, bottom, top, near_, far_);
+	void MakeOrthogonalL(float width, float height, float near_, float far_, Matrix4& matrix)
+	{
+		float fRange = 1.0f / (far_ - near_);
+
+		matrix.m[0][0] = 2.0f / width;
+
+		matrix.m[1][1] = 2.0f / height;
+
+		matrix.m[2][2] = fRange;
+
+		matrix.m[3][2] = -fRange * near_;
+		matrix.m[3][3] = 1.0f;
+
+		matrix.m[0][1] = matrix.m[0][2] = matrix.m[0][3] =
+			matrix.m[1][0] = matrix.m[1][2] = matrix.m[1][3] =
+			matrix.m[2][0] = matrix.m[2][1] = matrix.m[2][3] =
+			matrix.m[3][0] = matrix.m[3][1] = 0.0f;;
+
 	}
 
 	void MakeOrthogonalR(float left, float right, float bottom, float top, float near_, float far_, Matrix4& matrix)
