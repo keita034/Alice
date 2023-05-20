@@ -1,5 +1,7 @@
 ﻿#include "WindowsApp.h"
 
+#pragma comment( lib, "shell32.lib" )
+
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 //ウインドウプロシージャ
@@ -111,6 +113,13 @@ void WindowsApp::CreatWindow(const wchar_t* title, UINT width, UINT height)
 
 	//ウインドウを表示状態にする
 	ShowWindow(hwnd, SW_NORMAL);
+
+#ifdef _DEBUG
+
+	system("AliceCore/Debug/CommandPromptUTF-8.bat");
+
+#endif _DEBUG
+
 }
 
 bool WindowsApp::MessageWindow()

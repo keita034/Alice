@@ -8,7 +8,7 @@ class SceneManager;
 
 class BaseScene
 {
-private:
+protected:
 
 	static AliceInput::IInput* input;
 

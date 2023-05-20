@@ -178,6 +178,121 @@ void AliceModel::AnimationUpdate(const AliceMotionData* animation, float frame)
 	}
 }
 
+uint32_t AliceModel::CreateToonModel(const std::string& fileDirectoryPath, const std::string& rampFilePath)
+{
+	std::string path = fileDirectoryPath;
+
+	//一回読み込んだことがあるファイルはそのまま返す
+	auto itr = find_if(modelDatas.begin(), modelDatas.end(), [&](std::pair<const std::string, std::unique_ptr<AliceModelData, std::default_delete<AliceModelData>>>& p)
+		{
+			return p.second->filePath == path ;
+		});
+
+	if (itr == modelDatas.end())
+	{
+
+		uint32_t modelHandle = modelCount;
+
+		std::unique_ptr<AliceModelData> data;
+		data = std::make_unique<AliceModelData>();
+
+		{
+			std::vector<std::string> files;
+
+			std::string filePath;
+
+			files = AliceFunctionUtility::getFileNames(path);
+
+			//ディレクトリからFBXファイルを探す
+			for (std::string file : files)
+			{
+				if (file.find(".alpb") != std::string::npos || file.find(".alp") != std::string::npos)
+				{
+					filePath = file;
+				}
+			}
+
+			if (filePath == "")
+			{
+				assert(0);
+			}
+
+			std::string fileExtension = AliceFunctionUtility::FileExtension(filePath);
+
+			if (fileExtension == "alpb")
+			{
+				AliceFileStream::LoadAlicePolygonBinaryData(filePath, data.get());
+			}
+			else if (fileExtension == "alp")
+			{
+				AliceFileStream::LoadAlicePolygonData(filePath, data.get());
+			}
+
+			data->postureMatBuff = std::make_unique<ConstantBuffer>();
+			data->postureMatBuff->Create(sizeof(AliceMathF::Matrix4));
+
+			AliceMathF::Matrix4 tmp = AliceMathF::Matrix4();
+			data->postureMatBuff->Update(&tmp);
+
+			for (size_t i = 0; i < data->nodes.size(); i++)
+			{
+				if (data->nodes[i].parent)
+				{
+					auto parentItr = std::find_if(data->nodes.begin(), data->nodes.end(), [&](Node& node)
+						{
+							return node.name == data->nodes[i].parent->name;
+						});
+
+					parentItr->childrens.push_back(&data->nodes[i]);
+				}
+
+			}
+
+			//バッファ生成
+			for (size_t i = 0; i < data->meshes.size(); i++)
+			{
+				for (size_t j = 0; j < data->meshes[i].vecBones.size(); j++)
+				{
+					data->meshes[i].bones[data->meshes[i].vecBones[j].name] = &data->meshes[i].vecBones[j];
+				}
+
+				data->meshes[i].CreateBuffer();
+			}
+		}
+
+		data->modelHandle = modelCount;
+
+		data->filePath = path;
+
+		data->isToon = true;
+		uint32_t rampHnadel = TextureManager::Load(rampFilePath);
+		data->rampTex = TextureManager::GetTextureData(rampHnadel);
+
+		modelDatas[path] = std::move(data);
+
+		filePaths[modelCount] = path;
+
+		modelCount++;
+
+		return modelHandle;
+	}
+	else
+	{
+		if (!modelDatas[path]->isToon)
+		{
+			printf("トゥーンモデルではありません");
+
+		}
+		uint32_t modelHandle = modelDatas[path]->modelHandle;
+
+		return modelHandle;
+
+	}
+
+	printf("モデルファイルが存在しません");
+	return INT32_MAX;
+}
+
 void AliceModel::CommonInitialize()
 {
 	device = DirectX12Core::GetInstance()->GetDevice().Get();

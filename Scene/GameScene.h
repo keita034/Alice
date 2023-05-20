@@ -1,21 +1,22 @@
 #pragma once
 
-#include"Camera.h"
-#include"Sprite2D.h"
-#include"Sprite3D.h"
-#include"BasicParticle.h"
-#include"RainParticle.h"
-#include"ParticleEmitter.h"
-#include"Light.h"
-#include"Mesh.h"
-#include"3DMesh.h"
-#include"Transform.h"
-#include"DefaultMaterial.h"
-#include"AudioManager.h"
-#include"AliceModel.h"
-#include "CinemaCamera.h"
-#include "BaseScene.h"
-#include "Light.h"
+#include<Camera.h>
+#include<Sprite2D.h>
+#include<Sprite3D.h>
+#include<BasicParticle.h>
+#include<RainParticle.h>
+#include<ParticleEmitter.h>
+#include<Light.h>
+#include<Mesh.h>
+#include<3DMesh.h>
+#include<Transform.h>
+#include<DefaultMaterial.h>
+#include<AudioManager.h>
+#include<AliceModel.h>
+#include<AliceToonModel.h>
+#include<CinemaCamera.h>
+#include<BaseScene.h>
+#include<Light.h>
 #include<PostEffectManager.h>
 
 class GameScene : public BaseScene
@@ -32,9 +33,12 @@ private:
 	std::unique_ptr<GameCamera> camera;
 
 	std::unique_ptr<AliceModel> playerModel;
+	std::unique_ptr<AliceToonModel> playerModel2;
 	uint32_t playerModelHandle;
+	uint32_t playerModelHandle2;
 	Transform playerTransform;
 
+	float angle;
 public:
 
 	GameScene();

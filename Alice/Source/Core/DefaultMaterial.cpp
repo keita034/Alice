@@ -17,14 +17,16 @@ void MaterialManager::Initialize()
 	CreateDefaultMeshMaterial();
 
 	CreateDefaultFbxMaterial();
+	CreateDefaultFbxAnimationMaterial();
+
+	CreateDefaultToonModelMaterial();
+	CreateDefaultToonModelAnimationMaterial();
 
 	CreateDefaultPostEffectMaterial();
 
 	CreateDefaultParticleMaterial();
 
 	CreateDefaultRainParticleMaterial();
-
-	CreateDefaultFbxAnimationMaterial();
 
 	CreateDefaultIcosahedronParticleMaterial();
 }
@@ -46,6 +48,11 @@ Material* MaterialManager::GetMaterialData(const std::string name)
 	if (itr != materials.end())
 	{
 		return itr._Ptr->_Myval.second.get();
+	}
+
+	if (itr == materials.end())
+	{
+
 	}
 
 	return nullptr;
@@ -333,8 +340,11 @@ void MaterialManager::CreateDefaultFbxMaterial()
 	DEFAULT_FBX_MATERIAL->blenddesc = CreateBlend(BlendMode::AX_BLENDMODE_ALPHA);
 
 	DEFAULT_FBX_MATERIAL->cullMode = D3D12_CULL_MODE_NONE;
+	DEFAULT_FBX_MATERIAL->depthFlag = true;
+
 	//生成
 	DEFAULT_FBX_MATERIAL->Initialize();
+
 
 	AddMaterial(DEFAULT_FBX_MATERIAL, "DefaultFbx");
 }
@@ -378,7 +388,7 @@ void MaterialManager::CreateDefaultFbxAnimationMaterial()
 
 	DEFAULT_FBX_MATERIAL->blenddesc = CreateBlend(BlendMode::AX_BLENDMODE_ALPHA);
 
-	DEFAULT_FBX_MATERIAL->cullMode = D3D12_CULL_MODE_NONE;
+	DEFAULT_FBX_MATERIAL->cullMode = D3D12_CULL_MODE_FRONT;
 	//生成
 	DEFAULT_FBX_MATERIAL->Initialize();
 
@@ -611,6 +621,102 @@ void MaterialManager::CreateDefaultIcosahedronParticleMaterial()
 	DEFAULT_PARTICLE_MATERIAL->Initialize();
 
 	AddMaterial(DEFAULT_PARTICLE_MATERIAL, "IcosahedronParticle");
+}
+
+void MaterialManager::CreateDefaultToonModelMaterial()
+{
+	std::unique_ptr<Material>DEFAULT_FBX_MATERIAL = std::make_unique<Material>();
+
+	//テクスチャデータ設定
+	DEFAULT_FBX_MATERIAL->textureData = DEFAULT_TEXTURE;
+
+	//頂点シェーダの読み込み
+	DEFAULT_FBX_MATERIAL->vertexShader = std::make_unique<Shader>();
+	DEFAULT_FBX_MATERIAL->vertexShader->Create("Resources/Shaders/3D/Model/ToonModelVS.hlsl");
+
+	//ピクセルシェーダの読み込み
+	DEFAULT_FBX_MATERIAL->pixelShader = std::make_unique<Shader>();
+	DEFAULT_FBX_MATERIAL->pixelShader->Create("Resources/Shaders/3D/Model/ToonModelPS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
+
+	//頂点レイアウト設定
+	DEFAULT_FBX_MATERIAL->inputLayouts = {
+	{ "POSITION",	0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0  }, // float3のPOSITION
+	{ "NORMAL",		0, DXGI_FORMAT_R32G32B32_FLOAT,		0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0   }, // float3のNORMAL
+	{ "TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT,		0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0  }, // float2のTEXCOORD
+	{ "TANGENT",	0, DXGI_FORMAT_R32G32B32_FLOAT,		0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }, // float3のTANGENT
+	{ "COLOR",		0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }, // float4のCOLOR
+	{ "INDEX",		0, DXGI_FORMAT_R32G32B32A32_UINT,	0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }, // UINT[4]のINDEX
+	{ "WEIGHT",		0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }, // float[4]のWEIGHT
+	};
+
+	//ルートシグネチャ設定
+	DEFAULT_FBX_MATERIAL->rootSignature = std::make_unique<RootSignature>();
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 0);//b0
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 1);//b1
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 2);//b2
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 3);//b3
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RangeType::SRV, 0);//t0
+	DEFAULT_FBX_MATERIAL->rootSignature->AddStaticSampler(0);//s0
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RangeType::SRV, 1);//t1
+	DEFAULT_FBX_MATERIAL->rootSignature->AddStaticSampler(1);//s1
+	DEFAULT_FBX_MATERIAL->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
+
+
+	DEFAULT_FBX_MATERIAL->blenddesc = CreateBlend(BlendMode::AX_BLENDMODE_ALPHA);
+
+	DEFAULT_FBX_MATERIAL->cullMode = D3D12_CULL_MODE_FRONT;
+	//生成
+	DEFAULT_FBX_MATERIAL->Initialize();
+
+	AddMaterial(DEFAULT_FBX_MATERIAL, "DefaultToonModel");
+}
+
+void MaterialManager::CreateDefaultToonModelAnimationMaterial()
+{
+	std::unique_ptr<Material>DEFAULT_FBX_MATERIAL = std::make_unique<Material>();
+
+//テクスチャデータ設定
+	DEFAULT_FBX_MATERIAL->textureData = DEFAULT_TEXTURE;
+
+	//頂点シェーダの読み込み
+	DEFAULT_FBX_MATERIAL->vertexShader = std::make_unique<Shader>();
+	DEFAULT_FBX_MATERIAL->vertexShader->Create("Resources/Shaders/3D/Model/ToonModelAnimationVS.hlsl");
+
+	//ピクセルシェーダの読み込み
+	DEFAULT_FBX_MATERIAL->pixelShader = std::make_unique<Shader>();
+	DEFAULT_FBX_MATERIAL->pixelShader->Create("Resources/Shaders/3D/Model/ToonModelPS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
+
+	//頂点レイアウト設定
+	DEFAULT_FBX_MATERIAL->inputLayouts = {
+	{ "POSITION",	0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0  }, // float3のPOSITION
+	{ "NORMAL",		0, DXGI_FORMAT_R32G32B32_FLOAT,		0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0   }, // float3のNORMAL
+	{ "TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT,		0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0  }, // float2のTEXCOORD
+	{ "TANGENT",	0, DXGI_FORMAT_R32G32B32_FLOAT,		0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }, // float3のTANGENT
+	{ "COLOR",		0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }, // float4のCOLOR
+	{ "INDEX",		0, DXGI_FORMAT_R32G32B32A32_UINT,	0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }, // UINT[4]のINDEX
+	{ "WEIGHT",		0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }, // float[4]のWEIGHT
+	};
+
+	//ルートシグネチャ設定
+	DEFAULT_FBX_MATERIAL->rootSignature = std::make_unique<RootSignature>();
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 0);//b0
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 1);//b1
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 2);//b2
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 3);//b3
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RangeType::SRV, 0);//t0
+	DEFAULT_FBX_MATERIAL->rootSignature->AddStaticSampler(0);//s0
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RangeType::SRV, 1);//t1
+	DEFAULT_FBX_MATERIAL->rootSignature->AddStaticSampler(1);//s1
+	DEFAULT_FBX_MATERIAL->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
+
+
+	DEFAULT_FBX_MATERIAL->blenddesc = CreateBlend(BlendMode::AX_BLENDMODE_ALPHA);
+
+	DEFAULT_FBX_MATERIAL->cullMode = D3D12_CULL_MODE_FRONT;
+	//生成
+	DEFAULT_FBX_MATERIAL->Initialize();
+
+	AddMaterial(DEFAULT_FBX_MATERIAL, "DefaultToonModelAnimation");
 }
 
 Material* MaterialManager::CreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE type, BlendMode mode, Shader* vex, Shader* pix)

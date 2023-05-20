@@ -125,6 +125,7 @@
   <ItemGroup>
     <ClInclude Include="Incluede\2D\PostEffect\ChromaticAberrationPostEffect.h" />
     <ClInclude Include="Incluede\2D\Particle\IcosahedronParticle.h" />
+    <ClInclude Include="Incluede\3D\Model\AliceToonModel.h" />
     <ClInclude Include="Incluede\Util\BaseTransform.h" />
     <ClInclude Include="Incluede\Util\Game2DObject.h" />
     <ClInclude Include="Incluede\Util\GameObject.h" />
@@ -195,12 +196,14 @@
     <None Include="..\Resources\Shaders\3D\Model\ModelBasic.hlsli" />
     <None Include="..\Resources\Shaders\3D\Model\ModelSimple.hlsli" />
     <None Include="..\Resources\Shaders\3D\Model\Phong.hlsli" />
+    <None Include="..\Resources\Shaders\3D\Model\TonnModel.hlsli" />
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\2D\PostEffect\ChromaticAberrationPostEffect.cpp" />
     <ClCompile Include="Source\2D\PostEffect\OilPaintingPostEffect.cpp" />
     <ClCompile Include="Source\2D\Particle\IcosahedronParticle.cpp" />
+    <ClCompile Include="Source\3D\Model\AliceToonModel.cpp" />
     <ClCompile Include="Source\Util\BaseTransform.cpp" />
     <ClCompile Include="Source\Util\Game2DObject.cpp" />
     <ClCompile Include="Source\Util\GameObject.cpp" />
@@ -453,6 +456,18 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\3D\Model\ToonModelAnimationVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\3D\Model\ToonModelPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\3D\Model\ToonModelVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

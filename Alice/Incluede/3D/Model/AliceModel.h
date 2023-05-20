@@ -13,6 +13,7 @@ private:
 	//フレンドクラス
 	friend class AliceModel;
 	friend class AliceFileStream;
+	friend class AliceToonModel;
 
 	std::string filePath;
 
@@ -41,7 +42,14 @@ private:
 
 	//アニメーションできるか
 	bool canAnimation = false;
-	char PADING2[5]{};
+
+	bool isToon = false;
+
+	char PADING3[4]{};
+
+	TextureData* rampTex = nullptr;
+
+
 
 	//コピーコンストラクタ・代入演算子削除
 	AliceModelData& operator=(const AliceModelData&) = delete;
@@ -51,7 +59,7 @@ private:
 
 class AliceModel
 {
-private:
+protected:
 
 	static ID3D12Device* device;
 	static ID3D12GraphicsCommandList* cmdList;
@@ -81,14 +89,14 @@ public:
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~AliceModel() = default;
+	virtual ~AliceModel() = default;
 
 	/// <summary>
 	/// 描画
 	/// </summary>
 	/// <param name="transform">ワールド変換データ</param>
 	/// <param name="material">マテリアル(パイプライン)</param>
-	void Draw(Transform& transform, const AliceMotionData* animation = nullptr, float frame = 0.0f, Material* material = nullptr);
+	virtual void Draw(Transform& transform, const AliceMotionData* animation = nullptr, float frame = 0.0f, Material* material = nullptr);
 
 	/// <summary>
 	/// アニメーションの更新
@@ -163,11 +171,18 @@ public:
 	static uint32_t CreateModel(const std::string& fileDirectoryPath);
 
 	/// <summary>
+	/// モデル生成
+	/// </summary>
+	/// <param name="filePath">ファイルディレクトリ</param>
+	/// <returns>ハンドル</returns>
+	static uint32_t CreateToonModel(const std::string& fileDirectoryPath, const std::string& rampFilePath = "Resources/Default/defaultRamp.png");
+
+	/// <summary>
 	/// 共通初期化
 	/// </summary>
 	static void CommonInitialize();
 
-private:
+protected:
 
 	void ReadNodeHeirarchy(ModelMesh* mesh, const AliceMotionData* pAnimation, float AnimationTime, const Node* pNode, const AliceMathF::Matrix4& mxParentTransform);
 	const MotionNode* FindNodeAnim(const AliceMotionData* pAnimation, const std::string& strNodeName);

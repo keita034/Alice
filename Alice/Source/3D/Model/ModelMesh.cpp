@@ -133,6 +133,41 @@ void ModelMesh::AnimDraw(ID3D12GraphicsCommandList* cmdList, Transform& transfor
 	}
 }
 
+void ModelMesh::ToonDraw(ID3D12GraphicsCommandList* cmdList, Transform& transform, D3D12_GPU_DESCRIPTOR_HANDLE rampHandle, Light* light)
+{
+	D3D12_VERTEX_BUFFER_VIEW vbView = vertexBuffer->GetView();
+	D3D12_INDEX_BUFFER_VIEW ibView = indexBuffer->GetView();
+
+	for (TextureData* texture : textures)
+	{
+		// 定数バッファビュー(CBV)の設定コマンド
+		cmdList->SetGraphicsRootConstantBufferView(0, transform.GetAddress());
+		cmdList->SetGraphicsRootConstantBufferView(1, materialBuffer->GetAddress());
+		light->SetConstBufferView(cmdList, 2);
+		// 頂点バッファビューの設定コマンド
+		cmdList->IASetVertexBuffers(0, 1, &vbView);
+
+		//インデックスバッファビューの設定コマンド
+		cmdList->IASetIndexBuffer(&ibView);
+
+		// SRVヒープの設定コマンド
+		ID3D12DescriptorHeap* descriptorHeaps[] = { texture->srvHeap };
+		cmdList->SetDescriptorHeaps(1, descriptorHeaps);
+
+		// SRVヒープの先頭にあるSRVをルートパラメータ2番に設定
+		cmdList->SetGraphicsRootDescriptorTable(4, texture->gpuHandle);
+		cmdList->SetGraphicsRootDescriptorTable(5, rampHandle);
+
+		// 描画コマンド
+		cmdList->DrawIndexedInstanced(static_cast<UINT>(indices.size()), 1, 0, 0, 0);
+	}
+}
+
+void ModelMesh::AnimToonDraw(ID3D12GraphicsCommandList* cmdList, Transform& transform, D3D12_GPU_DESCRIPTOR_HANDLE rampHandle, Light* light)
+{
+
+}
+
 void ModelMesh::Update()
 {
 	for (size_t i = 0; i < vecBones.size(); i++)

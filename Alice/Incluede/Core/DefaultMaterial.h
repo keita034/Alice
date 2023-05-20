@@ -57,6 +57,10 @@ private:
 
 	void CreateDefaultIcosahedronParticleMaterial();
 
+	void CreateDefaultToonModelMaterial();
+
+	void CreateDefaultToonModelAnimationMaterial();
+
 	Material* CreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE type, BlendMode mode, Shader* vex, Shader* pix);
 
 	Material* CreateDefaultSprite2DBlend(BlendMode mode, Shader* vex, Shader* pix);

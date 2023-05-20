@@ -83,8 +83,21 @@ public:
 	/// 描画
 	/// </summary>
 	void Draw(ID3D12GraphicsCommandList* cmdList, Transform& transform, Light* light);
-
+	
+	/// <summary>
+	/// アニメーション描画
+	/// </summary>
 	void AnimDraw(ID3D12GraphicsCommandList* cmdList, Transform& transform, Light* light);
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	void ToonDraw(ID3D12GraphicsCommandList* cmdList, Transform& transform,D3D12_GPU_DESCRIPTOR_HANDLE rampHandle,Light* light);
+
+	/// <summary>
+	/// アニメーション描画
+	/// </summary>
+	void AnimToonDraw(ID3D12GraphicsCommandList* cmdList, Transform& transform, D3D12_GPU_DESCRIPTOR_HANDLE rampHandle, Light* light);
 
 	void Update();
 
