@@ -1,5 +1,5 @@
 # Alice
-## How to Build
+## ビルド方法
 
 Visual Studio 2022 を使用していることを確認してください
 
