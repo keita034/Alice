@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33403.182
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game", "Game.vcxproj", "{9ACC42EC-7306-41C5-8AAD-C22FB6FC2E83}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ALICE", "Alice\ALICE.vcxproj", "{247EA196-F17D-4BB1-8BBA-43EB5693C032}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AliceMath", "AliceMath\AliceMath.vcxproj", "{E19A2BFB-B038-4BEF-A6C7-364D5488E9BA}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AliceCore", "AliceCore\AliceCore.vcxproj", "{0C4E6EB7-9DF9-4089-B866-C3B8815BF856}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game", "Game.vcxproj", "{9ACC42EC-7306-41C5-8AAD-C22FB6FC2E83}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Engine", "Engine", "{2F558543-424A-4AF3-B0F4-991AE2371AEC}"
 EndProject
