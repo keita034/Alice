@@ -1,0 +1,10 @@
+# Alice
+## How to Build
+
+Visual Studio 2022 を使用していることを確認してください
+
+setup.bat を実行してlibファイルをビルドします
+
+Gme.slnを開きます
+
+ビルドして実行する
