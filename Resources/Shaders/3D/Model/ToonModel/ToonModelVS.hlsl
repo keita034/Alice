@@ -1,4 +1,4 @@
-#include"TonnModel.hlsli"
+#include"ToonModel.hlsli"
 
 cbuffer cbuff3 : register(b3)
 {

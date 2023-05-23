@@ -1,4 +1,4 @@
-#include"TonnModel.hlsli"
+#include"Model.hlsli"
 
 // 頂点データ
 static const int MAX_BONE = 128;

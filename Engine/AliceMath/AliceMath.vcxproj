@@ -44,10 +44,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)Alice\lib\include;$(SolutionDir)AliceCore\Incluede;$(SolutionDir)AliceCore\Incluede\Buffer;$(SolutionDir)AliceCore\Incluede\DescriptorHeap</IncludePath>
+    <IncludePath>$(SolutionDir)Engine\Alice\lib\include;$(SolutionDir)Engine\AliceCore\Incluede;$(SolutionDir)Engine\AliceCore\Incluede\Buffer;$(SolutionDir)Engine\AliceCore\Incluede\DescriptorHeap</IncludePath>
     <OutDir>$(SolutionDir)Lib\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
-    <LibraryPath>$(SolutionDir)Alice\lib\lib\debug;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)Engine\Alice\lib\lib\debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(SolutionDir)Alice\lib\include;$(SolutionDir)AliceCore\Incluede;$(SolutionDir)AliceCore\Incluede\Buffer;$(SolutionDir)AliceCore\Incluede\DescriptorHeap;$(IncludePath)</IncludePath>

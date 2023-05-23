@@ -44,10 +44,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)Alice\lib\include;$(SolutionDir)AliceCore\Incluede;$(SolutionDir)AliceCore\Incluede\Buffer;$(SolutionDir)AliceCore\Incluede\DescriptorHeap;$(SolutionDir)AliceMath\Incluede;$(SolutionDir)AliceMath\Incluede\Collision;$(SolutionDir)AliceMath\Incluede\Double;$(SolutionDir)AliceMath\Incluede\Double\Matrix;$(SolutionDir)AliceMath\Incluede\Double\Vector;$(SolutionDir)AliceMath\Incluede\Float;$(SolutionDir)AliceMath\Incluede\Float\Matrix;$(SolutionDir)AliceMath\Incluede\Float\Vector;$(SolutionDir)Alice\Incluede;$(SolutionDir)Alice\Incluede\2D;$(SolutionDir)Alice\Incluede\2D\Particle;$(SolutionDir)Alice\Incluede\2D\PostEffect;$(SolutionDir)Alice\Incluede\2D\Sprite;$(SolutionDir)Alice\Incluede\3D;$(SolutionDir)Alice\Incluede\3D\Model;$(SolutionDir))Alice\Incluede\AliceMath;$(SolutionDir)Alice\Incluede\AliceMath\Collision;$(SolutionDir)Alice\Incluede\AliceMath\float;$(SolutionDir)Alice\Incluede\AliceMath\double;$(SolutionDir)Alice\Incluede\Audio;$(SolutionDir)Alice\Incluede\Camera;$(SolutionDir)Alice\Incluede\Core;$(SolutionDir)Alice\Incluede\Core\Buffer;$(SolutionDir)Alice\Incluede\Core\DirectX;$(SolutionDir)Alice\Incluede\Core\Framework;$(SolutionDir)Alice\Incluede\Input;$(SolutionDir)Alice\Incluede\Light;$(SolutionDir)Alice\Incluede\Scene;$(SolutionDir)Alice\Incluede\Util;$(SolutionDir)AliceInput\Incluede;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Engine\Alice\lib\include;$(SolutionDir)Engine\AliceCore\Incluede;$(SolutionDir)Engine\AliceCore\Incluede\Buffer;$(SolutionDir)Engine\AliceCore\Incluede\DescriptorHeap;$(SolutionDir)Engine\AliceMath\Incluede;$(SolutionDir)Engine\AliceMath\Incluede\Collision;$(SolutionDir)Engine\AliceMath\Incluede\Double;$(SolutionDir)Engine\AliceMath\Incluede\Double\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Double\Vector;$(SolutionDir)Engine\AliceMath\Incluede\Float;$(SolutionDir)Engine\AliceMath\Incluede\Float\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Float\Vector;$(SolutionDir)Engine\Alice\Incluede;$(SolutionDir)Engine\Alice\Incluede\2D;$(SolutionDir)Engine\Alice\Incluede\2D\Particle;$(SolutionDir)Engine\Alice\Incluede\2D\PostEffect;$(SolutionDir)Engine\Alice\Incluede\2D\Sprite;$(SolutionDir)Engine\Alice\Incluede\3D;$(SolutionDir)Engine\Alice\Incluede\3D\Model;$(SolutionDir)Engine\Alice\Incluede\AliceMath;$(SolutionDir)Engine\Alice\Incluede\AliceMath\Collision;$(SolutionDir)Engine\Alice\Incluede\AliceMath\float;$(SolutionDir)Engine\Alice\Incluede\AliceMath\double;$(SolutionDir)Engine\Alice\Incluede\Audio;$(SolutionDir)Engine\Alice\Incluede\Camera;$(SolutionDir)Engine\Alice\Incluede\Core;$(SolutionDir)Engine\Alice\Incluede\Core\Buffer;$(SolutionDir)Engine\Alice\Incluede\Core\DirectX;$(SolutionDir)Engine\Alice\Incluede\Core\Framework;$(SolutionDir)Engine\Alice\Incluede\Input;$(SolutionDir)Engine\Alice\Incluede\Light;$(SolutionDir)Engine\Alice\Incluede\Scene;$(SolutionDir)Engine\Alice\Incluede\Util;$(SolutionDir)Engine\AliceInput\Incluede;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)..\Generated\Outputs\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
-    <LibraryPath>$(SolutionDir)Alice\lib\lib\debug;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)Engine\Alice\lib\lib\debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(SolutionDir)Alice\lib\include;$(SolutionDir)AliceCore\Incluede;$(SolutionDir)AliceCore\Incluede\Buffer;$(SolutionDir)AliceCore\Incluede\DescriptorHeap;$(SolutionDir)AliceMath\Incluede;$(SolutionDir)AliceMath\Incluede\Collision;$(SolutionDir)AliceMath\Incluede\Double;$(SolutionDir)AliceMath\Incluede\Double\Matrix;$(SolutionDir)AliceMath\Incluede\Double\Vector;$(SolutionDir)AliceMath\Incluede\Float;$(SolutionDir)AliceMath\Incluede\Float\Matrix;$(SolutionDir)AliceMath\Incluede\Float\Vector;$(SolutionDir)Alice\Incluede;$(SolutionDir)Alice\Incluede\2D;$(SolutionDir)Alice\Incluede\2D\Particle;$(SolutionDir)Alice\Incluede\2D\PostEffect;$(SolutionDir)Alice\Incluede\2D\Sprite;$(SolutionDir)Alice\Incluede\3D;$(SolutionDir)Alice\Incluede\3D\Model;$(SolutionDir))Alice\Incluede\AliceMath;$(SolutionDir)Alice\Incluede\AliceMath\Collision;$(SolutionDir)Alice\Incluede\AliceMath\float;$(SolutionDir)Alice\Incluede\AliceMath\double;$(SolutionDir)Alice\Incluede\Audio;$(SolutionDir)Alice\Incluede\Camera;$(SolutionDir)Alice\Incluede\Core;$(SolutionDir)Alice\Incluede\Core\Buffer;$(SolutionDir)Alice\Incluede\Core\DirectX;$(SolutionDir)Alice\Incluede\Core\Framework;$(SolutionDir)Alice\Incluede\Input;$(SolutionDir)Alice\Incluede\Light;$(SolutionDir)Alice\Incluede\Scene;$(SolutionDir)Alice\Incluede\Util;$(SolutionDir)AliceInput\Incluede;$(IncludePath)</IncludePath>
@@ -100,20 +100,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ProjectReference Include="AliceCore\AliceCore.vcxproj">
-      <Project>{0c4e6eb7-9df9-4089-b866-c3b8815bf856}</Project>
-    </ProjectReference>
-    <ProjectReference Include="AliceInput\AliceInput.vcxproj">
-      <Project>{e2f9fc0a-2aab-4962-bc4d-b3c96ad2f71d}</Project>
-    </ProjectReference>
-    <ProjectReference Include="AliceMath\AliceMath.vcxproj">
-      <Project>{e19a2bfb-b038-4bef-a6c7-364d5488e9ba}</Project>
-    </ProjectReference>
-    <ProjectReference Include="Alice\ALICE.vcxproj">
-      <Project>{247ea196-f17d-4bb1-8bba-43eb5693c032}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="GameCore\GameMain.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Scene\GameScene.cpp" />
@@ -127,6 +113,20 @@
     <ClInclude Include="Scene\ResultScene.h" />
     <ClInclude Include="Scene\SceneFactrory.h" />
     <ClInclude Include="Scene\TitleScene.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Engine\AliceCore\AliceCore.vcxproj">
+      <Project>{0c4e6eb7-9df9-4089-b866-c3b8815bf856}</Project>
+    </ProjectReference>
+    <ProjectReference Include="Engine\AliceInput\AliceInput.vcxproj">
+      <Project>{e2f9fc0a-2aab-4962-bc4d-b3c96ad2f71d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="Engine\AliceMath\AliceMath.vcxproj">
+      <Project>{e19a2bfb-b038-4bef-a6c7-364d5488e9ba}</Project>
+    </ProjectReference>
+    <ProjectReference Include="Engine\Alice\ALICE.vcxproj">
+      <Project>{247ea196-f17d-4bb1-8bba-43eb5693c032}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

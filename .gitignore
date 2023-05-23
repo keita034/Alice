@@ -41,3 +41,5 @@
 /Alice/lib/lib/debug/pkgconfig
 /Alice/lib/lib/pkgconfig
 /Alice/lib/vcpkg
+/Engine/Alice/lib/include
+/Engine/Alice/lib/lib

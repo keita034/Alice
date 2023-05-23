@@ -4,18 +4,18 @@ chcp 65001
 echo バッチ処理を開始します
 
 echo フォルダ生成開始
-cd %~dp0Alice\lib\
+cd %~dp0Engine\Alice\lib\
 md lib
-cd %~dp0Alice\lib\lib
+cd %~dp0Engine\Alice\lib\lib
 md debug
 echo フォルダ生成終了
 
 echo libファイル生成するためのvcpkg生成開始
-call %~dp0\Alice\lib\vcpkg\bootstrap-vcpkg.bat
+call %~dp0Engine\Alice\lib\vcpkg\bootstrap-vcpkg.bat
 echo libファイル生成するためのvcpkg生成終了
 
 echo libファイル生成開始
-cd %~dp0\Alice\lib\vcpkg
+cd %~dp0Engine\Alice\lib\vcpkg
 
 START /wait vcpkg.exe install imgui[core,dx12-binding,win32-binding]:x64-windows-static 
 echo imgui終了
@@ -32,22 +32,17 @@ echo nlohmann-json終了
 echo libファイル生成終了
 
 echo 生成ファイル移動開始
-cd %~dp0Alice\lib\vcpkg\installed\x64-windows-static\lib
-move *.lib %~dp0\Alice\lib\lib
-move pkgconfig %~dp0\Alice\lib\lib
+cd %~dp0Engine\Alice\lib\vcpkg\installed\x64-windows-static\lib
+move *.lib %~dp0Engine\Alice\lib\lib
+move pkgconfig %~dp0Engine\Alice\lib\lib
 
-cd %~dp0Alice\lib\vcpkg\installed\x64-windows-static\debug\lib
-move *.lib %~dp0\Alice\lib\lib\debug
-move pkgconfig %~dp0\Alice\lib\lib\debug
+cd %~dp0Engine\Alice\lib\vcpkg\installed\x64-windows-static\debug\lib
+move *.lib %~dp0Engine\Alice\lib\lib\debug
+move pkgconfig %~dp0Engine\Alice\lib\lib\debug
 
-cd %~dp0Alice\lib\vcpkg\installed\x64-windows-static
-move include %~dp0\Alice\lib
+cd %~dp0Engine\Alice\lib\vcpkg\installed\x64-windows-static
+move include %~dp0Engine\Alice\lib
 echo 生成ファイル移動終了
-
-echo 不要ファイル削除開始
-cd %~dp0Alice\lib\
-rmdir vcpkg /s /q
-echo 不要ファイル削除終了
 
 echo バッチ処理が終了しました
 

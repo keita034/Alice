@@ -62,7 +62,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)AliceMath\Incluede;$(SolutionDir)AliceMath\Incluede\Collision;$(SolutionDir)AliceMath\Incluede\Collision\2D;$(SolutionDir)AliceMath\Incluede\Collision\3D;$(SolutionDir)AliceMath\Incluede\Double;$(SolutionDir)AliceMath\Incluede\Double\Matrix;$(SolutionDir)AliceMath\Incluede\Double\Vector;$(SolutionDir)AliceMath\Incluede\Float;$(SolutionDir)AliceMath\Incluede\Float\Matrix;$(SolutionDir)AliceMath\Incluede\Float\Vector;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Engine\AliceMath\Incluede;$(SolutionDir)Engine\AliceMath\Incluede\Collision;$(SolutionDir)Engine\AliceMath\Incluede\Collision\2D;$(SolutionDir)Engine\AliceMath\Incluede\Collision\3D;$(SolutionDir)Engine\AliceMath\Incluede\Double;$(SolutionDir)Engine\AliceMath\Incluede\Double\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Double\Vector;$(SolutionDir)Engine\AliceMath\Incluede\Float;$(SolutionDir)Engine\AliceMath\Incluede\Float\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Float\Vector;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)Lib\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>

@@ -1,4 +1,4 @@
-#include"ModelSimple.hlsli"
+#include"Model.hlsli"
 
 cbuffer cbuff3 : register(b3)
 {

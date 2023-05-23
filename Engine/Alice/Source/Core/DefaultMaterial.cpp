@@ -128,15 +128,15 @@ void MaterialManager::CreateDefaultTextureMaterial()
 
 	//頂点シェーダの読み込み
 	DEFAULT_TEXTURE_MATERIAL->vertexShader = std::make_unique<Shader>();
-	DEFAULT_TEXTURE_MATERIAL->vertexShader->Create("Resources/Shaders/3D/Model/ModelBasicVS.hlsl");
+	DEFAULT_TEXTURE_MATERIAL->vertexShader->Create("Resources/Shaders/3D/Model/ModelBasic/ModelBasicVS.hlsl");
 
 	//ジオメトリシェーダの読み込み
 	DEFAULT_TEXTURE_MATERIAL->geometryShader = std::make_unique<Shader>();
-	DEFAULT_TEXTURE_MATERIAL->geometryShader->Create("Resources/Shaders/3D/Model/PolygonEffectGS.hlsl", "main", "gs_5_0", Shader::ShaderType::GS);
+	DEFAULT_TEXTURE_MATERIAL->geometryShader->Create("Resources/Shaders/3D/Model/ModelBasic/PolygonEffectGS.hlsl", "main", "gs_5_0", Shader::ShaderType::GS);
 
 	//ピクセルシェーダの読み込み
 	DEFAULT_TEXTURE_MATERIAL->pixelShader = std::make_unique<Shader>();
-	DEFAULT_TEXTURE_MATERIAL->pixelShader->Create("Resources/Shaders/3D/Model/ModelBasicPS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
+	DEFAULT_TEXTURE_MATERIAL->pixelShader->Create("Resources/Shaders/3D/Model/ModelBasic/ModelBasicPS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	DEFAULT_TEXTURE_MATERIAL->inputLayouts = {
@@ -180,11 +180,11 @@ void MaterialManager::CreateDefaultLambertMaterial()
 
 	//頂点シェーダの読み込み
 	DEFAULT_LAMBERT_MATERIAL->vertexShader = std::make_unique<Shader>();
-	DEFAULT_LAMBERT_MATERIAL->vertexShader->Create("Resources/Shaders/3D/Model/LambertVS.hlsl");
+	DEFAULT_LAMBERT_MATERIAL->vertexShader->Create("Resources/Shaders/3D/Model/Lambert/LambertVS.hlsl");
 
 	//ピクセルシェーダの読み込み
 	DEFAULT_LAMBERT_MATERIAL->pixelShader = std::make_unique<Shader>();
-	DEFAULT_LAMBERT_MATERIAL->pixelShader->Create("Resources/Shaders/3D/Model/LambertPS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
+	DEFAULT_LAMBERT_MATERIAL->pixelShader->Create("Resources/Shaders/3D/Model/Lambert/LambertPS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	DEFAULT_LAMBERT_MATERIAL->inputLayouts = {
@@ -226,11 +226,11 @@ void MaterialManager::CreateDefaultPhongMaterial()
 
 	//頂点シェーダの読み込み
 	DEFAULT_PHONG_MATERIAL->vertexShader = std::make_unique<Shader>();
-	DEFAULT_PHONG_MATERIAL->vertexShader->Create("Resources/Shaders/3D/Model/PhongVS.hlsl");
+	DEFAULT_PHONG_MATERIAL->vertexShader->Create("Resources/Shaders/3D/Model/Phong/PhongVS.hlsl");
 
 	//ピクセルシェーダの読み込み
 	DEFAULT_PHONG_MATERIAL->pixelShader = std::make_unique<Shader>();
-	DEFAULT_PHONG_MATERIAL->pixelShader->Create("Resources/Shaders/3D/Model/PhongPS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
+	DEFAULT_PHONG_MATERIAL->pixelShader->Create("Resources/Shaders/3D/Model/Phong/PhongPS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	DEFAULT_PHONG_MATERIAL->inputLayouts = {
@@ -268,11 +268,11 @@ void MaterialManager::CreateDefaultSprite2DMaterial()
 {
 	//頂点シェーダの読み込み
 	std::unique_ptr<Shader>vertexShader = std::make_unique<Shader>();
-	vertexShader->Create("Resources/Shaders/2D/SpriteVS.hlsl");
+	vertexShader->Create("Resources/Shaders/2D/Sprite/SpriteVS.hlsl");
 
 	//ピクセルシェーダの読み込み
 	std::unique_ptr<Shader>pixelShader = std::make_unique<Shader>();
-	pixelShader->Create("Resources/Shaders/2D/SpritePS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
+	pixelShader->Create("Resources/Shaders/2D/Sprite/SpritePS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
 
 	AddMaterial(CreateDefaultSprite2DBlend(BlendMode::AX_BLENDMODE_NOBLEND, vertexShader.get(), pixelShader.get()), "Sprite2DNoblend");
 	AddMaterial(CreateDefaultSprite2DBlend(BlendMode::AX_BLENDMODE_ALPHA, vertexShader.get(), pixelShader.get()), "Sprite2DAlpha");
@@ -286,11 +286,11 @@ void MaterialManager::CreateDefaultSprite3DMaterial()
 {
 	//頂点シェーダの読み込み
 	std::unique_ptr<Shader>vertexShader = std::make_unique<Shader>();
-	vertexShader->Create("Resources/Shaders/2D/SpriteVS.hlsl");
+	vertexShader->Create("Resources/Shaders/2D/Sprite/SpriteVS.hlsl");
 
 	//ピクセルシェーダの読み込み
 	std::unique_ptr<Shader>pixelShader = std::make_unique<Shader>();
-	pixelShader->Create("Resources/Shaders/2D/SpritePS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
+	pixelShader->Create("Resources/Shaders/2D/Sprite/SpritePS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
 
 	AddMaterial(CreateDefaultSprite3DBlend(BlendMode::AX_BLENDMODE_NOBLEND, vertexShader.get(), pixelShader.get()), "Sprite3DNoblend");
 	AddMaterial(CreateDefaultSprite3DBlend(BlendMode::AX_BLENDMODE_ALPHA, vertexShader.get(), pixelShader.get()), "Sprite3DAlpha");
@@ -309,11 +309,11 @@ void MaterialManager::CreateDefaultFbxMaterial()
 
 	//頂点シェーダの読み込み
 	DEFAULT_FBX_MATERIAL->vertexShader = std::make_unique<Shader>();
-	DEFAULT_FBX_MATERIAL->vertexShader->Create("Resources/Shaders/3D/Model/ModelVS.hlsl");
+	DEFAULT_FBX_MATERIAL->vertexShader->Create("Resources/Shaders/3D/Model/DefaultModel/ModelVS.hlsl");
 
 	//ピクセルシェーダの読み込み
 	DEFAULT_FBX_MATERIAL->pixelShader = std::make_unique<Shader>();
-	DEFAULT_FBX_MATERIAL->pixelShader->Create("Resources/Shaders/3D/Model/ModelPS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
+	DEFAULT_FBX_MATERIAL->pixelShader->Create("Resources/Shaders/3D/Model/DefaultModel/ModelPS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	DEFAULT_FBX_MATERIAL->inputLayouts = {
@@ -358,11 +358,11 @@ void MaterialManager::CreateDefaultFbxAnimationMaterial()
 
 	//頂点シェーダの読み込み
 	DEFAULT_FBX_MATERIAL->vertexShader = std::make_unique<Shader>();
-	DEFAULT_FBX_MATERIAL->vertexShader->Create("Resources/Shaders/3D/Model/ModelAnimationVS.hlsl");
+	DEFAULT_FBX_MATERIAL->vertexShader->Create("Resources/Shaders/3D/Model/DefaultModel/ModelAnimationVS.hlsl");
 
 	//ピクセルシェーダの読み込み
 	DEFAULT_FBX_MATERIAL->pixelShader = std::make_unique<Shader>();
-	DEFAULT_FBX_MATERIAL->pixelShader->Create("Resources/Shaders/3D/Model/ModelPS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
+	DEFAULT_FBX_MATERIAL->pixelShader->Create("Resources/Shaders/3D/Model/DefaultModel/ModelPS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	DEFAULT_FBX_MATERIAL->inputLayouts = {
@@ -404,14 +404,14 @@ void MaterialManager::CreateDefaultParticleMaterial()
 
 	//頂点シェーダの読み込み
 	DEFAULT_PARTICLE_MATERIAL->vertexShader = std::make_unique<Shader>();
-	DEFAULT_PARTICLE_MATERIAL->vertexShader->Create("Resources/Shaders/2D/ParticleVS.hlsl");
+	DEFAULT_PARTICLE_MATERIAL->vertexShader->Create("Resources/Shaders/2D/Particle/ParticleVS.hlsl");
 
 	//ピクセルシェーダの読み込み
 	DEFAULT_PARTICLE_MATERIAL->pixelShader = std::make_unique<Shader>();
-	DEFAULT_PARTICLE_MATERIAL->pixelShader->Create("Resources/Shaders/2D/ParticlePS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
+	DEFAULT_PARTICLE_MATERIAL->pixelShader->Create("Resources/Shaders/2D/Particle/ParticlePS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
 
 	DEFAULT_PARTICLE_MATERIAL->geometryShader = std::make_unique<Shader>();
-	DEFAULT_PARTICLE_MATERIAL->geometryShader->Create("Resources/Shaders/2D/ParticleGS.hlsl", "main", "gs_5_0", Shader::ShaderType::GS);
+	DEFAULT_PARTICLE_MATERIAL->geometryShader->Create("Resources/Shaders/2D/Particle/ParticleGS.hlsl", "main", "gs_5_0", Shader::ShaderType::GS);
 
 	//頂点レイアウト設定
 	DEFAULT_PARTICLE_MATERIAL->inputLayouts = {
@@ -452,11 +452,11 @@ void MaterialManager::CreateDefaultMeshMaterial()
 {
 	//頂点シェーダの読み込み
 	std::unique_ptr<Shader>vertexShader = std::make_unique<Shader>();
-	vertexShader->Create("Resources/Shaders/2D/MeshVS.hlsl");
+	vertexShader->Create("Resources/Shaders/2D/Mesh/MeshVS.hlsl");
 
 	//ピクセルシェーダの読み込み
 	std::unique_ptr<Shader>pixelShader = std::make_unique<Shader>();
-	pixelShader->Create("Resources/Shaders/2D/MeshPS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
+	pixelShader->Create("Resources/Shaders/2D/Mesh/MeshPS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
 
 	//三角形形状用パイプラインセット
 	AddMaterial(CreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, BlendMode::AX_BLENDMODE_NOBLEND, vertexShader.get(), pixelShader.get()), "MashTriangleNoblend");
@@ -485,14 +485,14 @@ void MaterialManager::CreateDefaultRainParticleMaterial()
 
 	//頂点シェーダの読み込み
 	DEFAULT_RAIN_PARTICLE_MATERIAL->vertexShader = std::make_unique<Shader>();
-	DEFAULT_RAIN_PARTICLE_MATERIAL->vertexShader->Create("Resources/Shaders/2D/RainParticleVS.hlsl");
+	DEFAULT_RAIN_PARTICLE_MATERIAL->vertexShader->Create("Resources/Shaders/2D/Particle/RainParticleVS.hlsl");
 
 	//ピクセルシェーダの読み込み
 	DEFAULT_RAIN_PARTICLE_MATERIAL->pixelShader = std::make_unique<Shader>();
-	DEFAULT_RAIN_PARTICLE_MATERIAL->pixelShader->Create("Resources/Shaders/2D/RainParticlePS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
+	DEFAULT_RAIN_PARTICLE_MATERIAL->pixelShader->Create("Resources/Shaders/2D/Particle/RainParticlePS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
 
 	DEFAULT_RAIN_PARTICLE_MATERIAL->geometryShader = std::make_unique<Shader>();
-	DEFAULT_RAIN_PARTICLE_MATERIAL->geometryShader->Create("Resources/Shaders/2D/RainParticleGS.hlsl", "main", "gs_5_0", Shader::ShaderType::GS);
+	DEFAULT_RAIN_PARTICLE_MATERIAL->geometryShader->Create("Resources/Shaders/2D/Particle/RainParticleGS.hlsl", "main", "gs_5_0", Shader::ShaderType::GS);
 
 	//頂点レイアウト設定
 	DEFAULT_RAIN_PARTICLE_MATERIAL->inputLayouts = {
@@ -533,11 +533,11 @@ void MaterialManager::CreateDefaultPostEffectMaterial()
 
 	//頂点シェーダの読み込み
 	DEFAULT_POST_EFFECT_MATERIAL->vertexShader = std::make_unique<Shader>();
-	DEFAULT_POST_EFFECT_MATERIAL->vertexShader->Create("Resources/Shaders/2D/PostEffect/PostEffectTestVS.hlsl");
+	DEFAULT_POST_EFFECT_MATERIAL->vertexShader->Create("Resources/Shaders/2D/PostEffect/PostEffectTest/PostEffectTestVS.hlsl");
 
 	//ピクセルシェーダの読み込み
 	DEFAULT_POST_EFFECT_MATERIAL->pixelShader = std::make_unique<Shader>();
-	DEFAULT_POST_EFFECT_MATERIAL->pixelShader->Create("Resources/Shaders/2D/PostEffect/PostEffectTestPS.hlsl", "main", "ps_5_0");
+	DEFAULT_POST_EFFECT_MATERIAL->pixelShader->Create("Resources/Shaders/2D/PostEffect/PostEffectTest/PostEffectTestPS.hlsl", "main", "ps_5_0");
 
 	//頂点レイアウト設定
 	DEFAULT_POST_EFFECT_MATERIAL->inputLayouts =
@@ -577,14 +577,14 @@ void MaterialManager::CreateDefaultIcosahedronParticleMaterial()
 
 	//頂点シェーダの読み込み
 	DEFAULT_PARTICLE_MATERIAL->vertexShader = std::make_unique<Shader>();
-	DEFAULT_PARTICLE_MATERIAL->vertexShader->Create("Resources/Shaders/2D/ParticleVS.hlsl");
+	DEFAULT_PARTICLE_MATERIAL->vertexShader->Create("Resources/Shaders/2D/Particle/ParticleVS.hlsl");
 
 	//ピクセルシェーダの読み込み
 	DEFAULT_PARTICLE_MATERIAL->pixelShader = std::make_unique<Shader>();
-	DEFAULT_PARTICLE_MATERIAL->pixelShader->Create("Resources/Shaders/2D/ParticlePS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
+	DEFAULT_PARTICLE_MATERIAL->pixelShader->Create("Resources/Shaders/2D/Particle/ParticlePS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
 
 	DEFAULT_PARTICLE_MATERIAL->geometryShader = std::make_unique<Shader>();
-	DEFAULT_PARTICLE_MATERIAL->geometryShader->Create("Resources/Shaders/2D/IcosahedronGS.hlsl", "main", "gs_5_0", Shader::ShaderType::GS);
+	DEFAULT_PARTICLE_MATERIAL->geometryShader->Create("Resources/Shaders/2D/Particle/IcosahedronGS.hlsl", "main", "gs_5_0", Shader::ShaderType::GS);
 
 	//頂点レイアウト設定
 	DEFAULT_PARTICLE_MATERIAL->inputLayouts = {
@@ -632,11 +632,11 @@ void MaterialManager::CreateDefaultToonModelMaterial()
 
 	//頂点シェーダの読み込み
 	DEFAULT_FBX_MATERIAL->vertexShader = std::make_unique<Shader>();
-	DEFAULT_FBX_MATERIAL->vertexShader->Create("Resources/Shaders/3D/Model/ToonModelVS.hlsl");
+	DEFAULT_FBX_MATERIAL->vertexShader->Create("Resources/Shaders/3D/Model/ToonModel/ToonModelVS.hlsl");
 
 	//ピクセルシェーダの読み込み
 	DEFAULT_FBX_MATERIAL->pixelShader = std::make_unique<Shader>();
-	DEFAULT_FBX_MATERIAL->pixelShader->Create("Resources/Shaders/3D/Model/ToonModelPS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
+	DEFAULT_FBX_MATERIAL->pixelShader->Create("Resources/Shaders/3D/Model/ToonModel/ToonModelPS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	DEFAULT_FBX_MATERIAL->inputLayouts = {
@@ -680,11 +680,11 @@ void MaterialManager::CreateDefaultToonModelAnimationMaterial()
 
 	//頂点シェーダの読み込み
 	DEFAULT_FBX_MATERIAL->vertexShader = std::make_unique<Shader>();
-	DEFAULT_FBX_MATERIAL->vertexShader->Create("Resources/Shaders/3D/Model/ToonModelAnimationVS.hlsl");
+	DEFAULT_FBX_MATERIAL->vertexShader->Create("Resources/Shaders/3D/Model/ToonModel/ToonModelAnimationVS.hlsl");
 
 	//ピクセルシェーダの読み込み
 	DEFAULT_FBX_MATERIAL->pixelShader = std::make_unique<Shader>();
-	DEFAULT_FBX_MATERIAL->pixelShader->Create("Resources/Shaders/3D/Model/ToonModelPS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
+	DEFAULT_FBX_MATERIAL->pixelShader->Create("Resources/Shaders/3D/Model/ToonModel/ToonModelPS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	DEFAULT_FBX_MATERIAL->inputLayouts = {
