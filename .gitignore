@@ -37,6 +37,6 @@
 *.pdb
 *.idb
 *.cso
-/Alice/lib
-/Alice/lib/vcpkg
-/Alice/lib/vcpkg
+/Alice/lib/include
+/Alice/lib/lib/debug/pkgconfig
+/Alice/lib/lib/pkgconfig
