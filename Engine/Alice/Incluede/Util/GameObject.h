@@ -9,6 +9,8 @@ class GameObject :public ColliderObject
 {
 protected:
 
+	std::string name;
+
 	//ワールド変換データ
 	Transform transform;
 	//モデル
@@ -19,6 +21,7 @@ protected:
 	char PADING[4];
 
 	virtual ~GameObject() = default;
+	GameObject() = default;
 
 public:
 
@@ -35,7 +38,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	virtual void Initialize(const AliceMathF::Vector3& pos , const AliceMathF::Vector3& rot = {0.0f,0.0f,0.0f}, const AliceMathF::Vector3& scl = { 1.0f,1.0f,1.0 }, Transform* parent = nullptr) = 0;
+	virtual void Initialize(uint32_t handle,const AliceMathF::Vector3& pos , const AliceMathF::Vector3& rot = {0.0f,0.0f,0.0f}, const AliceMathF::Vector3& scl = { 1.0f,1.0f,1.0 },const Transform* parent = nullptr) = 0;
 
 	/// <summary>
 	/// 終了
@@ -56,6 +59,10 @@ public:
 	/// 衝突時に呼ばれる関数
 	/// </summary>
 	virtual void OnCollision()override;
+
+	const Transform* GetTransformPtr()const;
+
+	void SetName(const std::string& objectName);
 
 private:
 

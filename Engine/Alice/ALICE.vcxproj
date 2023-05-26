@@ -178,6 +178,7 @@
     <ClInclude Include="Incluede\Util\Transform2D.h" />
     <ClInclude Include="Incluede\2D\PostEffect\StripedPostEffect.h" />
     <ClInclude Include="Incluede\2D\PostEffect\OilPaintingPostEffect.h" />
+    <ClInclude Include="Incluede\Core\SceneLoader.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Resources\Shaders\2D\Mesh\Mesh.hlsli" />
@@ -201,6 +202,7 @@
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Core\SceneLoader.cpp" />
     <ClCompile Include="Source\2D\PostEffect\ChromaticAberrationPostEffect.cpp" />
     <ClCompile Include="Source\2D\PostEffect\OilPaintingPostEffect.cpp" />
     <ClCompile Include="Source\2D\Particle\IcosahedronParticle.cpp" />

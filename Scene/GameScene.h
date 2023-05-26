@@ -18,6 +18,7 @@
 #include<BaseScene.h>
 #include<Light.h>
 #include<PostEffectManager.h>
+#include<SceneLoader.h>
 
 class GameScene : public BaseScene
 {
@@ -32,11 +33,7 @@ private:
 
 	std::unique_ptr<GameCamera> camera;
 
-	std::unique_ptr<AliceModel> playerModel;
-	std::unique_ptr<AliceToonModel> playerModel2;
-	uint32_t playerModelHandle;
-	uint32_t playerModelHandle2;
-	Transform playerTransform;
+	std::unique_ptr<SceneData> sceneData;
 
 	float angle;
 public:

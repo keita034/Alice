@@ -10,3 +10,13 @@ void GameObject::SetCollider(BaseCollider* coll)
 void GameObject::OnCollision()
 {
 }
+
+const Transform* GameObject::GetTransformPtr() const
+{
+	return &transform;
+}
+
+void GameObject::SetName(const std::string& objectName)
+{
+	name = objectName;
+}
