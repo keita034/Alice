@@ -15,7 +15,7 @@
 #include<RenderTargetBuffer.h>
 
 /// <summary>
-/// スワップチェイン
+/// スワップチェイン(インターフェース)
 /// </summary>
 class ISwapChain
 {
@@ -72,9 +72,17 @@ public:
 /// <summary>
 /// スワップチェインの生成(ユニーク)
 /// </summary>
+/// <param name="swapchain">スワップチェイン</param>
+/// <param name="device_">デバイス</param>
+/// <param name="heap">レンダーターゲット用ディスクリプタヒープ</param>
+/// <returns>生成されたポインタ</returns>
 std::unique_ptr<ISwapChain> CreateUniqueSwapChain(ID3D12Device* device_, const Microsoft::WRL::ComPtr<IDXGISwapChain1>& swapchain_, ID3D12CommandQueue* queue_);
 
 /// <summary>
 /// スワップチェインの生成(シェアード)
 /// </summary>
+/// <param name="swapchain">スワップチェイン</param>
+/// <param name="device_">デバイス</param>
+/// <param name="heap">レンダーターゲット用ディスクリプタヒープ</param>
+/// <returns>生成されたポインタ</returns>
 std::shared_ptr<ISwapChain> CreateSharedSwapChain(ID3D12Device* device_, const Microsoft::WRL::ComPtr<IDXGISwapChain1>& swapchain_, ID3D12CommandQueue* queue_);

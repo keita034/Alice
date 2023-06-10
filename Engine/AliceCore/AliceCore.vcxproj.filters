@@ -72,6 +72,12 @@
     <ClInclude Include="Incluede\SwapChain.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Incluede\Shader.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Incluede\RootSignature.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\DescriptorHeap\RTVDescriptorHeap.cpp">
@@ -117,6 +123,12 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\SwapChain.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Shader.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RootSignature.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

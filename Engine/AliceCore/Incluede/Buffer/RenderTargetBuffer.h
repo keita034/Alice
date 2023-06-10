@@ -13,6 +13,7 @@
 #include<array>
 #include<dxgi1_6.h>
 #include<directx/d3dx12.h>
+#include<memory>
 
 #pragma warning(pop)
 
@@ -78,12 +79,14 @@ public:
 /// <param name="arraySize">配列のサイズ</param>
 /// <param name="format">フォーマット</param>
 /// <param name="clearColor">カラー</param>
+/// <returns>生成されたポインタ</returns>
 std::unique_ptr<IRenderTargetBuffer> CreateUniqueRenderTargetBuffer(uint32_t width_, uint32_t height_, D3D12_RESOURCE_STATES resourceStates_, uint16_t mipLevel_ = 0, uint16_t arraySize_ = 1, DXGI_FORMAT format_ = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, const std::array<float, 4>& clearColor_ = { {1.0f,1.0f,1.0f,1.0f } });
 
 /// <summary>
 /// レンダーターゲットバッファの生成(ユニーク)
 /// </summary>
 /// <param name="swapChain4">スワップチェイン</param>
+/// <returns>生成されたポインタ</returns>
 std::unique_ptr<IRenderTargetBuffer> CreateUniqueRenderTargetBuffer(IDXGISwapChain4* swapChain_, uint32_t index_);
 
 /// <summary>
@@ -96,10 +99,12 @@ std::unique_ptr<IRenderTargetBuffer> CreateUniqueRenderTargetBuffer(IDXGISwapCha
 /// <param name="arraySize">配列のサイズ</param>
 /// <param name="format">フォーマット</param>
 /// <param name="clearColor">カラー</param>
+/// <returns>生成されたポインタ</returns>
 std::shared_ptr<IRenderTargetBuffer> CreateSharedRenderTargetBuffer(uint32_t width_, uint32_t height_, D3D12_RESOURCE_STATES resourceStates_, uint16_t mipLevel_ = 0, uint16_t arraySize_ = 1, DXGI_FORMAT format_ = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, const std::array<float, 4>& clearColor_ = { {1.0f,1.0f,1.0f,1.0f } });
 
 /// <summary>
 /// レンダーターゲットバッファの生成(シェアード)
 /// </summary>
 /// <param name="swapChain4">スワップチェイン</param>
+/// <returns>生成されたポインタ</returns>
 std::shared_ptr<IRenderTargetBuffer> CreateSharedRenderTargetBuffer(IDXGISwapChain4* swapChain_, uint32_t index_);

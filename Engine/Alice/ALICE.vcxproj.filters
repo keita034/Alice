@@ -162,9 +162,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Incluede\Core\DirectX\Shader.h">
-      <Filter>ヘッダー ファイル\Core</Filter>
-    </ClInclude>
     <ClInclude Include="Incluede\Util\AliceFunctionUtility.h">
       <Filter>ヘッダー ファイル\Util</Filter>
     </ClInclude>
@@ -244,9 +241,6 @@
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="Incluede\Core\DirectX\ComputePipelineState.h">
-      <Filter>ヘッダー ファイル\Core\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Core\DirectX\RootSignature.h">
       <Filter>ヘッダー ファイル\Core\DirectX</Filter>
     </ClInclude>
     <ClInclude Include="Incluede\Core\DirectX\PipelineState.h">
@@ -462,12 +456,6 @@
       <Filter>ソース ファイル\Core\DirectX</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\DirectX\PipelineState.cpp">
-      <Filter>ソース ファイル\Core\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\DirectX\RootSignature.cpp">
-      <Filter>ソース ファイル\Core\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\DirectX\Shader.cpp">
       <Filter>ソース ファイル\Core\DirectX</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Framework\AliceFramework.cpp">

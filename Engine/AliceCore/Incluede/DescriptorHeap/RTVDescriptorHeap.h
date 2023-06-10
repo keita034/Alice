@@ -19,7 +19,7 @@
 #pragma warning(pop)
 
 /// <summary>
-/// レンダーターゲットデスクプリタヒープ
+/// レンダーターゲットデスクプリタヒープ(インターフェース)
 /// </summary>
 class IRTVDescriptorHeap
 {
@@ -52,9 +52,11 @@ public:
 /// <summary>
 /// レンダーターゲットデスクプリタヒープの生成(ユニーク)
 /// </summary>
+/// <returns>生成されたポインタ</returns>
 std::unique_ptr<IRTVDescriptorHeap> CreateUniqueRTVDescriptorHeap();
 
 /// <summary>
 /// レンダーターゲットデスクプリタヒープの生成(シェアード)
 /// </summary>
+/// <returns>生成されたポインタ</returns>
 std::shared_ptr<IRTVDescriptorHeap> CreateSharedRTVDescriptorHeap();

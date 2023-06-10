@@ -10,6 +10,7 @@
 #pragma warning(disable: 5039)
 
 #include<directx/d3dx12.h>
+#include<memory>
 
 #pragma warning(pop)
 

@@ -171,8 +171,6 @@
     <ClInclude Include="Incluede\Core\FPS.h" />
     <ClInclude Include="Incluede\Core\Material.h" />
     <ClInclude Include="Incluede\Core\DirectX\PipelineState.h" />
-    <ClInclude Include="Incluede\Core\DirectX\RootSignature.h" />
-    <ClInclude Include="Incluede\Core\DirectX\Shader.h" />
     <ClInclude Include="Incluede\Core\TextureManager.h" />
     <ClInclude Include="Incluede\Light\Light.h" />
     <ClInclude Include="Incluede\Util\AliceFunctionUtility.h" />
@@ -252,8 +250,6 @@
     <ClCompile Include="Source\Core\FPS.cpp" />
     <ClCompile Include="Source\Core\Material.cpp" />
     <ClCompile Include="Source\Core\DirectX\PipelineState.cpp" />
-    <ClCompile Include="Source\Core\DirectX\RootSignature.cpp" />
-    <ClCompile Include="Source\Core\DirectX\Shader.cpp" />
     <ClCompile Include="Source\Core\TextureManager.cpp" />
     <ClCompile Include="Source\Light\Light.cpp" />
     <ClCompile Include="Source\Util\AliceFunctionUtility.cpp" />

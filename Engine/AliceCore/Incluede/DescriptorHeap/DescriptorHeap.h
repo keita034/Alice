@@ -19,7 +19,7 @@
 #pragma warning(pop)
 
 /// <summary>
-/// デスクプリタヒープ
+/// デスクプリタヒープ(インターフェース)
 /// </summary>
 class IDescriptorHeap
 {
@@ -92,10 +92,12 @@ public:
 /// <summary>
 /// デスクプリタヒープの生成(ユニーク)
 /// </summary>
+/// <returns>生成されたポインタ</returns>
 std::unique_ptr<IDescriptorHeap> CreateUniqueDescriptorHeap();
 
 /// <summary>
 /// デスクプリタヒープの生成(シェアード)
 /// </summary>
+/// <returns>生成されたポインタ</returns>
 std::shared_ptr<IDescriptorHeap> CreateSharedDescriptorHeap();
 

@@ -21,7 +21,7 @@
 #pragma warning(pop)
 
 /// <summary>
-/// ウィンドウクラス
+/// ウィンドウクラス(インターフェース)
 /// </summary>
 class IWindowsApp
 {
@@ -116,6 +116,7 @@ public:
 /// <param name="title">タイトル(ワイド文字)</param>
 /// <param name="width">ウィンドウ横幅</param>
 /// <param name="height">ウィンドウ横幅</param>
+/// <returns>生成されたポインタ</returns>
 std::unique_ptr<IWindowsApp> CreateUniqueWindowsApp(const std::wstring& title_ = L"DirectXGame", uint32_t width_ = 1280, uint32_t height_ = 720);
 
 /// <summary>
@@ -124,4 +125,5 @@ std::unique_ptr<IWindowsApp> CreateUniqueWindowsApp(const std::wstring& title_ =
 /// <param name="title">タイトル(ワイド文字)</param>
 /// <param name="width">ウィンドウ横幅</param>
 /// <param name="height">ウィンドウ横幅</param>
+/// <returns>生成されたポインタ</returns>
 std::shared_ptr<IWindowsApp> CreateSharedWindowsApp(const std::wstring& title_ = L"DirectXGame", uint32_t width_ = 1280, uint32_t height_ = 720);

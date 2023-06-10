@@ -297,8 +297,8 @@ void WindowsApp::ShowDefaultWindow(uint64_t width_, uint64_t height_)
 	uint64_t lNewWidth = width_ + (lRX.right - lRX.left) - (lCX.right - lCX.left);
 	uint64_t lNewHeight = height_ + (lRX.bottom - lRX.top) - (lCX.bottom - lCX.top);
 
-	uint64_t lDisplayWidth = GetSystemMetrics(SM_CXSCREEN);
-	uint64_t lDisplayHeight = GetSystemMetrics(SM_CYSCREEN);
+	uint64_t lDisplayWidth = static_cast<uint64_t>(GetSystemMetrics(SM_CXSCREEN));
+	uint64_t lDisplayHeight = static_cast<uint64_t>(GetSystemMetrics(SM_CYSCREEN));
 
 	windowRect.left = static_cast<LONG>((lDisplayWidth - lNewWidth) / 2);
 	windowRect.top = static_cast<LONG>((lDisplayHeight - lNewHeight) / 2);

@@ -1,5 +1,6 @@
 ﻿#pragma once
 #pragma warning(push)
+#pragma warning(disable: 4061)
 #pragma warning(disable: 4062)
 #pragma warning(disable: 4265)
 #pragma warning(disable: 4365)
@@ -14,20 +15,17 @@
 #pragma warning(disable: 5220)
 
 #include<directx/d3d12.h>
-#include<wrl.h>
-#include<vector>
-#include<directx/d3dx12.h>
-#include<cassert>
-
+#include<memory>
 
 #pragma warning(pop)
 
 /// <summary>
-/// ルートシグネチャ
+/// ルートシグネチャ(インターフェース)
 /// </summary>
-class RootSignature
+class IRootSignature
 {
 public:
+
 	/// <summary>
 	/// ルートパラメータタイプ
 	/// </summary>
@@ -62,78 +60,66 @@ public:
 	/// </summary>
 	/// <param name="type">種類</param>
 	/// <param name="shaderRegister">バッファ番号</param>
-	/// <param name="registerSpace">レジスタースペース(基本的に0でいいような気がする)</param>
-	void Add(RootType type, UINT shaderRegister, UINT registerSpace = 0);
+	/// <param name="registerSpace">レジスタースペース</param>
+	virtual void Add(RootType type_, uint32_t shaderRegister_, uint32_t registerSpace_ = 0) = 0;
 
 	/// <summary>
 	/// レンジを追加
 	/// </summary>
 	/// <param name="type">種類</param>
 	/// <param name="shaderRegister">バッファ番号</param>
-	/// <param name="registerSpace">レジスタースペース(基本的に0でいいような気がする)</param>
+	/// <param name="registerSpace">レジスタースペース</param>
 	/// <param name="descriptorCount">一度に使うテクスチャや定数バッファ</param>
-	void Add(RangeType type, UINT shaderRegister, UINT registerSpace = 0, UINT descriptorCount = 1);
+	virtual void Add(RangeType type_, uint32_t shaderRegister_, uint32_t registerSpace_ = 0, uint32_t descriptorCount_ = 1) = 0;
 
 	/// <summary>
 	/// サンプラーを追加
 	/// </summary>
 	/// <param name="shaderRegister">バッファ番号</param>
-	/// <param name="registerSpace">レジスタースペース(基本的に0でいいような気がする)</param>
+	/// <param name="registerSpace">レジスタースペース</param>
 	/// <param name="filter">フィルター</param>
 	/// <param name="addressU">Uのアドレスモード</param>
 	/// <param name="addressV">Vのアドレスモード</param>
 	/// <param name="addressW">Wのアドレスモード</param>
-	void AddStaticSampler(
-		UINT shaderRegister,
-		UINT registerSpace = 0,
-		D3D12_FILTER filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR,
-		AddressMode addressU = AddressMode::Wrap,
-		AddressMode addressV = AddressMode::Wrap,
-		AddressMode addressW = AddressMode::Wrap
-	);
+	virtual void AddStaticSampler(
+		uint32_t shaderRegister_,
+		uint32_t registerSpace_ = 0,
+		D3D12_FILTER filter_ = D3D12_FILTER_MIN_MAG_MIP_LINEAR,
+		AddressMode addressU_ = AddressMode::Wrap,
+		AddressMode addressV_ = AddressMode::Wrap,
+		AddressMode addressW_ = AddressMode::Wrap
+	) = 0;
 
 	/// <summary>
 	/// 生成
 	/// </summary>
-	void Clear();
+	virtual void Clear() = 0;
 
 	/// <summary>
 	/// 生成
 	/// </summary>
 	/// <param name="device">デバイス</param>
-	void Create(ID3D12Device* device);
+	virtual void Create(ID3D12Device* device_) = 0;
 
 	/// <summary>
 	/// ルートシグネチャ取得
 	/// </summary>
-	ID3D12RootSignature* GetRootSignature();
+	virtual const ID3D12RootSignature* GetRootSignature() = 0;
 
-	RootSignature() = default;
-	~RootSignature() = default;
-
-private:
-
-	/// <summary>
-	/// パラメーター
-	/// </summary>
-	std::vector<D3D12_ROOT_PARAMETER>params;
-
-	/// <summary>
-	/// レンジ
-	/// </summary>
-	std::vector<D3D12_DESCRIPTOR_RANGE>ranges;
-
-
-	std::vector<UINT>rangeLocation;
-
-	/// <summary>
-	/// サンプラー
-	/// </summary>
-	std::vector<D3D12_STATIC_SAMPLER_DESC>samplers;
-
-	/// <summary>
-	/// ルートシグネチャ
-	/// </summary>
-	Microsoft::WRL::ComPtr<ID3D12RootSignature>rootSignature;
+	IRootSignature() = default;
+	virtual ~IRootSignature() = default;
 };
 
+/// <summary>
+/// ルートシグネチャの生成(ユニーク)
+/// </summary>
+/// <param name="device">デバイス</param>
+/// <returns>生成されたポインタ</returns>
+std::unique_ptr<IRootSignature> CreateUniqueRootSignature(ID3D12Device* device_);
+
+/// <summary>
+/// ルートシグネチャの生成(シェアード)
+/// </summary>
+/// <param name="device">デバイス</param>
+/// <returns>生成されたポインタ</returns>
+std::shared_ptr<IRootSignature> CreateSharedRootSignature(ID3D12Device* device_);

@@ -19,7 +19,7 @@
 #pragma warning(pop)
 
 /// <summary>
-/// 深度デスクプリタヒープ
+/// 深度デスクプリタヒープ(インターフェース)
 /// </summary>
 class IDSVDescriptorHeap
 {
@@ -57,9 +57,11 @@ public:
 /// <summary>
 /// 深度デスクプリタヒープの生成(ユニーク)
 /// </summary>
+/// <returns>生成されたポインタ</returns>
 std::unique_ptr<IDSVDescriptorHeap> CreateUniqueDSVDescriptorHeap();
 
 /// <summary>
 /// 深度デスクプリタヒープの生成(シェアード)
 /// </summary>
+/// <returns>生成されたポインタ</returns>
 std::shared_ptr<IDSVDescriptorHeap> CreateSharedDSVDescriptorHeap();
