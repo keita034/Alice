@@ -45,8 +45,7 @@ void Sprite::SpriteDraw(Transform& transform, Material* material)
 void Sprite::CreatVertexIndexBuffer()
 {
 	//頂点バッファの生成
-	vertexBuffer = std::make_unique<VertexBuffer>();
-	vertexBuffer->Create(4, sizeof(PosUvColor));
+	vertexBuffer = CreateVertexBuffer(4, sizeof(PosUvColor));
 
 	//インデックスバッファの生成
 	indexBuffer = std::make_unique<IndexBuffer>();

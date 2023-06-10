@@ -16,7 +16,7 @@ private:
 	//カプセルの中心線分
 	Segment2D segment;
 	//長さ
-	float length;
+	float length_;
 
 	char PADING2[4]{};
 
@@ -89,12 +89,12 @@ public:
 	/// <summary>
 	/// 線分の長さを生成
 	/// </summary>
-	void SetLength();
+	void Setlength_();
 
 	/// <summary>
 	/// 線分の長さを取得
 	/// </summary>
-	float GetLength();
+	float Getlength_();
 
 };
 

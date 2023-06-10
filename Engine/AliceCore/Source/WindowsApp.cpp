@@ -2,6 +2,16 @@
 
 #pragma comment( lib, "shell32.lib" )
 
+#pragma once
+#pragma warning(push)
+#pragma warning(disable: 4514)
+#pragma warning(disable: 4668)
+#pragma warning(disable: 4820)
+#pragma warning(disable: 5039)
+
+#include<imgui.h>
+#pragma warning(pop)
+
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 //ウインドウプロシージャ
@@ -14,15 +24,13 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 	}
 
 	//メッセージに応じてゲーム固有の処理を行う
-	switch (msg) {
+	switch (msg)
+	{
 
-	//描画して欲しい
 	case WM_PAINT:
-		//GetInstance()->renderShould = true;
 		return 0;
 
 	case WM_SIZE:
-		/*GetInstance()->isSizeChanged = true;*/
 		return 0;
 
 	//ウィンドウが破棄された
@@ -34,6 +42,109 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 	//標準のメッセージ処理を行う
 	return DefWindowProc(hwnd, msg, wparam, lparam);
 }
+
+/// <summary>
+/// ウィンドウクラス
+/// </summary>
+class WindowsApp :public IWindowsApp
+{
+private:
+	//ウィンドウクラス
+	WNDCLASSEX wndclassex{};
+	//ハンドル
+	HWND hwnd;
+	//メッセージ
+	MSG massege{};
+	//横幅
+	uint32_t windowWidth;
+	//縦幅
+	uint32_t windowHeight;
+	//ウインドウスタイル(サイズ変更できない・最大化できない)
+	DWORD windowStyle = WS_OVERLAPPEDWINDOW & ~(WS_MAXIMIZEBOX | WS_THICKFRAME);
+
+	//レンダーすべきか
+	bool renderShould = false;
+	//サイズが変更されたか
+	bool isSizeChanged = false;
+	char PADING[2];
+
+	RECT windowRect;
+
+public:
+
+	/// <summary>
+	/// ウィンドウ生成
+	/// </summary>
+	/// <param name="title">タイトル(ワイド文字)</param>
+	/// <param name="width">ウィンドウ横幅</param>
+	/// <param name="height">ウィンドウ横幅</param>
+	void CreatWindow(const std::wstring& title_, uint32_t width_, uint32_t height_) override;
+
+	/// <summary>
+	/// メッセージ処理
+	/// </summary>
+	bool MessageWindow() override;
+
+	/// <summary>
+	/// 後始末
+	/// </summary>
+	void Break() override;
+
+	/// <summary>
+	/// ウィンドウクラスを取得
+	/// </summary>
+	WNDCLASSEX* GetWndclassex() override;
+
+	/// <summary>
+	/// ハンドルを取得
+	/// </summary>
+	HWND* GetHwnd() override;
+
+	/// <summary>
+	/// ウィンドサイズを取得
+	/// </summary>
+	WindowsSize GetWindowSize() override;
+
+	/// <summary>
+	/// ボーダーレスのフルスクリーン
+	/// </summary>
+	void ShowFullScreen() override;
+
+	/// <summary>
+	/// ボーダーレスのフルスクリーン
+	/// </summary>
+	void ShowDefaultWindow(uint64_t width_, uint64_t height_) override;
+
+	/// <summary>
+	/// 描画するか(画面)
+	/// </summary>
+	const bool& RenderShould() override;
+
+	/// <summary>
+	/// フラグをfalseに
+	/// </summary>
+	void RenderShouldFalse() override;
+
+	/// <summary>
+	/// サイズが変更されたか
+	/// </summary>
+	const bool& IsSizeChanged() override;
+
+	/// <summary>
+	/// フラグをfalseに
+	/// </summary>
+	void IsSizeChangedFalse() override;
+
+	/// <summary>
+	/// 現在のウィンドウサイズ
+	/// </summary>
+	/// <returns></returns>
+	WindowsSize GetNowWindowSize() override;
+
+	//コンストラクタ・デストラクタ
+	WindowsApp() = default;
+	~WindowsApp() = default;
+};
 
 const bool& WindowsApp::RenderShould()
 {
@@ -64,27 +175,16 @@ WindowsApp::WindowsSize WindowsApp::GetNowWindowSize()
 	return WindowsSize(windowWidth, windowHeight);
 }
 
-WindowsApp* WindowsApp::GetInstance()
-{
-	//シングルトン
-	static	WindowsApp windowsApp_;
-	return &windowsApp_;
-}
 
-WindowsApp::WindowsSize WindowsApp::GetWindowsSize()
+void WindowsApp::CreatWindow(const std::wstring& title_, uint32_t width_, uint32_t height_)
 {
-	return GetInstance()->GetWindowSize();
-}
-
-void WindowsApp::CreatWindow(const wchar_t* title, UINT width, UINT height)
-{
-	windowHeight = height;
-	windowWidth = width;
+	windowHeight = height_;
+	windowWidth = width_;
 
 	//ウインドウクラスの設定
 	wndclassex.cbSize = sizeof(WNDCLASSEX);
 	wndclassex.lpfnWndProc = (WNDPROC)WindowProc;//ウインドウプロシージャを設定
-	wndclassex.lpszClassName = title;//ウインドウクラス名
+	wndclassex.lpszClassName = title_.c_str();//ウインドウクラス名
 	wndclassex.hInstance = GetModuleHandle(nullptr);//ウインドウハンドル
 	wndclassex.hCursor = LoadCursor(NULL, IDC_ARROW);//カーソル指定
 	wndclassex.hIcon = (HICON)LoadImage(NULL, L"ICON.ICO", IMAGE_ICON, 32, 32, LR_DEFAULTCOLOR);
@@ -100,7 +200,7 @@ void WindowsApp::CreatWindow(const wchar_t* title, UINT width, UINT height)
 
 	//ウインドウオブジェクトの生成
 	hwnd = CreateWindow(wndclassex.lpszClassName,//クラス名
-		title,				//タイトルバーの文字
+		title_.c_str(),				//タイトルバーの文字
 		windowStyle,		//標準的なウインドウスタイル
 		CW_USEDEFAULT,				//表示X座標(OSに任せる)
 		CW_USEDEFAULT,				//表示Y座標(OSに任せる)
@@ -164,15 +264,15 @@ void WindowsApp::ShowFullScreen()
 {
 	SetWindowLong(hwnd, GWL_STYLE, static_cast<LONG>(windowStyle) & ~(WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU));
 
-	DEVMODE devMode = {};
-	devMode.dmSize = sizeof(DEVMODE);
-	EnumDisplaySettings(nullptr, ENUM_CURRENT_SETTINGS, &devMode);
+	DEVMODE lDevMode = {};
+	lDevMode.dmSize = sizeof(DEVMODE);
+	EnumDisplaySettings(nullptr, ENUM_CURRENT_SETTINGS, &lDevMode);
 
 	windowRect = {
-		devMode.dmPosition.x,
-		devMode.dmPosition.y,
-		devMode.dmPosition.x + static_cast<LONG>(devMode.dmPelsWidth),
-		devMode.dmPosition.y + static_cast<LONG>(devMode.dmPelsHeight)
+		lDevMode.dmPosition.x,
+		lDevMode.dmPosition.y,
+		lDevMode.dmPosition.x + static_cast<LONG>(lDevMode.dmPelsWidth),
+		lDevMode.dmPosition.y + static_cast<LONG>(lDevMode.dmPelsHeight)
 	};
 
 	SetWindowPos(
@@ -188,35 +288,28 @@ void WindowsApp::ShowFullScreen()
 	ShowWindow(hwnd, SW_NORMAL);
 }
 
-void WindowsApp::ShowDefaultWindow(LONG h, LONG w)
+void WindowsApp::ShowDefaultWindow(uint64_t width_, uint64_t height_)
 {
 	SetWindowLong(hwnd, GWL_STYLE, static_cast<LONG>(windowStyle));
-	
-	RECT rx; //ウィンドウ領域
-	RECT cx; //クライアント領域
-	GetWindowRect(hwnd, &rx);
-	GetClientRect(hwnd, &cx);
 
-	 LONG newWidth = w + (rx.right - rx.left) - (cx.right - cx.left);
-	 LONG newHeight = h + (rx.bottom - rx.top) - (cx.bottom - cx.top);
+	RECT lRX; //ウィンドウ領域
+	RECT lCX; //クライアント領域
+	GetWindowRect(hwnd, &lRX);
+	GetClientRect(hwnd, &lCX);
 
-	 LONG displayWidth = GetSystemMetrics(SM_CXSCREEN);
-	 LONG displayHeight = GetSystemMetrics(SM_CYSCREEN);
+	uint64_t lNewWidth = width_ + (lRX.right - lRX.left) - (lCX.right - lCX.left);
+	uint64_t lNewHeight = height_ + (lRX.bottom - lRX.top) - (lCX.bottom - lCX.top);
 
-	windowRect.left = (displayWidth - newWidth) / 2;
-	windowRect.top = (displayHeight - newHeight) / 2;
-	windowRect.right = newWidth;
-	windowRect.bottom = newHeight;
+	uint64_t lDisplayWidth = GetSystemMetrics(SM_CXSCREEN);
+	uint64_t lDisplayHeight = GetSystemMetrics(SM_CYSCREEN);
 
-	LONG left, top;
-	left = windowRect.left;
-	top = windowRect.top;
+	windowRect.left = static_cast<LONG>((lDisplayWidth - lNewWidth) / 2);
+	windowRect.top = static_cast<LONG>((lDisplayHeight - lNewHeight) / 2);
+	windowRect.right = static_cast<LONG>(lNewWidth);
+	windowRect.bottom = static_cast<LONG>(lNewHeight);
 
-	//自動でサイズを補正する
-	//AdjustWindowRect(&windowRect, windowStyle, false);
-
-	windowHeight = static_cast<UINT>(h);
-	windowWidth = static_cast<UINT>(w);
+	windowHeight = static_cast<UINT>(height_);
+	windowWidth = static_cast<UINT>(width_);
 
 	SetWindowPos(hwnd, HWND_NOTOPMOST,
 		windowRect.left,
@@ -227,4 +320,18 @@ void WindowsApp::ShowDefaultWindow(LONG h, LONG w)
 
 	//ウインドウを表示状態にする
 	ShowWindow(hwnd, SW_SHOW);
+}
+
+std::unique_ptr<IWindowsApp> CreateUniqueWindowsApp(const std::wstring& title_, uint32_t width_, uint32_t height_)
+{
+	std::unique_ptr<IWindowsApp> lWindowsApp = std::make_unique<WindowsApp>();
+	lWindowsApp->CreatWindow(title_, width_, height_);
+	return std::move(lWindowsApp);
+}
+
+std::shared_ptr<IWindowsApp> CreateSharedWindowsApp(const std::wstring& title_, uint32_t width_, uint32_t height_)
+{
+	std::shared_ptr<IWindowsApp> lWindowsApp = std::make_shared<WindowsApp>();
+	lWindowsApp->CreatWindow(title_, width_, height_);
+	return lWindowsApp;
 }

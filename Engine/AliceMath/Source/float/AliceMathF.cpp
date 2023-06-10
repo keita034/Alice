@@ -283,10 +283,10 @@ namespace AliceMathF
 		return a + num * Clamp01(t);
 	}
 
-	// tはlengthより大きくはならず0より小さくならず、その間をループ(float)
-	float Repeat(float t, float length)
+	// tはlength_より大きくはならず0より小さくならず、その間をループ(float)
+	float Repeat(float t, float length_)
 	{
-		return Clamp(t - Floor(t / length) * length, 0.0f, length);
+		return Clamp(t - Floor(t / length_) * length_, 0.0f, length_);
 	}
 
 	// 現在地から目的地まで一定速度で移動
@@ -373,11 +373,11 @@ namespace AliceMathF
 		return num7;
 	}
 
-	// tが0とlengthの間で往復する(0～length)
-	float PingPong(float t, float length)
+	// tが0とlength_の間で往復する(0～length_)
+	float PingPong(float t, float length_)
 	{
-		t = Repeat(t, length * 2.0f);
-		return length - Abs(t - length);
+		t = Repeat(t, length_ * 2.0f);
+		return length_ - Abs(t - length_);
 	}
 
 	// lerpの補間値を出す
@@ -487,14 +487,14 @@ namespace AliceMathF
 	Vector3 CatmullRomSpline(std::vector<Vector3>& points, float t)
 	{
 
-		float length = static_cast<float>(points.size());
-		float progress = (length - 1) * t;
+		float length_ = static_cast<float>(points.size());
+		float progress = (length_ - 1) * t;
 		float index = std::floor(progress);
 		float weight = progress - index;
 
-		if (Approximately(weight, 0.0f) && index >= length - 1)
+		if (Approximately(weight, 0.0f) && index >= length_ - 1)
 		{
-			index = length - 2;
+			index = length_ - 2;
 			weight = 1;
 		}
 
@@ -512,7 +512,7 @@ namespace AliceMathF
 			p2 = points[static_cast<size_t>(index + 1.0f)] - points[static_cast<size_t>(index)];
 		}
 
-		if (index < length - 2.0f)
+		if (index < length_ - 2.0f)
 		{
 			p3 = 0.5f * (points[static_cast<size_t>(index + 2.0f)] - points[static_cast<size_t>(index)]);
 		}

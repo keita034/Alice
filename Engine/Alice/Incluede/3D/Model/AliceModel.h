@@ -24,7 +24,7 @@ private:
 	std::string name;
 
 	//メッシュ配列
-	std::vector<ModelMesh> meshes;
+	std::vector<std::unique_ptr<ModelMesh>> meshes;
 
 	//姿勢行列
 	std::unique_ptr<ConstantBuffer> postureMatBuff;
@@ -149,7 +149,7 @@ public:
 	/// メッシュ配列を取得
 	/// </summary>
 	/// <returns></returns>
-	const std::vector<ModelMesh>& GetMeshs();
+	const std::vector<std::unique_ptr<ModelMesh>>& GetMeshs();
 
 	/// <summary>
 	/// モデルをセット
@@ -175,7 +175,7 @@ public:
 	/// </summary>
 	/// <param name="filePath">ファイルディレクトリ</param>
 	/// <returns>ハンドル</returns>
-	static uint32_t CreateToonModel(const std::string& fileDirectoryPath, const std::string& rampFilePath = "Resources/Default/defaultRamp.png");
+	static uint32_t CreateToonModel(const std::string& fileDirectoryPath, const std::string& rampFilePath = "Resources/Default/Ramp.png");
 
 	/// <summary>
 	/// 共通初期化

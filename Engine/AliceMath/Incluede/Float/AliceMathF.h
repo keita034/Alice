@@ -233,11 +233,11 @@ namespace AliceMathF
 	float LerpAngle(float a, float b, float t);
 
 	/// <summary>
-	/// tはlengthより大きくはならず0より小さくならず、その間をループ
+	/// tはlength_より大きくはならず0より小さくならず、その間をループ
 	/// </summary>
 	/// <param name="t">値</param>
-	/// <param name="length">指定値</param>
-	float Repeat(float t, float length);
+	/// <param name="length_">指定値</param>
+	float Repeat(float t, float length_);
 
 	/// <summary>
 	/// 現在地から目的地まで一定速度で移動
@@ -288,9 +288,9 @@ namespace AliceMathF
 	float SmoothDamp(float current, float target, float& currentVelocity, float smoothTime, float maxSpeed, float deltaTime);
 
 	/// <summary>
-	/// tが0とlengthの間で往復する(0～length)
+	/// tが0とlength_の間で往復する(0～length_)
 	/// </summary>
-	float PingPong(float t, float length);
+	float PingPong(float t, float length_);
 
 	/// <summary>
 	/// lerpの補間値を出す

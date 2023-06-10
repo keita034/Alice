@@ -47,7 +47,7 @@ private:
 
 	static void ReadMeshsData(std::stringstream& data, std::string& str, AliceModelData* model);
 
-	static void ReadMeshData(std::stringstream& data, std::string& str, ModelMesh& mesh, std::vector<Node>& nodes);
+	static void ReadMeshData(std::stringstream& data, std::string& str, std::unique_ptr<ModelMesh>& mesh, std::vector<Node>& nodes);
 
 	static void ReadHesderData(std::stringstream& data, std::string& str, AliceModelData* model);
 

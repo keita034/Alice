@@ -1,12 +1,12 @@
 ﻿#include "BaseDescriptorHeap.h"
 
-ID3D12Device* BaseDescriptorHeap::device = nullptr;
+ID3D12Device* BaseDescriptorHeap::sDevice = nullptr;
 
-void BaseDescriptorHeap::SetDevice(ID3D12Device* dev)
+void BaseDescriptorHeap::SSetDevice(ID3D12Device* device_)
 {
-	if (!device)
+	if (!sDevice)
 	{
-		device = dev;
+		sDevice = device_;
 	}
 
 }

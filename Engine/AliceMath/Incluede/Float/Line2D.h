@@ -13,7 +13,7 @@ private:
 	//軸の方向
 	AliceMathF::Vector2 axis;
 	//長さ
-	float length;
+	float length_;
 
 public:
 
@@ -43,11 +43,11 @@ public:
 	/// <summary>
 	/// 長さをセット
 	/// </summary>
-	void SetLength(float len);
+	void Setlength_(float len);
 
 	/// <summary>
 	/// 長さを取得
 	/// </summary>
-	float GetLength();
+	float Getlength_();
 };
 

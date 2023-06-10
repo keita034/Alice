@@ -33,15 +33,15 @@ namespace AliceMathF
 
 		Vector4(const DirectX::XMVECTOR& vec);//成分を指定して生成
 
-		float Length()const;//ノルムを求める
-		float LengthSquared()const;
+		float length_()const;//ノルムを求める
+		float length_Squared()const;
 		Vector4 Normalization()const;//正規化する
 		Vector4& Normal();//正規化する
 		float Dot(const Vector4& v)const;//内積を求める
 		Vector4 Cross(const Vector4& v)const;//外積を求める
 
-		float Vector3Length()const;//ノルムを求める
-		float Vector3LengthSquared()const;
+		float Vector3length_()const;//ノルムを求める
+		float Vector3length_Squared()const;
 		Vector4 Vector3Normalization()const;//正規化する
 		Vector4& Vector3Normal();//正規化する
 		float Vector3Dot(const Vector4& v)const;//内積を求める

@@ -387,6 +387,12 @@
     <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModel.hlsli">
       <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
     </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelOutLine.hlsli">
+      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ZeldaToonModel.hlsli">
+      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Core\TextureManager.cpp">
@@ -680,6 +686,24 @@
       <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
     </FxCompile>
     <FxCompile Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelAnimationVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelOutLineVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelOutLinePS.hlsl">
+      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelAnimationOutLineVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\3D\Model\ToonModel\ZeldaToonModelPS.hlsl">
+      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\3D\Model\ToonModel\ZeldaToonModelAnimationVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\3D\Model\ToonModel\ZeldaToonModelVS.hlsl">
       <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
     </FxCompile>
   </ItemGroup>

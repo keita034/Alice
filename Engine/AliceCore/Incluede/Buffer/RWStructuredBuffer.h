@@ -13,88 +13,109 @@
 
 #pragma warning(pop)
 
-#include"BaseBuffer.h"
-
 /// <summary>
-/// 書き込みと読み込み用構造化バッファ
+/// 書き込みと読み込み用構造化バッファ(インタフェース)
 /// </summary>
-class RWStructuredBuffer : public BaseBuffer
+class IRWStructuredBuffer
 {
-
-private:
-
-	void* BufferMappedPtr = nullptr;
-
-	//個数
-	size_t bufferLength;
-
-	//データ一つ分のサイズ
-	size_t bufferSingleSize;
-
-	D3D12_GPU_DESCRIPTOR_HANDLE structuredBufferHandle;
 public:
-	
+
 	/// <summary>
 	/// シェーダーリソースビューを生成
 	/// </summary>
-	/// <param name="length">要素数</param>
-	/// <param name="singleSize">要素1つ分のデータサイズ</param>
-	/// <param name="data">データ</param>
-	void CreateSRV(size_t length, size_t singleSize, const void* data = nullptr);
+	/// <param name="length_">要素数</param>
+	/// <param name="singleSize_">要素1つ分のデータサイズ</param>
+	/// <param name="data_">データ</param>
+	virtual void CreateSRV(size_t length_, size_t singleSize_, const void* data_) = 0;
 
 	/// <summary>
 	/// アンオーダーアクセスビューを生成
 	/// </summary>
-	/// <param name="length">個数</param>
-	/// <param name="singleSize">要素1つ分のデータサイズ</param>
-	/// <param name="data">データ</param>
-	void CreateUAV(size_t length, size_t singleSize, const void* data = nullptr);
+	/// <param name="length_">個数</param>
+	/// <param name="singleSize__">要素1つ分のデータサイズ</param>
+	/// <param name="data_">データ</param>
+	virtual void CreateUAV(size_t length_, size_t singleSize_, const void* data_) = 0;
 
 	/// <summary>
 	/// アンオーダーアクセスビューを生成
 	/// </summary>
-	void CreateUAV(CD3DX12_RESOURCE_DESC * texresDesc);
+	virtual void CreateUAV(CD3DX12_RESOURCE_DESC* texresDesc_) = 0;
 
 	/// <summary>
 	/// バッファ生成に成功したかを返す
 	/// </summary>
-	bool IsValid();
+	virtual bool IsValid() = 0;
 
 	/// <summary>
 	/// バッファのGPU上のアドレスを返す
 	/// </summary>
 	/// <returns>バッファのGPU上のアドレス</returns>
-	D3D12_GPU_DESCRIPTOR_HANDLE& GetAddress();
+	virtual const D3D12_GPU_DESCRIPTOR_HANDLE& GetAddress() = 0;
 
 	/// <summary>
 	/// 定数バッファビューを返す
 	/// </summary>
 	/// <returns>定数バッファビュー</returns>
-	D3D12_SHADER_RESOURCE_VIEW_DESC GetViewDesc();
+	virtual const D3D12_SHADER_RESOURCE_VIEW_DESC& GetViewDesc() = 0;
 
 	/// <summary>
 	/// バッファを取得
 	/// </summary>
-	ID3D12Resource* GetResource();
+	virtual ID3D12Resource* GetResource() = 0;
 
 	/// <summary>
 	/// 定数バッファにマッピングされたポインタを返す
 	/// </summary>
 	/// <returns>定数バッファにマッピングされたポインタ</returns>
-	void* GetPtr() const;
+	virtual void* GetPtr() const = 0;
 
 	/// <summary>
 	/// データを更新
 	/// </summary>
-	/// <param name="data"></param>
-	void Update(void* data);
+	virtual void Update(void* data_) = 0;
 
-	~RWStructuredBuffer() = default;
-	RWStructuredBuffer() = default;
+	virtual ~IRWStructuredBuffer() = default;
+	IRWStructuredBuffer() = default;
 
 private:
 
-	RWStructuredBuffer(const RWStructuredBuffer&) = delete;
-	void operator = (const RWStructuredBuffer&) = delete;
+	IRWStructuredBuffer(const IRWStructuredBuffer&) = delete;
+	void operator = (const IRWStructuredBuffer&) = delete;
 
 };
+
+/// <summary>
+/// シェーダーリソースビューを生成(ユニーク)
+/// </summary>
+/// <param name="length_">要素数</param>
+/// <param name="singleSize_">要素1つ分のデータサイズ</param>
+/// <param name="data_">データ</param>
+/// <returns>生成されたポインタ</returns>
+std::unique_ptr<IRWStructuredBuffer> CreateUniqueSRVRWStructuredBuffer(size_t length_, size_t singleSize_, const void* data_ = nullptr);
+
+/// <summary>
+/// シェーダーリソースビューを生成(シェアード)
+/// </summary>
+/// <param name="length_">要素数</param>
+/// <param name="singleSize_">要素1つ分のデータサイズ</param>
+/// <param name="data_">データ</param>
+/// <returns>生成されたポインタ</returns>
+std::shared_ptr<IRWStructuredBuffer> CreateSharedSRVRWStructuredBuffer(size_t length_, size_t singleSize_, const void* data_ = nullptr);
+
+/// <summary>
+/// アンオーダーアクセスビューを生成(ユニーク)
+/// </summary>
+/// <param name="length_">個数</param>
+/// <param name="singleSize__">要素1つ分のデータサイズ</param>
+/// <param name="data_">データ</param>
+/// <returns>生成されたポインタ</returns>
+std::unique_ptr<IRWStructuredBuffer> CreateUniqueUAVRWStructuredBuffer(size_t length_, size_t singleSize_, const void* data_ = nullptr);
+
+/// <summary>
+/// アンオーダーアクセスビューを生成(シェアード)
+/// </summary>
+/// <param name="length_">個数</param>
+/// <param name="singleSize__">要素1つ分のデータサイズ</param>
+/// <param name="data_">データ</param>
+/// <returns>生成されたポインタ</returns>
+std::shared_ptr<IRWStructuredBuffer> CreateSharedUAVRWStructuredBuffer(size_t length_, size_t singleSize_, const void* data_ = nullptr);

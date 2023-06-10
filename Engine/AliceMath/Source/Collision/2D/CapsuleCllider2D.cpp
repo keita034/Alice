@@ -70,13 +70,13 @@ Point2D CapsuleCllider2D::GetEnd()
 	return center + (axis * height);
 }
 
-void CapsuleCllider2D::SetLength()
+void CapsuleCllider2D::Setlength_()
 {
 	Segment2D seg = GetSegment();
-	length = (seg.GetEnd() - seg.GetStart()).Length();
+	length_ = (seg.GetEnd() - seg.GetStart()).length_();
 }
 
-float CapsuleCllider2D::GetLength()
+float CapsuleCllider2D::Getlength_()
 {
 	return 0.0f;
 }

@@ -1,47 +1,47 @@
 ﻿#include "BaseBuffer.h"
 
-ID3D12Device* BaseBuffer::device = nullptr;
-DescriptorHeap* BaseBuffer::SRVHeap = nullptr;
-RTVDescriptorHeap* BaseBuffer::RTVHeap = nullptr;
-DSVDescriptorHeap* BaseBuffer::DSVHeap = nullptr;
-ID3D12GraphicsCommandList* BaseBuffer::commandList = nullptr;
+ID3D12Device* BaseBuffer::sDevice = nullptr;
+IDescriptorHeap* BaseBuffer::sSRVHeap = nullptr;
+IRTVDescriptorHeap* BaseBuffer::sRTVHeap = nullptr;
+IDSVDescriptorHeap* BaseBuffer::sDSVHeap = nullptr;
+ID3D12GraphicsCommandList* BaseBuffer::sCommandList = nullptr;
 
-void BaseBuffer::SetDevice(ID3D12Device* dev)
+void BaseBuffer::SSetDevice(ID3D12Device* dev)
 {
-	if (!device)
+	if (!sDevice)
 	{
-		device = dev;
+		sDevice = dev;
 	}
 }
 
-void BaseBuffer::SetGraphicsCommandList(ID3D12GraphicsCommandList* cmdList)
+void BaseBuffer::SSetGraphicsCommandList(ID3D12GraphicsCommandList* commandList_)
 {
-	if (!commandList)
+	if (!sCommandList)
 	{
-		commandList = cmdList;
+		sCommandList = commandList_;
 	}
 }
 
-void BaseBuffer::SetSRVDescriptorHeap(DescriptorHeap* srv)
+void BaseBuffer::SSetSRVDescriptorHeap(IDescriptorHeap* descriptorHeap_)
 {
-	if (!SRVHeap)
+	if (!sSRVHeap)
 	{
-		SRVHeap = srv;
+		sSRVHeap = descriptorHeap_;
 	}
 }
 
-void BaseBuffer::SetRTVDescriptorHeap(RTVDescriptorHeap* rtv)
+void BaseBuffer::SSetRTVDescriptorHeap(IRTVDescriptorHeap* rtvDescriptorHeap_)
 {
-	if (!RTVHeap)
+	if (!sRTVHeap)
 	{
-		RTVHeap = rtv;
+		sRTVHeap = rtvDescriptorHeap_;
 	}
 }
 
-void BaseBuffer::SetDSVDescriptorHeap(DSVDescriptorHeap* dsv)
+void BaseBuffer::SSetDSVDescriptorHeap(IDSVDescriptorHeap* dsvDescriptorHeap_)
 {
-	if (!DSVHeap)
+	if (!sDSVHeap)
 	{
-		DSVHeap = dsv;
+		sDSVHeap = dsvDescriptorHeap_;
 	}
 }

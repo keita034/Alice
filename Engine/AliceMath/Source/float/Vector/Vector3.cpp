@@ -40,14 +40,14 @@ namespace AliceMathF
 		y = vec.y;
 	}
 
-	float Vector3::Length() const
+	float Vector3::length_() const
 	{
 		return Sqrt(x * x + y * y + z * z);
 	}
 
 	Vector3& Vector3::Normal()
 	{
-		float len = Length();
+		float len = length_();
 		if (len != 0)
 		{
 			return *this /= len;
@@ -60,7 +60,7 @@ namespace AliceMathF
 	{
 		Vector3 tmp(*this);
 
-		float len = Length();
+		float len = length_();
 		if (len != 0)
 		{
 			return tmp /= len;

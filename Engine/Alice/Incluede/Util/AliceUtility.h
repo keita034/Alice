@@ -34,7 +34,7 @@ struct PipelineSet
 struct Buff
 {
 	//頂点バッファ
-	std::unique_ptr<VertexBuffer> vertexBuffer;
+	std::unique_ptr<IVertexBuffer> vertexBuffer;
 	//頂点マップ
 	PosColor* vertMap;
 	//インデックスバッファ

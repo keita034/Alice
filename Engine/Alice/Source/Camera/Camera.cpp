@@ -63,7 +63,7 @@ void GameCamera::Initialize(UpdateProjMatrixFunc matFunc)
 	//注視点と視点の距離取得
 	AliceMathF::Vector3 toPos;
 	toPos = eye - target;
-	tgtToPosLen = toPos.Length();
+	tgtToPosLen = toPos.length_();
 
 	updateViewMatrix = false;
 }
@@ -113,7 +113,7 @@ void GameCamera::Update()
 
 		AliceMathF::Vector3 toPos;
 		toPos = eye - target;
-		tgtToPosLen = toPos.Length();
+		tgtToPosLen = toPos.length_();
 
 		updateViewMatrix = false;
 	}
@@ -265,7 +265,7 @@ float GameCamera::GetFovAngleY() const
 	return fovAngleY;
 }
 
-float GameCamera::GetTargetToPositionLength() const
+float GameCamera::GetTargetToPositionlength_() const
 {
 	return tgtToPosLen;
 }

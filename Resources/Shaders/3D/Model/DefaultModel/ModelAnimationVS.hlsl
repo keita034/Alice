@@ -8,47 +8,6 @@ cbuffer SkinData : register(b3)
     matrix bones[MAX_BONE];
 };
 
-//スキニング計算
-VSOutput ComputeSkin(VSInput input)
-{
-	//ゼロクリア
-    VSOutput output = (VSOutput) 0;
-
-    uint iBone; //計算するボーン番号
-    float weight; //ボーンウェイト
-    matrix m; //スキニング行列
-
-	//ボーン0
-    iBone = input.index.x;
-    weight = input.weight.x;
-    m = bones[iBone];
-    output.svpos += weight * mul(m, input.pos);
-    output.normal += weight * mul((float3x3) m, input.normal);
-
-	//ボーン1
-    iBone = input.index.y;
-    weight = input.weight.y;
-    m = bones[iBone];
-    output.svpos += weight * mul(m, input.pos);
-    output.normal += weight * mul((float3x3) m, input.normal);
-
-	//ボーン2
-    iBone = input.index.z;
-    weight = input.weight.z;
-    m = bones[iBone];
-    output.svpos += weight * mul(m, input.pos);
-    output.normal += weight * mul((float3x3) m, input.normal);
-
-	//ボーン3
-    iBone = input.index.w;
-    weight = input.weight.w;
-    m = bones[iBone];
-    output.svpos += weight * mul(m, input.pos);
-    output.normal += weight * mul((float3x3) m, input.normal);
-
-    return output;
-}
-
 VSOutput main(float4 pos : POSITION, float3 normal : NORMAL, float2 uv : TEXCOORD, float3 tangent : TANGENT, float4 color : COLOR, uint4 index : INDEX, float4 weight : WEIGHT)
 {
     
@@ -84,7 +43,7 @@ VSOutput main(float4 pos : POSITION, float3 normal : NORMAL, float2 uv : TEXCOOR
     m = bones[iBone];
     output.svpos += boneWeight * mul(m, pos);
     output.normal += boneWeight * mul((float3x3) m, normal);
- 
+     
     output.svpos = mul(matWorld, output.svpos);
     
     // 法線にワールド行列によるスケーリング・回転を適用

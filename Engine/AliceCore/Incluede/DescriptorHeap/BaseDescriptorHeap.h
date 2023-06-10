@@ -13,9 +13,9 @@
 #pragma warning(disable: 5220)
 #pragma warning(disable: 4514)
 
-#include<cassert>
 #include<directx/d3d12.h>
 #include<wrl.h>
+#include<widemath.h>
 #pragma warning(pop)
 
 class BaseDescriptorHeap
@@ -23,12 +23,12 @@ class BaseDescriptorHeap
 protected:
 
 	//デバイス
-	static ID3D12Device* device;
+	static ID3D12Device* sDevice;
 	//デスクプリタヒープ
 	Microsoft::WRL::ComPtr <ID3D12DescriptorHeap> descriptorHeap;
 
 public:
 
-	static void SetDevice(ID3D12Device* dev);
+	static void SSetDevice(ID3D12Device* device_);
 };
 

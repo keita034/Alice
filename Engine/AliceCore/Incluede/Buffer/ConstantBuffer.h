@@ -13,72 +13,73 @@
 
 #pragma warning(pop)
 
-#include"BaseBuffer.h"
-
 /// <summary>
-/// 定数バッファ
+/// 定数バッファ(インターフェース)
 /// </summary>
-class ConstantBuffer : public BaseBuffer
+class IConstantBuffer
 {
-
-private:
-
-	// 定数バッファビューの設定
-	D3D12_CONSTANT_BUFFER_VIEW_DESC constantBufferView = {};
-
-	void* bufferMappedPtr = nullptr;
-
-	size_t bufferSize;
-
 public:
 	/// <summary>
 	/// 定数バッファを生成
 	/// </summary>
 	/// <param name="size">データサイズ</param>
-	void Create(size_t size);
+	virtual void Create(size_t bufferSize_) = 0;
 
 	/// <summary>
 	/// バッファ生成に成功したかを返す
 	/// </summary>
 	/// <returns>バッファ生成に成功したか</returns>
-	bool IsValid();
+	virtual bool IsValid() = 0;
 
 	/// <summary>
 	/// バッファのGPU上のアドレスを返す
 	/// </summary>
 	/// <returns>バッファのGPU上のアドレス</returns>
-	D3D12_GPU_VIRTUAL_ADDRESS GetAddress() const;
+	virtual const D3D12_GPU_VIRTUAL_ADDRESS& GetAddress() = 0;
 
 	/// <summary>
 	/// 定数バッファビューを返す
 	/// </summary>
 	/// <returns>定数バッファビュー</returns>
-	D3D12_CONSTANT_BUFFER_VIEW_DESC GetViewDesc();
+	virtual const D3D12_CONSTANT_BUFFER_VIEW_DESC& GetViewDesc() = 0;
 
 	/// <summary>
 	/// データの更新
 	/// </summary>
 	/// <param name="data">データ</param>
-	void Update(void* data);
+	virtual void Update(void* data_) = 0;
 
 	/// <summary>
 	/// バッファを取得
 	/// </summary>
-	ID3D12Resource* GetResource();
+	virtual ID3D12Resource* GetResource() = 0;
 
 	/// <summary>
 	/// マップ用ポインタを取得
 	/// </summary>
-	/// <returns></returns>
-	void* GetPtr();
+	virtual void* GetPtr() = 0;
 
-	~ConstantBuffer() = default;
-	ConstantBuffer() = default;
+	virtual ~IConstantBuffer() = default;
+	IConstantBuffer() = default;
 
 
 private:
 
-	ConstantBuffer(const ConstantBuffer&) = delete;
-	void operator = (const ConstantBuffer&) = delete;
+	IConstantBuffer(const IConstantBuffer&) = delete;
+	void operator = (const IConstantBuffer&) = delete;
 
 };
+
+/// <summary>
+/// 定数バッファの生成(ユニーク)
+/// </summary>
+/// <param name="size">データサイズ</param>
+/// <returns>生成されたポインタ</returns>
+std::unique_ptr<IConstantBuffer> CreateUniqueConstantBuffer(size_t bufferSize_);
+
+/// <summary>
+/// 定数バッファの生成(シェアード)
+/// </summary>
+/// <param name="size">データサイズ</param>
+/// <returns>生成されたポインタ</returns>
+std::shared_ptr<IConstantBuffer> CreateSharedConstantBuffer(size_t bufferSize_);

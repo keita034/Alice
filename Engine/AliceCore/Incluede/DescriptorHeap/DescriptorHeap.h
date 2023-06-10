@@ -1,31 +1,28 @@
 ﻿#pragma once
-#include"BaseDescriptorHeap.h"
+
+#pragma warning(push)
+#pragma warning(disable: 4061)
+#pragma warning(disable: 4062)
+#pragma warning(disable: 4265)
+#pragma warning(disable: 4365)
+#pragma warning(disable: 4625)
+#pragma warning(disable: 4626)
+#pragma warning(disable: 4668)
+#pragma warning(disable: 4820)
+#pragma warning(disable: 5039)
+#pragma warning(disable: 5204)
+#pragma warning(disable: 5220)
+#pragma warning(disable: 4514)
+
+#include<directx/d3d12.h>
+#include<memory>
+#pragma warning(pop)
 
 /// <summary>
 /// デスクプリタヒープ
 /// </summary>
-class DescriptorHeap : public BaseDescriptorHeap
+class IDescriptorHeap
 {
-private:
-	//デスクプリタレンジ
-	D3D12_DESCRIPTOR_RANGE descriptorRange{};
-
-	char PADING1[4];
-
-	size_t maxSRV = 340000;
-	size_t maxUAV = 330000;
-	size_t maxCBV = 330000;
-
-	size_t countSRV = 0;
-	size_t countUAV = 0;
-	size_t countCBV = 0;
-
-	UINT incrementSize;
-	char PADING2[4];
-
-
-	D3D12_CPU_DESCRIPTOR_HANDLE	startCpuHandle;
-	D3D12_GPU_DESCRIPTOR_HANDLE	startGpuHandle;
 
 public:
 
@@ -38,7 +35,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize();
+	virtual void Initialize() =0 ;
 
 	/// <summary>
 	/// シェーダーリソースビュー生成
@@ -46,12 +43,12 @@ public:
 	/// <param name="desc">シェーダーリソースビューデスク</param>
 	/// <param name="resource">バッファ</param>
 	/// <returns>GPUハンドル(UINT64)</returns>
-	UINT64 CreateSRV(D3D12_SHADER_RESOURCE_VIEW_DESC& desc, ID3D12Resource* resource);
+	virtual uint64_t CreateSRV(const D3D12_SHADER_RESOURCE_VIEW_DESC& desc_, ID3D12Resource* resource_) = 0;
 
 	/// <summary>
 	/// シェーダーリソースビュー追加
 	/// </summary>
-	DescriptorHeapViewHandle AddSRV();
+	virtual DescriptorHeapViewHandle AddSRV() = 0;
 
 	/// <summary>
 	/// アンオーダーアクセスビュー生成
@@ -59,28 +56,46 @@ public:
 	/// <param name="desc">アンオーダーアクセスビューデスク</param>
 	/// <param name="resource">バッファ</param>
 	/// <returns>GPUハンドル(UINT64)</returns>
-	UINT64 CreateUAV(D3D12_UNORDERED_ACCESS_VIEW_DESC& desc, ID3D12Resource* resource);
+	virtual uint64_t CreateUAV(const D3D12_UNORDERED_ACCESS_VIEW_DESC& desc_, ID3D12Resource* resource_) = 0;
 
 	/// <summary>
 	/// アンオーダーアクセスビュー追加
 	/// </summary>
-	DescriptorHeapViewHandle AddUAV();
+	virtual DescriptorHeapViewHandle AddUAV() = 0;
 
 	/// <summary>
 	/// コンストバッファビュー生成
 	/// </summary>
 	/// <param name="desc">コンストバッファビューデスク</param>
 	/// <returns>GPUハンドル(UINT64)</returns>
-	UINT64 CreateCBV(D3D12_CONSTANT_BUFFER_VIEW_DESC& desc);
+	virtual uint64_t CreateCBV(const D3D12_CONSTANT_BUFFER_VIEW_DESC& desc_) = 0;
 
 	/// <summary>
 	/// コンストバッファビュー追加
 	/// </summary>
-	DescriptorHeapViewHandle AddCBV();
+	virtual DescriptorHeapViewHandle AddCBV() = 0;
 
 	/// <summary>
 	/// デスクプリタヒープを取得
 	/// </summary>
-	ID3D12DescriptorHeap* GetHeap();
+	virtual ID3D12DescriptorHeap* GetHeap() = 0;
+
+
+	/// <summary>
+	/// コンストラクタ・デストラクタ
+	/// </summary>
+	IDescriptorHeap() = default;
+	virtual~IDescriptorHeap() = default;
 };
+
+
+/// <summary>
+/// デスクプリタヒープの生成(ユニーク)
+/// </summary>
+std::unique_ptr<IDescriptorHeap> CreateUniqueDescriptorHeap();
+
+/// <summary>
+/// デスクプリタヒープの生成(シェアード)
+/// </summary>
+std::shared_ptr<IDescriptorHeap> CreateSharedDescriptorHeap();
 

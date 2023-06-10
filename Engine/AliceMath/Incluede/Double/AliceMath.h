@@ -209,11 +209,11 @@ namespace AliceMath
 	double LerpAngle(double a, double b, double t);
 
 	/// <summary>
-	/// tはlengthより大きくはならず0より小さくならず、その間をループ
+	/// tはlength_より大きくはならず0より小さくならず、その間をループ
 	/// </summary>
 	/// <param name="t">値</param>
-	/// <param name="length">指定値</param>
-	double Repeat(double t, double length);
+	/// <param name="length_">指定値</param>
+	double Repeat(double t, double length_);
 
 	/// <summary>
 	/// 現在地から目的地まで一定速度で移動
@@ -264,9 +264,9 @@ namespace AliceMath
 	double SmoothDamp(double current, double target, double& currentVelocity, double smoothTime, double maxSpeed, double deltaTime);
 
 	/// <summary>
-	/// tが0とlengthの間で往復する(0～length)
+	/// tが0とlength_の間で往復する(0～length_)
 	/// </summary>
-	double PingPong(double t, double length);
+	double PingPong(double t, double length_);
 
 	/// <summary>
 	/// lerpの補間値を出す

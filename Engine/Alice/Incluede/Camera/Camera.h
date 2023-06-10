@@ -68,7 +68,7 @@ public:
 	/// 注視点と視点の距離を取得
 	/// </summary>
 	/// <returns></returns>
-	virtual float GetTargetToPositionLength() const = 0;
+	virtual float GetTargetToPositionlength_() const = 0;
 
 	/// <summary>
 	/// カメラの前方向を取得
@@ -328,7 +328,7 @@ public:
 	/// 注視点と視点の距離を取得
 	/// </summary>
 	/// <returns></returns>
-	float GetTargetToPositionLength() const;
+	float GetTargetToPositionlength_() const;
 
 	/// <summary>
 	/// カメラの前方向を取得

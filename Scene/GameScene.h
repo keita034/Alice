@@ -35,6 +35,11 @@ private:
 
 	std::unique_ptr<SceneData> sceneData;
 
+	uint32_t modelHanle;
+	std::unique_ptr<AliceToonModel> model;
+	Transform trans;
+
+
 	float angle;
 public:
 

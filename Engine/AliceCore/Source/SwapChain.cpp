@@ -1,31 +1,130 @@
 ﻿#include "SwapChain.h"
 
-SwapChain::SwapChain(ID3D12Device* dev, Microsoft::WRL::ComPtr<IDXGISwapChain1>& swapchain, ID3D12CommandQueue* queue, bool useHDR)
+
+#pragma warning(push)
+#pragma warning(disable: 4365)
+#pragma warning(disable: 4668)
+#pragma warning(disable: 4710)
+#pragma warning(disable: 4711)
+#pragma warning(disable: 4820)
+#pragma warning(disable: 5039)
+
+#include<vector>
+
+#pragma warning(pop)
+
+#include<cassert>
+
+class SwapChain :public ISwapChain
+{
+private:
+
+	//デバイス
+	ID3D12Device* device;
+
+	//スワップチェイン
+	Microsoft::WRL::ComPtr<IDXGISwapChain4> swapChain;
+
+	//バッファの数
+	static const uint32_t FrameBufferCount = 2;
+
+	//バックバッファ
+	std::vector<std::unique_ptr<IRenderTargetBuffer>> backBuffers;
+
+	//フェンスの生成
+	std::vector<uint64_t> fenceValues;
+	uint64_t fenceVal;
+
+	//ディスク
+	DXGI_SWAP_CHAIN_DESC1 desc;
+
+	//ハンドル
+	HANDLE waitEvent;
+
+	//フェンス
+	Microsoft::WRL::ComPtr<ID3D12Fence> fence;
+
+	//ディスクリプタヒープ
+	ID3D12CommandQueue* commandQueue;
+
+
+public:
+
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	/// <param name="swapchain">スワップチェイン</param>
+	/// <param name="device_">デバイス</param>
+	/// <param name="heap">レンダーターゲット用ディスクリプタヒープ</param>
+	void Initialize(ID3D12Device* device_, const Microsoft::WRL::ComPtr<IDXGISwapChain1>& swapchain_, ID3D12CommandQueue* queue_);
+
+	SwapChain() = default;
+
+	~SwapChain();
+
+	/// <summary>
+	/// リサイズ
+	/// </summary>
+	void ResizeTarget(const DXGI_MODE_DESC* pNewTargetParameters_);
+
+	/// <summary>
+	/// フルスクリーンか
+	/// </summary>
+	bool IsFullScreen() const;
+
+	/// <summary>
+	/// フルスクリーンをセット
+	/// </summary>
+	void SetFullScreen(bool toFullScreen_);
+
+	/// <summary>
+	/// バッファサイズ変更
+	/// </summary>
+	void ResizeBuffers(uint32_t width_, uint32_t height_);
+
+	void WaitPreviousFrame();
+
+	void WaitForGpu();
+
+	HRESULT Present(uint32_t SyncInterval_, uint32_t Flags_);
+
+	void Transition(size_t index, const D3D12_RESOURCE_STATES& resourceStates_);
+
+	uint32_t GetCurrentBackBufferIndex() const;
+
+	IRenderTargetBuffer* GetRenderTarget(size_t index_)const;
+
+	const D3D12_CPU_DESCRIPTOR_HANDLE& GetRenderTargetHandl(size_t index_);
+
+	size_t GetBackBufferCount() const;
+};
+
+void SwapChain::Initialize(ID3D12Device* device_, const Microsoft::WRL::ComPtr<IDXGISwapChain1>& swapchain_, ID3D12CommandQueue* queue_)
 {
 	// IDXGISwapChain4 取得
-	swapchain.As(&swapChain);
+	swapchain_.As(&swapChain);
 
 	//ディスク取得
 	swapChain->GetDesc1(&desc);
 
 	//デバイス取得
-	device = dev;
-	commandQueue = queue;
+	device = device_;
+	commandQueue = queue_;
 
 	//バックバッファ
 	backBuffers.resize(desc.BufferCount);
 	fenceValues.resize(desc.BufferCount);
 
-	UINT frameIndex = swapChain->GetCurrentBackBufferIndex();
+	size_t lFrameIndex = swapChain->GetCurrentBackBufferIndex();
 
 	//フェンスの生成
-	if (FAILED(device->CreateFence(fenceValues[frameIndex], D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(fence.ReleaseAndGetAddressOf()))))
+	if (FAILED(device->CreateFence(fenceValues[lFrameIndex], D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(fence.ReleaseAndGetAddressOf()))))
 	{
 		printf("Failed to generate fence");
 		assert(0);
 	}
 
-	fenceValues[frameIndex]++;
+	fenceValues[lFrameIndex]++;
 
 	// フレーム同期に使用するイベントハンドルを作成します。
 	waitEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
@@ -38,24 +137,20 @@ SwapChain::SwapChain(ID3D12Device* dev, Microsoft::WRL::ComPtr<IDXGISwapChain1>&
 	for (size_t i = 0; i < backBuffers.size(); i++)
 	{
 		//生成
-		backBuffers[i] = std::make_unique<RenderTargetBuffer>();
-		backBuffers[i]->Create(swapChain.Get(), static_cast<UINT>(i));
-	}
-
-	if (useHDR)
-	{
-
+		backBuffers[i] = CreateUniqueRenderTargetBuffer(swapChain.Get(), static_cast<uint32_t>(i));
 	}
 }
 
 SwapChain::~SwapChain()
 {
-	BOOL isFullScreen;
-	swapChain->GetFullscreenState(&isFullScreen, nullptr);
-	if (isFullScreen)
+	BOOL lIsFullScreen;
+
+	swapChain->GetFullscreenState(&lIsFullScreen, nullptr);
+	if (lIsFullScreen)
 	{
 		swapChain->SetFullscreenState(FALSE, nullptr);
 	}
+
 	CloseHandle(waitEvent);
 }
 
@@ -66,22 +161,22 @@ void SwapChain::ResizeTarget(const DXGI_MODE_DESC* pNewTargetParameters)
 
 bool SwapChain::IsFullScreen() const
 {
-	BOOL fullscreen;
+	BOOL lFullscreen;
 
 	//フルスクリーンかどうか
-	if (FAILED(swapChain->GetFullscreenState(&fullscreen, nullptr)))
+	if (FAILED(swapChain->GetFullscreenState(&lFullscreen, nullptr)))
 	{
-		fullscreen = FALSE;
+		lFullscreen = FALSE;
 	}
 
-	return fullscreen == TRUE;
+	return lFullscreen == TRUE;
 }
 
-void SwapChain::SetFullScreen(bool toFullScreen)
+void SwapChain::SetFullScreen(bool toFullScreen_)
 {
 	WaitForGpu();
 
-	if (toFullScreen)
+	if (toFullScreen_)
 	{
 		//フルスクリーン
 		swapChain->SetFullscreenState(TRUE, nullptr);
@@ -93,7 +188,7 @@ void SwapChain::SetFullScreen(bool toFullScreen)
 	}
 }
 
-void SwapChain::ResizeBuffers(UINT width, UINT height)
+void SwapChain::ResizeBuffers(uint32_t width_, uint32_t height_)
 {
 	// リサイズのために全て解放.
 	for (auto& v : backBuffers)
@@ -101,13 +196,13 @@ void SwapChain::ResizeBuffers(UINT width, UINT height)
 		v->Reset();
 	}
 
-	if (FAILED(swapChain->ResizeBuffers(desc.BufferCount, width, height, desc.Format, desc.Flags)))
+	if (FAILED(swapChain->ResizeBuffers(desc.BufferCount, width_, height_, desc.Format, desc.Flags)))
 	{
 		printf("No Resize");
 		assert(0);
 	}
 
-	for (UINT i = 0; i < desc.BufferCount; ++i)
+	for (uint32_t i = 0; i < desc.BufferCount; ++i)
 	{
 		backBuffers[i]->Resize(swapChain.Get(), i);
 	}
@@ -118,29 +213,29 @@ void SwapChain::WaitPreviousFrame()
 	commandQueue->Signal(fence.Get(), ++fenceVal);
 	if (fence->GetCompletedValue() != fenceVal)
 	{
-		HANDLE event = CreateEvent(nullptr, false, false, nullptr);
-		fence->SetEventOnCompletion(fenceVal, event);
-		if (event != 0)
+		HANDLE lEvent = CreateEvent(nullptr, false, false, nullptr);
+		fence->SetEventOnCompletion(fenceVal, lEvent);
+		if (lEvent != 0)
 		{
-			WaitForSingleObject(event, INFINITE);
-			CloseHandle(event);
+			WaitForSingleObject(lEvent, INFINITE);
+			CloseHandle(lEvent);
 		}
 	}
 }
 
 void SwapChain::WaitForGpu()
 {
-	UINT frameIndex = swapChain->GetCurrentBackBufferIndex();
+	uint32_t lFrameIndex = swapChain->GetCurrentBackBufferIndex();
 
 	// キューにあるSignalコマンドをスケジュール
-	if (FAILED(commandQueue->Signal(fence.Get(), fenceValues[frameIndex])))
+	if (FAILED(commandQueue->Signal(fence.Get(), fenceValues[lFrameIndex])))
 	{
 		printf("No Signal");
 		assert(0);
 	}
 
 	// フェンスの処理が完了するまで待つ。
-	if (FAILED(fence->SetEventOnCompletion(fenceValues[frameIndex], waitEvent)))
+	if (FAILED(fence->SetEventOnCompletion(fenceValues[lFrameIndex], waitEvent)))
 	{
 		printf("Event could not be set");
 		assert(0);
@@ -149,15 +244,15 @@ void SwapChain::WaitForGpu()
 	WaitForSingleObjectEx(waitEvent, INFINITE, FALSE);
 
 	// 現在のフレームのフェンス値をインクリメントする。
-	fenceValues[frameIndex]++;
+	fenceValues[lFrameIndex]++;
 }
 
-HRESULT SwapChain::Present(UINT SyncInterval, UINT Flags)
+HRESULT SwapChain::Present(uint32_t SyncInterval, uint32_t Flags)
 {
 	return swapChain->Present(SyncInterval, Flags);
 }
 
-void SwapChain::Transition(size_t index, D3D12_RESOURCE_STATES resourceStates)
+void SwapChain::Transition(size_t index, const D3D12_RESOURCE_STATES& resourceStates)
 {
 	backBuffers[index]->Transition(resourceStates);
 }
@@ -167,7 +262,7 @@ UINT SwapChain::GetCurrentBackBufferIndex() const
 	return swapChain->GetCurrentBackBufferIndex();
 }
 
-RenderTargetBuffer* SwapChain::GetRenderTarget(size_t index)const
+IRenderTargetBuffer* SwapChain::GetRenderTarget(size_t index)const
 {
 	return backBuffers[index].get();
 }
@@ -182,3 +277,16 @@ size_t SwapChain::GetBackBufferCount() const
 	return backBuffers.size();
 }
 
+std::unique_ptr<ISwapChain> CreateUniqueSwapChain(ID3D12Device* device_, const Microsoft::WRL::ComPtr<IDXGISwapChain1>& swapchain_, ID3D12CommandQueue* queue_)
+{
+	std::unique_ptr<ISwapChain> lSwapChain = std::make_unique<SwapChain>();
+	lSwapChain->Initialize(device_, swapchain_, queue_);
+	return std::move(lSwapChain);
+}
+
+std::shared_ptr<ISwapChain> CreateSharedSwapChain(ID3D12Device* device_, const Microsoft::WRL::ComPtr<IDXGISwapChain1>& swapchain_, ID3D12CommandQueue* queue_)
+{
+	std::shared_ptr<ISwapChain> lSwapChain = std::make_shared<SwapChain>();
+	lSwapChain->Initialize(device_, swapchain_, queue_);
+	return lSwapChain;
+}

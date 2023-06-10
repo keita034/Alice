@@ -6,8 +6,7 @@ void PostEffectSprite::Initialize(ID3D12GraphicsCommandList* commandList, Descri
 	srvHeap = descriptorHeap;
 
 	//頂点バッファの生成
-	vertexBuffer = std::make_unique<VertexBuffer>();
-	vertexBuffer->Create(4, sizeof(PosUvColor));
+	vertexBuffer = CreateVertexBuffer(4, sizeof(PosUvColor));
 
 	//インデックスバッファの生成
 	indexBuffer = std::make_unique<IndexBuffer>();

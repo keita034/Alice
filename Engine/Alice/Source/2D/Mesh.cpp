@@ -455,8 +455,7 @@ std::unique_ptr <Buff> Mesh::CreateBuff(UINT vertexCount, UINT indexCount)
 	if (vertexCount > 0)
 	{
 
-		buff->vertexBuffer = std::make_unique<VertexBuffer>();
-		buff->vertexBuffer->Create(vertexCount, sizeof(PosColor));
+		buff->vertexBuffer = CreateVertexBuffer(vertexCount, sizeof(PosColor));
 
 		buff->vertMap = static_cast<PosColor*>(malloc(vertexCount * sizeof(PosColor)));
 

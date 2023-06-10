@@ -20,12 +20,12 @@ const AliceMathF::Vector2& Line2D::GetAxis()
 	return axis;
 }
 
-void Line2D::SetLength(float len)
+void Line2D::Setlength_(float len)
 {
-	length = len;
+	length_ = len;
 }
 
-float Line2D::GetLength()
+float Line2D::Getlength_()
 {
 	return 0.0f;
 }

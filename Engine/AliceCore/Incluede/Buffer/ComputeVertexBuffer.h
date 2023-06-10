@@ -13,71 +13,79 @@
 
 #pragma warning(pop)
 
-#include"BaseBuffer.h"
-
 /// <summary>
-/// コンピュートシェーダー用頂点バッファ
+/// コンピュートシェーダー用頂点バッファ(インターフェース)
 /// </summary>
-class ComputeVertexBuffer : public BaseBuffer
+class IComputeVertexBuffer
 {
-private:
-	// 頂点バッファビュー
-	D3D12_VERTEX_BUFFER_VIEW vertexBufferView = {};
-
-	D3D12_GPU_DESCRIPTOR_HANDLE handl = {};
-
-	void* bufferMappedPtr = nullptr;
-
 public:
 
 	/// <summary>
 	/// バッファを生成
 	/// </summary>
-	/// <param name="length">要素数</param>
+	/// <param name="length_">要素数</param>
 	/// <param name="singleSize">単体のサイズ</param>
 	/// <param name="data">配列のポインタ</param>
-	void Create(size_t length, size_t singleSize, const void* data = nullptr);
+	virtual void Create(size_t length_, size_t singleSize_, const void* data_ = nullptr) = 0;
 
 	/// <summary>
 	/// 頂点バッファビューを取得
 	/// </summary>
 	/// <returns>頂点バッファビュー</returns>
-	D3D12_VERTEX_BUFFER_VIEW GetView() const;
+	virtual const D3D12_VERTEX_BUFFER_VIEW& GetView() = 0;
 
-	ID3D12Resource* GetResource();
+	/// <summary>
+	/// リソースを取得
+	/// </summary>
+	virtual ID3D12Resource* GetResource() = 0;
 
 	/// <summary>
 	/// バッファの生成に成功したかを取得
 	/// </summary>
-	/// <returns>成功したか</returns>
-	bool IsValid();
+	virtual bool IsValid() = 0;
 
 	/// <summary>
 	/// バッファのGPU上のアドレスを返す
 	/// </summary>
 	/// <returns>バッファのGPU上のアドレス</returns>
-	D3D12_GPU_DESCRIPTOR_HANDLE GetAddress() const;
+	virtual const D3D12_GPU_DESCRIPTOR_HANDLE& GetAddress() = 0;
 
 	/// <summary>
 	/// バッファの状態を変える
 	/// </summary>
 	/// <param name="beforeState">今の状態</param>
 	/// <param name="afterState">変えたい状態</param>
-	void Transition(D3D12_RESOURCE_STATES beforeState, D3D12_RESOURCE_STATES afterState);
+	virtual void Transition(const D3D12_RESOURCE_STATES& beforeState_, const D3D12_RESOURCE_STATES& afterState_) = 0;
 
 	/// <summary>
 	/// データ更新
 	/// </summary>
 	/// <param name="data">データ</param>
-	void Update(void* data);
+	virtual void Update(void* data_) = 0;
 
-	~ComputeVertexBuffer() = default;
-	ComputeVertexBuffer() = default;
+	virtual ~IComputeVertexBuffer() = default;
+	IComputeVertexBuffer() = default;
 
 private:
 
-	ComputeVertexBuffer(const ComputeVertexBuffer&) = delete;
-
-	void operator = (const ComputeVertexBuffer&) = delete;
+	IComputeVertexBuffer(const IComputeVertexBuffer&) = delete;
+	void operator = (const IComputeVertexBuffer&) = delete;
 };
 
+/// <summary>
+/// コンピュートシェーダーの生成(ユニーク)
+/// </summary>
+/// <param name="length_">要素数</param>
+/// <param name="singleSize_">単体のサイズ</param>
+/// <param name="data">配列の先頭アドレス</param>
+/// <returns>生成されたポインタ</returns>
+std::unique_ptr<IComputeVertexBuffer> CreateUniqueComputeVertexBuffer(size_t length_, size_t singleSize_, const void* data_ = nullptr);
+
+/// <summary>
+/// コンピュートシェーダーの生成(シェアード)
+/// </summary>
+/// <param name="length_">要素数</param>
+/// <param name="singleSize_">単体のサイズ</param>
+/// <param name="data">配列の先頭アドレス</param>
+/// <returns>生成されたポインタ</returns>
+std::shared_ptr<IComputeVertexBuffer> CreateSharedComputeVertexBuffer(size_t length_, size_t singleSize_, const void* data_ = nullptr);

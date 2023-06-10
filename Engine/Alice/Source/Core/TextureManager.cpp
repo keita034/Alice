@@ -84,6 +84,7 @@ TextureData* TextureManager::FromTextureData(const std::string& path)
 		scratchImg.GetImages(), scratchImg.GetImageCount(), scratchImg.GetMetadata(),
 		DirectX::TEX_FILTER_DEFAULT, 0, mipChain);
 
+
 	if (SUCCEEDED(hr))
 	{
 		scratchImg = std::move(mipChain);
@@ -228,14 +229,6 @@ Microsoft::WRL::ComPtr<ID3D12Resource> TextureManager::CreateTexBuff(DirectX::Te
 			static_cast<UINT16>(metadata.arraySize),
 			static_cast<UINT16>(metadata.mipLevels));
 
-	// テクスチャバッファの生成
-	HRESULT hr = directX12Core->GetDevice()->CreateCommittedResource(
-		&textureHeapProp,
-		D3D12_HEAP_FLAG_NONE,
-		&textureResourceDesc,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(result.ReleaseAndGetAddressOf()));
 
 	//テクスチャバッファにデータ転送
 	directX12Core->GetDevice()->CreateCommittedResource(
@@ -255,7 +248,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource> TextureManager::CreateTexBuff(DirectX::Te
 	Microsoft::WRL::ComPtr<ID3D12Resource> stagingBuffer;
 	const auto heapProps = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
 	const auto resDesc = CD3DX12_RESOURCE_DESC::Buffer(totalBytes);
-	hr = directX12Core->GetDevice()->CreateCommittedResource(
+	HRESULT hr = directX12Core->GetDevice()->CreateCommittedResource(
 		&heapProps,
 		D3D12_HEAP_FLAG_NONE,
 		&resDesc,

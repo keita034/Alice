@@ -28,8 +28,7 @@ void PostEffectManager::Initialize()
 	mainRenderTarget->Initialize(WindowsApp::GetInstance()->GetWindowSize().width, WindowsApp::GetInstance()->GetWindowSize().height, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 	//頂点バッファの生成
-	vertexBuffer = std::make_unique<VertexBuffer>();
-	vertexBuffer->Create(4, sizeof(PosUvColor));
+	vertexBuffer = CreateVertexBuffer(4, sizeof(PosUvColor));
 
 	//インデックスバッファの生成
 	indexBuffer = std::make_unique<IndexBuffer>();

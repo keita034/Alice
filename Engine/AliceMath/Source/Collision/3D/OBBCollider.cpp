@@ -30,13 +30,13 @@ void OBBCollider::CreateOBB(const std::vector<PosNormalUv>& vertex,const  AliceM
 	normaDirect[2] = { matRot.m[2][0], matRot.m[2][1], matRot.m[2][2] };
 
 	//長さ取得
-	Length[0] = AliceMathF::Abs(max.x - min.x) * 0.5f;
-	Length[1] = AliceMathF::Abs(max.y - min.y) * 0.5f;
-	Length[2] = AliceMathF::Abs(max.z - min.z) * 0.5f;
+	length_[0] = AliceMathF::Abs(max.x - min.x) * 0.5f;
+	length_[1] = AliceMathF::Abs(max.y - min.y) * 0.5f;
+	length_[2] = AliceMathF::Abs(max.z - min.z) * 0.5f;
 
-	Length[0] *= scal.x;
-	Length[1] *= scal.y;
-	Length[2] *= scal.z;
+	length_[0] *= scal.x;
+	length_[1] *= scal.y;
+	length_[2] *= scal.z;
 }
 
 void OBBCollider::UpdateOBB(const AliceMathF::Matrix4& worldMat, const AliceMathF::Vector3& rot)
@@ -60,7 +60,7 @@ const AliceMathF::Vector3& OBBCollider::GetDirect(uint16_t elem)
 
 float OBBCollider::GetLen(uint16_t elem)
 {
-	return Length[elem];
+	return length_[elem];
 }
 
 const AliceMathF::Vector3& OBBCollider::GetCenter()

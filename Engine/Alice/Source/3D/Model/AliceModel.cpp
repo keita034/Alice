@@ -89,12 +89,12 @@ uint32_t AliceModel::CreateModel(const std::string& fileDirectoryPath)
 			//バッファ生成
 			for (size_t i = 0; i < data->meshes.size(); i++)
 			{
-				for (size_t j = 0; j < data->meshes[i].vecBones.size(); j++)
+				for (size_t j = 0; j < data->meshes[i]->vecBones.size(); j++)
 				{
-					data->meshes[i].bones[data->meshes[i].vecBones[j].name] = &data->meshes[i].vecBones[j];
+					data->meshes[i]->bones[data->meshes[i]->vecBones[j].name] = &data->meshes[i]->vecBones[j];
 				}
 
-				data->meshes[i].CreateBuffer();
+				data->meshes[i]->CreateBuffer();
 			}
 		}
 
@@ -170,11 +170,11 @@ void AliceModel::AnimationUpdate(const AliceMotionData* animation, float frame)
 	float TimeInTicks = frame * TicksPerSecond;
 	float AnimationTime = fmod(TimeInTicks, animation->motionData->duration);
 
-	for (ModelMesh& mesh : modelData->meshes)
+	for (std::unique_ptr<ModelMesh>& mesh : modelData->meshes)
 	{
-		ReadNodeHeirarchy(&mesh, animation, AnimationTime, pNode, mxIdentity);
+		ReadNodeHeirarchy(mesh.get(), animation, AnimationTime, pNode, mxIdentity);
 
-		mesh.Update();
+		mesh->Update();
 	}
 }
 
@@ -251,12 +251,12 @@ uint32_t AliceModel::CreateToonModel(const std::string& fileDirectoryPath, const
 			//バッファ生成
 			for (size_t i = 0; i < data->meshes.size(); i++)
 			{
-				for (size_t j = 0; j < data->meshes[i].vecBones.size(); j++)
+				for (size_t j = 0; j < data->meshes[i]->vecBones.size(); j++)
 				{
-					data->meshes[i].bones[data->meshes[i].vecBones[j].name] = &data->meshes[i].vecBones[j];
+					data->meshes[i]->bones[data->meshes[i]->vecBones[j].name] = &data->meshes[i]->vecBones[j];
 				}
 
-				data->meshes[i].CreateBuffer();
+				data->meshes[i]->CreateBuffer();
 			}
 		}
 
@@ -304,20 +304,22 @@ void AliceModel::CommonInitialize()
 bool AliceModel::TransTexture(const std::string& materialName, const std::string& textureName, TextureData* textureData)
 {
 	//メッシュの中からマテリアルを探す
-	auto materialItr = std::find_if(modelData->meshes.begin(), modelData->meshes.end(), [&](ModelMesh& p)
+	auto materialItr = std::find_if(modelData->meshes.begin(), modelData->meshes.end(), [&](std::unique_ptr<ModelMesh>& p)
 		{
-			return p.material.name == materialName;
+			return p->material.name == materialName;
 		});
 
 	if (materialItr != modelData->meshes.end())
 	{
+		std::unique_ptr<ModelMesh>& mesh = *materialItr;
+
 		//マテリアルの中からテクスチャ探す
-		auto textureItr = std::find_if(materialItr->textures.begin(), materialItr->textures.end(), [&](TextureData* p)
+		auto textureItr = std::find_if(mesh->textures.begin(), mesh->textures.end(), [&](TextureData* p)
 			{
 				return p->path == textureName;
 			});
 
-		if (textureItr != materialItr->textures.end())
+		if (textureItr != mesh->textures.end())
 		{
 			*textureItr = textureData;
 
@@ -331,16 +333,17 @@ bool AliceModel::TransTexture(const std::string& materialName, const std::string
 bool AliceModel::TransTexture(const std::string& materialName, size_t textureIndex, TextureData* textureData)
 {
 	//メッシュの中からマテリアルを探す
-	auto materialItr = std::find_if(modelData->meshes.begin(), modelData->meshes.end(), [&](ModelMesh& p)
+	auto materialItr = std::find_if(modelData->meshes.begin(), modelData->meshes.end(), [&](std::unique_ptr<ModelMesh>& p)
 		{
-			return p.material.name == materialName;
+			return p->material.name == materialName;
 		});
 
 	if (materialItr != modelData->meshes.end())
 	{
 		//マテリアルの中からテクスチャ探す
+		std::unique_ptr<ModelMesh>& mesh = *materialItr;
 
-		materialItr->textures[textureIndex] = textureData;
+		mesh->textures[textureIndex] = textureData;
 
 		return true;
 	}
@@ -351,14 +354,16 @@ bool AliceModel::TransTexture(const std::string& materialName, size_t textureInd
 bool AliceModel::FlipUV(const std::string& materialName, bool inverseU, bool inverseV)
 {
 	//メッシュの中からマテリアルを探す
-	auto materialItr = std::find_if(modelData->meshes.begin(), modelData->meshes.end(), [&](ModelMesh& p)
+	auto materialItr = std::find_if(modelData->meshes.begin(), modelData->meshes.end(), [&](std::unique_ptr<ModelMesh>& p)
 		{
-			return p.material.name == materialName;
+			return p->material.name == materialName;
 		});
 
 	if (materialItr != modelData->meshes.end())
 	{
-		for (PosNormUvTangeColSkin& vertice : materialItr->vertices)
+		std::unique_ptr<ModelMesh>& mesh = *materialItr;
+
+		for (PosNormUvTangeColSkin& vertice : mesh->vertices)
 		{
 			if (inverseU)
 			{
@@ -371,8 +376,8 @@ bool AliceModel::FlipUV(const std::string& materialName, bool inverseU, bool inv
 			}
 		}
 
-		materialItr->dirtyFlag = true;
-		materialItr->vertexBuffer->Update(materialItr->vertices.data());
+		mesh->dirtyFlag = true;
+		mesh->vertexBuffer->Update(mesh->vertices.data());
 	}
 	return false;
 }
@@ -380,41 +385,43 @@ bool AliceModel::FlipUV(const std::string& materialName, bool inverseU, bool inv
 bool AliceModel::rotationUV(const std::string& materialName, float angle)
 {
 	//メッシュの中からマテリアルを探す
-	auto materialItr = std::find_if(modelData->meshes.begin(), modelData->meshes.end(), [&](ModelMesh& p)
+	auto materialItr = std::find_if(modelData->meshes.begin(), modelData->meshes.end(), [&](std::unique_ptr<ModelMesh>& p)
 		{
-			return p.material.name == materialName;
+			return p->material.name == materialName;
 		});
 
 	if (materialItr != modelData->meshes.end())
 	{
+		std::unique_ptr<ModelMesh>& mesh = *materialItr;
+
 		AliceMathF::Matrix3 mat;
 		mat.MakeRotation(angle);
 
-		for (PosNormUvTangeColSkin& vertice : materialItr->vertices)
+		for (PosNormUvTangeColSkin& vertice : mesh->vertices)
 		{
 			vertice.uv = AliceMathF::Vec2Mat3Mul(vertice.uv, mat);
 		}
 
-		materialItr->vertexBuffer->Update(materialItr->vertices.data());
+		mesh->vertexBuffer->Update(mesh->vertices.data());
 
-		materialItr->dirtyFlag = true;
+		mesh->dirtyFlag = true;
 	}
 	return false;
 }
 
 void AliceModel::InitializeVertex()
 {
-	for (ModelMesh& mesh : modelData->meshes)
+	for (std::unique_ptr<ModelMesh>& mesh : modelData->meshes)
 	{
-		if (mesh.dirtyFlag)
+		if (mesh->dirtyFlag)
 		{
-			mesh.InitializeVertex();
-			mesh.dirtyFlag = false;
+			mesh->InitializeVertex();
+			mesh->dirtyFlag = false;
 		}
 	}
 }
 
-const std::vector<ModelMesh>& AliceModel::GetMeshs()
+const std::vector<std::unique_ptr<ModelMesh>>& AliceModel::GetMeshs()
 {
 	return modelData->meshes;
 }
@@ -650,13 +657,13 @@ void AliceModel::ModelDraw(Transform& transform)
 		cmdList->SetPipelineState(modelMaterialData->pipelineState->GetPipelineState());
 		cmdList->SetGraphicsRootSignature(modelMaterialData->rootSignature->GetRootSignature());
 
-		if (modelData->meshes[i].node)
+		if (modelData->meshes[i]->node)
 		{
-			modelData->postureMatBuff->Update(&modelData->meshes[i].node->globalTransform);
+			modelData->postureMatBuff->Update(&modelData->meshes[i]->node->globalTransform);
 		}
 
 		cmdList->SetGraphicsRootConstantBufferView(3, modelData->postureMatBuff->GetAddress());
-		modelData->meshes[i].Draw(cmdList, transform, light);
+		modelData->meshes[i]->Draw(cmdList, transform, light);
 	}
 }
 
@@ -672,7 +679,7 @@ void AliceModel::ModelAnimationDraw(Transform& transform)
 		cmdList->SetGraphicsRootSignature(modelMaterialData->rootSignature->GetRootSignature());
 
 
-		modelData->meshes[i].AnimDraw(cmdList, transform, light);
+		modelData->meshes[i]->AnimDraw(cmdList, transform, light);
 	}
 }
 

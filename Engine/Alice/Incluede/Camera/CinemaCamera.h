@@ -66,7 +66,7 @@ private:
 	char PADDING2[3]{};
 
 	//焦点距離
-	float focalLength = 70.0f;
+	float focallength_ = 70.0f;
 	//センサーサイズ
 	SensorSize sensorSize = SensorSize::MEDIUM_FORMAT;
 	//画角計算フラグ
@@ -132,8 +132,8 @@ public:
 	/// <summary>
 	/// 焦点距離を設定
 	/// </summary>
-	/// <param name="length">焦点距離</param>
-	void SetFocalLength(float length);
+	/// <param name="length_">焦点距離</param>
+	void SetFocallength_(float length_);
 
 	/// <summary>
 	/// F値を設定
@@ -222,12 +222,12 @@ public:
 	/// <summary>
 	/// 注視点と視点の距離を取得
 	/// </summary>
-	float GetTargetToPositionLength() const;
+	float GetTargetToPositionlength_() const;
 
 	/// <summary>
 	/// 焦点距離を取得
 	/// </summary>
-	float GetFocalLength() const;
+	float GetFocallength_() const;
 
 	/// <summary>
 	/// F値を設定

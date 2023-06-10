@@ -6,7 +6,7 @@ class OBBCollider : public BaseCollider
 protected:
 	AliceMathF::Vector3 center = {};//位置
 	AliceMathF::Vector3 normaDirect[3];//方向ベクトル
-	float Length[3]{};// 各軸方向の長さ
+	float length_[3]{};// 各軸方向の長さ
 private:
 	char PADING[4]{};
 public:

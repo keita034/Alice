@@ -13,53 +13,57 @@
 
 #pragma warning(pop)
 
-#include"BaseBuffer.h"
-
 /// <summary>
-/// インデックスバッファ
+/// インデックスバッファ(インタフェース)
 /// </summary>
-class IndexBuffer : public BaseBuffer
+class IIndexBuffer
 {
-private:
-	
-	// インデックスバッファビュー
-	D3D12_INDEX_BUFFER_VIEW bufferView{};
-
-	void* bufferMappedPtr = nullptr;
-
-	size_t bufferLength = 0;
-
 public:
 
 	/// <summary>
 	/// インデックスバッファを生成
 	/// </summary>
-	/// <param name="length">インデックスバッファの要素数</param>
+	/// <param name="length_">インデックスバッファの要素数</param>
 	/// <param name="data">インデックス配列の先頭アドレス(uint32_t)</param>
-	void Create(size_t length, const uint32_t* data = nullptr);
+	virtual void Create(size_t length_, const uint32_t* data_) = 0;
 
 	/// <summary>
 	/// 成功したか
 	/// </summary>
-	bool IsValid();
+	virtual bool IsValid() = 0;
 
 	/// <summary>
 	/// インデックスバッファビューを取得
 	/// </summary>
-	D3D12_INDEX_BUFFER_VIEW GetView() const;
+	virtual const D3D12_INDEX_BUFFER_VIEW& GetView() = 0;
 
 	/// <summary>
 	/// データの更新
 	/// </summary>
 	/// <param name="data">データ</param>
-	void Update(void* data);
+	virtual void Update(void* data_) = 0;
 
-	IndexBuffer() = default;
-	~IndexBuffer() = default;
+	IIndexBuffer() = default;
+	virtual ~IIndexBuffer() = default;
 
 private:
 
-	IndexBuffer(const IndexBuffer&) = delete;
-	void operator = (const IndexBuffer&) = delete;
+	IIndexBuffer(const IIndexBuffer&) = delete;
+	void operator = (const IIndexBuffer&) = delete;
 };
 
+/// <summary>
+/// インデックスバッファの生成(ユニーク)
+/// </summary>
+/// <param name="length_">インデックスバッファの要素数</param>
+/// <param name="data">インデックス配列の先頭アドレス(uint32_t)</param>
+/// <returns>生成されたポインタ</returns>
+std::unique_ptr<IIndexBuffer> CreateUniqueIndexBuffer(size_t length_, const uint32_t* data_ = nullptr);
+
+/// <summary>
+/// インデックスバッファの生成(シェアード)
+/// </summary>
+/// <param name="length_">インデックスバッファの要素数</param>
+/// <param name="data">インデックス配列の先頭アドレス(uint32_t)</param>
+/// <returns>生成されたポインタ</returns>
+std::shared_ptr<IIndexBuffer> CreateSharedIndexBuffer(size_t length_, const uint32_t* data_ = nullptr);

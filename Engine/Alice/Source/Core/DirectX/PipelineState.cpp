@@ -41,7 +41,7 @@ bool PipelineState::Create()
 	pipelineDesc.BlendState = blendDesc;
 
 	// 頂点レイアウトの設定
-	pipelineDesc.InputLayout.NumElements = static_cast<UINT>(inputLayoutLength);
+	pipelineDesc.InputLayout.NumElements = static_cast<UINT>(inputLayoutlength_);
 	pipelineDesc.InputLayout.pInputElementDescs = inputLayoutData;
 
 	// 図形の形状設定
@@ -107,10 +107,10 @@ ID3D12PipelineState* PipelineState::GetPipelineState()
 	return pipelineState.Get();
 }
 
-void PipelineState::SetInputLayout(D3D12_INPUT_ELEMENT_DESC* desc, size_t length)
+void PipelineState::SetInputLayout(D3D12_INPUT_ELEMENT_DESC* desc, size_t length_)
 {
 	inputLayoutData = desc;
-	inputLayoutLength = length;
+	inputLayoutlength_ = length_;
 }
 
 void PipelineState::SetRootSignature(ID3D12RootSignature* pRootSignature)

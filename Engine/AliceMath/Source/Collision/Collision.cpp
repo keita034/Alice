@@ -99,7 +99,7 @@ bool Collision::CheckSphere2Sphere(SphereCollider& sphereA, SphereCollider& sphe
 	// 中心点の距離の２乗 <= 半径の和の２乗　なら交差
 	AliceMathF::Vector4 tmp;
 	tmp = sphereA.GetCenter() - sphereB.GetCenter();
-	float dist = tmp.LengthSquared();
+	float dist = tmp.length_Squared();
 	float radius2 = sphereA.GetRadius() + sphereB.GetRadius();
 	radius2 *= radius2;
 
@@ -361,7 +361,7 @@ bool Collision::CheckOBB2OBB(OBBCollider& obb1, OBBCollider& obb2)
 	AliceMathF::Vector3 Interval = obb1.GetCenter() - obb2.GetCenter();
 
 	//分離軸:Ae1
-	float rA = Ae1.Length();
+	float rA = Ae1.length_();
 	float rB = AliceMathF::LenSegOnSeparateAxis(&NAe1, &Be1, &Be2, &Be3);
 	float L = AliceMathF::Abs(Interval.Dot(NAe1));
 	if (L > rA + rB)
@@ -371,7 +371,7 @@ bool Collision::CheckOBB2OBB(OBBCollider& obb1, OBBCollider& obb2)
 	}
 
 	//分離軸:Ae2
-	rA = Ae2.Length();
+	rA = Ae2.length_();
 	rB = AliceMathF::LenSegOnSeparateAxis(&NAe2, &Be1, &Be2, &Be3);
 	L = AliceMathF::Abs(Interval.Dot(NAe2));
 	if (L > rA + rB)
@@ -381,7 +381,7 @@ bool Collision::CheckOBB2OBB(OBBCollider& obb1, OBBCollider& obb2)
 	}
 
 	//分離軸:Ae3
-	rA = Ae3.Length();
+	rA = Ae3.length_();
 	rB = AliceMathF::LenSegOnSeparateAxis(&NAe3, &Be1, &Be2, &Be3);
 	L = AliceMathF::Abs(Interval.Dot(NAe3));
 	if (L > rA + rB)
@@ -392,7 +392,7 @@ bool Collision::CheckOBB2OBB(OBBCollider& obb1, OBBCollider& obb2)
 
 	//分離軸:Be1
 	rA = AliceMathF::LenSegOnSeparateAxis(&NBe1, &Ae1, &Ae2, &Ae3);
-	rB = Be1.Length();
+	rB = Be1.length_();
 	L = AliceMathF::Abs(Interval.Dot(NBe1));
 	if (L > rA + rB)
 	{
@@ -402,7 +402,7 @@ bool Collision::CheckOBB2OBB(OBBCollider& obb1, OBBCollider& obb2)
 
 	//分離軸:Be2
 	rA = AliceMathF::LenSegOnSeparateAxis(&NBe2, &Ae1, &Ae2, &Ae3);
-	rB = Be2.Length();
+	rB = Be2.length_();
 	L = AliceMathF::Abs(Interval.Dot(NBe2));
 	if (L > rA + rB)
 	{
@@ -412,7 +412,7 @@ bool Collision::CheckOBB2OBB(OBBCollider& obb1, OBBCollider& obb2)
 
 	//分離軸:Be3
 	rA = AliceMathF::LenSegOnSeparateAxis(&NBe3, &Ae1, &Ae2, &Ae3);
-	rB = Be3.Length();
+	rB = Be3.length_();
 	L = AliceMathF::Abs(Interval.Dot(NBe3));
 	if (L > rA + rB)
 	{
@@ -536,7 +536,7 @@ bool Collision::CheckOBB2OBB(OBBCollider& obb1, OBBCollider& obb2)
 float Collision::Point2LineDistance(const Point2D& point, Line2D& line, Point2D& mPoint, float& t)
 {
 	t = 0.0f;
-	AliceMathF::Vector2 vec = line.GetAxis()*line.GetLength();
+	AliceMathF::Vector2 vec = line.GetAxis()*line.Getlength_();
 	float dvv = vec.Dot(vec);
 
 	if (dvv > 0.0f)
@@ -545,7 +545,7 @@ float Collision::Point2LineDistance(const Point2D& point, Line2D& line, Point2D&
 	}
 
 	mPoint = line.GetStart() + vec * t;
-	return (point - mPoint).Length();
+	return (point - mPoint).length_();
 }
 
 
@@ -585,7 +585,7 @@ float Collision::Point2CapsuleDistance(const Point2D& point, CapsuleCllider2D& c
 	//Line2D line;
 	//line.SetAxis(capsule.GetAxis());
 	//line.SetStart(capsule.GetStart());
-	//line.SetLength(capsule.GetLength());
+	//line.Setlength_(capsule.Getlength_());
 
 	//float distance = Point2LineDistance(point, line, mPoint, t);
 
@@ -593,7 +593,7 @@ float Collision::Point2CapsuleDistance(const Point2D& point, CapsuleCllider2D& c
 	//{
 	//	mPoint = capsule.GetStart();
 
-	//	return (point - mPoint).Length();
+	//	return (point - mPoint).length_();
 	//}
 
 	//if (t > 1.0f)
@@ -602,7 +602,7 @@ float Collision::Point2CapsuleDistance(const Point2D& point, CapsuleCllider2D& c
 
 	//	AliceMathF::Vector2 vec = point - mPoint;
 
-	//	return vec.Length();
+	//	return vec.length_();
 	//}
 }
 

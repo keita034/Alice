@@ -13,71 +13,75 @@
 
 #pragma warning(pop)
 
-#include"BaseBuffer.h"
-
 /// <summary>
-/// 読み取り専用構造化バッファ
+/// 読み取り専用構造化バッファ (インタフェース)
 /// </summary>
-class StructuredBuffer : public BaseBuffer
+class IStructuredBuffer
 {
-
-private:
-
-	size_t bufferLength;
-	size_t bufferSingleSize;
-
-	void* BufferMappedPtr = nullptr;
-
-	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
-
-	D3D12_GPU_DESCRIPTOR_HANDLE structuredBufferHandle;
 public:
 
 	/// <summary>
 	/// バッファを生成
 	/// </summary>
-	/// <param name="length">要素数</param>
-	/// <param name="singleSize">単体のサイズ</param>
-	/// <param name="data">配列の先頭アドレス</param>
-	void Create(size_t length, size_t singleSize, const void* data = nullptr);
+	/// <param name="length_">要素数</param>
+	/// <param name="singleSize_">単体のサイズ</param>
+	/// <param name="data_">配列の先頭アドレス</param>
+	virtual void Create(size_t length_, size_t singleSize_, const void* data_) = 0;
 
 	/// <summary>
 	/// バッファ生成に成功したかを返す
 	/// </summary>
 	/// <returns>バッファ生成に成功したか</returns>
-	bool IsValid();
+	virtual bool IsValid() = 0;
 
 	/// <summary>
 	/// バッファのGPU上のアドレスを返す
 	/// </summary>
 	/// <returns>バッファのGPU上のアドレス</returns>
-	D3D12_GPU_DESCRIPTOR_HANDLE GetAddress() const;
+	virtual const D3D12_GPU_DESCRIPTOR_HANDLE& GetAddress() = 0;
 
 	/// <summary>
 	/// バッファビューを返す
 	/// </summary>
 	/// <returns>バッファビュー</returns>
-	D3D12_SHADER_RESOURCE_VIEW_DESC GetViewDesc();
+	virtual const D3D12_SHADER_RESOURCE_VIEW_DESC& GetViewDesc() = 0;
 
 	/// <summary>
 	/// バッファにマッピングされたポインタを返す
 	/// </summary>
 	/// <returns>バッファにマッピングされたポインタ</returns>
-	void* GetPtr() const;
+	virtual void* GetPtr() const = 0;
 
 	/// <summary>
 	/// データの更新
 	/// </summary>
-	/// <param name="data">データ</param>
-	void Update(void* data);
+	/// <param name="data_">データ</param>
+	virtual void Update(void* data_) = 0;
 
-	~StructuredBuffer() = default;
-	StructuredBuffer() = default;
+	virtual ~IStructuredBuffer() = default;
+	IStructuredBuffer() = default;
 
 private:
 
-	StructuredBuffer(const StructuredBuffer&) = delete;
-	void operator = (const StructuredBuffer&) = delete;
+	IStructuredBuffer(const IStructuredBuffer&) = delete;
+	void operator = (const IStructuredBuffer&) = delete;
 
 };
 
+/// <summary>
+///  読み取り専用構造化バッファを生成(ユニーク)
+/// </summary>
+/// <param name="length_">要素数</param>
+/// <param name="singleSize_">単体のサイズ</param>
+/// <param name="data_">配列の先頭アドレス</param>
+/// <returns>生成されたポインタ</returns>
+std::unique_ptr<IStructuredBuffer> CreateUniqueStructuredBuffer(size_t length_, size_t singleSize_, const void* data_ = nullptr);
+
+/// <summary>
+/// 読み取り専用構造化バッファを生成(シェアード)
+/// </summary>
+/// <param name="length_">要素数</param>
+/// <param name="singleSize_">単体のサイズ</param>
+/// <param name="data_">配列の先頭アドレス</param>
+/// <returns>生成されたポインタ</returns>
+std::shared_ptr<IStructuredBuffer> CreateSharedStructuredBuffer(size_t length_, size_t singleSize_, const void* data_ = nullptr);

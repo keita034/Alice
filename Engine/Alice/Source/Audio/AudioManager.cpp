@@ -208,11 +208,11 @@ uint32_t AudioManager::LoadAudio(std::string FileName, const float& Volume)
 		pMFSample->ConvertToContiguousBuffer(&pMFMediaBuffer);
 
 		BYTE* pBuffer{ nullptr };
-		DWORD cbCurrentLength{ 0 };
-		pMFMediaBuffer->Lock(&pBuffer, nullptr, &cbCurrentLength);
+		DWORD cbCurrentlength_{ 0 };
+		pMFMediaBuffer->Lock(&pBuffer, nullptr, &cbCurrentlength_);
 
-		audios.back().mediaData.resize(audios.back().mediaData.size() + cbCurrentLength);
-		memcpy(audios.back().mediaData.data() + audios.back().mediaData.size() - cbCurrentLength, pBuffer, cbCurrentLength);
+		audios.back().mediaData.resize(audios.back().mediaData.size() + cbCurrentlength_);
+		memcpy(audios.back().mediaData.data() + audios.back().mediaData.size() - cbCurrentlength_, pBuffer, cbCurrentlength_);
 
 		pMFMediaBuffer->Unlock();
 

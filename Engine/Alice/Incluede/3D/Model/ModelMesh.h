@@ -57,13 +57,13 @@ public:
 	Node* node = nullptr;
 
 	//頂点バッファ
-	std::shared_ptr<VertexBuffer> vertexBuffer;
+	std::unique_ptr<IVertexBuffer> vertexBuffer;
 	//インデックスバッファ
-	std::shared_ptr<IndexBuffer> indexBuffer;
+	std::unique_ptr<IndexBuffer> indexBuffer;
 	//マテリアルバッファ
-	std::shared_ptr<ConstantBuffer> materialBuffer;
+	std::unique_ptr<ConstantBuffer> materialBuffer;
 	//ボーン
-	std::shared_ptr<ConstantBuffer> constBoneBuffer;
+	std::unique_ptr<ConstantBuffer> constBoneBuffer;
 
 	BoneData bonedata;
 
@@ -92,12 +92,16 @@ public:
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void ToonDraw(ID3D12GraphicsCommandList* cmdList, Transform& transform,D3D12_GPU_DESCRIPTOR_HANDLE rampHandle,Light* light);
+	void ToonDraw(ID3D12GraphicsCommandList* cmdList, Transform& transform, D3D12_GPU_DESCRIPTOR_HANDLE rampHandle, Light* light);
+
+	void OutLineDraw(ID3D12GraphicsCommandList* cmdList, Transform& transform);
 
 	/// <summary>
 	/// アニメーション描画
 	/// </summary>
 	void AnimToonDraw(ID3D12GraphicsCommandList* cmdList, Transform& transform, D3D12_GPU_DESCRIPTOR_HANDLE rampHandle, Light* light);
+
+	void AnimOutLineDraw(ID3D12GraphicsCommandList* cmdList, Transform& transform);
 
 	void Update();
 

@@ -1,60 +1,40 @@
 ﻿#pragma once
 #pragma warning(push)
-#pragma warning(disable: 4514)
+#pragma warning(disable: 4061)
+#pragma warning(disable: 4062)
+#pragma warning(disable: 4265)
+#pragma warning(disable: 4365)
+#pragma warning(disable: 4625)
+#pragma warning(disable: 4626)
 #pragma warning(disable: 4668)
 #pragma warning(disable: 4820)
 #pragma warning(disable: 5039)
+#pragma warning(disable: 5204)
+#pragma warning(disable: 5220)
+#pragma warning(disable: 4514)
 
-#include<imgui.h>
 #include<Windows.h>
+#include<widemath.h>
+#include<string>
+#include<memory>
 
 #pragma warning(pop)
-
 
 /// <summary>
 /// ウィンドウクラス
 /// </summary>
-class WindowsApp
+class IWindowsApp
 {
-private:
-	//ウィンドウクラス
-	WNDCLASSEX wndclassex{};
-	//ハンドル
-	HWND hwnd;
-	//メッセージ
-	MSG massege{};
-	//横幅
-	UINT windowWidth;
-	//縦幅
-	UINT windowHeight;
-	//ウインドウスタイル(サイズ変更できない・最大化できない)
-	DWORD windowStyle = WS_OVERLAPPEDWINDOW & ~(WS_MAXIMIZEBOX | WS_THICKFRAME);
-
-	//レンダーすべきか
-	bool renderShould = false;
-	//サイズが変更されたか
-	bool isSizeChanged = false;
-	char PADING[2];
-
-	RECT windowRect;
-
 public:
-	
+
 	//サイズ取得用構造体
 	struct WindowsSize
 	{
 		//横幅
-		UINT width;
+		uint32_t width;
 		//縦幅
-		UINT height;
+		uint32_t height;
 	};
-
-	/// <summary>
-	/// シングルトンインスタンスの取得
-	/// </summary>
-	static WindowsApp* GetInstance();
-
-	static WindowsSize GetWindowsSize();
 
 	/// <summary>
 	/// ウィンドウ生成
@@ -62,71 +42,86 @@ public:
 	/// <param name="title">タイトル(ワイド文字)</param>
 	/// <param name="width">ウィンドウ横幅</param>
 	/// <param name="height">ウィンドウ横幅</param>
-	void CreatWindow(const wchar_t* title = L"DirectXGame", UINT width = 1280, UINT height = 720);
-	
+	virtual void CreatWindow(const std::wstring& title_, uint32_t width_, uint32_t height_) = 0;
+
 	/// <summary>
 	/// メッセージ処理
 	/// </summary>
-	bool MessageWindow();
+	virtual bool MessageWindow() = 0;
 
 	/// <summary>
 	/// 後始末
 	/// </summary>
-	void Break();
+	virtual void Break() = 0;
 
 	/// <summary>
 	/// ウィンドウクラスを取得
 	/// </summary>
-	WNDCLASSEX* GetWndclassex();
+	virtual WNDCLASSEX* GetWndclassex() = 0;
 
 	/// <summary>
 	/// ハンドルを取得
 	/// </summary>
-	HWND* GetHwnd();
+	virtual HWND* GetHwnd() = 0;
 
 	/// <summary>
 	/// ウィンドサイズを取得
 	/// </summary>
-	WindowsSize GetWindowSize();
+	virtual WindowsSize GetWindowSize() = 0;
 
 	/// <summary>
 	/// ボーダーレスのフルスクリーン
 	/// </summary>
-	void ShowFullScreen();
+	virtual void ShowFullScreen()= 0;
 
 	/// <summary>
 	/// ボーダーレスのフルスクリーン
 	/// </summary>
-	void ShowDefaultWindow(LONG h, LONG w);
+	virtual void ShowDefaultWindow(uint64_t width_, uint64_t height_) = 0;
 
 	/// <summary>
 	/// 描画するか(画面)
 	/// </summary>
-	const bool& RenderShould();
+	virtual const bool& RenderShould() = 0;
 
 	/// <summary>
 	/// フラグをfalseに
 	/// </summary>
-	void RenderShouldFalse();
+	virtual void RenderShouldFalse() = 0;
 
 	/// <summary>
 	/// サイズが変更されたか
 	/// </summary>
-	const bool& IsSizeChanged();
+	virtual const bool& IsSizeChanged() = 0;
 
 	/// <summary>
 	/// フラグをfalseに
 	/// </summary>
-	void IsSizeChangedFalse();
+	virtual void IsSizeChangedFalse() = 0;
 
 	/// <summary>
 	/// 現在のウィンドウサイズ
 	/// </summary>
 	/// <returns></returns>
-	WindowsSize GetNowWindowSize();
+	virtual WindowsSize GetNowWindowSize() = 0;
 
-private:
 	//コンストラクタ・デストラクタ
-	WindowsApp() = default;
-	~WindowsApp() = default;
+	IWindowsApp() = default;
+	virtual ~IWindowsApp() = default;
 };
+
+/// <summary>
+/// ウィンドウクラスの生成(ユニーク)
+/// </summary>
+/// <param name="title">タイトル(ワイド文字)</param>
+/// <param name="width">ウィンドウ横幅</param>
+/// <param name="height">ウィンドウ横幅</param>
+std::unique_ptr<IWindowsApp> CreateUniqueWindowsApp(const std::wstring& title_ = L"DirectXGame", uint32_t width_ = 1280, uint32_t height_ = 720);
+
+/// <summary>
+///  ウィンドウクラスの生成(シェアード)
+/// </summary>
+/// <param name="title">タイトル(ワイド文字)</param>
+/// <param name="width">ウィンドウ横幅</param>
+/// <param name="height">ウィンドウ横幅</param>
+std::shared_ptr<IWindowsApp> CreateSharedWindowsApp(const std::wstring& title_ = L"DirectXGame", uint32_t width_ = 1280, uint32_t height_ = 720);

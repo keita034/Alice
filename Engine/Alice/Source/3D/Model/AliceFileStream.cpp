@@ -97,7 +97,11 @@ void AliceFileStream::ReadMeshsData(std::stringstream& data, std::string& str, A
 
 		for (size_t i = 0; i < model->meshes.size(); i++)
 		{
-			ReadMeshData(data, line, model->meshes[i], model->nodes);
+			std::unique_ptr<ModelMesh> mesh = std::make_unique<ModelMesh>();
+
+			ReadMeshData(data, line, mesh, model->nodes);
+
+			model->meshes.push_back(std::move(mesh));
 		}
 
 		if (str == line)
@@ -108,7 +112,7 @@ void AliceFileStream::ReadMeshsData(std::stringstream& data, std::string& str, A
 
 }
 
-void AliceFileStream::ReadMeshData(std::stringstream& data, std::string& str, ModelMesh& mesh, std::vector<Node>& nodes)
+void AliceFileStream::ReadMeshData(std::stringstream& data, std::string& str, std::unique_ptr<ModelMesh>& mesh, std::vector<Node>& nodes)
 {
 	//1行分の文字列を入れる変数
 	std::string line;
@@ -142,7 +146,7 @@ void AliceFileStream::ReadMeshData(std::stringstream& data, std::string& str, Mo
 		{
 			getline(stream, line, ':');
 
-			ReadString(line, mesh.name);
+			ReadString(line, mesh->name);
 
 			continue;
 		}
@@ -151,22 +155,22 @@ void AliceFileStream::ReadMeshData(std::stringstream& data, std::string& str, Mo
 		{
 			getline(stream, line, ':');
 
-			ReadString(line, mesh.nodeName);
+			ReadString(line, mesh->nodeName);
 
 			std::vector<Node>::iterator itr;
 			itr = std::find_if(nodes.begin(), nodes.end(), [&](Node& p)
 				{
-					return p.name == mesh.nodeName;
+					return p.name == mesh->nodeName;
 				});
 
 			if (itr != nodes.end())
 			{
-				mesh.node = &*itr;
+				mesh->node = &*itr;
 				continue;
 			}
 			else
 			{
-				mesh.node = nullptr;
+				mesh->node = nullptr;
 			}
 
 			continue;
@@ -178,14 +182,14 @@ void AliceFileStream::ReadMeshData(std::stringstream& data, std::string& str, Mo
 
 			float vertexNum;
 			ReadNumber(line, vertexNum);
-			mesh.vertices.resize((size_t)vertexNum);
+			mesh->vertices.resize((size_t)vertexNum);
 
-			for (size_t i = 0; i < mesh.vertices.size(); i++)
+			for (size_t i = 0; i < mesh->vertices.size(); i++)
 			{
 				getline(data, line, '\n');
 				line = line.substr(8, line.size() - 9);
 
-				ReadVertex(line, mesh.vertices[i]);
+				ReadVertex(line, mesh->vertices[i]);
 			}
 
 			continue;
@@ -197,14 +201,14 @@ void AliceFileStream::ReadMeshData(std::stringstream& data, std::string& str, Mo
 
 			float indexNum;
 			ReadNumber(line, indexNum);
-			mesh.indices.resize((size_t)indexNum);
+			mesh->indices.resize((size_t)indexNum);
 
-			for (size_t i = 0; i < mesh.indices.size(); i++)
+			for (size_t i = 0; i < mesh->indices.size(); i++)
 			{
 				getline(data, line, '\n');
 				line = line.substr(6, line.size() - 6);
 
-				ReadNumber(line, mesh.indices[i]);
+				ReadNumber(line, mesh->indices[i]);
 			}
 
 			continue;
@@ -215,9 +219,9 @@ void AliceFileStream::ReadMeshData(std::stringstream& data, std::string& str, Mo
 
 			float textureNum;
 			ReadNumber(line, textureNum);
-			mesh.textures.resize(static_cast<size_t>(textureNum));
+			mesh->textures.resize(static_cast<size_t>(textureNum));
 
-			for (size_t i = 0; i < mesh.textures.size(); i++)
+			for (size_t i = 0; i < mesh->textures.size(); i++)
 			{
 				getline(data, line, '\n');
 				line = line.substr(8, line.size() - 8);
@@ -227,7 +231,7 @@ void AliceFileStream::ReadMeshData(std::stringstream& data, std::string& str, Mo
 
 				filepath = directoryPath + filepath;
 
-				mesh.textures[i] = TextureManager::GetTextureData(TextureManager::Load(filepath));
+				mesh->textures[i] = TextureManager::GetTextureData(TextureManager::Load(filepath));
 			}
 
 			continue;
@@ -239,9 +243,9 @@ void AliceFileStream::ReadMeshData(std::stringstream& data, std::string& str, Mo
 
 			float texturesNormalNum;
 			ReadNumber(line, texturesNormalNum);
-			mesh.texturesNormal.resize(static_cast<size_t>(texturesNormalNum));
+			mesh->texturesNormal.resize(static_cast<size_t>(texturesNormalNum));
 
-			for (size_t i = 0; i < mesh.texturesNormal.size(); i++)
+			for (size_t i = 0; i < mesh->texturesNormal.size(); i++)
 			{
 				getline(data, line, '\n');
 				line = line.substr(14, line.size() - 14);
@@ -251,7 +255,7 @@ void AliceFileStream::ReadMeshData(std::stringstream& data, std::string& str, Mo
 
 				filepath = directoryPath + filepath;
 
-				mesh.texturesNormal[i] = TextureManager::GetTextureData(TextureManager::Load(filepath));
+				mesh->texturesNormal[i] = TextureManager::GetTextureData(TextureManager::Load(filepath));
 			}
 
 			continue;
@@ -264,14 +268,14 @@ void AliceFileStream::ReadMeshData(std::stringstream& data, std::string& str, Mo
 
 			float boneNum;
 			ReadNumber(line, boneNum);
-			mesh.vecBones.resize((size_t)boneNum);
+			mesh->vecBones.resize((size_t)boneNum);
 
-			for (size_t i = 0; i < mesh.vecBones.size(); i++)
+			for (size_t i = 0; i < mesh->vecBones.size(); i++)
 			{
 				getline(data, line, '\n');
 				line = line.substr(6, line.size() - 7);
 
-				ReadBoneData(line, mesh.vecBones[i]);
+				ReadBoneData(line, mesh->vecBones[i]);
 			}
 
 			continue;
@@ -283,7 +287,7 @@ void AliceFileStream::ReadMeshData(std::stringstream& data, std::string& str, Mo
 
 			line = line.substr(1, line.size() - 2);
 
-			ReadMaterial(line, mesh.material);
+			ReadMaterial(line, mesh->material);
 
 		}
 	}
@@ -356,7 +360,8 @@ void AliceFileStream::ReadHesderData(std::stringstream& data, std::string& str, 
 
 			float meshNum;
 			ReadNumber(line, meshNum);
-			model->meshes.resize((size_t)meshNum);
+
+			model->meshes.reserve((size_t)meshNum);
 			continue;
 		}
 	}
@@ -724,7 +729,7 @@ bool AliceFileStream::ReadMeshBinaryData(AliceModelData* model, FILE* fp)
 {
 	for (size_t i = 0; i < model->meshes.size(); i++)
 	{
-		ModelMesh& mesh = model->meshes[i];
+		std::unique_ptr<ModelMesh>mesh;
 
 		//名前
 		{
@@ -733,7 +738,7 @@ bool AliceFileStream::ReadMeshBinaryData(AliceModelData* model, FILE* fp)
 			if (nameNum < 256)
 			{
 				fread(buffC.data(), sizeof(char), nameNum, fp);
-				mesh.name = std::string(buffC.data(), nameNum);
+				mesh->name = std::string(buffC.data(), nameNum);
 			}
 			else
 			{
@@ -748,7 +753,7 @@ bool AliceFileStream::ReadMeshBinaryData(AliceModelData* model, FILE* fp)
 			if (nameNum < 256)
 			{
 				fread(buffC.data(), sizeof(char), nameNum, fp);
-				mesh.nodeName = std::string(buffC.data(), nameNum);
+				mesh->nodeName = std::string(buffC.data(), nameNum);
 			}
 			else
 			{
@@ -758,16 +763,16 @@ bool AliceFileStream::ReadMeshBinaryData(AliceModelData* model, FILE* fp)
 			std::vector<Node>::iterator itr;
 			itr = std::find_if(model->nodes.begin(), model->nodes.end(), [&](Node& p)
 				{
-					return p.name == mesh.nodeName;
+					return p.name == mesh->nodeName;
 				});
 
 			if (itr != model->nodes.end())
 			{
-				mesh.node = &*itr;
+				mesh->node = &*itr;
 			}
 			else
 			{
-				mesh.node = nullptr;
+				mesh->node = nullptr;
 			}
 		}
 
@@ -775,18 +780,18 @@ bool AliceFileStream::ReadMeshBinaryData(AliceModelData* model, FILE* fp)
 		{
 			size_t vertexNum;
 			fread(&vertexNum, sizeof(size_t), 1, fp);
-			mesh.vertices.resize(vertexNum);
+			mesh->vertices.resize(vertexNum);
 
-			fread(mesh.vertices.data(), sizeof(mesh.vertices[0]), vertexNum, fp);
+			fread(mesh->vertices.data(), sizeof(mesh->vertices[0]), vertexNum, fp);
 		}
 
 		//インデックスデータ
 		{
 			size_t indexNum;
 			fread(&indexNum, sizeof(size_t), 1, fp);
-			mesh.indices.resize(indexNum);
+			mesh->indices.resize(indexNum);
 
-			fread(mesh.indices.data(), sizeof(mesh.indices[0]), indexNum, fp);
+			fread(mesh->indices.data(), sizeof(mesh->indices[0]), indexNum, fp);
 		}
 
 		//テクスチャファイルパス
@@ -794,7 +799,7 @@ bool AliceFileStream::ReadMeshBinaryData(AliceModelData* model, FILE* fp)
 			size_t TextureNum;
 			fread(&TextureNum, sizeof(size_t), 1, fp);
 
-			model->meshes[i].textures.resize(TextureNum);
+			model->meshes[i]->textures.resize(TextureNum);
 			for (size_t j = 0; j < TextureNum; j++)
 			{
 				size_t nameNum;
@@ -804,7 +809,7 @@ bool AliceFileStream::ReadMeshBinaryData(AliceModelData* model, FILE* fp)
 					fread(buffC.data(), sizeof(char), nameNum, fp);
 					std::string filepath = std::string(buffC.data(), nameNum);
 					filepath = directoryPath + filepath;
-					model->meshes[i].textures[j] = TextureManager::GetTextureData(TextureManager::Load(filepath));
+					model->meshes[i]->textures[j] = TextureManager::GetTextureData(TextureManager::Load(filepath));
 				}
 				else
 				{
@@ -817,7 +822,7 @@ bool AliceFileStream::ReadMeshBinaryData(AliceModelData* model, FILE* fp)
 		{
 			size_t TextureNum;
 			fread(&TextureNum, sizeof(size_t), 1, fp);
-			model->meshes[i].texturesNormal.resize(TextureNum);
+			model->meshes[i]->texturesNormal.resize(TextureNum);
 			for (size_t j = 0; j < TextureNum; j++)
 			{
 				size_t nameNum;
@@ -828,7 +833,7 @@ bool AliceFileStream::ReadMeshBinaryData(AliceModelData* model, FILE* fp)
 
 					std::string filepath = std::string(buffC.data(), nameNum);
 					filepath = directoryPath + filepath;
-					model->meshes[i].texturesNormal[j] = TextureManager::GetTextureData(TextureManager::Load(filepath));
+					model->meshes[i]->texturesNormal[j] = TextureManager::GetTextureData(TextureManager::Load(filepath));
 				}
 				else
 				{
@@ -839,7 +844,7 @@ bool AliceFileStream::ReadMeshBinaryData(AliceModelData* model, FILE* fp)
 
 		//ボーン
 		{
-			size_t bonesNum = mesh.vecBones.size();
+			size_t bonesNum = mesh->vecBones.size();
 			fread(&bonesNum, sizeof(size_t), 1, fp);
 
 			for (size_t j = 0; j < bonesNum; j++)
@@ -849,57 +854,61 @@ bool AliceFileStream::ReadMeshBinaryData(AliceModelData* model, FILE* fp)
 				if (nameNum < 256)
 				{
 					fread(buffC.data(), sizeof(char), nameNum, fp);
-					mesh.vecBones[j].name = std::string(buffC.data(), nameNum);
+					mesh->vecBones[j].name = std::string(buffC.data(), nameNum);
 				}
 				else
 				{
 					return false;
 				}
 
-				fread(&mesh.vecBones[j].offsetMatirx, sizeof(float), 16, fp);
+				fread(&mesh->vecBones[j].offsetMatirx, sizeof(float), 16, fp);
 
-				fread(&mesh.vecBones[j].index, sizeof(UINT), 1, fp);
+				fread(&mesh->vecBones[j].index, sizeof(UINT), 1, fp);
 			}
 		}
 
 		//マテリアル
 		{
-			size_t nameNum = mesh.material.name.size();
+			size_t nameNum = mesh->material.name.size();
 			fread(&nameNum, sizeof(size_t), 1, fp);
 			if (nameNum < 256)
 			{
 				fread(buffC.data(), sizeof(char), nameNum, fp);
-				mesh.material.name = std::string(buffC.data(), nameNum);
+				mesh->material.name = std::string(buffC.data(), nameNum);
 			}
 			else
 			{
 				return false;
 			}
 
-			fread(&mesh.material.ambient, sizeof(float), 3, fp);
+			fread(&mesh->material.ambient, sizeof(float), 3, fp);
 
-			fread(&mesh.material.diffuse, sizeof(float), 3, fp);
+			fread(&mesh->material.diffuse, sizeof(float), 3, fp);
 
-			fread(&mesh.material.specular, sizeof(float), 3, fp);
+			fread(&mesh->material.specular, sizeof(float), 3, fp);
 
-			fread(&mesh.material.emission, sizeof(float), 3, fp);
+			fread(&mesh->material.emission, sizeof(float), 3, fp);
 
-			fread(&mesh.material.shininess, sizeof(float), 1, fp);
+			fread(&mesh->material.shininess, sizeof(float), 1, fp);
 
-			fread(&mesh.material.alpha, sizeof(float), 1, fp);
+			fread(&mesh->material.alpha, sizeof(float), 1, fp);
 
 			fread(&nameNum, sizeof(size_t), 1, fp);
 			if (nameNum < 256)
 			{
 				fread(buffC.data(), sizeof(char), nameNum, fp);
-				mesh.material.textureFiename = std::string(buffC.data(), nameNum);
+				mesh->material.textureFiename = std::string(buffC.data(), nameNum);
 			}
 			else
 			{
 				return false;
 			}
 		}
+
+		model->meshes.push_back(std::move(mesh));
 	}
+
+
 
 	return true;
 }

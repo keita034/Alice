@@ -11,8 +11,7 @@ void ModelMesh::CreateBuffer()
 	//一つ分のサイズ計算
 	size_t stride = sizeof(PosNormUvTangeColSkin);
 	//生成
-	vertexBuffer = std::make_shared<VertexBuffer>();
-	vertexBuffer->Create(size, stride);
+	vertexBuffer = CreateVertexBuffer(size, stride);
 	if (!vertexBuffer->IsValid())
 	{
 		printf("Failed to create vertex buffer\n");
@@ -24,7 +23,7 @@ void ModelMesh::CreateBuffer()
 	size = indices.size();
 	uint32_t* indice = indices.data();
 	//生成
-	indexBuffer = std::make_shared<IndexBuffer>();
+	indexBuffer = std::make_unique<IndexBuffer>();
 	indexBuffer->Create(size, indice);
 	if (!indexBuffer->IsValid())
 	{
@@ -32,7 +31,7 @@ void ModelMesh::CreateBuffer()
 		return;
 	}
 
-	materialBuffer = std::make_shared<ConstantBuffer>();
+	materialBuffer = std::make_unique<ConstantBuffer>();
 	materialBuffer->Create(sizeof(ConstBuffDataMaterial));
 	if (!materialBuffer->IsValid())
 	{
@@ -163,9 +162,73 @@ void ModelMesh::ToonDraw(ID3D12GraphicsCommandList* cmdList, Transform& transfor
 	}
 }
 
+void ModelMesh::OutLineDraw(ID3D12GraphicsCommandList* cmdList, Transform& transform)
+{
+	D3D12_VERTEX_BUFFER_VIEW vbView = vertexBuffer->GetView();
+	D3D12_INDEX_BUFFER_VIEW ibView = indexBuffer->GetView();
+
+	// 定数バッファビュー(CBV)の設定コマンド
+	cmdList->SetGraphicsRootConstantBufferView(0, transform.GetAddress());
+
+	// 頂点バッファビューの設定コマンド
+	cmdList->IASetVertexBuffers(0, 1, &vbView);
+
+	//インデックスバッファビューの設定コマンド
+	cmdList->IASetIndexBuffer(&ibView);
+
+	// 描画コマンド
+	cmdList->DrawIndexedInstanced(static_cast<UINT>(indices.size()), 1, 0, 0, 0);
+}
+
 void ModelMesh::AnimToonDraw(ID3D12GraphicsCommandList* cmdList, Transform& transform, D3D12_GPU_DESCRIPTOR_HANDLE rampHandle, Light* light)
 {
+	D3D12_VERTEX_BUFFER_VIEW vbView = vertexBuffer->GetView();
+	D3D12_INDEX_BUFFER_VIEW ibView = indexBuffer->GetView();
 
+	for (TextureData* texture : textures)
+	{
+		// 定数バッファビュー(CBV)の設定コマンド
+		cmdList->SetGraphicsRootConstantBufferView(0, transform.GetAddress());
+		cmdList->SetGraphicsRootConstantBufferView(1, materialBuffer->GetAddress());
+		light->SetConstBufferView(cmdList, 2);
+		cmdList->SetGraphicsRootConstantBufferView(3, constBoneBuffer->GetAddress());
+
+		// 頂点バッファビューの設定コマンド
+		cmdList->IASetVertexBuffers(0, 1, &vbView);
+
+		//インデックスバッファビューの設定コマンド
+		cmdList->IASetIndexBuffer(&ibView);
+
+		// SRVヒープの設定コマンド
+		ID3D12DescriptorHeap* descriptorHeaps[] = { texture->srvHeap };
+		cmdList->SetDescriptorHeaps(1, descriptorHeaps);
+
+		// SRVヒープの先頭にあるSRVをルートパラメータ2番に設定
+		cmdList->SetGraphicsRootDescriptorTable(4, texture->gpuHandle);
+		cmdList->SetGraphicsRootDescriptorTable(5, rampHandle);
+
+		// 描画コマンド
+		cmdList->DrawIndexedInstanced(static_cast<UINT>(indices.size()), 1, 0, 0, 0);
+
+	}
+}
+
+void ModelMesh::AnimOutLineDraw(ID3D12GraphicsCommandList* cmdList, Transform& transform)
+{
+	D3D12_VERTEX_BUFFER_VIEW vbView = vertexBuffer->GetView();
+	D3D12_INDEX_BUFFER_VIEW ibView = indexBuffer->GetView();
+
+	// 定数バッファビュー(CBV)の設定コマンド
+	cmdList->SetGraphicsRootConstantBufferView(0, transform.GetAddress());
+	cmdList->SetGraphicsRootConstantBufferView(1, constBoneBuffer->GetAddress());
+
+	// 頂点バッファビューの設定コマンド
+	cmdList->IASetVertexBuffers(0, 1, &vbView);
+
+	//インデックスバッファビューの設定コマンド
+	cmdList->IASetIndexBuffer(&ibView);
+	// 描画コマンド
+	cmdList->DrawIndexedInstanced(static_cast<UINT>(indices.size()), 1, 0, 0, 0);
 }
 
 void ModelMesh::Update()

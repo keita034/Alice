@@ -8,98 +8,73 @@
 #pragma warning(disable: 4820)
 #pragma warning(disable: 5039)
 
-#include<vector>
 #include<memory>
 
 #pragma warning(pop)
 
 #include<RenderTargetBuffer.h>
 
-class SwapChain
+/// <summary>
+/// スワップチェイン
+/// </summary>
+class ISwapChain
 {
-private:
-
-	//デバイス
-	ID3D12Device* device;
-
-	//スワップチェイン
-	Microsoft::WRL::ComPtr<IDXGISwapChain4> swapChain;
-
-	//バッファの数
-	static const UINT FrameBufferCount = 2;
-
-	//バックバッファ
-	std::vector<std::unique_ptr<RenderTargetBuffer>> backBuffers;
-
-	//フェンスの生成
-	std::vector<UINT64> fenceValues;
-	UINT64 fenceVal;
-
-	//ディスク
-	DXGI_SWAP_CHAIN_DESC1 desc;
-
-	//ハンドル
-	HANDLE waitEvent;
-
-	//フェンス
-	Microsoft::WRL::ComPtr<ID3D12Fence> fence;
-
-	//ディスクリプタヒープ
-	ID3D12CommandQueue* commandQueue;
-
-
 public:
 
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="swapchain">スワップチェイン</param>
-	/// <param name="dev">デバイス</param>
+	/// <param name="device_">デバイス</param>
 	/// <param name="heap">レンダーターゲット用ディスクリプタヒープ</param>
-	/// <param name="useHDR"></param>
-	SwapChain(ID3D12Device* dev, Microsoft::WRL::ComPtr<IDXGISwapChain1>& swapchain, ID3D12CommandQueue* queue, bool useHDR = false);
+	virtual void Initialize(ID3D12Device* device_, const Microsoft::WRL::ComPtr<IDXGISwapChain1>& swapchain_, ID3D12CommandQueue* queue_) = 0 ;
 
-	~SwapChain();
+	ISwapChain() = default;
+	virtual ~ISwapChain() = default;
 
 	/// <summary>
 	/// リサイズ
 	/// </summary>
-	void ResizeTarget(const DXGI_MODE_DESC* pNewTargetParameters);
+	virtual void ResizeTarget(const DXGI_MODE_DESC* pNewTargetParameters_) = 0;
 
 	/// <summary>
 	/// フルスクリーンか
 	/// </summary>
-	bool IsFullScreen() const;
+	virtual bool IsFullScreen() const = 0;
 
 	/// <summary>
 	/// フルスクリーンをセット
 	/// </summary>
-	void SetFullScreen(bool toFullScreen);
+	virtual void SetFullScreen(bool toFullScreen_) = 0;
 
 	/// <summary>
 	/// バッファサイズ変更
 	/// </summary>
-	void ResizeBuffers(UINT width, UINT height);
+	virtual void ResizeBuffers(uint32_t width_, uint32_t height_) = 0;
 
-	void WaitPreviousFrame();
+	virtual void WaitPreviousFrame() = 0;
 
-	void WaitForGpu();
+	virtual void WaitForGpu() = 0;
 
+	virtual HRESULT Present(uint32_t SyncInterval_, uint32_t Flags_) = 0;
 
-	HRESULT Present(UINT SyncInterval, UINT Flags);
+	virtual void Transition(size_t index,const D3D12_RESOURCE_STATES& resourceStates_) = 0;
 
-	void Transition(size_t index, D3D12_RESOURCE_STATES resourceStates);
+	virtual uint32_t GetCurrentBackBufferIndex() const = 0;
 
-	UINT GetCurrentBackBufferIndex() const;
+	virtual IRenderTargetBuffer* GetRenderTarget(size_t index_)const = 0;
 
-	RenderTargetBuffer* GetRenderTarget(size_t index)const;
+	virtual const D3D12_CPU_DESCRIPTOR_HANDLE& GetRenderTargetHandl(size_t index_) = 0;
 
-	const D3D12_CPU_DESCRIPTOR_HANDLE& GetRenderTargetHandl(size_t index);
-
-	size_t GetBackBufferCount() const;
-
-private:
-
-	SwapChain() = delete;
+	virtual size_t GetBackBufferCount() const = 0;
 };
 
+/// <summary>
+/// 深度デスクプリタヒープの生成(ユニーク)
+/// </summary>
+std::unique_ptr<ISwapChain> CreateUniqueSwapChain(ID3D12Device* device_, const Microsoft::WRL::ComPtr<IDXGISwapChain1>& swapchain_, ID3D12CommandQueue* queue_);
+
+/// <summary>
+/// 深度デスクプリタヒープの生成(シェアード)
+/// </summary>
+std::shared_ptr<ISwapChain> CreateSharedSwapChain(ID3D12Device* device_, const Microsoft::WRL::ComPtr<IDXGISwapChain1>& swapchain_, ID3D12CommandQueue* queue_);

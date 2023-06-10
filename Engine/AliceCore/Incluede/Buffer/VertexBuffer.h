@@ -13,63 +13,64 @@
 
 #pragma warning(pop)
 
-
-#include"BaseBuffer.h"
-
 /// <summary>
-/// 頂点バッファ
+/// 頂点バッファ(インターフェース)
 /// </summary>
-class VertexBuffer : public BaseBuffer
+class IVertexBuffer
 {
-private:
-
-	// 頂点バッファビュー
-	D3D12_VERTEX_BUFFER_VIEW vertexBufferView = {};
-
-	void* bufferMappedPtr = nullptr;
-
 public:
-	
+
 	/// <summary>
-	/// バッファを生成
+	/// <para>バッファを生成</para>
+	/// <para>頂点バッファの生成時に呼び出し済み</para>
 	/// </summary>
-	/// <param name="length">要素数</param>
+	/// <param name="length_">要素数</param>
 	/// <param name="singleSize">単体のサイズ</param>
 	/// <param name="data">配列の先頭アドレス</param>
-	void Create(size_t length, size_t singleSize, const void* data = nullptr);
-	
+	virtual void Create(size_t length_, size_t singleSize_, const void* data_) = 0;
+
 	/// <summary>
 	/// 頂点バッファビューを取得
 	/// </summary>
 	/// <returns>頂点バッファビュー</returns>
-	D3D12_VERTEX_BUFFER_VIEW GetView() const;
+	virtual const D3D12_VERTEX_BUFFER_VIEW& GetView() = 0;
 
 	/// <summary>
 	/// バッファを取得
 	/// </summary>
 	/// <returns>バッファ</returns>
-	ID3D12Resource* GetResource();
+	virtual ID3D12Resource* GetResource() = 0;
 
 	/// <summary>
 	/// バッファの生成に成功したかを取得
 	/// </summary>
 	/// <returns>成功したか</returns>
-	bool IsValid();
+	virtual bool IsValid() = 0;
 
 	/// <summary>
 	/// データの更新
 	/// </summary>
 	/// <param name="data">データ</param>
-	void Update(void* data);
+	virtual void Update(void* data_) = 0;
 
-	void CommonInitialize(ID3D12Device* dev);
-	
-	~VertexBuffer() = default;
-	VertexBuffer() = default;
-
-private:
-
-	VertexBuffer(const VertexBuffer&) = delete;
-	void operator = (const VertexBuffer&) = delete;
+	virtual ~IVertexBuffer() = default;
+	IVertexBuffer() = default;
 };
 
+/// <summary>
+/// 頂点バッファを生成(ユニーク)
+/// </summary>
+/// <param name="length_">要素数</param>
+/// <param name="singleSize">単体のサイズ</param>
+/// <param name="data">配列の先頭アドレス</param>
+/// <returns>生成されたポインタ</returns>
+std::unique_ptr<IVertexBuffer> CreateUniqueVertexBuffer(size_t length_, size_t singleSize_, const void* data_ = nullptr);
+
+/// <summary>
+/// 頂点バッファを生成(シェアード)
+/// </summary>
+/// <param name="length_">要素数</param>
+/// <param name="singleSize">単体のサイズ</param>
+/// <param name="data">配列の先頭アドレス</param>
+/// <returns>生成されたポインタ</returns>
+std::shared_ptr<IVertexBuffer> CreateSharedVertexBuffer(size_t length_, size_t singleSize_, const void* data_ = nullptr);

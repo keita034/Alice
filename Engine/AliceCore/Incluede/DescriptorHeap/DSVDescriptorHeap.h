@@ -1,26 +1,35 @@
 ﻿#pragma once
-#include"BaseDescriptorHeap.h"
 
-class DSVDescriptorHeap : public BaseDescriptorHeap
+#pragma warning(push)
+#pragma warning(disable: 4061)
+#pragma warning(disable: 4062)
+#pragma warning(disable: 4265)
+#pragma warning(disable: 4365)
+#pragma warning(disable: 4625)
+#pragma warning(disable: 4626)
+#pragma warning(disable: 4668)
+#pragma warning(disable: 4820)
+#pragma warning(disable: 5039)
+#pragma warning(disable: 5204)
+#pragma warning(disable: 5220)
+#pragma warning(disable: 4514)
+
+#include<directx/d3d12.h>
+#include<memory>
+#pragma warning(pop)
+
+/// <summary>
+/// 深度デスクプリタヒープ
+/// </summary>
+class IDSVDescriptorHeap
 {
-private:
-
-	size_t maxDSV = 2048;
-
-	size_t countDSV = 0;
-
-	UINT incrementSize;
-
-	char PADING2[4];
-
-	D3D12_CPU_DESCRIPTOR_HANDLE	startCpuHandle;
 
 public:
 
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize();
+	virtual void Initialize() = 0;
 
 	/// <summary>
 	/// デプスステンシルビューを生成
@@ -28,16 +37,26 @@ public:
 	/// <param name="desc"> デプスステンシルビューデスク</param>
 	/// <param name="resource">バッファ</param>
 	/// <returns>GPUハンドル(UINT64)</returns>
-	UINT64 CreateDSV(D3D12_DEPTH_STENCIL_VIEW_DESC& desc, ID3D12Resource* resource);
+	virtual uint64_t CreateDSV(const D3D12_DEPTH_STENCIL_VIEW_DESC& desc_, ID3D12Resource* resource_) = 0;
 
 	/// <summary>
 	/// デスクプリタヒープを取得
 	/// </summary>
-	ID3D12DescriptorHeap* GetHeap();
+	virtual ID3D12DescriptorHeap* GetHeap() = 0;
 
-	UINT GetIncrementSize();
+	virtual uint32_t GetIncrementSize() = 0;
 
-	~DSVDescriptorHeap() = default;
+	virtual ~IDSVDescriptorHeap() = default;
+	IDSVDescriptorHeap() = default;
 
 };
 
+/// <summary>
+/// 深度デスクプリタヒープの生成(ユニーク)
+/// </summary>
+std::unique_ptr<IDSVDescriptorHeap> CreateUniqueDSVDescriptorHeap();
+
+/// <summary>
+/// 深度デスクプリタヒープの生成(シェアード)
+/// </summary>
+std::shared_ptr<IDSVDescriptorHeap> CreateSharedDSVDescriptorHeap();

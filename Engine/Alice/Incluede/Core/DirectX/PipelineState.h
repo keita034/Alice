@@ -36,7 +36,7 @@ private:
 	//インプットレイアウトデータ
 	D3D12_INPUT_ELEMENT_DESC* inputLayoutData;
 	//インプットレイアウトサイズ
-	size_t inputLayoutLength;
+	size_t inputLayoutlength_;
 	//ブレンドデスク
 	D3D12_BLEND_DESC blendDesc  = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
 	
@@ -59,8 +59,8 @@ public:
 	/// インプットレイアウトをセット
 	/// </summary>
 	/// <param name="desc">インプットレイアウトの先頭アドレス</param>
-	/// <param name="length">要素数</param>
-	void SetInputLayout(D3D12_INPUT_ELEMENT_DESC* desc, size_t length);
+	/// <param name="length_">要素数</param>
+	void SetInputLayout(D3D12_INPUT_ELEMENT_DESC* desc, size_t length_);
 
 	/// <summary>
 	/// ルートシグネチャのアドレスをセット

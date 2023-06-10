@@ -10,7 +10,7 @@ class PostEffectSprite
 private:
 
 	//頂点バッファ
-	std::unique_ptr<VertexBuffer> vertexBuffer;
+	std::unique_ptr<IVertexBuffer> vertexBuffer;
 
 	//インデックスバッファ
 	std::unique_ptr<IndexBuffer> indexBuffer;

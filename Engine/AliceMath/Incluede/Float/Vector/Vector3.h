@@ -37,7 +37,7 @@ namespace AliceMathF
 		Vector3(aiVector3D& aiVector);
 		Vector3(const Vector2& vec,float z);
 
-		float Length()const;//ノルムを求める
+		float length_()const;//ノルムを求める
 		Vector3 Normalization()const;//正規化する
 		Vector3& Normal();//正規化する
 		float Dot(const Vector3& v)const;//内積を求める

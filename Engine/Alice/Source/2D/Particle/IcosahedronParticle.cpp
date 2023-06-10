@@ -10,8 +10,7 @@ void IcosahedronParticle::Initialize()
 	cmdList = DirectX12Core::GetInstance()->GetCommandList();
 
 	//頂点バッファ生成
-	vertexBuffer = std::make_unique<VertexBuffer>();
-	vertexBuffer->Create(vertexCount, sizeof(VerPosColScaRot));
+	vertexBuffer = CreateVertexBuffer(vertexCount, sizeof(VerPosColScaRot));
 
 	//定数バッファ生成
 	constBuffTransform = std::make_unique<ConstantBuffer>();

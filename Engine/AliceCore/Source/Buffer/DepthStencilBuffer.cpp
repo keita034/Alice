@@ -1,60 +1,90 @@
 ﻿#include "DepthStencilBuffer.h"
 
-#pragma warning(push)
-#pragma warning(disable: 4061)
-#pragma warning(disable: 4062)
-#pragma warning(disable: 4514)
-#pragma warning(disable: 4365)
-#pragma warning(disable: 4668)
-#pragma warning(disable: 4820)
-#pragma warning(disable: 5039)
+#include"BaseBuffer.h"
 
-#include<directx/d3dx12.h>
-
-#pragma warning(pop)
-
-bool DepthStencilBuffer::Create(UINT w, UINT h, DXGI_FORMAT format)
+class DepthStencilBuffer : public BaseBuffer,public IDepthStencilBuffer
 {
-	height = h;
-	width = w;
-	
+private:
+
+	//幅
+	uint32_t width = 0;
+	//高さ
+	uint32_t height = 0;
+	//ハンドル
+	D3D12_CPU_DESCRIPTOR_HANDLE handle{};
+
+public:
+
+	/// <summary>
+	/// 生成
+	/// </summary>
+	bool Create(uint32_t width_, uint32_t height_, DXGI_FORMAT format_) override;
+
+	/// <summary>
+	/// サイズ変更
+	/// </summary>
+	bool Resize(uint32_t width_, uint32_t height_) override;
+
+	/// <summary>
+	/// リソースを取得
+	/// </summary>
+	ID3D12Resource* GetTexture() const override;
+
+	/// <summary>
+	/// ポインタ番号を取得
+	/// </summary>
+	const D3D12_CPU_DESCRIPTOR_HANDLE& GetHandle() override;
+
+	~DepthStencilBuffer() = default;
+	DepthStencilBuffer() = default;
+};
+
+bool DepthStencilBuffer::Resize(uint32_t width_, uint32_t height_)
+{
+	//開放
+	resource->Release();
+
+	//幅
+	height = height_;
+	width = width_;
+
 	//クリアビュー
-	D3D12_CLEAR_VALUE clearValue{};
-	clearValue.Format = format;
-	clearValue.DepthStencil.Depth = 1.0f;
-	clearValue.DepthStencil.Stencil = 0;
+	D3D12_CLEAR_VALUE lClearValue{};
+	lClearValue.Format = DXGI_FORMAT_D32_FLOAT;
+	lClearValue.DepthStencil.Depth = 1.0f;
+	lClearValue.DepthStencil.Stencil = 0;
 
 	//リソースディスク
-	CD3DX12_RESOURCE_DESC desc(
+	CD3DX12_RESOURCE_DESC lResDesc(
 		D3D12_RESOURCE_DIMENSION_TEXTURE2D,
 		0,
-		w,h,
-		1,1,
-		format,
-		1,0,
+		static_cast<UINT64>(width), static_cast<UINT>(height),
+		1, 1,
+		DXGI_FORMAT_D32_FLOAT,
+		1, 0,
 		D3D12_TEXTURE_LAYOUT_UNKNOWN,
 		D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL | D3D12_RESOURCE_FLAG_DENY_SHADER_RESOURCE);
 
 	//ヒーププロップ
-	CD3DX12_HEAP_PROPERTIES prop = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
+	CD3DX12_HEAP_PROPERTIES lHeapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
 
 	//深度バッファ作成
-	HRESULT hr = device->CreateCommittedResource(
-		&prop,
+	HRESULT hr = sDevice->CreateCommittedResource(
+		&lHeapProp,
 		D3D12_HEAP_FLAG_NONE,
-		&desc,
+		&lResDesc,
 		D3D12_RESOURCE_STATE_DEPTH_WRITE,
-		&clearValue,
+		&lClearValue,
 		IID_PPV_ARGS(resource.GetAddressOf())
 	);
 
 	//ビューディスク
-	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
-	dsvDesc.Format = format;
-	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+	D3D12_DEPTH_STENCIL_VIEW_DESC lDsvResDesc = {};
+	lDsvResDesc.Format = DXGI_FORMAT_D32_FLOAT;
+	lDsvResDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
 
 	//DSV制作
-	handle.ptr = DSVHeap->CreateDSV(dsvDesc, resource.Get());
+	sDevice->CreateDepthStencilView(resource.Get(), &lDsvResDesc, handle);
 
 	if (FAILED(hr))
 	{
@@ -63,55 +93,50 @@ bool DepthStencilBuffer::Create(UINT w, UINT h, DXGI_FORMAT format)
 	}
 
 	return true;
-
 }
 
-bool DepthStencilBuffer::Resize(UINT w, UINT h)
+bool DepthStencilBuffer::Create(uint32_t width_, uint32_t height_, DXGI_FORMAT format_)
 {
-	//開放
-	resource.Reset();
-
-	//幅
-	height = h;
-	width = w;
+	height = height_;
+	width = width_;
 
 	//クリアビュー
-	D3D12_CLEAR_VALUE clearValue{};
-	clearValue.Format = DXGI_FORMAT_D32_FLOAT;
-	clearValue.DepthStencil.Depth = 1.0f;
-	clearValue.DepthStencil.Stencil = 0;
+	D3D12_CLEAR_VALUE lClearValue{};
+	lClearValue.Format = format_;
+	lClearValue.DepthStencil.Depth = 1.0f;
+	lClearValue.DepthStencil.Stencil = 0;
 
 	//リソースディスク
-	CD3DX12_RESOURCE_DESC desc(
+	CD3DX12_RESOURCE_DESC lResDesc(
 		D3D12_RESOURCE_DIMENSION_TEXTURE2D,
 		0,
-		w, h,
+		static_cast<UINT64>(width), static_cast<UINT>(height),
 		1, 1,
-		DXGI_FORMAT_D32_FLOAT,
+		format_,
 		1, 0,
 		D3D12_TEXTURE_LAYOUT_UNKNOWN,
 		D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL | D3D12_RESOURCE_FLAG_DENY_SHADER_RESOURCE);
 
 	//ヒーププロップ
-	CD3DX12_HEAP_PROPERTIES prop = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
+	CD3DX12_HEAP_PROPERTIES lHeapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
 
 	//深度バッファ作成
-	HRESULT hr = device->CreateCommittedResource(
-		&prop,
+	HRESULT hr = sDevice->CreateCommittedResource(
+		&lHeapProp,
 		D3D12_HEAP_FLAG_NONE,
-		&desc,
+		&lResDesc,
 		D3D12_RESOURCE_STATE_DEPTH_WRITE,
-		&clearValue,
+		&lClearValue,
 		IID_PPV_ARGS(resource.GetAddressOf())
 	);
 
 	//ビューディスク
-	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
-	dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;
-	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+	D3D12_DEPTH_STENCIL_VIEW_DESC lDsvResDesc = {};
+	lDsvResDesc.Format = format_;
+	lDsvResDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
 
 	//DSV制作
-	device->CreateDepthStencilView(resource.Get(), &dsvDesc, handle);
+	handle.ptr = sDSVHeap->CreateDSV(lDsvResDesc, resource.Get());
 
 	if (FAILED(hr))
 	{
@@ -130,4 +155,18 @@ ID3D12Resource* DepthStencilBuffer::GetTexture() const
 const D3D12_CPU_DESCRIPTOR_HANDLE& DepthStencilBuffer::GetHandle()
 {
 	return handle;
+}
+
+std::unique_ptr<IDepthStencilBuffer> CreateUniqueDepthStencilBuffer(uint32_t width_, uint32_t height_, DXGI_FORMAT format_)
+{
+	std::unique_ptr<IDepthStencilBuffer> lDepthStencilBuffer = std::make_unique<DepthStencilBuffer>();
+	lDepthStencilBuffer->Create(width_, height_, format_);
+	return std::move(lDepthStencilBuffer);
+}
+
+std::shared_ptr<IDepthStencilBuffer> CreateSharedDepthStencilBuffer(uint32_t width_, uint32_t height_, DXGI_FORMAT format_)
+{
+	std::shared_ptr<IDepthStencilBuffer> lDepthStencilBuffer = std::make_shared<DepthStencilBuffer>();
+	lDepthStencilBuffer->Create(width_, height_, format_);
+	return lDepthStencilBuffer;
 }

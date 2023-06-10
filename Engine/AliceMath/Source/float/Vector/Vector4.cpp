@@ -37,13 +37,13 @@ namespace AliceMathF
 		w = vec.m128_f32[3];
 	}
 
-	float Vector4::Length() const
+	float Vector4::length_() const
 	{
-		float len = LengthSquared();
+		float len = length_Squared();
 		return Sqrt(len);
 	}
 
-	float Vector4::LengthSquared() const
+	float Vector4::length_Squared() const
 	{
 		return Dot(*this);
 	}
@@ -52,7 +52,7 @@ namespace AliceMathF
 	{
 		Vector4 tmp(*this);
 
-		float len = Length();
+		float len = length_();
 		if (len != 0)
 		{
 			return tmp /= len;
@@ -64,7 +64,7 @@ namespace AliceMathF
 
 	Vector4& Vector4::Normal()
 	{
-		float len = Length();
+		float len = length_();
 		if (len != 0)
 		{
 			return *this /= len;
@@ -86,13 +86,13 @@ namespace AliceMathF
 		Vector3 temp = v1.Cross(v2);
 		return { temp.x,temp.y,temp.z,0.0f };
 	}
-	float Vector4::Vector3Length() const
+	float Vector4::Vector3length_() const
 	{
-		float len = Vector3LengthSquared();
+		float len = Vector3length_Squared();
 		return Sqrt(len);
 	}
 
-	float Vector4::Vector3LengthSquared() const
+	float Vector4::Vector3length_Squared() const
 	{
 		return Vector3Dot(*this);
 	}
@@ -101,7 +101,7 @@ namespace AliceMathF
 	{
 		Vector4 tmp(*this);
 
-		float len = Vector3Length();
+		float len = Vector3length_();
 		if (len != 0)
 		{
 			return tmp /= len;
@@ -113,7 +113,7 @@ namespace AliceMathF
 
 	Vector4& Vector4::Vector3Normal()
 	{
-		float len = Vector3Length();
+		float len = Vector3length_();
 		if (len != 0)
 		{
 			return *this /= len;

@@ -7,16 +7,14 @@ SamplerState rampSmp : register(s1); //1番スロットに設定されたサンプラー
 
 float4 main(VSOutput input) : SV_TARGET
 {
-    float3 light_diffuse = saturate(dot(lightv, input.normal));
-    float3 shade_color;
-    shade_color = m_ambient; //アンビエント項
-    shade_color += m_diffuse * light_diffuse; //ディフューズ項
-    //Rampテクスチャからサンプリング
-    float3 rampCol = ramp.Sample(rampSmp, shade_color.rg).rgb;
+    //ハーフランバート
+    float light_diffuse = (dot(input.normal, lightv));
+    light_diffuse = light_diffuse * 0.5f + 0.5f;
+    light_diffuse = light_diffuse * light_diffuse;
+    
     float4 texcolor = tex.Sample(smp, input.uv);
-    return float4(texcolor.rgb * rampCol, texcolor.a * m_alpha);
-    
-    //return float4(texcolor.rgb * shade_color, texcolor.a * m_alpha);
-    
-    //return tex.Sample(smp, input.uv);
+ 
+    float4 rampCol = ramp.Sample(rampSmp, float2(light_diffuse, 0.5));
+ 
+    return float4(texcolor.rgb * rampCol.rgb, texcolor.a * m_alpha);
 }

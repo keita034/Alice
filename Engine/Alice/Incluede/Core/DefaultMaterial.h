@@ -40,11 +40,9 @@ private:
 	void CreateDefaultPhongMaterial();
 
 	void CreateDefaultSprite2DMaterial();
-
 	void CreateDefaultSprite3DMaterial();
 
 	void CreateDefaultFbxMaterial();
-
 	void CreateDefaultFbxAnimationMaterial();
 
 	void CreateDefaultParticleMaterial();
@@ -58,8 +56,12 @@ private:
 	void CreateDefaultIcosahedronParticleMaterial();
 
 	void CreateDefaultToonModelMaterial();
-
 	void CreateDefaultToonModelAnimationMaterial();
+	void CreateDefaultToonModelOutLineMaterial();
+	void CreateDefaultToonModelOutLineAnimationMaterial();
+
+	void CreateDefaultZeldaToonModelMaterial();
+	void CreateDefaultZeldaToonModelAnimationMaterial();
 
 	Material* CreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE type, BlendMode mode, Shader* vex, Shader* pix);
 

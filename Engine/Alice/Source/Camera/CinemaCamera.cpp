@@ -18,7 +18,7 @@ void CinemaCamera::Initialize()
 	}
 	if (fovAngleY == 0.0f)
 	{
-		fovAngleY = fovAngleY = 2 * AliceMathF::Atan(AliceMathF::GetDiagonal(cameraSensorSize.width, cameraSensorSize.height) / (2 * focalLength));
+		fovAngleY = fovAngleY = 2 * AliceMathF::Atan(AliceMathF::GetDiagonal(cameraSensorSize.width, cameraSensorSize.height) / (2 * focallength_));
 	}
 
 	//透視投影行列の計算
@@ -40,7 +40,7 @@ void CinemaCamera::Initialize()
 	//注視点と視点の距離取得
 	AliceMathF::Vector3 toPos;
 	toPos = eye - target;
-	tgtToPosLen = toPos.Length();
+	tgtToPosLen = toPos.length_();
 
 	updateViewMatrix = false;
 }
@@ -49,7 +49,7 @@ void CinemaCamera::Update()
 {
 	if (updatefovAngleY)
 	{
-		fovAngleY = 2 * AliceMathF::Atan(AliceMathF::GetDiagonal(cameraSensorSize.width, cameraSensorSize.height) / (2 * focalLength));
+		fovAngleY = 2 * AliceMathF::Atan(AliceMathF::GetDiagonal(cameraSensorSize.width, cameraSensorSize.height) / (2 * focallength_));
 
 		updatefovAngleY = false;
 	}
@@ -74,7 +74,7 @@ void CinemaCamera::Update()
 
 		AliceMathF::Vector3 toPos;
 		toPos = eye - target;
-		tgtToPosLen = toPos.Length();
+		tgtToPosLen = toPos.length_();
 
 		updateViewMatrix = false;
 	}
@@ -117,9 +117,9 @@ void CinemaCamera::SetNear(float fNear)
 	updateProjMatrix = true;
 }
 
-void CinemaCamera::SetFocalLength(float length)
+void CinemaCamera::SetFocallength_(float length_)
 {
-	focalLength = length;
+	focallength_ = length_;
 	updatefovAngleY = true;
 	updateProjMatrix = true;
 
@@ -236,14 +236,14 @@ float CinemaCamera::GetFovAngleY() const
 	return fovAngleY;
 }
 
-float CinemaCamera::GetTargetToPositionLength() const
+float CinemaCamera::GetTargetToPositionlength_() const
 {
 	return tgtToPosLen;
 }
 
-float CinemaCamera::GetFocalLength() const
+float CinemaCamera::GetFocallength_() const
 {
-	return focalLength;
+	return focallength_;
 }
 
 float CinemaCamera::GetAperture() const

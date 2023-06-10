@@ -82,7 +82,7 @@ protected:
 	Microsoft::WRL::ComPtr <ID3D12GraphicsCommandList> cmdList = nullptr;
 
 	//頂点バッファ
-	std::unique_ptr<VertexBuffer>vertexBuffer;
+	std::unique_ptr<IVertexBuffer>vertexBuffer;
 	//定数バッファ
 	std::unique_ptr<ConstantBuffer> constBuffTransform = nullptr;
 	//定数バッファのマッピング用

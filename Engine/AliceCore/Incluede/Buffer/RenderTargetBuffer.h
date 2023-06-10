@@ -2,77 +2,104 @@
 
 #pragma warning(push)
 #pragma warning(disable: 4061)
+#pragma warning(disable: 4062)
 #pragma warning(disable: 4365)
 #pragma warning(disable: 4514)
+#pragma warning(disable: 4365)
 #pragma warning(disable: 4668)
 #pragma warning(disable: 4820)
 #pragma warning(disable: 5039)
 
 #include<array>
-#include<cassert>
 #include<dxgi1_6.h>
+#include<directx/d3dx12.h>
 
 #pragma warning(pop)
 
-#include"BaseBuffer.h"
-
-class RenderTargetBuffer : public BaseBuffer
+/// <summary>
+/// レンダーターゲットバッファ(インタフェース)
+/// </summary>
+class IRenderTargetBuffer
 {
-	//幅
-	UINT width = 0;
-	//高さ
-	UINT height = 0;
-	//ハンドル
-	D3D12_CPU_DESCRIPTOR_HANDLE handle{};
-	//ステータス
-	D3D12_RESOURCE_STATES states{};
-	char PADING[4];
-
 public:
 
 	/// <summary>
 	/// 生成
 	/// </summary>
-	/// <param name="w">横幅</param>
-	/// <param name="h">縦幅</param>
+	/// <param name="width_">横幅</param>
+	/// <param name="height_">縦幅</param>
 	/// <param name="resourceStates">ステータス</param>
 	/// <param name="mipLevel">ミップレベル</param>
 	/// <param name="arraySize">配列のサイズ</param>
 	/// <param name="format">フォーマット</param>
 	/// <param name="clearColor">カラー</param>
-	bool Create(UINT w, UINT h, D3D12_RESOURCE_STATES resourceStates, UINT16 mipLevel = 0, UINT16 arraySize = 1, DXGI_FORMAT format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, const std::array<float, 4>& clearColor = { {1.0f,1.0f,1.0f,1.0f } });
+	virtual bool Create(uint32_t width_, uint32_t height_, D3D12_RESOURCE_STATES resourceStates_, uint16_t mipLevel_, uint16_t arraySize_, DXGI_FORMAT format_, const std::array<float, 4>& clearColor_) =0;
 
 	/// <summary>
 	/// 生成
 	/// </summary>
-	/// <param name="swapChain4"></param>
-	/// <returns></returns>
-	bool Create(IDXGISwapChain4* swapChain,UINT index);
+	/// <param name="swapChain4">スワップチェイン</param>
+	virtual bool Create(IDXGISwapChain4* swapChain_, uint32_t index_) = 0;
 
 	/// <summary>
 	/// リソースを取得
 	/// </summary>
-	ID3D12Resource* GetTexture() const;
+	virtual ID3D12Resource* GetTexture() const = 0;
 
 	/// <summary>
 	/// ポインタ番号を取得
 	/// </summary>
-	const D3D12_CPU_DESCRIPTOR_HANDLE& GetHandle();
+	virtual const D3D12_CPU_DESCRIPTOR_HANDLE& GetHandle() = 0;
 
 	/// <summary>
 	/// リソースステータス変更
 	/// </summary>
 	/// <param name="resourceStates">ステータス</param>
-	void Transition(D3D12_RESOURCE_STATES resourceStates);
+	virtual void Transition(D3D12_RESOURCE_STATES resourceStates_) = 0;
 
 	/// <summary>
 	/// リセット
 	/// </summary>
-	void Reset();
+	virtual void Reset() = 0;
 
-	void Resize(IDXGISwapChain4* swapChain, UINT index);
+	virtual void Resize(IDXGISwapChain4* swapChain_, uint32_t index_) = 0;
 
-	~RenderTargetBuffer() = default;
-	RenderTargetBuffer() = default;
+	virtual ~IRenderTargetBuffer() = default;
+	IRenderTargetBuffer() = default;
 };
 
+/// <summary>
+/// レンダーターゲットバッファの生成(ユニーク)
+/// </summary>
+/// <param name="width_">横幅</param>
+/// <param name="height_">縦幅</param>
+/// <param name="resourceStates">ステータス</param>
+/// <param name="mipLevel">ミップレベル</param>
+/// <param name="arraySize">配列のサイズ</param>
+/// <param name="format">フォーマット</param>
+/// <param name="clearColor">カラー</param>
+std::unique_ptr<IRenderTargetBuffer> CreateUniqueRenderTargetBuffer(uint32_t width_, uint32_t height_, D3D12_RESOURCE_STATES resourceStates_, uint16_t mipLevel_ = 0, uint16_t arraySize_ = 1, DXGI_FORMAT format_ = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, const std::array<float, 4>& clearColor_ = { {1.0f,1.0f,1.0f,1.0f } });
+
+/// <summary>
+/// レンダーターゲットバッファの生成(ユニーク)
+/// </summary>
+/// <param name="swapChain4">スワップチェイン</param>
+std::unique_ptr<IRenderTargetBuffer> CreateUniqueRenderTargetBuffer(IDXGISwapChain4* swapChain_, uint32_t index_);
+
+/// <summary>
+/// レンダーターゲットバッファの生成(シェアード)
+/// </summary>
+/// <param name="width_">横幅</param>
+/// <param name="height_">縦幅</param>
+/// <param name="resourceStates">ステータス</param>
+/// <param name="mipLevel">ミップレベル</param>
+/// <param name="arraySize">配列のサイズ</param>
+/// <param name="format">フォーマット</param>
+/// <param name="clearColor">カラー</param>
+std::shared_ptr<IRenderTargetBuffer> CreateSharedRenderTargetBuffer(uint32_t width_, uint32_t height_, D3D12_RESOURCE_STATES resourceStates_, uint16_t mipLevel_ = 0, uint16_t arraySize_ = 1, DXGI_FORMAT format_ = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, const std::array<float, 4>& clearColor_ = { {1.0f,1.0f,1.0f,1.0f } });
+
+/// <summary>
+/// レンダーターゲットバッファの生成(シェアード)
+/// </summary>
+/// <param name="swapChain4">スワップチェイン</param>
+std::shared_ptr<IRenderTargetBuffer> CreateSharedRenderTargetBuffer(IDXGISwapChain4* swapChain_, uint32_t index_);
