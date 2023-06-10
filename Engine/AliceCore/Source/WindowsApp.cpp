@@ -75,9 +75,6 @@ public:
 	/// <summary>
 	/// ウィンドウ生成
 	/// </summary>
-	/// <param name="title">タイトル(ワイド文字)</param>
-	/// <param name="width">ウィンドウ横幅</param>
-	/// <param name="height">ウィンドウ横幅</param>
 	void CreatWindow(const std::wstring& title_, uint32_t width_, uint32_t height_) override;
 
 	/// <summary>

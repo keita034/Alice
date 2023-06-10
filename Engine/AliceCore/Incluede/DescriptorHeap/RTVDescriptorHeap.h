@@ -50,11 +50,11 @@ public:
 };
 
 /// <summary>
-/// 深度デスクプリタヒープの生成(ユニーク)
+/// レンダーターゲットデスクプリタヒープの生成(ユニーク)
 /// </summary>
 std::unique_ptr<IRTVDescriptorHeap> CreateUniqueRTVDescriptorHeap();
 
 /// <summary>
-/// 深度デスクプリタヒープの生成(シェアード)
+/// レンダーターゲットデスクプリタヒープの生成(シェアード)
 /// </summary>
 std::shared_ptr<IRTVDescriptorHeap> CreateSharedRTVDescriptorHeap();

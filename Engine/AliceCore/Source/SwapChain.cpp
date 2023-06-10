@@ -53,9 +53,6 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	/// <param name="swapchain">スワップチェイン</param>
-	/// <param name="device_">デバイス</param>
-	/// <param name="heap">レンダーターゲット用ディスクリプタヒープ</param>
 	void Initialize(ID3D12Device* device_, const Microsoft::WRL::ComPtr<IDXGISwapChain1>& swapchain_, ID3D12CommandQueue* queue_);
 
 	SwapChain() = default;

@@ -8,5 +8,4 @@ void BaseDescriptorHeap::SSetDevice(ID3D12Device* device_)
 	{
 		sDevice = device_;
 	}
-
 }

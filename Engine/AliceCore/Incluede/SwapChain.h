@@ -70,11 +70,11 @@ public:
 };
 
 /// <summary>
-/// 深度デスクプリタヒープの生成(ユニーク)
+/// スワップチェインの生成(ユニーク)
 /// </summary>
 std::unique_ptr<ISwapChain> CreateUniqueSwapChain(ID3D12Device* device_, const Microsoft::WRL::ComPtr<IDXGISwapChain1>& swapchain_, ID3D12CommandQueue* queue_);
 
 /// <summary>
-/// 深度デスクプリタヒープの生成(シェアード)
+/// スワップチェインの生成(シェアード)
 /// </summary>
 std::shared_ptr<ISwapChain> CreateSharedSwapChain(ID3D12Device* device_, const Microsoft::WRL::ComPtr<IDXGISwapChain1>& swapchain_, ID3D12CommandQueue* queue_);

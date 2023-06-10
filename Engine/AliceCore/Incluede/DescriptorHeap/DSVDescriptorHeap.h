@@ -44,6 +44,9 @@ public:
 	/// </summary>
 	virtual ID3D12DescriptorHeap* GetHeap() = 0;
 
+	/// <summary>
+	/// インクリメントサイズを取得
+	/// </summary>
 	virtual uint32_t GetIncrementSize() = 0;
 
 	virtual ~IDSVDescriptorHeap() = default;
