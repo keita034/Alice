@@ -10,11 +10,10 @@ void RainParticle::Initialize()
 	cmdList = DirectX12Core::GetInstance()->GetCommandList();
 
 	//頂点バッファ生成
-	vertexBuffer = CreateVertexBuffer(vertexCount, sizeof(VerPosColScaRot));
+	vertexBuffer = CreateUniqueVertexBuffer(vertexCount, sizeof(VerPosColScaRot));
 
 	//定数バッファ生成
-	constBuffTransform = std::make_unique<ConstantBuffer>();
-	constBuffTransform->Create(sizeof(ParticleConstBuffData));
+	constBuffTransform = CreateUniqueConstantBuffer(sizeof(ParticleConstBuffData));
 }
 
 void RainParticle::Update(const AliceMathF::Vector3& centerPos, const AliceMathF::Vector2& emitRadius, const AliceMathF::Vector4& col, UINT lifeTime)

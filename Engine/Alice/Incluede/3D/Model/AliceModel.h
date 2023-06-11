@@ -27,7 +27,7 @@ private:
 	std::vector<std::unique_ptr<ModelMesh>> meshes;
 
 	//姿勢行列
-	std::unique_ptr<ConstantBuffer> postureMatBuff;
+	std::unique_ptr<IConstantBuffer> postureMatBuff;
 
 	//ノード配列
 	std::vector<Node> nodes;

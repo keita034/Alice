@@ -432,12 +432,11 @@ void Mesh3D::DrawBoxFill(float x, float y, float radiusX, float radiusY, float a
 void Mesh3D::CreatConstBuff()
 {
 	//定数バッファ生成
-	constBuffTransform = std::make_unique<ConstantBuffer>();
-	constBuffTransform->Create(sizeof(ConstBufferDataTransform));
+	constBuffTransform = CreateUniqueConstantBuffer(sizeof(ConstBufferDataTransform));
 
 	AliceMathF::MakeOrthogonalLOffCenter(
-		0.0f, static_cast<float>(WindowsApp::GetInstance()->GetWindowSize().width),
-		static_cast<float>(WindowsApp::GetInstance()->GetWindowSize().height), 0.0f,
+		0.0f, static_cast<float>(windowsApp->GetWindowSize().width),
+		static_cast<float>(windowsApp->GetWindowSize().height), 0.0f,
 		0.0f, 1.0f, projectionMat);
 
 	constBuffTransform->Update(&projectionMat);
@@ -459,7 +458,7 @@ std::unique_ptr <Buff> Mesh3D::CreateBuff(UINT vertexCount, UINT indexCount)
 	if (vertexCount > 0)
 	{
 
-		buff->vertexBuffer = CreateVertexBuffer(vertexCount, sizeof(PosColor));
+		buff->vertexBuffer = CreateUniqueVertexBuffer(vertexCount, sizeof(PosColor));
 
 		buff->vertMap = static_cast<PosColor*>(malloc(vertexCount * sizeof(PosColor)));
 
@@ -467,8 +466,7 @@ std::unique_ptr <Buff> Mesh3D::CreateBuff(UINT vertexCount, UINT indexCount)
 
 	if (indexCount > 0)
 	{
-		buff->indexBuffer = std::make_unique<IndexBuffer>();
-		buff->indexBuffer->Create(indexCount);
+		buff->indexBuffer = CreateUniqueIndexBuffer(indexCount);
 
 		buff->indexMap = static_cast<uint32_t*>(malloc(indexCount * sizeof(uint32_t)));
 	}

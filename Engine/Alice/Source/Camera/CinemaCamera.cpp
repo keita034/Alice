@@ -5,8 +5,8 @@ void CinemaCamera::Initialize()
 {
 	//アスペクト比を計算する
 	aspect =
-		static_cast<float>(WindowsApp::GetWindowsSize().width) /
-		static_cast<float>(WindowsApp::GetWindowsSize().height);
+		static_cast<float>(windowsApp->GetWindowSize().width) /
+		static_cast<float>(windowsApp->GetWindowSize().height);
 
 	if (near_ == 0.0f)
 	{

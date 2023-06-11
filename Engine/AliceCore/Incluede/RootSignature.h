@@ -104,7 +104,7 @@ public:
 	/// <summary>
 	/// ルートシグネチャ取得
 	/// </summary>
-	virtual const ID3D12RootSignature* GetRootSignature() = 0;
+	virtual ID3D12RootSignature* GetRootSignature() = 0;
 
 	IRootSignature() = default;
 	virtual ~IRootSignature() = default;
@@ -113,13 +113,11 @@ public:
 /// <summary>
 /// ルートシグネチャの生成(ユニーク)
 /// </summary>
-/// <param name="device">デバイス</param>
 /// <returns>生成されたポインタ</returns>
-std::unique_ptr<IRootSignature> CreateUniqueRootSignature(ID3D12Device* device_);
+std::unique_ptr<IRootSignature> CreateUniqueRootSignature();
 
 /// <summary>
 /// ルートシグネチャの生成(シェアード)
 /// </summary>
-/// <param name="device">デバイス</param>
 /// <returns>生成されたポインタ</returns>
-std::shared_ptr<IRootSignature> CreateSharedRootSignature(ID3D12Device* device_);
+std::shared_ptr<IRootSignature> CreateSharedRootSignature();

@@ -6,6 +6,7 @@
 #include<BasePostEffect.h>
 #include<RWStructuredBuffer.h>
 #include<RenderTarget.h>
+#include<WindowsApp.h>
 
 class PostEffectFactory;
 
@@ -17,15 +18,17 @@ private:
 	char PADDING1[4]{};
 	ID3D12Device* device = nullptr;
 	ID3D12GraphicsCommandList* cmdList = nullptr;
-	DSVDescriptorHeap* dsvHeap = nullptr;
-	RTVDescriptorHeap* rtvHeap = nullptr;
-	DescriptorHeap* srvHeap = nullptr;
+
+	IDSVDescriptorHeap* dsvHeap = nullptr;
+	IRTVDescriptorHeap* rtvHeap = nullptr;
+	IDescriptorHeap* srvHeap = nullptr;
+	IWindowsApp* windowsApp = nullptr;
 
 	//頂点バッファ
 	std::unique_ptr<IVertexBuffer> vertexBuffer;
 
 	//インデックスバッファ
-	std::unique_ptr<IndexBuffer> indexBuffer;
+	std::unique_ptr<IIndexBuffer> indexBuffer;
 
 	Material* postEffectMaterial = nullptr;
 

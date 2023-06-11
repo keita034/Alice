@@ -4,6 +4,7 @@
 #include<Material.h>
 #include<RenderTarget.h>
 #include<PostEffectSprite.h>
+#include<WindowsApp.h>
 
 class BasePostEffect 
 {
@@ -20,13 +21,14 @@ protected:
 	std::unique_ptr<PostEffectSprite> sprite;
 
 	//レンダーターゲットテクスチャ
-	std::vector<std::unique_ptr<RenderTargetBuffer>>renderTargetBuffers;
+	std::vector<std::unique_ptr<IRenderTargetBuffer>>renderTargetBuffers;
 	//デプステクスチャ
-	std::vector<std::unique_ptr<DepthStencilBuffer>>depthStencilBuffers;
+	std::vector<std::unique_ptr<IDepthStencilBuffer>>depthStencilBuffers;
 	//クリアーカラー
 	std::array<float, 4> clearColor = { {1.0f,1.0f,1.0f,1.0f} };
 
-	static DescriptorHeap* srvHeap;
+	static IDescriptorHeap* srvHeap;
+	static IWindowsApp* windowsApp;
 
 	std::vector<D3D12_GPU_DESCRIPTOR_HANDLE> handles;
 
@@ -46,7 +48,10 @@ public:
 
 	virtual const std::string& GetType() = 0;
 
-	static void SetSrvHeap(DescriptorHeap* heap);
+	static void SetSrvHeap(IDescriptorHeap* heap);
+
+	static void SetWindowsApp(IWindowsApp* windowsApp_);
+
 
 protected:
 

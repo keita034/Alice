@@ -1,6 +1,25 @@
 ﻿#pragma once
 #include<RootSignature.h>
 
+#pragma warning(push)
+#pragma warning(disable: 4061)
+#pragma warning(disable: 4062)
+#pragma warning(disable: 4265)
+#pragma warning(disable: 4365)
+#pragma warning(disable: 4514)
+#pragma warning(disable: 4625)
+#pragma warning(disable: 4626)
+#pragma warning(disable: 4668)
+#pragma warning(disable: 4710)
+#pragma warning(disable: 4820)
+#pragma warning(disable: 5039)
+#pragma warning(disable: 5204)
+#pragma warning(disable: 5220)
+
+#include<wrl.h>
+
+#pragma warning(pop)
+
 /// <summary>
 /// 計算シェーダ用パイプラインステート
 /// </summary>
@@ -14,7 +33,7 @@ private:
 	D3D12_SHADER_BYTECODE shaderByte;
 	
 	//ルートシグネチャ
-	RootSignature* rootSignaturePtr;
+	IRootSignature* rootSignaturePtr;
 	
 	//ノードマスク
 	UINT pipelineNodeMask = 0;
@@ -41,7 +60,7 @@ public:
 	/// ルートシグネチャをセット
 	/// </summary>
 	/// <param name="rootSignature_">ルートシグネチャ</param>
-	void SetRootSignature(RootSignature* rootSignature_);
+	void SetRootSignature(IRootSignature* rootSignature_);
 
 	/// <summary>
 	/// ノードマスクをセット

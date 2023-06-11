@@ -3,7 +3,7 @@
 #include<ImGuiManager.h>
 
 
-void ImGuiManager::Initialize(WindowsApp* windowsApp, DirectX12Core* core)
+void ImGuiManager::Initialize(IWindowsApp* windowsApp, DirectX12Core* core)
 {
 	directX12Core = core;
 
@@ -15,7 +15,7 @@ void ImGuiManager::Initialize(WindowsApp* windowsApp, DirectX12Core* core)
 
 	ImGui_ImplWin32_Init(windowsApp->GetHwnd());
 
-	DescriptorHeap::DescriptorHeapViewHandle handl = directX12Core->GetSRVDescriptorHeap()->AddSRV();
+	IDescriptorHeap::DescriptorHeapViewHandle handl = directX12Core->GetSRVDescriptorHeap()->AddSRV();
 
 	ImGui_ImplDX12_Init(
 		directX12Core->GetDevice().Get(),

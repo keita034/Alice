@@ -5,6 +5,7 @@
 #include<Transform.h>
 #include<Camera.h>
 #include<Material.h>
+#include<WindowsApp.h>
 
 enum BillboardFlag
 {
@@ -30,7 +31,7 @@ protected:
 	std::unique_ptr<IVertexBuffer> vertexBuffer;
 
 	//インデックスバッファ
-	std::unique_ptr<IndexBuffer> indexBuffer;
+	std::unique_ptr<IIndexBuffer> indexBuffer;
 
 	//プロジェクション行列
 	AliceMathF::Matrix4 matProjection;
@@ -57,6 +58,8 @@ protected:
 
 	//カラー
 	AliceMathF::Vector4 color = { 1.0f,1.0f,1.0f,1.0f };
+
+	static IWindowsApp* windowsApp;
 
 public:
 
@@ -122,6 +125,8 @@ public:
 	/// テクスチャを取得
 	/// </summary>
 	const TextureData* GetTexture();
+
+	static void SetWindowsApp(IWindowsApp* windowsApp_);
 
 protected:
 

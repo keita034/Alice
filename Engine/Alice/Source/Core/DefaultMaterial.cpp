@@ -133,16 +133,13 @@ void MaterialManager::CreateDefaultTextureMaterial()
 	DEFAULT_TEXTURE_MATERIAL->textureData = DEFAULT_TEXTURE;
 
 	//頂点シェーダの読み込み
-	DEFAULT_TEXTURE_MATERIAL->vertexShader = std::make_unique<Shader>();
-	DEFAULT_TEXTURE_MATERIAL->vertexShader->Create("Resources/Shaders/3D/Model/ModelBasic/ModelBasicVS.hlsl");
+	DEFAULT_TEXTURE_MATERIAL->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/ModelBasic/ModelBasicVS.hlsl");
 
 	//ジオメトリシェーダの読み込み
-	DEFAULT_TEXTURE_MATERIAL->geometryShader = std::make_unique<Shader>();
-	DEFAULT_TEXTURE_MATERIAL->geometryShader->Create("Resources/Shaders/3D/Model/ModelBasic/PolygonEffectGS.hlsl", "main", "gs_5_0", Shader::ShaderType::GS);
+	DEFAULT_TEXTURE_MATERIAL->geometryShader = CreateUniqueShader("Resources/Shaders/3D/Model/ModelBasic/PolygonEffectGS.hlsl", "main", "gs_5_0", IShader::ShaderType::GS);
 
 	//ピクセルシェーダの読み込み
-	DEFAULT_TEXTURE_MATERIAL->pixelShader = std::make_unique<Shader>();
-	DEFAULT_TEXTURE_MATERIAL->pixelShader->Create("Resources/Shaders/3D/Model/ModelBasic/ModelBasicPS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
+	DEFAULT_TEXTURE_MATERIAL->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/ModelBasic/ModelBasicPS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	DEFAULT_TEXTURE_MATERIAL->inputLayouts = {
@@ -155,12 +152,12 @@ void MaterialManager::CreateDefaultTextureMaterial()
 	};
 
 	//ルートシグネチャ設定
-	DEFAULT_TEXTURE_MATERIAL->rootSignature = std::make_unique<RootSignature>();
-	DEFAULT_TEXTURE_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 0);//b0
-	DEFAULT_TEXTURE_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 1);//b1
-	DEFAULT_TEXTURE_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 2);//b2
-	DEFAULT_TEXTURE_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 3);//b3
-	DEFAULT_TEXTURE_MATERIAL->rootSignature->Add(RootSignature::RangeType::SRV, 0);//t0
+	DEFAULT_TEXTURE_MATERIAL->rootSignature = CreateUniqueRootSignature();
+	DEFAULT_TEXTURE_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
+	DEFAULT_TEXTURE_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 1);//b1
+	DEFAULT_TEXTURE_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 2);//b2
+	DEFAULT_TEXTURE_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 3);//b3
+	DEFAULT_TEXTURE_MATERIAL->rootSignature->Add(IRootSignature::RangeType::SRV, 0);//t0
 	DEFAULT_TEXTURE_MATERIAL->rootSignature->AddStaticSampler(0);//s0
 	DEFAULT_TEXTURE_MATERIAL->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
 
@@ -185,12 +182,10 @@ void MaterialManager::CreateDefaultLambertMaterial()
 	DEFAULT_LAMBERT_MATERIAL->textureData = DEFAULT_TEXTURE;
 
 	//頂点シェーダの読み込み
-	DEFAULT_LAMBERT_MATERIAL->vertexShader = std::make_unique<Shader>();
-	DEFAULT_LAMBERT_MATERIAL->vertexShader->Create("Resources/Shaders/3D/Model/Lambert/LambertVS.hlsl");
+	DEFAULT_LAMBERT_MATERIAL->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/Lambert/LambertVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	DEFAULT_LAMBERT_MATERIAL->pixelShader = std::make_unique<Shader>();
-	DEFAULT_LAMBERT_MATERIAL->pixelShader->Create("Resources/Shaders/3D/Model/Lambert/LambertPS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
+	DEFAULT_LAMBERT_MATERIAL->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/Lambert/LambertPS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	DEFAULT_LAMBERT_MATERIAL->inputLayouts = {
@@ -203,12 +198,12 @@ void MaterialManager::CreateDefaultLambertMaterial()
 	};
 
 	//ルートシグネチャ設定
-	DEFAULT_LAMBERT_MATERIAL->rootSignature = std::make_unique<RootSignature>();
-	DEFAULT_LAMBERT_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 0);//b0
-	DEFAULT_LAMBERT_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 1);//b1
-	DEFAULT_LAMBERT_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 2);//b2
-	DEFAULT_LAMBERT_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 3);//b3
-	DEFAULT_LAMBERT_MATERIAL->rootSignature->Add(RootSignature::RangeType::SRV, 0);//t0
+	DEFAULT_LAMBERT_MATERIAL->rootSignature = CreateUniqueRootSignature();
+	DEFAULT_LAMBERT_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
+	DEFAULT_LAMBERT_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 1);//b1
+	DEFAULT_LAMBERT_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 2);//b2
+	DEFAULT_LAMBERT_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 3);//b3
+	DEFAULT_LAMBERT_MATERIAL->rootSignature->Add(IRootSignature::RangeType::SRV, 0);//t0
 	DEFAULT_LAMBERT_MATERIAL->rootSignature->AddStaticSampler(0);//s0
 	DEFAULT_LAMBERT_MATERIAL->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
 
@@ -231,12 +226,10 @@ void MaterialManager::CreateDefaultPhongMaterial()
 	DEFAULT_PHONG_MATERIAL->textureData = DEFAULT_TEXTURE;
 
 	//頂点シェーダの読み込み
-	DEFAULT_PHONG_MATERIAL->vertexShader = std::make_unique<Shader>();
-	DEFAULT_PHONG_MATERIAL->vertexShader->Create("Resources/Shaders/3D/Model/Phong/PhongVS.hlsl");
+	DEFAULT_PHONG_MATERIAL->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/Phong/PhongVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	DEFAULT_PHONG_MATERIAL->pixelShader = std::make_unique<Shader>();
-	DEFAULT_PHONG_MATERIAL->pixelShader->Create("Resources/Shaders/3D/Model/Phong/PhongPS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
+	DEFAULT_PHONG_MATERIAL->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/Phong/PhongPS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	DEFAULT_PHONG_MATERIAL->inputLayouts = {
@@ -249,12 +242,12 @@ void MaterialManager::CreateDefaultPhongMaterial()
 	};
 
 	//ルートシグネチャ設定
-	DEFAULT_PHONG_MATERIAL->rootSignature = std::make_unique<RootSignature>();
-	DEFAULT_PHONG_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 0);//b0
-	DEFAULT_PHONG_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 1);//b1
-	DEFAULT_PHONG_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 2);//b2
-	DEFAULT_PHONG_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 3);//b3
-	DEFAULT_PHONG_MATERIAL->rootSignature->Add(RootSignature::RangeType::SRV, 0);//t0
+	DEFAULT_PHONG_MATERIAL->rootSignature = CreateUniqueRootSignature();
+	DEFAULT_PHONG_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
+	DEFAULT_PHONG_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 1);//b1
+	DEFAULT_PHONG_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 2);//b2
+	DEFAULT_PHONG_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 3);//b3
+	DEFAULT_PHONG_MATERIAL->rootSignature->Add(IRootSignature::RangeType::SRV, 0);//t0
 	DEFAULT_PHONG_MATERIAL->rootSignature->AddStaticSampler(0);//s0
 	DEFAULT_PHONG_MATERIAL->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
 
@@ -273,12 +266,10 @@ void MaterialManager::CreateDefaultPhongMaterial()
 void MaterialManager::CreateDefaultSprite2DMaterial()
 {
 	//頂点シェーダの読み込み
-	std::unique_ptr<Shader>vertexShader = std::make_unique<Shader>();
-	vertexShader->Create("Resources/Shaders/2D/Sprite/SpriteVS.hlsl");
+	std::unique_ptr<IShader>vertexShader = CreateUniqueShader("Resources/Shaders/2D/Sprite/SpriteVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	std::unique_ptr<Shader>pixelShader = std::make_unique<Shader>();
-	pixelShader->Create("Resources/Shaders/2D/Sprite/SpritePS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
+	std::unique_ptr<IShader>pixelShader = CreateUniqueShader("Resources/Shaders/2D/Sprite/SpritePS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
 
 	AddMaterial(CreateDefaultSprite2DBlend(BlendMode::AX_BLENDMODE_NOBLEND, vertexShader.get(), pixelShader.get()), "Sprite2DNoblend");
 	AddMaterial(CreateDefaultSprite2DBlend(BlendMode::AX_BLENDMODE_ALPHA, vertexShader.get(), pixelShader.get()), "Sprite2DAlpha");
@@ -291,12 +282,10 @@ void MaterialManager::CreateDefaultSprite2DMaterial()
 void MaterialManager::CreateDefaultSprite3DMaterial()
 {
 	//頂点シェーダの読み込み
-	std::unique_ptr<Shader>vertexShader = std::make_unique<Shader>();
-	vertexShader->Create("Resources/Shaders/2D/Sprite/SpriteVS.hlsl");
+	std::unique_ptr<IShader>vertexShader = CreateUniqueShader("Resources/Shaders/2D/Sprite/SpriteVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	std::unique_ptr<Shader>pixelShader = std::make_unique<Shader>();
-	pixelShader->Create("Resources/Shaders/2D/Sprite/SpritePS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
+	std::unique_ptr<IShader>pixelShader = CreateUniqueShader("Resources/Shaders/2D/Sprite/SpritePS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
 
 	AddMaterial(CreateDefaultSprite3DBlend(BlendMode::AX_BLENDMODE_NOBLEND, vertexShader.get(), pixelShader.get()), "Sprite3DNoblend");
 	AddMaterial(CreateDefaultSprite3DBlend(BlendMode::AX_BLENDMODE_ALPHA, vertexShader.get(), pixelShader.get()), "Sprite3DAlpha");
@@ -314,12 +303,10 @@ void MaterialManager::CreateDefaultFbxMaterial()
 	DEFAULT_FBX_MATERIAL->textureData = DEFAULT_TEXTURE;
 
 	//頂点シェーダの読み込み
-	DEFAULT_FBX_MATERIAL->vertexShader = std::make_unique<Shader>();
-	DEFAULT_FBX_MATERIAL->vertexShader->Create("Resources/Shaders/3D/Model/DefaultModel/ModelVS.hlsl");
+	DEFAULT_FBX_MATERIAL->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/DefaultModel/ModelVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	DEFAULT_FBX_MATERIAL->pixelShader = std::make_unique<Shader>();
-	DEFAULT_FBX_MATERIAL->pixelShader->Create("Resources/Shaders/3D/Model/DefaultModel/ModelPS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
+	DEFAULT_FBX_MATERIAL->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/DefaultModel/ModelPS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	DEFAULT_FBX_MATERIAL->inputLayouts = {
@@ -333,12 +320,12 @@ void MaterialManager::CreateDefaultFbxMaterial()
 	};
 
 	//ルートシグネチャ設定
-	DEFAULT_FBX_MATERIAL->rootSignature = std::make_unique<RootSignature>();
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 0);//b0
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 1);//b1
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 2);//b2
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 3);//b3
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RangeType::SRV, 0);//t0
+	DEFAULT_FBX_MATERIAL->rootSignature = CreateUniqueRootSignature();
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 1);//b1
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 2);//b2
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 3);//b3
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RangeType::SRV, 0);//t0
 	DEFAULT_FBX_MATERIAL->rootSignature->AddStaticSampler(0);//s0
 	DEFAULT_FBX_MATERIAL->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
 
@@ -363,12 +350,10 @@ void MaterialManager::CreateDefaultFbxAnimationMaterial()
 	DEFAULT_FBX_MATERIAL->textureData = DEFAULT_TEXTURE;
 
 	//頂点シェーダの読み込み
-	DEFAULT_FBX_MATERIAL->vertexShader = std::make_unique<Shader>();
-	DEFAULT_FBX_MATERIAL->vertexShader->Create("Resources/Shaders/3D/Model/DefaultModel/ModelAnimationVS.hlsl");
+	DEFAULT_FBX_MATERIAL->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/DefaultModel/ModelAnimationVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	DEFAULT_FBX_MATERIAL->pixelShader = std::make_unique<Shader>();
-	DEFAULT_FBX_MATERIAL->pixelShader->Create("Resources/Shaders/3D/Model/DefaultModel/ModelPS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
+	DEFAULT_FBX_MATERIAL->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/DefaultModel/ModelPS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	DEFAULT_FBX_MATERIAL->inputLayouts = {
@@ -382,12 +367,12 @@ void MaterialManager::CreateDefaultFbxAnimationMaterial()
 	};
 
 	//ルートシグネチャ設定
-	DEFAULT_FBX_MATERIAL->rootSignature = std::make_unique<RootSignature>();
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 0);//b0
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 1);//b1
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 2);//b2
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 3);//b3
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RangeType::SRV, 0);//t0
+	DEFAULT_FBX_MATERIAL->rootSignature = CreateUniqueRootSignature();
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 1);//b1
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 2);//b2
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 3);//b3
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RangeType::SRV, 0);//t0
 	DEFAULT_FBX_MATERIAL->rootSignature->AddStaticSampler(0);//s0
 	DEFAULT_FBX_MATERIAL->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
 
@@ -409,15 +394,12 @@ void MaterialManager::CreateDefaultParticleMaterial()
 	DEFAULT_PARTICLE_MATERIAL->textureData = DEFAULT_TEXTURE;
 
 	//頂点シェーダの読み込み
-	DEFAULT_PARTICLE_MATERIAL->vertexShader = std::make_unique<Shader>();
-	DEFAULT_PARTICLE_MATERIAL->vertexShader->Create("Resources/Shaders/2D/Particle/ParticleVS.hlsl");
+	DEFAULT_PARTICLE_MATERIAL->vertexShader = CreateUniqueShader("Resources/Shaders/2D/Particle/ParticleVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	DEFAULT_PARTICLE_MATERIAL->pixelShader = std::make_unique<Shader>();
-	DEFAULT_PARTICLE_MATERIAL->pixelShader->Create("Resources/Shaders/2D/Particle/ParticlePS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
+	DEFAULT_PARTICLE_MATERIAL->pixelShader = CreateUniqueShader("Resources/Shaders/2D/Particle/ParticlePS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
 
-	DEFAULT_PARTICLE_MATERIAL->geometryShader = std::make_unique<Shader>();
-	DEFAULT_PARTICLE_MATERIAL->geometryShader->Create("Resources/Shaders/2D/Particle/ParticleGS.hlsl", "main", "gs_5_0", Shader::ShaderType::GS);
+	DEFAULT_PARTICLE_MATERIAL->geometryShader = CreateUniqueShader("Resources/Shaders/2D/Particle/ParticleGS.hlsl", "main", "gs_5_0", IShader::ShaderType::GS);
 
 	//頂点レイアウト設定
 	DEFAULT_PARTICLE_MATERIAL->inputLayouts = {
@@ -433,9 +415,9 @@ void MaterialManager::CreateDefaultParticleMaterial()
 	};
 
 	//ルートシグネチャ設定
-	DEFAULT_PARTICLE_MATERIAL->rootSignature = std::make_unique<RootSignature>();
-	DEFAULT_PARTICLE_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 0);//b0
-	DEFAULT_PARTICLE_MATERIAL->rootSignature->Add(RootSignature::RangeType::SRV, 0);//t0
+	DEFAULT_PARTICLE_MATERIAL->rootSignature = CreateUniqueRootSignature();
+	DEFAULT_PARTICLE_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
+	DEFAULT_PARTICLE_MATERIAL->rootSignature->Add(IRootSignature::RangeType::SRV, 0);//t0
 	DEFAULT_PARTICLE_MATERIAL->rootSignature->AddStaticSampler(0);//s0
 	DEFAULT_PARTICLE_MATERIAL->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
 
@@ -457,12 +439,10 @@ void MaterialManager::CreateDefaultParticleMaterial()
 void MaterialManager::CreateDefaultMeshMaterial()
 {
 	//頂点シェーダの読み込み
-	std::unique_ptr<Shader>vertexShader = std::make_unique<Shader>();
-	vertexShader->Create("Resources/Shaders/2D/Mesh/MeshVS.hlsl");
+	std::unique_ptr<IShader>vertexShader = CreateUniqueShader("Resources/Shaders/2D/Mesh/MeshVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	std::unique_ptr<Shader>pixelShader = std::make_unique<Shader>();
-	pixelShader->Create("Resources/Shaders/2D/Mesh/MeshPS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
+	std::unique_ptr<IShader>pixelShader = CreateUniqueShader("Resources/Shaders/2D/Mesh/MeshPS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
 
 	//三角形形状用パイプラインセット
 	AddMaterial(CreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, BlendMode::AX_BLENDMODE_NOBLEND, vertexShader.get(), pixelShader.get()), "MashTriangleNoblend");
@@ -490,15 +470,12 @@ void MaterialManager::CreateDefaultRainParticleMaterial()
 	DEFAULT_RAIN_PARTICLE_MATERIAL->textureData = DEFAULT_TEXTURE;
 
 	//頂点シェーダの読み込み
-	DEFAULT_RAIN_PARTICLE_MATERIAL->vertexShader = std::make_unique<Shader>();
-	DEFAULT_RAIN_PARTICLE_MATERIAL->vertexShader->Create("Resources/Shaders/2D/Particle/RainParticleVS.hlsl");
+	DEFAULT_RAIN_PARTICLE_MATERIAL->vertexShader = CreateUniqueShader("Resources/Shaders/2D/Particle/RainParticleVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	DEFAULT_RAIN_PARTICLE_MATERIAL->pixelShader = std::make_unique<Shader>();
-	DEFAULT_RAIN_PARTICLE_MATERIAL->pixelShader->Create("Resources/Shaders/2D/Particle/RainParticlePS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
+	DEFAULT_RAIN_PARTICLE_MATERIAL->pixelShader = CreateUniqueShader("Resources/Shaders/2D/Particle/RainParticlePS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
 
-	DEFAULT_RAIN_PARTICLE_MATERIAL->geometryShader = std::make_unique<Shader>();
-	DEFAULT_RAIN_PARTICLE_MATERIAL->geometryShader->Create("Resources/Shaders/2D/Particle/RainParticleGS.hlsl", "main", "gs_5_0", Shader::ShaderType::GS);
+	DEFAULT_RAIN_PARTICLE_MATERIAL->geometryShader = CreateUniqueShader("Resources/Shaders/2D/Particle/RainParticleGS.hlsl", "main", "gs_5_0", IShader::ShaderType::GS);
 
 	//頂点レイアウト設定
 	DEFAULT_RAIN_PARTICLE_MATERIAL->inputLayouts = {
@@ -514,8 +491,8 @@ void MaterialManager::CreateDefaultRainParticleMaterial()
 	};
 
 	//ルートシグネチャ設定
-	DEFAULT_RAIN_PARTICLE_MATERIAL->rootSignature = std::make_unique<RootSignature>();
-	DEFAULT_RAIN_PARTICLE_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 0);//b0
+	DEFAULT_RAIN_PARTICLE_MATERIAL->rootSignature = CreateUniqueRootSignature();
+	DEFAULT_RAIN_PARTICLE_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
 	DEFAULT_RAIN_PARTICLE_MATERIAL->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
 
 	//ブレンド設定
@@ -538,12 +515,10 @@ void MaterialManager::CreateDefaultPostEffectMaterial()
 	std::unique_ptr<Material>DEFAULT_POST_EFFECT_MATERIAL = std::make_unique<Material>();
 
 	//頂点シェーダの読み込み
-	DEFAULT_POST_EFFECT_MATERIAL->vertexShader = std::make_unique<Shader>();
-	DEFAULT_POST_EFFECT_MATERIAL->vertexShader->Create("Resources/Shaders/2D/PostEffect/PostEffectTest/PostEffectTestVS.hlsl");
+	DEFAULT_POST_EFFECT_MATERIAL->vertexShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/PostEffectTest/PostEffectTestVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	DEFAULT_POST_EFFECT_MATERIAL->pixelShader = std::make_unique<Shader>();
-	DEFAULT_POST_EFFECT_MATERIAL->pixelShader->Create("Resources/Shaders/2D/PostEffect/PostEffectTest/PostEffectTestPS.hlsl", "main", "ps_5_0");
+	DEFAULT_POST_EFFECT_MATERIAL->pixelShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/PostEffectTest/PostEffectTestPS.hlsl", "main", "ps_5_0");
 
 	//頂点レイアウト設定
 	DEFAULT_POST_EFFECT_MATERIAL->inputLayouts =
@@ -563,8 +538,8 @@ void MaterialManager::CreateDefaultPostEffectMaterial()
 	DEFAULT_POST_EFFECT_MATERIAL->blenddesc.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;// 1.0f-ソースのアルファ値
 
 	//ルートシグネチャ設定
-	DEFAULT_POST_EFFECT_MATERIAL->rootSignature = std::make_unique<RootSignature>();
-	DEFAULT_POST_EFFECT_MATERIAL->rootSignature->Add(RootSignature::RangeType::SRV, 0);//t0
+	DEFAULT_POST_EFFECT_MATERIAL->rootSignature = CreateUniqueRootSignature();
+	DEFAULT_POST_EFFECT_MATERIAL->rootSignature->Add(IRootSignature::RangeType::SRV, 0);//t0
 	DEFAULT_POST_EFFECT_MATERIAL->rootSignature->AddStaticSampler(0);//s0
 	DEFAULT_POST_EFFECT_MATERIAL->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
 
@@ -582,15 +557,12 @@ void MaterialManager::CreateDefaultIcosahedronParticleMaterial()
 	DEFAULT_PARTICLE_MATERIAL->textureData = DEFAULT_TEXTURE;
 
 	//頂点シェーダの読み込み
-	DEFAULT_PARTICLE_MATERIAL->vertexShader = std::make_unique<Shader>();
-	DEFAULT_PARTICLE_MATERIAL->vertexShader->Create("Resources/Shaders/2D/Particle/ParticleVS.hlsl");
+	DEFAULT_PARTICLE_MATERIAL->vertexShader = CreateUniqueShader("Resources/Shaders/2D/Particle/ParticleVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	DEFAULT_PARTICLE_MATERIAL->pixelShader = std::make_unique<Shader>();
-	DEFAULT_PARTICLE_MATERIAL->pixelShader->Create("Resources/Shaders/2D/Particle/ParticlePS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
+	DEFAULT_PARTICLE_MATERIAL->pixelShader = CreateUniqueShader("Resources/Shaders/2D/Particle/ParticlePS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
 
-	DEFAULT_PARTICLE_MATERIAL->geometryShader = std::make_unique<Shader>();
-	DEFAULT_PARTICLE_MATERIAL->geometryShader->Create("Resources/Shaders/2D/Particle/IcosahedronGS.hlsl", "main", "gs_5_0", Shader::ShaderType::GS);
+	DEFAULT_PARTICLE_MATERIAL->geometryShader = CreateUniqueShader("Resources/Shaders/2D/Particle/IcosahedronGS.hlsl", "main", "gs_5_0", IShader::ShaderType::GS);
 
 	//頂点レイアウト設定
 	DEFAULT_PARTICLE_MATERIAL->inputLayouts = {
@@ -606,9 +578,9 @@ void MaterialManager::CreateDefaultIcosahedronParticleMaterial()
 	};
 
 	//ルートシグネチャ設定
-	DEFAULT_PARTICLE_MATERIAL->rootSignature = std::make_unique<RootSignature>();
-	DEFAULT_PARTICLE_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 0);//b0
-	DEFAULT_PARTICLE_MATERIAL->rootSignature->Add(RootSignature::RangeType::SRV, 0);//t0
+	DEFAULT_PARTICLE_MATERIAL->rootSignature = CreateUniqueRootSignature();
+	DEFAULT_PARTICLE_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
+	DEFAULT_PARTICLE_MATERIAL->rootSignature->Add(IRootSignature::RangeType::SRV, 0);//t0
 	DEFAULT_PARTICLE_MATERIAL->rootSignature->AddStaticSampler(0);//s0
 	DEFAULT_PARTICLE_MATERIAL->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
 
@@ -637,12 +609,10 @@ void MaterialManager::CreateDefaultToonModelMaterial()
 	DEFAULT_FBX_MATERIAL->textureData = DEFAULT_TEXTURE;
 
 	//頂点シェーダの読み込み
-	DEFAULT_FBX_MATERIAL->vertexShader = std::make_unique<Shader>();
-	DEFAULT_FBX_MATERIAL->vertexShader->Create("Resources/Shaders/3D/Model/ToonModel/ToonModelVS.hlsl");
+	DEFAULT_FBX_MATERIAL->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ToonModelVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	DEFAULT_FBX_MATERIAL->pixelShader = std::make_unique<Shader>();
-	DEFAULT_FBX_MATERIAL->pixelShader->Create("Resources/Shaders/3D/Model/ToonModel/ToonModelPS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
+	DEFAULT_FBX_MATERIAL->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ToonModelPS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	DEFAULT_FBX_MATERIAL->inputLayouts = {
@@ -656,14 +626,14 @@ void MaterialManager::CreateDefaultToonModelMaterial()
 	};
 
 	//ルートシグネチャ設定
-	DEFAULT_FBX_MATERIAL->rootSignature = std::make_unique<RootSignature>();
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 0);//b0
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 1);//b1
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 2);//b2
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 3);//b3
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RangeType::SRV, 0);//t0
+	DEFAULT_FBX_MATERIAL->rootSignature = CreateUniqueRootSignature();
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 1);//b1
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 2);//b2
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 3);//b3
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RangeType::SRV, 0);//t0
 	DEFAULT_FBX_MATERIAL->rootSignature->AddStaticSampler(0);//s0
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RangeType::SRV, 1);//t1
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RangeType::SRV, 1);//t1
 	DEFAULT_FBX_MATERIAL->rootSignature->AddStaticSampler(1);//s1
 	DEFAULT_FBX_MATERIAL->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
 
@@ -685,12 +655,10 @@ void MaterialManager::CreateDefaultToonModelAnimationMaterial()
 	DEFAULT_FBX_MATERIAL->textureData = DEFAULT_TEXTURE;
 
 	//頂点シェーダの読み込み
-	DEFAULT_FBX_MATERIAL->vertexShader = std::make_unique<Shader>();
-	DEFAULT_FBX_MATERIAL->vertexShader->Create("Resources/Shaders/3D/Model/ToonModel/ToonModelAnimationVS.hlsl");
+	DEFAULT_FBX_MATERIAL->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ToonModelAnimationVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	DEFAULT_FBX_MATERIAL->pixelShader = std::make_unique<Shader>();
-	DEFAULT_FBX_MATERIAL->pixelShader->Create("Resources/Shaders/3D/Model/ToonModel/ToonModelPS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
+	DEFAULT_FBX_MATERIAL->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ToonModelPS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	DEFAULT_FBX_MATERIAL->inputLayouts = {
@@ -704,14 +672,14 @@ void MaterialManager::CreateDefaultToonModelAnimationMaterial()
 	};
 
 	//ルートシグネチャ設定
-	DEFAULT_FBX_MATERIAL->rootSignature = std::make_unique<RootSignature>();
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 0);//b0
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 1);//b1
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 2);//b2
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 3);//b3
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RangeType::SRV, 0);//t0
+	DEFAULT_FBX_MATERIAL->rootSignature = CreateUniqueRootSignature();
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 1);//b1
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 2);//b2
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 3);//b3
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RangeType::SRV, 0);//t0
 	DEFAULT_FBX_MATERIAL->rootSignature->AddStaticSampler(0);//s0
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RangeType::SRV, 1);//t1
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RangeType::SRV, 1);//t1
 	DEFAULT_FBX_MATERIAL->rootSignature->AddStaticSampler(1);//s1
 	DEFAULT_FBX_MATERIAL->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
 
@@ -733,12 +701,10 @@ void MaterialManager::CreateDefaultToonModelOutLineMaterial()
 	DEFAULT_FBX_MATERIAL->textureData = DEFAULT_TEXTURE;
 
 	//頂点シェーダの読み込み
-	DEFAULT_FBX_MATERIAL->vertexShader = std::make_unique<Shader>();
-	DEFAULT_FBX_MATERIAL->vertexShader->Create("Resources/Shaders/3D/Model/ToonModel/ToonModelAnimationOutLineVS.hlsl");
+	DEFAULT_FBX_MATERIAL->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ToonModelAnimationOutLineVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	DEFAULT_FBX_MATERIAL->pixelShader = std::make_unique<Shader>();
-	DEFAULT_FBX_MATERIAL->pixelShader->Create("Resources/Shaders/3D/Model/ToonModel/ToonModelOutLinePS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
+	DEFAULT_FBX_MATERIAL->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ToonModelOutLinePS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	DEFAULT_FBX_MATERIAL->inputLayouts = {
@@ -752,9 +718,9 @@ void MaterialManager::CreateDefaultToonModelOutLineMaterial()
 	};
 
 	//ルートシグネチャ設定
-	DEFAULT_FBX_MATERIAL->rootSignature = std::make_unique<RootSignature>();
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 0);//b0
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 1);//b1
+	DEFAULT_FBX_MATERIAL->rootSignature = CreateUniqueRootSignature();
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 1);//b1
 	DEFAULT_FBX_MATERIAL->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
 
 
@@ -775,12 +741,10 @@ void MaterialManager::CreateDefaultToonModelOutLineAnimationMaterial()
 	DEFAULT_FBX_MATERIAL->textureData = DEFAULT_TEXTURE;
 
 	//頂点シェーダの読み込み
-	DEFAULT_FBX_MATERIAL->vertexShader = std::make_unique<Shader>();
-	DEFAULT_FBX_MATERIAL->vertexShader->Create("Resources/Shaders/3D/Model/ToonModel/ToonModelOutLineVS.hlsl");
+	DEFAULT_FBX_MATERIAL->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ToonModelOutLineVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	DEFAULT_FBX_MATERIAL->pixelShader = std::make_unique<Shader>();
-	DEFAULT_FBX_MATERIAL->pixelShader->Create("Resources/Shaders/3D/Model/ToonModel/ToonModelOutLinePS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
+	DEFAULT_FBX_MATERIAL->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ToonModelOutLinePS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	DEFAULT_FBX_MATERIAL->inputLayouts = {
@@ -794,9 +758,9 @@ void MaterialManager::CreateDefaultToonModelOutLineAnimationMaterial()
 	};
 
 	//ルートシグネチャ設定
-	DEFAULT_FBX_MATERIAL->rootSignature = std::make_unique<RootSignature>();
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 0);//b0
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 1);//b1
+	DEFAULT_FBX_MATERIAL->rootSignature = CreateUniqueRootSignature();
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 1);//b1
 	DEFAULT_FBX_MATERIAL->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
 
 
@@ -817,12 +781,10 @@ void MaterialManager::CreateDefaultZeldaToonModelMaterial()
 	DEFAULT_FBX_MATERIAL->textureData = DEFAULT_TEXTURE;
 
 	//頂点シェーダの読み込み
-	DEFAULT_FBX_MATERIAL->vertexShader = std::make_unique<Shader>();
-	DEFAULT_FBX_MATERIAL->vertexShader->Create("Resources/Shaders/3D/Model/ToonModel/ZeldaToonModelVS.hlsl");
+	DEFAULT_FBX_MATERIAL->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ZeldaToonModelVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	DEFAULT_FBX_MATERIAL->pixelShader = std::make_unique<Shader>();
-	DEFAULT_FBX_MATERIAL->pixelShader->Create("Resources/Shaders/3D/Model/ToonModel/ZeldaToonModelPS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
+	DEFAULT_FBX_MATERIAL->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ZeldaToonModelPS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	DEFAULT_FBX_MATERIAL->inputLayouts = {
@@ -836,12 +798,12 @@ void MaterialManager::CreateDefaultZeldaToonModelMaterial()
 	};
 
 	//ルートシグネチャ設定
-	DEFAULT_FBX_MATERIAL->rootSignature = std::make_unique<RootSignature>();
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 0);//b0
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 1);//b1
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 2);//b2
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 3);//b3
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RangeType::SRV, 0);//t0
+	DEFAULT_FBX_MATERIAL->rootSignature = CreateUniqueRootSignature();
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 1);//b1
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 2);//b2
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 3);//b3
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RangeType::SRV, 0);//t0
 	DEFAULT_FBX_MATERIAL->rootSignature->AddStaticSampler(0);//s0
 	DEFAULT_FBX_MATERIAL->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
 
@@ -866,12 +828,10 @@ void MaterialManager::CreateDefaultZeldaToonModelAnimationMaterial()
 	DEFAULT_FBX_MATERIAL->textureData = DEFAULT_TEXTURE;
 
 	//頂点シェーダの読み込み
-	DEFAULT_FBX_MATERIAL->vertexShader = std::make_unique<Shader>();
-	DEFAULT_FBX_MATERIAL->vertexShader->Create("Resources/Shaders/3D/Model/ToonModel/ZeldaToonModelAnimationVS.hlsl");
+	DEFAULT_FBX_MATERIAL->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ZeldaToonModelAnimationVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	DEFAULT_FBX_MATERIAL->pixelShader = std::make_unique<Shader>();
-	DEFAULT_FBX_MATERIAL->pixelShader->Create("Resources/Shaders/3D/Model/ToonModel/ZeldaToonModelPS.hlsl", "main", "ps_5_0", Shader::ShaderType::PS);
+	DEFAULT_FBX_MATERIAL->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ZeldaToonModelPS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	DEFAULT_FBX_MATERIAL->inputLayouts = {
@@ -885,12 +845,12 @@ void MaterialManager::CreateDefaultZeldaToonModelAnimationMaterial()
 	};
 
 	//ルートシグネチャ設定
-	DEFAULT_FBX_MATERIAL->rootSignature = std::make_unique<RootSignature>();
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 0);//b0
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 1);//b1
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 2);//b2
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RootType::CBV, 3);//b3
-	DEFAULT_FBX_MATERIAL->rootSignature->Add(RootSignature::RangeType::SRV, 0);//t0
+	DEFAULT_FBX_MATERIAL->rootSignature = CreateUniqueRootSignature();
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 1);//b1
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 2);//b2
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RootType::CBV, 3);//b3
+	DEFAULT_FBX_MATERIAL->rootSignature->Add(IRootSignature::RangeType::SRV, 0);//t0
 	DEFAULT_FBX_MATERIAL->rootSignature->AddStaticSampler(0);//s0
 	DEFAULT_FBX_MATERIAL->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
 
@@ -904,17 +864,15 @@ void MaterialManager::CreateDefaultZeldaToonModelAnimationMaterial()
 	AddMaterial(DEFAULT_FBX_MATERIAL, "DefaultZeldaToonModelAnimation");
 }
 
-Material* MaterialManager::CreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE type, BlendMode mode, Shader* vex, Shader* pix)
+Material* MaterialManager::CreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE type, BlendMode mode, IShader* vex, IShader* pix)
 {
 	Material* material = new Material;
 
 	//頂点シェーダの読み込み
-	material->vertexShader = std::make_unique<Shader>();
-	material->vertexShader->Copy(vex);
+	material->vertexShader = CopyUniqueShader(vex);
 
 	//ピクセルシェーダの読み込み
-	material->pixelShader = std::make_unique<Shader>();
-	material->pixelShader->Copy(pix);
+	material->pixelShader = CopyUniqueShader(pix);
 
 	//頂点レイアウト設定
 	material->inputLayouts = {
@@ -967,8 +925,8 @@ Material* MaterialManager::CreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE 
 	}
 
 	//ルートシグネチャ設定
-	material->rootSignature = std::make_unique<RootSignature>();
-	material->rootSignature->Add(RootSignature::RootType::CBV, 0);//b0
+	material->rootSignature = CreateUniqueRootSignature();
+	material->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
 	material->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
 	//生成
 	material->Initialize();
@@ -976,17 +934,15 @@ Material* MaterialManager::CreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE 
 	return material;
 }
 
-Material* MaterialManager::CreateDefaultSprite2DBlend(BlendMode mode, Shader* vex, Shader* pix)
+Material* MaterialManager::CreateDefaultSprite2DBlend(BlendMode mode, IShader* vex, IShader* pix)
 {
 	Material* material = new Material;
 
 	//頂点シェーダの読み込み
-	material->vertexShader = std::make_unique<Shader>();
-	material->vertexShader->Copy(vex);
+	material->vertexShader = CopyUniqueShader(vex);
 
 	//ピクセルシェーダの読み込み
-	material->pixelShader = std::make_unique<Shader>();
-	material->pixelShader->Copy(pix);
+	material->pixelShader = CopyUniqueShader(pix);
 
 	//頂点レイアウト設定
 	material->inputLayouts =
@@ -1004,9 +960,9 @@ Material* MaterialManager::CreateDefaultSprite2DBlend(BlendMode mode, Shader* ve
 	material->blenddesc = CreateBlend(mode);
 
 	//ルートシグネチャ設定
-	material->rootSignature = std::make_unique<RootSignature>();
-	material->rootSignature->Add(RootSignature::RootType::CBV, 0);//b0
-	material->rootSignature->Add(RootSignature::RangeType::SRV, 0);//t0
+	material->rootSignature = CreateUniqueRootSignature();
+	material->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
+	material->rootSignature->Add(IRootSignature::RangeType::SRV, 0);//t0
 	material->rootSignature->AddStaticSampler(0);//s0
 	material->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
 
@@ -1016,17 +972,15 @@ Material* MaterialManager::CreateDefaultSprite2DBlend(BlendMode mode, Shader* ve
 	return material;
 }
 
-Material* MaterialManager::CreateDefaultSprite3DBlend(BlendMode mode, Shader* vex, Shader* pix)
+Material* MaterialManager::CreateDefaultSprite3DBlend(BlendMode mode, IShader* vex, IShader* pix)
 {
 	Material* material = new Material;
 
 //頂点シェーダの読み込み
-	material->vertexShader = std::make_unique<Shader>();
-	material->vertexShader->Copy(vex);
+	material->vertexShader = CopyUniqueShader(vex);
 
 	//ピクセルシェーダの読み込み
-	material->pixelShader = std::make_unique<Shader>();
-	material->pixelShader->Copy(pix);
+	material->pixelShader = CopyUniqueShader(pix);
 
 
 	//頂点レイアウト設定
@@ -1045,9 +999,9 @@ Material* MaterialManager::CreateDefaultSprite3DBlend(BlendMode mode, Shader* ve
 	material->blenddesc = CreateBlend(mode);
 
 	//ルートシグネチャ設定
-	material->rootSignature = std::make_unique<RootSignature>();
-	material->rootSignature->Add(RootSignature::RootType::CBV, 0);//b0
-	material->rootSignature->Add(RootSignature::RangeType::SRV, 0);//t0
+	material->rootSignature = CreateUniqueRootSignature();
+	material->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
+	material->rootSignature->Add(IRootSignature::RangeType::SRV, 0);//t0
 	material->rootSignature->AddStaticSampler(0);//s0
 	material->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
 

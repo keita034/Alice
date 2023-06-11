@@ -257,6 +257,11 @@ Microsoft::WRL::ComPtr<ID3D12Resource> TextureManager::CreateTexBuff(DirectX::Te
 		IID_PPV_ARGS(&stagingBuffer)
 	);
 
+	if (FAILED(hr))
+	{
+		assert(0);
+	}
+
 	UpdateSubresources(directX12Core->GetCommandList().Get(), result.Get(), stagingBuffer.Get(), 0, 0, uint32_t(textureSubresources.size()), textureSubresources.data());
 
 	// コピー後にはテクスチャとしてのステートへ.

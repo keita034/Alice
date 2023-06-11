@@ -59,11 +59,11 @@ public:
 	//頂点バッファ
 	std::unique_ptr<IVertexBuffer> vertexBuffer;
 	//インデックスバッファ
-	std::unique_ptr<IndexBuffer> indexBuffer;
+	std::unique_ptr<IIndexBuffer> indexBuffer;
 	//マテリアルバッファ
-	std::unique_ptr<ConstantBuffer> materialBuffer;
+	std::unique_ptr<IConstantBuffer> materialBuffer;
 	//ボーン
-	std::unique_ptr<ConstantBuffer> constBoneBuffer;
+	std::unique_ptr<IConstantBuffer> constBoneBuffer;
 
 	BoneData bonedata;
 
@@ -120,4 +120,8 @@ public:
 	const std::vector<uint32_t>& GetIndices();
 
 private:
+
+	//コピーコンストラクタ・代入演算子削除
+	ModelMesh& operator=(const ModelMesh&) = delete;
+	ModelMesh(const ModelMesh&) = delete;
 };

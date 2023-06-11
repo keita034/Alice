@@ -1,12 +1,13 @@
 ﻿#include "Camera.h"
-#include"WindowsApp.h"
+
+IWindowsApp* Camera::windowsApp = nullptr;
 
 void GameCamera::Initialize(UpdateProjMatrixFunc matFunc)
 {
 	//アスペクト比を計算する
 	aspect =
-		static_cast<float>(WindowsApp::GetInstance()->GetWindowSize().width) /
-		static_cast<float>(WindowsApp::GetInstance()->GetWindowSize().height);
+		static_cast<float>(windowsApp->GetWindowSize().width) /
+		static_cast<float>(windowsApp->GetWindowSize().height);
 
 	matrixFunc = matFunc;
 
@@ -20,8 +21,8 @@ void GameCamera::Initialize(UpdateProjMatrixFunc matFunc)
 		{
 			far_ = 1000.0f;
 		}
-		right = static_cast<float>(WindowsApp::GetInstance()->GetWindowSize().width);
-		bottom = static_cast<float>(WindowsApp::GetInstance()->GetWindowSize().height);
+		right = static_cast<float>(windowsApp->GetWindowSize().width);
+		bottom = static_cast<float>(windowsApp->GetWindowSize().height);
 
 		//平行投影の計算
 		AliceMathF::MakeOrthogonalL(right, bottom, near_, far_, projectionMatrix);
@@ -75,8 +76,8 @@ void GameCamera::Update()
 		if (matrixFunc == UpdateProjMatrixFunc_Ortho)
 		{
 
-			right = static_cast<float>(WindowsApp::GetInstance()->GetWindowSize().width);
-			bottom = static_cast<float>(WindowsApp::GetInstance()->GetWindowSize().height);
+			right = static_cast<float>(windowsApp->GetWindowSize().width);
+			bottom = static_cast<float>(windowsApp->GetWindowSize().height);
 			AliceMathF::MakeOrthogonalL(right, bottom, near_, far_, projectionMatrix);
 
 		}

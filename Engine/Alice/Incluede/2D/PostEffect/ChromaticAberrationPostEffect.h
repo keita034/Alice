@@ -12,9 +12,11 @@ private:
 		float size;
 	};
 
-	std::unique_ptr<ConstantBuffer> constantBuffer;
+	std::unique_ptr<IConstantBuffer> constantBuffer;
 
-	Offset* constBuffMap = nullptr;
+	Offset constBuffMap;
+
+	char PADING3[4];
 
 public:
 

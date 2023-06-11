@@ -47,10 +47,16 @@ public:
 	virtual void Create(const std::string& fileName_, const std::string& entryPoint_, const std::string& target_, const ShaderType& type_) = 0;
 
 	/// <summary>
+	/// コピー
+	/// </summary>
+	/// <param name="shader_">コピー元</param>
+	virtual void Copy(IShader* shader_) = 0;
+
+	/// <summary>
 	/// シェーダオブジェクトを取得
 	/// </summary>
 	/// <returns>シェーダオブジェクト(D3D12_SHADER_BYTECODE)</returns>
-	virtual const D3D12_SHADER_BYTECODE* GetShader() = 0;
+	virtual D3D12_SHADER_BYTECODE* GetShader() = 0;
 
 	/// <summary>
 	/// タイプ
@@ -81,3 +87,17 @@ std::unique_ptr<IShader> CreateUniqueShader(const std::string& fileName_, const 
 /// <param name="type_">シェーダの種類(初期値:VS)</param>
 /// <returns>生成されたポインタ</returns>
 std::shared_ptr<IShader> CreateSharedShader(const std::string& fileName_, const std::string& entryPoint_ = "main", const std::string& target_ = "vs_5_0", const IShader::ShaderType& type_ = IShader::ShaderType::VS);
+
+/// <summary>
+/// シェーダオブジェクトをコピーして生成(ユニーク)
+/// </summary>
+/// <param name="shader_">コピー元</param>
+/// <returns>生成されたポインタ</returns>
+std::unique_ptr<IShader> CopyUniqueShader(IShader* shader_);
+
+/// <summary>
+/// シェーダオブジェクトをコピーして生成(シェアード)
+/// </summary>
+/// <param name="shader_">コピー元</param>
+/// <returns>生成されたポインタ</returns>
+std::shared_ptr<IShader> CopySharedShader(IShader* shader_);

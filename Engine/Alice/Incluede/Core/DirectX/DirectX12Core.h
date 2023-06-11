@@ -10,6 +10,9 @@
 #include<WindowsApp.h>
 #include<DepthStencilBuffer.h>
 #include<SwapChain.h>
+#include<RTVDescriptorHeap.h>
+#include<DescriptorHeap.h>
+#include<DSVDescriptorHeap.h>
 
 enum class WindowMode
 {
@@ -37,19 +40,19 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12CommandQueue> commandQueue;
 
 	//RTV用のデスクプリタヒープ
-	std::unique_ptr<RTVDescriptorHeap> rtvHeap;
+	std::unique_ptr<IRTVDescriptorHeap> rtvHeap;
 
 	//SRV用のデスクプリタヒープ
-	std::unique_ptr<DescriptorHeap> srvHeap;
+	std::unique_ptr<IDescriptorHeap> srvHeap;
 
 	//深度バッファ
-	std::unique_ptr<DepthStencilBuffer> depthBuff;
+	std::unique_ptr<IDepthStencilBuffer> depthBuff;
 
 	//DSV用のデスクプリタヒープ
-	std::unique_ptr<DSVDescriptorHeap> dsvHeap;
+	std::unique_ptr<IDSVDescriptorHeap> dsvHeap;
 
 	//スワップチェイン
-	std::unique_ptr<SwapChain> swapChain;
+	std::unique_ptr<ISwapChain> swapChain;
 
 	//スワップチェーンの設定
 	DXGI_SWAP_CHAIN_DESC1 swapChainDesc{};
@@ -82,7 +85,7 @@ private:
 	char PADING4[4]{};
 
 	HWND* handle;
-	WindowsApp* windowsApp = nullptr;
+	IWindowsApp* windowsApp = nullptr;
 
 	WindowMode windowMode;
 	char PADING5[4]{};
@@ -114,7 +117,7 @@ public:
 	/// </summary>
 	/// <param name="h">縦幅</param>
 	/// <param name="w">横幅</param>
-	void DirectXInitialize(float h, float w, HWND* hwnd, WindowsApp* windows);
+	void DirectXInitialize(float h, float w, HWND* hwnd, IWindowsApp* windows);
 
 	/// <summary>
 	/// 描画準備
@@ -154,17 +157,17 @@ public:
 	/// <summary>
 	/// SRV,CBV,URV用デスクプリタヒープ取得
 	/// </summary>
-	DescriptorHeap* GetSRVDescriptorHeap();
+	IDescriptorHeap* GetSRVDescriptorHeap();
 
 	/// <summary>
 	/// RTV用デスクプリタヒープ取得
 	/// </summary>
-	RTVDescriptorHeap* GetRTVDescriptorHeap();
+	IRTVDescriptorHeap* GetRTVDescriptorHeap();
 
 	/// <summary>
 	/// DSV用デスクプリタヒープ取得
 	/// </summary>
-	DSVDescriptorHeap* GetDSVDescriptorHeap();
+	IDSVDescriptorHeap* GetDSVDescriptorHeap();
 
 	/// <summary>
 	/// リソースの状態を変える

@@ -14,9 +14,9 @@ private:
 		AliceMathF::Vector2 TexSize;
 	};
 
-	std::unique_ptr<ConstantBuffer> constantBuffer;
+	std::unique_ptr<IConstantBuffer> constantBuffer;
 
-	RadTxeSize* constBuffMap = nullptr;
+	RadTxeSize constBuffMap;
 
 public:
 

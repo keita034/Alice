@@ -15,8 +15,8 @@ void OilPaintingPostEffect::Initialize()
 	{
 		cmdList = DirectX12Core::GetInstance()->GetCommandList().Get();
 
-		width = static_cast<float>(WindowsApp::GetInstance()->GetWindowSize().width);
-		height = static_cast<float>(WindowsApp::GetInstance()->GetWindowSize().height);
+		width = static_cast<float>(windowsApp->GetWindowSize().width);
+		height = static_cast<float>(windowsApp->GetWindowSize().height);
 
 		sprite = std::make_unique<PostEffectSprite>();
 		sprite->Initialize(DirectX12Core::GetCommandListSta().Get(), DirectX12Core::GetInstance()->GetSRVDescriptorHeap());
@@ -24,12 +24,10 @@ void OilPaintingPostEffect::Initialize()
 		material = std::make_unique<Material>();
 
 		//頂点シェーダの読み込み
-		material->vertexShader = std::make_unique<Shader>();
-		material->vertexShader->Create("Resources/Shaders/2D/PostEffect/OilPaintingVS.hlsl");
+		material->vertexShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/OilPaintingVS.hlsl");
 
 		//ピクセルシェーダの読み込み
-		material->pixelShader = std::make_unique<Shader>();
-		material->pixelShader->Create("Resources/Shaders/2D/PostEffect/OilPaintingPS.hlsl", "main", "ps_5_0");
+		material->pixelShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/OilPaintingPS.hlsl", "main", "ps_5_0",IShader::ShaderType::PS);
 
 		//頂点レイアウト設定
 		material->inputLayouts =
@@ -49,10 +47,10 @@ void OilPaintingPostEffect::Initialize()
 		material->blenddesc.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;// 1.0f-ソースのアルファ値
 
 		//ルートシグネチャ設定
-		material->rootSignature = std::make_unique<RootSignature>();
-		material->rootSignature->Add(RootSignature::RangeType::SRV, 0);//t0
+		material->rootSignature = CreateUniqueRootSignature();
+		material->rootSignature->Add(IRootSignature::RangeType::SRV, 0);//t0
 		material->rootSignature->AddStaticSampler(0);//s0
-		material->rootSignature->Add(RootSignature::RootType::CBV, 0);//t0
+		material->rootSignature->Add(IRootSignature::RootType::CBV, 0);//t0
 		material->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
 
 		//生成
@@ -60,8 +58,7 @@ void OilPaintingPostEffect::Initialize()
 
 		{
 			//レンダーターゲットの生成
-			std::unique_ptr<RenderTargetBuffer> buff = std::make_unique<RenderTargetBuffer>();
-			buff->Create(static_cast<UINT>(width), static_cast<UINT>(height), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+			std::unique_ptr<IRenderTargetBuffer> buff = CreateUniqueRenderTargetBuffer(static_cast<uint32_t>(width), static_cast<uint32_t>(height), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 			{//SRV作成
 
@@ -80,22 +77,20 @@ void OilPaintingPostEffect::Initialize()
 
 		{
 			//デプスステンシルの生成
-			std::unique_ptr<DepthStencilBuffer> buff = std::make_unique<DepthStencilBuffer>();
-			buff->Create(static_cast<UINT>(width), static_cast<UINT>(height), DXGI_FORMAT_D32_FLOAT);
+			std::unique_ptr<IDepthStencilBuffer> buff = CreateUniqueDepthStencilBuffer(static_cast<uint32_t>(width), static_cast<uint32_t>(height), DXGI_FORMAT_D32_FLOAT);
 			depthStencilBuffers.push_back(std::move(buff));
 		}
 
 		needsInit = false;
 
-		constantBuffer = std::make_unique<ConstantBuffer>();
+		constantBuffer = CreateUniqueConstantBuffer(sizeof(RadTxeSize));
 		constantBuffer->Create(sizeof(RadTxeSize));
-		constBuffMap = new RadTxeSize;
-		constBuffMap->radius = 3;
-		constBuffMap->radiusF = 3.0f;
-		constBuffMap->TexSize.x = 1.0f / static_cast<float>(width);
-		constBuffMap->TexSize.y = 1.0f / static_cast<float>(height);
+		constBuffMap.radius = 3;
+		constBuffMap.radiusF = 3.0f;
+		constBuffMap.TexSize.x = 1.0f / static_cast<float>(width);
+		constBuffMap.TexSize.y = 1.0f / static_cast<float>(height);
 
-		constantBuffer->Update(constBuffMap);
+		constantBuffer->Update(&constBuffMap);
 
 		type = "OILPAINTING";
 	}

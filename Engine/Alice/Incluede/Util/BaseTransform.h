@@ -8,7 +8,7 @@ class BaseTransform
 {
 protected:
 	// 定数バッファ
-	std::shared_ptr<ConstantBuffer> constBuff;
+	std::shared_ptr<IConstantBuffer> constBuff;
 	//定数バッファのマッピング用ポインタ
 	worldViewpojCamera constBuffMap;
 	char PADING1[4];

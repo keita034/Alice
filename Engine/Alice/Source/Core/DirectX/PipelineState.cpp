@@ -1,5 +1,7 @@
 ﻿#include<PipelineState.h>
 
+#include<cassert>
+
 bool PipelineState::Create()
 {
 	HRESULT result;

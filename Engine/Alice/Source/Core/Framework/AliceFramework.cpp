@@ -16,13 +16,12 @@ void AliceFramework::DebugInitialize()
 
 void AliceFramework::Initialize()
 {
-	windowsApp = WindowsApp::GetInstance();//WindowsAppクラス読み込み
-	windowsApp->CreatWindow();//ウィンドウ生成
+	windowsApp = CreateUniqueWindowsApp();//ウィンドウ生成
 
 	//DirectX初期化処理ここから
 
 	directX12Core = DirectX12Core::GetInstance();//DirectX12Coreクラス読み込み
-	directX12Core->DirectXInitialize(static_cast<float>(windowsApp->GetWindowSize().height), static_cast<float>(windowsApp->GetWindowSize().width), windowsApp->GetHwnd(), windowsApp);//DirectX12初期化
+	directX12Core->DirectXInitialize(static_cast<float>(windowsApp->GetWindowSize().height), static_cast<float>(windowsApp->GetWindowSize().width), windowsApp->GetHwnd(), windowsApp.get());//DirectX12初期化
 	directX12Core->SetBackScreenColor(0.1f, 0.25f, 0.5f, 0.0f);	//背景の色変更(R,G,B,A)
 
 	//DirectX初期化処理ここまで
@@ -51,7 +50,7 @@ void AliceFramework::Initialize()
 	AliceMotionData::CommonInitialize();
 
 	imGuiManager = std::make_unique<ImGuiManager>();
-	imGuiManager->Initialize(windowsApp, directX12Core);
+	imGuiManager->Initialize(windowsApp.get(), directX12Core);
 	
 	sceneManager = SceneManager::GetInstance();
 
@@ -84,7 +83,7 @@ void AliceFramework::Update()
 	mesh->DrawReset();
 	mesh3D->DrawReset();
 
-	input->Update(static_cast<float>(windowsApp->GetWindowsSize().width), static_cast<float>(windowsApp->GetWindowsSize().height));
+	input->Update(static_cast<float>(windowsApp->GetWindowSize().width), static_cast<float>(windowsApp->GetWindowSize().height));
 	audioManager->Update();
 
 	imGuiManager->Bigin();

@@ -58,9 +58,14 @@ public:
 	void Create(const std::string& fileName_, const std::string& entryPoint_, const std::string& target_, const ShaderType& type_) override;
 
 	/// <summary>
+	/// コピー
+	/// </summary>
+	void Copy(IShader* shader_);
+
+	/// <summary>
 	/// シェーダオブジェクトを取得
 	/// </summary>
-	const D3D12_SHADER_BYTECODE* GetShader()override;
+	D3D12_SHADER_BYTECODE* GetShader()override;
 
 	/// <summary>
 	/// タイプ
@@ -113,7 +118,13 @@ void Shader::Create(const std::string& fileName_, const std::string& entryPoint_
 	type = type_;
 }
 
-const D3D12_SHADER_BYTECODE* Shader::GetShader()
+void Shader::Copy(IShader* shader_)
+{
+	type = shader_->GetType();
+	shaderBytecode = *shader_->GetShader();
+}
+
+D3D12_SHADER_BYTECODE* Shader::GetShader()
 {
 	return &shaderBytecode;
 }
@@ -134,5 +145,19 @@ std::shared_ptr<IShader> CreateSharedShader(const std::string& fileName_, const 
 {
 	std::shared_ptr<IShader> lShader = std::make_shared<Shader>();
 	lShader->Create(fileName_, entryPoint_, target_, type_);
+	return lShader;
+}
+
+std::unique_ptr<IShader> CopyUniqueShader(IShader* shader_)
+{
+	std::unique_ptr<IShader> lShader = std::make_unique<Shader>();
+	lShader->Copy(shader_);
+	return std::move(lShader);
+}
+
+std::shared_ptr<IShader> CopySharedShader(IShader* shader_)
+{
+	std::shared_ptr<IShader> lShader = std::make_shared<Shader>();
+	lShader->Copy(shader_);
 	return lShader;
 }

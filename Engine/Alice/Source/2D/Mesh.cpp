@@ -242,6 +242,11 @@ void Mesh::Destroy()
 	delete mesh;
 }
 
+void Mesh::Initialize(IWindowsApp* windowsApp_)
+{
+	windowsApp = windowsApp_;
+}
+
 //三角形を描画する(中身塗りつぶし)
 void Mesh::DrawTriangleFill(float x1, float y1, float x2, float y2, float x3, float y3, AliceMathF::Vector4 color)
 {
@@ -429,12 +434,11 @@ void Mesh::DrawBoxFill(float x, float y, float radiusX, float radiusY, float ang
 void Mesh::CreatConstBuff()
 {
 	//定数バッファ生成
-	constBuffTransform = std::make_unique<ConstantBuffer>();
-	constBuffTransform->Create(sizeof(ConstBufferDataTransform));
+	constBuffTransform = CreateUniqueConstantBuffer(sizeof(ConstBufferDataTransform));
 
 	AliceMathF::MakeOrthogonalLOffCenter(
-		0.0f, static_cast<float>(WindowsApp::GetInstance()->GetWindowSize().width),
-		static_cast<float>(WindowsApp::GetInstance()->GetWindowSize().height), 0.0f,
+		0.0f, static_cast<float>(windowsApp->GetWindowSize().width),
+		static_cast<float>(windowsApp->GetWindowSize().height), 0.0f,
 		0.0f, 1.0f, constMapTransform.mat);
 
 	constBuffTransform->Update(&constMapTransform);
@@ -455,7 +459,7 @@ std::unique_ptr <Buff> Mesh::CreateBuff(UINT vertexCount, UINT indexCount)
 	if (vertexCount > 0)
 	{
 
-		buff->vertexBuffer = CreateVertexBuffer(vertexCount, sizeof(PosColor));
+		buff->vertexBuffer = CreateUniqueVertexBuffer(vertexCount, sizeof(PosColor));
 
 		buff->vertMap = static_cast<PosColor*>(malloc(vertexCount * sizeof(PosColor)));
 
@@ -463,8 +467,7 @@ std::unique_ptr <Buff> Mesh::CreateBuff(UINT vertexCount, UINT indexCount)
 
 	if (indexCount > 0)
 	{
-		buff->indexBuffer = std::make_unique<IndexBuffer>();
-		buff->indexBuffer->Create(indexCount);
+		buff->indexBuffer = CreateUniqueIndexBuffer(indexCount);
 
 		buff->indexMap = static_cast<uint32_t*>(malloc(indexCount * sizeof(uint32_t)));
 	}

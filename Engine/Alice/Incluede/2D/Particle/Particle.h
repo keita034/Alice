@@ -84,7 +84,7 @@ protected:
 	//頂点バッファ
 	std::unique_ptr<IVertexBuffer>vertexBuffer;
 	//定数バッファ
-	std::unique_ptr<ConstantBuffer> constBuffTransform = nullptr;
+	std::unique_ptr<IConstantBuffer> constBuffTransform;
 	//定数バッファのマッピング用
 	ParticleConstBuffData constMapTransform{};
 

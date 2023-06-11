@@ -15,9 +15,10 @@ class Mesh
 private:
 
 	DirectX12Core* directX12Core = nullptr;
+	IWindowsApp* windowsApp = nullptr;
 
 	//定数バッファのGPUリソースのポインタ
-	std::unique_ptr<ConstantBuffer> constBuffTransform;
+	std::unique_ptr<IConstantBuffer> constBuffTransform;
 	//定数バッファのマッピング用
 	ConstBufferDataTransform constMapTransform;
 
@@ -147,6 +148,8 @@ public:
 	/// インスタンスを解放
 	/// </summary>
 	void Destroy();
+
+	void Initialize(IWindowsApp* windowsApp_);
 
 private:
 

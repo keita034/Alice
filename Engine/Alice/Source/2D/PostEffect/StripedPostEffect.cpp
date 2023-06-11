@@ -16,8 +16,8 @@ void StripedPostEffect::Initialize()
 
 		cmdList = DirectX12Core::GetInstance()->GetCommandList().Get();
 
-		width = static_cast<float>(WindowsApp::GetInstance()->GetWindowSize().width);
-		height = static_cast<float>(WindowsApp::GetInstance()->GetWindowSize().height);
+		width = static_cast<float>(windowsApp->GetWindowSize().width);
+		height = static_cast<float>(windowsApp->GetWindowSize().height);
 
 		sprite = std::make_unique<PostEffectSprite>();
 		sprite->Initialize(DirectX12Core::GetCommandListSta().Get(), DirectX12Core::GetInstance()->GetSRVDescriptorHeap());
@@ -25,12 +25,10 @@ void StripedPostEffect::Initialize()
 		material = std::make_unique<Material>();
 
 		//頂点シェーダの読み込み
-		material->vertexShader = std::make_unique<Shader>();
-		material->vertexShader->Create("Resources/Shaders/2D/PostEffect/StripedVS.hlsl");
+		material->vertexShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/StripedVS.hlsl");
 
 		//ピクセルシェーダの読み込み
-		material->pixelShader = std::make_unique<Shader>();
-		material->pixelShader->Create("Resources/Shaders/2D/PostEffect/StripedPS.hlsl", "main", "ps_5_0");
+		material->pixelShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/StripedPS.hlsl", "main", "ps_5_0");
 
 		//頂点レイアウト設定
 		material->inputLayouts =
@@ -58,9 +56,9 @@ void StripedPostEffect::Initialize()
 		material->renderTargetFormat.RTVFormats[1] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 
 		//ルートシグネチャ設定
-		material->rootSignature = std::make_unique<RootSignature>();
-		material->rootSignature->Add(RootSignature::RangeType::SRV, 0);//t0
-		material->rootSignature->Add(RootSignature::RootType::CBV, 0);//b0
+		material->rootSignature = CreateUniqueRootSignature();
+		material->rootSignature->Add(IRootSignature::RangeType::SRV, 0);//t0
+		material->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
 		material->rootSignature->AddStaticSampler(0);//s0
 		material->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
 
@@ -70,8 +68,7 @@ void StripedPostEffect::Initialize()
 		for (size_t i = 0; i < 2; i++)
 		{
 			//レンダーターゲットの生成
-			std::unique_ptr<RenderTargetBuffer> buff = std::make_unique<RenderTargetBuffer>();
-			buff->Create(static_cast<UINT>(width), static_cast<UINT>(height), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+			std::unique_ptr<IRenderTargetBuffer> buff = CreateUniqueRenderTargetBuffer(static_cast<uint32_t>(width), static_cast<uint32_t>(height), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 			
 			{//SRV作成
 
@@ -90,8 +87,7 @@ void StripedPostEffect::Initialize()
 
 		{
 			//デプスステンシルの生成
-			std::unique_ptr<DepthStencilBuffer> buff = std::make_unique<DepthStencilBuffer>();
-			buff->Create(static_cast<UINT>(width), static_cast<UINT>(height), DXGI_FORMAT_D32_FLOAT);
+			std::unique_ptr<IDepthStencilBuffer> buff = CreateUniqueDepthStencilBuffer(static_cast<uint32_t>(width), static_cast<uint32_t>(height), DXGI_FORMAT_D32_FLOAT);
 			depthStencilBuffers.push_back(std::move(buff));
 		}
 
@@ -102,12 +98,10 @@ void StripedPostEffect::Initialize()
 		material2= std::make_unique<Material>();
 
 		//頂点シェーダの読み込み
-		material2->vertexShader = std::make_unique<Shader>();
-		material2->vertexShader->Create("Resources/Shaders/2D/PostEffect/StripedDrawVS.hlsl");
+		material2->vertexShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/StripedDrawVS.hlsl");
 
 		//ピクセルシェーダの読み込み
-		material2->pixelShader = std::make_unique<Shader>();
-		material2->pixelShader->Create("Resources/Shaders/2D/PostEffect/StripedDrawPS.hlsl", "main", "ps_5_0");
+		material2->pixelShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/StripedDrawPS.hlsl", "main", "ps_5_0");
 
 		//頂点レイアウト設定
 		material2->inputLayouts =
@@ -130,10 +124,10 @@ void StripedPostEffect::Initialize()
 		material2->renderTargetFormat.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 
 		//ルートシグネチャ設定
-		material2->rootSignature = std::make_unique<RootSignature>();
-		material2->rootSignature->Add(RootSignature::RangeType::SRV, 0);//t0
+		material2->rootSignature = CreateUniqueRootSignature();
+		material2->rootSignature->Add(IRootSignature::RangeType::SRV, 0);//t0
 		material2->rootSignature->AddStaticSampler(0);//s0
-		material2->rootSignature->Add(RootSignature::RangeType::SRV, 1);//t0
+		material2->rootSignature->Add(IRootSignature::RangeType::SRV, 1);//t0
 		material2->rootSignature->AddStaticSampler(1);//s0
 		material2->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
 

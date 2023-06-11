@@ -8,10 +8,10 @@ void RenderTarget::Initialize(UINT w, UINT h, D3D12_RESOURCE_STATES resourceStat
 	
 
 	//レンダーターゲットの生成
-	renderTargetBuffer->Create(w, h, resourceStates, 0, 1, rtFormat, clearColor);
+	renderTargetBuffer = CreateUniqueRenderTargetBuffer(w, h, resourceStates, 0, 1, rtFormat, clearColor);
 
 	//デプスステンシルの生成
-	depthStencilBuffer->Create(w, h, dsFormat);
+	depthStencilBuffer = CreateUniqueDepthStencilBuffer(w, h, dsFormat);
 
 
 	{//SRV作成
@@ -58,23 +58,20 @@ void RenderTarget::Transition(D3D12_RESOURCE_STATES resourceStates)
 	renderTargetBuffer->Transition(resourceStates);
 }
 
-RenderTarget::RenderTarget(DescriptorHeap* srvDescriptorHeap, ID3D12GraphicsCommandList* commandList)
+RenderTarget::RenderTarget(IDescriptorHeap* srvDescriptorHeap, ID3D12GraphicsCommandList* commandList)
 {
-	renderTargetBuffer = std::make_unique<RenderTargetBuffer>();
-
-	depthStencilBuffer = std::make_unique<DepthStencilBuffer>();
 
 	cmdList = commandList;
 
 	srvHeap = srvDescriptorHeap;
 }
 
-RenderTargetBuffer* RenderTarget::GetRenderTargetBuffer()
+IRenderTargetBuffer* RenderTarget::GetRenderTargetBuffer()
 {
 	return renderTargetBuffer.get();
 }
 
-DepthStencilBuffer* RenderTarget::GetDepthStencilBuffer()
+IDepthStencilBuffer* RenderTarget::GetDepthStencilBuffer()
 {
 	return depthStencilBuffer.get();
 }

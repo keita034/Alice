@@ -66,8 +66,7 @@ uint32_t AliceModel::CreateModel(const std::string& fileDirectoryPath)
 				AliceFileStream::LoadAlicePolygonData(filePath, data.get());
 			}
 
-			data->postureMatBuff = std::make_unique<ConstantBuffer>();
-			data->postureMatBuff->Create(sizeof(AliceMathF::Matrix4));
+			data->postureMatBuff = CreateUniqueConstantBuffer(sizeof(AliceMathF::Matrix4));
 
 			AliceMathF::Matrix4 tmp = AliceMathF::Matrix4();
 			data->postureMatBuff->Update(&tmp);
@@ -228,8 +227,7 @@ uint32_t AliceModel::CreateToonModel(const std::string& fileDirectoryPath, const
 				AliceFileStream::LoadAlicePolygonData(filePath, data.get());
 			}
 
-			data->postureMatBuff = std::make_unique<ConstantBuffer>();
-			data->postureMatBuff->Create(sizeof(AliceMathF::Matrix4));
+			data->postureMatBuff = CreateUniqueConstantBuffer(sizeof(AliceMathF::Matrix4));
 
 			AliceMathF::Matrix4 tmp = AliceMathF::Matrix4();
 			data->postureMatBuff->Update(&tmp);
@@ -288,9 +286,6 @@ uint32_t AliceModel::CreateToonModel(const std::string& fileDirectoryPath, const
 		return modelHandle;
 
 	}
-
-	printf("モデルファイルが存在しません");
-	return INT32_MAX;
 }
 
 void AliceModel::CommonInitialize()

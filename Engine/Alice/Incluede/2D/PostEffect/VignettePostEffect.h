@@ -9,7 +9,7 @@ class VignettePostEffect : public BasePostEffect
 {
 private:
 
-	std::unique_ptr<ConstantBuffer> vignetteDataBuff;
+	std::unique_ptr<IConstantBuffer> vignetteDataBuff;
 
 	struct VignetteData
 	{

@@ -1,5 +1,5 @@
 ﻿#include<Sprite2D.h>
-#include<WindowsApp.h>
+
 
 Sprite2D::Sprite2D()
 {
@@ -13,8 +13,8 @@ void Sprite2D::Initialize(uint32_t handle)
 {
 	SpriteInitialize();
 
-	float width = static_cast<float>(WindowsApp::GetInstance()->GetWindowSize().width);
-	float height = static_cast<float>(WindowsApp::GetInstance()->GetWindowSize().height);
+	float width = static_cast<float>(windowsApp->GetWindowSize().width);
+	float height = static_cast<float>(windowsApp->GetWindowSize().height);
 
 	AliceMathF::MakeOrthogonalLOffCenter(0.0f, width, height, 0.0f, 0.0f, 1.0f, matProjection);
 

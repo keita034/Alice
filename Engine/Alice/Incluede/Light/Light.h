@@ -18,7 +18,7 @@ class Light
 private:
 	Microsoft::WRL::ComPtr<ID3D12Device>device;
 	//定数バッファ
-	std::unique_ptr<ConstantBuffer>constBuff;
+	std::unique_ptr<IConstantBuffer>constBuff;
 	//定数バッファのマップ
 	LightConstBuffData constMap;
 	//ライト光線方向(単位ベクトル)

@@ -10,6 +10,7 @@
 #pragma warning(disable: 5039)
 
 #include<directx/d3dx12.h>
+#include<cassert>
 
 #pragma warning(pop)
 
@@ -18,6 +19,8 @@
 
 DirectX12Core* DirectX12Core::DirectX12Core_ = nullptr;
 
+#include<BaseBuffer.h>
+#include<BaseDescriptorHeap.h>
 
 HRESULT DirectX12Core::CreateSwapChain()
 {
@@ -42,30 +45,13 @@ HRESULT DirectX12Core::CreateSwapChain()
 	{
 		Microsoft::WRL::ComPtr<IDXGISwapChain1> tmpSwapChain;
 		result = dxgiFactory->CreateSwapChainForHwnd(commandQueue.Get(), *handle, &swapChainDesc, &fsDesc, nullptr, tmpSwapChain.ReleaseAndGetAddressOf());
-		swapChain = std::make_unique<SwapChain>(device.Get(), tmpSwapChain, commandQueue.Get());
-
-
+		swapChain = CreateUniqueSwapChain(device.Get(), tmpSwapChain, commandQueue.Get());
 	}
 	else
 	{
 		assert(SUCCEEDED(0));
 	}
 
-	////Alt+Enterでフルスクリーンにならない
-	//Microsoft::WRL::ComPtr<IDXGIFactory6> factory;
-	//HRESULT result = CreateDXGIFactory1(IID_PPV_ARGS(&factory));
-	//if (SUCCEEDED(result))
-	//{
-	//	result = factory->MakeWindowAssociation(*handle, DXGI_MWA_NO_ALT_ENTER);
-	//	if (SUCCEEDED(result))
-	//	{
-
-	//	}
-	//	else
-	//	{
-	//		assert(SUCCEEDED(0));
-	//	}
-	//}
 	return result;
 }
 
@@ -93,9 +79,9 @@ bool DirectX12Core::SetWindowType(WindowMode mode, UINT windowHeight, UINT windo
 
 		swapChain->SetFullScreen(false);
 
-		windowsApp->ShowDefaultWindow(static_cast<LONG>(windowHeight), static_cast<LONG>(windowWidth));
+		windowsApp->ShowDefaultWindow(static_cast<uint64_t>(windowHeight), static_cast<uint64_t>(windowWidth));
 
-		WindowsApp::WindowsSize winSize = windowsApp->GetNowWindowSize();
+		IWindowsApp::WindowsSize winSize = windowsApp->GetNowWindowSize();
 
 		width = static_cast<float>(winSize.width);
 		height = static_cast<float>(winSize.height);
@@ -113,10 +99,9 @@ bool DirectX12Core::SetWindowType(WindowMode mode, UINT windowHeight, UINT windo
 		{
 			windowMode = WindowMode::FULLSCREEN;
 
-
 			swapChain->SetFullScreen(true);
 
-			WindowsApp::WindowsSize size = windowsApp->GetNowWindowSize();
+			IWindowsApp::WindowsSize size = windowsApp->GetNowWindowSize();
 
 			width = static_cast<float>(size.width);
 			height = static_cast<float>(size.height);
@@ -147,7 +132,7 @@ bool DirectX12Core::SetWindowType(WindowMode mode, UINT windowHeight, UINT windo
 
 			windowsApp->ShowFullScreen();
 
-			WindowsApp::WindowsSize size = windowsApp->GetNowWindowSize();
+			IWindowsApp::WindowsSize size = windowsApp->GetNowWindowSize();
 
 			width = static_cast<float>(size.width);
 			height = static_cast<float>(size.height);
@@ -287,35 +272,30 @@ HRESULT DirectX12Core::InitializeCommand()
 
 HRESULT DirectX12Core::CreatDepthBuffer()
 {
-
 	//深度バッファ生成
-	depthBuff = std::make_unique<DepthStencilBuffer>();
-	depthBuff->Create(static_cast<UINT>(width), static_cast<UINT>(height), DXGI_FORMAT_D32_FLOAT);
+	depthBuff = CreateUniqueDepthStencilBuffer(static_cast<uint32_t>(width), static_cast<uint32_t>(height), DXGI_FORMAT_D32_FLOAT);
 
 	return result;
 }
 
 void DirectX12Core::CreatDescriptorHeap()
 {
-	BaseDescriptorHeap::SetDevice(device.Get());
+	BaseDescriptorHeap::SSetDevice(device.Get());
 
 	//RTVデスクリプタヒープの生成
-	rtvHeap = std::make_unique<RTVDescriptorHeap>();
-	rtvHeap->Initialize();
+	rtvHeap = CreateUniqueRTVDescriptorHeap();
 
-	BaseBuffer::SetRTVDescriptorHeap(rtvHeap.get());
+	BaseBuffer::SSetRTVDescriptorHeap(rtvHeap.get());
 
 	//DSVデスクプリタヒープ生成
-	dsvHeap = std::make_unique<DSVDescriptorHeap>();
-	dsvHeap->Initialize();
+	dsvHeap = CreateUniqueDSVDescriptorHeap();
 
-	BaseBuffer::SetDSVDescriptorHeap(dsvHeap.get());
+	BaseBuffer::SSetDSVDescriptorHeap(dsvHeap.get());
 
 	//SRVデスクプリタヒープ生成
-	srvHeap = std::make_unique<DescriptorHeap>();
-	srvHeap->Initialize();
+	srvHeap = CreateUniqueDescriptorHeap();
 
-	BaseBuffer::SetSRVDescriptorHeap(srvHeap.get());
+	BaseBuffer::SSetSRVDescriptorHeap(srvHeap.get());
 
 }
 
@@ -324,7 +304,7 @@ void DirectX12Core::ResourceTransition(ID3D12Resource* resource, D3D12_RESOURCE_
 	GetInstance()->Transition(resource, beforeState, afterState);
 }
 
-void DirectX12Core::DirectXInitialize(float h, float w, HWND* hwnd, WindowsApp* windows)
+void DirectX12Core::DirectXInitialize(float h, float w, HWND* hwnd, IWindowsApp* windows)
 {
 	height = h;
 	width = w;
@@ -362,8 +342,8 @@ void DirectX12Core::DirectXInitialize(float h, float w, HWND* hwnd, WindowsApp* 
 		return;
 	}
 
-	BaseBuffer::SetDevice(device.Get());
-	BaseBuffer::SetGraphicsCommandList(commandList.Get());
+	BaseBuffer::SSetDevice(device.Get());
+	BaseBuffer::SSetGraphicsCommandList(commandList.Get());
 
 	if (FAILED(CreatDepthBuffer()))
 	{
@@ -559,17 +539,17 @@ Microsoft::WRL::ComPtr <ID3D12GraphicsCommandList> DirectX12Core::GetCommandList
 	return commandList;
 }
 
-DescriptorHeap* DirectX12Core::GetSRVDescriptorHeap()
+IDescriptorHeap* DirectX12Core::GetSRVDescriptorHeap()
 {
 	return srvHeap.get();
 }
 
-RTVDescriptorHeap* DirectX12Core::GetRTVDescriptorHeap()
+IRTVDescriptorHeap* DirectX12Core::GetRTVDescriptorHeap()
 {
 	return rtvHeap.get();
 }
 
-DSVDescriptorHeap* DirectX12Core::GetDSVDescriptorHeap()
+IDSVDescriptorHeap* DirectX12Core::GetDSVDescriptorHeap()
 {
 	return dsvHeap.get();
 }

@@ -25,7 +25,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(WindowsApp* windowsApp, DirectX12Core* core);
+	void Initialize(IWindowsApp* windowsApp, DirectX12Core* core);
 
 	/// <summary>
 	/// 終了

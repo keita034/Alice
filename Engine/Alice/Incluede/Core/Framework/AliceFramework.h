@@ -15,7 +15,7 @@ class AliceFramework
 {
 protected:
 
-	WindowsApp* windowsApp = nullptr;
+	std::unique_ptr<IWindowsApp> windowsApp;
 
 	DirectX12Core* directX12Core = nullptr;
 

@@ -63,11 +63,11 @@ private:
 	void CreateDefaultZeldaToonModelMaterial();
 	void CreateDefaultZeldaToonModelAnimationMaterial();
 
-	Material* CreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE type, BlendMode mode, Shader* vex, Shader* pix);
+	Material* CreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE type, BlendMode mode, IShader* vex, IShader* pix);
 
-	Material* CreateDefaultSprite2DBlend(BlendMode mode, Shader* vex, Shader* pix);
+	Material* CreateDefaultSprite2DBlend(BlendMode mode, IShader* vex, IShader* pix);
 
-	Material* CreateDefaultSprite3DBlend(BlendMode mode, Shader* vex, Shader* pix);
+	Material* CreateDefaultSprite3DBlend(BlendMode mode, IShader* vex, IShader* pix);
 
 	D3D12_BLEND_DESC CreateBlend(BlendMode mode);
 

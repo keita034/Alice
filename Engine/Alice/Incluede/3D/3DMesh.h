@@ -12,9 +12,10 @@ class Mesh3D
 private:
 
 	DirectX12Core* directX12Core = nullptr;
+	IWindowsApp* windowsApp = nullptr;
 
 	//定数バッファのGPUリソースのポインタ
-	std::unique_ptr<ConstantBuffer> constBuffTransform = nullptr;
+	std::unique_ptr<IConstantBuffer> constBuffTransform;
 	//定数バッファのマッピング用ポインタ
 	ConstBufferDataTransform* constMapTransform = nullptr;
 

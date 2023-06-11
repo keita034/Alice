@@ -11,7 +11,7 @@ void ModelMesh::CreateBuffer()
 	//一つ分のサイズ計算
 	size_t stride = sizeof(PosNormUvTangeColSkin);
 	//生成
-	vertexBuffer = CreateVertexBuffer(size, stride);
+	vertexBuffer = CreateUniqueVertexBuffer(size, stride);
 	if (!vertexBuffer->IsValid())
 	{
 		printf("Failed to create vertex buffer\n");
@@ -23,24 +23,21 @@ void ModelMesh::CreateBuffer()
 	size = indices.size();
 	uint32_t* indice = indices.data();
 	//生成
-	indexBuffer = std::make_unique<IndexBuffer>();
-	indexBuffer->Create(size, indice);
+	indexBuffer = CreateUniqueIndexBuffer(size, indice);
 	if (!indexBuffer->IsValid())
 	{
 		printf("Failed to create index buffer\n");
 		return;
 	}
 
-	materialBuffer = std::make_unique<ConstantBuffer>();
-	materialBuffer->Create(sizeof(ConstBuffDataMaterial));
+	materialBuffer = CreateUniqueConstantBuffer(sizeof(ConstBuffDataMaterial));
 	if (!materialBuffer->IsValid())
 	{
 		printf("Failed to create constant buffer for material\n");
 		return;
 	}
 
-	constBoneBuffer = std::make_unique<ConstantBuffer>();
-	constBoneBuffer->Create(sizeof(BoneData));
+	constBoneBuffer = CreateUniqueConstantBuffer(sizeof(BoneData));
 	if (!constBoneBuffer->IsValid())
 	{
 		printf("Failed to generate constant buffer for bone data\n");

@@ -62,6 +62,7 @@ void GaussianBlurPostEffect::Draw(RenderTarget* mainRenderTarget)
 
 void GaussianBlurPostEffect::MainRenderTargetDraw(RenderTarget* mainRenderTarget)
 {
+	static_cast<void*>(mainRenderTarget);
 }
 
 GaussianBlurPostEffect::GaussianBlurPostEffect()

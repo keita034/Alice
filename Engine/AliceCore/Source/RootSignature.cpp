@@ -88,7 +88,7 @@ public:
 	/// <summary>
 	/// ルートシグネチャ取得
 	/// </summary>
-	const ID3D12RootSignature* GetRootSignature();
+	ID3D12RootSignature* GetRootSignature();
 
 	RootSignature() = default;
 	~RootSignature() = default;
@@ -194,21 +194,19 @@ void RootSignature::Create(ID3D12Device* device)
 	}
 }
 
- const ID3D12RootSignature* RootSignature::GetRootSignature()
+ ID3D12RootSignature* RootSignature::GetRootSignature()
 {
 	return rootSignature.Get();
 }
 
- std::unique_ptr<IRootSignature> CreateUniqueRootSignature(ID3D12Device* device_)
+ std::unique_ptr<IRootSignature> CreateUniqueRootSignature()
  {
 	 std::unique_ptr<IRootSignature> lRootSignature = std::make_unique<RootSignature>();
-	 lRootSignature->Create(device_);
 	 return std::move(lRootSignature);
  }
 
- std::shared_ptr<IRootSignature> CreateSharedRootSignature(ID3D12Device* device_)
+ std::shared_ptr<IRootSignature> CreateSharedRootSignature()
  {
 	 std::shared_ptr<IRootSignature> lRootSignature = std::make_shared<RootSignature>();
-	 lRootSignature->Create(device_);
 	 return lRootSignature;
  }

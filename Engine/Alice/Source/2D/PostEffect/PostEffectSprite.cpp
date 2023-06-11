@@ -1,16 +1,15 @@
 ﻿#include<PostEffectSprite.h>
 
-void PostEffectSprite::Initialize(ID3D12GraphicsCommandList* commandList, DescriptorHeap* descriptorHeap)
+void PostEffectSprite::Initialize(ID3D12GraphicsCommandList* commandList, IDescriptorHeap* descriptorHeap)
 {
 	cmdList = commandList;
 	srvHeap = descriptorHeap;
 
 	//頂点バッファの生成
-	vertexBuffer = CreateVertexBuffer(4, sizeof(PosUvColor));
+	vertexBuffer = CreateUniqueVertexBuffer(4, sizeof(PosUvColor));
 
 	//インデックスバッファの生成
-	indexBuffer = std::make_unique<IndexBuffer>();
-	indexBuffer->Create(6);
+	indexBuffer = CreateUniqueIndexBuffer(6);
 }
 
 void PostEffectSprite::SetSize(const AliceMathF::Vector2& size)

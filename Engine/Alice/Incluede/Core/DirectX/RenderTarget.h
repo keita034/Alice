@@ -9,15 +9,15 @@ class RenderTarget
 private:
 
 	//レンダーターゲットテクスチャ
-	std::unique_ptr<RenderTargetBuffer>renderTargetBuffer;
+	std::unique_ptr<IRenderTargetBuffer>renderTargetBuffer;
 	//デプステクスチャ
-	std::unique_ptr<DepthStencilBuffer>depthStencilBuffer;
+	std::unique_ptr<IDepthStencilBuffer>depthStencilBuffer;
 	//コマンドリスト
 	ID3D12GraphicsCommandList* cmdList;
 	//クリアーカラー
 	std::array<float, 4> clearColor;
 
-	DescriptorHeap* srvHeap = nullptr;
+	IDescriptorHeap* srvHeap = nullptr;
 
 	D3D12_GPU_DESCRIPTOR_HANDLE handle;
 
@@ -57,17 +57,17 @@ public:
 	/// <param name="rtvDescriptorHeap">レンダーターゲットテクスチャ用のデスクプリタヒープ</param>
 	/// <param name="descriptorHeap">デプステクスチャ用のデスクプリタヒープ</param>
 	/// <param name="commandList">コマンドリスト</param>
-	RenderTarget(DescriptorHeap* srvDescriptorHeap, ID3D12GraphicsCommandList* commandList);
+	RenderTarget(IDescriptorHeap* srvDescriptorHeap, ID3D12GraphicsCommandList* commandList);
 
 	/// <summary>
 	/// レンダーターゲットテクスチャを取得
 	/// </summary>
-	RenderTargetBuffer* GetRenderTargetBuffer();
+	IRenderTargetBuffer* GetRenderTargetBuffer();
 
 	/// <summary>
 	/// デプステクスチャを取得
 	/// </summary>
-	DepthStencilBuffer* GetDepthStencilBuffer();
+	IDepthStencilBuffer* GetDepthStencilBuffer();
 
 	const D3D12_GPU_DESCRIPTOR_HANDLE& GetGpuHandle();
 

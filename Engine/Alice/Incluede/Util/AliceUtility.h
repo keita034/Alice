@@ -38,7 +38,7 @@ struct Buff
 	//頂点マップ
 	PosColor* vertMap;
 	//インデックスバッファ
-	std::unique_ptr<IndexBuffer> indexBuffer;
+	std::unique_ptr<IIndexBuffer> indexBuffer;
 	//インデックスマップ
 	uint32_t* indexMap;
 
@@ -76,11 +76,11 @@ struct ComputeRelation
 	//パイプラインステート
 	std::shared_ptr<ComputePipelineState> computePipelineState;
 	//ルートシグネチャ
-	std::unique_ptr<RootSignature> rootSignature;
+	std::unique_ptr<IRootSignature> rootSignature;
 
-	std::unique_ptr<RootSignature> rootSignature1;
+	std::unique_ptr<IRootSignature> rootSignature1;
 	//シェーダー
-	std::unique_ptr<Shader> computeShader;
+	std::unique_ptr<IShader> computeShader;
 
 private:
 	//コピーコンストラクタ・代入演算子削除

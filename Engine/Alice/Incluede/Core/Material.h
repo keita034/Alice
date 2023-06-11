@@ -26,18 +26,18 @@ public:
 	std::unique_ptr<PipelineState> pipelineState;
 
 	//ルートシグネチャ
-	std::unique_ptr<RootSignature> rootSignature;
+	std::unique_ptr<IRootSignature> rootSignature;
 
 	//頂点シェーダ
-	std::unique_ptr<Shader> vertexShader;
+	std::unique_ptr<IShader> vertexShader;
 	//ピクセルシェーダ
-	std::unique_ptr<Shader> pixelShader;
+	std::unique_ptr<IShader> pixelShader;
 	//ジオメトリシェーダ
-	std::unique_ptr<Shader> geometryShader;
+	std::unique_ptr<IShader> geometryShader;
 	//ハルシェーダ
-	std::unique_ptr<Shader> hullShader;
+	std::unique_ptr<IShader> hullShader;
 	//ドメインシェーダ
-	std::unique_ptr<Shader> domainShader;
+	std::unique_ptr<IShader> domainShader;
 
 	RenderTargetFormat renderTargetFormat;
 

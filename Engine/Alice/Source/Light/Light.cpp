@@ -15,8 +15,7 @@ void Light::Initialize()
 	device = DirectX12Core::GetInstance()->GetDevice();
 
 	//定数バッファ
-	constBuff = std::make_unique<ConstantBuffer>();
-	constBuff->Create(sizeof(LightConstBuffData));
+	constBuff = CreateUniqueConstantBuffer(sizeof(LightConstBuffData));
 
 	//定数バッファへデータ転送
 	TransferConstBuffer();

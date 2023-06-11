@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include"AliceMathUtility.h"
-
+#include"WindowsApp.h"
 
 ///<summary>
 ///射影行列の更新方法。
@@ -13,6 +13,9 @@ enum UpdateProjMatrixFunc
 
 class Camera
 {
+protected:
+	static IWindowsApp* windowsApp;
+
 public:
 
 	Camera() = default;
@@ -165,7 +168,6 @@ private:
 	UpdateProjMatrixFunc matrixFunc = UpdateProjMatrixFunc_Perspective;
 
 	char PADDING2[4]{};
-
 
 public:
 

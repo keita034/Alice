@@ -20,19 +20,18 @@ void PostEffectManager::Initialize()
 	dsvHeap = DirectX12Core::GetInstance()->GetDSVDescriptorHeap();
 	rtvHeap = DirectX12Core::GetInstance()->GetRTVDescriptorHeap();
 
-	width = static_cast<float>(WindowsApp::GetInstance()->GetWindowSize().width);
-	height = static_cast<float>(WindowsApp::GetInstance()->GetWindowSize().height);
+	width = static_cast<float>(windowsApp->GetWindowSize().width);
+	height = static_cast<float>(windowsApp->GetWindowSize().height);
 
 	mainRenderTarget = std::make_unique<RenderTarget>(srvHeap, cmdList);
 
-	mainRenderTarget->Initialize(WindowsApp::GetInstance()->GetWindowSize().width, WindowsApp::GetInstance()->GetWindowSize().height, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	mainRenderTarget->Initialize(windowsApp->GetWindowSize().width, windowsApp->GetWindowSize().height, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 	//頂点バッファの生成
-	vertexBuffer = CreateVertexBuffer(4, sizeof(PosUvColor));
+	vertexBuffer = CreateUniqueVertexBuffer(4, sizeof(PosUvColor));
 
 	//インデックスバッファの生成
-	indexBuffer = std::make_unique<IndexBuffer>();
-	indexBuffer->Create(6);
+	indexBuffer = CreateUniqueIndexBuffer(6);
 
 	factory = PostEffectFactory::GetInstance();
 }

@@ -1,8 +1,9 @@
 ﻿#include<Sprite.h>
-#include<Sprite.h>
 #include<DirectX12Core.h>
 #include<Sprite2D.h>
 #include<Sprite3D.h>
+
+IWindowsApp* Sprite::windowsApp = nullptr;
 
 void Sprite::SpriteInitialize()
 {
@@ -45,11 +46,10 @@ void Sprite::SpriteDraw(Transform& transform, Material* material)
 void Sprite::CreatVertexIndexBuffer()
 {
 	//頂点バッファの生成
-	vertexBuffer = CreateVertexBuffer(4, sizeof(PosUvColor));
+	vertexBuffer = CreateUniqueVertexBuffer(4, sizeof(PosUvColor));
 
 	//インデックスバッファの生成
-	indexBuffer = std::make_unique<IndexBuffer>();
-	indexBuffer->Create(6);
+	indexBuffer = CreateUniqueIndexBuffer(6);
 }
 
 Sprite::Sprite()
@@ -113,4 +113,9 @@ Sprite3D* Sprite::Create3DSprite(uint32_t handle)
 const TextureData* Sprite::GetTexture()
 {
 	return texture;
+}
+
+void Sprite::SetWindowsApp(IWindowsApp* windowsApp_)
+{
+	windowsApp = windowsApp_;
 }

@@ -16,7 +16,7 @@ void ComputePipelineState::SetShader(D3D12_SHADER_BYTECODE& shader)
 	shaderByte = shader;
 }
 
-void ComputePipelineState::SetRootSignature(RootSignature* rootSignature)
+void ComputePipelineState::SetRootSignature(IRootSignature* rootSignature)
 {
 	rootSignaturePtr = rootSignature;
 }

@@ -7,7 +7,7 @@ class LutPostEffect final :public BasePostEffect
 {
 private:
 
-	std::unique_ptr<ConstantBuffer> lutSizeBuff;
+	std::unique_ptr<IConstantBuffer> lutSizeBuff;
 
 	struct lutSize
 	{

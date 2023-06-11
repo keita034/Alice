@@ -10,7 +10,7 @@ class GaussianXBlurPostEffect final :public BasePostEffect
 {
 private:
 
-	std::unique_ptr<ConstantBuffer> weightBuff;
+	std::unique_ptr<IConstantBuffer> weightBuff;
 
 	std::array<float, 8> weight;
 

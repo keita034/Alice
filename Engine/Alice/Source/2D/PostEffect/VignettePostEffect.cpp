@@ -12,8 +12,8 @@ void VignettePostEffect::Initialize()
 	{
 		cmdList = DirectX12Core::GetInstance()->GetCommandList().Get();
 
-		width = static_cast<float>(WindowsApp::GetInstance()->GetWindowSize().width);
-		height = static_cast<float>(WindowsApp::GetInstance()->GetWindowSize().height);
+		width = static_cast<float>(windowsApp->GetWindowSize().width);
+		height = static_cast<float>(windowsApp->GetWindowSize().height);
 
 		sprite = std::make_unique<PostEffectSprite>();
 		sprite->Initialize(DirectX12Core::GetCommandListSta().Get(), DirectX12Core::GetInstance()->GetSRVDescriptorHeap());
@@ -21,12 +21,10 @@ void VignettePostEffect::Initialize()
 		material = std::make_unique<Material>();
 
 		//頂点シェーダの読み込み
-		material->vertexShader = std::make_unique<Shader>();
-		material->vertexShader->Create("Resources/Shaders/2D/PostEffect/VignetteShaderVS.hlsl");
+		material->vertexShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/VignetteShaderVS.hlsl");
 
 		//ピクセルシェーダの読み込み
-		material->pixelShader = std::make_unique<Shader>();
-		material->pixelShader->Create("Resources/Shaders/2D/PostEffect/VignetteShaderPS.hlsl", "main", "ps_5_0");
+		material->pixelShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/VignetteShaderPS.hlsl", "main", "ps_5_0");
 
 		//頂点レイアウト設定
 		material->inputLayouts =
@@ -46,9 +44,9 @@ void VignettePostEffect::Initialize()
 		material->blenddesc.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;// 1.0f-ソースのアルファ値
 
 		//ルートシグネチャ設定
-		material->rootSignature = std::make_unique<RootSignature>();
-		material->rootSignature->Add(RootSignature::RangeType::SRV, 0);//t0
-		material->rootSignature->Add(RootSignature::RootType::CBV, 0);//b0
+		material->rootSignature = CreateUniqueRootSignature();
+		material->rootSignature->Add(IRootSignature::RangeType::SRV, 0);//t0
+		material->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
 		material->rootSignature->AddStaticSampler(0);//s0
 		material->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
 
@@ -56,9 +54,8 @@ void VignettePostEffect::Initialize()
 		material->Initialize();
 
 		{
-					//レンダーターゲットの生成
-			std::unique_ptr<RenderTargetBuffer> buff = std::make_unique<RenderTargetBuffer>();
-			buff->Create(static_cast<UINT>(width), static_cast<UINT>(height), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+			//レンダーターゲットの生成
+			std::unique_ptr<IRenderTargetBuffer> buff = CreateUniqueRenderTargetBuffer(static_cast<uint32_t>(width), static_cast<uint32_t>(height), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 			{//SRV作成
 
@@ -77,14 +74,12 @@ void VignettePostEffect::Initialize()
 
 		{
 			//デプスステンシルの生成
-			std::unique_ptr<DepthStencilBuffer> buff = std::make_unique<DepthStencilBuffer>();
-			buff->Create(static_cast<UINT>(width), static_cast<UINT>(height), DXGI_FORMAT_D32_FLOAT);
+			std::unique_ptr<IDepthStencilBuffer> buff = CreateUniqueDepthStencilBuffer(static_cast<uint32_t>(width), static_cast<uint32_t>(height), DXGI_FORMAT_D32_FLOAT);
 			depthStencilBuffers.push_back(std::move(buff));
 		}
 		needsInit = false;
 
-		vignetteDataBuff = std::make_unique<ConstantBuffer>();
-		vignetteDataBuff->Create(sizeof(VignetteData));
+		vignetteDataBuff = CreateUniqueConstantBuffer(sizeof(VignetteData));
 
 		data =
 		{
@@ -93,7 +88,7 @@ void VignettePostEffect::Initialize()
 			{0.5f,0.5f},
 			0.8f,
 			0,
-			{static_cast<float>(WindowsApp::GetWindowsSize().width),static_cast<float>(WindowsApp::GetWindowsSize().height)},
+			{static_cast<float>(windowsApp->GetNowWindowSize().width),static_cast<float>(windowsApp->GetNowWindowSize().height)},
 			{1.0f, 1.0f},
 		};
 
@@ -206,7 +201,7 @@ void VignettePostEffect::SetData(const AliceMathF::Vector3& color, const AliceMa
 	data.color = col;
 	data.center = center;
 	data.power = power;
-	data.winSize = { static_cast<float>(WindowsApp::GetWindowsSize().width),static_cast<float>(WindowsApp::GetWindowsSize().height) };
+	data.winSize = { static_cast<float>(windowsApp->GetNowWindowSize().width),static_cast<float>(windowsApp->GetNowWindowSize().height) };
 	data.size = size;
 	vignetteDataBuff->Update(&data);
 }

@@ -3,8 +3,7 @@
 void Transform::Initialize()
 {
 	//定数バッファ生成(3D座標変換行列)
-	constBuff = std::make_shared<ConstantBuffer>();
-	constBuff->Create(sizeof(worldViewpojCamera));
+	constBuff = CreateUniqueConstantBuffer(sizeof(worldViewpojCamera));
 
 	AliceMathF::Matrix4 matScale, matRot, matTrans;
 
