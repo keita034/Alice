@@ -12,7 +12,7 @@ class Mesh3D
 private:
 
 	DirectX12Core* directX12Core = nullptr;
-	IWindowsApp* windowsApp = nullptr;
+	static IWindowsApp* windowsApp;
 
 	//定数バッファのGPUリソースのポインタ
 	std::unique_ptr<IConstantBuffer> constBuffTransform;
@@ -151,6 +151,8 @@ public:
 	void Destroy();
 
 	void SetCamera(GameCamera* camera_);
+
+	static void SetWindowsApp(IWindowsApp* windowsApp_);
 
 private:
 

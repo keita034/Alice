@@ -112,6 +112,8 @@ public:
 	/// 上方向ベクトルを取得
 	/// </summary>
 	virtual const AliceMathF::Vector3& GetTarget() = 0;
+
+	static void SetWindowsApp(IWindowsApp* windowsApp_);
 };
 
 class GameCamera :public Camera

@@ -317,3 +317,8 @@ float GameCamera::GetBottom()
 }
 
 #pragma endregion
+
+void Camera::SetWindowsApp(IWindowsApp* windowsApp_)
+{
+	windowsApp = windowsApp_;
+}

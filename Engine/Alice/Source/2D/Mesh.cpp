@@ -1,6 +1,7 @@
 ﻿#include<Mesh.h>
 
 Mesh* Mesh::mesh = nullptr;
+IWindowsApp* Mesh::windowsApp = nullptr;
 
 #pragma region パブリック
 
@@ -242,7 +243,7 @@ void Mesh::Destroy()
 	delete mesh;
 }
 
-void Mesh::Initialize(IWindowsApp* windowsApp_)
+void Mesh::SetWindowsApp(IWindowsApp* windowsApp_)
 {
 	windowsApp = windowsApp_;
 }

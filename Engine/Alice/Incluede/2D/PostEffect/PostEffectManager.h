@@ -22,7 +22,7 @@ private:
 	IDSVDescriptorHeap* dsvHeap = nullptr;
 	IRTVDescriptorHeap* rtvHeap = nullptr;
 	IDescriptorHeap* srvHeap = nullptr;
-	IWindowsApp* windowsApp = nullptr;
+	static IWindowsApp* windowsApp;
 
 	//頂点バッファ
 	std::unique_ptr<IVertexBuffer> vertexBuffer;
@@ -72,6 +72,8 @@ public:
 	bool IsAalid();
 
 	void Draw();
+
+	static void SetWindowsApp(IWindowsApp* windowsApp_);
 
 private:
 

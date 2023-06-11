@@ -2,6 +2,7 @@
 
 
 Mesh3D* Mesh3D::mesh = nullptr;
+IWindowsApp* Mesh3D::windowsApp = nullptr;
 
 #pragma region パブリック
 
@@ -215,6 +216,11 @@ Mesh3D::Mesh3D()
 
 	CreatConstBuff();
 
+}
+
+void Mesh3D::SetWindowsApp(IWindowsApp* windowsApp_)
+{
+	windowsApp = windowsApp_;
 }
 
 #pragma endregion

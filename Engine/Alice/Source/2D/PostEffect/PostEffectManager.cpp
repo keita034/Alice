@@ -4,6 +4,7 @@
 #include<PostEffectFactory.h>
 
 const float PostEffectManager::clearColor[4] = { 1.0f,1.0f,1.0f,0.0f };
+IWindowsApp* PostEffectManager::windowsApp = nullptr;
 
 PostEffectManager* PostEffectManager::GetInstance()
 {
@@ -186,3 +187,9 @@ void PostEffectManager::Draw()
 	// 描画コマンド
 	cmdList->DrawIndexedInstanced(6, 1, 0, 0, 0);
 }
+
+void PostEffectManager::SetWindowsApp(IWindowsApp* windowsApp_)
+{
+	windowsApp = windowsApp_;
+}
+

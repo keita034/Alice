@@ -27,6 +27,11 @@ void AliceFramework::Initialize()
 	//DirectX初期化処理ここまで
 
 	//描画初期化処理ここから
+	Mesh::SetWindowsApp(windowsApp.get());
+	Mesh3D::SetWindowsApp(windowsApp.get());
+	PostEffectManager::SetWindowsApp(windowsApp.get());
+	Camera::SetWindowsApp(windowsApp.get());
+
 	mesh = Mesh::GetInstance();
 	mesh3D = Mesh3D::GetInstance();
 

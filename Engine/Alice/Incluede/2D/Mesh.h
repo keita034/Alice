@@ -15,7 +15,7 @@ class Mesh
 private:
 
 	DirectX12Core* directX12Core = nullptr;
-	IWindowsApp* windowsApp = nullptr;
+	static IWindowsApp* windowsApp;
 
 	//定数バッファのGPUリソースのポインタ
 	std::unique_ptr<IConstantBuffer> constBuffTransform;
@@ -149,7 +149,7 @@ public:
 	/// </summary>
 	void Destroy();
 
-	void Initialize(IWindowsApp* windowsApp_);
+	static void SetWindowsApp(IWindowsApp* windowsApp_);
 
 private:
 
