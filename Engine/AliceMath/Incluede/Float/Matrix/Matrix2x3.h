@@ -12,9 +12,8 @@
 
 namespace AliceMathF
 {
-	class Matrix2x3
+	struct Matrix2x3
 	{
-	public:
 		std::array<std::array<float, 2>, 3>m;
 
 		/// <summary>
@@ -24,48 +23,48 @@ namespace AliceMathF
 		Matrix2x3();
 
 		Matrix2x3(
-			float m00, float m01, float m02,
-			float m10, float m11, float m12);
+			float m00_, float m01_, float m02_,
+			float m10_, float m11_, float m12_);
 
 		/// <summary>
 		/// 代入演算子
 		/// </summary>
-		Matrix2x3& operator=(const Matrix2x3& _m);
+		Matrix2x3& operator=(const Matrix2x3& m_);
 
 		/// <summary>
 		/// 代入演算子
 		/// </summary>
-		const Matrix2x3& operator=(Matrix2x3& _m);
+		const Matrix2x3& operator=(Matrix2x3& m_);
 
 		/// <summary>
 		/// 加算
 		/// </summary>
-		Matrix2x3& operator+=(const Matrix2x3& mat);
+		Matrix2x3& operator+=(const Matrix2x3& mat_);
 
 		/// <summary>
 		/// 減算
 		/// </summary>
-		Matrix2x3& operator-=(const Matrix2x3 mat);
+		Matrix2x3& operator-=(const Matrix2x3 mat_);
 
 		/// <summary>
 		/// 乗算
 		/// </summary>
-		Matrix2x3& operator*=(const Matrix2x3& mat);
+		Matrix2x3& operator*=(const Matrix2x3& mat_);
 
 		/// <summary>
 		/// 加算
 		/// </summary>
-		Matrix2x3 operator+(const Matrix2x3& mat) const;
+		Matrix2x3 operator+(const Matrix2x3& mat_) const;
 
 		/// <summary>
 		/// 減算
 		/// </summary>
-		Matrix2x3 operator-(const Matrix2x3& mat) const;
+		Matrix2x3 operator-(const Matrix2x3& mat_) const;
 
 		/// <summary>
 		/// 乗算
 		/// </summary>
-		Matrix2x3 operator*(const Matrix2x3& mat) const;
+		Matrix2x3 operator*(const Matrix2x3& mat_) const;
 
 
 		Matrix2x3 Transpose();

@@ -23,39 +23,39 @@ namespace AliceMathF
 	public:
 		// コンストラクタ
 		Vector2();//ゼロベクトルとして生成
-		Vector2(float x, float y);//x成分、y成分を指定しての生成
-		Vector2(size_t x, size_t y);//x成分、y成分を指定しての生成
-		Vector2(SHORT x, SHORT y);//x成分、y成分を指定しての生成
-		Vector2(int32_t x, int32_t y);//x成分、y成分を指定しての生成
-		Vector2(LONG x, LONG y);//x成分、y成分を指定しての生成
+		Vector2(float x_, float y_);//x成分、y成分を指定しての生成
+		Vector2(size_t x_, size_t y_);//x成分、y成分を指定しての生成
+		Vector2(int16_t x_, int16_t y_);//x成分、y成分を指定しての生成
+		Vector2(int32_t x_, int32_t y_);//x成分、y成分を指定しての生成
+		Vector2(int64_t x_, int64_t y_);//x成分、y成分を指定しての生成
 
 		//メンバ関数
 		float length_()const;//ノルムを求める
 		Vector2& Normalization();//正規化する
-		float Dot(const Vector2& v)const;//内積を求める
-		float Cross(const Vector2& v)const;//外積を求める
+		float Dot(const Vector2& v_)const;//内積を求める
+		float Cross(const Vector2& v_)const;//外積を求める
 
 		//単項演算子オーバーロード
 		Vector2 operator+()const;
 		Vector2 operator-()const;
 
 		//代入演算子オーバーロード
-		Vector2& operator+=(const Vector2& v);
-		Vector2& operator-=(const Vector2& v);
-		Vector2& operator*=(float s);
-		Vector2& operator/=(float s);
-		Vector2& operator/=(const Vector2& v);
+		Vector2& operator+=(const Vector2& v_);
+		Vector2& operator-=(const Vector2& v_);
+		Vector2& operator*=(float s_);
+		Vector2& operator/=(float s_);
+		Vector2& operator/=(const Vector2& v_);
 
-		bool operator==(const Vector2& v);
+		bool operator==(const Vector2& v_);
 
 	};
 
 	//2項演算子
-	const Vector2 operator+(const Vector2& v1, const Vector2& v2);
-	const Vector2 operator-(const Vector2& v1, const Vector2& v2);
-	const Vector2 operator*(const Vector2& v, float s);
-	const Vector2 operator*(float s, const Vector2& v);
-	const Vector2 operator/(const Vector2& v, float s);
+	const Vector2 operator+(const Vector2& v1_, const Vector2& v2_);
+	const Vector2 operator-(const Vector2& v1_, const Vector2& v2_);
+	const Vector2 operator*(const Vector2& v_, float s_);
+	const Vector2 operator*(float s_, const Vector2& v_);
+	const Vector2 operator/(const Vector2& v_, float s_);
 }
 
 //点

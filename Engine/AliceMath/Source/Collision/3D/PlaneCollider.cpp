@@ -1,6 +1,6 @@
 ﻿#include "PlaneCollider.h"
 
-float PlaneCollider::GetDistance()
+float PlaneCollider::GetDistance()const
 {
     return distance;
 }
@@ -10,7 +10,7 @@ void PlaneCollider::SetDistance(float distance_)
     distance = distance_;
 }
 
-const AliceMathF::Vector4& PlaneCollider::GetNormal()
+const AliceMathF::Vector4& PlaneCollider::GetNormal()const
 {
     return normal;
 }

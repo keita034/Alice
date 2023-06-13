@@ -31,73 +31,73 @@ namespace AliceMathF
 		/// <returns>単位行列として初期化されます</returns>
 		Matrix4();
 
-		Matrix4(float m00, float m01, float m02, float m03,
-			float m10, float m11, float m12, float m13,
-			float m20, float m21, float m22, float m23,
-			float m30, float m31, float m32, float m33);
+		Matrix4(float m00_, float m01_, float m02_, float m03_,
+			float m10_, float m11_, float m12_, float m13_,
+			float m20_, float m21_, float m22_, float m23_,
+			float m30_, float m31_, float m32_, float m33_);
 
-		Matrix4(const Vector3& scale, Quaternion& rotat, const Vector3& trans);
+		Matrix4(const Vector3& scale_, Quaternion& rotat_, const Vector3& trans_);
 
-		Matrix4(const aiMatrix4x4& mat);
+		Matrix4(const aiMatrix4x4& mat_);
 
 		/// <summary>
 		/// コンストラクタ
 		/// </summary>
-		Matrix4(const DirectX::XMMATRIX& Matrix4);
+		Matrix4(const DirectX::XMMATRIX& matrix4_);
 
 		/// <summary>
 		/// 拡大行列を作成
 		/// </summary>
 		/// <param name="scale"> : 拡大率</param>
-		void MakeScaling(const Vector3& scale);
+		void MakeScaling(const Vector3& scale_);
 
 		/// <summary>
 		/// 拡大行列を作成
 		/// </summary>
 		/// <param name="x,y,z"> : 拡大率</param>
-		void MakeScaling(float x, float y, float z);
+		void MakeScaling(float x_, float y_, float z_);
 
 		/// <summary>
 		/// 平行移動行列を作成
 		/// </summary>
 		/// <param name="trans"> : 平行移動</param>
-		void MakeTranslation(const Vector3& trans);
+		void MakeTranslation(const Vector3& trans_);
 
 		/// <summary>
 		/// 平行移動行列を作成
 		/// </summary>
 		/// <param name="x,y,z"> : 平行移動</param>
-		void MakeTranslation(float x, float y, float z);
+		void MakeTranslation(float x_, float y_, float z_);
 
 		/// <summary>
 		/// Y軸周りの回転行列を作成
 		/// </summary>
 		/// <param name="angle"> : 回転角度(単位：ラジアン)</param>
-		void MakeRotationY(float angle);
+		void MakeRotationY(float angle_);
 
 		/// <summary>
 		/// Z軸周りの回転行列を作成
 		/// </summary>
 		/// <param name="angle"> : 回転角度(単位：ラジアン)</param>
-		void MakeRotationZ(float angle);
+		void MakeRotationZ(float angle_);
 
 		/// <summary>
 		/// X軸周りの回転行列を作成
 		/// </summary>
 		/// <param name="angle"> : 回転角度(単位：ラジアン)</param>
-		void MakeRotationX(float angle);
+		void MakeRotationX(float angle_);
 
 		/// <summary>
 		/// X軸周りの回転行列を作成
 		/// </summary>
 		/// <param name="Rotat"> : 回転角度(単位：ラジアン)</param>
-		void MakeRotation(const Vector3& Rotat);
+		void MakeRotation(const Vector3& rotation_);
 
 		/// <summary>
 		/// X軸周りの回転行列を作成
 		/// </summary>
 		/// <param name="x,y,z"> : 回転角度(単位：ラジアン)</param>
-		void MakeRotation(float x, float y, float z);
+		void MakeRotation(float x_, float y_, float z_);
 
 		/// <summary>
 		/// DirectX::XMMATRIX型への暗黙の型変換。
@@ -107,37 +107,37 @@ namespace AliceMathF
 		/// <summary>
 		/// 代入演算子
 		/// </summary>
-		Matrix4& operator=(const Matrix4& _m);
-		const Matrix4& operator=(Matrix4& _m);
+		Matrix4& operator=(const Matrix4& m_);
+		const Matrix4& operator=(Matrix4& m_);
 		/// <summary>
 		/// 加算
 		/// </summary>
-		Matrix4& operator+=(const Matrix4& mat);
+		Matrix4& operator+=(const Matrix4& mat_);
 
 		/// <summary>
 		/// 減算
 		/// </summary>
-		Matrix4& operator-=(const Matrix4& mat);
+		Matrix4& operator-=(const Matrix4& mat_);
 
 		/// <summary>
 		/// 乗算
 		/// </summary>
-		Matrix4& operator*=(const Matrix4& mat);
+		Matrix4& operator*=(const Matrix4& mat_);
 
 		/// <summary>
 		/// 加算
 		/// </summary>
-		Matrix4 operator+(const Matrix4& mat) const;
+		Matrix4 operator+(const Matrix4& mat_) const;
 
 		/// <summary>
 		/// 減算
 		/// </summary>
-		Matrix4 operator-(const Matrix4& mat) const;
+		Matrix4 operator-(const Matrix4& mat_) const;
 
 		/// <summary>
 		/// 乗算
 		/// </summary>
-		Matrix4 operator*(const Matrix4& mat) const;
+		Matrix4 operator*(const Matrix4& mat_) const;
 
 		Matrix4 Transpose();
 	};
@@ -152,7 +152,7 @@ namespace AliceMathF
 	/// </summary>
 	/// <param name="mat">逆行列にしたい行列</param>
 	/// <returns>逆行列or単位行列</returns>
-	Matrix4 MakeInverse(const Matrix4* mat);
+	Matrix4 MakeInverse(const Matrix4* mat_);
 
 	/// <summary>
 	/// 平行投影変換行列を生成(左手系,原点左上)
@@ -164,7 +164,7 @@ namespace AliceMathF
 	/// <param name="near_"> : ニアクリップ距離</param>
 	/// <param name="far_"> : ファークリップ距離</param>
 	/// <param name="matrix"> : 代入する行列</param>
-	void MakeOrthogonalLOffCenter(float left, float right, float bottom, float top, float near_, float far_, Matrix4& matrix);
+	void MakeOrthogonalLOffCenter(float left_, float right_, float bottom_, float top_, float near_, float far_, Matrix4& matrix_);
 
 	/// <summary>
 	/// 平行投影変換行列を生成(左手系)
@@ -174,7 +174,7 @@ namespace AliceMathF
 	/// <param name="near_"> : ニアクリップ距離</param>
 	/// <param name="far_"> : ファークリップ距離</param>
 	/// <param name="matrix"> : 代入する行列</param>
-	void MakeOrthogonalL(float width, float height, float near_, float far_, Matrix4& matrix);
+	void MakeOrthogonalL(float width_, float height_, float near_, float far_, Matrix4& matrix_);
 
 	/// <summary>
 	/// 平行投影変換行列を生成(右手系)
@@ -186,7 +186,7 @@ namespace AliceMathF
 	/// <param name="near_"> : ニアクリップ距離</param>
 	/// <param name="far_"> : ファークリップ距離</param>
 	/// <param name="matrix"> : 代入する行列</param>
-	void MakeOrthogonalR(float left, float right, float bottom, float top, float near_, float far_, Matrix4& matrix);
+	void MakeOrthogonalR(float left_, float right_, float bottom_, float top_, float near_, float far_, Matrix4& matrix_);
 
 	/// <summary>
 	/// 透視投影変換行列を生成(左手系)
@@ -196,7 +196,7 @@ namespace AliceMathF
 	/// <param name="near_"> : ニアクリップ距離</param>
 	/// <param name="far_"> : ファークリップ距離</param>
 	/// <param name="matrix"> : 代入する行列</param>
-	void MakePerspectiveL(float fovAngleY, float aspect, float near_, float far_, Matrix4& matrix);
+	void MakePerspectiveL(float fovAngleY_, float aspect_, float near_, float far_, Matrix4& matrix_);
 
 	/// <summary>
 	/// 透視投影変換行列を生成(右手系)
@@ -206,7 +206,7 @@ namespace AliceMathF
 	/// <param name="near_"> : ニアクリップ距離</param>
 	/// <param name="far_"> : ファークリップ距離</param>
 	/// <param name="matrix"> : 代入する行列</param>
-	void MakePerspectiveR(float fovAngleY, float aspect, float near_, float far_, Matrix4& matrix);
+	void MakePerspectiveR(float fovAngleY_, float aspect_, float near_, float far_, Matrix4& matrix_);
 
 	/// <summary>
 	/// ベクトルと行列の掛け算
@@ -215,7 +215,7 @@ namespace AliceMathF
 	/// <param name="y">掛けられるベクトルのY座標</param>
 	/// <param name="z">掛けられるベクトルのZ座標</param>
 	/// <param name="mat">掛ける行列</param>
-	void CoordinateTransformation3D(float& x, float& y, float& z, Matrix4& mat);
+	void CoordinateTransformation3D(float& x_, float& y_, float& z_, Matrix4& mat_);
 
 	/// <summary>
 	/// ビュー変換行列を生成
@@ -223,8 +223,8 @@ namespace AliceMathF
 	/// <param name="eye"></param>
 	/// <param name="target"></param>
 	/// <param name="up"></param>
-	void MakeLookL(const Vector3& eye, const Vector3& target, const Vector3& up, Matrix4& mat);
+	void MakeLookL(const Vector3& eye_, const Vector3& target_, const Vector3& up_, Matrix4& mat_);
 
-	Matrix4 MakeViewport(float width, float height);
+	Matrix4 MakeViewport(float width_, float height_);
 }
 

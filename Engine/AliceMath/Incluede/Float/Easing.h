@@ -4,65 +4,65 @@ namespace AliceMathF
 {
 	namespace Easing
 	{
-		float EaseInSine(float time);
+		float EaseInSine(float time_);
 
-		float EaseOutSine(float time);
+		float EaseOutSine(float time_);
 
-		float EaseInOutSine(float time);
+		float EaseInOutSine(float time_);
 
-		float EaseInQuad(float time);
+		float EaseInQuad(float time_);
 
-		float EaseOutQuad(float time);
+		float EaseOutQuad(float time_);
 
-		float EaseInOutQuad(float time);
+		float EaseInOutQuad(float time_);
 
-		float EaseInCubic(float time);
+		float EaseInCubic(float time_);
 
-		float EaseOutCubic(float time);
+		float EaseOutCubic(float time_);
 
-		float EaseInOutCubic(float time);
+		float EaseInOutCubic(float time_);
 
-		float EaseInQuart(float time);
+		float EaseInQuart(float time_);
 
-		float EaseOutQuart(float time);
+		float EaseOutQuart(float time_);
 
-		float EaseInOutQuart(float time);
+		float EaseInOutQuart(float time_);
 
-		float EaseInQuint(float time);
+		float EaseInQuint(float time_);
 
-		float EaseOutQuint(float time);
+		float EaseOutQuint(float time_);
 
-		float EaseInOutQuint(float time);
+		float EaseInOutQuint(float time_);
 
-		float EaseInExpo(float time);
+		float EaseInExpo(float time_);
 
-		float EaseOutExpo(float time);
+		float EaseOutExpo(float time_);
 
-		float EaseInOutExpo(float time);
+		float EaseInOutExpo(float time_);
 
-		float EaseInCirc(float time);
+		float EaseInCirc(float time_);
 
-		float EaseOutCirc(float time);
+		float EaseOutCirc(float time_);
 
-		float EaseInOutCirc(float time);
+		float EaseInOutCirc(float time_);
 
-		float EaseInBack(float time);
+		float EaseInBack(float time_);
 
-		float EaseOutBack(float time);
+		float EaseOutBack(float time_);
 
-		float EaseInOutBack(float time);
+		float EaseInOutBack(float time_);
 
-		float EaseInElastic(float time);
+		float EaseInElastic(float time_);
 
-		float EaseOutElastic(float time);
+		float EaseOutElastic(float time_);
 
-		float EaseInOutElastic(float time);
+		float EaseInOutElastic(float time_);
 
-		float EaseOutBounce(float time);
+		float EaseOutBounce(float time_);
 
-		float EaseInBounce(float time);
+		float EaseInBounce(float time_);
 
-		float EaseInOutBounce(float time);
+		float EaseInOutBounce(float time_);
 
 	}
 }

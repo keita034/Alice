@@ -11,13 +11,25 @@ protected:
 private:
 	char PADING[4]{};
 public:
-	//原点点(0,0,0)からの距離を取得
-	float GetDistance();
-	//原点点(0,0,0)からの距離を設定
+
+	/// <summary>
+	/// 原点点(0,0,0)からの距離を取得
+	/// </summary>
+	float GetDistance()const;
+
+	/// <summary>
+	/// 原点点(0,0,0)からの距離を設定
+	/// </summary>
 	void SetDistance(float distance_);
-	//法線ベクトルを取得
-	const AliceMathF::Vector4& GetNormal();
-	//法線ベクトルを設定
+
+	/// <summary>
+	/// 法線ベクトルを取得
+	/// </summary>
+	const AliceMathF::Vector4& GetNormal()const;
+
+	/// <summary>
+	/// 法線ベクトルを設定
+	/// </summary>
 	void SetNormal(const AliceMathF::Vector4& normal_);
 };
 

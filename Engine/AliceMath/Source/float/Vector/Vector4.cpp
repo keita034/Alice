@@ -17,79 +17,78 @@ namespace AliceMathF
 	{
 	}
 
-	Vector4::Vector4(float x, float y, float z, float w) : x(x), y(y), z(z), w(w)
+	Vector4::Vector4(float x_, float y_, float z_, float w_) : x(x_), y(y_), z(z_), w(w_)
 	{
 	}
 
-	Vector4::Vector4(aiQuaternion& quaternion)
+
+	Vector4::Vector4(aiQuaternion& quaternion_)
 	{
-		x = quaternion.x;
-		y = quaternion.y;
-		z = quaternion.z;
-		w = quaternion.w;
+		x = quaternion_.x;
+		y = quaternion_.y;
+		z = quaternion_.z;
+		w = quaternion_.w;
 	}
 
-	Vector4::Vector4(const DirectX::XMVECTOR& vec)
+	Vector4::Vector4(const DirectX::XMVECTOR& vec_)
 	{
-		x = vec.m128_f32[0];
-		y = vec.m128_f32[1];
-		z = vec.m128_f32[2];
-		w = vec.m128_f32[3];
+		x = vec_.m128_f32[0];
+		y = vec_.m128_f32[1];
+		z = vec_.m128_f32[2];
+		w = vec_.m128_f32[3];
 	}
 
-	float Vector4::length_() const
+	float Vector4::length() const
 	{
-		float len = length_Squared();
-		return Sqrt(len);
+		float lLen = lengthSquared();
+		return Sqrt(lLen);
 	}
 
-	float Vector4::length_Squared() const
+	float Vector4::lengthSquared() const
 	{
 		return Dot(*this);
 	}
 
 	Vector4 Vector4::Normalization() const
 	{
-		Vector4 tmp(*this);
+		Vector4 lTmp(*this);
 
-		float len = length_();
-		if (len != 0)
+		float lLen = length();
+		if (lLen != 0)
 		{
-			return tmp /= len;
+			return lTmp /= lLen;
 
 		}
 
-		return tmp;
+		return lTmp;
 	}
 
 	Vector4& Vector4::Normal()
 	{
-		float len = length_();
-		if (len != 0)
+		float lLen = length();
+		if (lLen != 0)
 		{
-			return *this /= len;
-
+			return *this /= lLen;
 		}
-
 		return *this;
 	}
 
-	float Vector4::Dot(const Vector4& v) const
+	float Vector4::Dot(const Vector4& v_) const
 	{
-		return x * v.x + y * v.y + z * v.z + w * v.w;
+		return x * v_.x + y * v_.y + z * v_.z + w * v_.w;
 	}
 
-	Vector4 Vector4::Cross(const Vector4& v) const
+	Vector4 Vector4::Cross(const Vector4& v_) const
 	{
-		Vector3 v1 = { x,y,z };
-		Vector3 v2 = { v.x,v.y,v.z };
-		Vector3 temp = v1.Cross(v2);
-		return { temp.x,temp.y,temp.z,0.0f };
+		Vector3 lV1 = { x,y,z };
+		Vector3 lV2 = { v_.x,v_.y,v_.z };
+		Vector3 lTmp = lV1.Cross(lV2);
+		return { lTmp.x,lTmp.y,lTmp.z,0.0f };
 	}
 	float Vector4::Vector3length_() const
 	{
-		float len = Vector3length_Squared();
-		return Sqrt(len);
+		float lLen = Vector3length_Squared();
+		return Sqrt(lLen);
 	}
 
 	float Vector4::Vector3length_Squared() const
@@ -99,41 +98,41 @@ namespace AliceMathF
 
 	Vector4 Vector4::Vector3Normalization() const
 	{
-		Vector4 tmp(*this);
+		Vector4 lTmp(*this);
 
-		float len = Vector3length_();
-		if (len != 0)
+		float lLen = Vector3length_();
+		if (lLen != 0)
 		{
-			return tmp /= len;
+			return lTmp /= lLen;
 
 		}
 
-		return tmp;
+		return lTmp;
 	}
 
 	Vector4& Vector4::Vector3Normal()
 	{
-		float len = Vector3length_();
-		if (len != 0)
+		float lLen = Vector3length_();
+		if (lLen != 0)
 		{
-			return *this /= len;
+			return *this /= lLen;
 
 		}
 
 		return *this;
 	}
 
-	float Vector4::Vector3Dot(const Vector4& v) const
+	float Vector4::Vector3Dot(const Vector4& v_) const
 	{
-		return x * v.x + y * v.y + z * v.z;
+		return x * v_.x + y * v_.y + z * v_.z;
 	}
 
-	Vector4 Vector4::Vector3Cross(const Vector4& v) const
+	Vector4 Vector4::Vector3Cross(const Vector4& v_) const
 	{
-		Vector3 v1 = { x,y,z };
-		Vector3 v2 = { v.x,v.y,v.z };
-		Vector3 temp = v1.Cross(v2);
-		return { temp.x,temp.y,temp.z,w };
+		Vector3 lV1 = { x,y,z };
+		Vector3 lV2 = { v_.x,v_.y,v_.z };
+		Vector3 lTmp = lV1.Cross(lV2);
+		return { lTmp.x,lTmp.y,lTmp.z,w };
 	}
 
 	Vector4 Vector4::operator+() const
@@ -146,87 +145,87 @@ namespace AliceMathF
 		return  Vector4(-x, -y, -z, -w);
 	}
 
-	Vector4& Vector4::operator+=(const Vector4& v)
+	Vector4& Vector4::operator+=(const Vector4& v_)
 	{
-		x += v.x;
-		y += v.y;
-		z += v.z;
-		w += v.w;
+		x += v_.x;
+		y += v_.y;
+		z += v_.z;
+		w += v_.w;
 
 		return *this;
 	}
 
-	Vector4& Vector4::operator-=(const Vector4& v)
+	Vector4& Vector4::operator-=(const Vector4& v_)
 	{
-		x -= v.x;
-		y -= v.y;
-		z -= v.z;
-		w -= v.w;
+		x -= v_.x;
+		y -= v_.y;
+		z -= v_.z;
+		w -= v_.w;
 
 		return *this;
 	}
 
-	Vector4& Vector4::operator*=(float s)
+	Vector4& Vector4::operator*=(float s_)
 	{
-		x *= s;
-		y *= s;
-		z *= s;
-		w *= s;
+		x *= s_;
+		y *= s_;
+		z *= s_;
+		w *= s_;
 
 		return *this;
 	}
 
-	Vector4& Vector4::operator/=(float s)
+	Vector4& Vector4::operator/=(float s_)
 	{
-		x /= s;
-		y /= s;
-		z /= s;
-		w /= s;
+		x /= s_;
+		y /= s_;
+		z /= s_;
+		w /= s_;
 
 		return *this;
 	}
 
-	const Vector4 operator+(const Vector4& v1, const Vector4& v2)
+	const Vector4 operator+(const Vector4& v1_, const Vector4& v2_)
 	{
-		Vector4 temp(v1);
-		return temp += v2;
+		Vector4 lTmp(v1_);
+		return lTmp += v2_;
 	}
 
-	const Vector4 operator-(const Vector4& v1, const Vector4& v2)
+	const Vector4 operator-(const Vector4& v1_, const Vector4& v2_)
 	{
-		Vector4 temp(v1);
-		return temp -= v2;
+		Vector4 lTmp(v1_);
+		return lTmp -= v2_;
 	}
 
-	const Vector4 operator*(const Vector4& v, float s)
+	const Vector4 operator*(const Vector4& v_, float s_)
 	{
-		Vector4 temp(v);
-		return temp *= s;
+		Vector4 lTmp(v_);
+		return lTmp *= s_;
 	}
 
-	const Vector4 operator*(float s, const Vector4& v)
+	const Vector4 operator*(float s_, const Vector4& v_)
 	{
-		return v * s;
+		return v_ * s_;
 	}
 
-	const Vector4 operator/(const Vector4& v, float s)
+	const Vector4 operator/(const Vector4& v_, float s_)
 	{
-		Vector4 temp(v);
-		return temp /= s;
+		Vector4 lTmp(v_);
+		return lTmp /= s_;
 	}
 
-	Vector4 Vector4Lerp(const Vector4& src1, const Vector4& src2, float t)
+	Vector4 Vector4Lerp(const Vector4& src1_, const Vector4& src2_, float t_)
 	{
-		Vector4 temp;
-		Vector4Lerp(src1, src2, t, temp);
-		return temp;
+		Vector4 lTmp;
+		Vector4Lerp(src1_, src2_, t_, lTmp);
+		return lTmp;
 	}
 
-	void Vector4Lerp(const Vector4& src1, const Vector4& src2, float t, Vector4& dest)
+	void Vector4Lerp(const Vector4& src1_, const Vector4& src2_, float t_, Vector4& dest_)
 	{
-		dest.x = src1.x + (src2.x - src1.x) * t;
-		dest.y = src1.y + (src2.y - src1.y) * t;
-		dest.z = src1.z + (src2.z - src1.z) * t;
-		dest.w = src1.w + (src2.w - src1.w) * t;
+		dest_.x = src1_.x + (src2_.x - src1_.x) * t_;
+		dest_.y = src1_.y + (src2_.y - src1_.y) * t_;
+		dest_.z = src1_.z + (src2_.z - src1_.z) * t_;
+		dest_.w = src1_.w + (src2_.w - src1_.w) * t_;
 	}
 }

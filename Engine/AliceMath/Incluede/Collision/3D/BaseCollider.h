@@ -12,7 +12,6 @@
 
 #pragma warning(pop)
 
-
 #include<AliceMathUtility.h>
 
 class ColliderObject;
@@ -66,27 +65,27 @@ public:
 	/// <summary>
 	/// 名前をセット
 	/// </summary>
-	void SetCollsionName(const std::string& name);
+	void SetCollsionName(const std::string& name_);
 
 	/// <summary>
 	/// 名前を取得
 	/// </summary>
-	const std::string& GetCollsionName();
+	const std::string& GetCollsionName()const;
 
 	/// <summary>
 	/// 当たった相手の名前をセット
 	/// </summary>
-	void SetOpponentCollsionName(const std::string& name);
+	void SetOpponentCollsionName(const std::string& name_);
 
 	/// <summary>
 	/// 当たった相手の名前を取得
 	/// </summary>
-	const std::string& GetOpponentCollsionName();
+	const std::string& GetOpponentCollsionName()const;
 
 	/// <summary>
 	///	オブジェクトをセット
 	/// </summary>
-	void SetObject(ColliderObject* obj);
+	void SetObject(ColliderObject* object_);
 
 	/// <summary>
 	/// オブジェクトを取得
@@ -107,8 +106,6 @@ public:
 	/// フラグを取得
 	/// </summary>
 	bool IsValid();
-
-
 
 	virtual ~BaseCollider() = default;
 	BaseCollider() = default;

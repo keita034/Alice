@@ -1,18 +1,18 @@
 ﻿#include "CapsuleCollider.h"
 
-void CapsuleCollider::SetUpAxis(const AliceMathF::Vector3& axis)
+void CapsuleCollider::SetUpAxis(const AliceMathF::Vector3& upAxis_)
 {
-	upAxis = axis;
+	upAxis = upAxis_;
 }
 
-const AliceMathF::Vector3& CapsuleCollider::GetUpAxis()
+const AliceMathF::Vector3& CapsuleCollider::GetUpAxis()const
 {
 	return upAxis;
 }
 
-void CapsuleCollider::SetHeight(float h)
+void CapsuleCollider::SetHeight(float height_)
 {
-	height = h;
+	height = height_;
 }
 
 float CapsuleCollider::GetHeight()
@@ -20,9 +20,9 @@ float CapsuleCollider::GetHeight()
 	return height;
 }
 
-void CapsuleCollider::SetRadius(float r)
+void CapsuleCollider::SetRadius(float radius_)
 {
-	radius = r;
+	radius = radius_;
 }
 
 float CapsuleCollider::GetRadius()
@@ -30,12 +30,12 @@ float CapsuleCollider::GetRadius()
 	return radius;
 }
 
-void CapsuleCollider::SetCenter(const AliceMathF::Vector3& pos)
+void CapsuleCollider::SetCenter(const AliceMathF::Vector3& position_)
 {
-	center = pos;
+	center = position_;
 }
 
-const AliceMathF::Vector3& CapsuleCollider::GetCenter()
+const AliceMathF::Vector3& CapsuleCollider::GetCenter()const
 {
 	return center;
 }

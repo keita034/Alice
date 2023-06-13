@@ -41,6 +41,7 @@ protected:
 	CollisionShapeType shapeType = SHAPE_UNKNOWN;
 
 	char PADING1[4]{};
+
 public:
 	/// <summary>
 	/// 衝突時に呼ばれる関数
@@ -70,7 +71,7 @@ public:
 	/// <summary>
 	/// 名前をセット
 	/// </summary>
-	void SetCollsionName(const std::string& name);
+	void SetCollsionName(const std::string& name_);
 
 	/// <summary>
 	/// 名前を取得
@@ -80,7 +81,7 @@ public:
 	/// <summary>
 	/// 当ったコライダーのポインターをセット
 	/// </summary>
-	void SetOpponentCollider(Base2DCollider* col);
+	void SetOpponentCollider(Base2DCollider* collider_);
 
 	/// <summary>
 	/// 当ったコライダーのポインターを取得
@@ -90,7 +91,7 @@ public:
 	/// <summary>
 	/// 当たった相手の名前をセット
 	/// </summary>
-	void SetOpponentCollsionName(const std::string& name);
+	void SetOpponentCollsionName(const std::string& name_);
 
 	/// <summary>
 	/// 当たった相手の名前を取得
@@ -100,7 +101,7 @@ public:
 	/// <summary>
 	///	オブジェクトをセット
 	/// </summary>
-	void SetObject(Collider2DObject* obj);
+	void SetObject(Collider2DObject* object_);
 
 	/// <summary>
 	/// オブジェクトを取得

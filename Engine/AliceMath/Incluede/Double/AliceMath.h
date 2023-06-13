@@ -18,10 +18,10 @@ namespace AliceMath
 	constexpr double EPSILON = 2.2204460492503131E-16;
 
 	//度からラジアンに変換する定数
-	constexpr double Deg2Rad = AX_PI / 180.0f;
+	constexpr double DEG_TO_RAD = AX_PI / 180.0f;
 
 	//ラジアンから度に変換する定数
-	constexpr double Rad2Deg = 57.29578;
+	constexpr double RAD_TO_DEG = 57.29578;
 #pragma warning(pop)
 
 #pragma endregion 定数
@@ -31,33 +31,33 @@ namespace AliceMath
 #pragma region sin関数	
 
 	//sin関数
-	double Sin(double sin);
+	double Sin(double sin_);
 
 	//asin関数
-	double Asin(double sin);
+	double Asin(double sin_);
 
 #pragma endregion sin関数
 
 #pragma region cos関数
 
 	//cos関数
-	double Cos(double cos);
+	double Cos(double cos_);
 
 	//cos関数
-	double Acos(double cos);
+	double Acos(double cos_);
 
 #pragma endregion cos関数
 
 #pragma region tan関数
 
 	//tan関数
-	double Tan(double tan);
+	double Tan(double tan_);
 
 	//atan関数
-	double Atan(double tan);
+	double Atan(double tan_);
 
 	//atan関数
-	double Atan2(float y, float x);
+	double Atan2(float y_, float x_);
 
 #pragma endregion tan関数
 
@@ -67,7 +67,7 @@ namespace AliceMath
 	/// <param name="sin_"> : sinの結果を代入する</param>
 	/// <param name="cos_"> : cosの結果を代入する</param>
 	/// <param name="angle"> : ラジアン角</param>
-	void SinCos(double& sin_, double& cos_, double angle);
+	void SinCos(double& sin_, double& cos_, double angle_);
 
 #pragma endregion sin,cos,tan関数
 
@@ -77,87 +77,87 @@ namespace AliceMath
 	/// 度数法からラジアン変換
 	/// </summary>
 	/// <param name="angle"> : 角度</param>
-	double ChangeRadians(const double& angle);
+	double ChangeRadians(double& angle_);
 
 	/// <summary>
 	/// ラジアンから度数法変換
 	/// </summary>
 	/// <param name="angle"> : 角度</param>
-	double ChangeDira(const double& angle);
+	double ChangeDira(double& angle_);
 
 #pragma endregion 角度変換
 
 #pragma region sqrt関数
 
 	//sqrt関数
-	double Sqrt(double sqrt);
+	double Sqrt(double sqrt_);
 
 #pragma endregion sqrt関数
 
 #pragma region pow関数
 
 	//pow関数
-	double Pow(double pow, double powNum);
+	double Pow(double pow_, double powNum_);
 
 	//pow関数(long double)
-	long double PowLD(long double pow, long double powNum);
+	long double PowLD(long double pow_, long double powNum_);
 
 #pragma endregion pow関数
 
 #pragma region exp関数
 
 	//exp関数
-	double Exp(double exp);
+	double Exp(double exp_);
 
 #pragma endregion exp関数
 
 #pragma region log関数
 
 	//log関数
-	double Log(double log);
+	double Log(double log_);
 
 	//log10関数
-	double Log10(double log);
+	double Log10(double log_);
 
 #pragma endregion log関数
 
 #pragma region 絶対値の計算
 
 	//絶対値の計算
-	double Abs(double abs);
+	double Abs(double abs_);
 
 	//絶対値の計算(long double)
-	long double AbsLD(long double abs);
+	long double AbsLD(long double abs_);
 
 #pragma endregion 絶対値の計算
 
 #pragma region ceil関数
 
 	//ceil関数
-	double Ceil(double ceil);
+	double Ceil(double ceil_);
 
 	//ceil関数
-	long double CeilLD(long double ceil);
+	long double CeilLD(long double ceil_);
 
 #pragma endregion ceil関数
 
 #pragma region floor関数
 
 	//floor関数
-	double Floor(double floor);
+	double Floor(double floor_);
 
 	//floor関数
-	long double FloorLD(long double floor);
+	long double FloorLD(long double floor_);
 
 #pragma endregion floor関数
 
 #pragma region round関数
 
 	//round関数
-	double Round(double round);
+	double Round(double round_);
 
 	//round関数
-	long double RoundLD(long double round);
+	long double RoundLD(long double round_);
 
 #pragma endregion round関数
 
@@ -165,7 +165,7 @@ namespace AliceMath
 	/// 値の符号を返す
 	/// </summary>
 	/// <returns>値が正か0の場合は1を、負の場合は-1を返す</returns>
-	double Sign(double sign);
+	double Sign(double sign_);
 
 	/// <summary>
 	/// 値を範囲内に納める
@@ -173,13 +173,13 @@ namespace AliceMath
 	/// <param name="Value">値</param>
 	/// <param name="low">最低値</param>
 	/// <param name="high">最高値</param>
-	double Clamp(double Value, const double low, const double high);
+	double Clamp(double value_, const double low_, const double high_);
 
 	/// <summary>
 	/// 0と1の間に値を納め、その値を返す
 	/// </summary>
 	/// <param name="Value">値</param>
-	double Clamp01(double Value);
+	double Clamp01(double value_);
 
 	/// <summary>
 	/// 線形補間(0～1)
@@ -188,7 +188,7 @@ namespace AliceMath
 	/// <param name="b">終了値</param>
 	/// <param name="t">補間値</param>
 	/// <returns>補間された値</returns>
-	double Lerp(double a, double b, double t);
+	double Lerp(double a_, double b_, double t_);
 
 	/// <summary>
 	/// 線形補間(0～)
@@ -197,7 +197,7 @@ namespace AliceMath
 	/// <param name="b">終了値</param>
 	/// <param name="t">補間値</param>
 	/// <returns>補間された値</returns>
-	double LerpUnclamped(double a, double b, double t);
+	double LerpUnclamped(double a_, double b_, double t_);
 
 	/// <summary>
 	/// Lerpの角度版(0～1)
@@ -206,14 +206,14 @@ namespace AliceMath
 	/// <param name="b">終了値</param>
 	/// <param name="t">補間値</param>
 	/// <returns>補間された角度</returns>
-	double LerpAngle(double a, double b, double t);
+	double LerpAngle(double a_, double b_, double t_);
 
 	/// <summary>
 	/// tはlength_より大きくはならず0より小さくならず、その間をループ
 	/// </summary>
 	/// <param name="t">値</param>
 	/// <param name="length_">指定値</param>
-	double Repeat(double t, double length_);
+	double Repeat(double t_, double length_);
 
 	/// <summary>
 	/// 現在地から目的地まで一定速度で移動
@@ -221,7 +221,7 @@ namespace AliceMath
 	/// <param name="current">現在地</param>
 	/// <param name="target">目的地</param>
 	/// <param name="maxDelta">速度</param>
-	double MoveTowards(double current, double target, double maxDelta);
+	double MoveTowards(double current_, double target_, double maxDelta_);
 
 	/// <summary>
 	/// 現在の角度から目的の角度まで一定速度で移動
@@ -229,14 +229,14 @@ namespace AliceMath
 	/// <param name="current">現在の角度</param>
 	/// <param name="target">目的の角度</param>
 	/// <param name="maxDelta">速度</param>
-	double MoveTowardsAngle(double current, double target, double maxDelta);
+	double MoveTowardsAngle(double current_, double target_, double maxDelta_);
 
 	/// <summary>
 	/// 角度の差を返す(度数法)
 	/// </summary>
 	/// <param name="current">現在の角度</param>
 	/// <param name="target">目標となる角度</param>
-	double DeltaAngle(double current, double target);
+	double DeltaAngle(double current_, double target_);
 
 	/// <summary>
 	/// スムージング補間
@@ -245,12 +245,12 @@ namespace AliceMath
 	/// <param name="to">終了値</param>
 	/// <param name="t">補間値</param>
 	/// <returns>補間された角度</returns>
-	double SmoothStep(double from, double to, double t);
+	double SmoothStep(double from_, double to_, double t_);
 
 	/// <summary>
 	/// ガンマ補正
 	/// </summary>
-	double Gamma(double value, double absmax, double gamma);
+	double Gamma(double value_, double absmax_, double gamma_);
 
 	/// <summary>
 	/// 何を何処に何秒で指定してオブジェクトを移動させる
@@ -261,12 +261,12 @@ namespace AliceMath
 	/// <param name="smoothTime">目的までの到達時間</param>
 	/// <param name="maxSpeed">最高速度</param>
 	/// <param name="deltaTime">関数が前回実行されてからの経過時間</param>
-	double SmoothDamp(double current, double target, double& currentVelocity, double smoothTime, double maxSpeed, double deltaTime);
+	double SmoothDamp(double current_, double target_, double& currentVelocity_, double smoothTime_, double maxSpeed_, double deltaTime_);
 
 	/// <summary>
 	/// tが0とlength_の間で往復する(0～length_)
 	/// </summary>
-	double PingPong(double t, double length_);
+	double PingPong(double t_, double length_);
 
 	/// <summary>
 	/// lerpの補間値を出す
@@ -275,18 +275,18 @@ namespace AliceMath
 	/// <param name="b">終了値</param>
 	/// <param name="value">開始と終了の間の値</param>
 	/// <returns>補間値</returns>
-	double InverseLerp(double a, double b, double value);
+	double InverseLerp(double a_, double b_, double value_);
 
 	/// <summary>
 	/// 二つの値がほぼ等しいか
 	/// </summary>
-	bool Approximately(double a, double b);
+	bool Approximately(double a_, double b_);
 
 	/// <summary>
 	/// ランダムな値を取得
 	/// </summary>
 	/// <param name="min">最小値</param>
 	/// <param name="max">最大値</param>
-	double GetRand(double min, double max);
+	double GetRand(double min_, double max_);
 }
 

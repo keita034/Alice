@@ -10,7 +10,7 @@ private:
 	char PADING[4]{};
 public:
 	//半径を取得
-	float GetRange();
+	float GetRange()const;
 	//半径をを設定
 	void SetRange(float range_);
 

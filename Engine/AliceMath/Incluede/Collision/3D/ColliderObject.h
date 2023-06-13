@@ -41,7 +41,7 @@ protected:
 	/// <summary>
 	/// コライダーをセット
 	/// </summary>
-	void SetColl(BaseCollider* coll);
+	void SetColl(BaseCollider* collider_);
 
 private:
 

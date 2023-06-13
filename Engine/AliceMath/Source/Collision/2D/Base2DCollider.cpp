@@ -32,9 +32,9 @@ const std::string& Base2DCollider::GetCollsionName()
 	return collsionName;
 }
 
-void Base2DCollider::SetOpponentCollider(Base2DCollider* col)
+void Base2DCollider::SetOpponentCollider(Base2DCollider* collider_)
 {
-	opponentCollider = col;
+	opponentCollider = collider_;
 }
 
 Base2DCollider* Base2DCollider::GetOpponentCollider()
@@ -47,9 +47,9 @@ const std::string& Base2DCollider::GetOpponentCollsionName()
 	return opponentCollsionName;
 }
 
-void Base2DCollider::SetObject(Collider2DObject* obj)
+void Base2DCollider::SetObject(Collider2DObject* object_)
 {
-	object = obj;
+	object = object_;
 }
 
 Collider2DObject* Base2DCollider::GetColliderObject()
@@ -84,12 +84,12 @@ void Base2DCollider::CollisionUpdate()
 	object->CollisionUpdate();
 }
 
-void Base2DCollider::SetCollsionName(const std::string& name)
+void Base2DCollider::SetCollsionName(const std::string& name_)
 {
-	collsionName = name;
+	collsionName = name_;
 }
 
-void Base2DCollider::SetOpponentCollsionName(const std::string& name)
+void Base2DCollider::SetOpponentCollsionName(const std::string& name_)
 {
-	opponentCollsionName = name;
+	opponentCollsionName = name_;
 }

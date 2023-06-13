@@ -15,9 +15,8 @@ namespace AliceMathF
 #pragma region Matrix4
 
 	template<typename T>
-	class Matrix4T
+	struct Matrix4T
 	{
-	public:
 		std::array<std::array<T, 4>, 4>m;
 
 		/// <summary>
@@ -29,20 +28,20 @@ namespace AliceMathF
 		/// コンストラクタ
 		/// </summary>
 		Matrix4T(
-			T m00, T m01, T m02, T m03,
-			T m10, T m11, T m12, T m13,
-			T m20, T m21, T m22, T m23,
-			T m30, T m31, T m32, T m33);
+			T m00_, T m01_, T m02_, T m03_,
+			T m10_, T m11_, T m12_, T m13_,
+			T m20_, T m21_, T m22_, T m23_,
+			T m30_, T m31_, T m32_, T m33_);
 
 		/// <summary>
 		/// 代入演算子
 		/// </summary>
-		Matrix4T<T>& operator=(const Matrix4T<T>& _m);
+		Matrix4T<T>& operator=(const Matrix4T<T>& m_);
 
 		/// <summary>
 		/// 代入演算子
 		/// </summary>
-		const Matrix4T<T>& operator=(Matrix4T<T>& _m);
+		const Matrix4T<T>& operator=(Matrix4T<T>& m_);
 
 		/// <summary>
 		/// 転置行列
@@ -52,37 +51,37 @@ namespace AliceMathF
 	};
 
 	template<typename T>
-	inline Matrix4T<T>::Matrix4T(T m00, T m01, T m02, T m03, T m10, T m11, T m12, T m13, T m20, T m21, T m22, T m23, T m30, T m31, T m32, T m33)
+	inline Matrix4T<T>::Matrix4T(T m00_, T m01_, T m02_, T m03_, T m10_, T m11_, T m12_, T m13_, T m20_, T m21_, T m22_, T m23_, T m30_, T m31_, T m32_, T m33_)
 	{
-		m[0][0] = m00;
-		m[0][1] = m01;
-		m[0][2] = m02;
-		m[0][3] = m03;
+		m[0][0] = m00_;
+		m[0][1] = m01_;
+		m[0][2] = m02_;
+		m[0][3] = m03_;
 
-		m[1][0] = m10;
-		m[1][1] = m11;
-		m[1][2] = m12;
-		m[1][3] = m13;
+		m[1][0] = m10_;
+		m[1][1] = m11_;
+		m[1][2] = m12_;
+		m[1][3] = m13_;
 
-		m[2][0] = m20;
-		m[2][1] = m21;
-		m[2][2] = m22;
-		m[2][3] = m23;
+		m[2][0] = m20_;
+		m[2][1] = m21_;
+		m[2][2] = m22_;
+		m[2][3] = m23_;
 
-		m[3][0] = m30;
-		m[3][1] = m31;
-		m[3][2] = m32;
-		m[3][3] = m33;
+		m[3][0] = m30_;
+		m[3][1] = m31_;
+		m[3][2] = m32_;
+		m[3][3] = m33_;
 	}
 
 	template<typename T>
-	inline Matrix4T<T>& Matrix4T<T>::operator=(const Matrix4T<T>& _m)
+	inline Matrix4T<T>& Matrix4T<T>::operator=(const Matrix4T<T>& m_)
 	{
 		for (size_t i = 0; i < 4; i++)
 		{
 			for (size_t j = 0; j < 4; j++)
 			{
-				m[i][j] = _m.m[i][j];
+				m[i][j] = m_.m[i][j];
 			}
 		}
 
@@ -90,13 +89,13 @@ namespace AliceMathF
 	}
 
 	template<typename T>
-	inline const Matrix4T<T>& Matrix4T<T>::operator=(Matrix4T<T>& _m)
+	inline const Matrix4T<T>& Matrix4T<T>::operator=(Matrix4T<T>& m_)
 	{
 		for (size_t i = 0; i < 4; i++)
 		{
 			for (size_t j = 0; j < 4; j++)
 			{
-				m[i][j] = _m.m[i][j];
+				m[i][j] = m_.m[i][j];
 			}
 		}
 
@@ -106,25 +105,24 @@ namespace AliceMathF
 	template<typename T>
 	inline Matrix4T<T> Matrix4T<T>::Transpose()
 	{
-		Matrix4T<T> tmp(*this);
+		Matrix4T<T> lTmp(*this);
 
 		for (size_t i = 0; i < 4; i++)
 		{
 			for (size_t j = i; j < 4; j++)
 			{
-				T f = tmp.m[i][j];
-				tmp.m[i][j] = tmp.m[j][i];
-				tmp.m[j][i] = f;
+				T lF = lTmp.m[i][j];
+				lTmp.m[i][j] = lTmp.m[j][i];
+				lTmp.m[j][i] = lF;
 			}
 		}
 
-		return tmp;
+		return lTmp;
 	}
 
 	template<typename T>
-	class Matrix4x3T
+	struct Matrix4x3T
 	{
-	public:
 		std::array<std::array<T, 4>, 3>m;
 
 		/// <summary>
@@ -136,20 +134,20 @@ namespace AliceMathF
 		/// コンストラクタ
 		/// </summary>
 		Matrix4x3T(
-			T m00, T m01, T m02,
-			T m10, T m11, T m12,
-			T m20, T m21, T m22,
-			T m30, T m31, T m32);
+			T m00_, T m01_, T m02_,
+			T m10_, T m11_, T m12_,
+			T m20_, T m21_, T m22_,
+			T m30_, T m31_, T m32_);
 
 		/// <summary>
 		/// 代入演算子
 		/// </summary>
-		Matrix4x3T<T>& operator=(const Matrix4x3T<T>& _m);
+		Matrix4x3T<T>& operator=(const Matrix4x3T<T>& m_);
 
 		/// <summary>
 		/// 代入演算子
 		/// </summary>
-		const Matrix4x3T<T>& operator=(Matrix4x3T<T>& _m);
+		const Matrix4x3T<T>& operator=(Matrix4x3T<T>& m_);
 
 		/// <summary>
 		/// 転置行列
@@ -159,33 +157,33 @@ namespace AliceMathF
 	};
 
 	template<typename T>
-	inline Matrix4x3T<T>::Matrix4x3T(T m00, T m01, T m02, T m10, T m11, T m12, T m20, T m21, T m22, T m30, T m31, T m32)
+	inline Matrix4x3T<T>::Matrix4x3T(T m00_, T m01_, T m02_, T m10_, T m11_, T m12_, T m20_, T m21_, T m22_, T m30_, T m31_, T m32_)
 	{
-		m[0][0] = m00;
-		m[0][1] = m01;
-		m[0][2] = m02;
+		m[0][0] = m00_;
+		m[0][1] = m01_;
+		m[0][2] = m02_;
 
-		m[1][0] = m10;
-		m[1][1] = m11;
-		m[1][2] = m12;
+		m[1][0] = m10_;
+		m[1][1] = m11_;
+		m[1][2] = m12_;
 
-		m[2][0] = m20;
-		m[2][1] = m21;
-		m[2][2] = m22;
+		m[2][0] = m20_;
+		m[2][1] = m21_;
+		m[2][2] = m22_;
 
-		m[3][0] = m30;
-		m[3][1] = m31;
-		m[3][2] = m32;
+		m[3][0] = m30_;
+		m[3][1] = m31_;
+		m[3][2] = m32_;
 	}
 
 	template<typename T>
-	inline Matrix4x3T<T>& Matrix4x3T<T>::operator=(const Matrix4x3T<T>& _m)
+	inline Matrix4x3T<T>& Matrix4x3T<T>::operator=(const Matrix4x3T<T>& m_)
 	{
 		for (size_t i = 0; i < 4; i++)
 		{
 			for (size_t j = 0; j < 3; j++)
 			{
-				m[i][j] = _m.m[i][j];
+				m[i][j] = m_.m[i][j];
 			}
 		}
 
@@ -193,13 +191,13 @@ namespace AliceMathF
 	}
 
 	template<typename T>
-	inline const Matrix4x3T<T>& Matrix4x3T<T>::operator=(Matrix4x3T<T>& _m)
+	inline const Matrix4x3T<T>& Matrix4x3T<T>::operator=(Matrix4x3T<T>& m_)
 	{
 		for (size_t i = 0; i < 4; i++)
 		{
 			for (size_t j = 0; j < 3; j++)
 			{
-				m[i][j] = _m.m[i][j];
+				m[i][j] = m_.m[i][j];
 			}
 		}
 
@@ -209,25 +207,24 @@ namespace AliceMathF
 	template<typename T>
 	inline Matrix4x3T<T> Matrix4x3T<T>::Transpose()
 	{
-		Matrix4T<T> tmp(*this);
+		Matrix4T<T> lTmp(*this);
 
 		for (size_t i = 0; i < 4; i++)
 		{
 			for (size_t j = i; j < 3; j++)
 			{
-				T f = tmp.m[i][j];
-				tmp.m[i][j] = tmp.m[j][i];
-				tmp.m[j][i] = f;
+				T lF = lTmp.m[i][j];
+				lTmp.m[i][j] = lTmp.m[j][i];
+				lTmp.m[j][i] = lF;
 			}
 		}
 
-		return tmp;
+		return lTmp;
 	}
 
 	template<typename T>
-	class Matrix4x2T
+	struct Matrix4x2T
 	{
-	public:
 		std::array<std::array<T, 4>, 2>m;
 
 		/// <summary>
@@ -239,20 +236,20 @@ namespace AliceMathF
 		/// コンストラクタ
 		/// </summary>
 		Matrix4x2T(
-			T m00, T m01,
-			T m10, T m11,
-			T m20, T m21,
-			T m30, T m31);
+			T m00_, T m01_,
+			T m10_, T m11_,
+			T m20_, T m21_,
+			T m30_, T m31_);
 
 		/// <summary>
 		/// 代入演算子
 		/// </summary>
-		Matrix4x2T<T>& operator=(const Matrix4x2T<T>& _m);
+		Matrix4x2T<T>& operator=(const Matrix4x2T<T>& m_);
 
 		/// <summary>
 		/// 代入演算子
 		/// </summary>
-		const Matrix4x2T<T>& operator=(Matrix4x2T<T>& _m);
+		const Matrix4x2T<T>& operator=(Matrix4x2T<T>& m_);
 
 		/// <summary>
 		/// 転置行列
@@ -262,29 +259,29 @@ namespace AliceMathF
 	};
 
 	template<typename T>
-	inline Matrix4x2T<T>::Matrix4x2T(T m00, T m01, T m10, T m11, T m20, T m21, T m30, T m31)
+	inline Matrix4x2T<T>::Matrix4x2T(T m00_, T m01_, T m10_, T m11_, T m20_, T m21_, T m30_, T m31_)
 	{
-		m[0][0] = m00;
-		m[0][1] = m01;
+		m[0][0] = m00_;
+		m[0][1] = m01_;
 
-		m[1][0] = m10;
-		m[1][1] = m11;
+		m[1][0] = m10_;
+		m[1][1] = m11_;
 
-		m[2][0] = m20;
-		m[2][1] = m21;
+		m[2][0] = m20_;
+		m[2][1] = m21_;
 
-		m[3][0] = m30;
-		m[3][1] = m31;
+		m[3][0] = m30_;
+		m[3][1] = m31_;
 	}
 
 	template<typename T>
-	inline Matrix4x2T<T>& Matrix4x2T<T>::operator=(const Matrix4x2T<T>& _m)
+	inline Matrix4x2T<T>& Matrix4x2T<T>::operator=(const Matrix4x2T<T>& m_)
 	{
 		for (size_t i = 0; i < 4; i++)
 		{
 			for (size_t j = 0; j < 2; j++)
 			{
-				m[i][j] = _m.m[i][j];
+				m[i][j] = m_.m[i][j];
 			}
 		}
 
@@ -292,13 +289,13 @@ namespace AliceMathF
 	}
 
 	template<typename T>
-	inline const Matrix4x2T<T>& Matrix4x2T<T>::operator=(Matrix4x2T<T>& _m)
+	inline const Matrix4x2T<T>& Matrix4x2T<T>::operator=(Matrix4x2T<T>& m_)
 	{
 		for (size_t i = 0; i < 4; i++)
 		{
 			for (size_t j = 0; j < 2; j++)
 			{
-				m[i][j] = _m.m[i][j];
+				m[i][j] = m_.m[i][j];
 			}
 		}
 
@@ -308,19 +305,19 @@ namespace AliceMathF
 	template<typename T>
 	inline Matrix4x2T<T> Matrix4x2T<T>::Transpose()
 	{
-		Matrix4T<T> tmp(*this);
+		Matrix4T<T> lTmp(*this);
 
 		for (size_t i = 0; i < 4; i++)
 		{
 			for (size_t j = i; j < 2; j++)
 			{
-				T f = tmp.m[i][j];
-				tmp.m[i][j] = tmp.m[j][i];
-				tmp.m[j][i] = f;
+				T lF = lTmp.m[i][j];
+				lTmp.m[i][j] = lTmp.m[j][i];
+				lTmp.m[j][i] = lF;
 			}
 		}
 
-		return tmp;
+		return lTmp;
 	}
 
 #pragma endregion
@@ -328,9 +325,8 @@ namespace AliceMathF
 #pragma region Matrix3
 
 	template<typename T>
-	class Matrix3x4T
+	struct Matrix3x4T
 	{
-	public:
 		std::array<std::array<T, 3>, 4>m;
 
 		/// <summary>
@@ -342,19 +338,19 @@ namespace AliceMathF
 		/// コンストラクタ
 		/// </summary>
 		Matrix3x4T(
-			T m00, T m01, T m02, T m03,
-			T m10, T m11, T m12, T m13,
-			T m20, T m21, T m22, T m23);
+			T m00_, T m01_, T m02_, T m03_,
+			T m10_, T m11_, T m12_, T m13_,
+			T m20_, T m21_, T m22_, T m23_);
 
 		/// <summary>
 		/// 代入演算子
 		/// </summary>
-		Matrix3x4T<T>& operator=(const Matrix3x4T<T>& _m);
+		Matrix3x4T<T>& operator=(const Matrix3x4T<T>& m_);
 
 		/// <summary>
 		/// 代入演算子
 		/// </summary>
-		const Matrix3x4T<T>& operator=(Matrix3x4T<T>& _m);
+		const Matrix3x4T<T>& operator=(Matrix3x4T<T>& m_);
 
 		/// <summary>
 		/// 転置行列
@@ -364,32 +360,32 @@ namespace AliceMathF
 	};
 
 	template<typename T>
-	inline Matrix3x4T<T>::Matrix3x4T(T m00, T m01, T m02, T m03, T m10, T m11, T m12, T m13, T m20, T m21, T m22, T m23)
+	inline Matrix3x4T<T>::Matrix3x4T(T m00_, T m01_, T m02_, T m03_, T m10_, T m11_, T m12_, T m13_, T m20_, T m21_, T m22_, T m23_)
 	{
-		m[0][0] = m00;
-		m[0][1] = m01;
-		m[0][2] = m02;
-		m[0][3] = m03;
+		m[0][0] = m00_;
+		m[0][1] = m01_;
+		m[0][2] = m02_;
+		m[0][3] = m03_;
 
-		m[1][0] = m10;
-		m[1][1] = m11;
-		m[1][2] = m12;
-		m[1][3] = m13;
+		m[1][0] = m10_;
+		m[1][1] = m11_;
+		m[1][2] = m12_;
+		m[1][3] = m13_;
 
-		m[2][0] = m20;
-		m[2][1] = m21;
-		m[2][2] = m22;
-		m[2][3] = m23;
+		m[2][0] = m20_;
+		m[2][1] = m21_;
+		m[2][2] = m22_;
+		m[2][3] = m23_;
 	}
 
 	template<typename T>
-	inline Matrix3x4T<T>& Matrix3x4T<T>::operator=(const Matrix3x4T<T>& _m)
+	inline Matrix3x4T<T>& Matrix3x4T<T>::operator=(const Matrix3x4T<T>& m_)
 	{
 		for (size_t i = 0; i < 3; i++)
 		{
 			for (size_t j = 0; j < 4; j++)
 			{
-				m[i][j] = _m.m[i][j];
+				m[i][j] = m_.m[i][j];
 			}
 		}
 
@@ -397,13 +393,13 @@ namespace AliceMathF
 	}
 
 	template<typename T>
-	inline const Matrix3x4T<T>& Matrix3x4T<T>::operator=(Matrix3x4T<T>& _m)
+	inline const Matrix3x4T<T>& Matrix3x4T<T>::operator=(Matrix3x4T<T>& m_)
 	{
 		for (size_t i = 0; i < 3; i++)
 		{
 			for (size_t j = 0; j < 4; j++)
 			{
-				m[i][j] = _m.m[i][j];
+				m[i][j] = m_.m[i][j];
 			}
 		}
 
@@ -413,25 +409,24 @@ namespace AliceMathF
 	template<typename T>
 	inline Matrix3x4T<T> Matrix3x4T<T>::Transpose()
 	{
-		Matrix3x4T<T> tmp(*this);
+		Matrix3x4T<T> lTmp(*this);
 
 		for (size_t i = 0; i < 3; i++)
 		{
 			for (size_t j = i; j < 4; j++)
 			{
-				T f = tmp.m[i][j];
-				tmp.m[i][j] = tmp.m[j][i];
-				tmp.m[j][i] = f;
+				T lF = lTmp.m[i][j];
+				lTmp.m[i][j] = lTmp.m[j][i];
+				lTmp.m[j][i] = lF;
 			}
 		}
 
-		return tmp;
+		return lTmp;
 	}
 
 	template<typename T>
-	class Matrix3x3T
+	struct Matrix3x3T
 	{
-	public:
 		std::array<std::array<T, 3>, 3>m;
 
 		/// <summary>
@@ -443,19 +438,19 @@ namespace AliceMathF
 		/// コンストラクタ
 		/// </summary>
 		Matrix3x3T(
-			T m00, T m01, T m02,
-			T m10, T m11, T m12,
-			T m20, T m21, T m22);
+			T m00_, T m01_, T m02_,
+			T m10_, T m11_, T m12_,
+			T m20_, T m21_, T m22_);
 
 		/// <summary>
 		/// 代入演算子
 		/// </summary>
-		Matrix3x3T<T>& operator=(const Matrix3x3T<T>& _m);
+		Matrix3x3T<T>& operator=(const Matrix3x3T<T>& m_);
 
 		/// <summary>
 		/// 代入演算子
 		/// </summary>
-		const Matrix3x3T<T>& operator=(Matrix3x3T<T>& _m);
+		const Matrix3x3T<T>& operator=(Matrix3x3T<T>& m_);
 
 		/// <summary>
 		/// 転置行列
@@ -465,29 +460,29 @@ namespace AliceMathF
 	};
 
 	template<typename T>
-	inline Matrix3x3T<T>::Matrix3x3T(T m00, T m01, T m02, T m10, T m11, T m12, T m20, T m21, T m22)
+	inline Matrix3x3T<T>::Matrix3x3T(T m00_, T m01_, T m02_, T m10_, T m11_, T m12_, T m20_, T m21_, T m22_)
 	{
-		m[0][0] = m00;
-		m[0][1] = m01;
-		m[0][2] = m02;
+		m[0][0] = m00_;
+		m[0][1] = m01_;
+		m[0][2] = m02_;
 
-		m[1][0] = m10;
-		m[1][1] = m11;
-		m[1][2] = m12;
+		m[1][0] = m10_;
+		m[1][1] = m11_;
+		m[1][2] = m12_;
 
-		m[2][0] = m20;
-		m[2][1] = m21;
-		m[2][2] = m22;
+		m[2][0] = m20_;
+		m[2][1] = m21_;
+		m[2][2] = m22_;
 	}
 
 	template<typename T>
-	inline Matrix3x3T<T>& Matrix3x3T<T>::operator=(const Matrix3x3T<T>& _m)
+	inline Matrix3x3T<T>& Matrix3x3T<T>::operator=(const Matrix3x3T<T>& m_)
 	{
 		for (size_t i = 0; i < 3; i++)
 		{
 			for (size_t j = 0; j < 3; j++)
 			{
-				m[i][j] = _m.m[i][j];
+				m[i][j] = m_.m[i][j];
 			}
 		}
 
@@ -495,13 +490,13 @@ namespace AliceMathF
 	}
 
 	template<typename T>
-	inline const Matrix3x3T<T>& Matrix3x3T<T>::operator=(Matrix3x3T<T>& _m)
+	inline const Matrix3x3T<T>& Matrix3x3T<T>::operator=(Matrix3x3T<T>& m_)
 	{
 		for (size_t i = 0; i < 3; i++)
 		{
 			for (size_t j = 0; j < 3; j++)
 			{
-				m[i][j] = _m.m[i][j];
+				m[i][j] = m_.m[i][j];
 			}
 		}
 
@@ -511,25 +506,25 @@ namespace AliceMathF
 	template<typename T>
 	inline Matrix3x3T<T> Matrix3x3T<T>::Transpose()
 	{
-		Matrix3x3T<T> tmp(*this);
+		Matrix3x3T<T> lTmp(*this);
 
 		for (size_t i = 0; i < 3; i++)
 		{
 			for (size_t j = i; j < 3; j++)
 			{
-				T f = tmp.m[i][j];
-				tmp.m[i][j] = tmp.m[j][i];
-				tmp.m[j][i] = f;
+				T lF = lTmp.m[i][j];
+				lTmp.m[i][j] = lTmp.m[j][i];
+				lTmp.m[j][i] = lF;
 			}
 		}
 
-		return tmp;
+		return lTmp;
 	}
 
 	template<typename T>
-	class Matrix3x2T
+	struct Matrix3x2T
 	{
-	public:
+
 		std::array<std::array<T, 3>, 2>m;
 
 		/// <summary>
@@ -541,19 +536,19 @@ namespace AliceMathF
 		/// コンストラクタ
 		/// </summary>
 		Matrix3x2T(
-			T m00, T m01,
-			T m10, T m11,
-			T m20, T m21);
+			T m00_, T m01_,
+			T m10_, T m11_,
+			T m20_, T m21_);
 
 		/// <summary>
 		/// 代入演算子
 		/// </summary>
-		Matrix3x2T<T>& operator=(const Matrix3x2T<T>& _m);
+		Matrix3x2T<T>& operator=(const Matrix3x2T<T>& m_);
 
 		/// <summary>
 		/// 代入演算子
 		/// </summary>
-		const Matrix3x2T<T>& operator=(Matrix3x2T<T>& _m);
+		const Matrix3x2T<T>& operator=(Matrix3x2T<T>& m_);
 
 		/// <summary>
 		/// 転置行列
@@ -563,26 +558,26 @@ namespace AliceMathF
 	};
 
 	template<typename T>
-	inline Matrix3x2T<T>::Matrix3x2T(T m00, T m01, T m10, T m11, T m20, T m21)
+	inline Matrix3x2T<T>::Matrix3x2T(T m00_, T m01_, T m10_, T m11_, T m20_, T m21_)
 	{
-		m[0][0] = m00;
-		m[0][1] = m01;
+		m[0][0] = m00_;
+		m[0][1] = m01_;
 
-		m[1][0] = m10;
-		m[1][1] = m11;
+		m[1][0] = m10_;
+		m[1][1] = m11_;
 
-		m[2][0] = m20;
-		m[2][1] = m21;
+		m[2][0] = m20_;
+		m[2][1] = m21_;
 	}
 
 	template<typename T>
-	inline Matrix3x2T<T>& Matrix3x2T<T>::operator=(const Matrix3x2T<T>& _m)
+	inline Matrix3x2T<T>& Matrix3x2T<T>::operator=(const Matrix3x2T<T>& m_)
 	{
 		for (size_t i = 0; i < 3; i++)
 		{
 			for (size_t j = 0; j < 2; j++)
 			{
-				m[i][j] = _m.m[i][j];
+				m[i][j] = m_.m[i][j];
 			}
 		}
 
@@ -590,13 +585,13 @@ namespace AliceMathF
 	}
 
 	template<typename T>
-	inline const Matrix3x2T<T>& Matrix3x2T<T>::operator=(Matrix3x2T<T>& _m)
+	inline const Matrix3x2T<T>& Matrix3x2T<T>::operator=(Matrix3x2T<T>& m_)
 	{
 		for (size_t i = 0; i < 3; i++)
 		{
 			for (size_t j = 0; j < 2; j++)
 			{
-				m[i][j] = _m.m[i][j];
+				m[i][j] = m_.m[i][j];
 			}
 		}
 
@@ -606,19 +601,19 @@ namespace AliceMathF
 	template<typename T>
 	inline Matrix3x2T<T> Matrix3x2T<T>::Transpose()
 	{
-		Matrix3x2T<T> tmp(*this);
+		Matrix3x2T<T> lTmp(*this);
 
 		for (size_t i = 0; i < 3; i++)
 		{
 			for (size_t j = i; j < 2; j++)
 			{
-				T f = tmp.m[i][j];
-				tmp.m[i][j] = tmp.m[j][i];
-				tmp.m[j][i] = f;
+				T lF = lTmp.m[i][j];
+				lTmp.m[i][j] = lTmp.m[j][i];
+				lTmp.m[j][i] = lF;
 			}
 		}
 
-		return tmp;
+		return lTmp;
 	}
 
 #pragma endregion
@@ -626,9 +621,8 @@ namespace AliceMathF
 #pragma region Matrix2
 
 	template<typename T>
-	class Matrix2x4T
+	struct Matrix2x4T
 	{
-	public:
 		std::array<std::array<T, 2>, 4>m;
 
 		/// <summary>
@@ -640,18 +634,18 @@ namespace AliceMathF
 		/// コンストラクタ
 		/// </summary>
 		Matrix2x4T(
-			T m00, T m01, T m02, T m03,
-			T m10, T m11, T m12, T m13);
+			T m00_, T m01_, T m02_, T m03_,
+			T m10_, T m11_, T m12_, T m13_);
 
 		/// <summary>
 		/// 代入演算子
 		/// </summary>
-		Matrix2x4T<T>& operator=(const Matrix2x4T<T>& _m);
+		Matrix2x4T<T>& operator=(const Matrix2x4T<T>& m_);
 
 		/// <summary>
 		/// 代入演算子
 		/// </summary>
-		const Matrix2x4T<T>& operator=(Matrix2x4T<T>& _m);
+		const Matrix2x4T<T>& operator=(Matrix2x4T<T>& m_);
 
 		/// <summary>
 		/// 転置行列
@@ -661,28 +655,28 @@ namespace AliceMathF
 	};
 
 	template<typename T>
-	inline Matrix2x4T<T>::Matrix2x4T(T m00, T m01, T m02, T m03, T m10, T m11, T m12, T m13)
+	inline Matrix2x4T<T>::Matrix2x4T(T m00_, T m01_, T m02_, T m03_, T m10_, T m11_, T m12_, T m13_)
 	{
-		m[0][0] = m00;
-		m[0][1] = m01;
-		m[0][2] = m02;
-		m[0][3] = m03;
+		m[0][0] = m00_;
+		m[0][1] = m01_;
+		m[0][2] = m02_;
+		m[0][3] = m03_;
 
-		m[1][0] = m10;
-		m[1][1] = m11;
-		m[1][2] = m12;
-		m[1][3] = m13;
+		m[1][0] = m10_;
+		m[1][1] = m11_;
+		m[1][2] = m12_;
+		m[1][3] = m13_;
 	}
 
 
 	template<typename T>
-	inline Matrix2x4T<T>& Matrix2x4T<T>::operator=(const Matrix2x4T<T>& _m)
+	inline Matrix2x4T<T>& Matrix2x4T<T>::operator=(const Matrix2x4T<T>& m_)
 	{
 		for (size_t i = 0; i < 2; i++)
 		{
 			for (size_t j = 0; j < 4; j++)
 			{
-				m[i][j] = _m.m[i][j];
+				m[i][j] = m_.m[i][j];
 			}
 		}
 
@@ -690,13 +684,13 @@ namespace AliceMathF
 	}
 
 	template<typename T>
-	inline const Matrix2x4T<T>& Matrix2x4T<T>::operator=(Matrix2x4T<T>& _m)
+	inline const Matrix2x4T<T>& Matrix2x4T<T>::operator=(Matrix2x4T<T>& m_)
 	{
 		for (size_t i = 0; i < 2; i++)
 		{
 			for (size_t j = 0; j < 4; j++)
 			{
-				m[i][j] = _m.m[i][j];
+				m[i][j] = m_.m[i][j];
 			}
 		}
 
@@ -706,25 +700,24 @@ namespace AliceMathF
 	template<typename T>
 	inline Matrix2x4T<T> Matrix2x4T<T>::Transpose()
 	{
-		Matrix2x4T<T> tmp(*this);
+		Matrix2x4T<T> lTmp(*this);
 
 		for (size_t i = 0; i < 2; i++)
 		{
 			for (size_t j = i; j < 4; j++)
 			{
-				T f = tmp.m[i][j];
-				tmp.m[i][j] = tmp.m[j][i];
-				tmp.m[j][i] = f;
+				T lF = lTmp.m[i][j];
+				lTmp.m[i][j] = lTmp.m[j][i];
+				lTmp.m[j][i] = lF;
 			}
 		}
 
-		return tmp;
+		return lTmp;
 	}
 
 	template<typename T>
-	class Matrix2x3T
+	struct Matrix2x3T
 	{
-	public:
 		std::array<std::array<T, 2>, 3>m;
 
 		/// <summary>
@@ -736,18 +729,18 @@ namespace AliceMathF
 		/// コンストラクタ
 		/// </summary>
 		Matrix2x3T(
-			T m00, T m01, T m02,
-			T m10, T m11, T m12);
+			T m00_, T m01_, T m02_,
+			T m10_, T m11_, T m12_);
 
 		/// <summary>
 		/// 代入演算子
 		/// </summary>
-		Matrix2x3T<T>& operator=(const Matrix2x3T<T>& _m);
+		Matrix2x3T<T>& operator=(const Matrix2x3T<T>& m_);
 
 		/// <summary>
 		/// 代入演算子
 		/// </summary>
-		const Matrix2x3T<T>& operator=(Matrix2x3T<T>& _m);
+		const Matrix2x3T<T>& operator=(Matrix2x3T<T>& m_);
 
 		/// <summary>
 		/// 転置行列
@@ -757,25 +750,25 @@ namespace AliceMathF
 	};
 
 	template<typename T>
-	inline Matrix2x3T<T>::Matrix2x3T(T m00, T m01, T m02, T m10, T m11, T m12)
+	inline Matrix2x3T<T>::Matrix2x3T(T m00_, T m01_, T m02_, T m10_, T m11_, T m12_)
 	{
-		m[0][0] = m00;
-		m[0][1] = m01;
-		m[0][2] = m02;
+		m[0][0] = m00_;
+		m[0][1] = m01_;
+		m[0][2] = m02_;
 
-		m[1][0] = m10;
-		m[1][1] = m11;
-		m[1][2] = m12;
+		m[1][0] = m10_;
+		m[1][1] = m11_;
+		m[1][2] = m12_;
 	}
 
 	template<typename T>
-	inline Matrix2x3T<T>& Matrix2x3T<T>::operator=(const Matrix2x3T<T>& _m)
+	inline Matrix2x3T<T>& Matrix2x3T<T>::operator=(const Matrix2x3T<T>& m_)
 	{
 		for (size_t i = 0; i < 2; i++)
 		{
 			for (size_t j = 0; j < 3; j++)
 			{
-				m[i][j] = _m.m[i][j];
+				m[i][j] = m_.m[i][j];
 			}
 		}
 
@@ -783,13 +776,13 @@ namespace AliceMathF
 	}
 
 	template<typename T>
-	inline const Matrix2x3T<T>& Matrix2x3T<T>::operator=(Matrix2x3T<T>& _m)
+	inline const Matrix2x3T<T>& Matrix2x3T<T>::operator=(Matrix2x3T<T>& m_)
 	{
 		for (size_t i = 0; i < 2; i++)
 		{
 			for (size_t j = 0; j < 3; j++)
 			{
-				m[i][j] = _m.m[i][j];
+				m[i][j] = m_.m[i][j];
 			}
 		}
 
@@ -799,25 +792,24 @@ namespace AliceMathF
 	template<typename T>
 	inline Matrix2x3T<T> Matrix2x3T<T>::Transpose()
 	{
-		Matrix2x3T<T> tmp(*this);
+		Matrix2x3T<T> lTmp(*this);
 
 		for (size_t i = 0; i < 2; i++)
 		{
 			for (size_t j = i; j < 3; j++)
 			{
-				T f = tmp.m[i][j];
-				tmp.m[i][j] = tmp.m[j][i];
-				tmp.m[j][i] = f;
+				T lF = lTmp.m[i][j];
+				lTmp.m[i][j] = lTmp.m[j][i];
+				lTmp.m[j][i] = lF;
 			}
 		}
 
-		return tmp;
+		return lTmp;
 	}
 
 	template<typename T>
-	class Matrix2x2T
+	struct Matrix2x2T
 	{
-	public:
 		std::array<std::array<T, 2>, 2>m;
 
 		/// <summary>
@@ -829,18 +821,18 @@ namespace AliceMathF
 		/// コンストラクタ
 		/// </summary>
 		Matrix2x2T(
-			T m00, T m01,
-			T m10, T m11);
+			T m00_, T m01_,
+			T m10_, T m11_);
 
 		/// <summary>
 		/// 代入演算子
 		/// </summary>
-		Matrix2x2T<T>& operator=(const Matrix2x2T<T>& _m);
+		Matrix2x2T<T>& operator=(const Matrix2x2T<T>& m_);
 
 		/// <summary>
 		/// 代入演算子
 		/// </summary>
-		const Matrix2x2T<T>& operator=(Matrix2x2T<T>& _m);
+		const Matrix2x2T<T>& operator=(Matrix2x2T<T>& m_);
 
 		/// <summary>
 		/// 転置行列
@@ -850,23 +842,23 @@ namespace AliceMathF
 	};
 
 	template<typename T>
-	inline Matrix2x2T<T>::Matrix2x2T(T m00, T m01, T m10, T m11)
+	inline Matrix2x2T<T>::Matrix2x2T(T m00_, T m01_, T m10_, T m11_)
 	{
-		m[0][0] = m00;
-		m[0][1] = m01;
+		m[0][0] = m00_;
+		m[0][1] = m01_;
 
-		m[1][0] = m10;
-		m[1][1] = m11;
+		m[1][0] = m10_;
+		m[1][1] = m11_;
 	}
 
 	template<typename T>
-	inline Matrix2x2T<T>& Matrix2x2T<T>::operator=(const Matrix2x2T<T>& _m)
+	inline Matrix2x2T<T>& Matrix2x2T<T>::operator=(const Matrix2x2T<T>& m_)
 	{
 		for (size_t i = 0; i < 2; i++)
 		{
 			for (size_t j = 0; j < 2; j++)
 			{
-				m[i][j] = _m.m[i][j];
+				m[i][j] = m_.m[i][j];
 			}
 		}
 
@@ -874,13 +866,13 @@ namespace AliceMathF
 	}
 
 	template<typename T>
-	inline const Matrix2x2T<T>& Matrix2x2T<T>::operator=(Matrix2x2T<T>& _m)
+	inline const Matrix2x2T<T>& Matrix2x2T<T>::operator=(Matrix2x2T<T>& m_)
 	{
 		for (size_t i = 0; i < 2; i++)
 		{
 			for (size_t j = 0; j < 2; j++)
 			{
-				m[i][j] = _m.m[i][j];
+				m[i][j] = m_.m[i][j];
 			}
 		}
 
@@ -890,18 +882,18 @@ namespace AliceMathF
 	template<typename T>
 	inline Matrix2x2T<T> Matrix2x2T<T>::Transpose()
 	{
-		Matrix2x2T<T> tmp(*this);
+		Matrix2x2T<T> lTmp(*this);
 		for (size_t i = 0; i < 2; i++)
 		{
 			for (size_t j = i; j < 2; j++)
 			{
-				T f = tmp.m[i][j];
-				tmp.m[i][j] = tmp.m[j][i];
-				tmp.m[j][i] = f;
+				T lF = lTmp.m[i][j];
+				lTmp.m[i][j] = lTmp.m[j][i];
+				lTmp.m[j][i] = lF;
 			}
 		}
 
-		return tmp;
+		return lTmp;
 	}
 
 #pragma endregion

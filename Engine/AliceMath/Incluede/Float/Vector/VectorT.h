@@ -14,17 +14,17 @@ namespace AliceMathF
 	public:
 		//コンストラクタ
 		Vector4T();//零ベクトル
-		Vector4T(T x, T y, T z, T w);//成分を指定して生成
+		Vector4T(T x_, T y_, T z_, T w_);//成分を指定して生成
 
 		/// <summary>
 		/// 代入演算子
 		/// </summary>
-		Vector4T<T>& operator=(const Vector4T<T>& vec);
+		Vector4T<T>& operator=(const Vector4T<T>& vec_);
 
 		/// <summary>
 		/// 代入演算子
 		/// </summary>
-		const Vector4T<T>& operator=(Vector4T<T>& vec);
+		const Vector4T<T>& operator=(Vector4T<T>& vec_);
 	};
 
 	template<typename T>
@@ -37,28 +37,28 @@ namespace AliceMathF
 	}
 
 	template<typename T>
-	inline Vector4T<T>::Vector4T(T x, T y, T z, T w) : x(x), y(y), z(z), w(w)
+	inline Vector4T<T>::Vector4T(T x_, T y_, T z_, T w_) : x(x_), y(y_), z(z_), w(w_)
 	{
 	}
 
 	template<typename T>
-	inline Vector4T<T>& Vector4T<T>::operator=(const Vector4T<T>& vec)
+	inline Vector4T<T>& Vector4T<T>::operator=(const Vector4T<T>& vec_)
 	{
-		x = vec.x;
-		y = vec.y;
-		z = vec.z;
-		w = vec.w;
+		x = vec_.x;
+		y = vec_.y;
+		z = vec_.z;
+		w = vec_.w;
 
 		return *this;
 	}
 
 	template<typename T>
-	inline const Vector4T<T>& Vector4T<T>::operator=(Vector4T<T>& vec)
+	inline const Vector4T<T>& Vector4T<T>::operator=(Vector4T<T>& vec_)
 	{
-		x = vec.x;
-		y = vec.y;
-		z = vec.z;
-		w = vec.w;
+		x = vec_.x;
+		y = vec_.y;
+		z = vec_.z;
+		w = vec_.w;
 
 		return *this;
 	}
@@ -75,17 +75,17 @@ namespace AliceMathF
 	public:
 		//コンストラクタ
 		Vector3T();//零ベクトル
-		Vector3T(T x, T y, T z);//成分を指定して生成
+		Vector3T(T x_, T y, T z);//成分を指定して生成
 
 		/// <summary>
 		/// 代入演算子
 		/// </summary>
-		Vector3T<T>& operator=(const Vector3T<T>& vec);
+		Vector3T<T>& operator=(const Vector3T<T>& vec_);
 
 		/// <summary>
 		/// 代入演算子
 		/// </summary>
-		const Vector3T<T>& operator=(Vector3T<T>& vec);
+		const Vector3T<T>& operator=(Vector3T<T>& vec_);
 
 	};
 
@@ -98,26 +98,26 @@ namespace AliceMathF
 	}
 
 	template<typename T>
-	inline Vector3T<T>::Vector3T(T x, T y, T z) : x(x), y(y), z(z)
+	inline Vector3T<T>::Vector3T(T x_, T y_, T z_) : x(x_), y(y_), z(z_)
 	{
 	}
 
 	template<typename T>
-	inline Vector3T<T>& Vector3T<T>::operator=(const Vector3T<T>& vec)
+	inline Vector3T<T>& Vector3T<T>::operator=(const Vector3T<T>& vec_)
 	{
-		x = vec.x;
-		y = vec.y;
-		z = vec.z;
+		x = vec_.x;
+		y = vec_.y;
+		z = vec_.z;
 
 		return *this;
 	}
 
 	template<typename T>
-	inline const Vector3T<T>& Vector3T<T>::operator=(Vector3T<T>& vec)
+	inline const Vector3T<T>& Vector3T<T>::operator=(Vector3T<T>& vec_)
 	{
-		x = vec.x;
-		y = vec.y;
-		z = vec.z;
+		x = vec_.x;
+		y = vec_.y;
+		z = vec_.z;
 
 		return *this;
 	}
@@ -132,17 +132,17 @@ namespace AliceMathF
 	public:
 		//コンストラクタ
 		Vector2T();//零ベクトル
-		Vector2T(T x, T y);//成分を指定して生成
+		Vector2T(T x_, T y_);//成分を指定して生成
 
 		/// <summary>
 		/// 代入演算子
 		/// </summary>
-		Vector2T<T>& operator=(const Vector2T<T>& vec);
+		Vector2T<T>& operator=(const Vector2T<T>& vec_);
 
 		/// <summary>
 		/// 代入演算子
 		/// </summary>
-		const Vector2T<T>& operator=(Vector2T<T>& vec);
+		const Vector2T<T>& operator=(Vector2T<T>& vec_);
 	};
 
 	template<typename T>
@@ -153,24 +153,24 @@ namespace AliceMathF
 	}
 
 	template<typename T>
-	inline Vector2T<T>::Vector2T(T x, T y) : x(x), y(y)
+	inline Vector2T<T>::Vector2T(T x_, T y_) : x(x_), y(y_)
 	{
 	}
 
 	template<typename T>
-	inline Vector2T<T>& Vector2T<T>::operator=(const Vector2T<T>& vec)
+	inline Vector2T<T>& Vector2T<T>::operator=(const Vector2T<T>& vec_)
 	{
-		x = vec.x;
-		y = vec.y;
+		x = vec_.x;
+		y = vec_.y;
 
 		return *this;
 	}
 
 	template<typename T>
-	inline const Vector2T<T>& Vector2T<T>::operator=(Vector2T<T>& vec)
+	inline const Vector2T<T>& Vector2T<T>::operator=(Vector2T<T>& vec_)
 	{
-		x = vec.x;
-		y = vec.y;
+		x = vec_.x;
+		y = vec_.y;
 
 		return *this;
 	}

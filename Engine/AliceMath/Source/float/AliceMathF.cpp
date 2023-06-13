@@ -21,15 +21,15 @@ namespace AliceMathF
 #pragma region sin関数
 
 	//sin関数
-	float Sin(float sin)
+	float Sin(float sin_)
 	{
-		return std::sinf(sin);
+		return std::sinf(sin_);
 	}
 
 	//asin関数
-	float Asin(float sin)
+	float Asin(float sin_)
 	{
-		return std::asinf(sin);
+		return std::asinf(sin_);
 	}
 
 #pragma endregion sin関数
@@ -37,15 +37,15 @@ namespace AliceMathF
 #pragma region cos関数
 
 	//cos関数
-	float Cos(float cos)
+	float Cos(float cos_)
 	{
-		return std::cosf(cos);
+		return std::cosf(cos_);
 	}
 
 	//acos関数
-	float Acos(float cos)
+	float Acos(float cos_)
 	{
-		return std::acosf(cos);
+		return std::acosf(cos_);
 	}
 
 #pragma endregion cos関数
@@ -53,31 +53,31 @@ namespace AliceMathF
 #pragma region tan関数
 
 	//tan関数
-	float Tan(float tan)
+	float Tan(float tan_)
 	{
-		return std::tanf(tan);
+		return std::tanf(tan_);
 	}
 
 	//atan関数
-	float Atan(float tan)
+	float Atan(float tan_)
 	{
-		return std::atanf(tan);
+		return std::atanf(tan_);
 	}
 
 
 	//atan2関数
-	float Atan2(float y, float x)
+	float Atan2(float y_, float x_)
 	{
-		return std::atan2f(y, x);
+		return std::atan2f(y_, x_);
 	}
 
 #pragma endregion tan関数
 
 	//sin、cosを両方出す
-	void SinCos(float& sin_, float& cos_, float angle)
+	void SinCos(float& sin_, float& cos_, float angle_)
 	{
-		sin_ = Sin(angle);
-		cos_ = Cos(angle);
+		sin_ = Sin(angle_);
+		cos_ = Cos(angle_);
 	}
 
 #pragma endregion sin,cos,tan関数
@@ -85,17 +85,17 @@ namespace AliceMathF
 #pragma region 角度変換
 
 	//度数法からラジアン変換
-	float ChangeRadians(const float& angle)
+	float ChangeRadians(const float& angle_)
 	{
-		float radian = angle * Deg2Rad;
-		return radian;
+		float lRadian = angle_ * DEG_TO_RAD;
+		return lRadian;
 	}
 
 	// ラジアンから度数法変換
-	float ChangeDira(const float& angle)
+	float ChangeDira(const float& angle_)
 	{
-		float degree = angle * Rad2Deg;
-		return degree;
+		float lDegree = angle_ * RAD_TO_DEG;
+		return lDegree;
 	}
 
 
@@ -104,9 +104,9 @@ namespace AliceMathF
 #pragma region sqrt関数
 
 	//sqrt関数
-	float Sqrt(float sqrt)
+	float Sqrt(float sqrt_)
 	{
-		return std::sqrtf(sqrt);
+		return std::sqrtf(sqrt_);
 	}
 
 #pragma endregion sqrt関数
@@ -114,9 +114,9 @@ namespace AliceMathF
 #pragma region pow関数
 
 	//pow関数
-	float Pow(float pow, float powNum)
+	float Pow(float pow_, float powNum_)
 	{
-		return std::powf(pow, powNum);
+		return std::powf(pow_, powNum_);
 	}
 
 #pragma endregion pow関数
@@ -124,9 +124,9 @@ namespace AliceMathF
 #pragma region exp関数
 
 	//exp関数
-	float Exp(float exp)
+	float Exp(float exp_)
 	{
-		return std::expf(exp);
+		return std::expf(exp_);
 	}
 
 #pragma endregion exp関数
@@ -134,15 +134,15 @@ namespace AliceMathF
 #pragma region log関数
 
 	//log関数
-	float Log(float log)
+	float Log(float log_)
 	{
-		return std::logf(log);
+		return std::logf(log_);
 	}
 
 	//log10関数
-	float Log10(float log)
+	float Log10(float log_)
 	{
-		return std::log10f(log);
+		return std::log10f(log_);
 	}
 
 #pragma endregion log関数
@@ -150,9 +150,9 @@ namespace AliceMathF
 #pragma region 絶対値の計算
 
 	//絶対値の計算
-	float Abs(float abs)
+	float Abs(float abs_)
 	{
-		return 	std::fabsf(abs);
+		return 	std::fabsf(abs_);
 	}
 
 #pragma endregion 絶対値の計算
@@ -160,9 +160,9 @@ namespace AliceMathF
 #pragma region ceil関数
 
 	//ceil関数
-	float Ceil(float ceil)
+	float Ceil(float ceil_)
 	{
-		return std::ceilf(ceil);
+		return std::ceilf(ceil_);
 	}
 
 #pragma endregion ceil関数
@@ -170,9 +170,9 @@ namespace AliceMathF
 #pragma region floor関数
 
 	//floor関数
-	float Floor(float floor)
+	float Floor(float floor_)
 	{
-		return std::floorf(floor);
+		return std::floorf(floor_);
 	}
 
 #pragma endregion floor関数
@@ -180,277 +180,277 @@ namespace AliceMathF
 #pragma region round関数
 
 	//round関数
-	float Round(float round)
+	float Round(float round_)
 	{
-		return std::roundf(round);
+		return std::roundf(round_);
 	}
 
 #pragma endregion round関数
 
 	// 値の符号を返す
-	float Sign(float sign)
+	float Sign(float sign_)
 	{
-		return (sign >= 0.0f) ? 1.0f : (-1.0f);
+		return (sign_ >= 0.0f) ? 1.0f : (-1.0f);
 	}
 
 	// 値を範囲内に納める
-	float Clamp(float Value, const float low, const float high)
+	float Clamp(float value_, const float low_, const float high_)
 	{
-		if (high < Value)
+		if (high_ < value_)
 		{
-			Value = high;
+			value_ = high_;
 		}
 
-		if (Value < low)
+		if (value_ < low_)
 		{
-			Value = low;
+			value_ = low_;
 		}
 
-		return Value;
+		return value_;
 	}
 
 	// 0と1の間に値を納め、その値を返す
-	float Clamp01(float Value)
+	float Clamp01(float value_)
 	{
-		if (Value < 0.0f)
+		if (value_ < 0.0f)
 		{
 			return 0.0f;
 		}
 
-		if (Value > 1.0f)
+		if (value_ > 1.0f)
 		{
 			return 1.0f;
 		}
 
-		return Value;
+		return value_;
 	}
 
 	// 線形補間(0～1)
-	float Lerp(float a, float b, float t)
+	float Lerp(float a_, float b_, float t_)
 	{
-		return a + (b - a) * Clamp01(t);
+		return a_ + (b_ - a_) * Clamp01(t_);
 	}
 
-	Vector3 Lerp(const Vector3& a, const Vector3& b, float t)
+	Vector3 Lerp(const Vector3& a_, const Vector3& b_, float t_)
 	{
-		Vector3 tmp;
-		tmp.x = a.x + (b.x - a.x) * Clamp01(t);
-		tmp.y = a.y + (b.y - a.y) * Clamp01(t);
-		tmp.z = a.z + (b.z - a.z) * Clamp01(t);
-		return tmp;
+		Vector3 lTmp;
+		lTmp.x = a_.x + (b_.x - a_.x) * Clamp01(t_);
+		lTmp.y = a_.y + (b_.y - a_.y) * Clamp01(t_);
+		lTmp.z = a_.z + (b_.z - a_.z) * Clamp01(t_);
+		return lTmp;
 	}
 
-	Vector4 Lerp(const Vector4& a, const Vector4& b, float t)
+	Vector4 Lerp(const Vector4& a_, const Vector4& b_, float t_)
 	{
-		Vector4 tmp;
-		tmp.x = a.x + (b.x - a.x) * Clamp01(t);
-		tmp.y = a.y + (b.y - a.y) * Clamp01(t);
-		tmp.z = a.z + (b.z - a.z) * Clamp01(t);
-		tmp.w = a.w + (b.w - a.w) * Clamp01(t);
-		return tmp;
+		Vector4 lTmp;
+		lTmp.x = a_.x + (b_.x - a_.x) * Clamp01(t_);
+		lTmp.y = a_.y + (b_.y - a_.y) * Clamp01(t_);
+		lTmp.z = a_.z + (b_.z - a_.z) * Clamp01(t_);
+		lTmp.w = a_.w + (b_.w - a_.w) * Clamp01(t_);
+		return lTmp;
 	}
 
-	Vector3 Slerp(const Vector3& v1, const Vector3& v2, float t)
+	Vector3 Slerp(const Vector3& v1_, const Vector3& v2_, float t_)
 	{
-		Vector3 tmp1 = v1.Normalization();
-		Vector3 tmp2 = v2.Normalization();
-		float omega = Acos(tmp1.Dot(tmp2));
+		Vector3 lTmp1 = v1_.Normalization();
+		Vector3 lTmp2 = v2_.Normalization();
+		float lOmega = Acos(lTmp1.Dot(lTmp2));
 
-		float sinOmega = Sin(omega);
+		float lSinOmega = Sin(lOmega);
 
-		Vector3 termOne = v1 * (Sin(omega * (1.0f - t)) / sinOmega);
-		Vector3 termTwo = v2 * (Sin(omega * (t)) / sinOmega);
+		Vector3 lTermOne = v1_ * (Sin(lOmega * (1.0f - t_)) / lSinOmega);
+		Vector3 lTermTwo = v2_ * (Sin(lOmega * (t_)) / lSinOmega);
 
-		return termOne + termTwo;
+		return lTermOne + lTermTwo;
 	}
 
 	// 線形補間(0～)
-	float LerpUnclamped(float a, float b, float t)
+	float LerpUnclamped(float a_, float b_, float t_)
 	{
-		return a + (b - a) * t;
+		return a_ + (b_ - a_) * t_;
 	}
 
 	// Lerpの角度版(0～1)
-	float LerpAngle(float a, float b, float t)
+	float LerpAngle(float a_, float b_, float t_)
 	{
-		float num = Repeat(b - a, 360.0f);
+		float lNum = Repeat(b_ - a_, 360.0f);
 
-		if (num > 180.0f)
+		if (lNum > 180.0f)
 		{
-			num -= 360.0f;
+			lNum -= 360.0f;
 		}
 
-		return a + num * Clamp01(t);
+		return a_ + lNum * Clamp01(t_);
 	}
 
 	// tはlength_より大きくはならず0より小さくならず、その間をループ(float)
-	float Repeat(float t, float length_)
+	float Repeat(float t_, float length_)
 	{
-		return Clamp(t - Floor(t / length_) * length_, 0.0f, length_);
+		return Clamp(t_ - Floor(t_ / length_) * length_, 0.0f, length_);
 	}
 
 	// 現在地から目的地まで一定速度で移動
-	float MoveTowards(float current, float target, float maxDelta)
+	float MoveTowards(float current_, float target_, float maxDelta_)
 	{
-		if (Abs(target - current) <= maxDelta)
+		if (Abs(target_ - current_) <= maxDelta_)
 		{
-			return target;
+			return target_;
 		}
 
-		return current + Sign(target - current) * maxDelta;
+		return current_ + Sign(target_ - current_) * maxDelta_;
 	}
 
 	// 現在の角度から目的の角度まで一定速度で移動
-	float MoveTowardsAngle(float current, float target, float maxDelta)
+	float MoveTowardsAngle(float current_, float target_, float maxDelta_)
 	{
-		float num = DeltaAngle(current, target);
+		float lNum = DeltaAngle(current_, target_);
 
-		if (0.0f - maxDelta < num && num < maxDelta)
+		if (0.0f - maxDelta_ < lNum && lNum < maxDelta_)
 		{
-			return target;
+			return target_;
 		}
 
-		target = current + num;
-		return MoveTowards(current, target, maxDelta);
+		target_ = current_ + lNum;
+		return MoveTowards(current_, target_, maxDelta_);
 	}
 
 	// 角度の差を返す(度数法)
-	float DeltaAngle(float current, float target)
+	float DeltaAngle(float current_, float target_)
 	{
-		float num = Repeat(target - current, 360.0f);
+		float lNum = Repeat(target_ - current_, 360.0f);
 
-		if (num > 180.0f)
+		if (lNum > 180.0f)
 		{
-			num -= 360.0f;
+			lNum -= 360.0f;
 		}
 
-		return num;
+		return lNum;
 	}
 
 	// スムージング補間
-	float SmoothStep(float from, float to, float t)
+	float SmoothStep(float from_, float to_, float t_)
 	{
-		t = Clamp01(t);
-		t = -2.0f * t * t * t + 3.0f * t * t;
-		return to * t + from * (1.0f - t);
+		t_ = Clamp01(t_);
+		t_ = -2.0f * t_ * t_ * t_ + 3.0f * t_ * t_;
+		return to_ * t_ + from_ * (1.0f - t_);
 	}
 
 	// ガンマ補正(float)
-	float Gamma(float value, float absmax, float gamma)
+	float Gamma(float value_, float absmax_, float gamma_)
 	{
-		bool flag = value < 0.0f;
-		float num = Abs(value);
-		if (num > absmax)
+		bool lFlag = value_ < 0.0f;
+		float lNum = Abs(value_);
+		if (lNum > absmax_)
 		{
-			return flag ? (0.0f - num) : num;
+			return lFlag ? (0.0f - lNum) : lNum;
 		}
 
-		float num2 = Pow(num / absmax, gamma) * absmax;
-		return flag ? (0.0f - num2) : num2;
+		float lNum2 = Pow(lNum / absmax_, gamma_) * absmax_;
+		return lFlag ? (0.0f - lNum2) : lNum2;
 	}
 
 	// 何を何処に何秒で指定してオブジェクトを移動させる
-	float SmoothDamp(float current, float target, float& currentVelocity, float smoothTime, float maxSpeed, float deltaTime)
+	float SmoothDamp(float current_, float target_, float& currentVelocity_, float smoothTime_, float maxSpeed_, float deltaTime_)
 	{
-		smoothTime = AliceMathUtility::Max(0.0001f, smoothTime);
-		float num = 2.0f / smoothTime;
-		float num2 = num * deltaTime;
-		float num3 = 1.0f / (1.0f + num2 + 0.48f * num2 * num2 + 0.235f * num2 * num2 * num2);
-		float value = current - target;
-		float num4 = target;
-		float num5 = maxSpeed * smoothTime;
-		value = Clamp(value, 0.0f - num5, num5);
-		target = current - value;
-		float num6 = (currentVelocity + num * value) * deltaTime;
-		currentVelocity = (currentVelocity - num * num6) * num3;
-		float num7 = target + (value + num6) * num3;
-		if (num4 - current > 0.0f == num7 > num4)
+		smoothTime_ = AliceMathUtility::Max(0.0001f, smoothTime_);
+		float lNum = 2.0f / smoothTime_;
+		float lNum2 = lNum * deltaTime_;
+		float lNum3 = 1.0f / (1.0f + lNum2 + 0.48f * lNum2 * lNum2 + 0.235f * lNum2 * lNum2 * lNum2);
+		float lValue = current_ - target_;
+		float lNum4 = target_;
+		float lNum5 = maxSpeed_ * smoothTime_;
+		lValue = Clamp(lValue, 0.0f - lNum5, lNum5);
+		target_ = current_ - lValue;
+		float lNum6 = (currentVelocity_ + lNum * lValue) * deltaTime_;
+		currentVelocity_ = (currentVelocity_ - lNum * lNum6) * lNum3;
+		float lNum7 = target_ + (lValue + lNum6) * lNum3;
+		if (lNum4 - current_ > 0.0f == lNum7 > lNum4)
 		{
-			num7 = num4;
-			currentVelocity = (num7 - num4) / deltaTime;
+			lNum7 = lNum4;
+			currentVelocity_ = (lNum7 - lNum4) / deltaTime_;
 		}
 
-		return num7;
+		return lNum7;
 	}
 
 	// tが0とlength_の間で往復する(0～length_)
-	float PingPong(float t, float length_)
+	float PingPong(float t_, float length_)
 	{
-		t = Repeat(t, length_ * 2.0f);
-		return length_ - Abs(t - length_);
+		t_ = Repeat(t_, length_ * 2.0f);
+		return length_ - Abs(t_ - length_);
 	}
 
 	// lerpの補間値を出す
-	float InverseLerp(float a, float b, float value)
+	float InverseLerp(float a_, float b_, float value_)
 	{
-		if (a != b)
+		if (a_ != b_)
 		{
-			return Clamp01((value - a) / (b - a));
+			return Clamp01((value_ - a_) / (b_ - a_));
 		}
 
 		return 0.0f;
 	}
 
 	// 2本の線の交点を計算
-	bool LineIntersection(const Vector2& p1, const Vector2& p2, const Vector2& p3, const Vector2& p4, Vector2& result)
+	bool LineIntersection(const Vector2& p1_, const Vector2& p2_, const Vector2& p3_, const Vector2& p4_, Vector2& result_)
 	{
-		float num = p2.x - p1.x;
-		float num2 = p2.y - p1.y;
-		float num3 = p4.x - p3.x;
-		float num4 = p4.y - p3.y;
-		float num5 = num * num4 - num2 * num3;
-		if (num5 == 0.0f)
+		float lNum = p2_.x - p1_.x;
+		float lNum2 = p2_.y - p1_.y;
+		float lNum3 = p4_.x - p3_.x;
+		float lNum4 = p4_.y - p3_.y;
+		float lNum5 = lNum * lNum4 - lNum2 * lNum3;
+		if (lNum5 == 0.0f)
 		{
 			return false;
 		}
 
-		float num6 = p3.x - p1.x;
-		float num7 = p3.y - p1.y;
-		float num8 = (num6 * num4 - num7 * num3) / num5;
-		result.x = p1.x + num8 * num;
-		result.y = p1.y + num8 * num2;
+		float lNum6 = p3_.x - p1_.x;
+		float lNum7 = p3_.y - p1_.y;
+		float lNum8 = (lNum6 * lNum4 - lNum7 * lNum3) / lNum5;
+		result_.x = p1_.x + lNum8 * lNum;
+		result_.y = p1_.y + lNum8 * lNum2;
 		return true;
 	}
 
-	bool LineSegmentIntersection(const Vector2& p1, const Vector2& p2, const Vector2& p3, const Vector2& p4, Vector2& result)
+	bool LineSegmentIntersection(const Vector2& p1_, const Vector2& p2_, const Vector2& p3_, const Vector2& p4_, Vector2& result_)
 	{
-		float num = p2.x - p1.x;
-		float num2 = p2.y - p1.y;
-		float num3 = p4.x - p3.x;
-		float num4 = p4.y - p3.y;
-		float num5 = num * num4 - num2 * num3;
-		if (num5 == 0.0f)
+		float lNum = p2_.x - p1_.x;
+		float lNum2 = p2_.y - p1_.y;
+		float lNum3 = p4_.x - p3_.x;
+		float lNum4 = p4_.y - p3_.y;
+		float lNum5 = lNum * lNum4 - lNum2 * lNum3;
+		if (lNum5 == 0.0f)
 		{
 			return false;
 		}
 
-		float num6 = p3.x - p1.x;
-		float num7 = p3.y - p1.y;
-		float num8 = (num6 * num4 - num7 * num3) / num5;
-		if (num8 < 0.0f || num8 > 1.0f)
+		float lNum6 = p3_.x - p1_.x;
+		float lNum7 = p3_.y - p1_.y;
+		float lNum8 = (lNum6 * lNum4 - lNum7 * lNum3) / lNum5;
+		if (lNum8 < 0.0f || lNum8 > 1.0f)
 		{
 			return false;
 		}
 
-		float num9 = (num6 * num2 - num7 * num) / num5;
+		float num9 = (lNum6 * lNum2 - lNum7 * lNum) / lNum5;
 		if (num9 < 0.0f || num9 > 1.0f)
 		{
 			return false;
 		}
 
-		result.x = p1.x + num8 * num;
-		result.y = p1.y + num8 * num2;
+		result_.x = p1_.x + lNum8 * lNum;
+		result_.y = p1_.y + lNum8 * lNum2;
 		return true;
 	}
 
 	// 二つの値がほぼ等しいか
 	bool Approximately(float a, float b)
 	{
-		float tmp = 1e-06f * AliceMathUtility::Max(Abs(a), Abs(b));
+		float lTmp = 1e-06f * AliceMathUtility::Max(Abs(a), Abs(b));
 
 		float tmp2 = EPSILON * 8.0f;
 
-		if (Abs(b - a) < AliceMathUtility::Max(tmp, tmp2))
+		if (Abs(b - a) < AliceMathUtility::Max(lTmp, tmp2))
 		{
 			return true;
 		}
@@ -459,94 +459,94 @@ namespace AliceMathF
 	}
 
 	// ランダムな値を取得
-	float GetRand(float min, float max)
+	float GetRand(float min_, float max_)
 	{
 		// 乱数生成器
-		static std::random_device rd;
-		static std::default_random_engine eng(rd());
+		static std::random_device slRD;
+		static std::default_random_engine lsEngine(slRD());
 
 		// 分布生成器
-		std::uniform_real_distribution<float> get_rand_uni_real(min, max);
+		std::uniform_real_distribution<float> lsDistribution(min_, max_);
 
 		// 乱数を生成
-		return get_rand_uni_real(eng);
+		return lsDistribution(lsEngine);
 	}
 
-	Vector3 HermiteGetPoint(const Vector3& p0, const Vector3& p1, const Vector3& v0, const Vector3& v1, float t)
+	Vector3 HermiteGetPoint(const Vector3& p0_, const Vector3& p1_, const Vector3& v0_, const Vector3& v1, float t_)
 	{
-		Vector3 c0 = 2.0f * p0 + -2.0f * p1 + v0 + v1;
-		Vector3 c1 = -3.0f * p0 + 3.0f * p1 + -2.0f * v0 - v1;
-		Vector3 c2 = v0;
-		Vector3 c3 = p0;
+		Vector3 lC0 = 2.0f * p0_ + -2.0f * p1_ + v0_ + v1;
+		Vector3 lC1 = -3.0f * p0_ + 3.0f * p1_ + -2.0f * v0_ - v1;
+		Vector3 lC2 = v0_;
+		Vector3 lC3 = p0_;
 
-		float t2 = t * t;
-		float t3 = t2 * t;
-		return c0 * t3 + c1 * t2 + c2 * t + c3;
+		float lT2 = t_ * t_;
+		float lT3 = lT2 * t_;
+		return lC0 * lT3 + lC1 * lT2 + lC2 * t_ + lC3;
 	}
 
-	Vector3 CatmullRomSpline(std::vector<Vector3>& points, float t)
+	Vector3 CatmullRomSpline(std::vector<Vector3>& points_, float t_)
 	{
 
-		float length_ = static_cast<float>(points.size());
-		float progress = (length_ - 1) * t;
-		float index = std::floor(progress);
-		float weight = progress - index;
+		float lLength = static_cast<float>(points_.size());
+		float lProgress = (lLength - 1) * t_;
+		float lIndex = std::floor(lProgress);
+		float lWeight = lProgress - lIndex;
 
-		if (Approximately(weight, 0.0f) && index >= length_ - 1)
+		if (Approximately(lWeight, 0.0f) && lIndex >= lLength - 1)
 		{
-			index = length_ - 2;
-			weight = 1;
+			lIndex = lLength - 2;
+			lWeight = 1;
 		}
 
-		Vector3 p0 = points[static_cast<size_t>(index)];
-		Vector3 p1 = points[static_cast<size_t>(index + 1.0f)];
-		Vector3 p2;
-		Vector3 p3;
+		Vector3 lP0 = points_[static_cast<size_t>(lIndex)];
+		Vector3 lP1 = points_[static_cast<size_t>(lIndex + 1.0f)];
+		Vector3 lP2;
+		Vector3 lP3;
 
-		if (index > 0.0f)
+		if (lIndex > 0.0f)
 		{
-			p2 = 0.5f * (points[static_cast<size_t>(index + 1.0f)] - points[static_cast<size_t>(index - 1.0f)]);
+			lP2 = 0.5f * (points_[static_cast<size_t>(lIndex + 1.0f)] - points_[static_cast<size_t>(lIndex - 1.0f)]);
 		}
 		else
 		{
-			p2 = points[static_cast<size_t>(index + 1.0f)] - points[static_cast<size_t>(index)];
+			lP2 = points_[static_cast<size_t>(lIndex + 1.0f)] - points_[static_cast<size_t>(lIndex)];
 		}
 
-		if (index < length_ - 2.0f)
+		if (lIndex < lLength - 2.0f)
 		{
-			p3 = 0.5f * (points[static_cast<size_t>(index + 2.0f)] - points[static_cast<size_t>(index)]);
+			lP3 = 0.5f * (points_[static_cast<size_t>(lIndex + 2.0f)] - points_[static_cast<size_t>(lIndex)]);
 		}
 		else
 		{
-			p3 = points[static_cast<size_t>(index + 1.0f)] - points[static_cast<size_t>(index)];
+			lP3 = points_[static_cast<size_t>(lIndex + 1.0f)] - points_[static_cast<size_t>(lIndex)];
 		}
 
-		return HermiteGetPoint(p0, p1, p2, p3, weight);
+		return HermiteGetPoint(lP0, lP1, lP2, lP3, lWeight);
 	}
 
 	// 分離軸に投影された軸成分から投影線分長を算出
-	float LenSegOnSeparateAxis(const Vector3* Sep, const Vector3* e1, const Vector3* e2, const Vector3* e3)
+	float LenSegOnSeparateAxis(const Vector3* sep_, const Vector3* e1_, const Vector3* e2_, const Vector3* e3_)
 	{
 		// 3つの内積の絶対値の和で投影線分長を計算
 		// 分離軸Sepは標準化されていること
-		float r1 = AliceMathF::Abs(Sep->Dot(*e1));
-		float r2 = AliceMathF::Abs(Sep->Dot(*e2));
-		float r3 = e3 ? (AliceMathF::Abs(Sep->Dot(*e3))) : 0;
-		return r1 + r2 + r3;
+		float lR1 = AliceMathF::Abs(sep_->Dot(*e1_));
+		float lR2 = AliceMathF::Abs(sep_->Dot(*e2_));
+		float lR3 = e3_ ? (AliceMathF::Abs(sep_->Dot(*e3_))) : 0;
+		return lR1 + lR2 + lR3;
 	}
 
 	//対角線を出す
-	float GetDiagonal(float width, float height)
+	float GetDiagonal(float width_, float height_)
 	{
-		float diagonal = 0.0f;
+		float lDiagonal = 0.0f;
 
-		diagonal = Sqrt(height * height + width * width);
+		lDiagonal = Sqrt(height_ * height_ + width_ * width_);
 
-		return diagonal;
+		return lDiagonal;
 	}
 
-	float GetCenter(float p1, float p2)
+	float GetCenter(float p1_, float p2_)
 	{
-		return (p1 + p2) / 2.0f;
+		return (p1_ + p2_) / 2.0f;
 	}
 }

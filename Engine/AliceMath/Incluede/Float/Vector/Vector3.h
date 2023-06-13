@@ -30,46 +30,46 @@ namespace AliceMathF
 	public:
 		//コンストラクタ
 		Vector3();//零ベクトル
-		Vector3(float x, float y, float z);//成分を指定して生成
-		Vector3(uint32_t x, uint32_t y, uint32_t z);//成分を指定して生成
-		Vector3(int32_t x, int32_t y, int32_t z);//成分を指定して生成
-		Vector3(LONG x, LONG y, LONG z);//成分を指定して生成
-		Vector3(aiVector3D& aiVector);
-		Vector3(const Vector2& vec,float z);
+		Vector3(float x_, float y_, float z_);//成分を指定して生成
+		Vector3(uint32_t x_, uint32_t y_, uint32_t z_);//成分を指定して生成
+		Vector3(int32_t x_, int32_t y_, int32_t z_);//成分を指定して生成
+		Vector3(int64_t x_, int64_t y_, int64_t z_);//成分を指定して生成
+		Vector3(aiVector3D& aiVector_);
+		Vector3(const Vector2& vec_,float z_);
 
 		float length_()const;//ノルムを求める
 		Vector3 Normalization()const;//正規化する
 		Vector3& Normal();//正規化する
-		float Dot(const Vector3& v)const;//内積を求める
-		Vector3 Cross(const Vector3& v)const;//外積を求める
+		float Dot(const Vector3& v_)const;//内積を求める
+		Vector3 Cross(const Vector3& v_)const;//外積を求める
 
 		//単項演算子オーバーロード
 		Vector3 operator+() const;
 		Vector3 operator-() const;
 
 		// 代入演算子オーバーロード
-		Vector3& operator+=(const Vector3& v);
-		Vector3& operator-=(const Vector3& v);
-		Vector3& operator-=(float s);
-		Vector3& operator*=(float s);
-		Vector3& operator/=(float s);
-		bool operator==(const Vector3& v)const;
-		bool operator!=(const Vector3& v) const;
+		Vector3& operator+=(const Vector3& v_);
+		Vector3& operator-=(const Vector3& v_);
+		Vector3& operator-=(float s_);
+		Vector3& operator*=(float s_);
+		Vector3& operator/=(float s_);
+		bool operator==(const Vector3& v_)const;
+		bool operator!=(const Vector3& v_) const;
 	};
 
 	//2項演算子オーバーロード
 	//※いろんな引数のパターンに対応(引数の順序)するため、以下のように準備してい
-	const Vector3 operator+(const Vector3& v1, const Vector3& v2);
-	const Vector3 operator-(const Vector3& v1, const Vector3& v2);
-	const Vector3 operator-(const Vector3& v, float s);
-	const Vector3 operator*(const Vector3& v, float s);
-	const Vector3 operator*(float s, const Vector3& v);
-	const Vector3 operator/(const Vector3& v, float s);
+	const Vector3 operator+(const Vector3& v1_, const Vector3& v2_);
+	const Vector3 operator-(const Vector3& v1_, const Vector3& v2_);
+	const Vector3 operator-(const Vector3& v_, float s_);
+	const Vector3 operator*(const Vector3& v_, float s_);
+	const Vector3 operator*(float s_, const Vector3& v_);
+	const Vector3 operator/(const Vector3& v_, float s_);
 
 	/// <summary>
 	/// 符号を反転
 	/// </summary>
-	Vector3 Negate(const Vector3& vec);
+	Vector3 Negate(const Vector3& vec_);
 
 
 }

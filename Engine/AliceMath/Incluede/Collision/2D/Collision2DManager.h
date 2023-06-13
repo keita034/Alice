@@ -29,19 +29,19 @@ public:
 	/// <summary>
 	/// コライダーを追加
 	/// </summary>
-	void AddCollider(Base2DCollider* collider);
+	void AddCollider(Base2DCollider* collider_);
 
 	/// <summary>
 	/// コライダーを削除
 	/// </summary>
-	void RemoveCollider(Base2DCollider* collide);
+	void RemoveCollider(Base2DCollider* collider_);
 
 	/// <summary>
 	/// もともとある当たり判定を変える
 	/// </summary>
 	/// <param name="colliderIndex">変えたい判定の場所</param>
 	/// <param name="collider">当たり判定を入れる</param>
-	void ChangeCollider(UINT colliderIndex, Base2DCollider* collider);
+	void ChangeCollider(uint32_t colliderIndex_, Base2DCollider* collider_);
 
 	void CheckAllCollisions();
 

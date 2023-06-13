@@ -13,9 +13,8 @@
 
 namespace AliceMathF
 {
-	class Matrix4x3
+	struct Matrix4x3
 	{
-	public:
 		std::array<std::array<float, 4>, 3>m;
 
 		/// <summary>
@@ -24,15 +23,15 @@ namespace AliceMathF
 		/// <returns>単位行列として初期化されます</returns>
 		Matrix4x3();
 
-		Matrix4x3(float m00, float m01, float m02,
-			float m10, float m11, float m12,
-			float m20, float m21, float m22,
-			float m30, float m31, float m32);
+		Matrix4x3(float m00_, float m01_, float m02_,
+			float m10_, float m11_, float m12_,
+			float m20_, float m21_, float m22_,
+			float m30_, float m31_, float m32_);
 
 		/// <summary>
 		/// コンストラクタ
 		/// </summary>
-		Matrix4x3(const DirectX::XMFLOAT4X3& Matrix4X3);
+		Matrix4x3(const DirectX::XMFLOAT4X3& matrix4X3_);
 
 		/// <summary>
 		/// DirectX::XMMATRIX型への暗黙の型変換。
@@ -42,37 +41,37 @@ namespace AliceMathF
 		/// <summary>
 		/// 代入演算子
 		/// </summary>
-		Matrix4x3& operator=(const Matrix4x3& _m);
-		const Matrix4x3& operator=(Matrix4x3& _m);
+		Matrix4x3& operator=(const Matrix4x3& m_);
+		const Matrix4x3& operator=(Matrix4x3& m_);
 		/// <summary>
 		/// 加算
 		/// </summary>
-		Matrix4x3& operator+=(const Matrix4x3& mat);
+		Matrix4x3& operator+=(const Matrix4x3& mat_);
 
 		/// <summary>
 		/// 減算
 		/// </summary>
-		Matrix4x3& operator-=(const Matrix4x3 mat);
+		Matrix4x3& operator-=(const Matrix4x3 mat_);
 
 		/// <summary>
 		/// 乗算
 		/// </summary>
-		Matrix4x3& operator*=(const Matrix4x3& mat);
+		Matrix4x3& operator*=(const Matrix4x3& mat_);
 
 		/// <summary>
 		/// 加算
 		/// </summary>
-		Matrix4x3 operator+(const Matrix4x3& mat) const;
+		Matrix4x3 operator+(const Matrix4x3& mat_) const;
 
 		/// <summary>
 		/// 減算
 		/// </summary>
-		Matrix4x3 operator-(const Matrix4x3& mat) const;
+		Matrix4x3 operator-(const Matrix4x3& mat_) const;
 
 		/// <summary>
 		/// 乗算
 		/// </summary>
-		Matrix4x3 operator*(const Matrix4x3& mat) const;
+		Matrix4x3 operator*(const Matrix4x3& mat_) const;
 
 		Matrix4x3 Transpose();
 	};

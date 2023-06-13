@@ -20,123 +20,123 @@ namespace AliceMathF
 		m[3][2] = 0.0f;
 	}
 
-	Matrix4x3::Matrix4x3(float m00, float m01, float m02, float m10, float m11, float m12, float m20, float m21, float m22, float m30, float m31, float m32)
+	Matrix4x3::Matrix4x3(float m00_, float m01_, float m02_, float m10_, float m11_, float m12_, float m20_, float m21_, float m22_, float m30_, float m31_, float m32_)
 	{
-		m[0][0] = m00;
-		m[0][1] = m01;
-		m[0][2] = m02;
+		m[0][0] = m00_;
+		m[0][1] = m01_;
+		m[0][2] = m02_;
 
-		m[1][0] = m10;
-		m[1][1] = m11;
-		m[1][2] = m12;
+		m[1][0] = m10_;
+		m[1][1] = m11_;
+		m[1][2] = m12_;
 
-		m[2][0] = m20;
-		m[2][1] = m21;
-		m[2][2] = m22;
+		m[2][0] = m20_;
+		m[2][1] = m21_;
+		m[2][2] = m22_;
 
-		m[3][0] = m30;
-		m[3][1] = m31;
-		m[3][2] = m32;
+		m[3][0] = m30_;
+		m[3][1] = m31_;
+		m[3][2] = m32_;
 	}
 
-	Matrix4x3::Matrix4x3(const DirectX::XMFLOAT4X3& Matrix4X3)
+	Matrix4x3::Matrix4x3(const DirectX::XMFLOAT4X3& matrix4X3_)
 	{
-		m[0][0] = Matrix4X3.m[0][0];
-		m[0][1] = Matrix4X3.m[0][1];
-		m[0][2] = Matrix4X3.m[0][2];
+		m[0][0] = matrix4X3_.m[0][0];
+		m[0][1] = matrix4X3_.m[0][1];
+		m[0][2] = matrix4X3_.m[0][2];
 
-		m[1][0] = Matrix4X3.m[1][0];
-		m[1][1] = Matrix4X3.m[1][1];
-		m[1][2] = Matrix4X3.m[1][2];
+		m[1][0] = matrix4X3_.m[1][0];
+		m[1][1] = matrix4X3_.m[1][1];
+		m[1][2] = matrix4X3_.m[1][2];
 
-		m[2][0] = Matrix4X3.m[2][0];
-		m[2][1] = Matrix4X3.m[2][1];
-		m[2][2] = Matrix4X3.m[2][2];
+		m[2][0] = matrix4X3_.m[2][0];
+		m[2][1] = matrix4X3_.m[2][1];
+		m[2][2] = matrix4X3_.m[2][2];
 
-		m[3][0] = Matrix4X3.m[3][0];
-		m[3][1] = Matrix4X3.m[3][1];
-		m[3][2] = Matrix4X3.m[3][2];
+		m[3][0] = matrix4X3_.m[3][0];
+		m[3][1] = matrix4X3_.m[3][1];
+		m[3][2] = matrix4X3_.m[3][2];
 	}
 
 
 
 	Matrix4x3::operator DirectX::XMFLOAT4X3() const
 	{
-		DirectX::XMFLOAT4X3 mat{
+		DirectX::XMFLOAT4X3 lMat{
 		m[0][0], m[0][1], m[0][2],
 		m[1][0], m[1][1], m[1][2],
 		m[2][0], m[2][1], m[2][2],
 		m[3][0], m[3][1], m[3][2] };
 
-		return mat;
+		return lMat;
 	}
 
-	Matrix4x3& Matrix4x3::operator=(const Matrix4x3& _m)
+	Matrix4x3& Matrix4x3::operator=(const Matrix4x3& m_)
 	{
 		for (size_t i = 0; i < 4; i++)
 		{
 			for (size_t j = 0; j < 3; j++)
 			{
-				m[i][j] = _m.m[i][j];
+				m[i][j] = m_.m[i][j];
 			}
 		}
 
 		return *this;
 	}
 
-	const Matrix4x3& Matrix4x3::operator=(Matrix4x3& _m)
+	const Matrix4x3& Matrix4x3::operator=(Matrix4x3& m_)
 	{
 		for (size_t i = 0; i < 4; i++)
 		{
 			for (size_t j = 0; j < 3; j++)
 			{
-				m[i][j] = _m.m[i][j];
+				m[i][j] = m_.m[i][j];
 			}
 		}
 
 		return *this;
 	}
 
-	Matrix4x3& Matrix4x3::operator+=(const Matrix4x3& mat)
+	Matrix4x3& Matrix4x3::operator+=(const Matrix4x3& mat_)
 	{
 		for (size_t i = 0; i < 4; i++)
 		{
 			for (size_t j = 0; j < 3; j++)
 			{
-				m[i][j] += mat.m[i][j];
+				m[i][j] += mat_.m[i][j];
 			}
 		}
 
 		return *this;
 	}
 
-	Matrix4x3& Matrix4x3::operator-=(const Matrix4x3 mat)
+	Matrix4x3& Matrix4x3::operator-=(const Matrix4x3 mat_)
 	{
 		for (size_t i = 0; i < 4; i++)
 		{
 			for (size_t j = 0; j < 3; j++)
 			{
-				m[i][j] -= mat.m[i][j];
+				m[i][j] -= mat_.m[i][j];
 			}
 		}
 
 		return *this;
 	}
 
-	Matrix4x3& Matrix4x3::operator*=(const Matrix4x3& mat)
+	Matrix4x3& Matrix4x3::operator*=(const Matrix4x3& mat_)
 	{
-		Matrix4x3 temp(*this);
+		Matrix4x3 lTmp(*this);
 
 		for (size_t i = 0; i < 4; i++)
 		{
 			for (size_t j = 0; j < 3; j++)
 			{
-				double f = 0.0;
+				double lF = 0.0;
 				for (size_t k = 0; k < 3; k++)
 				{
-					f += (double)temp.m[i][k] * (double)mat.m[k][j];
+					lF += static_cast<double>(lTmp.m[i][k]) * static_cast<double>(mat_.m[k][j]);
 
-					m[i][j] = (float)f;
+					m[i][j] = static_cast<float>(lF);
 				}
 
 
@@ -145,47 +145,47 @@ namespace AliceMathF
 		return *this;
 	}
 
-	Matrix4x3 Matrix4x3::operator+(const Matrix4x3& mat) const
+	Matrix4x3 Matrix4x3::operator+(const Matrix4x3& mat_) const
 	{
-		Matrix4x3 temp(*this);
-		temp += mat;
-		return temp;
+		Matrix4x3 lTmp(*this);
+		lTmp += mat_;
+		return lTmp;
 	}
 
-	Matrix4x3 Matrix4x3::operator-(const Matrix4x3& mat) const
+	Matrix4x3 Matrix4x3::operator-(const Matrix4x3& mat_) const
 	{
-		Matrix4x3 temp(*this);
-		temp -= mat;
-		return temp;
+		Matrix4x3 lTmp(*this);
+		lTmp -= mat_;
+		return lTmp;
 	}
 
-	Matrix4x3 Matrix4x3::operator*(const Matrix4x3& mat) const
+	Matrix4x3 Matrix4x3::operator*(const Matrix4x3& mat_) const
 	{
-		Matrix4x3 temp(*this);
-		temp *= mat;
-		return temp;
+		Matrix4x3 lTmp(*this);
+		lTmp *= mat_;
+		return lTmp;
 	}
 
 	Matrix4x3 Matrix4x3::Transpose()
 	{
-		Matrix4x3 tmp(*this);
+		Matrix4x3 lTmp(*this);
 
 		for (size_t i = 0; i < 4; i++)
 		{
 			for (size_t j = i; j < 3; j++)
 			{
-				float f = tmp.m[i][j];
-				tmp.m[i][j] = tmp.m[j][i];
-				tmp.m[j][i] = f;
+				float lF = lTmp.m[i][j];
+				lTmp.m[i][j] = lTmp.m[j][i];
+				lTmp.m[j][i] = lF;
 			}
 		}
 
-		return tmp;
+		return lTmp;
 	}
 
 	Matrix4x3 MakeMatrix4x3Identity()
 	{
-		Matrix4x3 mat;
-		return mat;
+		Matrix4x3 lTmp;
+		return lTmp;
 	}
 }

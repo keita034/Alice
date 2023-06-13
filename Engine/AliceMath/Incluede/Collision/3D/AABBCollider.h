@@ -10,9 +10,9 @@ private:
 	AliceMathF::Vector3 size;
 public:
 	void SetCenter(const AliceMathF::Vector3& center_);
-	const AliceMathF::Vector3& GetCenter();
+	const AliceMathF::Vector3& GetCenter()const;
 
 	void SetSize(const AliceMathF::Vector3& size_);
-	const AliceMathF::Vector3& GetSize();
+	const AliceMathF::Vector3& GetSize()const;
 };
 

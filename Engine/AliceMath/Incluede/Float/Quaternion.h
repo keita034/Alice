@@ -16,25 +16,25 @@ namespace AliceMathF
 		//クオータニオンを作成
 
 		//成分を指定して クォータニオンを作成
-		Quaternion(float x = 0.0f, float y = 0.0f, float z = 0.0f, float w = 1.0f);
+		Quaternion(float x_ = 0.0f, float y_ = 0.0f, float z_ = 0.0f, float w_ = 1.0f);
 
 		//任意軸まわりの回転の指定からクォータニオンを作成
-		Quaternion(const Vector3& v, float angle);
+		Quaternion(const Vector3& v_, float angle_);
 
 		//回転行列からクォータニオンを作成
-		Quaternion(const Matrix4& m);
+		Quaternion(const Matrix4& m_);
 
-		Quaternion(const aiQuaternion& q);
+		Quaternion(const aiQuaternion& q_);
 
-		Quaternion(const Vector4& v);
+		Quaternion(const Vector4& v_);
 
-		Quaternion(const DirectX::XMVECTOR& v);
+		Quaternion(const DirectX::XMVECTOR& v_);
 
 		//ベクトルからベクトルの角度
-		Quaternion(const Vector3& u, const Vector3& v);
+		Quaternion(const Vector3& u, const Vector3& v_);
 
 		//内積を求める
-		float Dot(const Quaternion& q)const;
+		float Dot(const Quaternion& q_)const;
 
 		//ノルムを求める
 		float Norm()const;
@@ -52,10 +52,10 @@ namespace AliceMathF
 		Quaternion Inverse() const;
 
 		//クオータニオン球面線形補間
-		Quaternion Slerp(const Quaternion& q, float t);
+		Quaternion Slerp(const Quaternion& q_, float t_);
 
 		//クオータニオン線形補間
-		Quaternion Lerp(const Quaternion& q, float t);
+		Quaternion Lerp(const Quaternion& q_, float t_);
 
 		//クオータニオンから回転行列を求める
 		Matrix4 Rotate();
@@ -67,29 +67,29 @@ namespace AliceMathF
 		Vector3 GetEulerAngles();
 
 		//オイラー角からクオータニオンに変換
-		void SeTEuler(const Vector3& rot);
+		void SeTEuler(const Vector3& rot_);
 
 		//単項演算子オーバーロード
 		Quaternion operator + ();
 		Quaternion operator - ()const;
 
 		//代入演算子オーバーロード
-		Quaternion& operator += (const Quaternion& q);
-		Quaternion& operator -= (const Quaternion& q);
-		Quaternion& operator *= (float s);
-		Quaternion& operator /= (float s);
-		Quaternion& operator *= (const Quaternion& q);
+		Quaternion& operator += (const Quaternion& q_);
+		Quaternion& operator -= (const Quaternion& q_);
+		Quaternion& operator *= (float s_);
+		Quaternion& operator /= (float s_);
+		Quaternion& operator *= (const Quaternion& q_);
 
 	};
 
 	//2項演算子オーバーロード
-	const Quaternion operator + (const Quaternion& q1, const Quaternion& q2);
-	const Quaternion operator - (const Quaternion& q1, const Quaternion& q2);
-	const Quaternion operator * (const Quaternion& q1, const Quaternion& q2);
-	const Quaternion operator * (const Quaternion& q, float s);
-	const Quaternion operator * (float s, const Quaternion& q);
-	const Quaternion operator / (const Quaternion& q, float s);
-	const Vector3 operator*(Quaternion q, Vector3 vec);
+	const Quaternion operator + (const Quaternion& q1_, const Quaternion& q2_);
+	const Quaternion operator - (const Quaternion& q1_, const Quaternion& q2_);
+	const Quaternion operator * (const Quaternion& q1_, const Quaternion& q2_);
+	const Quaternion operator * (const Quaternion& q_, float s_);
+	const Quaternion operator * (float s_, const Quaternion& q_);
+	const Quaternion operator / (const Quaternion& q_, float s_);
+	const Vector3 operator*(Quaternion q_, Vector3 vec_);
 
-	void QuaternionSlerp(Quaternion& vOut, const Quaternion& qStart, const Quaternion& qEnd, float t);
+	void QuaternionSlerp(Quaternion& vOut_, const Quaternion& qStart_, const Quaternion& qEnd_, float t_);
 }

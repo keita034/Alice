@@ -5,19 +5,13 @@ namespace AliceMathUtility
 #pragma region 絶対値の計算
 
 	//値を整数に
-	int Abs(int abs)
+	int32_t Abs(int32_t abs)
 	{
 		return 	std::abs(abs);
 	}
 
 	//値を整数に
-	long AbsL(long abs)
-	{
-		return 	std::labs(abs);
-	}
-
-	//値を整数に
-	long long AbsLL(long long abs)
+	int64_t Abs(int64_t abs)
 	{
 		return 	std::llabs(abs);
 	}

@@ -14,83 +14,82 @@ namespace AliceMathF
 		m[2][1] = 0.0f;
 	}
 
-	Matrix3x2::Matrix3x2(float m00, float m01, float m10, float m11, float m20, float m21)
+	Matrix3x2::Matrix3x2(float m00_, float m01_, float m10_, float m11_, float m20_, float m21_)
 	{
-		m[0][0] = m00;
-		m[0][1] = m01;
+		m[0][0] = m00_;
+		m[0][1] = m01_;
 
-		m[1][0] = m10;
-		m[1][1] = m11;
+		m[1][0] = m10_;
+		m[1][1] = m11_;
 
-		m[2][0] = m20;
-		m[2][1] = m21;
+		m[2][0] = m20_;
+		m[2][1] = m21_;
 	}
 
-	Matrix3x2& AliceMathF::Matrix3x2::operator=(const Matrix3x2& _m)
+	Matrix3x2& AliceMathF::Matrix3x2::operator=(const Matrix3x2& m_)
 	{
 		for (size_t i = 0; i < 3; i++)
 		{
 			for (size_t j = 0; j < 2; j++)
 			{
-				m[i][j] = _m.m[i][j];
+				m[i][j] = m_.m[i][j];
 			}
 		}
 
 		return *this;
 	}
-	const Matrix3x2& Matrix3x2::operator=(Matrix3x2& _m)
+	const Matrix3x2& Matrix3x2::operator=(Matrix3x2& m_)
 	{
 		for (size_t i = 0; i < 3; i++)
 		{
 			for (size_t j = 0; j < 2; j++)
 			{
-				m[i][j] = _m.m[i][j];
-			}
-		}
-
-		return *this;
-	}
-
-	Matrix3x2& Matrix3x2::operator+=(const Matrix3x2& mat)
-	{
-		for (size_t i = 0; i < 3; i++)
-		{
-			for (size_t j = 0; j < 2; j++)
-			{
-				m[i][j] += mat.m[i][j];
+				m[i][j] = m_.m[i][j];
 			}
 		}
 
 		return *this;
 	}
 
-	Matrix3x2& Matrix3x2::operator-=(const Matrix3x2 mat)
+	Matrix3x2& Matrix3x2::operator+=(const Matrix3x2& mat_)
 	{
 		for (size_t i = 0; i < 3; i++)
 		{
 			for (size_t j = 0; j < 2; j++)
 			{
-				m[i][j] -= mat.m[i][j];
+				m[i][j] += mat_.m[i][j];
 			}
 		}
 
 		return *this;
 	}
 
-	Matrix3x2& Matrix3x2::operator*=(const Matrix3x2& mat)
+	Matrix3x2& Matrix3x2::operator-=(const Matrix3x2 mat_)
 	{
-		Matrix3x2 temp(*this);
+		for (size_t i = 0; i < 3; i++)
+		{
+			for (size_t j = 0; j < 2; j++)
+			{
+				m[i][j] -= mat_.m[i][j];
+			}
+		}
+
+		return *this;
+	}
+
+	Matrix3x2& Matrix3x2::operator*=(const Matrix3x2& mat_)
+	{
+		Matrix3x2 lTmp(*this);
 
 		for (size_t i = 0; i < 3; i++)
 		{
 			for (size_t j = 0; j < 2; j++)
 			{
-				double f = 0.0;
+				double lF = 0.0;
 				for (size_t k = 0; k < 2; k++)
 				{
-					f += (double)temp.m[i][k] * (double)mat.m[k][j];
-
-					m[i][j] = (float)f;
+					lF += static_cast<double>(lTmp.m[i][k]) * static_cast<double>(mat_.m[k][j]);
+					m[i][j] = static_cast<float>(lF);
 				}
 
 
@@ -99,47 +98,47 @@ namespace AliceMathF
 		return *this;
 	}
 
-	Matrix3x2 Matrix3x2::operator+(const Matrix3x2& mat) const
+	Matrix3x2 Matrix3x2::operator+(const Matrix3x2& mat_) const
 	{
-		Matrix3x2 temp(*this);
-		temp += mat;
-		return temp;
+		Matrix3x2 lTmp(*this);
+		lTmp += mat_;
+		return lTmp;
 	}
 
-	Matrix3x2 Matrix3x2::operator-(const Matrix3x2& mat) const
+	Matrix3x2 Matrix3x2::operator-(const Matrix3x2& mat_) const
 	{
-		Matrix3x2 temp(*this);
-		temp -= mat;
-		return temp;
+		Matrix3x2 lTmp(*this);
+		lTmp -= mat_;
+		return lTmp;
 	}
 
-	Matrix3x2 Matrix3x2::operator*(const Matrix3x2& mat) const
+	Matrix3x2 Matrix3x2::operator*(const Matrix3x2& mat_) const
 	{
-		Matrix3x2 temp(*this);
-		temp *= mat;
-		return temp;
+		Matrix3x2 lTmp(*this);
+		lTmp *= mat_;
+		return lTmp;
 	}
 
 	Matrix3x2 Matrix3x2::Transpose()
 	{
-		Matrix3x2 tmp(*this);
+		Matrix3x2 lTmp(*this);
 
 		for (size_t i = 0; i < 3; i++)
 		{
 			for (size_t j = i; j < 2; j++)
 			{
-				float f = tmp.m[i][j];
-				tmp.m[i][j] = tmp.m[j][i];
-				tmp.m[j][i] = f;
+				float lF = lTmp.m[i][j];
+				lTmp.m[i][j] = lTmp.m[j][i];
+				lTmp.m[j][i] = lF;
 			}
 		}
 
-		return tmp;
+		return lTmp;
 	}
 
 	Matrix3x2 MakeMatrix3x2Identity()
 	{
-		Matrix3x2 mat;
-		return mat;
+		Matrix3x2 lTmp;
+		return lTmp;
 	}
 }

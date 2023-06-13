@@ -13,12 +13,12 @@ protected:
 public:
 
 	//始点座標を取得
-	const AliceMathF::Vector4& GetStart();
+	const AliceMathF::Vector4& GetStart()const;
 	//始点座標を設定
 	void SetStart(const AliceMathF::Vector4& start_);
 
 	//方向を取得
-	const AliceMathF::Vector4& GetDir();
+	const AliceMathF::Vector4& GetDir()const;
 	//方向を設定
 	void SetDir(const AliceMathF::Vector4& dir_);
 

@@ -7,13 +7,10 @@ namespace AliceMathUtility
 #pragma region 絶対値の計算
 
 	//絶対値の計算
-	int Abs(int abs);
+	int32_t Abs(int32_t abs);
 
 	//絶対値の計算
-	long AbsL(long abs);
-
-	//絶対値の計算
-	long long AbsLL(long long abs);
+	int64_t Abs(int64_t abs);
 
 #pragma endregion 絶対値の計算
 
@@ -23,70 +20,70 @@ namespace AliceMathUtility
 	/// 値が大きい方を返す
 	/// </summary>
 	template<typename T>
-	T Max(T a, T b)
+	T Max(T a_, T b_)
 	{
-		return (a > b) ? a : b;
+		return (a_ > b_) ? a_ : b_;
 	}
 
 	/// <summary>
 	/// 値が大きい奴を返す(vector)
 	/// </summary>
 	template<typename T>
-	T Max(std::vector<T> values)
+	T Max(std::vector<T> values_)
 	{
-		int num = values.size() - 1;
+		int lNum = values_.size() - 1;
 
-		if (num == 0)
+		if (lNum == 0)
 		{
 			return static_cast<T>(0);
 		}
 
-		float num2 = values[0];
+		float lNum2 = values_[0];
 
-		for (int i = 1; i < num; i++)
+		for (int i = 1; i < lNum; i++)
 		{
-			if (values[i] > num2)
+			if (values_[i] > lNum2)
 			{
-				num2 = values[i];
+				lNum2 = values_[i];
 			}
 		}
 
-		return num2;
+		return lNum2;
 	}
 
 	/// <summary>
 	/// 値が小さい方を返す
 	/// </summary>
 	template<typename T>
-	T Min(T a, T b)
+	T Min(T a_, T b_)
 	{
-		return (a < b) ? a : b;
+		return (a_ < b_) ? a_ : b_;
 	}
 
 	/// <summary>
 	/// 値が小さい奴を返す(vector)
 	/// </summary>
 	template<typename T>
-	T Min(std::vector<T> values)
+	T Min(std::vector<T> values_)
 	{
-		int num = values.size() - 1;
+		int lNum = values_.size() - 1;
 
-		if (num == 0)
+		if (lNum == 0)
 		{
 			return static_cast<T>(0);
 		}
 
-		float num2 = values[0];
+		float lNum2 = values_[0];
 
-		for (int i = 1; i < num; i++)
+		for (int i = 1; i < lNum; i++)
 		{
-			if (values[i] < num2)
+			if (values_[i] < lNum2)
 			{
-				num2 = values[i];
+				lNum2 = values_[i];
 			}
 		}
 
-		return num2;
+		return lNum2;
 	}
 
 #pragma endregion 比較関数

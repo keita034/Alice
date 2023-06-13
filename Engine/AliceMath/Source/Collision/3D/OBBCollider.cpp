@@ -1,69 +1,91 @@
 ﻿#include "OBBCollider.h"
 
-void OBBCollider::CreateOBB(const std::vector<PosNormalUv>& vertex,const  AliceMathF::Vector3& trans,const AliceMathF::Vector3& rot,const AliceMathF::Vector3& scal)
+void OBBCollider::CreateOBB(const std::vector<PosNormalUv>& vertexs_, const  AliceMathF::Vector3& translation_, const AliceMathF::Vector3& rotation_, const AliceMathF::Vector3& scale_)
 {
-	AliceMathF::Matrix4	matRot;
-
 	//最大値、最小値の初期値設定
-	AliceMathF::Vector3 max = AliceMathF::Vector3(-10000.0f, -10000.0f, -10000.0f);
-	AliceMathF::Vector3 min = AliceMathF::Vector3(10000.0f, 10000.0f, 10000.0f);
+	AliceMathF::Vector3 lMax = AliceMathF::Vector3(-10000.0f, -10000.0f, -10000.0f);
+	AliceMathF::Vector3 lMin = AliceMathF::Vector3(10000.0f, 10000.0f, 10000.0f);
 
 	//最大値、最小値取得ループ
-	for (size_t i = 0; i < vertex.size(); i++)
+	for (const PosNormalUv& vertex : vertexs_)
 	{
-		AliceMathF::Vector3 pos = vertex[i].pos;
-		if (pos.x < min.x)min.x = pos.x;
-		if (pos.x > max.x)max.x = pos.x;
-		if (pos.y < min.y)min.y = pos.y;
-		if (pos.y > max.y)max.y = pos.y;
-		if (pos.z < min.z)min.z = pos.z;
-		if (pos.z > max.z)max.z = pos.z;
+		const AliceMathF::Vector3& pos = vertex.pos;
+
+		if (pos.x < lMin.x)
+		{
+			lMin.x = pos.x;
+		}
+		if (pos.x > lMax.x)
+		{
+			lMax.x = pos.x;
+		}
+		
+		if (pos.y < lMin.y)
+		{
+			lMin.y = pos.y;
+		}
+		if (pos.y > lMax.y)
+		{
+			lMax.y = pos.y;
+		}
+
+		if (pos.z < lMin.z)
+		{
+			lMin.z = pos.z;
+		}
+		if (pos.z > lMax.z)
+		{
+			lMax.z = pos.z;
+		}
 	}
 
 	//中心点取得
-	center = trans;
+	center = translation_;
+
+	AliceMathF::Matrix4	lMatRot;
 
 	//方向ベクトル取得
-	matRot.MakeRotation(rot);
-	normaDirect[0] = { matRot.m[0][0], matRot.m[0][1], matRot.m[0][2] };
-	normaDirect[1] = { matRot.m[1][0], matRot.m[1][1], matRot.m[1][2] };
-	normaDirect[2] = { matRot.m[2][0], matRot.m[2][1], matRot.m[2][2] };
+	lMatRot.MakeRotation(rotation_);
+	normaDirect[0] = { lMatRot.m[0][0], lMatRot.m[0][1], lMatRot.m[0][2] };
+	normaDirect[1] = { lMatRot.m[1][0], lMatRot.m[1][1], lMatRot.m[1][2] };
+	normaDirect[2] = { lMatRot.m[2][0], lMatRot.m[2][1], lMatRot.m[2][2] };
 
 	//長さ取得
-	length_[0] = AliceMathF::Abs(max.x - min.x) * 0.5f;
-	length_[1] = AliceMathF::Abs(max.y - min.y) * 0.5f;
-	length_[2] = AliceMathF::Abs(max.z - min.z) * 0.5f;
+	length_[0] = AliceMathF::Abs(lMax.x - lMin.x) * 0.5f;
+	length_[1] = AliceMathF::Abs(lMax.y - lMin.y) * 0.5f;
+	length_[2] = AliceMathF::Abs(lMax.z - lMin.z) * 0.5f;
 
-	length_[0] *= scal.x;
-	length_[1] *= scal.y;
-	length_[2] *= scal.z;
+	length_[0] *= scale_.x;
+	length_[1] *= scale_.y;
+	length_[2] *= scale_.z;
+
 }
 
-void OBBCollider::UpdateOBB(const AliceMathF::Matrix4& worldMat, const AliceMathF::Vector3& rot)
+void OBBCollider::UpdateOBB(const AliceMathF::Matrix4& worldMatrix_, const AliceMathF::Vector3& rotation_)
 {
-	AliceMathF::Matrix4	matRot;
+	AliceMathF::Matrix4	lMatRot;
 
 	//中心点取得
-	center = AliceMathF::GetWorldPosition(worldMat);
+	center = AliceMathF::GetWorldPosition(worldMatrix_);
 
 	//方向ベクトル取得
-	matRot.MakeRotation(rot);
-	normaDirect[0] = { matRot.m[0][0], matRot.m[0][1], matRot.m[0][2] };
-	normaDirect[1] = { matRot.m[1][0], matRot.m[1][1], matRot.m[1][2] };
-	normaDirect[2] = { matRot.m[2][0], matRot.m[2][1], matRot.m[2][2] };
+	lMatRot.MakeRotation(rotation_);
+	normaDirect[0] = { lMatRot.m[0][0], lMatRot.m[0][1], lMatRot.m[0][2] };
+	normaDirect[1] = { lMatRot.m[1][0], lMatRot.m[1][1], lMatRot.m[1][2] };
+	normaDirect[2] = { lMatRot.m[2][0], lMatRot.m[2][1], lMatRot.m[2][2] };
 }
 
-const AliceMathF::Vector3& OBBCollider::GetDirect(uint16_t elem)
+const AliceMathF::Vector3& OBBCollider::GetDirect(uint16_t index_)const
 {
-	return normaDirect[elem];
+	return normaDirect[index_];
 }
 
-float OBBCollider::GetLen(uint16_t elem)
+float OBBCollider::GetLen(uint16_t index_)const
 {
-	return length_[elem];
+	return length_[index_];
 }
 
-const AliceMathF::Vector3& OBBCollider::GetCenter()
+const AliceMathF::Vector3& OBBCollider::GetCenter()const
 {
 	return center;
 }

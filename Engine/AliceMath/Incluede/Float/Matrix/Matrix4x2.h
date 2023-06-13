@@ -13,9 +13,9 @@
 
 namespace AliceMathF
 {
-	class Matrix4x2
+	struct Matrix4x2
 	{
-	public:
+
 		std::array<std::array<float, 4>, 2>m;
 
 		/// <summary>
@@ -24,51 +24,50 @@ namespace AliceMathF
 		/// <returns>単位行列として初期化されます</returns>
 		Matrix4x2();
 
-		Matrix4x2(float m00, float m01, 
-			float m10, float m11,
-			float m20, float m21,
-			float m30, float m31);
+		Matrix4x2(float m00_, float m01_, 
+			float m10_, float m11_,
+			float m20_, float m21_,
+			float m30_, float m31_);
 
 		/// <summary>
 		/// 代入演算子
 		/// </summary>
-		Matrix4x2& operator=(const Matrix4x2& mat);
+		Matrix4x2& operator=(const Matrix4x2& mat_);
 
 		/// <summary>
 		/// 代入演算子
 		/// </summary>
-		const Matrix4x2& operator=(Matrix4x2& mat);
+		const Matrix4x2& operator=(Matrix4x2& mat_);
 
 		/// <summary>
 		/// 加算
 		/// </summary>
-		Matrix4x2& operator+=(const Matrix4x2& mat);
+		Matrix4x2& operator+=(const Matrix4x2& mat_);
 
 		/// <summary>
 		/// 減算
 		/// </summary>
-		Matrix4x2& operator-=(const Matrix4x2 mat);
+		Matrix4x2& operator-=(const Matrix4x2 mat_);
 
 		/// <summary>
 		/// 乗算
 		/// </summary>
-		Matrix4x2& operator*=(const Matrix4x2& mat);
+		Matrix4x2& operator*=(const Matrix4x2& mat_);
 
 		/// <summary>
 		/// 加算
 		/// </summary>
-		Matrix4x2 operator+(const Matrix4x2& mat) const;
+		Matrix4x2 operator+(const Matrix4x2& mat_) const;
 
 		/// <summary>
 		/// 減算
 		/// </summary>
-		Matrix4x2 operator-(const Matrix4x2& mat) const;
+		Matrix4x2 operator-(const Matrix4x2& mat_) const;
 
 		/// <summary>
 		/// 乗算
 		/// </summary>
-		Matrix4x2 operator*(const Matrix4x2& mat) const;
-
+		Matrix4x2 operator*(const Matrix4x2& mat_) const;
 
 		Matrix4x2 Transpose();
 	};

@@ -15,9 +15,8 @@
 namespace AliceMathF
 {
 
-	class Matrix2
+	struct Matrix2
 	{
-	public:
 		std::array<std::array<float, 2>, 2>m;
 
 		/// <summary>
@@ -30,45 +29,45 @@ namespace AliceMathF
 		/// コンストラクタ
 		/// </summary>
 		Matrix2(
-			float m00, float m01,
-			float m10, float m11
+			float m00_, float m01_,
+			float m10_, float m11_
 		);
 
 		/// <summary>
 		/// 代入演算子
 		/// </summary>
-		Matrix2& operator=(const Matrix2& _m);
-		const Matrix2& operator=(Matrix2& _m);
+		Matrix2& operator=(const Matrix2& m_);
+		const Matrix2& operator=(Matrix2& m_);
 
 		/// <summary>
 		/// 加算
 		/// </summary>
-		Matrix2& operator+=(const Matrix2& mat);
+		Matrix2& operator+=(const Matrix2& mat_);
 
 		/// <summary>
 		/// 減算
 		/// </summary>
-		Matrix2& operator-=(const Matrix2& mat);
+		Matrix2& operator-=(const Matrix2& mat_);
 
 		/// <summary>
 		/// 乗算
 		/// </summary>
-		Matrix2& operator*=(const Matrix2& mat);
+		Matrix2& operator*=(const Matrix2& mat_);
 
 		/// <summary>
 		/// 加算
 		/// </summary>
-		Matrix2 operator+(const Matrix2& mat) const;
+		Matrix2 operator+(const Matrix2& mat_) const;
 
 		/// <summary>
 		/// 減算
 		/// </summary>
-		Matrix2 operator-(const Matrix2& mat) const;
+		Matrix2 operator-(const Matrix2& mat_) const;
 
 		/// <summary>
 		/// 乗算
 		/// </summary>
-		Matrix2 operator*(const Matrix2& mat) const;
+		Matrix2 operator*(const Matrix2& mat_) const;
 
 		Matrix2 Transpose();
 	};
@@ -83,5 +82,5 @@ namespace AliceMathF
 	/// </summary>
 	/// <param name="mat">逆行列にしたい行列</param>
 	/// <returns>逆行列or単位行列</returns>
-	Matrix2 MakeInverse(const Matrix2* mat);
+	Matrix2 MakeInverse(const Matrix2* mat_);
 }

@@ -42,7 +42,7 @@ protected:
 	/// <summary>
 	/// コライダーをセット
 	/// </summary>
-	void SetColl(Base2DCollider* coll);
+	void SetColl(Base2DCollider* collider_);
 
 private:
 

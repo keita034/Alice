@@ -1,6 +1,6 @@
 ﻿#include "RayCollider.h"
 
-const AliceMathF::Vector4& RayCollider::GetStart()
+const AliceMathF::Vector4& RayCollider::GetStart()const
 {
     return start;
 }
@@ -10,7 +10,7 @@ void RayCollider::SetStart(const AliceMathF::Vector4& start_)
     start = start_;
 }
 
-const AliceMathF::Vector4& RayCollider::GetDir()
+const AliceMathF::Vector4& RayCollider::GetDir()const
 {
     return dir;
 }

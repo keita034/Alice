@@ -11,26 +11,28 @@ namespace AliceMathF
 	{
 	}
 
-	Vector2::Vector2(float x, float y) : x(x), y(y)
+	Vector2::Vector2(float x_, float y_) : x(x_), y(y_)
 	{
 	}
 
-	Vector2::Vector2(size_t x, size_t y) : x(static_cast<float>(x)), y(static_cast<float>(y))
-	{
-
-	}
-
-	Vector2::Vector2(SHORT x, SHORT y) : x(static_cast<float>(x)), y(static_cast<float>(y))
+	Vector2::Vector2(size_t x_, size_t y_) : x(static_cast<float>(x_)), y(static_cast<float>(y_))
 	{
 
 	}
 
-	Vector2::Vector2(int32_t x, int32_t y) : x(static_cast<float>(x)), y(static_cast<float>(y))
+	Vector2::Vector2(int16_t x_, int16_t y_) : x(static_cast<float>(x_)), y(static_cast<float>(y_))
 	{
+
 	}
 
-	Vector2::Vector2(LONG x, LONG y) : x(static_cast<float>(x)), y(static_cast<float>(y))
+	Vector2::Vector2(int32_t x_, int32_t y_) : x(static_cast<float>(x_)), y(static_cast<float>(y_))
 	{
+
+	}
+
+	Vector2::Vector2(int64_t x_, int64_t y_) : x(static_cast<float>(x_)), y(static_cast<float>(y_))
+	{
+
 	}
 
 	// ベクトルの長さを計算する
@@ -42,10 +44,10 @@ namespace AliceMathF
 	// 正規化ベクトル
 	Vector2& Vector2::Normalization()
 	{
-		float len = length_();
-		if (len != 0)
+		float lLen = length_();
+		if (lLen != 0)
 		{
-			return *this /= len;
+			return *this /= lLen;
 
 		}
 
@@ -53,14 +55,14 @@ namespace AliceMathF
 	}
 
 	// もう一方のベクトルとの内積
-	float Vector2::Dot(const Vector2& v) const
+	float Vector2::Dot(const Vector2& v_) const
 	{
-		return x * v.x + y * v.y;
+		return x * v_.x + y * v_.y;
 	}
 	//外積を求める
-	float Vector2::Cross(const Vector2& v) const
+	float Vector2::Cross(const Vector2& v_) const
 	{
-		return x * v.y - v.x * y;
+		return x * v_.y - v_.x * y;
 	}
 
 	//単項演算子オーバーロード
@@ -75,48 +77,48 @@ namespace AliceMathF
 	}
 
 	//代入演算子オーバーロード
-	Vector2& Vector2::operator+=(const Vector2& v)
+	Vector2& Vector2::operator+=(const Vector2& v_)
 	{
-		x += v.x;
-		y += v.y;
+		x += v_.x;
+		y += v_.y;
 
 		return *this;
 	}
 
-	Vector2& Vector2::operator-=(const Vector2& v)
+	Vector2& Vector2::operator-=(const Vector2& v_)
 	{
-		x -= v.x;
-		y -= v.y;
+		x -= v_.x;
+		y -= v_.y;
 
 		return *this;
 	}
 
-	Vector2& Vector2::operator*=(float s)
+	Vector2& Vector2::operator*=(float s_)
 	{
-		x *= s;
-		y *= s;
+		x *= s_;
+		y *= s_;
 
 		return *this;
 	}
 
-	Vector2& Vector2::operator/=(float s)
+	Vector2& Vector2::operator/=(float s_)
 	{
-		x /= s;
-		y /= s;
+		x /= s_;
+		y /= s_;
 
 		return *this;
 	}
 
-	Vector2& Vector2::operator/=(const Vector2& v)
+	Vector2& Vector2::operator/=(const Vector2& v_)
 	{
-		x /= v.x;
-		y /= v.y;
+		x /= v_.x;
+		y /= v_.y;
 		return *this;
 	}
 
-	bool Vector2::operator==(const Vector2& v)
+	bool Vector2::operator==(const Vector2& v_)
 	{
-		if (Approximately(v.x, x) && Approximately(v.y, y))
+		if (Approximately(v_.x, x) && Approximately(v_.y, y))
 		{
 			return true;
 		}
@@ -126,32 +128,32 @@ namespace AliceMathF
 
 	//Vector2 クラスに属さない関数群
 	//二項演算子
-	const Vector2 operator+(const Vector2& v1, const Vector2& v2)
+	const Vector2 operator+(const Vector2& v1_, const Vector2& v2_)
 	{
-		Vector2 temp(v1);
-		return temp += v2;
+		Vector2 lTmp(v1_);
+		return lTmp += v2_;
 	}
 
-	const Vector2 operator-(const Vector2& v1, const Vector2& v2)
+	const Vector2 operator-(const Vector2& v1_, const Vector2& v2_)
 	{
-		Vector2 temp(v1);
-		return temp -= v2;
+		Vector2 lTmp(v1_);
+		return lTmp -= v2_;
 	}
 
-	const Vector2 operator*(const Vector2& v, float s)
+	const Vector2 operator*(const Vector2& v_, float s_)
 	{
-		Vector2 temp(v);
-		return temp *= s;
+		Vector2 lTmp(v_);
+		return lTmp *= s_;
 	}
 
-	const Vector2 operator*(float s, const Vector2& v)
+	const Vector2 operator*(float s_, const Vector2& v_)
 	{
-		return v * s;
+		return v_ * s_;
 	}
 
-	const Vector2 operator/(const Vector2& v, float s)
+	const Vector2 operator/(const Vector2& v_, float s_)
 	{
-		Vector2 temp(v);
-		return temp /= s;
+		Vector2 lTmp(v_);
+		return lTmp /= s_;
 	}
 }

@@ -5,78 +5,77 @@
 
 Collision2DManager* Collision2DManager::GetInstance()
 {
-	static Collision2DManager instance;
-	return &instance;
+	static Collision2DManager lInstance;
+	return &lInstance;
 }
 
-void Collision2DManager::AddCollider(Base2DCollider* collider)
+void Collision2DManager::AddCollider(Base2DCollider* collider_)
 {
-	colliders.push_front(collider);
+	colliders.push_front(collider_);
 }
 
-void Collision2DManager::RemoveCollider(Base2DCollider* collide)
+void Collision2DManager::RemoveCollider(Base2DCollider* collider_)
 {
-	colliders.remove(collide);
+	colliders.remove(collider_);
 }
 
-void Collision2DManager::ChangeCollider(UINT colliderIndex, Base2DCollider* collider)
+void Collision2DManager::ChangeCollider(uint32_t colliderIndex_, Base2DCollider* collider_)
 {
 
-	std::forward_list<Base2DCollider*>::iterator itr = colliders.begin();
+	std::forward_list<Base2DCollider*>::iterator literator = colliders.begin();
 
-	for (UINT i = 0; i < colliderIndex - 1; i++)
+	for (uint32_t i = 0; i < colliderIndex_ - 1; i++)
 	{
-		itr++;
+		literator++;
 	}
 
-	colliders.emplace_after(itr);
-	colliders.insert_after(itr, collider);
+	colliders.emplace_after(literator);
+	colliders.insert_after(literator, collider_);
 
 }
 
 void Collision2DManager::CheckAllCollisions()
 {
-	std::forward_list<Base2DCollider*>::iterator itA;
-	std::forward_list<Base2DCollider*>::iterator itB;
+	std::forward_list<Base2DCollider*>::iterator literatorA;
+	std::forward_list<Base2DCollider*>::iterator literatorB;
 
 
 	// 全ての組み合わせについて総当りチェック
 	
-	for (itA = colliders.begin(); itA != colliders.end(); itA++)
+	for (literatorA = colliders.begin(); literatorA != colliders.end(); literatorA++)
 	{
-		if (!itA._Ptr->_Myval->IsValid())
+		if (!literatorA._Ptr->_Myval->IsValid())
 		{
 			continue;
 		}
 
-		itB = itA;
-		++itB;
-		for (; itB != colliders.end(); ++itB)
+		literatorB = literatorA;
+		++literatorB;
+		for (; literatorB != colliders.end(); ++literatorB)
 		{
 
-			if (!itB._Ptr->_Myval->IsValid())
+			if (!literatorB._Ptr->_Myval->IsValid())
 			{
 				continue;
 			}
 
-			Base2DCollider* colA = *itA;
-			Base2DCollider* colB = *itB;
+			Base2DCollider* lColliderA = *literatorA;
+			Base2DCollider* lColliderB = *literatorB;
 
 			// カプセルと矩形
-			if (colA->GetShapeType() == COLLISIONSHAPE_BOX &&
-				colB->GetShapeType() == COLLISIONSHAPE_CAPSULE)
+			if (lColliderA->GetShapeType() == COLLISIONSHAPE_BOX && lColliderB->GetShapeType() == COLLISIONSHAPE_CAPSULE)
 			{
-				BoxCollider2D* box = dynamic_cast<BoxCollider2D*>(colA);
-				CapsuleCllider2D* capsule = dynamic_cast<CapsuleCllider2D*>(colB);
+				BoxCollider2D* lBoxCollider = dynamic_cast<BoxCollider2D*>(lColliderA);
+				CapsuleCllider2D* lCapsuleCllider = dynamic_cast<CapsuleCllider2D*>(lColliderB);
 
-				if (Collision::CheckBox2Capsule(*box, *capsule))
+				if (Collision::SCheckBox2Capsule(*lBoxCollider, *lCapsuleCllider))
 				{
-					box->SetOpponentCollsionName(capsule->GetCollsionName());
-					box->SetOpponentCollider(capsule);
-					box->OnCollision();
-					capsule->SetOpponentCollsionName(box->GetCollsionName());
-					capsule->SetOpponentCollider(box);
-					capsule->OnCollision();
+					lBoxCollider->SetOpponentCollsionName(lCapsuleCllider->GetCollsionName());
+					lBoxCollider->SetOpponentCollider(lCapsuleCllider);
+					lBoxCollider->OnCollision();
+					lCapsuleCllider->SetOpponentCollsionName(lBoxCollider->GetCollsionName());
+					lCapsuleCllider->SetOpponentCollider(lBoxCollider);
+					lCapsuleCllider->OnCollision();
 				}
 			}
 		}

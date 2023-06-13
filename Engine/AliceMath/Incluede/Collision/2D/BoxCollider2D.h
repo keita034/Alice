@@ -35,7 +35,7 @@ public:
 	/// <summary>
 	///	中心座標をセット
 	/// </summary>
-	void SetCenter(const AliceMathF::Vector2& pos);
+	void SetCenter(const AliceMathF::Vector2& position_);
 
 	/// <summary>
 	/// 中心座標を取得
@@ -45,7 +45,7 @@ public:
 	/// <summary>
 	/// 左上の半径をセット
 	/// </summary>
-	void SetLeftRadius(const AliceMathF::Vector2& rad);
+	void SetLeftRadius(const AliceMathF::Vector2& radius_);
 
 	/// <summary>
 	/// 左上の半径を取得
@@ -55,23 +55,23 @@ public:
 	/// <summary>
 	/// 右下の半径をセット
 	/// </summary>
-	void SetRightRadius(const AliceMathF::Vector2& rad);
+	void SetRightRadius(const AliceMathF::Vector2& radius_);
 
 	/// <summary>
 	/// 右下の半径を取得
 	/// </summary>
 	/// <returns></returns>
-	const AliceMathF::Vector2& GetRightRadius();
+	const AliceMathF::Vector2& GetRightRadius()const;
 
 	/// <summary>
 	/// 左上座標を取得
 	/// </summary>
-	const AliceMathF::Vector2& GetLeftTop();
+	const AliceMathF::Vector2& GetLeftTop()const;
 
 	/// <summary>
 	/// 右下座標を取得
 	/// </summary>
-	const AliceMathF::Vector2& GetRightBottom();
+	const AliceMathF::Vector2& GetRightBottom()const;
 
 	void Update();
 

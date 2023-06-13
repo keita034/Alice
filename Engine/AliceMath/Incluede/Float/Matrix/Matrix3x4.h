@@ -13,9 +13,8 @@
 
 namespace AliceMathF
 {
-	class Matrix3x4
+	struct Matrix3x4
 	{
-	public:
 		std::array<std::array<float, 3>, 4>m;
 
 		/// <summary>
@@ -24,14 +23,14 @@ namespace AliceMathF
 		/// <returns>単位行列として初期化されます</returns>
 		Matrix3x4();
 
-		Matrix3x4(float m00, float m01, float m02, float m03,
-			float m10, float m11, float m12, float m13,
-			float m20, float m21, float m22, float m23);
+		Matrix3x4(float m00_, float m01_, float m02_, float m03_,
+			float m10_, float m11_, float m12_, float m13_,
+			float m20_, float m21_, float m22_, float m23_);
 
 		/// <summary>
 		/// コンストラクタ
 		/// </summary>
-		Matrix3x4(const DirectX::XMFLOAT3X4& XMFLOAT3X4);
+		Matrix3x4(const DirectX::XMFLOAT3X4& xmfloat3x4_);
 
 		/// <summary>
 		/// DirectX::XMMATRIX型への暗黙の型変換。
@@ -41,42 +40,42 @@ namespace AliceMathF
 		/// <summary>
 		/// 代入演算子
 		/// </summary>
-		Matrix3x4& operator=(const Matrix3x4& _m);
+		Matrix3x4& operator=(const Matrix3x4& m_);
 
 		/// <summary>
 		/// 代入演算子
 		/// </summary>
-		const Matrix3x4& operator=(Matrix3x4& _m);
+		const Matrix3x4& operator=(Matrix3x4& m_);
 
 		/// <summary>
 		/// 加算
 		/// </summary>
-		Matrix3x4& operator+=(const Matrix3x4& mat);
+		Matrix3x4& operator+=(const Matrix3x4& mat_);
 
 		/// <summary>
 		/// 減算
 		/// </summary>
-		Matrix3x4& operator-=(const Matrix3x4 mat);
+		Matrix3x4& operator-=(const Matrix3x4 mat_);
 
 		/// <summary>
 		/// 乗算
 		/// </summary>
-		Matrix3x4& operator*=(const Matrix3x4& mat);
+		Matrix3x4& operator*=(const Matrix3x4& mat_);
 
 		/// <summary>
 		/// 加算
 		/// </summary>
-		Matrix3x4 operator+(const Matrix3x4& mat) const;
+		Matrix3x4 operator+(const Matrix3x4& mat_) const;
 
 		/// <summary>
 		/// 減算
 		/// </summary>
-		Matrix3x4 operator-(const Matrix3x4& mat) const;
+		Matrix3x4 operator-(const Matrix3x4& mat_) const;
 
 		/// <summary>
 		/// 乗算
 		/// </summary>
-		Matrix3x4 operator*(const Matrix3x4& mat) const;
+		Matrix3x4 operator*(const Matrix3x4& mat_) const;
 
 		Matrix3x4 Transpose();
 	};

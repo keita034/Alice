@@ -1,8 +1,8 @@
 ﻿#include "ColliderObject.h"
 
-void ColliderObject::SetColl(BaseCollider* coll)
+void ColliderObject::SetColl(BaseCollider* collider_)
 {
-	collider.reset(coll);
+	collider.reset(collider_);
 }
 
 BaseCollider* ColliderObject::GetCollider()

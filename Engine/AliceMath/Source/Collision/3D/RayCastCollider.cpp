@@ -1,6 +1,6 @@
 ﻿#include "RayCastCollider.h"
 
-float RayCastCollider::GetRange()
+float RayCastCollider::GetRange()const
 {
     return range;
 }

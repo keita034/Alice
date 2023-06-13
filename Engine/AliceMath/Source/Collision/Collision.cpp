@@ -15,109 +15,109 @@
 
 #pragma region 点
 
-void Collision::ClosestPtPoint2Triangle(AliceMathF::Vector4& point, TriangleCollider& triangle, AliceMathF::Vector4* closest)
+void Collision::SClosestPtPoint2Triangle(const AliceMathF::Vector4& point_, const TriangleCollider& triangle_, AliceMathF::Vector4* closest_)
 {
-	// pointがp0の外側の頂点領域の中にあるかどうかチェック
-	AliceMathF::Vector4 p0_p1 = triangle.GetP1() - triangle.GetP1();
-	AliceMathF::Vector4 p0_p2 = triangle.GetP2() - triangle.GetP0();
-	AliceMathF::Vector4 p0_pt = point - triangle.GetP0();
+	// point_がp0の外側の頂点領域の中にあるかどうかチェック
+	AliceMathF::Vector4 lP0_P1 = triangle_.GetP0() - triangle_.GetP1();
+	AliceMathF::Vector4 lP0_P2 = triangle_.GetP2() - triangle_.GetP0();
+	AliceMathF::Vector4 lP0_PT = point_ - triangle_.GetP0();
 
-	float d1 = p0_pt.Dot(p0_p1);
-	float d2 = p0_pt.Dot(p0_p2);
+	float lD1 = lP0_PT.Dot(lP0_P1);
+	float lD2 = lP0_PT.Dot(lP0_P2);
 
-	if (d1 <= 0.0f && d2 <= 0.0f)
+	if (lD1 <= 0.0f && lD2 <= 0.0f)
 	{
 		// p0が最近傍
-		*closest = triangle.GetP0();
+		*closest_ = triangle_.GetP0();
 		return;
 	}
 
 	// pointがp1の外側の頂点領域の中にあるかどうかチェック
-	AliceMathF::Vector4 p1_pt = point - triangle.GetP1();
+	AliceMathF::Vector4 lP1_PT = point_ - triangle_.GetP1();
 
-	float d3 = p1_pt.Dot(p0_p1);
-	float d4 = p1_pt.Dot(p0_p2);
+	float lD3 = lP1_PT.Dot(lP0_P1);
+	float lD4 = lP1_PT.Dot(lP0_P2);
 
-	if (d3 >= 0.0f && d4 <= d3)
+	if (lD3 >= 0.0f && lD4 <= lD3)
 	{
 		// p1が最近傍
-		*closest = triangle.GetP1();
+		*closest_ = triangle_.GetP1();
 		return;
 	}
 
-	// pointがp0_p1の辺領域の中にあるかどうかチェックし、あればpointのp0_p1上に対する射影を返す
-	float vc = d1 * d4 - d3 * d2;
-	if (vc <= 0.0f && d1 >= 0.0f && d3 <= 0.0f)
+	// point_がlP0_P1の辺領域の中にあるかどうかチェックし、あればpoint_のlP0_P1上に対する射影を返す
+	float lVC = lD1 * lD4 - lD3 * lD2;
+	if (lVC <= 0.0f && lD1 >= 0.0f && lD3 <= 0.0f)
 	{
-		float v = d1 / (d1 - d3);
-		*closest = triangle.GetP0() + v * p0_p1;
+		float lV = lD1 / (lD1 - lD3);
+		*closest_ = triangle_.GetP0() + lV * lP0_P1;
 		return;
 	}
 
-	// pointがp2の外側の頂点領域の中にあるかどうかチェック
-	AliceMathF::Vector4 p2_pt = point - triangle.GetP2();
+	// point_がp2の外側の頂点領域の中にあるかどうかチェック
+	AliceMathF::Vector4 lP2_PT = point_ - triangle_.GetP2();
 
-	float d5 = p2_pt.Dot(p0_p1);
-	float d6 = p2_pt.Dot(p0_p2);
-	if (d6 >= 0.0f && d5 <= d6)
+	float lD5 = lP2_PT.Dot(lP0_P1);
+	float lD6 = lP2_PT.Dot(lP0_P2);
+	if (lD6 >= 0.0f && lD5 <= lD6)
 	{
-		*closest = triangle.GetP2();
+		*closest_ = triangle_.GetP2();
 		return;
 	}
 
-	// pointがp0_p2の辺領域の中にあるかどうかチェックし、あればpointのp0_p2上に対する射影を返す
-	float vb = d5 * d2 - d1 * d6;
-	if (vb <= 0.0f && d2 >= 0.0f && d6 <= 0.0f)
+	// point_がlP0_P2の辺領域の中にあるかどうかチェックし、あればpoint_のlP0_P2上に対する射影を返す
+	float lVB = lD5 * lD2 - lD1 * lD6;
+	if (lVB <= 0.0f && lD2 >= 0.0f && lD6 <= 0.0f)
 	{
-		float w = d2 / (d2 - d6);
-		*closest = triangle.GetP0() + w * p0_p2;
+		float lW = lD2 / (lD2 - lD6);
+		*closest_ = triangle_.GetP0() + lW * lP0_P2;
 		return;
 	}
 
-	// pointがp1_p2の辺領域の中にあるかどうかチェックし、あればpointのp1_p2上に対する射影を返す
-	float va = d3 * d6 - d5 * d4;
-	if (va <= 0.0f && (d4 - d3) >= 0.0f && (d5 - d6) >= 0.0f)
+	// point_がp1_p2の辺領域の中にあるかどうかチェックし、あればpoint_のp1_p2上に対する射影を返す
+	float va = lD3 * lD6 - lD5 * lD4;
+	if (va <= 0.0f && (lD4 - lD3) >= 0.0f && (lD5 - lD6) >= 0.0f)
 	{
-		float w = (d4 - d3) / ((d4 - d3) + (d5 - d6));
-		*closest = triangle.GetP1() + w * (triangle.GetP2() - triangle.GetP1());
+		float lW = (lD4 - lD3) / ((lD4 - lD3) + (lD5 - lD6));
+		*closest_ = triangle_.GetP1() + lW * (triangle_.GetP2() - triangle_.GetP1());
 		return;
 	}
 
-	// pointは面領域の中にある。closestを重心座標を用いて計算する
-	float denom = 1.0f / (va + vb + vc);
-	float v = vb * denom;
-	float w = vc * denom;
-	*closest = triangle.GetP0() + p0_p1 * v + p0_p2 * w;
+	// point_は面領域の中にある。closest_を重心座標を用いて計算する
+	float lDenom = 1.0f / (va + lVB + lVC);
+	float lV = lVB * lDenom;
+	float lW = lVC * lDenom;
+	*closest_ = triangle_.GetP0() + lP0_P1 * lV + lP0_P2 * lW;
 }
 
 #pragma endregion
 
 #pragma region 球
 
-bool Collision::CheckSphere2Sphere(SphereCollider& sphereA, SphereCollider& sphereB, AliceMathF::Vector4* inter, AliceMathF::Vector4* reject)
+bool Collision::SCheckSphere2Sphere(const SphereCollider& sphereA_, const SphereCollider& sphereB_, AliceMathF::Vector4* inter_, AliceMathF::Vector4* reject_)
 {
 	// 中心点の距離の２乗 <= 半径の和の２乗　なら交差
-	AliceMathF::Vector4 tmp;
-	tmp = sphereA.GetCenter() - sphereB.GetCenter();
-	float dist = tmp.length_Squared();
-	float radius2 = sphereA.GetRadius() + sphereB.GetRadius();
-	radius2 *= radius2;
+	AliceMathF::Vector4 lTmp;
+	lTmp = sphereA_.GetCenter() - sphereB_.GetCenter();
+	float lDist = lTmp.lengthSquared();
+	float lRadius2 = sphereA_.GetRadius() + sphereB_.GetRadius();
+	lRadius2 *= lRadius2;
 
-	if (dist <= radius2)
+	if (lDist <= lRadius2)
 	{
-		if (inter)
+		if (inter_)
 		{
 			// Aの半径が0の時座標はBの中心　Bの半径が0の時座標はAの中心　となるよう補完
-			float t = sphereB.GetRadius() / (sphereA.GetRadius() + sphereB.GetRadius());
-			*inter = AliceMathF::Vector4Lerp(sphereA.GetCenter(), sphereB.GetCenter(), t);
+			float lT = sphereB_.GetRadius() / (sphereA_.GetRadius() + sphereB_.GetRadius());
+			*inter_ = AliceMathF::Vector4Lerp(sphereA_.GetCenter(), sphereB_.GetCenter(), lT);
 		}
 		// 押し出すベクトルを計算
-		if (reject)
+		if (reject_)
 		{
-			float rejectLen = sphereA.GetRadius() + sphereB.GetRadius() - std::sqrtf(dist);
-			tmp = sphereA.GetCenter() - sphereB.GetCenter();
-			*reject = tmp.Normal();
-			*reject *= rejectLen;
+			float lRejectLen = sphereA_.GetRadius() + sphereB_.GetRadius() - std::sqrtf(lDist);
+			lTmp = sphereA_.GetCenter() - sphereB_.GetCenter();
+			*reject_ = lTmp.Normal();
+			*reject_ *= lRejectLen;
 		}
 
 		return true;
@@ -126,125 +126,125 @@ bool Collision::CheckSphere2Sphere(SphereCollider& sphereA, SphereCollider& sphe
 	return false;
 }
 
-bool Collision::CheckSphere2Plane(SphereCollider& sphere, PlaneCollider& plane, AliceMathF::Vector4* inter)
+bool Collision::SCheckSphere2Plane(const SphereCollider& sphere_, const PlaneCollider& plane_, AliceMathF::Vector4* inter_)
 {
 	// 座標系の原点から球の中心座標への距離から
 	// 平面の原点距離を減算することで、平面と球の中心との距離が出る
-	float dist = sphere.GetCenter().Dot(plane.GetNormal()) - plane.GetDistance();
+	float lDist = sphere_.GetCenter().Dot(plane_.GetNormal()) - plane_.GetDistance();
 
 	// 距離の絶対値が半径より大きければ当たっていない
-	if (fabsf(dist) > sphere.GetRadius())
+	if (fabsf(lDist) > sphere_.GetRadius())
 	{
 		return false;
 	}
 
 	// 擬似交点を計算
-	if (inter)
+	if (inter_)
 	{
 		// 平面上の再接近点を、疑似交点とする
-		*inter = -dist * plane.GetNormal() + sphere.GetCenter() + sphere.GetCenter();
+		*inter_ = -lDist * plane_.GetNormal() + sphere_.GetCenter() + sphere_.GetCenter();
 	}
 
 	return true;
 }
 
-bool Collision::CheckSphere2Triangle(SphereCollider& sphere, TriangleCollider& triangle, AliceMathF::Vector4* inter, AliceMathF::Vector4* reject)
+bool Collision::SCheckSphere2Triangle(const SphereCollider& sphere_, const TriangleCollider& triangle_, AliceMathF::Vector4* inter_, AliceMathF::Vector4* reject_)
 {
-	AliceMathF::Vector4 p;
-	// 球の中心に対する最近接点である三角形上にある点pを見つける
-	AliceMathF::Vector4 tmp = sphere.GetCenter();
-	ClosestPtPoint2Triangle(tmp, triangle, &p);
+	AliceMathF::Vector4 lPoint;
+	// 球の中心に対する最近接点である三角形上にある点lPointを見つける
+	AliceMathF::Vector4 lCenter = sphere_.GetCenter();
+	SClosestPtPoint2Triangle(lCenter, triangle_, &lPoint);
 
-	// 点pと球の中心の差分ベクトル
-	AliceMathF::Vector4 v = p - sphere.GetCenter();
+	// 点lPointと球の中心の差分ベクトル
+	AliceMathF::Vector4 lV = lPoint - sphere_.GetCenter();
 
 	// 距離の二乗を求める
 	//（同じベクトル同士の内積は三平方の定理のルート内部の式と一致する）
-	float distanceSquare = v.Dot(v);
+	float lDistanceSquare = lV.Dot(lV);
 
 	// 球と三角形の距離が半径以下なら当たっていない
-	if (distanceSquare > sphere.GetRadius() * sphere.GetRadius())
+	if (lDistanceSquare > sphere_.GetRadius() * sphere_.GetRadius())
 	{
 		return false;
 	}
 
 	// 擬似交点を計算
-	if (inter)
+	if (inter_)
 	{
-		// 三角形上の最近接点pを疑似交点とする
-		*inter = p;
+		// 三角形上の最近接点lPointを疑似交点とする
+		*inter_ = lPoint;
 	}
 
 	// 押し出すベクトルを計算
-	if (reject)
+	if (reject_)
 	{
-		float ds = sphere.GetCenter().Dot(triangle.GetNormal());
-		float dt = triangle.GetP0().Dot(triangle.GetNormal());
-		float rejectLen = dt - ds + sphere.GetRadius();
-		*reject = triangle.GetNormal() * rejectLen;
+		float lDS = sphere_.GetCenter().Dot(triangle_.GetNormal());
+		float lDT = triangle_.GetP0().Dot(triangle_.GetNormal());
+		float lRejectLen = lDT - lDS + sphere_.GetRadius();
+		*reject_ = triangle_.GetNormal() * lRejectLen;
 	}
 
 	return true;
 }
 
-bool Collision::CheckSphere2Ray(SphereCollider& sphere, RayCollider& lay, float* distance, AliceMathF::Vector4* inter)
+bool Collision::SCheckSphere2Ray(const SphereCollider& sphere_, const RayCollider& lay_, float* distance_, AliceMathF::Vector4* inter_)
 {
-	AliceMathF::Vector4 m = lay.GetStart() - sphere.GetCenter();
-	float b = m.Dot(lay.GetDir());
-	float c = m.Dot(m) - sphere.GetRadius() * sphere.GetRadius();
+	AliceMathF::Vector4 lM = lay_.GetStart() - sphere_.GetCenter();
+	float lB = lM.Dot(lay_.GetDir());
+	float lC = lM.Dot(lM) - sphere_.GetRadius() * sphere_.GetRadius();
 
-	// layの始点がsphereの外側にあり(c > 0)、layがsphereから離れていく方向を
-	// 差している場合(b > 0)、当たらない
-	if (c > 0.0f && b > 0.0f)
+	// lay_の始点がsphere_の外側にあり(lC > 0)、lay_がsphere_から離れていく方向を
+	// 差している場合(lB > 0)、当たらない
+	if (lC > 0.0f && lB > 0.0f)
 	{
 		return false;
 	}
 
-	float discr = b * b - c;
+	float lDiscr = lB * lB - lC;
 
 	// 負の判別式はレイが球を外れていることに一致
-	if (discr < 0.0f)
+	if (lDiscr < 0.0f)
 	{
 		return false;
 	}
 
 	// レイは球と交差している。
-	// 交差する最小の値tを計算
-	float t = -b - sqrtf(discr);
+	// 交差する最小の値lTを計算
+	float lT = -lB - sqrtf(lDiscr);
 
-	// tが負である場合、レイは球の内側から開始しているのでtをゼロにクランプ
-	if (t < 0) t = 0.0f;
+	// lTが負である場合、レイは球の内側から開始しているのでlTをゼロにクランプ
+	if (lT < 0) lT = 0.0f;
 
-	if (distance)
+	if (distance_)
 	{
-		*distance = t;
+		*distance_ = lT;
 	}
 
-	if (inter)
+	if (inter_)
 	{
-		*inter = lay.GetStart() + t * lay.GetDir();
+		*inter_ = lay_.GetStart() + lT * lay_.GetDir();
 	}
 
 	return true;
 }
 
-bool Collision::CheckSphere2RayCast(SphereCollider& sphere, RayCastCollider& lay, float* distance, AliceMathF::Vector4* inter)
+bool Collision::SCheckSphere2RayCast(const SphereCollider& sphere_, const RayCastCollider& lay_, float* distance_, AliceMathF::Vector4* inter_)
 {
-	float dis = 0.0f;
+	float lDis = 0.0f;
 
-	if (!CheckSphere2Ray(sphere, lay, &dis, inter))
+	if (!SCheckSphere2Ray(sphere_, lay_, &lDis, inter_))
 	{
 		return false;
 	}
 
-	if (dis > lay.GetRange())
+	if (lDis > lay_.GetRange())
 	{
 		return false;
 	}
 
-	if (distance)
+	if (distance_)
 	{
-		*distance = dis;
+		*distance_ = lDis;
 	}
 
 	return true;
@@ -254,90 +254,93 @@ bool Collision::CheckSphere2RayCast(SphereCollider& sphere, RayCastCollider& lay
 
 #pragma region レイ
 
-bool Collision::CheckRay2Plane(RayCollider& lay, PlaneCollider& plane, float* distance, AliceMathF::Vector4* inter)
+bool Collision::SCheckRay2Plane(const RayCollider& lay_, const PlaneCollider& plane_, float* distance_, AliceMathF::Vector4* inter_)
 {
-	const float epsilon = 1.0e-5f;	// 誤差吸収用の微小な値
+	const float lEPSILON = 1.0e-5f;	// 誤差吸収用の微小な値
 
-	float d1 = plane.GetNormal().Dot(lay.GetDir());
+	float lD1 = plane_.GetNormal().Dot(lay_.GetDir());
 	// 裏面には当たらない
-	if (d1 > -epsilon)
+	if (lD1 > -lEPSILON)
 	{
 		return false;
 	}
 
-	float d2 = plane.GetNormal().Dot(lay.GetStart());
-	float t = (plane.GetDistance() - d2) / d1;
+	float lD2 = plane_.GetNormal().Dot(lay_.GetStart());
+	float lT = (plane_.GetDistance() - lD2) / lD1;
 
-	if (t < 0) return false;
+	if (lT < 0)
+	{
+		return false;
+	}
 
 	// 距離を書き込む
-	if (distance)
+	if (distance_)
 	{
-		*distance = t;
+		*distance_ = lT;
 	}
 
 	// 交点を計算
-	if (inter)
+	if (inter_)
 	{
-		*inter = lay.GetStart() + t * lay.GetDir();
+		*inter_ = lay_.GetStart() + lT * lay_.GetDir();
 	}
 
 	return true;
 }
 
-bool Collision::CheckRay2Triangle(RayCollider& lay, TriangleCollider& triangle, float* distance, AliceMathF::Vector4* inter)
+bool Collision::SCheckRay2Triangle(const RayCollider& lay_, const TriangleCollider& triangle_, float* distance_, AliceMathF::Vector4* inter_)
 {
 	// 三角形が乗っている平面を算出
-	std::unique_ptr<PlaneCollider>plane;
-	plane = std::make_unique<PlaneCollider>();
+	std::unique_ptr<PlaneCollider>lPlane;
+	lPlane = std::make_unique<PlaneCollider>();
 
-	AliceMathF::Vector4 interPlane;
-	AliceMathF::Vector4 tmp = triangle.GetNormal();
-	plane->SetNormal(tmp);
-	plane->SetDistance(triangle.GetNormal().Dot(triangle.GetP0()));
+	AliceMathF::Vector4 lInterPlane;
+	AliceMathF::Vector4 lNormal = triangle_.GetNormal();
+	lPlane->SetNormal(lNormal);
+	lPlane->SetDistance(triangle_.GetNormal().Dot(triangle_.GetP0()));
 	// レイと平面が当たっていなければ、当たっていない	
-	if (!CheckRay2Plane(lay, *plane, distance, &interPlane))
+	if (!SCheckRay2Plane(lay_, *lPlane, distance_, &lInterPlane))
 	{
 		return false;
 	}
 	// レイと平面が当たっていたので、距離と交点が書き込まれた
 
 	// レイと平面の交点が三角形の内側にあるか判定
-	const float epsilon = 1.0e-5f;	// 誤差吸収用の微小な値
-	AliceMathF::Vector4 m;
-	// 辺p0_p1について
-	AliceMathF::Vector4 pt_p0 = triangle.GetP0() - interPlane;
-	AliceMathF::Vector4 p0_p1 = triangle.GetP1() - triangle.GetP0();
-	m = pt_p0.Cross(p0_p1);
+	const float lEPSILON = 1.0e-5f;	// 誤差吸収用の微小な値
+	AliceMathF::Vector4 lM;
+	// 辺lP0_P1について
+	AliceMathF::Vector4 lPT_P0 = triangle_.GetP0() - lInterPlane;
+	AliceMathF::Vector4 lP0_P1 = triangle_.GetP1() - triangle_.GetP0();
+	lM = lPT_P0.Cross(lP0_P1);
 	// 辺の外側
-	if (m.Dot(triangle.GetNormal()) < -epsilon)
+	if (lM.Dot(triangle_.GetNormal()) < -lEPSILON)
 	{
 		return false;
 	}
 
 	// 辺p1_p2について
-	AliceMathF::Vector4 pt_p1 = triangle.GetP1() - interPlane;
-	AliceMathF::Vector4 p1_p2 = triangle.GetP2() - triangle.GetP1();
-	m = pt_p1.Cross(p1_p2);
+	AliceMathF::Vector4 lPT_P1 = triangle_.GetP1() - lInterPlane;
+	AliceMathF::Vector4 lP1_P2 = triangle_.GetP2() - triangle_.GetP1();
+	lM = lPT_P1.Cross(lP1_P2);
 	// 辺の外側
-	if (m.Dot(triangle.GetNormal()) < -epsilon)
+	if (lM.Dot(triangle_.GetNormal()) < -lEPSILON)
 	{
 		return false;
 	}
 
 	// 辺p2_p0について
-	AliceMathF::Vector4 pt_p2 = triangle.GetP2() - interPlane;
-	AliceMathF::Vector4 p2_p0 = triangle.GetP0() - triangle.GetP2();
-	m = pt_p2.Cross(p2_p0);
+	AliceMathF::Vector4 lPT_P2 = triangle_.GetP2() - lInterPlane;
+	AliceMathF::Vector4 lP2_P0 = triangle_.GetP0() - triangle_.GetP2();
+	lM = lPT_P2.Cross(lP2_P0);
 	// 辺の外側
-	if (m.Dot(triangle.GetNormal()) < -epsilon)
+	if (lM.Dot(triangle_.GetNormal()) < -lEPSILON)
 	{
 		return false;
 	}
 
-	if (inter)
+	if (inter_)
 	{
-		*inter = interPlane;
+		*inter_ = lInterPlane;
 	}
 
 	// 内側なので、当たっている
@@ -348,173 +351,173 @@ bool Collision::CheckRay2Triangle(RayCollider& lay, TriangleCollider& triangle, 
 
 #pragma region OBB
 
-bool Collision::CheckOBB2OBB(OBBCollider& obb1, OBBCollider& obb2)
+bool Collision::SCheckOBB2OBB(const OBBCollider& obb1_, const OBBCollider& obb2_)
 {
 	//各方向ベクトルの確保
 	//(N***:標準化方向ベクトル)
-	AliceMathF::Vector3 NAe1 = obb1.GetDirect(0), Ae1 = NAe1 * obb1.GetLen(0);
-	AliceMathF::Vector3 NAe2 = obb1.GetDirect(1), Ae2 = NAe2 * obb1.GetLen(1);
-	AliceMathF::Vector3 NAe3 = obb1.GetDirect(2), Ae3 = NAe3 * obb1.GetLen(2);
-	AliceMathF::Vector3 NBe1 = obb2.GetDirect(0), Be1 = NBe1 * obb2.GetLen(0);
-	AliceMathF::Vector3 NBe2 = obb2.GetDirect(1), Be2 = NBe2 * obb2.GetLen(1);
-	AliceMathF::Vector3 NBe3 = obb2.GetDirect(2), Be3 = NBe3 * obb2.GetLen(2);
-	AliceMathF::Vector3 Interval = obb1.GetCenter() - obb2.GetCenter();
+	AliceMathF::Vector3 lNAe1 = obb1_.GetDirect(0), lAe1 = lNAe1 * obb1_.GetLen(0);
+	AliceMathF::Vector3 lNAe2 = obb1_.GetDirect(1), lAe2 = lNAe2 * obb1_.GetLen(1);
+	AliceMathF::Vector3 lNAe3 = obb1_.GetDirect(2), lAe3 = lNAe3 * obb1_.GetLen(2);
+	AliceMathF::Vector3 lNBe1 = obb2_.GetDirect(0), lBe1 = lNBe1 * obb2_.GetLen(0);
+	AliceMathF::Vector3 lNBe2 = obb2_.GetDirect(1), lBe2 = lNBe2 * obb2_.GetLen(1);
+	AliceMathF::Vector3 lNBe3 = obb2_.GetDirect(2), lBe3 = lNBe3 * obb2_.GetLen(2);
+	AliceMathF::Vector3 lInterval = obb1_.GetCenter() - obb2_.GetCenter();
 
-	//分離軸:Ae1
-	float rA = Ae1.length_();
-	float rB = AliceMathF::LenSegOnSeparateAxis(&NAe1, &Be1, &Be2, &Be3);
-	float L = AliceMathF::Abs(Interval.Dot(NAe1));
-	if (L > rA + rB)
+	//分離軸:lAe1
+	float lRA = lAe1.length_();
+	float lRB = AliceMathF::LenSegOnSeparateAxis(&lNAe1, &lBe1, &lBe2, &lBe3);
+	float lL = AliceMathF::Abs(lInterval.Dot(lNAe1));
+	if (lL > lRA + lRB)
 	{
 		//衝突していない
 		return false;
 	}
 
-	//分離軸:Ae2
-	rA = Ae2.length_();
-	rB = AliceMathF::LenSegOnSeparateAxis(&NAe2, &Be1, &Be2, &Be3);
-	L = AliceMathF::Abs(Interval.Dot(NAe2));
-	if (L > rA + rB)
+	//分離軸:lAe2
+	lRA = lAe2.length_();
+	lRB = AliceMathF::LenSegOnSeparateAxis(&lNAe2, &lBe1, &lBe2, &lBe3);
+	lL = AliceMathF::Abs(lInterval.Dot(lNAe2));
+	if (lL > lRA + lRB)
 	{
 		//衝突していない
 		return false;
 	}
 
-	//分離軸:Ae3
-	rA = Ae3.length_();
-	rB = AliceMathF::LenSegOnSeparateAxis(&NAe3, &Be1, &Be2, &Be3);
-	L = AliceMathF::Abs(Interval.Dot(NAe3));
-	if (L > rA + rB)
+	//分離軸:lAe3
+	lRA = lAe3.length_();
+	lRB = AliceMathF::LenSegOnSeparateAxis(&lNAe3, &lBe1, &lBe2, &lBe3);
+	lL = AliceMathF::Abs(lInterval.Dot(lNAe3));
+	if (lL > lRA + lRB)
 	{
 		//衝突していない
 		return false;
 	}
 
-	//分離軸:Be1
-	rA = AliceMathF::LenSegOnSeparateAxis(&NBe1, &Ae1, &Ae2, &Ae3);
-	rB = Be1.length_();
-	L = AliceMathF::Abs(Interval.Dot(NBe1));
-	if (L > rA + rB)
+	//分離軸:lBe1
+	lRA = AliceMathF::LenSegOnSeparateAxis(&lNBe1, &lAe1, &lAe2, &lAe3);
+	lRB = lBe1.length_();
+	lL = AliceMathF::Abs(lInterval.Dot(lNBe1));
+	if (lL > lRA + lRB)
 	{
 		//衝突していない
 		return false;
 	}
 
-	//分離軸:Be2
-	rA = AliceMathF::LenSegOnSeparateAxis(&NBe2, &Ae1, &Ae2, &Ae3);
-	rB = Be2.length_();
-	L = AliceMathF::Abs(Interval.Dot(NBe2));
-	if (L > rA + rB)
+	//分離軸:lBe2
+	lRA = AliceMathF::LenSegOnSeparateAxis(&lNBe2, &lAe1, &lAe2, &lAe3);
+	lRB = lBe2.length_();
+	lL = AliceMathF::Abs(lInterval.Dot(lNBe2));
+	if (lL > lRA + lRB)
 	{
 		//衝突していない
 		return false;
 	}
 
-	//分離軸:Be3
-	rA = AliceMathF::LenSegOnSeparateAxis(&NBe3, &Ae1, &Ae2, &Ae3);
-	rB = Be3.length_();
-	L = AliceMathF::Abs(Interval.Dot(NBe3));
-	if (L > rA + rB)
+	//分離軸:lBe3
+	lRA = AliceMathF::LenSegOnSeparateAxis(&lNBe3, &lAe1, &lAe2, &lAe3);
+	lRB = lBe3.length_();
+	lL = AliceMathF::Abs(lInterval.Dot(lNBe3));
+	if (lL > lRA + lRB)
 	{
 		//衝突していない
 		return false;
 	}
 
 	//分離軸:C11
-	AliceMathF::Vector3 Cross;
-	Cross = NAe1.Cross(NBe1);
-	rA = AliceMathF::LenSegOnSeparateAxis(&Cross, &Ae2, &Ae3);
-	rB = AliceMathF::LenSegOnSeparateAxis(&Cross, &Be2, &Be3);
-	L = AliceMathF::Abs(Interval.Dot(Cross));
-	if (L > rA + rB)
+	AliceMathF::Vector3 lCross;
+	lCross = lNAe1.Cross(lNBe1);
+	lRA = AliceMathF::LenSegOnSeparateAxis(&lCross, &lAe2, &lAe3);
+	lRB = AliceMathF::LenSegOnSeparateAxis(&lCross, &lBe2, &lBe3);
+	lL = AliceMathF::Abs(lInterval.Dot(lCross));
+	if (lL > lRA + lRB)
 	{
 		//衝突していない
 		return false;
 	}
 
 	//分離軸:C12
-	Cross = NAe1.Cross(NBe2);
-	rA = AliceMathF::LenSegOnSeparateAxis(&Cross, &Ae2, &Ae3);
-	rB = AliceMathF::LenSegOnSeparateAxis(&Cross, &Be1, &Be3);
-	L = AliceMathF::Abs(Interval.Dot(Cross));
-	if (L > rA + rB)
+	lCross = lNAe1.Cross(lNBe2);
+	lRA = AliceMathF::LenSegOnSeparateAxis(&lCross, &lAe2, &lAe3);
+	lRB = AliceMathF::LenSegOnSeparateAxis(&lCross, &lBe1, &lBe3);
+	lL = AliceMathF::Abs(lInterval.Dot(lCross));
+	if (lL > lRA + lRB)
 	{
 		//衝突していない
 		return false;
 	}
 
 	//分離軸:C13
-	Cross = NAe1.Cross(NBe3);
-	rA = AliceMathF::LenSegOnSeparateAxis(&Cross, &Ae2, &Ae3);
-	rB = AliceMathF::LenSegOnSeparateAxis(&Cross, &Be1, &Be2);
-	L = AliceMathF::Abs(Interval.Dot(Cross));
-	if (L > rA + rB)
+	lCross = lNAe1.Cross(lNBe3);
+	lRA = AliceMathF::LenSegOnSeparateAxis(&lCross, &lAe2, &lAe3);
+	lRB = AliceMathF::LenSegOnSeparateAxis(&lCross, &lBe1, &lBe2);
+	lL = AliceMathF::Abs(lInterval.Dot(lCross));
+	if (lL > lRA + lRB)
 	{
 		//衝突していない
 		return false;
 	}
 
 	//分離軸:C21
-	Cross = NAe2.Cross(NBe1);
-	rA = AliceMathF::LenSegOnSeparateAxis(&Cross, &Ae1, &Ae3);
-	rB = AliceMathF::LenSegOnSeparateAxis(&Cross, &Be2, &Be3);
-	L = AliceMathF::Abs(Interval.Dot(Cross));
-	if (L > rA + rB)
+	lCross = lNAe2.Cross(lNBe1);
+	lRA = AliceMathF::LenSegOnSeparateAxis(&lCross, &lAe1, &lAe3);
+	lRB = AliceMathF::LenSegOnSeparateAxis(&lCross, &lBe2, &lBe3);
+	lL = AliceMathF::Abs(lInterval.Dot(lCross));
+	if (lL > lRA + lRB)
 	{
 		//衝突していない
 		return false;
 	}
 
 	//分離軸:C22
-	Cross = NAe2.Cross(NBe2);
-	rA = AliceMathF::LenSegOnSeparateAxis(&Cross, &Ae1, &Ae3);
-	rB = AliceMathF::LenSegOnSeparateAxis(&Cross, &Be1, &Be3);
-	L = AliceMathF::Abs(Interval.Dot(Cross));
-	if (L > rA + rB)
+	lCross = lNAe2.Cross(lNBe2);
+	lRA = AliceMathF::LenSegOnSeparateAxis(&lCross, &lAe1, &lAe3);
+	lRB = AliceMathF::LenSegOnSeparateAxis(&lCross, &lBe1, &lBe3);
+	lL = AliceMathF::Abs(lInterval.Dot(lCross));
+	if (lL > lRA + lRB)
 	{
 		//衝突していない
 		return false;
 	}
 
 	//分離軸:C23
-	Cross = NAe2.Cross(NBe3);
-	rA = AliceMathF::LenSegOnSeparateAxis(&Cross, &Ae1, &Ae3);
-	rB = AliceMathF::LenSegOnSeparateAxis(&Cross, &Be1, &Be2);
-	L = AliceMathF::Abs(Interval.Dot(Cross));
-	if (L > rA + rB)
+	lCross = lNAe2.Cross(lNBe3);
+	lRA = AliceMathF::LenSegOnSeparateAxis(&lCross, &lAe1, &lAe3);
+	lRB = AliceMathF::LenSegOnSeparateAxis(&lCross, &lBe1, &lBe2);
+	lL = AliceMathF::Abs(lInterval.Dot(lCross));
+	if (lL > lRA + lRB)
 	{
 		//衝突していない
 		return false;
 	}
 
 	//分離軸:C31
-	Cross = NAe3.Cross(NBe1);
-	rA = AliceMathF::LenSegOnSeparateAxis(&Cross, &Ae1, &Ae2);
-	rB = AliceMathF::LenSegOnSeparateAxis(&Cross, &Be2, &Be3);
-	L = AliceMathF::Abs(Interval.Dot(Cross));
-	if (L > rA + rB)
+	lCross = lNAe3.Cross(lNBe1);
+	lRA = AliceMathF::LenSegOnSeparateAxis(&lCross, &lAe1, &lAe2);
+	lRB = AliceMathF::LenSegOnSeparateAxis(&lCross, &lBe2, &lBe3);
+	lL = AliceMathF::Abs(lInterval.Dot(lCross));
+	if (lL > lRA + lRB)
 	{
 		//衝突していない
 		return false;
 	}
 
 	//分離軸:C32
-	Cross = NAe3.Cross(NBe2);
-	rA = AliceMathF::LenSegOnSeparateAxis(&Cross, &Ae1, &Ae2);
-	rB = AliceMathF::LenSegOnSeparateAxis(&Cross, &Be1, &Be3);
-	L = AliceMathF::Abs(Interval.Dot(Cross));
-	if (L > rA + rB)
+	lCross = lNAe3.Cross(lNBe2);
+	lRA = AliceMathF::LenSegOnSeparateAxis(&lCross, &lAe1, &lAe2);
+	lRB = AliceMathF::LenSegOnSeparateAxis(&lCross, &lBe1, &lBe3);
+	lL = AliceMathF::Abs(lInterval.Dot(lCross));
+	if (lL > lRA + lRB)
 	{
 		//衝突していない
 		return false;
 	}
 
 	//分離軸:C33
-	Cross = NAe3.Cross(NBe3);
-	rA = AliceMathF::LenSegOnSeparateAxis(&Cross, &Ae1, &Ae2);
-	rB = AliceMathF::LenSegOnSeparateAxis(&Cross, &Be1, &Be2);
-	L = AliceMathF::Abs(Interval.Dot(Cross));
-	if (L > rA + rB)
+	lCross = lNAe3.Cross(lNBe3);
+	lRA = AliceMathF::LenSegOnSeparateAxis(&lCross, &lAe1, &lAe2);
+	lRB = AliceMathF::LenSegOnSeparateAxis(&lCross, &lBe1, &lBe2);
+	lL = AliceMathF::Abs(lInterval.Dot(lCross));
+	if (lL > lRA + lRB)
 	{
 		//衝突していない
 		return false;
@@ -526,119 +529,93 @@ bool Collision::CheckOBB2OBB(OBBCollider& obb1, OBBCollider& obb2)
 
 #pragma endregion
 
-
-
-
 #pragma region 2D
 
 #pragma region 矩形
 
-float Collision::Point2LineDistance(const Point2D& point, Line2D& line, Point2D& mPoint, float& t)
+float Collision::SPoint2LineDistance(const Point2D& point_, const Line2D& line_, Point2D& mPoint_, float& t_)
 {
-	t = 0.0f;
-	AliceMathF::Vector2 vec = line.GetAxis()*line.Getlength_();
-	float dvv = vec.Dot(vec);
+	t_ = 0.0f;
+	AliceMathF::Vector2 lVec = line_.GetAxis()* line_.Getlength_();
+	float lDvv = lVec.Dot(lVec);
 
-	if (dvv > 0.0f)
+	if (lDvv > 0.0f)
 	{
-		t = vec.Dot(point - line.GetStart()) / dvv;
+		t_ = lVec.Dot(point_ - line_.GetStart()) / lDvv;
 	}
 
-	mPoint = line.GetStart() + vec * t;
-	return (point - mPoint).length_();
+	mPoint_ = line_.GetStart() + lVec * t_;
+	return (point_ - mPoint_).length_();
 }
 
 
-float Collision::Point2CapsuleDistance(const Point2D& point, CapsuleCllider2D& capsule)
+float Collision::SPoint2CapsuleDistance(const Point2D& point_, const CapsuleCllider2D& capsule_)
 {
-	float distance = 0.0;
+	float lDistance = 0.0;
 
-	Segment2D segm = capsule.GetSegment();
+	Segment2D lSegment = capsule_.GetSegment();
 
-	float x0 = point.x, y0 = point.y;
-	float x1 = segm.GetStart().x, y1 = segm.GetStart().y;
-	float x2 = segm.GetEnd().x, y2 = segm.GetEnd().y;
+	float lX0 = point_.x, lY0 = point_.y;
+	float lX1 = lSegment.GetStart().x, lY1 = lSegment.GetStart().y;
+	float lX2 = lSegment.GetEnd().x, lY2 = lSegment.GetEnd().y;
 
-	float a = x2 - x1;
-	float b = y2 - y1;
-	float a2 = a * a;
-	float b2 = b * b;
-	float r2 = a2 + b2;
-	float tt = -(a * (x1 - x0) + b * (y1 - y0));
+	float lA = lX2 - lX1;
+	float lB = lY2 - lY1;
+	float lA2 = lA * lA;
+	float lB2 = lB * lB;
+	float lR2 = lA2 + lB2;
+	float lTt = -(lA * (lX1 - lX0) + lB * (lY1 - lY0));
 
-	if (tt < 0)
+	if (lTt < 0)
 	{
-		distance = sqrtf((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0));
-		return distance;
+		lDistance = sqrtf((lX1 - lX0) * (lX1 - lX0) + (lY1 - lY0) * (lY1 - lY0));
+		return lDistance;
 	}
-	else if (tt > r2)
+	else if (lTt > lR2)
 	{
-		distance = sqrtf((x2 - x0) * (x2 - x0) + (y2 - y0) * (y2 - y0));
-		return distance;
+		lDistance = sqrtf((lX2 - lX0) * (lX2 - lX0) + (lY2 - lY0) * (lY2 - lY0));
+		return lDistance;
 	}
 
-	float f1 = a * (y1 - y0) - b * (x1 - x0);
-	distance = sqrtf((f1 * f1) / r2);;
+	float lF1 = lA * (lY1 - lY0) - lB * (lX1 - lX0);
+	lDistance = sqrtf((lF1 * lF1) / lR2);
 
-	return distance;
-		
-	//Line2D line;
-	//line.SetAxis(capsule.GetAxis());
-	//line.SetStart(capsule.GetStart());
-	//line.Setlength_(capsule.Getlength_());
-
-	//float distance = Point2LineDistance(point, line, mPoint, t);
-
-	//if (t < 0.0f)
-	//{
-	//	mPoint = capsule.GetStart();
-
-	//	return (point - mPoint).length_();
-	//}
-
-	//if (t > 1.0f)
-	//{
-	//	mPoint = capsule.GetEnd();
-
-	//	AliceMathF::Vector2 vec = point - mPoint;
-
-	//	return vec.length_();
-	//}
+	return lDistance;
 }
 
-bool Collision::CheckBox2Capsule(BoxCollider2D& box, CapsuleCllider2D& capsule)
+bool Collision::SCheckBox2Capsule(const BoxCollider2D& box_, const CapsuleCllider2D& capsule_)
 {
-	AliceMathF::Vector2 leftTop = box.GetLeftTop();
-	AliceMathF::Vector2 rightBottom = box.GetRightBottom();
+	AliceMathF::Vector2 lLeftTop = box_.GetLeftTop();
+	AliceMathF::Vector2 lRightBottom = box_.GetRightBottom();
 
 	//左上
-	float distance = Point2CapsuleDistance(leftTop, capsule);
+	float lDistance = SPoint2CapsuleDistance(lLeftTop, capsule_);
 
-	if (distance < capsule.GetRadius())
+	if (lDistance < capsule_.GetRadius())
 	{
 		return true;
 	}
 
 	//左下
-	distance = Point2CapsuleDistance({ leftTop.x, rightBottom.y }, capsule);
+	lDistance = SPoint2CapsuleDistance({ lLeftTop.x, lRightBottom.y }, capsule_);
 
-	if (distance < capsule.GetRadius() )
+	if (lDistance < capsule_.GetRadius() )
 	{
 		return true;
 	}
 
 	//右上
-	distance = Point2CapsuleDistance({ rightBottom.x, leftTop.y }, capsule);
+	lDistance = SPoint2CapsuleDistance({ lRightBottom.x, lLeftTop.y }, capsule_);
 
-	if (distance < capsule.GetRadius())
+	if (lDistance < capsule_.GetRadius())
 	{
 		return true;
 	}
 
 	//右下
-	distance = Point2CapsuleDistance(rightBottom, capsule);
+	lDistance = SPoint2CapsuleDistance(lRightBottom, capsule_);
 
-	if (distance < capsule.GetRadius())
+	if (lDistance < capsule_.GetRadius())
 	{
 		return true;
 	}

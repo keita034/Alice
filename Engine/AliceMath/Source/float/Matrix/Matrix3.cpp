@@ -31,85 +31,85 @@ namespace AliceMathF
 		m[2][2] = 1.0f;
 	}
 
-	Matrix3::Matrix3(float m00, float m01, float m02, float m10, float m11, float m12, float m20, float m21, float m22)
+	Matrix3::Matrix3(float m00_, float m01_, float m02_, float m10_, float m11_, float m12_, float m20_, float m21_, float m22_)
 	{
-		m[0][0] = m00;
-		m[0][1] = m01;
-		m[0][2] = m02;
+		m[0][0] = m00_;
+		m[0][1] = m01_;
+		m[0][2] = m02_;
 
-		m[1][0] = m10;
-		m[1][1] = m11;
-		m[1][2] = m12;
+		m[1][0] = m10_;
+		m[1][1] = m11_;
+		m[1][2] = m12_;
 
-		m[2][0] = m20;
-		m[2][1] = m21;
-		m[2][2] = m22;
+		m[2][0] = m20_;
+		m[2][1] = m21_;
+		m[2][2] = m22_;
 	}
 
 
-	Matrix3::Matrix3(const Vector2& scale, float angle, const Vector2& trans)
+	Matrix3::Matrix3(const Vector2& scale_, float angle_, const Vector2& trans_)
 	{
-		AliceMathF::Matrix3 matScale, matRot, matTrans;
+		AliceMathF::Matrix3 lMatScale, lMatRot, lMatTrans;
 
 		//スケール、回転、平行移動行列の計算
-		matScale.MakeScaling(scale);
-		matRot.MakeRotation(angle);
-		matTrans.MakeTranslation(trans);
+		lMatScale.MakeScaling(scale_);
+		lMatRot.MakeRotation(angle_);
+		lMatTrans.MakeTranslation(trans_);
 
 		//ワールド行列の合成
 		//変形をリセット
 		*this = AliceMathF::MakeMat3Identity();
 		//ワールド行列にスケーリングを反映
-		*this *= matScale;
+		*this *= lMatScale;
 		//ワールド行列に回転を反映
-		*this *= matRot;
+		*this *= lMatRot;
 		//ワールド行列に平行移動を反映
-		*this *= matTrans;
+		*this *= lMatTrans;
 	}
 
-	Matrix3::Matrix3(const aiMatrix3x3& mat)
+	Matrix3::Matrix3(const aiMatrix3x3& mat_)
 	{
-		m[0][0] = mat.a1;
-		m[0][1] = mat.a2;
-		m[0][2] = mat.a3;
+		m[0][0] = mat_.a1;
+		m[0][1] = mat_.a2;
+		m[0][2] = mat_.a3;
 
-		m[1][0] = mat.b1;
-		m[1][1] = mat.b2;
-		m[1][2] = mat.b3;
+		m[1][0] = mat_.b1;
+		m[1][1] = mat_.b2;
+		m[1][2] = mat_.b3;
 
-		m[2][0] = mat.c1;
-		m[2][1] = mat.c2;
-		m[2][2] = mat.c3;
+		m[2][0] = mat_.c1;
+		m[2][1] = mat_.c2;
+		m[2][2] = mat_.c3;
 	}
 
 	Matrix3 MakeMat3Identity()
 	{
-		Matrix3 mat;
-		return mat;
+		Matrix3 lMat;
+		return lMat;
 	}
 
-	Matrix3 MakeInverse(const Matrix3* mat)
+	Matrix3 MakeInverse(const Matrix3* mat_)
 	{
-		assert(mat);
+		assert(mat_);
 
 		//掃き出し法を行う行列
-		float sweep[3][6]{};
+		float lSweep[3][6]{};
 		//定数倍用
-		float constTimes = 0.0f;
+		 float lConstTimes = 0.0f;
 		//許容する誤差
-		float MAX_ERR = 1e-10f;
+		const float MAX_ERR = 1e-10f;
 		//戻り値用
-		Matrix3 retMat;
+		Matrix3 lRetMat;
 
 		for (size_t i = 0; i < 3; i++)
 		{
 			for (size_t j = 0; j < 3; j++)
 			{
 				//weepの左側に逆行列を求める行列をセット
-				sweep[i][j] = mat->m[i][j];
+				lSweep[i][j] = mat_->m[i][j];
 
-				//sweepの右側に単位行列をセット
-				sweep[i][3 + j] = MakeMat3Identity().m[i][j];
+				//lSweepの右側に単位行列をセット
+				lSweep[i][3 + j] = MakeMat3Identity().m[i][j];
 			}
 		}
 
@@ -117,44 +117,44 @@ namespace AliceMathF
 		for (size_t i = 0; i < 3; i++)
 		{
 			//最大の絶対値を注目対角成分の絶対値と仮定
-			float max = std::fabs(sweep[i][i]);
-			size_t maxIndex = i;
+			float lMax = std::fabs(lSweep[i][i]);
+			size_t lMaxIndex = i;
 
 			//i列目が最大の絶対値となる行を探す
 			for (size_t j = i + 1; j < 3; j++)
 			{
-				if (std::fabs(sweep[j][i]) > max)
+				if (std::fabs(lSweep[j][i]) > lMax)
 				{
-					max = std::fabs(sweep[j][i]);
-					maxIndex = j;
+					lMax = std::fabs(lSweep[j][i]);
+					lMaxIndex = j;
 				}
 			}
 
-			if (fabs(sweep[maxIndex][i]) <= MAX_ERR)
+			if (fabs(lSweep[lMaxIndex][i]) <= MAX_ERR)
 			{
 				//逆行列は求められない
 				return MakeMat3Identity();
 			}
 
 			//操作(1):i行目とmaxIndex行目を入れ替える
-			if (i != maxIndex)
+			if (i != lMaxIndex)
 			{
 				for (size_t j = 0; j < 6; j++)
 				{
-					float tmp = sweep[maxIndex][j];
-					sweep[maxIndex][j] = sweep[i][j];
-					sweep[i][j] = tmp;
+					float lTmp = lSweep[lMaxIndex][j];
+					lSweep[lMaxIndex][j] = lSweep[i][j];
+					lSweep[i][j] = lTmp;
 				}
 			}
 
-			//sweep[i][i]に掛けると1になる値を求める
-			constTimes = 1 / sweep[i][i];
+			//lSweep[i][i]に掛けると1になる値を求める
+			lConstTimes = 1 / lSweep[i][i];
 
 			//操作(2):p行目をa倍する
 			for (size_t j = 0; j < 6; j++)
 			{
-				//これによりsweep[i][i]が1になる
-				sweep[i][j] *= constTimes;
+				//これによりlSweep[i][i]が1になる
+				lSweep[i][j] *= lConstTimes;
 			}
 
 			//操作(3)によりi行目以外の行のi列目を0にする
@@ -167,164 +167,164 @@ namespace AliceMathF
 				}
 
 				//i行目に掛ける値を求める
-				constTimes = -sweep[j][i];
+				lConstTimes = -lSweep[j][i];
 
 				for (size_t k = 0; k < 6; k++)
 				{
 					//j行目にi行目をa倍した行を足す
-					//これによりsweep[j][i]が0になる
-					sweep[j][k] += sweep[i][k] * constTimes;
+					//これによりlSweep[j][i]が0になる
+					lSweep[j][k] += lSweep[i][k] * lConstTimes;
 				}
 			}
 		}
 
-		//sweepの右半分がmatの逆行列
+		//lSweepの右半分がmatの逆行列
 		for (size_t i = 0; i < 3; i++)
 		{
 			for (size_t j = 0; j < 3; j++)
 			{
-				retMat.m[i][j] = sweep[i][3 + j];
+				lRetMat.m[i][j] = lSweep[i][3 + j];
 			}
 		}
 
-		return retMat;
+		return lRetMat;
 	}
 
-	Matrix3::Matrix3(const DirectX::XMFLOAT3X3& Matrix3)
+	Matrix3::Matrix3(const DirectX::XMFLOAT3X3& matrix3_)
 	{
 		for (size_t i = 0; i < 3; i++)
 		{
 			for (size_t j = 0; j < 3; j++)
 			{
-				m[i][j] = Matrix3.m[i][j];
+				m[i][j] = matrix3_.m[i][j];
 			}
 		}
 	}
 
-	void Matrix3::MakeScaling(const Vector2& scale)
+	void Matrix3::MakeScaling(const Vector2& scale_)
 	{
 		//スケーリング倍率を行列に設定する
-		m[0][0] = scale.x;
-		m[1][1] = scale.y;
+		m[0][0] = scale_.x;
+		m[1][1] = scale_.y;
 	}
 
-	void Matrix3::MakeScaling(float x, float y)
+	void Matrix3::MakeScaling(float x_, float y_)
 	{
-		MakeScaling(Vector2(x, y));
+		MakeScaling(Vector2(x_, y_));
 	}
 
-	void Matrix3::MakeTranslation(const Vector2& trans)
+	void Matrix3::MakeTranslation(const Vector2& trans_)
 	{
-		m[3][0] = trans.x;
-		m[3][1] = trans.y;
+		m[3][0] = trans_.x;
+		m[3][1] = trans_.y;
 	}
 
-	void Matrix3::MakeTranslation(float x, float y)
+	void Matrix3::MakeTranslation(float x_, float y_)
 	{
-		MakeTranslation(Vector2(x, y));
+		MakeTranslation(Vector2(x_, y_));
 	}
 
-	void Matrix3::MakeRotation(float angle)
+	void Matrix3::MakeRotation(float angle_)
 	{
-		m[0][0] = Cos(angle);
-		m[0][1] = -Sin(angle);
+		m[0][0] = Cos(angle_);
+		m[0][1] = -Sin(angle_);
 
-		m[1][0] = Sin(angle);
-		m[1][1] = Cos(angle);
+		m[1][0] = Sin(angle_);
+		m[1][1] = Cos(angle_);
 	}
 
 	Matrix3::operator DirectX::XMFLOAT3X3() const
 	{
-		DirectX::XMFLOAT3X3 mat {
+		DirectX::XMFLOAT3X3 lMat {
 		m[0][0], m[0][1], m[0][2],
 		m[1][0], m[1][1], m[1][2],
 		m[2][0], m[2][1], m[2][2]};
 
-		return mat;
+		return lMat;
 	}
 
 	Matrix3 Matrix3::Transpose()
 	{
-		Matrix3 tmp(*this);
+		Matrix3 lTmp(*this);
 		for (size_t i = 0; i < 3; i++)
 		{
 			for (size_t j = i; j < 3; j++)
 			{
-				float f = tmp.m[i][j];
-				tmp.m[i][j] = tmp.m[j][i];
-				tmp.m[j][i] = f;
+				float lF = lTmp.m[i][j];
+				lTmp.m[i][j] = lTmp.m[j][i];
+				lTmp.m[j][i] = lF;
 			}
 		}
 
-		return tmp;
+		return lTmp;
 	}
 
-	Matrix3& Matrix3::operator=(const Matrix3& _m)
+	Matrix3& Matrix3::operator=(const Matrix3& m_)
 	{
 		for (size_t i = 0; i < 3; i++)
 		{
 			for (size_t j = 0; j < 3; j++)
 			{
-				m[i][j] = _m.m[i][j];
-			}
-		}
-
-		return *this;
-	}
-
-	const Matrix3& Matrix3::operator=(Matrix3& _m)
-	{
-		for (size_t i = 0; i < 3; i++)
-		{
-			for (size_t j = 0; j < 3; j++)
-			{
-				m[i][j] = _m.m[i][j];
+				m[i][j] = m_.m[i][j];
 			}
 		}
 
 		return *this;
 	}
 
-	Matrix3& Matrix3::operator+=(const Matrix3& mat)
+	const Matrix3& Matrix3::operator=(Matrix3& m_)
 	{
 		for (size_t i = 0; i < 3; i++)
 		{
 			for (size_t j = 0; j < 3; j++)
 			{
-				m[i][j] += mat.m[i][j];
+				m[i][j] = m_.m[i][j];
 			}
 		}
 
 		return *this;
 	}
 
-	Matrix3& Matrix3::operator-=(const Matrix3& mat)
+	Matrix3& Matrix3::operator+=(const Matrix3& mat_)
 	{
 		for (size_t i = 0; i < 3; i++)
 		{
 			for (size_t j = 0; j < 3; j++)
 			{
-				m[i][j] -= mat.m[i][j];
+				m[i][j] += mat_.m[i][j];
 			}
 		}
 
 		return *this;
 	}
 
-	Matrix3& Matrix3::operator*=(const Matrix3& mat)
+	Matrix3& Matrix3::operator-=(const Matrix3& mat_)
 	{
-		Matrix3 temp(*this);
+		for (size_t i = 0; i < 3; i++)
+		{
+			for (size_t j = 0; j < 3; j++)
+			{
+				m[i][j] -= mat_.m[i][j];
+			}
+		}
+
+		return *this;
+	}
+
+	Matrix3& Matrix3::operator*=(const Matrix3& mat_)
+	{
+		Matrix3 lTmp(*this);
 
 		for (size_t i = 0; i < 3; i++)
 		{
 			for (size_t j = 0; j < 3; j++)
 			{
-				double f = 0.0;
+				double lF = 0.0;
 				for (size_t k = 0; k < 3; k++)
 				{
-					f += (double)temp.m[i][k] * (double)mat.m[k][j];
+					lF += static_cast<double>(lTmp.m[i][k]) * static_cast<double>(mat_.m[k][j]);
 
-					m[i][j] = (float)f;
+					m[i][j] = static_cast<float>(lF);
 				}
 
 
@@ -333,24 +333,24 @@ namespace AliceMathF
 		return *this;
 	}
 
-	Matrix3 Matrix3::operator+(const Matrix3& mat) const
+	Matrix3 Matrix3::operator+(const Matrix3& mat_) const
 	{
-		Matrix3 temp(*this);
-		temp += mat;
-		return temp;
+		Matrix3 lTmp(*this);
+		lTmp += mat_;
+		return lTmp;
 	}
 
-	Matrix3 Matrix3::operator-(const Matrix3& mat) const
+	Matrix3 Matrix3::operator-(const Matrix3& mat_) const
 	{
-		Matrix3 temp(*this);
-		temp -= mat;
-		return temp;
+		Matrix3 lTmp(*this);
+		lTmp -= mat_;
+		return lTmp;
 	}
 
-	Matrix3 Matrix3::operator*(const Matrix3& mat) const
+	Matrix3 Matrix3::operator*(const Matrix3& mat_) const
 	{
-		Matrix3 temp(*this);
-		temp *= mat;
-		return temp;
+		Matrix3 lTmp(*this);
+		lTmp *= mat_;
+		return lTmp;
 	}
 }

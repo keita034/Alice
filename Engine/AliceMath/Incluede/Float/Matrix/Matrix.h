@@ -15,6 +15,6 @@
 
 namespace AliceMathF
 {
-	Vector3 GetWorldPosition(const AliceMathF::Matrix4& worldMat);
+	Vector3 GetWorldPosition(const AliceMathF::Matrix4& worldMat_);
 }
 

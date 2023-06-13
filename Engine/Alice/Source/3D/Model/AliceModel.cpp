@@ -68,8 +68,8 @@ uint32_t AliceModel::CreateModel(const std::string& fileDirectoryPath)
 
 			data->postureMatBuff = CreateUniqueConstantBuffer(sizeof(AliceMathF::Matrix4));
 
-			AliceMathF::Matrix4 tmp = AliceMathF::Matrix4();
-			data->postureMatBuff->Update(&tmp);
+			AliceMathF::Matrix4 lTmp = AliceMathF::Matrix4();
+			data->postureMatBuff->Update(&lTmp);
 
 			for (size_t i = 0; i < data->nodes.size(); i++)
 			{
@@ -229,8 +229,8 @@ uint32_t AliceModel::CreateToonModel(const std::string& fileDirectoryPath, const
 
 			data->postureMatBuff = CreateUniqueConstantBuffer(sizeof(AliceMathF::Matrix4));
 
-			AliceMathF::Matrix4 tmp = AliceMathF::Matrix4();
-			data->postureMatBuff->Update(&tmp);
+			AliceMathF::Matrix4 lTmp = AliceMathF::Matrix4();
+			data->postureMatBuff->Update(&lTmp);
 
 			for (size_t i = 0; i < data->nodes.size(); i++)
 			{
@@ -278,7 +278,7 @@ uint32_t AliceModel::CreateToonModel(const std::string& fileDirectoryPath, const
 	{
 		if (!modelDatas[path]->isToon)
 		{
-			printf("トゥーンモデルではありません");
+			printf("NotToonModel");
 
 		}
 		uint32_t modelHandle = modelDatas[path]->modelHandle;
