@@ -19,6 +19,9 @@
 #pragma warning(pop)
 
 #include<Input.h>
+#include<Keyboard.h>
+#include<Mouse.h>
+#include<Controller.h>
 
 #pragma comment(lib,"dinput8.lib")
 #pragma comment(lib,"dxguid.lib")
@@ -31,24 +34,27 @@ namespace AliceInput
 		Microsoft::WRL::ComPtr<IDirectInput8> directInput;
 
 		//キーボードデバイス
-		IKeyboard* keyboard = nullptr;
+		std::unique_ptr<IKeyboard> keyboard;
 
 		//マウス
-		IMouse* mouse = nullptr;
+		std::unique_ptr<IMouse> mouse;
 
-		IController* controller = nullptr;
+		std::unique_ptr<IController> controller;
 
 	public:
+
+		Input() = default;
+		~Input() = default;
 
 		/// <summary>
 		/// 初期化
 		/// </summary>
-		void Initialize(void* hwnd, void* hInstance) override;
+		void Initialize(void* hwnd_, void* hInstance_) override;
 
 		/// <summary>
 		/// 更新
 		/// </summary>
-		void Update(float width, float height) override;
+		void Update(float width_, float height_) override;
 
 		//キーボード
 
@@ -56,90 +62,90 @@ namespace AliceInput
 		/// キーのトリガー入力
 		/// </summary>
 		/// <param name="key">チェックしたいキー</param>
-		bool TriggerKey(const uint32_t key) override;
+		bool TriggerKey(uint32_t key_) override;
 
 		/// <summary>
 		/// キーのトリガー入力
 		/// </summary>
 		/// <param name="key">チェックしたいキー</param>
-		bool TriggerKey(const Keys key) override;
+		bool TriggerKey(Keys key_) override;
 
 		/// <summary>
 		/// キーの入力
 		/// </summary>
 		/// <param name="key">チェックしたいキー</param>
-		bool CheckKey(const uint32_t key) override;
+		bool CheckKey(uint32_t key_) override;
 
 		/// <summary>
 		/// キーの入力
 		/// </summary>
 		/// <param name="key">チェックしたいキー</param>
-		bool CheckKey(const Keys key) override;
+		bool CheckKey(Keys key_) override;
 
 		/// <summary>
 		/// キーの離した瞬間
 		/// </summary>
 		/// <param name="key">チェックしたいキー</param>
-		bool TriggerReleaseKey(const uint32_t key) override;
+		bool TriggerReleaseKey(uint32_t key_) override;
 
 		/// <summary>
 		/// キーの離した瞬間
 		/// </summary>
 		/// <param name="key">チェックしたいキー</param>
-		bool TriggerReleaseKey(const Keys key) override;
+		bool TriggerReleaseKey(Keys key_) override;
 
 		/// <summary>
 		/// キーを離してる
 		/// </summary>
 		/// <param name="key">チェックしたいキー</param>
-		bool ReleaseKey(const uint32_t key) override;
+		bool ReleaseKey(uint32_t key_) override;
 
 		/// <summary>
 		/// キーを離してる
 		/// </summary>
 		/// <param name="key">チェックしたいキー</param>
-		bool ReleaseKey(const Keys key) override;
+		bool ReleaseKey(Keys key_) override;
 
 		//マウス
 
 		/// <summary>
 		/// マウスボタンのトリガー入力
 		/// </summary>
-		bool TriggerMouseButton(MouseButton button) override;
+		bool TriggerMouseButton(MouseButton button_) override;
 
 		/// <summary>
 		/// マウスボタンの入力
 		/// </summary>
-		bool InputMouseButton(MouseButton button) override;
+		bool InputMouseButton(MouseButton button_) override;
 
 		/// <summary>
 		/// マウスボタンの離した瞬間
 		/// </summary>
-		bool TriggerReleaseMouseButton(MouseButton button) override;
+		bool TriggerReleaseMouseButton(MouseButton button_) override;
 
 		/// <summary>
 		/// マウスの位置
 		/// </summary>
 		/// <returns>マウスの位置</returns>
-		const AliceMathF::Vector2& GetMousePos() override;;
+		const AliceMathF::Vector2& GetMousePos() override;
 
 		/// <summary>
 		/// マウスの位置
 		/// </summary>
 		/// <returns>マウスの位置</returns>
-		const AliceMathF::Vector2& GetWorldMousePos() override;;
+		const AliceMathF::Vector2& GetWorldMousePos() override;
 
 		/// <summary>
 		/// マウスの位置
 		/// </summary>
 		/// <returns>マウスの位置</returns>
-		const AliceMathF::Vector2& GetLocalMousePos() override;;
+		const AliceMathF::Vector2& GetLocalMousePos() override;
 
 		/// <summary>
 		/// マウスの位置
 		/// </summary>
 		/// <returns>マウスの位置</returns>
-		const AliceMathF::Vector3& GetMouseMove() override;;
+		const AliceMathF::Vector3& GetMouseMove() override;
 
 		//コントローラ-
 
@@ -147,49 +153,49 @@ namespace AliceInput
 		/// コントローラーボタンのトリガー入力
 		/// </summary>
 		/// <param name="button">チェックしたいボタン</param>
-		bool TriggerButton(ControllerButton button) override;;
+		bool TriggerButton(ControllerButton button_) override;
 
 		/// <summary>
 		/// コントローラーボタンのトリガー入力
 		/// </summary>
 		/// <param name="button">チェックしたいボタン</param>
-		bool TriggerButton(uint32_t button) override;;
+		bool TriggerButton(uint32_t button_) override;
 
 		/// <summary>
 		/// コントローラーボタンの入力
 		/// </summary>
 		/// <param name="button">チェックしたいボタン</param>
-		bool InputButton(ControllerButton button) override;;
+		bool InputButton(ControllerButton button_) override;
 
 		/// <summary>
 		/// コントローラーボタンの入力
 		/// </summary>
 		/// <param name="button">チェックしたいボタン</param>
-		bool InputButton(uint32_t button) override;;
+		bool InputButton(uint32_t button_) override;
 
 		/// <summary>
 		/// コントローラーボタンの離した瞬間
 		/// </summary>
 		/// <param name="button">チェックしたいボタン</param>
-		bool TriggerReleaseButton(ControllerButton button) override;;
+		bool TriggerReleaseButton(ControllerButton button_) override;
 
 		/// <summary>
 		/// コントローラーボタンの離した瞬間
 		/// </summary>
 		/// <param name="button">チェックしたいボタン</param>
-		bool TriggerReleaseButton(uint32_t button) override;;
+		bool TriggerReleaseButton(uint32_t button_) override;
 
 		/// <summary>
 		/// コントローラーボタンの離した
 		/// </summary>
 		/// <param name="button">チェックしたいボタン</param>
-		bool ReleaseButton(ControllerButton button) override;;
+		bool ReleaseButton(ControllerButton button_) override;
 
 		/// <summary>
 		/// コントローラーボタンの離した
 		/// </summary>
 		/// <param name="button">チェックしたいボタン</param>
-		bool ReleaseButton(uint32_t button) override;;
+		bool ReleaseButton(uint32_t button_) override;
 
 		/// <summary>
 		/// コントローラースティックのトリガー入力
@@ -197,7 +203,7 @@ namespace AliceInput
 		/// <param name="stickInput">コントローラースティック方向</param>
 		/// <param name="deadRange">デッドゾーンの範囲</param>
 		/// <param name="deadRate">デッドゾーン判定の度合い初期値1.0f</param>
-		bool TriggerStick(ControllerStick stickInput, const float& deadRange = 0.3f, const AliceMathF::Vector2& deadRate = { 1.0f,1.0f }) override;;
+		bool TriggerStick(ControllerStick stickInput_, float deadRange_ = 0.3f, const AliceMathF::Vector2& deadRate_ = { 1.0f,1.0f }) override;
 
 		/// <summary>
 		/// コントローラースティックの入力
@@ -205,7 +211,7 @@ namespace AliceInput
 		/// <param name="stickInput">コントローラースティック方向</param>
 		/// <param name="deadRange">デッドゾーンの範囲</param>
 		/// <param name="deadRate">デッドゾーン判定の度合い初期値1.0f</param>
-		bool InputStick(ControllerStick stickInput, const float& deadRange = 0.3f, const AliceMathF::Vector2& deadRate = { 1.0f,1.0f }) override;;
+		bool InputStick(ControllerStick stickInput_, float deadRange_ = 0.3f, const AliceMathF::Vector2& deadRate_ = { 1.0f,1.0f }) override;
 
 		/// <summary>
 		/// コントローラースティックの離した瞬間
@@ -213,114 +219,119 @@ namespace AliceInput
 		/// <param name="stickInput">コントローラースティック方向</param>
 		/// <param name="deadRange">デッドゾーンの範囲初期値0.3f</param>
 		/// <param name="deadRate">デッドゾーン判定の度合い初期値1.0f</param>
-		bool TriggerReleaseStick(ControllerStick stickInput, const float& deadRange = 0.3f, const AliceMathF::Vector2& deadRate = { 1.0f,1.0f }) override;;
+		bool TriggerReleaseStick(ControllerStick stickInput_, float deadRange_ = 0.3f, const AliceMathF::Vector2& deadRate_ = { 1.0f,1.0f }) override;;
 
 		/// <summary>
 		/// コントローラーの左スティックのベクトル
 		/// </summary>
 		/// <param name="deadRate">デッドゾーン判定の度合い初期値1.0f</param>
-		AliceMathF::Vector2 GetLeftStickVec(const AliceMathF::Vector2& deadRate = { 1.0f,1.0f }) override;;
+		AliceMathF::Vector2 GetLeftStickVec(const AliceMathF::Vector2& deadRate_ = { 1.0f,1.0f }) override;;
 
 		/// <summary>
 		/// コントローラーの右スティックのベクトル
 		/// </summary>
 		/// <param name="deadRate">デッドゾーン判定の度合い初期値1.0f</param>
-		AliceMathF::Vector2 GetRightStickVec(const AliceMathF::Vector2& deadRate = { 1.0f,1.0f }) override;;
+		AliceMathF::Vector2 GetRightStickVec(const AliceMathF::Vector2& deadRate_ = { 1.0f,1.0f }) override;;
 
 		/// <summary>
 		/// コントローラーを振動させる
 		/// </summary>
 		/// <param name="power">振動の強さ0.0f～1.0f</param>
 		/// <param name="span">振動の時間フレーム</param>
-		void ShakeController(const float& power, const int& span) override;;
+		void ShakeController(float power_, int32_t span_) override;
+
+	private:
+
+		//コピーコンストラクタ・代入演算子削除
+		Input& operator=(const Input&) = delete;
+		Input(const Input&) = delete;
 	};
 
-	void Input::Initialize(void* hwnd, void* hInstance)//初期化
+	void Input::Initialize(void* hwnd_, void* hInstance_)//初期化
 	{
 
-		HRESULT result;
-
-		HINSTANCE* instance = static_cast<HINSTANCE*>(hInstance);
+		HRESULT lResult;
+		HINSTANCE* lInstance = static_cast<HINSTANCE*>(hInstance_);
 
 		//DirectInputの初期化
-		result = DirectInput8Create(*instance, DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)directInput.ReleaseAndGetAddressOf(), nullptr);
-		assert(SUCCEEDED(result));
+		lResult = DirectInput8Create(*lInstance, DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)directInput.ReleaseAndGetAddressOf(), nullptr);
+		assert(SUCCEEDED(lResult));
 
 		//キーボードデバイスの初期化
-		keyboard = CreateKeyboard(directInput.Get(), hwnd);
+		keyboard = CreateUniqueKeyboard(directInput.Get(), hwnd_);
 
 		//マウスデバイスの初期化
-		mouse = CreateMouse(directInput.Get(), hwnd);
+		mouse = CreateUniqueMouse(directInput.Get(), hwnd_);
 
 		//コントローラーの初期化
-		controller = CreateController();
+		controller = CreateUniqueController();
 	}
 
-	void Input::Update(float width, float height)//更新処理
+	void Input::Update(float width_, float height_)
 	{
 		//キーボードデバイスの更新
 		keyboard->Update();
 
 		//マウスデバイスの更新
-		mouse->Update(width, height);
+		mouse->Update(width_, height_);
 
 		//コントローラーデバイスの更新
 		controller->Update();
 	}
 
-	bool Input::TriggerKey(const uint32_t key)
+	bool Input::TriggerKey(uint32_t key_)
+	{
+		return keyboard->TriggerKey(key_);
+	}
+
+	bool Input::TriggerKey(Keys key)
 	{
 		return keyboard->TriggerKey(key);
 	}
 
-	bool Input::TriggerKey(const Keys key)
+	bool Input::CheckKey(uint32_t key_)
 	{
-		return keyboard->TriggerKey(key);
+		return keyboard->CheckKey(key_);
 	}
 
-	bool Input::CheckKey(const uint32_t key)
+	bool Input::CheckKey(Keys key_)
 	{
-		return keyboard->CheckKey(key);
+		return keyboard->CheckKey(key_);
 	}
 
-	bool Input::CheckKey(const Keys key)
+	bool Input::TriggerReleaseKey(uint32_t key_)
 	{
-		return keyboard->CheckKey(key);
+		return keyboard->TriggerReleaseKey(key_);
 	}
 
-	bool Input::TriggerReleaseKey(const uint32_t key)
+	bool Input::TriggerReleaseKey(Keys key_)
 	{
-		return keyboard->TriggerReleaseKey(key);
+		return keyboard->TriggerReleaseKey(key_);
 	}
 
-	bool Input::TriggerReleaseKey(const Keys key)
+	bool Input::ReleaseKey(uint32_t key_)
 	{
-		return keyboard->TriggerReleaseKey(key);
+		return keyboard->ReleaseKey(key_);
 	}
 
-	bool Input::ReleaseKey(const uint32_t key)
+	bool Input::ReleaseKey(Keys key_)
 	{
-		return keyboard->ReleaseKey(key);
+		return keyboard->ReleaseKey(key_);
 	}
 
-	bool Input::ReleaseKey(const Keys key)
+	bool Input::TriggerMouseButton(MouseButton button_)
 	{
-		return keyboard->ReleaseKey(key);
+		return mouse->TriggerMouseButton(button_);
 	}
 
-	bool Input::TriggerMouseButton(MouseButton button)
+	bool Input::InputMouseButton(MouseButton button_)
 	{
-		return mouse->TriggerMouseButton(button);
+		return mouse->InputMouseButton(button_);
 	}
 
-	bool Input::InputMouseButton(MouseButton button)
+	bool Input::TriggerReleaseMouseButton(MouseButton button_)
 	{
-		return mouse->InputMouseButton(button);
-	}
-
-	bool Input::TriggerReleaseMouseButton(MouseButton button)
-	{
-		return mouse->TriggerReleaseMouseButton(button);
+		return mouse->TriggerReleaseMouseButton(button_);
 	}
 
 	const AliceMathF::Vector2& Input::GetMousePos()
@@ -343,80 +354,87 @@ namespace AliceInput
 		return mouse->GetMouseMove();
 	}
 
-	bool Input::TriggerButton(ControllerButton button)
+	bool Input::TriggerButton(ControllerButton button_)
 	{
-		return controller->TriggerButton(button);
+		return controller->TriggerButton(button_);
 	}
 
-	bool Input::TriggerButton(uint32_t button)
+	bool Input::TriggerButton(uint32_t button_)
 	{
-		return controller->TriggerButton(button);
+		return controller->TriggerButton(button_);
 	}
 
-	bool Input::InputButton(ControllerButton button)
+	bool Input::InputButton(ControllerButton button_)
 	{
-		return controller->InputButton(button);
+		return controller->InputButton(button_);
 	}
 
-	bool Input::InputButton(uint32_t button)
+	bool Input::InputButton(uint32_t button_)
 	{
-		return controller->InputButton(button);
+		return controller->InputButton(button_);
 	}
 
-	bool Input::TriggerReleaseButton(ControllerButton button)
+	bool Input::TriggerReleaseButton(ControllerButton button_)
 	{
-		return controller->TriggerReleaseButton(button);
+		return controller->TriggerReleaseButton(button_);
 	}
 
-	bool Input::TriggerReleaseButton(uint32_t button)
+	bool Input::TriggerReleaseButton(uint32_t button_)
 	{
-		return controller->TriggerReleaseButton(button);
+		return controller->TriggerReleaseButton(button_);
 	}
 
-	bool Input::ReleaseButton(ControllerButton button)
+	bool Input::ReleaseButton(ControllerButton button_)
 	{
-		return controller->ReleaseButton(button);
+		return controller->ReleaseButton(button_);
 	}
 
-	bool Input::ReleaseButton(uint32_t button)
+	bool Input::ReleaseButton(uint32_t button_)
 	{
-		return controller->ReleaseButton(button);
+		return controller->ReleaseButton(button_);
 	}
 
-	bool Input::TriggerStick(ControllerStick stickInput, const float& deadRange, const AliceMathF::Vector2& deadRate)
+	bool Input::TriggerStick(ControllerStick stickInput_, float deadRange_, const AliceMathF::Vector2& deadRate_)
 	{
-		return controller->TriggerStick(stickInput, deadRange, deadRate);
+		return controller->TriggerStick(stickInput_, deadRange_, deadRate_);
 	}
 
-	bool Input::InputStick(ControllerStick stickInput, const float& deadRange, const AliceMathF::Vector2& deadRate)
+	bool Input::InputStick(ControllerStick stickInput_, float deadRange_, const AliceMathF::Vector2& deadRate_)
 	{
-		return controller->InputStick(stickInput, deadRange, deadRate);
+		return controller->InputStick(stickInput_, deadRange_, deadRate_);
 	}
 
-	bool Input::TriggerReleaseStick(ControllerStick stickInput, const float& deadRange, const AliceMathF::Vector2& deadRate)
+	bool Input::TriggerReleaseStick(ControllerStick stickInput_, float deadRange_, const AliceMathF::Vector2& deadRate_)
 	{
-		return controller->TriggerReleaseStick(stickInput, deadRange, deadRate);
+		return controller->TriggerReleaseStick(stickInput_, deadRange_, deadRate_);
 	}
 
-	AliceMathF::Vector2 Input::GetLeftStickVec(const AliceMathF::Vector2& deadRate)
+	AliceMathF::Vector2 Input::GetLeftStickVec(const AliceMathF::Vector2& deadRate_)
 	{
-		return controller->GetLeftStickVec(deadRate);
+		return controller->GetLeftStickVec(deadRate_);
 	}
 
-	AliceMathF::Vector2 Input::GetRightStickVec(const AliceMathF::Vector2& deadRate)
+	AliceMathF::Vector2 Input::GetRightStickVec(const AliceMathF::Vector2& deadRate_)
 	{
-		return controller->GetRightStickVec(deadRate);
+		return controller->GetRightStickVec(deadRate_);
 	}
 
-	void Input::ShakeController(const float& power, const int& span)
+	void Input::ShakeController(float power, int32_t span)
 	{
 		controller->ShakeController(power, span);
 	}
 
-	IInput* CreateInput(void* hwnd, void* hInstance)
+	std::unique_ptr<IInput> CreateUniqueInput(void* hwnd_, void* hInstance_)
 	{
-		IInput* input = new Input();
-		input->Initialize(hwnd, hInstance);
-		return input;
+		std::unique_ptr<IInput> lInput = std::make_unique<Input>();
+		lInput->Initialize(hwnd_, hInstance_);
+		return std::move(lInput);
+	}
+
+	std::shared_ptr<IInput> CreateSharedInput(void* hwnd_, void* hInstance_)
+	{
+		std::shared_ptr<IInput> lInput = std::make_shared<Input>();
+		lInput->Initialize(hwnd_, hInstance_);
+		return lInput;
 	}
 }

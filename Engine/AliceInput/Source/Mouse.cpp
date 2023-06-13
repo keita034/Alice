@@ -25,13 +25,15 @@ namespace AliceInput
 	{
 	private:
 		//マウス
-		Microsoft::WRL::ComPtr<IDirectInputDevice8> mouseDev;
+		Microsoft::WRL::ComPtr<IDirectInputDevice8> mouseDevice;
 		DIMOUSESTATE2 mouseState = {};
 		DIMOUSESTATE2 oldMouseState = {};
+
 		AliceMathF::Vector2 mousePos;
 		AliceMathF::Vector2 worldMousePos;
 		AliceMathF::Vector2 localMousePos;
 		AliceMathF::Vector3 mouseMove;
+
 		char PADING[4];
 
 		HWND* handl;
@@ -41,27 +43,29 @@ namespace AliceInput
 		/// <summary>
 		/// 初期化
 		/// </summary>
-		void Initialize(void* dinput, void* hwnd) override;
+		void Initialize(void* directInput_, void* hwnd_) override;
 
 		/// <summary>
 		/// 更新
 		/// </summary>
-		void Update(float width, float height)override;
+		/// <param name="width_">ウィンドウ横幅</param>
+		/// <param name="height_">ウィンドウ縦幅</param>
+		void Update(float width_, float height_)override;
 
 		/// <summary>
 		/// マウスボタンのトリガー入力
 		/// </summary>
-		bool TriggerMouseButton(MouseButton button)override;
+		bool TriggerMouseButton(MouseButton button_)override;
 
 		/// <summary>
 		/// マウスボタンの入力
 		/// </summary>
-		bool InputMouseButton(MouseButton button)override;
+		bool InputMouseButton(MouseButton button_)override;
 
 		/// <summary>
 		/// マウスボタンの離した瞬間
 		/// </summary>
-		bool TriggerReleaseMouseButton(MouseButton button)override;
+		bool TriggerReleaseMouseButton(MouseButton button_)override;
 
 		/// <summary>
 		/// マウスの位置
@@ -88,70 +92,67 @@ namespace AliceInput
 		const AliceMathF::Vector3& GetMouseMove()override;
 	};
 
-	void Mouse::Initialize(void* dinput, void* hwnd)
+	void Mouse::Initialize(void* directInput_, void* hwnd_)
 	{
-		HRESULT result;
+		HRESULT lResult;
 
-		IDirectInput8* directInput = static_cast<IDirectInput8*>(dinput);
-		handl = static_cast<HWND*>(hwnd);
+		IDirectInput8* lDirectInput = static_cast<IDirectInput8*>(directInput_);
+		handl = static_cast<HWND*>(hwnd_);
 
 		//マウスデバイスの生成
-		result = directInput->CreateDevice(GUID_SysMouse, &mouseDev, NULL);
-		assert(SUCCEEDED(result));
+		lResult = lDirectInput->CreateDevice(GUID_SysMouse, &mouseDevice, NULL);
+		assert(SUCCEEDED(lResult));
 
-		result = mouseDev->SetDataFormat(&c_dfDIMouse2);
-		assert(SUCCEEDED(result));
+		lResult = mouseDevice->SetDataFormat(&c_dfDIMouse2);
+		assert(SUCCEEDED(lResult));
 
-		result = mouseDev->SetCooperativeLevel(*handl, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
-		assert(SUCCEEDED(result));
+		lResult = mouseDevice->SetCooperativeLevel(*handl, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
+		assert(SUCCEEDED(lResult));
 	}
 
-	void Mouse::Update(float width, float height)
+	void Mouse::Update(float width_, float height_)
 	{
-		HRESULT result;
+		HRESULT lResult;
 
 		//マウス
-		result = mouseDev->Acquire();
+		lResult = mouseDevice->Acquire();
 		oldMouseState = mouseState;
-		result = mouseDev->GetDeviceState(sizeof(mouseState), &mouseState);
+		lResult = mouseDevice->GetDeviceState(sizeof(mouseState), &mouseState);
 
-		POINT point{};
-		LPPOINT p = &point;
+		POINT lPoint{};
+		LPPOINT lLPoint = &lPoint;
 
-		if (!GetCursorPos(p))
-		{
-			assert(0);
-		}
+		GetCursorPos(lLPoint);
 
-		worldMousePos = AliceMathF::Vector2(p->x, p->y);
+		worldMousePos = AliceMathF::Vector2(static_cast<float>(lLPoint->x), static_cast<float>(lLPoint->y));
 
-		ScreenToClient(*handl, p);
+		ScreenToClient(*handl, lLPoint);
 
-		localMousePos = AliceMathF::Vector2(p->x, p->y);
+		localMousePos = AliceMathF::Vector2(static_cast<float>(lLPoint->x), static_cast<float>(lLPoint->y));
 
-		mousePos.x = AliceMathF::Clamp(localMousePos.x, 0.0f, width);
-		mousePos.y = AliceMathF::Clamp(localMousePos.y, 0.0f, height);
+		mousePos.x = AliceMathF::Clamp(localMousePos.x, 0.0f, width_);
+		mousePos.y = AliceMathF::Clamp(localMousePos.y, 0.0f, height_);
 	}
 
-	bool Mouse::TriggerMouseButton(MouseButton button)
+	bool Mouse::TriggerMouseButton(MouseButton button_)
 	{
-		uint32_t bottonIndex = static_cast<uint32_t>(button);
+		uint32_t lBottonIndex = static_cast<uint32_t>(button_);
 
-		return (!oldMouseState.rgbButtons[bottonIndex] && mouseState.rgbButtons[bottonIndex]);
+		return (!oldMouseState.rgbButtons[lBottonIndex] && mouseState.rgbButtons[lBottonIndex]);
 	}
 
-	bool Mouse::InputMouseButton(MouseButton button)
+	bool Mouse::InputMouseButton(MouseButton button_)
 	{
-		uint32_t bottonIndex = static_cast<uint32_t>(button);
+		uint32_t lBottonIndex = static_cast<uint32_t>(button_);
 
-		return (bool)(mouseState.rgbButtons[bottonIndex]);
+		return static_cast<bool>(mouseState.rgbButtons[lBottonIndex]);
 	}
 
-	bool Mouse::TriggerReleaseMouseButton(MouseButton button)
+	bool Mouse::TriggerReleaseMouseButton(MouseButton button_)
 	{
-		uint32_t bottonIndex = static_cast<uint32_t>(button);
+		uint32_t lBottonIndex = static_cast<uint32_t>(button_);
 
-		return (oldMouseState.rgbButtons[bottonIndex] && !mouseState.rgbButtons[bottonIndex]);
+		return (oldMouseState.rgbButtons[lBottonIndex] && !mouseState.rgbButtons[lBottonIndex]);
 	}
 
 	const AliceMathF::Vector2& Mouse::GetMousePos()
@@ -171,17 +172,22 @@ namespace AliceInput
 
 	const AliceMathF::Vector3& Mouse::GetMouseMove()
 	{
-		mouseMove = { mouseState.lX, mouseState.lY, mouseState.lZ };
+		mouseMove = { static_cast<float>(mouseState.lX), static_cast<float>(mouseState.lY), static_cast<float>(mouseState.lZ) };
 
 		return mouseMove;
 	}
 
-	IMouse* CreateMouse(void* directInput, void* hwnd)
+	std::unique_ptr<IMouse> CreateUniqueMouse(void* directInput_, void* hwnd_)
 	{
-		IMouse* mouse = new Mouse();
-		mouse->Initialize(directInput, hwnd);
-
-		return mouse;
+		std::unique_ptr<IMouse>lMouse = std::make_unique<Mouse>();
+		lMouse->Initialize(directInput_, hwnd_);
+		return std::move(lMouse);
 	}
 
+	std::shared_ptr<IMouse> CreateSharedMouse(void* directInput_, void* hwnd_)
+	{
+		std::shared_ptr<IMouse>lMouse = std::make_shared<Mouse>();
+		lMouse->Initialize(directInput_, hwnd_);
+		return lMouse;
+	}
 }

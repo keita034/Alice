@@ -18,6 +18,7 @@
 #include<Windows.h>
 #include<cassert>
 #include<stdint.h>
+#include<array>
 #pragma warning(pop)
 
 namespace AliceInput
@@ -25,145 +26,156 @@ namespace AliceInput
 	class Keyboard : public IKeyboard
 	{
 	private:
-		IDirectInputDevice8* directInputDve;
-		BYTE oldKeys[256] = {};
-		BYTE keys[256] = {};
+		IDirectInputDevice8* directInputDevice;
+
+		//1フレーム前のキーボードの状態
+		std::array<uint8_t, 256>oldKeys;
+		//現フレームのキーボードの状態
+		std::array<uint8_t, 256>keys;
+
 	public:
-		void Initialize(void* dInput, void* hwnd)override;
+		void Initialize(void* directInput_, void* hwnd_)override;
 		void Update()override;
 
 		/// <summary>
 		/// キーのトリガー入力
 		/// </summary>
 		/// <param name="key">チェックしたいキー</param>
-		bool TriggerKey(const uint32_t key)override;
+		bool TriggerKey(uint32_t key_)override;
 
 		/// <summary>
 		/// キーのトリガー入力
 		/// </summary>
 		/// <param name="key">チェックしたいキー</param>
-		bool TriggerKey(const Keys key)override;
+		bool TriggerKey(Keys key_)override;
 
 		/// <summary>
 		/// キーの入力
 		/// </summary>
 		/// <param name="key">チェックしたいキー</param>
-		bool CheckKey(const uint32_t key)override;
+		bool CheckKey(uint32_t key_)override;
 
 		/// <summary>
 		/// キーの入力
 		/// </summary>
 		/// <param name="key">チェックしたいキー</param>
-		bool CheckKey(const Keys key)override;
+		bool CheckKey(Keys key_)override;
 
 		/// <summary>
 		/// キーの離した瞬間
 		/// </summary>
 		/// <param name="key">チェックしたいキー</param>
-		bool TriggerReleaseKey(const uint32_t key)override;
+		bool TriggerReleaseKey(uint32_t key_)override;
 
 		/// <summary>
 		/// キーの離した瞬間
 		/// </summary>
 		/// <param name="key">チェックしたいキー</param>
-		bool TriggerReleaseKey(const Keys key)override;
+		bool TriggerReleaseKey(Keys key_)override;
 
 		/// <summary>
 		/// キーを離してる
 		/// </summary>
 		/// <param name="key">チェックしたいキー</param>
-		bool ReleaseKey(const uint32_t key)override;
+		bool ReleaseKey(uint32_t key_)override;
 
 		/// <summary>
 		/// キーを離してる
 		/// </summary>
 		/// <param name="key">チェックしたいキー</param>
-		bool ReleaseKey(const Keys key)override;
+		bool ReleaseKey(Keys key_)override;
 	};
 
-	void Keyboard::Initialize(void* directInput, void* hwnd)
+	void Keyboard::Initialize(void* directInput_, void* hwnd_)
 	{
-		HRESULT result;
-		IDirectInput8* input = static_cast<IDirectInput8*>(directInput);
-		HWND* hnd = static_cast<HWND*>(hwnd);
+		HRESULT lResult;
+		IDirectInput8* lDirectInput = static_cast<IDirectInput8*>(directInput_);
+		HWND* lHwnd = static_cast<HWND*>(hwnd_);
 
 		//キーボードデバイスの生成
-		result = input->CreateDevice(GUID_SysKeyboard, &directInputDve, NULL);
-		assert(SUCCEEDED(result));
+		lResult = lDirectInput->CreateDevice(GUID_SysKeyboard, &directInputDevice, NULL);
+		assert(SUCCEEDED(lResult));
 
 		//入力データ形式のセット
-		result = directInputDve->SetDataFormat(&c_dfDIKeyboard);//標準形式
-		assert(SUCCEEDED(result));
+		lResult = directInputDevice->SetDataFormat(&c_dfDIKeyboard);//標準形式
+		assert(SUCCEEDED(lResult));
 
 		//排他制御レベルのセット
 		//フォアグラウンド（前面）の入力を受け付け
-		result = directInputDve->SetCooperativeLevel(*hnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
-		assert(SUCCEEDED(result));
+		lResult = directInputDevice->SetCooperativeLevel(*lHwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
+		assert(SUCCEEDED(lResult));
 	}
 
 	void Keyboard::Update()
 	{
+		uint32_t lKeysDataSize = static_cast<uint32_t>(sizeof(uint8_t) * oldKeys.size());
+
 		//1フレーム前のキーボードの状態を保存
-		memcpy(oldKeys, keys, sizeof(BYTE) * _countof(oldKeys));
+		memcpy(oldKeys.data(), keys.data(), lKeysDataSize);
 
 		//キーボード情報の取得開始
-		directInputDve->Acquire();
-		directInputDve->GetDeviceState(sizeof(keys), keys);
+		directInputDevice->Acquire();
+		directInputDevice->GetDeviceState(lKeysDataSize, keys.data());
 	}
 
-	bool Keyboard::TriggerKey(const uint32_t key)
+	bool Keyboard::TriggerKey(uint32_t key_)
 	{
-		return keys[key] && !oldKeys[key];
+		return keys[key_] && !oldKeys[key_];
 	}
 
-	bool Keyboard::TriggerKey(const Keys key)
+	bool Keyboard::TriggerKey(Keys key_)
 	{
-		uint32_t keyIndex = static_cast<uint32_t>(key);
+		uint32_t lKeyIndex = static_cast<uint32_t>(key_);
 
-		return keys[keyIndex] && !oldKeys[keyIndex];
+		return TriggerKey(lKeyIndex);
 	}
 
-	bool Keyboard::CheckKey(const uint32_t key)
+	bool Keyboard::CheckKey(uint32_t key_)
 	{
-		return static_cast<bool>(keys[key]);
+		return static_cast<bool>(keys[key_]);
 	}
 
-	bool Keyboard::CheckKey(const Keys key)
+	bool Keyboard::CheckKey(Keys key_)
 	{
-		uint32_t keyIndex = static_cast<uint32_t>(key);
+		uint32_t lKeyIndex = static_cast<uint32_t>(key_);
 
-		return static_cast<bool>(keys[keyIndex]);
+		return CheckKey(lKeyIndex);
 	}
 
-	bool Keyboard::TriggerReleaseKey(const uint32_t key)
+	bool Keyboard::TriggerReleaseKey(uint32_t key_)
 	{
-		return !keys[key] && oldKeys[key];
+		return !keys[key_] && oldKeys[key_];
 	}
 
-	bool Keyboard::TriggerReleaseKey(const Keys key)
+	bool Keyboard::TriggerReleaseKey(Keys key_)
 	{
-		uint32_t keyIndex = static_cast<uint32_t>(key);
+		uint32_t lKeyIndex = static_cast<uint32_t>(key_);
 
-		return !keys[keyIndex] && oldKeys[keyIndex];
+		return TriggerReleaseKey(lKeyIndex);
 	}
 
-	bool Keyboard::ReleaseKey(const uint32_t key)
+	bool Keyboard::ReleaseKey(uint32_t key_)
 	{
-		return !keys[key] && !oldKeys[key];
+		return !keys[key_] && !oldKeys[key_];
 	}
 
-	bool Keyboard::ReleaseKey(const Keys key)
+	bool Keyboard::ReleaseKey(Keys key_)
 	{
-		uint32_t keyIndex = static_cast<uint32_t>(key);
-		return !keys[keyIndex] && !oldKeys[keyIndex];
+		uint32_t lKeyIndex = static_cast<uint32_t>(key_);
+		return ReleaseKey(lKeyIndex);
 	}
 
-
-	IKeyboard* CreateKeyboard(void* directInput, void* hwnd)
+	std::unique_ptr<IKeyboard> CreateUniqueKeyboard(void* directInput_, void* hwnd_)
 	{
-		IKeyboard* keyboard = new Keyboard();
-		keyboard->Initialize(directInput, hwnd);
-		return keyboard;
+		std::unique_ptr<IKeyboard>lKeyboard = std::make_unique<Keyboard>();
+		lKeyboard->Initialize(directInput_, hwnd_);
+		return std::move(lKeyboard);
 	}
 
+	std::shared_ptr<IKeyboard> CreateSharedKeyboard(void* directInput_, void* hwnd_)
+	{
+		std::shared_ptr<IKeyboard>lKeyboard = std::make_shared<Keyboard>();
+		lKeyboard->Initialize(directInput_, hwnd_);
+		return lKeyboard;
+	}
 }

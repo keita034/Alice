@@ -11,11 +11,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Incluede\ControllerButtons.h" />
     <ClInclude Include="Incluede\Controller.h" />
     <ClInclude Include="Incluede\Input.h" />
     <ClInclude Include="Incluede\Keyboard.h" />
     <ClInclude Include="Incluede\Mouse.h" />
     <ClInclude Include="Incluede\Keys.h" />
+    <ClInclude Include="Incluede\MouseButton.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Controller.cpp" />

@@ -46,9 +46,9 @@ void AliceFramework::Initialize()
 	audioManager = AudioManager::GetInstance();
 	audioManager->Initialize();
 
-	input = AliceInput::CreateInput(windowsApp->GetHwnd(), &windowsApp->GetWndclassex()->hInstance);
+	input = AliceInput::CreateUniqueInput(windowsApp->GetHwnd(), &windowsApp->GetWndclassex()->hInstance);
 
-	BaseScene::SetInput(input);
+	BaseScene::SetInput(input.get());
 	fps = new FPS;
 
 	AliceModel::CommonInitialize();

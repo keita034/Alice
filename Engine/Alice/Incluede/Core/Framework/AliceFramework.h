@@ -27,7 +27,7 @@ protected:
 
 	AudioManager* audioManager = nullptr;
 
-	AliceInput::IInput* input = nullptr;
+	std::unique_ptr<AliceInput::IInput> input;
 
 	FPS* fps = nullptr;
 
