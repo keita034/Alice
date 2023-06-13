@@ -9,33 +9,33 @@ void OBBCollider::CreateOBB(const std::vector<PosNormalUv>& vertexs_, const  Ali
 	//最大値、最小値取得ループ
 	for (const PosNormalUv& vertex : vertexs_)
 	{
-		const AliceMathF::Vector3& pos = vertex.pos;
+		const AliceMathF::Vector3& lPos = vertex.pos;
 
-		if (pos.x < lMin.x)
+		if (lPos.x < lMin.x)
 		{
-			lMin.x = pos.x;
+			lMin.x = lPos.x;
 		}
-		if (pos.x > lMax.x)
+		if (lPos.x > lMax.x)
 		{
-			lMax.x = pos.x;
+			lMax.x = lPos.x;
 		}
 		
-		if (pos.y < lMin.y)
+		if (lPos.y < lMin.y)
 		{
-			lMin.y = pos.y;
+			lMin.y = lPos.y;
 		}
-		if (pos.y > lMax.y)
+		if (lPos.y > lMax.y)
 		{
-			lMax.y = pos.y;
+			lMax.y = lPos.y;
 		}
 
-		if (pos.z < lMin.z)
+		if (lPos.z < lMin.z)
 		{
-			lMin.z = pos.z;
+			lMin.z = lPos.z;
 		}
-		if (pos.z > lMax.z)
+		if (lPos.z > lMax.z)
 		{
-			lMax.z = pos.z;
+			lMax.z = lPos.z;
 		}
 	}
 
@@ -51,13 +51,13 @@ void OBBCollider::CreateOBB(const std::vector<PosNormalUv>& vertexs_, const  Ali
 	normaDirect[2] = { lMatRot.m[2][0], lMatRot.m[2][1], lMatRot.m[2][2] };
 
 	//長さ取得
-	length_[0] = AliceMathF::Abs(lMax.x - lMin.x) * 0.5f;
-	length_[1] = AliceMathF::Abs(lMax.y - lMin.y) * 0.5f;
-	length_[2] = AliceMathF::Abs(lMax.z - lMin.z) * 0.5f;
+	length[0] = AliceMathF::Abs(lMax.x - lMin.x) * 0.5f;
+	length[1] = AliceMathF::Abs(lMax.y - lMin.y) * 0.5f;
+	length[2] = AliceMathF::Abs(lMax.z - lMin.z) * 0.5f;
 
-	length_[0] *= scale_.x;
-	length_[1] *= scale_.y;
-	length_[2] *= scale_.z;
+	length[0] *= scale_.x;
+	length[1] *= scale_.y;
+	length[2] *= scale_.z;
 
 }
 
@@ -82,7 +82,7 @@ const AliceMathF::Vector3& OBBCollider::GetDirect(uint16_t index_)const
 
 float OBBCollider::GetLen(uint16_t index_)const
 {
-	return length_[index_];
+	return length[index_];
 }
 
 const AliceMathF::Vector3& OBBCollider::GetCenter()const

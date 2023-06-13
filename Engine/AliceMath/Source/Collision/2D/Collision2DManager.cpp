@@ -22,45 +22,45 @@ void Collision2DManager::RemoveCollider(Base2DCollider* collider_)
 void Collision2DManager::ChangeCollider(uint32_t colliderIndex_, Base2DCollider* collider_)
 {
 
-	std::forward_list<Base2DCollider*>::iterator literator = colliders.begin();
+	std::forward_list<Base2DCollider*>::iterator lIterator = colliders.begin();
 
 	for (uint32_t i = 0; i < colliderIndex_ - 1; i++)
 	{
-		literator++;
+		lIterator++;
 	}
 
-	colliders.emplace_after(literator);
-	colliders.insert_after(literator, collider_);
+	colliders.emplace_after(lIterator);
+	colliders.insert_after(lIterator, collider_);
 
 }
 
 void Collision2DManager::CheckAllCollisions()
 {
-	std::forward_list<Base2DCollider*>::iterator literatorA;
-	std::forward_list<Base2DCollider*>::iterator literatorB;
+	std::forward_list<Base2DCollider*>::iterator lIteratorA;
+	std::forward_list<Base2DCollider*>::iterator lIteratorB;
 
 
 	// 全ての組み合わせについて総当りチェック
 	
-	for (literatorA = colliders.begin(); literatorA != colliders.end(); literatorA++)
+	for (lIteratorA = colliders.begin(); lIteratorA != colliders.end(); lIteratorA++)
 	{
-		if (!literatorA._Ptr->_Myval->IsValid())
+		if (!lIteratorA._Ptr->_Myval->IsValid())
 		{
 			continue;
 		}
 
-		literatorB = literatorA;
-		++literatorB;
-		for (; literatorB != colliders.end(); ++literatorB)
+		lIteratorB = lIteratorA;
+		++lIteratorB;
+		for (; lIteratorB != colliders.end(); ++lIteratorB)
 		{
 
-			if (!literatorB._Ptr->_Myval->IsValid())
+			if (!lIteratorB._Ptr->_Myval->IsValid())
 			{
 				continue;
 			}
 
-			Base2DCollider* lColliderA = *literatorA;
-			Base2DCollider* lColliderB = *literatorB;
+			Base2DCollider* lColliderA = *lIteratorA;
+			Base2DCollider* lColliderB = *lIteratorB;
 
 			// カプセルと矩形
 			if (lColliderA->GetShapeType() == COLLISIONSHAPE_BOX && lColliderB->GetShapeType() == COLLISIONSHAPE_CAPSULE)

@@ -96,7 +96,7 @@ public:
 	/// <summary>
 	/// 当たった相手の名前を取得
 	/// </summary>
-	const std::string& GetOpponentCollsionName();
+	const std::string& GetOpponentCollsionName()const;
 
 	/// <summary>
 	///	オブジェクトをセット
@@ -127,7 +127,7 @@ public:
 	/// 形状を取得
 	/// </summary>
 	/// <returns></returns>
-	CollisionShapeType GetShapeType();
+	const CollisionShapeType& GetShapeType()const;
 
 	/// <summary>
 	/// 更新

@@ -13,8 +13,8 @@ void CapsuleCllider2D::Update()
 {
 	segment.CreateSegment2D(center, axis, height);
 
-	Segment2D seg = GetSegment();
-	length_ = (seg.GetEnd() - seg.GetStart()).length_();
+	Segment2D lSeg = GetSegment();
+	length_ = (lSeg.GetEnd() - lSeg.GetStart()).length_();
 }
 
 void CapsuleCllider2D::SetRadius(float radius_)

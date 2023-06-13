@@ -9,7 +9,7 @@ protected:
 	//方向ベクトル
 	AliceMathF::Vector3 normaDirect[3];
 	// 各軸方向の長さ
-	float length_[3]{};
+	float length[3]{};
 private:
 	char PADING[4]{};
 public:

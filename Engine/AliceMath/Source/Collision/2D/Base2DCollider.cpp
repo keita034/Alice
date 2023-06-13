@@ -42,7 +42,7 @@ Base2DCollider* Base2DCollider::GetOpponentCollider()
 	return opponentCollider;
 }
 
-const std::string& Base2DCollider::GetOpponentCollsionName()
+const std::string& Base2DCollider::GetOpponentCollsionName()const
 {
 	return opponentCollsionName;
 }
@@ -74,7 +74,7 @@ bool Base2DCollider::IsValid()
 	return isValid;
 }
 
-CollisionShapeType Base2DCollider::GetShapeType()
+const CollisionShapeType& Base2DCollider::GetShapeType()const
 {
 	return shapeType;
 }
