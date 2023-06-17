@@ -16,7 +16,7 @@ private:
 
 	Offset constBuffMap;
 
-	char PADING3[4];
+	int32_t PADING3;
 
 public:
 

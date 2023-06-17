@@ -36,17 +36,15 @@ private:
 	IRootSignature* rootSignaturePtr;
 	
 	//ノードマスク
-	UINT pipelineNodeMask = 0;
-	char PADING1[4];
+	uint32_t pipelineNodeMask = 0;
+	int32_t PADING;
 
 	//キャッシュパイプライン
 	D3D12_CACHED_PIPELINE_STATE cachedPipeline;
 	
 	//フラグ
 	D3D12_PIPELINE_STATE_FLAGS  pipelineFlag = D3D12_PIPELINE_STATE_FLAG_NONE;
-	char PADING2[4];
-
-public:
+	int32_t PADING2;
 
 public:
 
@@ -54,7 +52,7 @@ public:
 	/// シェーダーをセット
 	/// </summary>
 	/// <param name="shader">シェーダー</param>
-	void SetShader(D3D12_SHADER_BYTECODE& shader);
+	void SetShader(const D3D12_SHADER_BYTECODE& shader_);
 
 	/// <summary>
 	/// ルートシグネチャをセット
@@ -66,32 +64,31 @@ public:
 	/// ノードマスクをセット
 	/// </summary>
 	/// <param name="nodeMask">ノードマスク</param>
-	void SetNodeMask(UINT nodeMask);
+	void SetNodeMask(uint32_t nodeMas_);
 
 	/// <summary>
 	/// キャッシュパイプラインをセット
 	/// </summary>
 	/// <param name="cachedPSO">キャッシュパイプライン</param>
-	void SetCachedPSO(D3D12_CACHED_PIPELINE_STATE& cachedPSO);
+	void SetCachedPSO(const D3D12_CACHED_PIPELINE_STATE& cachedPSO_);
 
 	/// <summary>
 	/// フラグをセット
 	/// </summary>
 	/// <param name="flag">フラグ</param>
-	void SetFlag(D3D12_PIPELINE_STATE_FLAGS flag);
+	void SetFlag(D3D12_PIPELINE_STATE_FLAGS flag_);
 
 	/// <summary>
 	/// 生成
 	/// </summary>
 	/// <param name="device">デバイス</param>
-	void Create(ID3D12Device* device);
+	void Create(ID3D12Device* device_);
 
 	/// <summary>
 	/// パイプラインステートを取得
 	/// </summary>
 	/// <returns>パイプラインステート</returns>
-	ID3D12PipelineState* GetPipelineState();
-private:
+	ID3D12PipelineState* GetPipelineState()const;
 
 };
 

@@ -9,16 +9,15 @@ Sprite2D::~Sprite2D()
 {
 }
 
-void Sprite2D::Initialize(uint32_t handle)
+void Sprite2D::Initialize(uint32_t handle_)
 {
-	SpriteInitialize();
 
-	float width = static_cast<float>(windowsApp->GetWindowSize().width);
-	float height = static_cast<float>(windowsApp->GetWindowSize().height);
+	float lWidth = static_cast<float>(sWindowsApp->GetWindowSize().width);
+	float lHeight = static_cast<float>(sWindowsApp->GetWindowSize().height);
 
-	AliceMathF::MakeOrthogonalLOffCenter(0.0f, width, height, 0.0f, 0.0f, 1.0f, matProjection);
+	AliceMathF::MakeOrthogonalLOffCenter(0.0f, lWidth, lHeight, 0.0f, 0.0f, 1.0f, matProjection);
 
-	texture = TextureManager::GetTextureData(handle);
+	texture = TextureManager::SGetTextureData(handle_);
 
 	trimmingRange.z = static_cast<float>(texture->width);
 	trimmingRange.w = static_cast<float>(texture->height);
@@ -26,110 +25,110 @@ void Sprite2D::Initialize(uint32_t handle)
 	spriteSize.x = static_cast<float>(texture->width);
 	spriteSize.y = static_cast<float>(texture->height);
 
-	CreatVertexIndexBuffer();
+	PCreatVertexIndexBuffer();
 }
 
 //描画
-void Sprite2D::Draw(Transform& transform, BlendMode blend, Material* material)
+void Sprite2D::Draw(Transform& transform_, BlendMode blend_, Material* material_)
 {
-	float isFlipX, isFlipY;
-	isFlipX = flipX ? -1.0f : 1.0f;
-	isFlipY = flipY ? -1.0f : 1.0f;
+	float lIsFlipX, lIsFlipY;
+	lIsFlipX = flipX ? -1.0f : 1.0f;
+	lIsFlipY = flipY ? -1.0f : 1.0f;
 
-	float left = ((0.0f - anchorPoint.x) * static_cast<float>(spriteSize.x)) * isFlipX;
-	left *= leftScale;
+	float lLeft = ((0.0f - anchorPoint.x) * static_cast<float>(spriteSize.x)) * lIsFlipX;
+	lLeft *= leftScale;
 
-	float right = ((1.0f - anchorPoint.x) * static_cast<float>(spriteSize.x)) * isFlipX;
-	right *= rightScale;
+	float lRight = ((1.0f - anchorPoint.x) * static_cast<float>(spriteSize.x)) * lIsFlipX;
+	lRight *= rightScale;
 	
-	float top = ((0.0f - anchorPoint.y) * static_cast<float>(spriteSize.y)) * isFlipY;
-	top *= topScale;
+	float lTop = ((0.0f - anchorPoint.y) * static_cast<float>(spriteSize.y)) * lIsFlipY;
+	lTop *= topScale;
 	
-	float bottom = ((1.0f - anchorPoint.y) * static_cast<float>(spriteSize.y)) * isFlipY;
-	bottom *= bottomScale;
+	float lBottom = ((1.0f - anchorPoint.y) * static_cast<float>(spriteSize.y)) * lIsFlipY;
+	lBottom *= bottomScale;
 
-	float texLeft = trimmingRange.x / static_cast<float>(texture->width);
-	float texTop = trimmingRange.y / static_cast<float>(texture->height);
-	float texRight = trimmingRange.z / static_cast<float>(texture->width);
-	float texBottom = trimmingRange.w / static_cast<float>(texture->height);
+	float lTexLeft = trimmingRange.x / static_cast<float>(texture->width);
+	float lTexTop = trimmingRange.y / static_cast<float>(texture->height);
+	float lTexRight = trimmingRange.z / static_cast<float>(texture->width);
+	float lTexBottom = trimmingRange.w / static_cast<float>(texture->height);
 
 	// 頂点データ
-	PosUvColor vertices[] =
+	PosUvColor lVertices[] =
 	{//		x		y		z		u	v
-		{{left,top,0.0f},{texLeft,texTop},{color.x,color.y,color.z,color.w}},//左上インデックス0
-		{{left,bottom,0.0f},{texLeft,texBottom},{color.x,color.y,color.z,color.w}},//左下インデックス1
-		{{right,top,0.0f},{texRight,texTop},{color.x,color.y,color.z,color.w}},//右上インデックス2
-		{{right,bottom,0.0f},{texRight,texBottom},{color.x,color.y,color.z,color.w}},//右下インデックス3
+		{{lLeft,lTop,0.0f},{lTexLeft,lTexTop},{color.x,color.y,color.z,color.w}},//左上インデックス0
+		{{lLeft,lBottom,0.0f},{lTexLeft,lTexBottom},{color.x,color.y,color.z,color.w}},//左下インデックス1
+		{{lRight,lTop,0.0f},{lTexRight,lTexTop},{color.x,color.y,color.z,color.w}},//右上インデックス2
+		{{lRight,lBottom,0.0f},{lTexRight,lTexBottom},{color.x,color.y,color.z,color.w}},//右下インデックス3
 	};
 
 	// インデックスデータ
-	uint32_t indices[] =
+	uint32_t lIndices[] =
 	{
 		1, 0, 3, // 三角形1つ目
 		2, 3, 0, // 三角形2つ目
 	};
 
 	//頂点バッファへのデータ転送
-	vertexBuffer->Update(vertices);
+	vertexBuffer->Update(lVertices);
 
 	//インデックスバッファへのデータ転送
-	indexBuffer->Update(indices);
+	indexBuffer->Update(lIndices);
 
-	AliceMathF::Matrix4 mTrans, mRot, mScale, matWorld;
+	AliceMathF::Matrix4 lMatTrans, lMatRot, lMatScale, lMatWorld;
 	//スケーリング倍率
-	mScale.MakeScaling(transform.scale);
+	lMatScale.MakeScaling(transform_.scale);
 	//回転行列
-	mRot.MakeRotation(transform.rotation);
+	lMatRot.MakeRotation(transform_.rotation);
 	// matWorld_に移動量を掛け算
-	mTrans.MakeTranslation(transform.translation);
+	lMatTrans.MakeTranslation(transform_.translation);
 	//ワールド行列
-	matWorld = mScale * mRot * mTrans;
+	lMatWorld = lMatScale * lMatRot * lMatTrans;
 
 	//親行列の指定がある場合は、掛け算する
-	if (transform.parent)
+	if (transform_.parent)
 	{
-		matWorld *= transform.parent->matWorld;
+		lMatWorld *= transform_.parent->matWorld;
 	}
 
-	transform.matWorld = matWorld ;
+	transform_.matWorld = lMatWorld ;
 
-	transform.GetWorldViewpojCamera()->matWorld = transform.matWorld * matProjection;
+	transform_.GetWorldViewpojCamera()->matWorld = transform_.matWorld * matProjection;
 
-	transform.Update();
+	transform_.Update();
 
-	switch (blend)
+	switch (blend_)
 	{
 	case BlendMode::AX_BLENDMODE_NOBLEND:
-		spriteMaterial = MaterialManager::GetMaterial("Sprite2DNoblend");
+		spriteMaterial = MaterialManager::SGetMaterial("Sprite2DNoblend");
 		break;
 	case BlendMode::AX_BLENDMODE_ALPHA:
-		spriteMaterial = MaterialManager::GetMaterial("Sprite2DAlpha");
+		spriteMaterial = MaterialManager::SGetMaterial("Sprite2DAlpha");
 		break;
 	case BlendMode::AX_BLENDMODE_ADD:
-		spriteMaterial = MaterialManager::GetMaterial("Sprite2DAdd");
+		spriteMaterial = MaterialManager::SGetMaterial("Sprite2DAdd");
 		break;
 	case BlendMode::AX_BLENDMODE_SUB:
-		spriteMaterial = MaterialManager::GetMaterial("Sprite2DSub");
+		spriteMaterial = MaterialManager::SGetMaterial("Sprite2DSub");
 		break;
 	case BlendMode::AX_BLENDMODE_MULA:
-		spriteMaterial = MaterialManager::GetMaterial("Sprite2DMula");
+		spriteMaterial = MaterialManager::SGetMaterial("Sprite2DMula");
 		break;
 	case BlendMode::AX_BLENDMODE_INVSRC:
-		spriteMaterial = MaterialManager::GetMaterial("Sprite2DInvsrc");
+		spriteMaterial = MaterialManager::SGetMaterial("Sprite2DInvsrc");
 		break;
 	case BlendMode::AX_BLENDMODE_MAX:
-		spriteMaterial = MaterialManager::GetMaterial("Sprite2DNoblend");
+		spriteMaterial = MaterialManager::SGetMaterial("Sprite2DNoblend");
 		//printf("ブレンドの種類数を入れています");
 		break;
 	case BlendMode::AX_BLENDMODE_CUSTOM:
-		if (material)
+		if (material_)
 		{
-			spriteMaterial = material;
+			spriteMaterial = material_;
 		}
 		else
 		{
 			//printf("マテリアルがnullです");
-			spriteMaterial = MaterialManager::GetMaterial("Sprite2DNoblend");
+			spriteMaterial = MaterialManager::SGetMaterial("Sprite2DNoblend");
 		}
 		break;
 	default:
@@ -138,111 +137,111 @@ void Sprite2D::Draw(Transform& transform, BlendMode blend, Material* material)
 		break;
 	}
 
-	SpriteDraw(transform, spriteMaterial);
+	PSpriteDraw(transform_, spriteMaterial);
 }
 
-void Sprite2D::AnimationDraw(Transform& transform, uint16_t radiusX, uint16_t radiusY, float& frame, float frameDiv, BlendMode blend, Material* material)
+void Sprite2D::AnimationDraw(Transform& transform_, uint16_t radiusX, uint16_t radiusY, float& frame, float frameDiv, BlendMode blend_, Material* material_)
 {
-	size_t animeFrame = static_cast<size_t>(frame / frameDiv);
+	size_t lAnimeFrame = static_cast<size_t>(frame / frameDiv);
 
-	size_t width = static_cast<size_t>(radiusX) * 2;
-	size_t height = static_cast<size_t>(radiusY) * 2;
+	size_t lWidth = static_cast<size_t>(radiusX) * 2;
+	size_t lHeight = static_cast<size_t>(radiusY) * 2;
 
-	float texTop = trimmingRange.y / static_cast<float>(texture->height);
-	float texRight = trimmingRange.z / static_cast<float>(texture->width);
+	float lTexTop = trimmingRange.y / static_cast<float>(texture->height);
+	float lTexRight = trimmingRange.z / static_cast<float>(texture->width);
 
-	float widthU = static_cast<float>(width) / (texRight * static_cast<float>(texture->width));
+	float lWidthU = static_cast<float>(lWidth) / (lTexRight * static_cast<float>(texture->width));
 
 	//画像の半分のサイズ
 
-	if (texture->width / width < animeFrame + 1)
+	if (texture->width / lWidth < lAnimeFrame + 1)
 	{
 		frame = 0;
 	}
 
-	float isFlipX, isFlipY;
-	isFlipX = flipX ? -1.0f : 1.0f;
-	isFlipY = flipY ? -1.0f : 1.0f;
+	float lIsFlipX, lIsFlipY;
+	lIsFlipX = flipX ? -1.0f : 1.0f;
+	lIsFlipY = flipY ? -1.0f : 1.0f;
 
-	float left = ((0.0f - anchorPoint.x) * static_cast<float>(width)) * isFlipX;
-	left *= leftScale;
-	float right = ((1.0f - anchorPoint.x) * static_cast<float>(width)) * isFlipX;
-	right *= rightScale;
-	float top = ((0.0f - anchorPoint.y) * static_cast<float>(height)) * isFlipY;
-	top *= topScale;
-	float bottom = ((1.0f - anchorPoint.y) * static_cast<float>(height)) * isFlipY;
-	bottom *= bottomScale;
+	float lLeft = ((0.0f - anchorPoint.x) * static_cast<float>(lWidth)) * lIsFlipX;
+	lLeft *= leftScale;
+	float lRight = ((1.0f - anchorPoint.x) * static_cast<float>(lWidth)) * lIsFlipX;
+	lRight *= rightScale;
+	float lTop = ((0.0f - anchorPoint.y) * static_cast<float>(lHeight)) * lIsFlipY;
+	lTop *= topScale;
+	float lBottom = ((1.0f - anchorPoint.y) * static_cast<float>(lHeight)) * lIsFlipY;
+	lBottom *= bottomScale;
 
 	// 頂点データ
-	PosUvColor vertices[] =
+	PosUvColor lVertices[] =
 	{//		x		y		z		u	v
-		{{left, top, 0.0f},{widthU * static_cast<float>(animeFrame),texTop},{1.0f,1.0f,1.0f,1.0f}},//左上インデックス0
-		{{left, bottom, 0.0f},{widthU * static_cast<float>(animeFrame),texRight},{1.0f,1.0f,1.0f,1.0f}},//左下インデックス1
-		{{right, top, 0.0f},{widthU * static_cast<float>((animeFrame + 1)),texTop},{1.0f,1.0f,1.0f,1.0f}},//右上インデックス2
-		{{right, bottom, 0.0f},{widthU * static_cast<float>((animeFrame + 1)),texRight},{1.0f,1.0f,1.0f,1.0f}},//右下インデックス3
+		{{lLeft, lTop, 0.0f},{lWidthU * static_cast<float>(lAnimeFrame),lTexTop},{1.0f,1.0f,1.0f,1.0f}},//左上インデックス0
+		{{lLeft, lBottom, 0.0f},{lWidthU * static_cast<float>(lAnimeFrame),lTexRight},{1.0f,1.0f,1.0f,1.0f}},//左下インデックス1
+		{{lRight, lTop, 0.0f},{lWidthU * static_cast<float>((lAnimeFrame + 1)),lTexTop},{1.0f,1.0f,1.0f,1.0f}},//右上インデックス2
+		{{lRight, lBottom, 0.0f},{lWidthU * static_cast<float>((lAnimeFrame + 1)),lTexRight},{1.0f,1.0f,1.0f,1.0f}},//右下インデックス3
 	};
 
 	// インデックスデータ
-	uint32_t indices[] =
+	uint32_t lIndices[] =
 	{
 		1, 0, 3, // 三角形1つ目
 		2, 3, 0, // 三角形2つ目
 	};
 
 	//頂点バッファへのデータ転送
-	vertexBuffer->Update(vertices);
+	vertexBuffer->Update(lVertices);
 
 	//インデックスバッファへのデータ転送
-	indexBuffer->Update(indices);
+	indexBuffer->Update(lIndices);
 
-	AliceMathF::Matrix4 mTrans, mRot, mScale, matWorld;
+	AliceMathF::Matrix4 lMatTrans, lMatRot, lMatScale, lMatWorld;
 	//スケーリング倍率
-	mScale.MakeScaling(transform.scale);
+	lMatScale.MakeScaling(transform_.scale);
 	//回転行列
-	mRot.MakeRotation(transform.rotation);
+	lMatRot.MakeRotation(transform_.rotation);
 	// matWorld_に移動量を掛け算
-	mTrans.MakeTranslation(transform.translation);
+	lMatTrans.MakeTranslation(transform_.translation);
 	//ワールド行列
-	matWorld = mScale * mRot * mTrans;
+	lMatWorld = lMatScale * lMatRot * lMatTrans;
 
-	transform.matWorld = matWorld * matProjection;
+	transform_.matWorld = lMatWorld * matProjection;
 
-	transform.GetWorldViewpojCamera()->matWorld = transform.matWorld;
-	transform.Update();
+	transform_.GetWorldViewpojCamera()->matWorld = transform_.matWorld;
+	transform_.Update();
 
-	switch (blend)
+	switch (blend_)
 	{
 	case BlendMode::AX_BLENDMODE_NOBLEND:
-		spriteMaterial = MaterialManager::GetMaterial("Sprite2DNoblend");
+		spriteMaterial = MaterialManager::SGetMaterial("Sprite2DNoblend");
 		break;
 	case BlendMode::AX_BLENDMODE_ALPHA:
-		spriteMaterial = MaterialManager::GetMaterial("Sprite2DAlpha");
+		spriteMaterial = MaterialManager::SGetMaterial("Sprite2DAlpha");
 		break;
 	case BlendMode::AX_BLENDMODE_ADD:
-		spriteMaterial = MaterialManager::GetMaterial("Sprite2DAdd");
+		spriteMaterial = MaterialManager::SGetMaterial("Sprite2DAdd");
 		break;
 	case BlendMode::AX_BLENDMODE_SUB:
-		spriteMaterial = MaterialManager::GetMaterial("Sprite2DSub");
+		spriteMaterial = MaterialManager::SGetMaterial("Sprite2DSub");
 		break;
 	case BlendMode::AX_BLENDMODE_MULA:
-		spriteMaterial = MaterialManager::GetMaterial("Sprite2DMula");
+		spriteMaterial = MaterialManager::SGetMaterial("Sprite2DMula");
 		break;
 	case BlendMode::AX_BLENDMODE_INVSRC:
-		spriteMaterial = MaterialManager::GetMaterial("Sprite2DInvsrc");
+		spriteMaterial = MaterialManager::SGetMaterial("Sprite2DInvsrc");
 		break;
 	case BlendMode::AX_BLENDMODE_MAX:
-		spriteMaterial = MaterialManager::GetMaterial("Sprite2DNoblend");
+		spriteMaterial = MaterialManager::SGetMaterial("Sprite2DNoblend");
 		//printf("ブレンドの種類数を入れています");
 		break;
 	case BlendMode::AX_BLENDMODE_CUSTOM:
-		if (material)
+		if (material_)
 		{
-			spriteMaterial = material;
+			spriteMaterial = material_;
 		}
 		else
 		{
 			//printf("マテリアルがnullです");
-			spriteMaterial = MaterialManager::GetMaterial("Sprite2DNoblend");
+			spriteMaterial = MaterialManager::SGetMaterial("Sprite2DNoblend");
 		}
 		break;
 	default:
@@ -251,51 +250,51 @@ void Sprite2D::AnimationDraw(Transform& transform, uint16_t radiusX, uint16_t ra
 		break;
 	}
 
-	SpriteDraw(transform, spriteMaterial);
+	PSpriteDraw(transform_, spriteMaterial);
 }
 
 float Sprite2D::GetLeftSize()
 {
-	float size = AliceMathF::Abs((0.0f - anchorPoint.x) * static_cast<float>(texture->width) * leftScale);
-  	return size;
+	float lSize = AliceMathF::Abs((0.0f - anchorPoint.x) * static_cast<float>(texture->width) * leftScale);
+  	return lSize;
 }
 
 float Sprite2D::GetRightSize()
 {
-	float size = AliceMathF::Abs((1.0f - anchorPoint.x) * static_cast<float>(texture->width) * rightScale);
-	return size;
+	float lSize = AliceMathF::Abs((1.0f - anchorPoint.x) * static_cast<float>(texture->width) * rightScale);
+	return lSize;
 }
 
 float Sprite2D::GetTopSize()
 {
-	float size = AliceMathF::Abs((0.0f - anchorPoint.y) * static_cast<float>(texture->height) * topScale);
-	return size;
+	float lSize = AliceMathF::Abs((0.0f - anchorPoint.y) * static_cast<float>(texture->height) * topScale);
+	return lSize;
 }
 
 float Sprite2D::GetBottomSize()
 {
-	float size = AliceMathF::Abs((1.0f - anchorPoint.y) * static_cast<float>(texture->height) * bottomScale);
-	return size;
+	float lSize = AliceMathF::Abs((1.0f - anchorPoint.y) * static_cast<float>(texture->height) * bottomScale);
+	return lSize;
 }
 
-void Sprite2D::SetLeftScale(float scl)
+void Sprite2D::SetLeftScale(float scale_)
 {
-	leftScale = scl;
+	leftScale = scale_;
 }
 
-void Sprite2D::SetRightScale(float scl)
+void Sprite2D::SetRightScale(float scale_)
 {
-	rightScale = scl;
+	rightScale = scale_;
 }
 
-void Sprite2D::SetTopScale(float scl)
+void Sprite2D::SetTopScale(float scale_)
 {
-	topScale = scl;
+	topScale = scale_;
 }
 
-void Sprite2D::SetBottomScale(float scl)
+void Sprite2D::SetBottomScale(float scale_)
 {
-	bottomScale = scl;
+	bottomScale = scale_;
 
 }
 
@@ -307,4 +306,18 @@ float Sprite2D::GetHeight()
 float Sprite2D::GetWidth()
 {
 	return GetLeftSize() + GetRightSize();
+}
+
+std::unique_ptr<Sprite2D> CreateUniqueSprite2D(uint32_t handle_)
+{
+	std::unique_ptr<Sprite2D>lSprite2D = std::make_unique<Sprite2D>();
+	lSprite2D->Initialize(handle_);
+	return std::move(lSprite2D);
+}
+
+std::shared_ptr<Sprite2D> CreateSharedSprite2D(uint32_t handle_)
+{
+	std::shared_ptr<Sprite2D> lSprite2D = std::make_unique<Sprite2D>();
+	lSprite2D->Initialize(handle_);
+	return lSprite2D;
 }

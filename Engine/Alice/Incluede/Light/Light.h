@@ -16,7 +16,7 @@ struct LightConstBuffData
 class Light
 {
 private:
-	Microsoft::WRL::ComPtr<ID3D12Device>device;
+	static ID3D12Device* device;
 	//定数バッファ
 	std::unique_ptr<IConstantBuffer>constBuff;
 	//定数バッファのマップ
@@ -29,12 +29,6 @@ private:
 	bool dirty = false;
 	char PADING[3]{};
 public:
-
-	/// <summary>
-	/// インスタンス生成
-	/// </summary>
-	/// <returns>インスタンス</returns>
-	static Light* Create();
 
 	/// <summary>
 	/// 初期化
@@ -68,7 +62,9 @@ public:
 	/// </summary>
 	/// <param name="cmdlist">コマンドリスト</param>
 	/// <param name="rootParameterIndex">パラメーター番号</param>
-	void SetConstBufferView(ID3D12GraphicsCommandList* cmdList,UINT rootParameterIndex);
+	void SetConstBufferView(ID3D12GraphicsCommandList* cmdList_,uint32_t rootParameterIndex_);
+
+	static void SSetDevice(ID3D12Device* device_);
 
 	Light() = default; 
 	~Light() = default;
@@ -79,3 +75,15 @@ private:
 	Light(const Light&) = delete;
 
 };
+
+/// <summary>
+/// ライトの生成(ユニーク)
+/// </summary>
+/// <returns>生成されたポインタ</returns>
+std::unique_ptr<Light> CreateUniqueLight();
+
+/// <summary>
+/// ライトの生成(シェアード)
+/// </summary>
+/// <returns>生成されたポインタ</returns>
+std::shared_ptr<Light> CreateSharedLight();

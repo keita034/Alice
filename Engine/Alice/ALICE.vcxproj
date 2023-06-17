@@ -127,6 +127,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Incluede\2D\Particle\ParticleData.h" />
     <ClInclude Include="Incluede\2D\PostEffect\ChromaticAberrationPostEffect.h" />
     <ClInclude Include="Incluede\2D\Particle\IcosahedronParticle.h" />
     <ClInclude Include="Incluede\3D\Model\AliceToonModel.h" />

@@ -10,6 +10,7 @@
 
 #include<memory>
 #include<DirectXTex.h>
+#include<memory>
 
 #pragma warning(pop)
 #include<AliceMathUtility.h>
@@ -50,9 +51,9 @@ class TextureManager
 {
 private:
 
-	DirectX12Core* directX12Core;
+	static DirectX12Core* sDirectX12Core;
 
-	static TextureManager* textureManager;
+	static std::unique_ptr<TextureManager> sTextureManager;
 
 	//テクスチャ数
 	uint32_t nextTexture;
@@ -69,9 +70,9 @@ private:
 
 	};
 
-	static std::vector<std::string>filePaths;
+	static std::vector<std::string>sFilePaths;
 
-	static std::unordered_map<std::string, std::unique_ptr<TextureData>> textureDatas;
+	static std::unordered_map<std::string, std::unique_ptr<TextureData>> sTextureDatas;
 
 public:
 
@@ -80,7 +81,7 @@ public:
 	/// </summary>
 	/// <param name="filepath">テクスチャのファイルパス</param>
 	/// <returns>テクスチャハンドル</returns>
-	uint32_t LoadTexture(const std::string& path);
+	uint32_t LoadTexture(const std::string& path_);
 
 	/// <summary>
 	/// 初期化
@@ -94,32 +95,31 @@ public:
 	static TextureManager* GetInstance();
 
 	/// <summary>
-	/// インスタンスを解放
-	/// </summary>
-	void Destroy();
-
-	/// <summary>
 	/// テクスチャをロードします
 	/// </summary>
 	/// <param name="filepath">テクスチャのファイルパス</param>
 	/// <returns>テクスチャハンドル</returns>
-	static uint32_t Load(const std::string& path);
+	static uint32_t SLoad(const std::string& path_);
 
-	static TextureData* GetTextureData(uint32_t handle);
+	static TextureData* SGetTextureData(uint32_t handle_);
+
+	static void SSetDirectX12Core(DirectX12Core* directX12Core_);
+
+	~TextureManager() = default;
 
 private:
 
 	TextureManager() = default;
-	~TextureManager() = default;
 
-	Microsoft::WRL::ComPtr<ID3D12Resource>CreateTexBuff(DirectX::TexMetadata& metadata, DirectX::ScratchImage& scratchImg);
 
-	D3D12_GPU_DESCRIPTOR_HANDLE CreateShaderResourceView(ID3D12Resource* texBuff, DirectX::TexMetadata& metadata);
+	Microsoft::WRL::ComPtr<ID3D12Resource>PCreateTexBuff(DirectX::TexMetadata& metadata_, DirectX::ScratchImage& scratchImg_);
 
-	void LoadFile(const std::string& path, DirectX::TexMetadata& metadata, DirectX::ScratchImage& scratchImg);
+	D3D12_GPU_DESCRIPTOR_HANDLE PCreateShaderResourceView(ID3D12Resource* texBuff_, const DirectX::TexMetadata& metadata_);
 
-	TextureData* FromTextureData(const std::string& path);
+	void PLoadFile(const std::string& path_,  DirectX::TexMetadata& metadata_,  DirectX::ScratchImage& scratchImg_);
 
-	ImgFileType GetFileType(const std::string& path);
+	TextureData* PFromTextureData(const std::string& path_);
+
+	ImgFileType PGetFileType(const std::string& path_);
 };
 

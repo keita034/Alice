@@ -3,129 +3,130 @@
 #include <fstream>
 #include <cassert>
 
-const std::string SceneLoader::baseDirectorypath = "Resources/";
+const std::string SceneLoader::sBaseDirectorypath = "Resources/";
 
-SceneData* SceneLoader::LoadFile(const std::string& fileName)
+SceneData* SceneLoader::SLoadFile(const std::string& fileName_)
 {
-	std::ifstream file;
+	std::ifstream lFile;
 
-	file.open(fileName);
+	lFile.open(fileName_);
 
-	if (file.fail())
+	if (lFile.fail())
 	{
 		assert(0);
 	}
 
-	nlohmann::json deserialized;
+	nlohmann::json lDeserialized;
 
-	file >> deserialized;
+	lFile >> lDeserialized;
 
-	assert(deserialized.is_object());
-	assert(deserialized.contains("name"));
-	assert(deserialized["name"].is_string());
+	assert(lDeserialized.is_object());
+	assert(lDeserialized.contains("name"));
+	assert(lDeserialized["name"].is_string());
 
-	std::string name = deserialized["name"].get<std::string>();
+	std::string lName = lDeserialized["name"].get<std::string>();
 
-	assert(name.compare("scene") == 0);
+	assert(lName.compare("scene") == 0);
 
-	SceneData* sceneData = new SceneData();
+	SceneData* lSceneData = new SceneData();
 
-	for (nlohmann::json& jsonObject : deserialized["objects"])
+	for (nlohmann::json& jsonObject : lDeserialized["objects"])
 	{
-		ObjectScan(sceneData, jsonObject);
+		SObjectScan(lSceneData, jsonObject);
 	}
 
-	return sceneData;
+	return lSceneData;
 }
 
-void SceneLoader::ObjectScan(SceneData* sceneData, nlohmann::json& jsonObj, SceneData::Object* parent)
+void SceneLoader::SObjectScan(SceneData* sceneData_, const nlohmann::json& jsonObj_, SceneData::Object* parent_)
 {
-	std::string type = jsonObj["type"].get<std::string>();
+	std::string lType = jsonObj_["type"].get<std::string>();
 
-	if (type.compare("MESH") == 0)
+	if (lType.compare("MESH") == 0)
 	{
-		sceneData->objects.emplace_back(std::make_unique<SceneData::Object>());
+		sceneData_->objects.emplace_back(std::make_unique<SceneData::Object>());
 
-		std::unique_ptr<SceneData::Object>& object = sceneData->objects.back();
+		std::unique_ptr<SceneData::Object>& lObject = sceneData_->objects.back();
 
-		std::string fileName;
-		std::string objectName;
-		AliceMathF::Vector3 translation;
-		AliceMathF::Vector3 rotation;
-		AliceMathF::Vector3 scaling;
+		std::string lFileName;
+		std::string lObjectName;
 
 		//オブジェクトの名前
-		if (jsonObj.contains("name"))
+		if (jsonObj_.contains("name"))
 		{
-			objectName = jsonObj["name"];
+			lObjectName = jsonObj_["name"];
 		}
 
 		//ファイルネーム
-		if (jsonObj.contains("file_name"))
+		if (jsonObj_.contains("file_name"))
 		{
-			fileName = jsonObj["file_name"];
+			lFileName = jsonObj_["file_name"];
 		}
 		else
 		{
-			fileName = "Default/cube";
+			lFileName = "Default/cube";
 		}
 
 		// トランスフォームのパラメータ読み込み
-		nlohmann::json& transform = jsonObj["transform"];
+		const nlohmann::json& lTransform = jsonObj_["transform"];
+
+		AliceMathF::Vector3 lTranslation;
+		AliceMathF::Vector3 lRotation;
+		AliceMathF::Vector3 lScaling;
 
 		// 平行移動
-		translation.x = static_cast<float>(transform["translation"][1]);
-		translation.y = static_cast<float>(transform["translation"][2]);
-		translation.z = -static_cast<float>(transform["translation"][0]);
+		lTranslation.x = static_cast<float>(lTransform["translation"][1]);
+		lTranslation.y = static_cast<float>(lTransform["translation"][2]);
+		lTranslation.z = -static_cast<float>(lTransform["translation"][0]);
 
 		// 回転角
-		rotation.x = -static_cast<float>(transform["rotation"][1]);
-		rotation.y = -static_cast<float>(transform["rotation"][2]);
-		rotation.z = static_cast<float>(transform["rotation"][0]);
+		lRotation.x = -static_cast<float>(lTransform["rotation"][1]);
+		lRotation.y = -static_cast<float>(lTransform["rotation"][2]);
+		lRotation.z = static_cast<float>(lTransform["rotation"][0]);
 
 		// スケーリング
-		scaling.x = static_cast<float>(transform["scaling"][1]);
-		scaling.y = static_cast<float>(transform["scaling"][2]);
-		scaling.z = static_cast<float>(transform["scaling"][0]);
+		lScaling.x = static_cast<float>(lTransform["scaling"][1]);
+		lScaling.y = static_cast<float>(lTransform["scaling"][2]);
+		lScaling.z = static_cast<float>(lTransform["scaling"][0]);
 
 		//モデル読み込み
-		uint32_t handle = AliceModel::CreateModel(baseDirectorypath + fileName);
+		uint32_t lHandle = AliceModel::SCreateModel(sBaseDirectorypath + lFileName);
 
 		//オブジェクト生成
-		if (parent)
+		if (parent_)
 		{
-			object->Initialize(handle, translation, rotation, scaling, parent->GetTransformPtr());
+			lObject->Initialize(lHandle, lTranslation, lRotation, lScaling, parent_->GetTransformPtr());
 		}
 		else
 		{
-			object->Initialize(handle, translation, rotation, scaling);
+			lObject->Initialize(lHandle, lTranslation, lRotation, lScaling);
 		}
 
-		object->SetName(objectName);
+		lObject->SetName(lObjectName);
 
 		//子オブジェクト再帰関数
-		if (jsonObj.contains("children"))
+		if (jsonObj_.contains("children"))
 		{
-			for (nlohmann::json& json : jsonObj["children"])
+			for (const nlohmann::json& json : jsonObj_["children"])
 			{
-				ObjectScan(sceneData, json, object.get());
+				SObjectScan(sceneData_, json, lObject.get());
 			}
 		}
 	}
 }
 
-void SceneData::Object::Initialize(uint32_t handle, const AliceMathF::Vector3& pos, const AliceMathF::Vector3& rot, const AliceMathF::Vector3& scl, const Transform* parent)
+void SceneData::Object::Initialize(uint32_t handle_, const AliceMathF::Vector3& pos_, const AliceMathF::Vector3& rot_, const AliceMathF::Vector3& scl_, const Transform* parent_)
 {
 	model = std::make_unique<AliceModel>();
-	model->SetModel(handle);
+	model->SetModel(handle_);
 	transform.Initialize();
-	transform.translation = pos;
-	transform.rotation = rot;
-	transform.scale = scl;
+	transform.translation = pos_;
+	transform.rotation = rot_;
+	transform.scale = scl_;
 
-	if (parent)
+	if (parent_)
 	{
-		transform.parent = parent;
+		transform.parent = parent_;
 	}
 }
 
@@ -147,11 +148,11 @@ void SceneData::Object::Initialize()
 {
 }
 
-void SceneData::Update(Camera* camera)
+void SceneData::Update(Camera* camera_)
 {
 	for (std::unique_ptr<Object>& object : objects)
 	{
-		object->Update(camera);
+		object->Update(camera_);
 	}
 }
 

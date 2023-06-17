@@ -1,7 +1,8 @@
 ﻿#include <Particle.h>
-#include<BasicParticle.h>
-#include<RainParticle.h>
-#include<TextureManager.h>
+
+TextureManager* Particle::sTextureManager = nullptr;
+ID3D12GraphicsCommandList* Particle::sCmdList = nullptr;
+ID3D12Device* Particle::sDevice = nullptr;
 
 Particle::Particle()
 {
@@ -11,21 +12,18 @@ Particle::~Particle()
 {
 }
 
-BasicParticle* Particle::CreateParticle()
+void Particle::SetTex(uint32_t handle_)
 {
-	BasicParticle* basic = new BasicParticle;
-	basic->Initialize();
-	return basic;
+	textureData = sTextureManager->SGetTextureData(handle_);
 }
 
-RainParticle* Particle::CreateRainParticle()
+void Particle::SSetTextureManager(TextureManager* textureManager_)
 {
-	RainParticle* rain = new RainParticle;
-	rain->Initialize();
-	return rain;
+	sTextureManager = textureManager_;
 }
 
-void Particle::SetTex(uint32_t handle)
+void Particle::SSetDirectX12Core(DirectX12Core* directX12Core_)
 {
-	textureData = TextureManager::GetTextureData(handle);
+	sDevice = directX12Core_->GetDevice();
+	sCmdList = directX12Core_->GetCommandList();
 }

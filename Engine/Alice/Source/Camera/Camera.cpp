@@ -1,42 +1,42 @@
 ﻿#include "Camera.h"
 
-IWindowsApp* Camera::windowsApp = nullptr;
+IWindowsApp* Camera::sWindowsApp = nullptr;
 
-void GameCamera::Initialize(UpdateProjMatrixFunc matFunc)
+void GameCamera::Initialize(UpdateProjMatrixFunc matFunc_)
 {
 	//アスペクト比を計算する
 	aspect =
-		static_cast<float>(windowsApp->GetWindowSize().width) /
-		static_cast<float>(windowsApp->GetWindowSize().height);
+		static_cast<float>(sWindowsApp->GetWindowSize().width) /
+		static_cast<float>(sWindowsApp->GetWindowSize().height);
 
-	matrixFunc = matFunc;
+	matrixFunc = matFunc_;
 
-	if (matFunc == UpdateProjMatrixFunc_Ortho)//平行投影
+	if (matFunc_ == UpdateProjMatrixFunc_Ortho)//平行投影
 	{
-		if (near_ == 0.0f)
+		if (nearClip == 0.0f)
 		{
-			near_ = 0.1f;
+			nearClip = 0.1f;
 		}
-		if (far_ == 0.0f)
+		if (farClip == 0.0f)
 		{
-			far_ = 1000.0f;
+			farClip = 1000.0f;
 		}
-		right = static_cast<float>(windowsApp->GetWindowSize().width);
-		bottom = static_cast<float>(windowsApp->GetWindowSize().height);
+		right = static_cast<float>(sWindowsApp->GetWindowSize().width);
+		bottom = static_cast<float>(sWindowsApp->GetWindowSize().height);
 
 		//平行投影の計算
-		AliceMathF::MakeOrthogonalL(right, bottom, near_, far_, projectionMatrix);
+		AliceMathF::MakeOrthogonalL(right, bottom, nearClip, farClip, projectionMatrix);
 
 	}
 	else//透視投影
 	{
-		if (near_ == 0.0f)
+		if (nearClip == 0.0f)
 		{
-			near_ = 0.1f;
+			nearClip = 0.1f;
 		}
-		if (far_ == 0.0f)
+		if (farClip == 0.0f)
 		{
-			far_ = 1000.0f;
+			farClip = 1000.0f;
 		}
 		if (fovAngleY == 0.0f)
 		{
@@ -44,7 +44,7 @@ void GameCamera::Initialize(UpdateProjMatrixFunc matFunc)
 		}
 
 		//透視投影行列の計算
-		AliceMathF::MakePerspectiveL(fovAngleY, aspect, near_, far_, projectionMatrix);
+		AliceMathF::MakePerspectiveL(fovAngleY, aspect, nearClip, farClip, projectionMatrix);
 
 	}
 
@@ -62,9 +62,9 @@ void GameCamera::Initialize(UpdateProjMatrixFunc matFunc)
 	forward.Normal();
 
 	//注視点と視点の距離取得
-	AliceMathF::Vector3 toPos;
-	toPos = eye - target;
-	tgtToPosLen = toPos.length_();
+	AliceMathF::Vector3 lTgtToPosLen;
+	lTgtToPosLen = eye - target;
+	tgtToPosLen = lTgtToPosLen.length_();
 
 	updateViewMatrix = false;
 }
@@ -76,27 +76,27 @@ void GameCamera::Update()
 		if (matrixFunc == UpdateProjMatrixFunc_Ortho)
 		{
 
-			right = static_cast<float>(windowsApp->GetWindowSize().width);
-			bottom = static_cast<float>(windowsApp->GetWindowSize().height);
-			AliceMathF::MakeOrthogonalL(right, bottom, near_, far_, projectionMatrix);
+			right = static_cast<float>(sWindowsApp->GetWindowSize().width);
+			bottom = static_cast<float>(sWindowsApp->GetWindowSize().height);
+			AliceMathF::MakeOrthogonalL(right, bottom, nearClip, farClip, projectionMatrix);
 
 		}
 		else
 		{
-			if (near_ == 0.0f)
+			if (nearClip == 0.0f)
 			{
-				near_ = 0.1f;
+				nearClip = 0.1f;
 			}
-			if (far_ == 0.0f)
+			if (farClip == 0.0f)
 			{
-				far_ = 1000.0f;
+				farClip = 1000.0f;
 			}
 			if (fovAngleY == 0.0f)
 			{
 				fovAngleY = AliceMathF::AX_PI / 4;
 			}
 
-			AliceMathF::MakePerspectiveL(fovAngleY, aspect, near_, far_, projectionMatrix);
+			AliceMathF::MakePerspectiveL(fovAngleY, aspect, nearClip, farClip, projectionMatrix);
 		}
 		updateProjMatrix = false;
 	}
@@ -112,30 +112,30 @@ void GameCamera::Update()
 
 		forward = { viewMatrixInv.m[2][0], viewMatrixInv.m[2][1], viewMatrixInv.m[2][2] };
 
-		AliceMathF::Vector3 toPos;
-		toPos = eye - target;
-		tgtToPosLen = toPos.length_();
+		AliceMathF::Vector3 lTgtToPosLen;
+		lTgtToPosLen = eye - target;
+		tgtToPosLen = lTgtToPosLen.length_();
 
 		updateViewMatrix = false;
 	}
 }
 
-void GameCamera::Move(const AliceMathF::Vector3& move)
+void GameCamera::Move(const AliceMathF::Vector3& move_)
 {
-	eye += move;
-	target += move;
+	eye += move_;
+	target += move_;
 	updateViewMatrix = true;
 }
 
-void GameCamera::MoveTarget(const AliceMathF::Vector3& move)
+void GameCamera::MoveTarget(const AliceMathF::Vector3& move_)
 {
-	target += move;
+	target += move_;
 	updateViewMatrix = true;
 }
 
-void GameCamera::MovePosition(const AliceMathF::Vector3& move)
+void GameCamera::MovePosition(const AliceMathF::Vector3& move_)
 {
-	eye += move;
+	eye += move_;
 	updateViewMatrix = true;
 }
 
@@ -147,27 +147,27 @@ void GameCamera::SetAspect(float aspect_)
 	updateViewMatrix = true;
 }
 
-void GameCamera::SetFar(float fFar)
+void GameCamera::SetFar(float far_)
 {
-	far_ = fFar;
+	farClip = far_;
 	updateProjMatrix = true;
 }
 
-void GameCamera::SetNear(float fNear)
+void GameCamera::SetNear(float near_)
 {
-	near_ = fNear;
+	nearClip = near_;
 	updateProjMatrix = true;
 }
 
-void GameCamera::SetFovAngleY(float fovAngle)
+void GameCamera::SetFovAngleY(float fovAngle_)
 {
-	this->fovAngleY = fovAngle;
+	fovAngleY = fovAngle_;
 	updateProjMatrix = true;
 }
 
-void GameCamera::SetUpdateProjMatrixFunc(UpdateProjMatrixFunc func)
+void GameCamera::SetUpdateProjMatrixFunc(UpdateProjMatrixFunc func_)
 {
-	matrixFunc = func;
+	matrixFunc = func_;
 	updateProjMatrix = true;
 }
 
@@ -194,22 +194,22 @@ void GameCamera::SetBottom(float bottom_)
 	updateProjMatrix = true;
 }
 
-void GameCamera::SetEye(const AliceMathF::Vector3& pos)
+void GameCamera::SetEye(const AliceMathF::Vector3& pos_)
 {
 	updateViewMatrix = true;
-	eye = pos;
+	eye = pos_;
 }
 
-void GameCamera::SetTarget(const AliceMathF::Vector3& pos)
+void GameCamera::SetTarget(const AliceMathF::Vector3& pos_)
 {
 	updateViewMatrix = true;
-	target = pos;
+	target = pos_;
 }
 
-void GameCamera::SetUp(const AliceMathF::Vector3& vec)
+void GameCamera::SetUp(const AliceMathF::Vector3& vec_)
 {
 	updateViewMatrix = true;
-	up = vec;
+	up = vec_;
 }
 
 #pragma endregion
@@ -253,12 +253,12 @@ const AliceMathF::Matrix4& GameCamera::GetCameraRotation()
 
 float GameCamera::GetFar() const
 {
-	return far_;
+	return farClip;
 }
 
 float GameCamera::GetNear() const
 {
-	return near_;
+	return nearClip;
 }
 
 float GameCamera::GetFovAngleY() const
@@ -266,7 +266,7 @@ float GameCamera::GetFovAngleY() const
 	return fovAngleY;
 }
 
-float GameCamera::GetTargetToPositionlength_() const
+float GameCamera::GetTargetToPositionLength() const
 {
 	return tgtToPosLen;
 }
@@ -281,37 +281,37 @@ float GameCamera::GetAspect() const
 	return aspect;
 }
 
-float GameCamera::GetLeft()
+float GameCamera::GetLeft()const
 {
 	return left;
 }
 
-const AliceMathF::Vector3& GameCamera::GetEye()
+const AliceMathF::Vector3& GameCamera::GetEye()const
 {
 	return eye;
 }
 
-const AliceMathF::Vector3& GameCamera::GetUp()
+const AliceMathF::Vector3& GameCamera::GetUp()const
 {
 	return up;
 }
 
-const AliceMathF::Vector3& GameCamera::GetTarget()
+const AliceMathF::Vector3& GameCamera::GetTarget()const
 {
 	return target;
 }
 
-float GameCamera::GetRight()
+float GameCamera::GetRight()const
 {
 	return right;
 }
 
-float GameCamera::GetTop()
+float GameCamera::GetTop()const
 {
 	return top;
 }
 
-float GameCamera::GetBottom()
+float GameCamera::GetBottom()const
 {
 	return bottom;
 }
@@ -320,5 +320,5 @@ float GameCamera::GetBottom()
 
 void Camera::SetWindowsApp(IWindowsApp* windowsApp_)
 {
-	windowsApp = windowsApp_;
+	sWindowsApp = windowsApp_;
 }

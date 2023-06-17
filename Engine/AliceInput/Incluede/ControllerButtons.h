@@ -28,7 +28,6 @@ enum class ControllerButton
 	//右トリガー
 	RT = 0x0081,
 
-
 	//左スティック
 	LSTICK = 0x0100,
 	//右スティック

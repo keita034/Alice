@@ -16,26 +16,26 @@
 class AliceFileStream
 {
 
-	static std::string buff;
+	static std::string sBbuff;
 
-	static std::istringstream lineData;
+	static std::istringstream sLineData;
 
-	static std::array<char, 256>buffC;
+	static std::array<char, 256>cBuffC;
 
-	static std::string directoryPath;
+	static std::string sDirectoryPath;
 
 	friend class AliceModelData;
 	friend class AliceModel;
 	friend class ModelMesh;
 
 public:
-	static bool LoadAlicePolygonData(const std::string& path, AliceModelData* model);
+	static bool SLoadAlicePolygonData(const std::string& path_, AliceModelData* model_);
 
-	static bool LoadAlicePolygonBinaryData(const std::string& path, AliceModelData* model);
+	static bool SLoadAlicePolygonBinaryData(const std::string& path_, AliceModelData* model_);
 
-	static bool LoadAliceMotionBinaryData(const std::string& path, MotionData* motion);
+	static bool SLoadAliceMotionBinaryData(const std::string& path_, MotionData* motion_);
 
-	static bool LoadAliceMotionData(const std::string& path, MotionData* motion);
+	static bool SLoadAliceMotionData(const std::string& path_, MotionData* motion_);
 
 private:
 
@@ -43,37 +43,37 @@ private:
 
 #pragma region ASCII
 
-	static void ReadModelData(std::stringstream& data, std::string& str, AliceModelData* model);
+	static void SPReadModelData(std::stringstream& data_, std::string& str_, AliceModelData* model_);
 
-	static void ReadMeshsData(std::stringstream& data, std::string& str, AliceModelData* model);
+	static void SPReadMeshsData(std::stringstream& data_, std::string& str_, AliceModelData* model_);
 
-	static void ReadMeshData(std::stringstream& data, std::string& str, std::unique_ptr<ModelMesh>& mesh, std::vector<Node>& nodes);
+	static void SPReadMeshData(std::stringstream& data_, std::string& str_, std::unique_ptr<ModelMesh>& mesh_, std::vector<Node>& nodes_);
 
-	static void ReadHesderData(std::stringstream& data, std::string& str, AliceModelData* model);
+	static void SPReadHesderData(std::stringstream& data_, std::string& str_, AliceModelData* model_);
 
-	static void ReadBoneIndex(const std::string& strInd, std::array<UINT, MAX_BONE_INDICES>& boneIndex);
+	static void SPReadBoneIndex(const std::string& strIndex_, std::array<uint32_t, MAX_BONE_INDICES>& boneIndex_);
 
-	static void ReadBoneWeight(const std::string& strWei, std::array<float, MAX_BONE_INDICES>& boneWeight);
+	static void SPReadBoneWeight(const std::string& strWeight_, std::array<float, MAX_BONE_INDICES>& boneWeight_);
 
-	static void ReadBoneData(const std::string& strbone, Bone& bone);
+	static void SPReadBoneData(const std::string& strBone_, Bone& bone_);
 
-	static void ReadMaterial(const std::string& strMate, ModelMaterial& modelMaterial);
+	static void SPReadMaterial(const std::string& strMaterial_, ModelMaterial& modelMaterial_);
 
-	static void ReadNodesData(std::stringstream& data, std::string& str, AliceModelData* model);
+	static void SPReadNodesData(std::stringstream& data_, std::string& str_, AliceModelData* model_);
 
-	static void ReadNodeData(std::stringstream& data, std::string& str, Node& node, AliceModelData* model);
+	static void SPReadNodeData(std::stringstream& data_, std::string& str_, Node& node_, AliceModelData* model_);
 
-	static void ReadParentData(const std::string& name, Node& node, std::vector<Node>& nodes);
+	static void SPReadParentData(const std::string& name_, Node& node_, std::vector<Node>& nodes_);
 
 #pragma endregion
 
 #pragma region バイナリ
 
-	static bool ReadHesderBinaryData(AliceModelData* model, FILE* fp);
+	static bool SPReadHesderBinaryData(AliceModelData* model_, FILE* fp_);
 
-	static bool ReadNodesBinaryData(AliceModelData* model, FILE* fp);
+	static bool SPReadNodesBinaryData(AliceModelData* model_, FILE* fp_);
 
-	static bool ReadMeshBinaryData(AliceModelData* model, FILE* fp);
+	static bool SPReadMeshBinaryData(AliceModelData* model_, FILE* fp_);
 
 #pragma endregion
 
@@ -83,18 +83,18 @@ private:
 
 #pragma region アスキー
 
-	static void ReadMotionData(std::stringstream& data, std::string& str, MotionData* motionData);
+	static void SPReadMotionData(std::stringstream& data_, std::string& str_, MotionData* motionData_);
 
-	static void ReadMotionHesderData(std::stringstream& data, std::string& str, MotionData* motion);
+	static void SPReadMotionHesderData(std::stringstream& data_, std::string& str_, MotionData* motion_);
 
-	static void ReadMotionNodesData(std::stringstream& data, std::string& str, MotionData* motion);
-	static void ReadMotionNodeData(std::stringstream& data, std::string& str, MotionNode& node);
+	static void SPReadMotionNodesData(std::stringstream& data_, std::string& str_, MotionData* motion_);
+	static void SPReadMotionNodeData(std::stringstream& data_, std::string& str_, MotionNode& node_);
 
 #pragma endregion
 
 #pragma region バイナリ
 
-	static bool ReadMotionNodeBinaryData(MotionNode* node, FILE* fp);
+	static bool SPReadMotionNodeBinaryData(MotionNode* node_, FILE* fp_);
 
 #pragma endregion
 
@@ -102,20 +102,20 @@ private:
 
 #pragma region その他
 
-	static void ReadString(const std::string& strData, std::string& str);
-	static void ReadFlag(const std::string& strFlag, bool& flag);
-	static void ReadNumber(const std::string& strNum, float& num);
-	static void ReadNumber(const std::string& strNum, uint32_t& num);
-	static void ReadVertex(const std::string& strVer, PosNormUvTangeColSkin& ver);
-	static void ReadVector3(const std::string& strVec, AliceMathF::Vector3& ver);
-	static void ReadVector3(const std::string& strVec, AliceMathF::Vector4& ver);
-	static void ReadVector2(const std::string& strVec, AliceMathF::Vector2& ver);
-	static void ReadVector4(const std::string& strVec, AliceMathF::Vector4& ver);
-	static void ReadQuaternion(const std::string& strVec, AliceMathF::Quaternion& ver);
-	static void ReadMatrix(const std::string& strMat, AliceMathF::Matrix4& mat);
-	static float Atof(const std::string& str);
-	static void ReadVectorKey(const std::string& strVer, VectorKey& ver);
-	static void ReadQuaternionKey(const std::string& strVer, QuaternionKey& ver);
+	static void SPReadString(const std::string& strData_, std::string& str_);
+	static void SPReadFlag(const std::string& strFlag_, bool& flag_);
+	static void SPReadNumber(const std::string& strNum_, float& num_);
+	static void SPReadNumber(const std::string& strNum_, uint32_t& num_);
+	static void SPReadVertex(const std::string& strVertex_, PosNormUvTangeColSkin& vertex_);
+	static void SPReadVector3(const std::string& strVec_, AliceMathF::Vector3& vec_);
+	static void SPReadVector3(const std::string& strVec_, AliceMathF::Vector4& vec_);
+	static void SPReadVector2(const std::string& strVec_, AliceMathF::Vector2& vec_);
+	static void SPReadVector4(const std::string& strVec_, AliceMathF::Vector4& vec_);
+	static void SPReadQuaternion(const std::string& strVec_, AliceMathF::Quaternion& quaternion_);
+	static void SPReadMatrix(const std::string& strMat_, AliceMathF::Matrix4& mat_);
+	static float SPAtof(const std::string& str_);
+	static void SPReadVectorKey(const std::string& strVec_, VectorKey& vectorKey_);
+	static void SPReadQuaternionKey(const std::string& strVec_, QuaternionKey& quaternionKey_);
 
 #pragma endregion
 

@@ -9,7 +9,7 @@ private:
 	//定数バッファ用構造体
 	struct RadTxeSize
 	{
-		INT radius;
+		int32_t radius;
 		float radiusF;
 		AliceMathF::Vector2 TexSize;
 	};
@@ -30,7 +30,7 @@ public:
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void PostUpdate(RenderTarget* mainRenderTarget) override;
+	void PostUpdate(RenderTarget* mainRenderTarget_) override;
 
 	/// <summary>
 	/// タイプを取得
@@ -43,9 +43,9 @@ private:
 	~OilPaintingPostEffect() = default;
 
 	//描画
-	void Draw(RenderTarget* mainRenderTarget)override;
+	void Draw(RenderTarget* mainRenderTarget_)override;
 
-	void MainRenderTargetDraw(RenderTarget* mainRenderTarget)override;
+	void MainRenderTargetDraw(RenderTarget* mainRenderTarget_)override;
 
 	//コピーコンストラクタ・代入演算子削除
 	OilPaintingPostEffect& operator=(const OilPaintingPostEffect&) = delete;

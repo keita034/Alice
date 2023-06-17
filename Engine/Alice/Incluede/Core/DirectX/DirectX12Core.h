@@ -57,32 +57,28 @@ private:
 	//スワップチェーンの設定
 	DXGI_SWAP_CHAIN_DESC1 swapChainDesc{};
 
-	UINT bbIndex;
+	uint32_t bbIndex;
 
-	UINT FrameBufferCount = 2;
+	uint32_t FrameBufferCount = 2;
 
 	DXGI_FORMAT surfaceFormat;
 
 	//クリアーカラー
 	//FLOAT clearColor[4] = { 0.1f, 0.25f, 0.5f, 0.0f };
-	FLOAT clearColor[4] = { 1.0f,1.0f,1.0f,1.0f};
+	float clearColor[4] = { 1.0f,1.0f,1.0f,1.0f};
 
 	//ビューポート
 	D3D12_VIEWPORT viewport{};
 
 	//シザー矩形
 	D3D12_RECT scissorRect{};
-
-	static DirectX12Core* DirectX12Core_;
 	
 	bool tearingSupport;
 	char PADING2[3]{};
 
 	float height;
-	char PADING3[4]{};
 
 	float width;
-	char PADING4[4]{};
 
 	HWND* handle;
 	IWindowsApp* windowsApp = nullptr;
@@ -91,33 +87,12 @@ private:
 	char PADING5[4]{};
 public:
 
-	//シングルトンインスタンスの取得
-	static DirectX12Core* GetInstance();
-
-	/// <summary>
-	/// デバイスの取得(スタティック)
-	/// </summary>
-	static Microsoft::WRL::ComPtr<ID3D12Device> GetDeviceSta();
-
-	/// <summary>
-	/// コマンドリストの取得(スタティック)
-	/// </summary>
-	static Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> GetCommandListSta();
-	
-	/// <summary>
-	/// リソースの状態を変える
-	/// </summary>
-	/// <param name="resource">リソース</param>
-	/// <param name="beforeState">今の状態</param>
-	/// <param name="afterState">変えたい状態</param>
-	static void ResourceTransition(ID3D12Resource* resource, D3D12_RESOURCE_STATES beforeState, D3D12_RESOURCE_STATES afterState);
-
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	/// <param name="h">縦幅</param>
-	/// <param name="w">横幅</param>
-	void DirectXInitialize(float h, float w, HWND* hwnd, IWindowsApp* windows);
+	/// <param name="width_">横幅</param>
+	/// <param name="height_">縦幅</param>
+	void DirectXInitialize(float width_, float height_, HWND* hwnd_, IWindowsApp* windowsApp_);
 
 	/// <summary>
 	/// 描画準備
@@ -132,42 +107,37 @@ public:
 	/// <summary>
 	/// コマンド後始末
 	/// </summary>
-	void ExecuteCommand(bool flip = true);
+	void ExecuteCommand(bool flip_ = true);
 
 	void BeginCommand();
 
-	/// <summary>
-	/// 開放
-	/// </summary>
-	void Destroy();
-
 	//背景の色変え(RGBA)
-	void SetBackScreenColor(float red, float green, float blue, float alpha);
+	void SetBackScreenColor(float red_, float green_, float blue_, float alpha_);
 
 	/// <summary>
 	/// デバイスの取得
 	/// </summary>
-	Microsoft::WRL::ComPtr<ID3D12Device> GetDevice();
+	ID3D12Device* GetDevice()const;
 
 	/// <summary>
 	/// コマンドリスト取得
 	/// </summary>
-	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> GetCommandList();
+	ID3D12GraphicsCommandList* GetCommandList()const;
 
 	/// <summary>
 	/// SRV,CBV,URV用デスクプリタヒープ取得
 	/// </summary>
-	IDescriptorHeap* GetSRVDescriptorHeap();
+	IDescriptorHeap* GetSRVDescriptorHeap()const;
 
 	/// <summary>
 	/// RTV用デスクプリタヒープ取得
 	/// </summary>
-	IRTVDescriptorHeap* GetRTVDescriptorHeap();
+	IRTVDescriptorHeap* GetRTVDescriptorHeap()const;
 
 	/// <summary>
 	/// DSV用デスクプリタヒープ取得
 	/// </summary>
-	IDSVDescriptorHeap* GetDSVDescriptorHeap();
+	IDSVDescriptorHeap* GetDSVDescriptorHeap()const;
 
 	/// <summary>
 	/// リソースの状態を変える
@@ -175,7 +145,7 @@ public:
 	/// <param name="resource">リソース</param>
 	/// <param name="beforeState">今の状態</param>
 	/// <param name="afterState">変えたい状態</param>
-	void Transition(ID3D12Resource* resource, D3D12_RESOURCE_STATES beforeState, D3D12_RESOURCE_STATES afterState);
+	void ResourceTransition(ID3D12Resource* resource_, D3D12_RESOURCE_STATES beforeState_, D3D12_RESOURCE_STATES afterState_);
 
 	/// <summary>
 	/// バックバッファの数を取得
@@ -190,39 +160,38 @@ public:
 	/// <param name="windowHeight">ウィンドウ縦幅(ウィンドウモードの時のみ有効)</param>
 	/// <param name="windowWidth">ウィンドウ横幅(ウィンドウモードの時のみ有効)</param>
 	/// <returns>成功したか</returns>
-	bool SetWindowType(WindowMode mode, UINT windowHeight = 720, UINT windowWidth = 1280);
+	bool SetWindowType(WindowMode mode_, uint32_t windowHeight_ = 720, uint32_t windowWidth_ = 1280);
 
-	void RenderSizeChanged(UINT width, UINT height);
-
-private:
-
-	//DXGIまわり初期化
-	HRESULT InitializeDXGIDevice();
-
-	//スワップチェインの生成
-	HRESULT CreateSwapChain();
-
-	//コマンドまわり初期化
-	HRESULT InitializeCommand();
-
-	//深度関係生成
-	HRESULT CreatDepthBuffer();
-
-	//デスクプリタヒープの生成
-	void CreatDescriptorHeap();
-
-	//デバッグレイヤーを有効にする
-	void EnableDebugLayer();
-
-	//インフォキューを有効にする
-	void EnableInfoQueue();
-
-	//
-	void CheckTearingSupport();
+	void RenderSizeChanged(uint32_t width_, uint32_t height_);
 
 	//コンストラクタ・デストラクタ
 	DirectX12Core() = default;
 	~DirectX12Core();
+
+private:
+
+	//DXGIまわり初期化
+	HRESULT PInitializeDXGIDevice();
+
+	//スワップチェインの生成
+	HRESULT PCreateSwapChain();
+
+	//コマンドまわり初期化
+	HRESULT PInitializeCommand();
+
+	//深度関係生成
+	HRESULT PCreatDepthBuffer();
+
+	//デスクプリタヒープの生成
+	void PCreatDescriptorHeap();
+
+	//デバッグレイヤーを有効にする
+	void PEnableDebugLayer();
+
+	//インフォキューを有効にする
+	void PEnableInfoQueue();
+
+	void PCheckTearingSupport();
 
 	//コピーコンストラクタ・代入演算子削除
 	DirectX12Core& operator=(const DirectX12Core&) = delete;

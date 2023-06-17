@@ -1,11 +1,57 @@
-﻿
+﻿#include<ImGuiManager.h>
 
-#include<ImGuiManager.h>
+#pragma warning(push)
+#pragma warning(disable: 4514)
+#pragma warning(disable: 4820)
 
+#include <imgui_impl_win32.h>
+#include <imgui_impl_dx12.h>
 
-void ImGuiManager::Initialize(IWindowsApp* windowsApp, DirectX12Core* core)
+#pragma warning(pop)
+
+#include<DescriptorHeap.h>
+
+//ImGUIの管理
+class ImGuiManager : public IImGuiManager
 {
-	directX12Core = core;
+
+private:
+
+	DirectX12Core* directX12Core =nullptr;
+
+public:
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	void Initialize(IWindowsApp* windowsApp_, DirectX12Core* directX12Core_);
+
+	/// <summary>
+	/// 終了
+	/// </summary>
+	void Finalize();
+
+	/// <summary>
+	/// ImGui受付開始
+	/// </summary>
+	void Bigin();
+
+	/// <summary>
+	/// ImGui受付終了
+	/// </summary>
+	void End();
+
+	/// <summary>
+	/// 画面への描画
+	/// </summary>
+	void Draw();
+
+	ImGuiManager() = default;
+	~ImGuiManager() = default;
+};
+
+void ImGuiManager::Initialize(IWindowsApp* windowsApp_, DirectX12Core* directX12Core_)
+{
+	directX12Core = directX12Core_;
 
 	//ImGuiのコンテキストを生成
 	ImGui::CreateContext();
@@ -13,16 +59,16 @@ void ImGuiManager::Initialize(IWindowsApp* windowsApp, DirectX12Core* core)
 	//ImGuiのスタイルを設定
 	ImGui::StyleColorsDark();
 
-	ImGui_ImplWin32_Init(windowsApp->GetHwnd());
+	ImGui_ImplWin32_Init(windowsApp_->GetHwnd());
 
-	IDescriptorHeap::DescriptorHeapViewHandle handl = directX12Core->GetSRVDescriptorHeap()->AddSRV();
+	IDescriptorHeap::DescriptorHeapViewHandle lHandl = directX12Core->GetSRVDescriptorHeap()->AddSRV();
 
 	ImGui_ImplDX12_Init(
-		directX12Core->GetDevice().Get(),
+		directX12Core->GetDevice(),
 		static_cast<int>(directX12Core->GetBackBufferCount()),
 		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, directX12Core->GetSRVDescriptorHeap()->GetHeap(),
-		handl.cpuHandle,
-		handl.gpuHandle
+		lHandl.cpuHandle,
+		lHandl.gpuHandle
 	);
 
 	ImGuiIO& io = ImGui::GetIO();
@@ -53,12 +99,26 @@ void ImGuiManager::End()
 
 void ImGuiManager::Draw()
 {
-	ID3D12GraphicsCommandList* commandlist = directX12Core->GetCommandList().Get();
+	ID3D12GraphicsCommandList* lCommandlist = directX12Core->GetCommandList();
 
 	//デスクリプタヒープの配列をセットするコマンド
-	ID3D12DescriptorHeap* ppHeaps[] = { directX12Core->GetSRVDescriptorHeap()->GetHeap()};
-	commandlist->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+	ID3D12DescriptorHeap* lDescriptorHeaps[] = { directX12Core->GetSRVDescriptorHeap()->GetHeap()};
+	lCommandlist->SetDescriptorHeaps(_countof(lDescriptorHeaps), lDescriptorHeaps);
 
 	//描画コマンドを発行
-	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), commandlist);
+	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), lCommandlist);
+}
+
+std::unique_ptr<IImGuiManager> CreateUniqueImGuiManager(IWindowsApp* windowsApp_, DirectX12Core* directX12Core_)
+{
+	std::unique_ptr<IImGuiManager>lImGuiManager = std::make_unique<ImGuiManager>();
+	lImGuiManager->Initialize(windowsApp_, directX12Core_);
+	return std::move(lImGuiManager);
+}
+
+std::shared_ptr<IImGuiManager> CreateSharedImGuiManager(IWindowsApp* windowsApp_, DirectX12Core* directX12Core_)
+{
+	std::shared_ptr<IImGuiManager> lImGuiManager = std::make_unique<ImGuiManager>();
+	lImGuiManager->Initialize(windowsApp_, directX12Core_);
+	return lImGuiManager;
 }

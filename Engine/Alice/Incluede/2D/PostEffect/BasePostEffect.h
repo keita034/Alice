@@ -16,7 +16,10 @@ protected:
 	bool needsInit = true;
 	char PADING[7]{};
 
-	ID3D12GraphicsCommandList* cmdList = nullptr;
+	static ID3D12GraphicsCommandList* sCmdList;
+	static ID3D12Device* sDevice;
+	static IDescriptorHeap* sSrvHeap;
+	static IWindowsApp* sWindowsApp;
 
 	std::unique_ptr<PostEffectSprite> sprite;
 
@@ -26,9 +29,6 @@ protected:
 	std::vector<std::unique_ptr<IDepthStencilBuffer>>depthStencilBuffers;
 	//クリアーカラー
 	std::array<float, 4> clearColor = { {1.0f,1.0f,1.0f,1.0f} };
-
-	static IDescriptorHeap* srvHeap;
-	static IWindowsApp* windowsApp;
 
 	std::vector<D3D12_GPU_DESCRIPTOR_HANDLE> handles;
 
@@ -44,20 +44,20 @@ public:
 
 	virtual void Initialize() = 0;
 
-	virtual void PostUpdate(RenderTarget* mainRenderTarget) = 0;
+	virtual void PostUpdate(RenderTarget* mainRenderTarget_) = 0;
 
 	virtual const std::string& GetType() = 0;
 
-	static void SetSrvHeap(IDescriptorHeap* heap);
+	static void SSetDirectX12Core(DirectX12Core* directX12Core_);
 
-	static void SetWindowsApp(IWindowsApp* windowsApp_);
+	static void SSetWindowsApp(IWindowsApp* windowsApp_);
 
 
 protected:
 
-	virtual void Draw(RenderTarget* mainRenderTarget) = 0;
+	virtual void Draw(RenderTarget* mainRenderTarget_) = 0;
 
-	virtual void MainRenderTargetDraw(RenderTarget* mainRenderTarget) = 0;
+	virtual void MainRenderTargetDraw(RenderTarget* mainRenderTarget_) = 0;
 
 	//コピーコンストラクタ・代入演算子削除
 	BasePostEffect& operator=(const BasePostEffect&) = delete;

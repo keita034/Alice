@@ -1,5 +1,7 @@
 ﻿#pragma once
-#include"Input.h"
+#include<Input.h>
+#include<AudioManager.h>
+
 /// <summary>
 /// シーン基底クラス
 /// </summary>
@@ -10,7 +12,8 @@ class BaseScene
 {
 protected:
 
-	static AliceInput::IInput* input;
+	static AliceInput::IInput* sInput;
+	static IAudioManager* sAudioManager;
 
 	//シーンマネージャー
 	SceneManager* sceneManager = nullptr;
@@ -39,8 +42,10 @@ public:
 	/// </summary>
 	virtual void Finalize() = 0;
 
-	virtual void SetSceneManager(SceneManager* manager);
+	virtual void SetSceneManager(SceneManager* manager_);
 
-	static void SetInput(AliceInput::IInput* iInput);
+	static void SSetInput(AliceInput::IInput* input_);
+
+	static void SSetAudioManager(IAudioManager* audioManager_);
 };
 

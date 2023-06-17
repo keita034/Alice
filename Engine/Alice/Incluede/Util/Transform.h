@@ -13,16 +13,16 @@ public:
 	/// <summary>
 	/// 行列を転送する
 	/// </summary>
-	void TransUpdate(Camera* camera);
+	void TransUpdate(Camera* camera_);
 
 	void Update();
 
 	void MakeWorldMatrix();
 
-	const ID3D12Resource* GetconstBuff();
+	const ID3D12Resource* GetconstBuff()const;
 
 	worldViewpojCamera* GetWorldViewpojCamera();
 
-	D3D12_GPU_VIRTUAL_ADDRESS GetAddress();
+	const D3D12_GPU_VIRTUAL_ADDRESS& GetAddress()const;
 };
 

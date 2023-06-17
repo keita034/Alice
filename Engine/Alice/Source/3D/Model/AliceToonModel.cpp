@@ -1,91 +1,91 @@
 ﻿#include "AliceToonModel.h"
 
-void AliceToonModel::Draw(Transform& transform, const AliceMotionData* animation, float frame, Material* material)
+void AliceToonModel::Draw(Transform& transform_, const AliceMotionData* animation_, float frame_, Material* material_)
 {
 	if (modelData->isToon)
 	{
-		outLineMaterialData = MaterialManager::GetMaterial("DefaultToonModelOutLine");
-		if (animation)
+		outLineMaterialData = MaterialManager::SGetMaterial("DefaultToonModelOutLine");
+		if (animation_)
 		{
-			if (!material)
+			if (!material_)
 			{
-				modelMaterialData = MaterialManager::GetMaterial("DefaultToonModelAnimation");
+				modelMaterialData = MaterialManager::SGetMaterial("DefaultToonModelAnimation");
 			}
 			else
 			{
-				modelMaterialData = material;
+				modelMaterialData = material_;
 			}
 
-			AnimationUpdate(animation, frame);
+			AnimationUpdate(animation_, frame_);
 
-			ToonModelAnimationDraw(transform);
+			PToonModelAnimationDraw(transform_);
 		}
 		else
 		{
-			if (!material)
+			if (!material_)
 			{
-				modelMaterialData = MaterialManager::GetMaterial("DefaultToonModel");;
+				modelMaterialData = MaterialManager::SGetMaterial("DefaultToonModel");;
 			}
 			else
 			{
-				modelMaterialData = material;
+				modelMaterialData = material_;
 			}
 
-			ToonModelDraw(transform);
+			PToonModelDraw(transform_);
 		}
 
 		modelData->IsAnime = false;
 	}
 	else
 	{
-		AliceModel::Draw(transform, animation, frame, material);
+		AliceModel::Draw(transform_, animation_, frame_, material_);
 	}
 }
 
-void AliceToonModel::ZeldaDraw(Transform& transform, const AliceMotionData* animation, float frame, Material* material)
+void AliceToonModel::ZeldaDraw(Transform& transform_, const AliceMotionData* animation_, float frame_, Material* material_)
 {
-	if (animation)
+	if (animation_)
 	{
-		if (!material)
+		if (!material_)
 		{
-			modelMaterialData = MaterialManager::GetMaterial("DefaultZeldaToonModelAnimation");
+			modelMaterialData = MaterialManager::SGetMaterial("DefaultZeldaToonModelAnimation");
 		}
 		else
 		{
-			modelMaterialData = material;
+			modelMaterialData = material_;
 		}
 
-		AnimationUpdate(animation, frame);
+		AnimationUpdate(animation_, frame_);
 
-		ModelAnimationDraw(transform);
+		PModelAnimationDraw(transform_);
 	}
 	else
 	{
-		if (!material)
+		if (!material_)
 		{
-			modelMaterialData = MaterialManager::GetMaterial("DefaultZeldaToonModel");;
+			modelMaterialData = MaterialManager::SGetMaterial("DefaultZeldaToonModel");;
 		}
 		else
 		{
-			modelMaterialData = material;
+			modelMaterialData = material_;
 		}
 
-		ModelDraw(transform);
+		PModelDraw(transform_);
 	}
 
 	modelData->IsAnime = false;
 }
 
-void AliceToonModel::SetRampTexture(const std::string& rampFilePath)
+void AliceToonModel::SetRampTexture(const std::string& rampFilePath_)
 {
 	if (modelData)
 	{
-		uint32_t rampHnadel = TextureManager::Load(rampFilePath);
-		modelData->rampTex = TextureManager::GetTextureData(rampHnadel);
+		uint32_t lRampHnadel = TextureManager::SLoad(rampFilePath_);
+		modelData->rampTex = TextureManager::SGetTextureData(lRampHnadel);
 	}
 }
 
-void AliceToonModel::ToonModelDraw(Transform& transform)
+void AliceToonModel::PToonModelDraw(Transform& transform_)
 {
 	for (size_t i = 0; i < modelData->meshes.size(); i++)
 	{
@@ -95,42 +95,42 @@ void AliceToonModel::ToonModelDraw(Transform& transform)
 		}
 
 		// プリミティブ形状の設定コマンド
-		cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+		sCmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
 		// パイプラインステートとルートシグネチャの設定コマンド
-		cmdList->SetPipelineState(outLineMaterialData->pipelineState->GetPipelineState());
-		cmdList->SetGraphicsRootSignature(outLineMaterialData->rootSignature->GetRootSignature());
+		sCmdList->SetPipelineState(outLineMaterialData->pipelineState->GetPipelineState());
+		sCmdList->SetGraphicsRootSignature(outLineMaterialData->rootSignature->GetRootSignature());
 
-		cmdList->SetGraphicsRootConstantBufferView(1, modelData->postureMatBuff->GetAddress());
+		sCmdList->SetGraphicsRootConstantBufferView(1, modelData->postureMatBuff->GetAddress());
 
-		modelData->meshes[i]->OutLineDraw(cmdList, transform);
+		modelData->meshes[i]->OutLineDraw(sCmdList, transform_);
 
 		// パイプラインステートとルートシグネチャの設定コマンド
-		cmdList->SetPipelineState(modelMaterialData->pipelineState->GetPipelineState());
-		cmdList->SetGraphicsRootSignature(modelMaterialData->rootSignature->GetRootSignature());
+		sCmdList->SetPipelineState(modelMaterialData->pipelineState->GetPipelineState());
+		sCmdList->SetGraphicsRootSignature(modelMaterialData->rootSignature->GetRootSignature());
 
-		cmdList->SetGraphicsRootConstantBufferView(3, modelData->postureMatBuff->GetAddress());
-		modelData->meshes[i]->ToonDraw(cmdList, transform, modelData->rampTex->gpuHandle, light);
+		sCmdList->SetGraphicsRootConstantBufferView(3, modelData->postureMatBuff->GetAddress());
+		modelData->meshes[i]->ToonDraw(sCmdList, transform_, modelData->rampTex->gpuHandle, sLight);
 	}
 }
 
-void AliceToonModel::ToonModelAnimationDraw(Transform& transform)
+void AliceToonModel::PToonModelAnimationDraw(Transform& transform_)
 {
 	for (size_t i = 0; i < modelData->meshes.size(); i++)
 	{
 		// プリミティブ形状の設定コマンド
-		cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+		sCmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
 		// パイプラインステートとルートシグネチャの設定コマンド
-		cmdList->SetPipelineState(outLineMaterialData->pipelineState->GetPipelineState());
-		cmdList->SetGraphicsRootSignature(outLineMaterialData->rootSignature->GetRootSignature());
+		sCmdList->SetPipelineState(outLineMaterialData->pipelineState->GetPipelineState());
+		sCmdList->SetGraphicsRootSignature(outLineMaterialData->rootSignature->GetRootSignature());
 
-		modelData->meshes[i]->AnimOutLineDraw(cmdList, transform);
+		modelData->meshes[i]->AnimOutLineDraw(sCmdList, transform_);
 
 		// パイプラインステートとルートシグネチャの設定コマンド
-		cmdList->SetPipelineState(modelMaterialData->pipelineState->GetPipelineState());
-		cmdList->SetGraphicsRootSignature(modelMaterialData->rootSignature->GetRootSignature());
+		sCmdList->SetPipelineState(modelMaterialData->pipelineState->GetPipelineState());
+		sCmdList->SetGraphicsRootSignature(modelMaterialData->rootSignature->GetRootSignature());
 
-		modelData->meshes[i]->AnimToonDraw(cmdList, transform, modelData->rampTex->gpuHandle, light);
+		modelData->meshes[i]->AnimToonDraw(sCmdList, transform_, modelData->rampTex->gpuHandle, sLight);
 	}
 }

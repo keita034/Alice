@@ -11,8 +11,6 @@
 
 #pragma warning(pop)
 
-
-
 #include<AliceMathUtility.h>
 #include<AliceUtility.h>
 
@@ -48,34 +46,34 @@ private:
 	friend class AliceFileStream;
 	friend class AliceModel;
 
-	static std::vector<std::string>filePaths;
+	static std::vector<std::string>sFilePaths;
 
-	static std::unordered_map<std::string, std::unique_ptr<MotionData>> motionDatas;
+	static std::unordered_map<std::string, std::unique_ptr<MotionData>> sMotionDatas;
 
-	static uint32_t modelCount;
+	static uint32_t sModelCount;
 
-	static const uint32_t maxMotion = 1024;
+	static const uint32_t sMAX_MOTION = 1024;
 
 	MotionData* motionData = nullptr;
 
 public:
 
-	float GetAnimeMaxflame();
+	float GetAnimeMaxflame()const ;
 
-	float GetTickTimes(float frame);
+	float GetTickTimes(float frame_);
 
-	void SetMotion(uint32_t motionHandle);
+	void SetMotion(uint32_t motionHandle_);
 
 	/// <summary>
 	/// モーション生成
 	/// </summary>
 	/// <param name="filePath">ファイルディレクトリ</param>
 	/// <returns>ハンドル</returns>
-	static uint32_t CreateMotion(const std::string& fileDirectoryPath);
+	static uint32_t SCreateMotion(const std::string& fileDirectoryPath_);
 
 	/// <summary>
 	/// 共通初期化
 	/// </summary>
-	static void CommonInitialize();
+	static void SCommonInitialize();
 };
 

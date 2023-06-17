@@ -1,110 +1,110 @@
 ﻿#include<AliceFileStream.h>
 #include<AliceFunctionUtility.h>
 
-std::string AliceFileStream::buff;
-std::istringstream AliceFileStream::lineData;
-std::array<char, 256>  AliceFileStream::buffC;
-std::string AliceFileStream::directoryPath;
+std::string AliceFileStream::sBbuff;
+std::istringstream AliceFileStream::sLineData;
+std::array<char, 256>  AliceFileStream::cBuffC;
+std::string AliceFileStream::sDirectoryPath;
 
 #pragma region モデルデータ
 
 #pragma region ASCII
 
-bool AliceFileStream::LoadAlicePolygonData(const std::string& path, AliceModelData* model)
+bool AliceFileStream::SLoadAlicePolygonData(const std::string& path_, AliceModelData* model_)
 {
-	directoryPath = AliceFunctionUtility::GetDirectoryPath(path);
+	sDirectoryPath = AliceFunctionUtility::GetDirectoryPath(path_);
 
 	//モデルデータ
-	std::stringstream modelData;
+	std::stringstream lModelData;
 	//1行分も文字列を入れる変数
-	std::string line;
+	std::string lLine;
 
 	//ファイルを開く
-	std::ifstream file(path);
-	if (file.fail())
+	std::ifstream lFile(path_);
+	if (lFile.fail())
 	{
 		return false;
 	}
 
 	//ファイルの内容を文字列をストリームにコピー
-	modelData << file.rdbuf();
+	lModelData << lFile.rdbuf();
 
 	//ファイルを閉じる
-	file.close();
+	lFile.close();
 
 	//一行取得
-	getline(modelData, line, '\n');
+	getline(lModelData, lLine, '\n');
 
-	if (line == "<MODEL>")
+	if (lLine == "<MODEL>")
 	{
-		ReadModelData(modelData, line, model);
+		SPReadModelData(lModelData, lLine, model_);
 	}
 
 	return true;
 }
 
-void AliceFileStream::ReadModelData(std::stringstream& data, std::string& str, AliceModelData* model)
+void AliceFileStream::SPReadModelData(std::stringstream& data_, std::string& str_, AliceModelData* model_)
 {
 	//1行分の文字列を入れる変数
-	std::string line;
+	std::string lLine;
 
 	//一行取得
-	while (getline(data, line, '\n'))
+	while (getline(data_, lLine, '\n'))
 	{
-		if (line == "")
+		if (lLine == "")
 		{
 			continue;
 		}
 
-		if (str == line)
+		if (str_ == lLine)
 		{
 			return;
 		}
 
-		if (line == "<HEADER>")
+		if (lLine == "<HEADER>")
 		{
-			ReadHesderData(data, line, model);
+			SPReadHesderData(data_, lLine, model_);
 		}
 
-		if (line == "<NODES>")
+		if (lLine == "<NODES>")
 		{
-			ReadNodesData(data, line, model);
+			SPReadNodesData(data_, lLine, model_);
 		}
 
-		if (line == "<MESHS>")
+		if (lLine == "<MESHS>")
 		{
-			ReadMeshsData(data, line, model);
+			SPReadMeshsData(data_, lLine, model_);
 		}
 
 	}
 
 }
 
-void AliceFileStream::ReadMeshsData(std::stringstream& data, std::string& str, AliceModelData* model)
+void AliceFileStream::SPReadMeshsData(std::stringstream& data_, std::string& str_, AliceModelData* model_)
 {
 	//1行分の文字列を入れる変数
-	std::string line;
+	std::string lLine;
 
 	//一行取得
-	while (getline(data, line, '\n'))
+	while (getline(data_, lLine, '\n'))
 	{
-		if (line == "")
+		if (lLine == "")
 		{
 			continue;
 		}
 
-		std::istringstream stream(line);
+		std::istringstream lStream(lLine);
 
-		for (size_t i = 0; i < model->meshes.size(); i++)
+		for (size_t i = 0; i < model_->meshes.size(); i++)
 		{
-			std::unique_ptr<ModelMesh> mesh = std::make_unique<ModelMesh>();
+			std::unique_ptr<ModelMesh>lMesh = std::make_unique<ModelMesh>();
 
-			ReadMeshData(data, line, mesh, model->nodes);
+			SPReadMeshData(data_, lLine, lMesh, model_->nodes);
 
-			model->meshes.push_back(std::move(mesh));
+			model_->meshes.push_back(std::move(lMesh));
 		}
 
-		if (str == line)
+		if (str_ == lLine)
 		{
 			return;
 		}
@@ -112,498 +112,497 @@ void AliceFileStream::ReadMeshsData(std::stringstream& data, std::string& str, A
 
 }
 
-void AliceFileStream::ReadMeshData(std::stringstream& data, std::string& str, std::unique_ptr<ModelMesh>& mesh, std::vector<Node>& nodes)
+void AliceFileStream::SPReadMeshData(std::stringstream& data_, std::string& str_, std::unique_ptr<ModelMesh>& mesh_, std::vector<Node>& nodes_)
 {
 	//1行分の文字列を入れる変数
-	std::string line;
+	std::string lLine;
 
 	//一行取得
-	while (getline(data, line, '\n'))
+	while (getline(data_, lLine, '\n'))
 	{
-		std::istringstream stream(line);
+		std::istringstream lStream(lLine);
 
 
-		if (line == "")
+		if (lLine == "")
 		{
 			continue;
 		}
 
-		if (std::equal(line.begin(), line.end(), ""))
+		if (std::equal(lLine.begin(), lLine.end(), ""))
 		{
 			continue;
 		}
 
-		if (str == line)
+		if (str_ == lLine)
 		{
-			getline(data, line, '\n');
-			getline(data, str, '\n');
+			getline(data_, lLine, '\n');
+			getline(data_, str_, '\n');
 			return;
 		}
 
-		getline(stream, line, ':');
+		getline(lStream, lLine, ':');
 
-		if (std::equal(line.begin(), line.end(), "Name"))
+		if (std::equal(lLine.begin(), lLine.end(), "Name"))
 		{
-			getline(stream, line, ':');
+			getline(lStream, lLine, ':');
 
-			ReadString(line, mesh->name);
+			SPReadString(lLine, mesh_->name);
 
 			continue;
 		}
 
-		if (std::equal(line.begin(), line.end(), "NodeName"))
+		if (std::equal(lLine.begin(), lLine.end(), "NodeName"))
 		{
-			getline(stream, line, ':');
+			getline(lStream, lLine, ':');
 
-			ReadString(line, mesh->nodeName);
+			SPReadString(lLine, mesh_->nodeName);
 
-			std::vector<Node>::iterator itr;
-			itr = std::find_if(nodes.begin(), nodes.end(), [&](Node& p)
+			std::vector<Node>::iterator lNodeItr;
+			lNodeItr = std::find_if(nodes_.begin(), nodes_.end(), [&](Node& node)
 				{
-					return p.name == mesh->nodeName;
+					return node.name == mesh_->nodeName;
 				});
 
-			if (itr != nodes.end())
+			if (lNodeItr != nodes_.end())
 			{
-				mesh->node = &*itr;
+				mesh_->node = &*lNodeItr;
 				continue;
 			}
 			else
 			{
-				mesh->node = nullptr;
+				mesh_->node = nullptr;
 			}
 
 			continue;
 		}
 
-		if (std::equal(line.begin(), line.end(), "VertexNum"))
+		if (std::equal(lLine.begin(), lLine.end(), "VertexNum"))
 		{
-			getline(stream, line, ':');
+			getline(lStream, lLine, ':');
 
-			float vertexNum;
-			ReadNumber(line, vertexNum);
-			mesh->vertices.resize((size_t)vertexNum);
+			float lVertexNum;
+			SPReadNumber(lLine, lVertexNum);
+			mesh_->vertices.resize(static_cast<size_t>(lVertexNum));
 
-			for (size_t i = 0; i < mesh->vertices.size(); i++)
+			for (size_t i = 0; i < mesh_->vertices.size(); i++)
 			{
-				getline(data, line, '\n');
-				line = line.substr(8, line.size() - 9);
+				getline(data_, lLine, '\n');
+				lLine = lLine.substr(8, lLine.size() - 9);
 
-				ReadVertex(line, mesh->vertices[i]);
+				SPReadVertex(lLine, mesh_->vertices[i]);
 			}
 
 			continue;
 		}
 
-		if (std::equal(line.begin(), line.end(), "IndexNum"))
+		if (std::equal(lLine.begin(), lLine.end(), "IndexNum"))
 		{
-			getline(stream, line, ':');
+			getline(lStream, lLine, ':');
 
-			float indexNum;
-			ReadNumber(line, indexNum);
-			mesh->indices.resize((size_t)indexNum);
+			float lIndexNum;
+			SPReadNumber(lLine, lIndexNum);
+			mesh_->indices.resize(static_cast<size_t>(lIndexNum));
 
-			for (size_t i = 0; i < mesh->indices.size(); i++)
+			for (size_t i = 0; i < mesh_->indices.size(); i++)
 			{
-				getline(data, line, '\n');
-				line = line.substr(6, line.size() - 6);
+				getline(data_, lLine, '\n');
+				lLine = lLine.substr(6, lLine.size() - 6);
 
-				ReadNumber(line, mesh->indices[i]);
+				SPReadNumber(lLine, mesh_->indices[i]);
 			}
 
 			continue;
 		}
-		if (std::equal(line.begin(), line.end(), "TextureNum"))
+		if (std::equal(lLine.begin(), lLine.end(), "TextureNum"))
 		{
-			getline(stream, line, ':');
+			getline(lStream, lLine, ':');
 
-			float textureNum;
-			ReadNumber(line, textureNum);
-			mesh->textures.resize(static_cast<size_t>(textureNum));
+			float lTextureNum;
+			SPReadNumber(lLine, lTextureNum);
+			mesh_->textures.resize(static_cast<size_t>(lTextureNum));
 
-			for (size_t i = 0; i < mesh->textures.size(); i++)
+			for (size_t i = 0; i < mesh_->textures.size(); i++)
 			{
-				getline(data, line, '\n');
-				line = line.substr(8, line.size() - 8);
+				getline(data_, lLine, '\n');
+				lLine = lLine.substr(8, lLine.size() - 8);
 
-				std::string filepath;
-				ReadString(line, filepath);
+				std::string lFilepath;
+				SPReadString(lLine, lFilepath);
 
-				filepath = directoryPath + filepath;
+				lFilepath = sDirectoryPath + lFilepath;
 
-				mesh->textures[i] = TextureManager::GetTextureData(TextureManager::Load(filepath));
+				mesh_->textures[i] = TextureManager::SGetTextureData(TextureManager::SLoad(lFilepath));
 			}
 
 			continue;
 		}
 
-		if (std::equal(line.begin(), line.end(), "TextureNormalNum"))
+		if (std::equal(lLine.begin(), lLine.end(), "TextureNormalNum"))
 		{
-			getline(stream, line, ':');
+			getline(lStream, lLine, ':');
 
-			float texturesNormalNum;
-			ReadNumber(line, texturesNormalNum);
-			mesh->texturesNormal.resize(static_cast<size_t>(texturesNormalNum));
+			float lTexturesNormalNum;
+			SPReadNumber(lLine, lTexturesNormalNum);
+			mesh_->texturesNormal.resize(static_cast<size_t>(lTexturesNormalNum));
 
-			for (size_t i = 0; i < mesh->texturesNormal.size(); i++)
+			for (size_t i = 0; i < mesh_->texturesNormal.size(); i++)
 			{
-				getline(data, line, '\n');
-				line = line.substr(14, line.size() - 14);
+				getline(data_, lLine, '\n');
+				lLine = lLine.substr(14, lLine.size() - 14);
 
-				std::string filepath;
-				ReadString(line, filepath);
+				std::string lFilepath;
+				SPReadString(lLine, lFilepath);
 
-				filepath = directoryPath + filepath;
+				lFilepath = sDirectoryPath + lFilepath;
 
-				mesh->texturesNormal[i] = TextureManager::GetTextureData(TextureManager::Load(filepath));
+				mesh_->texturesNormal[i] = TextureManager::SGetTextureData(TextureManager::SLoad(lFilepath));
 			}
 
 			continue;
 		}
 
 
-		if (std::equal(line.begin(), line.end(), "BoneNum"))
+		if (std::equal(lLine.begin(), lLine.end(), "BoneNum"))
 		{
-			getline(stream, line, ':');
+			getline(lStream, lLine, ':');
 
-			float boneNum;
-			ReadNumber(line, boneNum);
-			mesh->vecBones.resize((size_t)boneNum);
+			float lBoneNum;
+			SPReadNumber(lLine, lBoneNum);
+			mesh_->vecBones.resize(static_cast<size_t> (lBoneNum));
 
-			for (size_t i = 0; i < mesh->vecBones.size(); i++)
+			for (size_t i = 0; i < mesh_->vecBones.size(); i++)
 			{
-				getline(data, line, '\n');
-				line = line.substr(6, line.size() - 7);
+				getline(data_, lLine, '\n');
+				lLine = lLine.substr(6, lLine.size() - 7);
 
-				ReadBoneData(line, mesh->vecBones[i]);
+				SPReadBoneData(lLine, mesh_->vecBones[i]);
 			}
 
 			continue;
 		}
 
-		if (std::equal(line.begin(), line.end(), "Material"))
+		if (std::equal(lLine.begin(), lLine.end(), "Material"))
 		{
-			getline(stream, line, ':');
+			getline(lStream, lLine, ':');
 
-			line = line.substr(1, line.size() - 2);
+			lLine = lLine.substr(1, lLine.size() - 2);
 
-			ReadMaterial(line, mesh->material);
+			SPReadMaterial(lLine, mesh_->material);
 
 		}
 	}
 }
 
-void AliceFileStream::ReadHesderData(std::stringstream& data, std::string& str, AliceModelData* model)
+void AliceFileStream::SPReadHesderData(std::stringstream& data_, std::string& str_, AliceModelData* model_)
 {
 	//1行分の文字列を入れる変数
-	std::string line;
+	std::string lLine;
 
 	//一行取得
-	while (getline(data, line, '\n'))
+	while (getline(data_, lLine, '\n'))
 	{
-		if (line == "")
+		if (lLine == "")
 		{
 			continue;
 		}
-		std::istringstream stream(line);
+		std::istringstream lStream(lLine);
 
-		if (str == stream.str())
+		if (str_ == lStream.str())
 		{
 			return;
 		}
 
-		getline(stream, line, ':');
+		getline(lStream, lLine, ':');
 
-		if (std::equal(line.begin(), line.end(), "Name"))
+		if (std::equal(lLine.begin(), lLine.end(), "Name"))
 		{
-			getline(stream, line, ':');
+			getline(lStream, lLine, ':');
 
-			ReadString(line, model->name);
+			SPReadString(lLine, model_->name);
 
 			continue;
 		}
 
-		if (std::equal(line.begin(), line.end(), "CanAnimation"))
+		if (std::equal(lLine.begin(), lLine.end(), "CanAnimation"))
 		{
-			getline(stream, line, '\n');
-			ReadFlag(line, model->canAnimation);
+			getline(lStream, lLine, '\n');
+			SPReadFlag(lLine, model_->canAnimation);
 			continue;
 		}
 
-		if (std::equal(line.begin(), line.end(), "IsAnime"))
+		if (std::equal(lLine.begin(), lLine.end(), "IsAnime"))
 		{
-			getline(stream, line, '\n');
-			ReadFlag(line, model->IsAnime);
+			getline(lStream, lLine, '\n');
+			SPReadFlag(lLine, model_->IsAnime);
 			continue;
 		}
 
-		if (std::equal(line.begin(), line.end(), "GlobalInverseTransform"))
+		if (std::equal(lLine.begin(), lLine.end(), "GlobalInverseTransform"))
 		{
-			getline(stream, line, ':');
-			ReadMatrix(line, model->globalInverseTransform);
+			getline(lStream, lLine, ':');
+			SPReadMatrix(lLine, model_->globalInverseTransform);
 			continue;
 		}
 
-		if (std::equal(line.begin(), line.end(), "NodeNun"))
+		if (std::equal(lLine.begin(), lLine.end(), "NodeNun"))
 		{
-			getline(stream, line, ':');
+			getline(lStream, lLine, ':');
 
-			float nodeNun;
-			ReadNumber(line, nodeNun);
-			model->nodes.resize((size_t)nodeNun);
+			float lNodeNun;
+			SPReadNumber(lLine, lNodeNun);
+			model_->nodes.resize(static_cast<size_t>(lNodeNun));
 			continue;
 		}
 
-		if (std::equal(line.begin(), line.end(), "MeshNum"))
+		if (std::equal(lLine.begin(), lLine.end(), "MeshNum"))
 		{
-			getline(stream, line, ':');
+			getline(lStream, lLine, ':');
 
-			float meshNum;
-			ReadNumber(line, meshNum);
+			float lMeshNum;
+			SPReadNumber(lLine, lMeshNum);
 
-			model->meshes.reserve((size_t)meshNum);
+			model_->meshes.reserve(static_cast<size_t>(lMeshNum));
 			continue;
 		}
 	}
 }
 
-void AliceFileStream::ReadVertex(const std::string& strVer, PosNormUvTangeColSkin& ver)
+void AliceFileStream::SPReadVertex(const std::string& strVertex_, PosNormUvTangeColSkin& vertex_)
 {
-	std::istringstream stream(strVer);
-	std::string str;
+	std::istringstream lStream(strVertex_);
+	std::string lString;
 
-	getline(stream, str, '|');
-	ReadVector3(str, ver.position);
+	getline(lStream, lString, '|');
+	SPReadVector3(lString, vertex_.position);
 
-	getline(stream, str, '|');
-	ReadVector3(str, ver.normal);
+	getline(lStream, lString, '|');
+	SPReadVector3(lString, vertex_.normal);
 
-	getline(stream, str, '|');
-	ReadVector2(str, ver.uv);
+	getline(lStream, lString, '|');
+	SPReadVector2(lString, vertex_.uv);
 
-	getline(stream, str, '|');
-	ReadVector3(str, ver.tangent);
+	getline(lStream, lString, '|');
+	SPReadVector3(lString, vertex_.tangent);
 
-	getline(stream, str, '|');
-	ReadVector4(str, ver.color);
+	getline(lStream, lString, '|');
+	SPReadVector4(lString, vertex_.color);
 
-	getline(stream, str, '|');
-	ReadBoneIndex(str, ver.boneIndex);
+	getline(lStream, lString, '|');
+	SPReadBoneIndex(lString, vertex_.boneIndex);
 
-	getline(stream, str, '|');
-	ReadBoneWeight(str, ver.boneWeight);
+	getline(lStream, lString, '|');
+	SPReadBoneWeight(lString, vertex_.boneWeight);
 }
 
-void AliceFileStream::ReadMaterial(const std::string& strMate, ModelMaterial& modelMaterial)
+void AliceFileStream::SPReadMaterial(const std::string& strMaterial_, ModelMaterial& modelMaterial_)
 {
-	std::istringstream stream(strMate);
-	std::string str;
+	std::istringstream lStream(strMaterial_);
+	std::string lString;
 
-	getline(stream, str, '|');
-	ReadString(str, modelMaterial.name);
+	getline(lStream, lString, '|');
+	SPReadString(lString, modelMaterial_.name);
 
-	getline(stream, str, '|');
-	ReadVector3(str, modelMaterial.ambient);
+	getline(lStream, lString, '|');
+	SPReadVector3(lString, modelMaterial_.ambient);
 
-	getline(stream, str, '|');
-	ReadVector3(str, modelMaterial.diffuse);
+	getline(lStream, lString, '|');
+	SPReadVector3(lString, modelMaterial_.diffuse);
 
-	getline(stream, str, '|');
-	ReadVector3(str, modelMaterial.specular);
+	getline(lStream, lString, '|');
+	SPReadVector3(lString, modelMaterial_.specular);
 
-	getline(stream, str, '|');
-	ReadVector3(str, modelMaterial.emission);
+	getline(lStream, lString, '|');
+	SPReadVector3(lString, modelMaterial_.emission);
 
-	getline(stream, str, '|');
-	ReadNumber(str, modelMaterial.shininess);
+	getline(lStream, lString, '|');
+	SPReadNumber(lString, modelMaterial_.shininess);
 
-	getline(stream, str, '|');
-	ReadNumber(str, modelMaterial.alpha);
+	getline(lStream, lString, '|');
+	SPReadNumber(lString, modelMaterial_.alpha);
 
-	getline(stream, str, '|');
-	ReadString(str, modelMaterial.textureFiename);
+	getline(lStream, lString, '|');
+	SPReadString(lString, modelMaterial_.textureFiename);
 }
 
-void AliceFileStream::ReadNodesData(std::stringstream& data, std::string& str, AliceModelData* model)
+void AliceFileStream::SPReadNodesData(std::stringstream& data_, std::string& str_, AliceModelData* model_)
 {
 	//1行分の文字列を入れる変数
-	std::string line;
+	std::string lLine;
 
 	//一行取得
-	while (getline(data, line, '\n'))
+	while (getline(data_, lLine, '\n'))
 	{
-		if (line == "")
+		if (lLine == "")
 		{
 			continue;
 		}
 
-		std::istringstream stream(line);
+		std::istringstream lStream(lLine);
 
-		for (size_t i = 0; i < model->nodes.size(); i++)
+		for (size_t i = 0; i < model_->nodes.size(); i++)
 		{
-			ReadNodeData(data, line, model->nodes[i], model);
+			SPReadNodeData(data_, lLine, model_->nodes[i], model_);
 		}
 
-		if (str == line)
+		if (str_ == lLine)
 		{
 			return;
 		}
 	}
 }
 
-void AliceFileStream::ReadNodeData(std::stringstream& data, std::string& str, Node& node, AliceModelData* model)
+void AliceFileStream::SPReadNodeData(std::stringstream& data_, std::string& str_, Node& node_, AliceModelData* model_)
 {
 	//1行分の文字列を入れる変数
-	std::string line;
+	std::string lLine;
 
 	//一行取得
-	while (getline(data, line, '\n'))
+	while (getline(data_, lLine, '\n'))
 	{
-		if (line == "")
+		if (lLine == "")
 		{
 			continue;
 		}
 
-		std::istringstream stream(line);
+		std::istringstream lStream(lLine);
 
-		if (str == line)
+		if (str_ == lLine)
 		{
-			getline(data, line, '\n');
-			getline(data, str, '\n');
+			getline(data_, lLine, '\n');
+			getline(data_, str_, '\n');
 			return;
 		}
 
-		getline(stream, line, ':');
+		getline(lStream, lLine, ':');
 
-		if (line == "Name")
+		if (lLine == "Name")
 		{
-			getline(stream, line, ':');
+			getline(lStream, lLine, ':');
 
-			ReadString(line, node.name);
+			SPReadString(lLine, node_.name);
 
 			continue;
 		}
 
-		if (line == "Transform")
+		if (lLine == "Transform")
 		{
-			getline(stream, line, ':');
-			ReadMatrix(line, node.transform);
+			getline(lStream, lLine, ':');
+			SPReadMatrix(lLine, node_.transform);
 			continue;
 		}
 
-		if (line == "GlobalTransform")
+		if (lLine == "GlobalTransform")
 		{
-			getline(stream, line, ':');
-			ReadMatrix(line, node.globalTransform);
+			getline(lStream, lLine, ':');
+			SPReadMatrix(lLine, node_.globalTransform);
 			continue;
 		}
 
-		if (line == "Parent")
+		if (lLine == "Parent")
 		{
-			getline(stream, line, ':');
-			std::string nodeName;
-			ReadString(line, nodeName);
+			getline(lStream, lLine, ':');
+			std::string lNodeName;
+			SPReadString(lLine, lNodeName);
 
-			ReadParentData(nodeName, node, model->nodes);
+			SPReadParentData(lNodeName, node_, model_->nodes);
 			continue;
 		}
 	}
 }
 
-void AliceFileStream::ReadParentData(const std::string& name, Node& node, std::vector<Node>& nodes)
+void AliceFileStream::SPReadParentData(const std::string& name_, Node& node_, std::vector<Node>& nodes_)
 {
-	if (name == "")
+	if (name_ == "")
 	{
-		node.parent = nullptr;
+		node_.parent = nullptr;
 		return;
 	}
 
-	std::vector<Node>::iterator itr;
-	itr = std::find_if(nodes.begin(), nodes.end(), [&](Node& p)
+	std::vector<Node>::iterator lNodeItr;
+	lNodeItr = std::find_if(nodes_.begin(), nodes_.end(), [&](Node& node)
 		{
-			return p.name == name;
+			return node.name == name_;
 		});
 
-	if (itr != nodes.end())
+	if (lNodeItr != nodes_.end())
 	{
-		node.parent = &*itr;
+		node_.parent = &*lNodeItr;
 		return;
 	}
 	else
 	{
-		node.parent = nullptr;
+		node_.parent = nullptr;
 	}
 }
 
-void AliceFileStream::ReadBoneData(const std::string& strbone, Bone& bone)
+void AliceFileStream::SPReadBoneData(const std::string& strBone_, Bone& bone_)
 {
-	std::istringstream stream(strbone);
-	std::string str;
+	std::istringstream lStream(strBone_);
+	std::string lString;
 
-	getline(stream, str, '|');
-	ReadString(str, bone.name);
+	getline(lStream, lString, '|');
+	SPReadString(lString, bone_.name);
 
-	getline(stream, str, '|');
-	ReadMatrix(str, bone.offsetMatirx);
+	getline(lStream, lString, '|');
+	SPReadMatrix(lString, bone_.offsetMatirx);
 
-	getline(stream, str, '|');
-	ReadNumber(str, bone.index);
+	getline(lStream, lString, '|');
+	SPReadNumber(lString, bone_.index);
 }
 
 #pragma endregion
 
 #pragma region バイナリ
 
-bool AliceFileStream::LoadAlicePolygonBinaryData(const std::string& path, AliceModelData* model)
+bool AliceFileStream::SLoadAlicePolygonBinaryData(const std::string& path_, AliceModelData* model_)
 {
-	directoryPath = AliceFunctionUtility::GetDirectoryPath(path);
+	sDirectoryPath = AliceFunctionUtility::GetDirectoryPath(path_);
 
 	//ファイルを開く
-	FILE* fp = NULL;
-	fopen_s(&fp, path.data(), "rb");
+	FILE* lFilePtr = NULL;
+	fopen_s(&lFilePtr, path_.data(), "rb");
 
-	if (!fp)
+	if (!lFilePtr)
 	{
 		return false;
 	}
 
-	if (!ReadHesderBinaryData(model, fp))
+	if (!SPReadHesderBinaryData(model_, lFilePtr))
 	{
-		fclose(fp);
+		fclose(lFilePtr);
 		return false;
 
 	}
 
-
-	if (!ReadNodesBinaryData(model, fp))
+	if (!SPReadNodesBinaryData(model_, lFilePtr))
 	{
-		fclose(fp);
+		fclose(lFilePtr);
 		return false;
 
 	}
 
-	if (!ReadMeshBinaryData(model, fp))
+	if (!SPReadMeshBinaryData(model_, lFilePtr))
 	{
-		fclose(fp);
+		fclose(lFilePtr);
 		return false;
 
 	}
 
-	fclose(fp);
+	fclose(lFilePtr);
 	return true;
 
 }
 
-bool AliceFileStream::ReadHesderBinaryData(AliceModelData* model, FILE* fp)
+bool AliceFileStream::SPReadHesderBinaryData(AliceModelData* model_, FILE* fp_)
 {
 	//名前
 	{
-		size_t nameNum;
-		fread(&nameNum, sizeof(size_t), 1, fp);
-		if (nameNum < 256)
+		size_t lNameNum;
+		fread(&lNameNum, sizeof(size_t), 1, fp_);
+		if (lNameNum < 256)
 		{
-			fread(buffC.data(), sizeof(char), nameNum, fp);
-			model->name = std::string(buffC.data(), nameNum);
+			fread(cBuffC.data(), sizeof(char), lNameNum, fp_);
+			model_->name = std::string(cBuffC.data(), lNameNum);
 		}
 		else
 		{
@@ -614,51 +613,51 @@ bool AliceFileStream::ReadHesderBinaryData(AliceModelData* model, FILE* fp)
 
 	//アニメーションできるか
 	{
-		fread(&model->canAnimation, sizeof(bool), 1, fp);
+		fread(&model_->canAnimation, sizeof(bool), 1, fp_);
 	}
 
 	//アニメーションするか
 	{
-		fread(&model->IsAnime, sizeof(bool), 1, fp);
+		fread(&model_->IsAnime, sizeof(bool), 1, fp_);
 	}
 
 	//rootNodeの逆行列
 	{
-		fread(&model->globalInverseTransform, sizeof(float), 16, fp);
+		fread(&model_->globalInverseTransform, sizeof(float), 16, fp_);
 	}
 
 	//ノードの数
 	{
 		size_t nodeNum;
-		fread(&nodeNum, sizeof(size_t), 1, fp);
-		model->nodes.resize(nodeNum);
+		fread(&nodeNum, sizeof(size_t), 1, fp_);
+		model_->nodes.resize(nodeNum);
 	}
 
 	//メッシュの数
 	{
 		size_t meshNum;
-		fread(&meshNum, sizeof(size_t), 1, fp);
-		model->meshes.resize(meshNum);
+		fread(&meshNum, sizeof(size_t), 1, fp_);
+		model_->meshes.resize(meshNum);
 	}
 
 	return true;
 }
 
-bool AliceFileStream::ReadNodesBinaryData(AliceModelData* model, FILE* fp)
+bool AliceFileStream::SPReadNodesBinaryData(AliceModelData* model_, FILE* fp_)
 {
 
-	for (size_t i = 0; i < model->nodes.size(); i++)
+	for (size_t i = 0; i < model_->nodes.size(); i++)
 	{
-		Node& node = model->nodes[i];
+		Node& node = model_->nodes[i];
 
 		//ノードの名前
 		{
-			size_t nameNum;
-			fread(&nameNum, sizeof(size_t), 1, fp);
-			if (nameNum < 256)
+			size_t lNameNum;
+			fread(&lNameNum, sizeof(size_t), 1, fp_);
+			if (lNameNum < 256)
 			{
-				fread(buffC.data(), sizeof(char), nameNum, fp);
-				node.name = std::string(buffC.data(), nameNum);
+				fread(cBuffC.data(), sizeof(char), lNameNum, fp_);
+				node.name = std::string(cBuffC.data(), lNameNum);
 			}
 			else
 			{
@@ -668,23 +667,23 @@ bool AliceFileStream::ReadNodesBinaryData(AliceModelData* model, FILE* fp)
 
 		//ローカル変形行列
 		{
-			fread(&node.transform, sizeof(float), 16, fp);
+			fread(&node.transform, sizeof(float), 16, fp_);
 		}
 
 		//グローバル変形行列
 		{
-			fread(&node.globalTransform, sizeof(float), 16, fp);
+			fread(&node.globalTransform, sizeof(float), 16, fp_);
 		}
 
 		//親ノード
 		{
-			size_t nameNum;
-			fread(&nameNum, sizeof(size_t), 1, fp);
-			if (nameNum < 256)
+			size_t lNameNum;
+			fread(&lNameNum, sizeof(size_t), 1, fp_);
+			if (lNameNum < 256)
 			{
-				if (nameNum != 0)
+				if (lNameNum != 0)
 				{
-					fread(buffC.data(), sizeof(char), nameNum, fp);
+					fread(cBuffC.data(), sizeof(char), lNameNum, fp_);
 				}
 
 			}
@@ -693,24 +692,24 @@ bool AliceFileStream::ReadNodesBinaryData(AliceModelData* model, FILE* fp)
 				return false;
 			}
 
-			std::string parentName(buffC.data(), nameNum);
+			std::string lParentName(cBuffC.data(), lNameNum);
 
-			if (parentName.size() == 0)
+			if (lParentName.size() == 0)
 			{
 				node.parent = nullptr;
 				continue;
 			}
 
 			//親ノード探索
-			std::vector<Node>::iterator itr;
-			itr = std::find_if(model->nodes.begin(), model->nodes.end(), [&](Node& p)
+			std::vector<Node>::iterator lnodeItr;
+			lnodeItr = std::find_if(model_->nodes.begin(), model_->nodes.end(), [&](Node& p)
 				{
-					return p.name == parentName;
+					return p.name == lParentName;
 				});
 
-			if (itr != model->nodes.end())
+			if (lnodeItr != model_->nodes.end())
 			{
-				node.parent = &*itr;
+				node.parent = &*lnodeItr;
 				continue;
 			}
 			else
@@ -725,20 +724,20 @@ bool AliceFileStream::ReadNodesBinaryData(AliceModelData* model, FILE* fp)
 	return true;
 }
 
-bool AliceFileStream::ReadMeshBinaryData(AliceModelData* model, FILE* fp)
+bool AliceFileStream::SPReadMeshBinaryData(AliceModelData* model_, FILE* fp_)
 {
-	for (size_t i = 0; i < model->meshes.size(); i++)
+	for (size_t i = 0; i < model_->meshes.size(); i++)
 	{
-		std::unique_ptr<ModelMesh>mesh;
+		std::unique_ptr<ModelMesh>lMesh;
 
 		//名前
 		{
-			size_t nameNum;
-			fread(&nameNum, sizeof(size_t), 1, fp);
-			if (nameNum < 256)
+			size_t lNameNum;
+			fread(&lNameNum, sizeof(size_t), 1, fp_);
+			if (lNameNum < 256)
 			{
-				fread(buffC.data(), sizeof(char), nameNum, fp);
-				mesh->name = std::string(buffC.data(), nameNum);
+				fread(cBuffC.data(), sizeof(char), lNameNum, fp_);
+				lMesh->name = std::string(cBuffC.data(), lNameNum);
 			}
 			else
 			{
@@ -748,68 +747,68 @@ bool AliceFileStream::ReadMeshBinaryData(AliceModelData* model, FILE* fp)
 
 		//ノードの名前
 		{
-			size_t nameNum;
-			fread(&nameNum, sizeof(size_t), 1, fp);
-			if (nameNum < 256)
+			size_t lNameNum;
+			fread(&lNameNum, sizeof(size_t), 1, fp_);
+			if (lNameNum < 256)
 			{
-				fread(buffC.data(), sizeof(char), nameNum, fp);
-				mesh->nodeName = std::string(buffC.data(), nameNum);
+				fread(cBuffC.data(), sizeof(char), lNameNum, fp_);
+				lMesh->nodeName = std::string(cBuffC.data(), lNameNum);
 			}
 			else
 			{
 				return false;
 			}
 
-			std::vector<Node>::iterator itr;
-			itr = std::find_if(model->nodes.begin(), model->nodes.end(), [&](Node& p)
+			std::vector<Node>::iterator lnodeItr;
+			lnodeItr = std::find_if(model_->nodes.begin(), model_->nodes.end(), [&](Node& p)
 				{
-					return p.name == mesh->nodeName;
+					return p.name == lMesh->nodeName;
 				});
 
-			if (itr != model->nodes.end())
+			if (lnodeItr != model_->nodes.end())
 			{
-				mesh->node = &*itr;
+				lMesh->node = &*lnodeItr;
 			}
 			else
 			{
-				mesh->node = nullptr;
+				lMesh->node = nullptr;
 			}
 		}
 
 		//頂点データ
 		{
-			size_t vertexNum;
-			fread(&vertexNum, sizeof(size_t), 1, fp);
-			mesh->vertices.resize(vertexNum);
+			size_t lVertexNum;
+			fread(&lVertexNum, sizeof(size_t), 1, fp_);
+			lMesh->vertices.resize(lVertexNum);
 
-			fread(mesh->vertices.data(), sizeof(mesh->vertices[0]), vertexNum, fp);
+			fread(lMesh->vertices.data(), sizeof(lMesh->vertices[0]), lVertexNum, fp_);
 		}
 
 		//インデックスデータ
 		{
-			size_t indexNum;
-			fread(&indexNum, sizeof(size_t), 1, fp);
-			mesh->indices.resize(indexNum);
+			size_t lIndexNum;
+			fread(&lIndexNum, sizeof(size_t), 1, fp_);
+			lMesh->indices.resize(lIndexNum);
 
-			fread(mesh->indices.data(), sizeof(mesh->indices[0]), indexNum, fp);
+			fread(lMesh->indices.data(), sizeof(lMesh->indices[0]), lIndexNum, fp_);
 		}
 
 		//テクスチャファイルパス
 		{
-			size_t TextureNum;
-			fread(&TextureNum, sizeof(size_t), 1, fp);
+			size_t lTextureNum;
+			fread(&lTextureNum, sizeof(size_t), 1, fp_);
 
-			model->meshes[i]->textures.resize(TextureNum);
-			for (size_t j = 0; j < TextureNum; j++)
+			model_->meshes[i]->textures.resize(lTextureNum);
+			for (size_t j = 0; j < lTextureNum; j++)
 			{
-				size_t nameNum;
-				fread(&nameNum, sizeof(size_t), 1, fp);
-				if (nameNum < 256)
+				size_t lNameNum;
+				fread(&lNameNum, sizeof(size_t), 1, fp_);
+				if (lNameNum < 256)
 				{
-					fread(buffC.data(), sizeof(char), nameNum, fp);
-					std::string filepath = std::string(buffC.data(), nameNum);
-					filepath = directoryPath + filepath;
-					model->meshes[i]->textures[j] = TextureManager::GetTextureData(TextureManager::Load(filepath));
+					fread(cBuffC.data(), sizeof(char), lNameNum, fp_);
+					std::string lFilepath = std::string(cBuffC.data(), lNameNum);
+					lFilepath = sDirectoryPath + lFilepath;
+					model_->meshes[i]->textures[j] = TextureManager::SGetTextureData(TextureManager::SLoad(lFilepath));
 				}
 				else
 				{
@@ -820,20 +819,20 @@ bool AliceFileStream::ReadMeshBinaryData(AliceModelData* model, FILE* fp)
 
 		//ノーマルテクスチャファイルパス
 		{
-			size_t TextureNum;
-			fread(&TextureNum, sizeof(size_t), 1, fp);
-			model->meshes[i]->texturesNormal.resize(TextureNum);
-			for (size_t j = 0; j < TextureNum; j++)
+			size_t lTextureNum;
+			fread(&lTextureNum, sizeof(size_t), 1, fp_);
+			model_->meshes[i]->texturesNormal.resize(lTextureNum);
+			for (size_t j = 0; j < lTextureNum; j++)
 			{
-				size_t nameNum;
-				fread(&nameNum, sizeof(size_t), 1, fp);
-				if (nameNum < 256)
+				size_t lNameNum;
+				fread(&lNameNum, sizeof(size_t), 1, fp_);
+				if (lNameNum < 256)
 				{
-					fread(buffC.data(), sizeof(char), nameNum, fp);
+					fread(cBuffC.data(), sizeof(char), lNameNum, fp_);
 
-					std::string filepath = std::string(buffC.data(), nameNum);
-					filepath = directoryPath + filepath;
-					model->meshes[i]->texturesNormal[j] = TextureManager::GetTextureData(TextureManager::Load(filepath));
+					std::string lFilepath = std::string(cBuffC.data(), lNameNum);
+					lFilepath = sDirectoryPath + lFilepath;
+					model_->meshes[i]->texturesNormal[j] = TextureManager::SGetTextureData(TextureManager::SLoad(lFilepath));
 				}
 				else
 				{
@@ -844,60 +843,60 @@ bool AliceFileStream::ReadMeshBinaryData(AliceModelData* model, FILE* fp)
 
 		//ボーン
 		{
-			size_t bonesNum = mesh->vecBones.size();
-			fread(&bonesNum, sizeof(size_t), 1, fp);
+			size_t lBonesNum = lMesh->vecBones.size();
+			fread(&lBonesNum, sizeof(size_t), 1, fp_);
 
-			for (size_t j = 0; j < bonesNum; j++)
+			for (size_t j = 0; j < lBonesNum; j++)
 			{
-				size_t nameNum;
-				fread(&nameNum, sizeof(size_t), 1, fp);
-				if (nameNum < 256)
+				size_t lNameNum;
+				fread(&lNameNum, sizeof(size_t), 1, fp_);
+				if (lNameNum < 256)
 				{
-					fread(buffC.data(), sizeof(char), nameNum, fp);
-					mesh->vecBones[j].name = std::string(buffC.data(), nameNum);
+					fread(cBuffC.data(), sizeof(char), lNameNum, fp_);
+					lMesh->vecBones[j].name = std::string(cBuffC.data(), lNameNum);
 				}
 				else
 				{
 					return false;
 				}
 
-				fread(&mesh->vecBones[j].offsetMatirx, sizeof(float), 16, fp);
+				fread(&lMesh->vecBones[j].offsetMatirx, sizeof(float), 16, fp_);
 
-				fread(&mesh->vecBones[j].index, sizeof(UINT), 1, fp);
+				fread(&lMesh->vecBones[j].index, sizeof(uint32_t), 1, fp_);
 			}
 		}
 
 		//マテリアル
 		{
-			size_t nameNum = mesh->material.name.size();
-			fread(&nameNum, sizeof(size_t), 1, fp);
-			if (nameNum < 256)
+			size_t lNameNum = lMesh->material.name.size();
+			fread(&lNameNum, sizeof(size_t), 1, fp_);
+			if (lNameNum < 256)
 			{
-				fread(buffC.data(), sizeof(char), nameNum, fp);
-				mesh->material.name = std::string(buffC.data(), nameNum);
+				fread(cBuffC.data(), sizeof(char), lNameNum, fp_);
+				lMesh->material.name = std::string(cBuffC.data(), lNameNum);
 			}
 			else
 			{
 				return false;
 			}
 
-			fread(&mesh->material.ambient, sizeof(float), 3, fp);
+			fread(&lMesh->material.ambient, sizeof(float), 3, fp_);
 
-			fread(&mesh->material.diffuse, sizeof(float), 3, fp);
+			fread(&lMesh->material.diffuse, sizeof(float), 3, fp_);
 
-			fread(&mesh->material.specular, sizeof(float), 3, fp);
+			fread(&lMesh->material.specular, sizeof(float), 3, fp_);
 
-			fread(&mesh->material.emission, sizeof(float), 3, fp);
+			fread(&lMesh->material.emission, sizeof(float), 3, fp_);
 
-			fread(&mesh->material.shininess, sizeof(float), 1, fp);
+			fread(&lMesh->material.shininess, sizeof(float), 1, fp_);
 
-			fread(&mesh->material.alpha, sizeof(float), 1, fp);
+			fread(&lMesh->material.alpha, sizeof(float), 1, fp_);
 
-			fread(&nameNum, sizeof(size_t), 1, fp);
-			if (nameNum < 256)
+			fread(&lNameNum, sizeof(size_t), 1, fp_);
+			if (lNameNum < 256)
 			{
-				fread(buffC.data(), sizeof(char), nameNum, fp);
-				mesh->material.textureFiename = std::string(buffC.data(), nameNum);
+				fread(cBuffC.data(), sizeof(char), lNameNum, fp_);
+				lMesh->material.textureFiename = std::string(cBuffC.data(), lNameNum);
 			}
 			else
 			{
@@ -905,7 +904,7 @@ bool AliceFileStream::ReadMeshBinaryData(AliceModelData* model, FILE* fp)
 			}
 		}
 
-		model->meshes.push_back(std::move(mesh));
+		model_->meshes.push_back(std::move(lMesh));
 	}
 
 
@@ -921,246 +920,244 @@ bool AliceFileStream::ReadMeshBinaryData(AliceModelData* model, FILE* fp)
 
 #pragma region ASCII
 
-bool AliceFileStream::LoadAliceMotionData(const std::string& path, MotionData* motion)
+bool AliceFileStream::SLoadAliceMotionData(const std::string& path_, MotionData* motion_)
 {
-	directoryPath = AliceFunctionUtility::GetDirectoryPath(path);
+	sDirectoryPath = AliceFunctionUtility::GetDirectoryPath(path_);
 
 	//モデルデータ
-	std::stringstream motionData;
+	std::stringstream lMotionData;
 	//1行分も文字列を入れる変数
-	std::string line;
+	std::string lLine;
 
 	//ファイルを開く
-	std::ifstream file(path);
-	if (file.fail())
+	std::ifstream lFile(path_);
+	if (lFile.fail())
 	{
 		return false;
 	}
 
 	//ファイルの内容を文字列をストリームにコピー
-	motionData << file.rdbuf();
+	lMotionData << lFile.rdbuf();
 
 	//ファイルを閉じる
-	file.close();
+	lFile.close();
 
 	//一行取得
-	getline(motionData, line, '\n');
+	getline(lMotionData, lLine, '\n');
 
-	if (line == "<MOTION>")
+	if (lLine == "<MOTION>")
 	{
-		ReadMotionData(motionData, line, motion);
+		SPReadMotionData(lMotionData, lLine, motion_);
 	}
-
-
 
 	return true;
 }
 
-void AliceFileStream::ReadMotionData(std::stringstream& data, std::string& str, MotionData* motionData)
+void AliceFileStream::SPReadMotionData(std::stringstream& data_, std::string& str_, MotionData* motionData_)
 {
 	//1行分の文字列を入れる変数
-	std::string line;
+	std::string lLine;
 
 	//一行取得
-	while (getline(data, line, '\n'))
+	while (getline(data_, lLine, '\n'))
 	{
-		if (line == "")
+		if (lLine == "")
 		{
 			continue;
 		}
 
-		if (str == line)
+		if (str_ == lLine)
 		{
 			return;
 		}
 
-		if (line == "<HEADER>")
+		if (lLine == "<HEADER>")
 		{
-			ReadMotionHesderData(data, line, motionData);
+			SPReadMotionHesderData(data_, lLine, motionData_);
 		}
 
-		if (line == "<MotionNodes>")
+		if (lLine == "<MotionNodes>")
 		{
-			ReadMotionNodesData(data, line, motionData);
+			SPReadMotionNodesData(data_, lLine, motionData_);
 		}
 
 	}
 }
 
-void AliceFileStream::ReadMotionHesderData(std::stringstream& data, std::string& str, MotionData* motion)
+void AliceFileStream::SPReadMotionHesderData(std::stringstream& data_, std::string& str_, MotionData* motion_)
 {
 	//1行分の文字列を入れる変数
-	std::string line;
+	std::string lLine;
 
 	//一行取得
-	while (getline(data, line, '\n'))
+	while (getline(data_, lLine, '\n'))
 	{
-		if (line == "")
+		if (lLine == "")
 		{
 			continue;
 		}
-		std::istringstream stream(line);
+		std::istringstream lStream(lLine);
 
-		if (str == stream.str())
+		if (str_ == lStream.str())
 		{
 			return;
 		}
 
-		getline(stream, line, ':');
+		getline(lStream, lLine, ':');
 
-		if (std::equal(line.begin(), line.end(), "Name"))
+		if (std::equal(lLine.begin(), lLine.end(), "Name"))
 		{
-			getline(stream, line, ':');
+			getline(lStream, lLine, ':');
 
-			ReadString(line, motion->name);
+			SPReadString(lLine, motion_->name);
 
 			continue;
 		}
 
-		if (std::equal(line.begin(), line.end(), "TicksPerSecond"))
+		if (std::equal(lLine.begin(), lLine.end(), "TicksPerSecond"))
 		{
-			getline(stream, line, '\n');
-			ReadNumber(line, motion->ticksPerSecond);
+			getline(lStream, lLine, '\n');
+			SPReadNumber(lLine, motion_->ticksPerSecond);
 			continue;
 		}
 
-		if (std::equal(line.begin(), line.end(), "Duration"))
+		if (std::equal(lLine.begin(), lLine.end(), "Duration"))
 		{
-			getline(stream, line, '\n');
-			ReadNumber(line, motion->duration);
+			getline(lStream, lLine, '\n');
+			SPReadNumber(lLine, motion_->duration);
 			continue;
 		}
 
-		if (std::equal(line.begin(), line.end(), "NodeNum"))
+		if (std::equal(lLine.begin(), lLine.end(), "NodeNum"))
 		{
-			getline(stream, line, ':');
+			getline(lStream, lLine, ':');
 
-			float nodeNun;
-			ReadNumber(line, nodeNun);
-			motion->channels.resize((size_t)nodeNun);
+			float lNodeNun;
+			SPReadNumber(lLine, lNodeNun);
+			motion_->channels.resize(static_cast<size_t>(lNodeNun));
 			continue;
 		}
 	}
 }
 
-void AliceFileStream::ReadMotionNodesData(std::stringstream& data, std::string& str, MotionData* motion)
+void AliceFileStream::SPReadMotionNodesData(std::stringstream& data_, std::string& str_, MotionData* motion_)
 {
 	//1行分の文字列を入れる変数
-	std::string line;
+	std::string lLine;
 
 	//一行取得
-	while (getline(data, line, '\n'))
+	while (getline(data_, lLine, '\n'))
 	{
-		if (line == "")
+		if (lLine == "")
 		{
 			continue;
 		}
 
-		std::istringstream stream(line);
+		std::istringstream lStream(lLine);
 
-		for (size_t i = 0; i < motion->channels.size(); i++)
+		for (size_t i = 0; i < motion_->channels.size(); i++)
 		{
-			ReadMotionNodeData(data, line, motion->channels[i]);
+			SPReadMotionNodeData(data_, lLine, motion_->channels[i]);
 		}
 
-		if (str == line)
+		if (str_ == lLine)
 		{
 			return;
 		}
 	}
 }
 
-void AliceFileStream::ReadMotionNodeData(std::stringstream& data, std::string& str, MotionNode& node)
+void AliceFileStream::SPReadMotionNodeData(std::stringstream& data_, std::string& str_, MotionNode& node_)
 {
 		//1行分の文字列を入れる変数
-	std::string line;
+	std::string lLine;
 
 	//一行取得
-	while (getline(data, line, '\n'))
+	while (getline(data_, lLine, '\n'))
 	{
-		std::istringstream stream(line);
+		std::istringstream lStream(lLine);
 
 
-		if (line == "")
+		if (lLine == "")
 		{
 			continue;
 		}
 
-		if (std::equal(line.begin(), line.end(), ""))
+		if (std::equal(lLine.begin(), lLine.end(), ""))
 		{
 			continue;
 		}
 
-		if (str == line)
+		if (str_ == lLine)
 		{
-			getline(data, line, '\n');
-			getline(data, str, '\n');
+			getline(data_, lLine, '\n');
+			getline(data_, str_, '\n');
 			return;
 		}
 
-		getline(stream, line, ':');
+		getline(lStream, lLine, ':');
 
-		if (std::equal(line.begin(), line.end(), "Name"))
+		if (std::equal(lLine.begin(), lLine.end(), "Name"))
 		{
-			getline(stream, line, ':');
+			getline(lStream, lLine, ':');
 
-			ReadString(line, node.name);
+			SPReadString(lLine, node_.name);
 
 			continue;
 		}
 
-		if (std::equal(line.begin(), line.end(), "ScalingKeyNum"))
+		if (std::equal(lLine.begin(), lLine.end(), "ScalingKeyNum"))
 		{
-			getline(stream, line, ':');
+			getline(lStream, lLine, ':');
 
-			float scalingKeyNum;
-			ReadNumber(line, scalingKeyNum);
-			node.scalingKeys.resize((size_t)scalingKeyNum);
+			float lScalingKeyNum;
+			SPReadNumber(lLine, lScalingKeyNum);
+			node_.scalingKeys.resize(static_cast<size_t>(lScalingKeyNum));
 
-			for (size_t i = 0; i < node.scalingKeys.size(); i++)
+			for (size_t i = 0; i < node_.scalingKeys.size(); i++)
 			{
-				getline(data, line, '\n');
-				line = line.substr(10, line.size() - 11);
+				getline(data_, lLine, '\n');
+				lLine = lLine.substr(10, lLine.size() - 11);
 
-				ReadVectorKey(line, node.scalingKeys[i]);
+				SPReadVectorKey(lLine, node_.scalingKeys[i]);
 			}
 
 			continue;
 		}
 
-		if (std::equal(line.begin(), line.end(), "RotationKeyNum"))
+		if (std::equal(lLine.begin(), lLine.end(), "RotationKeyNum"))
 		{
-			getline(stream, line, ':');
+			getline(lStream, lLine, ':');
 
-			float rotationKeyNum;
-			ReadNumber(line, rotationKeyNum);
-			node.rotationKeys.resize((size_t)rotationKeyNum);
+			float lRotationKeyNum;
+			SPReadNumber(lLine, lRotationKeyNum);
+			node_.rotationKeys.resize(static_cast<size_t>(lRotationKeyNum));
 
-			for (size_t i = 0; i < node.rotationKeys.size(); i++)
+			for (size_t i = 0; i < node_.rotationKeys.size(); i++)
 			{
-				getline(data, line, '\n');
-				line = line.substr(12, line.size() - 13);
+				getline(data_, lLine, '\n');
+				lLine = lLine.substr(12, lLine.size() - 13);
 
-				ReadQuaternionKey(line, node.rotationKeys[i]);
+				SPReadQuaternionKey(lLine, node_.rotationKeys[i]);
 			}
 
 			continue;
 		}
 
-		if (std::equal(line.begin(), line.end(), "PositionKeysNum"))
+		if (std::equal(lLine.begin(), lLine.end(), "PositionKeysNum"))
 		{
-			getline(stream, line, ':');
+			getline(lStream, lLine, ':');
 
-			float positionKeysNum;
-			ReadNumber(line, positionKeysNum);
-			node.positionKeys.resize((size_t)positionKeysNum);
+			float lPositionKeysNum;
+			SPReadNumber(lLine, lPositionKeysNum);
+			node_.positionKeys.resize(static_cast<size_t>(lPositionKeysNum));
 
-			for (size_t i = 0; i < node.positionKeys.size(); i++)
+			for (size_t i = 0; i < node_.positionKeys.size(); i++)
 			{
-				getline(data, line, '\n');
-				line = line.substr(13, line.size() - 14);
+				getline(data_, lLine, '\n');
+				lLine = lLine.substr(13, lLine.size() - 14);
 
-				ReadVectorKey(line, node.positionKeys[i]);
+				SPReadVectorKey(lLine, node_.positionKeys[i]);
 			}
 
 			continue;
@@ -1172,27 +1169,27 @@ void AliceFileStream::ReadMotionNodeData(std::stringstream& data, std::string& s
 
 #pragma region バイナリ
 
-bool AliceFileStream::LoadAliceMotionBinaryData(const std::string& path, MotionData* motion)
+bool AliceFileStream::SLoadAliceMotionBinaryData(const std::string& path_, MotionData* motion_)
 {
-	directoryPath = AliceFunctionUtility::GetDirectoryPath(path);
+	sDirectoryPath = AliceFunctionUtility::GetDirectoryPath(path_);
 
 	//ファイルを開く
-	FILE* fp = NULL;
-	fopen_s(&fp, path.data(), "rb");
+	FILE* lFilePtr = nullptr;
+	fopen_s(&lFilePtr, path_.data(), "rb");
 
-	if (!fp)
+	if (!lFilePtr)
 	{
 		return false;
 	}
 
 	//名前
 	{
-		size_t nameNum;
-		fread(&nameNum, sizeof(size_t), 1, fp);
-		if (nameNum < 256)
+		size_t lNameNum;
+		fread(&lNameNum, sizeof(size_t), 1, lFilePtr);
+		if (lNameNum < 256)
 		{
-			fread(buffC.data(), sizeof(char), nameNum, fp);
-			motion->name = std::string(buffC.data(), nameNum);
+			fread(cBuffC.data(), sizeof(char), lNameNum, lFilePtr);
+			motion_->name = std::string(cBuffC.data(), lNameNum);
 		}
 		else
 		{
@@ -1203,31 +1200,31 @@ bool AliceFileStream::LoadAliceMotionBinaryData(const std::string& path, MotionD
 
 	//一秒あたりのアニメーション継続時間
 	{
-		float ticks;
-		fread(&ticks, sizeof(float), 1, fp);
-		motion->ticksPerSecond = ticks;
+		float lTicks;
+		fread(&lTicks, sizeof(float), 1, lFilePtr);
+		motion_->ticksPerSecond = lTicks;
 	}
 
 	//アニメーション時間
 	{
-		float duration;
-		fread(&duration, sizeof(float), 1, fp);
-		motion->duration = duration;
+		float lDuration;
+		fread(&lDuration, sizeof(float), 1, lFilePtr);
+		motion_->duration = lDuration;
 	}
 
 	//チャンネル数
 	{
-		size_t channelNum;
-		fread(&channelNum, sizeof(size_t), 1, fp);
-		motion->channels.resize(channelNum);
+		size_t lChannelNum;
+		fread(&lChannelNum, sizeof(size_t), 1, lFilePtr);
+		motion_->channels.resize(lChannelNum);
 	}
 
 	//チャンネル
-	for (size_t i = 0; i < motion->channels.size(); i++)
+	for (size_t i = 0; i < motion_->channels.size(); i++)
 	{
-		if (!ReadMotionNodeBinaryData(&motion->channels[i], fp))
+		if (!SPReadMotionNodeBinaryData(&motion_->channels[i], lFilePtr))
 		{
-			fclose(fp);
+			fclose(lFilePtr);
 			return false;
 		}
 	}
@@ -1235,16 +1232,16 @@ bool AliceFileStream::LoadAliceMotionBinaryData(const std::string& path, MotionD
 	return true;
 }
 
-bool AliceFileStream::ReadMotionNodeBinaryData(MotionNode* node, FILE* fp)
+bool AliceFileStream::SPReadMotionNodeBinaryData(MotionNode* node_, FILE* fp_)
 {
 	//名前
 	{
-		size_t nameNum;
-		fread(&nameNum, sizeof(size_t), 1, fp);
-		if (nameNum < 256)
+		size_t lNameNum;
+		fread(&lNameNum, sizeof(size_t), 1, fp_);
+		if (lNameNum < 256)
 		{
-			fread(buffC.data(), sizeof(char), nameNum, fp);
-			node->name = std::string(buffC.data(), nameNum);
+			fread(cBuffC.data(), sizeof(char), lNameNum, fp_);
+			node_->name = std::string(cBuffC.data(), lNameNum);
 		}
 		else
 		{
@@ -1254,38 +1251,38 @@ bool AliceFileStream::ReadMotionNodeBinaryData(MotionNode* node, FILE* fp)
 
 	//スケーリング
 	{
-		size_t scalingNum;
-		fread(&scalingNum, sizeof(size_t), 1, fp);
-		node->scalingKeys.resize(scalingNum);
+		size_t lScalingNum;
+		fread(&lScalingNum, sizeof(size_t), 1, fp_);
+		node_->scalingKeys.resize(lScalingNum);
 
-		for (size_t i = 0; i < scalingNum; i++)
+		for (size_t i = 0; i < lScalingNum; i++)
 		{
-			fread(&node->scalingKeys[i], sizeof(VectorKey), 1, fp);
+			fread(&node_->scalingKeys[i], sizeof(VectorKey), 1, fp_);
 		}
 
 	}
 
 	//回転角
 	{
-		size_t rotationNum;
-		fread(&rotationNum, sizeof(size_t), 1, fp);
-		node->rotationKeys.resize(rotationNum);
+		size_t lRotationNum;
+		fread(&lRotationNum, sizeof(size_t), 1, fp_);
+		node_->rotationKeys.resize(lRotationNum);
 
-		for (size_t i = 0; i < rotationNum; i++)
+		for (size_t i = 0; i < lRotationNum; i++)
 		{
-			fread(&node->rotationKeys[i], sizeof(QuaternionKey), 1, fp);
+			fread(&node_->rotationKeys[i], sizeof(QuaternionKey), 1, fp_);
 		}
 	}
 
 	//位置
 	{
-		size_t positionNum;
-		fread(&positionNum, sizeof(size_t), 1, fp);
-		node->positionKeys.resize(positionNum);
+		size_t lPositionNum;
+		fread(&lPositionNum, sizeof(size_t), 1, fp_);
+		node_->positionKeys.resize(lPositionNum);
 
-		for (size_t i = 0; i < positionNum; i++)
+		for (size_t i = 0; i < lPositionNum; i++)
 		{
-			fread(&node->positionKeys[i], sizeof(VectorKey), 1, fp);
+			fread(&node_->positionKeys[i], sizeof(VectorKey), 1, fp_);
 		}
 
 	}
@@ -1299,171 +1296,171 @@ bool AliceFileStream::ReadMotionNodeBinaryData(MotionNode* node, FILE* fp)
 
 #pragma region その他
 
-float AliceFileStream::Atof(const std::string& str)
+float AliceFileStream::SPAtof(const std::string& str_)
 {
-	return static_cast<float>(atof(str.c_str()));
+	return static_cast<float>(atof(str_.c_str()));
 }
-void AliceFileStream::ReadFlag(const std::string& strFlag, bool& flag)
+void AliceFileStream::SPReadFlag(const std::string& strFlag_, bool& flag_)
 {
-	flag = std::equal(strFlag.begin(), strFlag.end(), "true") ? true : false;
+	flag_ = std::equal(strFlag_.begin(), strFlag_.end(), "true") ? true : false;
 }
-void AliceFileStream::ReadNumber(const std::string& strNum, float& num)
+void AliceFileStream::SPReadNumber(const std::string& strNum_, float& num_)
 {
-	num = (float)std::atof(strNum.substr(1, strNum.size() - 2).c_str());
+	num_ = static_cast<float>(std::atof(strNum_.substr(1, strNum_.size() - 2).c_str()));
 }
-void AliceFileStream::ReadNumber(const std::string& strNum, uint32_t& num)
+void AliceFileStream::SPReadNumber(const std::string& strNum_, uint32_t& num_)
 {
-	num = static_cast<uint32_t>(std::atof(strNum.substr(1, strNum.size() - 2).c_str()));
+	num_ = static_cast<uint32_t>(std::atof(strNum_.substr(1, strNum_.size() - 2).c_str()));
 }
-void AliceFileStream::ReadVector2(const std::string& strVec, AliceMathF::Vector2& ver)
+void AliceFileStream::SPReadVector2(const std::string& strVec_, AliceMathF::Vector2& vec_)
 {
-	lineData.str(strVec.substr(1, strVec.size() - 2));
-	lineData.clear();
+	sLineData.str(strVec_.substr(1, strVec_.size() - 2));
+	sLineData.clear();
 
-	getline(lineData, buff, ',');
-	ver.x = Atof(buff);
+	getline(sLineData, sBbuff, ',');
+	vec_.x = SPAtof(sBbuff);
 
-	getline(lineData, buff, ',');
-	ver.y = Atof(buff);
+	getline(sLineData, sBbuff, ',');
+	vec_.y = SPAtof(sBbuff);
 }
-void AliceFileStream::ReadVector3(const std::string& strVec, AliceMathF::Vector3& ver)
+void AliceFileStream::SPReadVector3(const std::string& strVec_, AliceMathF::Vector3& vec_)
 {
-	lineData.str(strVec.substr(1, strVec.size() - 2));
-	lineData.clear();
+	sLineData.str(strVec_.substr(1, strVec_.size() - 2));
+	sLineData.clear();
 
-	getline(lineData, buff, ',');
-	ver.x = Atof(buff);
+	getline(sLineData, sBbuff, ',');
+	vec_.x = SPAtof(sBbuff);
 
-	getline(lineData, buff, ',');
-	ver.y = Atof(buff);
+	getline(sLineData, sBbuff, ',');
+	vec_.y = SPAtof(sBbuff);
 
-	getline(lineData, buff, ',');
-	ver.z = Atof(buff);
+	getline(sLineData, sBbuff, ',');
+	vec_.z = SPAtof(sBbuff);
 }
-void AliceFileStream::ReadVector3(const std::string& strVec, AliceMathF::Vector4& ver)
+void AliceFileStream::SPReadVector3(const std::string& strVec_, AliceMathF::Vector4& vec_)
 {
-	lineData.str(strVec.substr(1, strVec.size() - 2));
-	lineData.clear();
+	sLineData.str(strVec_.substr(1, strVec_.size() - 2));
+	sLineData.clear();
 
-	getline(lineData, buff, ',');
-	ver.x = Atof(buff);
+	getline(sLineData, sBbuff, ',');
+	vec_.x = SPAtof(sBbuff);
 
-	getline(lineData, buff, ',');
-	ver.y = Atof(buff);
+	getline(sLineData, sBbuff, ',');
+	vec_.y = SPAtof(sBbuff);
 
-	getline(lineData, buff, ',');
-	ver.z = Atof(buff);
+	getline(sLineData, sBbuff, ',');
+	vec_.z = SPAtof(sBbuff);
 
-	ver.w = 1.0f;
+	vec_.w = 1.0f;
 }
-void AliceFileStream::ReadVector4(const std::string& strVec, AliceMathF::Vector4& ver)
+void AliceFileStream::SPReadVector4(const std::string& strVec_, AliceMathF::Vector4& vec_)
 {
-	lineData.str(strVec.substr(1, strVec.size() - 2));
-	lineData.clear();
+	sLineData.str(strVec_.substr(1, strVec_.size() - 2));
+	sLineData.clear();
 
-	getline(lineData, buff, ',');
-	ver.x = Atof(buff);
+	getline(sLineData, sBbuff, ',');
+	vec_.x = SPAtof(sBbuff);
 
-	getline(lineData, buff, ',');
-	ver.y = Atof(buff);
+	getline(sLineData, sBbuff, ',');
+	vec_.y = SPAtof(sBbuff);
 
-	getline(lineData, buff, ',');
-	ver.z = Atof(buff);
+	getline(sLineData, sBbuff, ',');
+	vec_.z = SPAtof(sBbuff);
 
-	getline(lineData, buff, ',');
-	ver.w = Atof(buff);
+	getline(sLineData, sBbuff, ',');
+	vec_.w = SPAtof(sBbuff);
 }
-void AliceFileStream::ReadQuaternion(const std::string& strVec, AliceMathF::Quaternion& ver)
+void AliceFileStream::SPReadQuaternion(const std::string& strVec_, AliceMathF::Quaternion& quaternion_)
 {
-	lineData.str(strVec.substr(1, strVec.size() - 2));
-	lineData.clear();
+	sLineData.str(strVec_.substr(1, strVec_.size() - 2));
+	sLineData.clear();
 
-	getline(lineData, buff, ',');
-	ver.x = Atof(buff);
+	getline(sLineData, sBbuff, ',');
+	quaternion_.x = SPAtof(sBbuff);
 
-	getline(lineData, buff, ',');
-	ver.y = Atof(buff);
+	getline(sLineData, sBbuff, ',');
+	quaternion_.y = SPAtof(sBbuff);
 
-	getline(lineData, buff, ',');
-	ver.z = Atof(buff);
+	getline(sLineData, sBbuff, ',');
+	quaternion_.z = SPAtof(sBbuff);
 
-	getline(lineData, buff, ',');
-	ver.w = Atof(buff);
+	getline(sLineData, sBbuff, ',');
+	quaternion_.w = SPAtof(sBbuff);
 }
-void AliceFileStream::ReadMatrix(const std::string& strMat, AliceMathF::Matrix4& mat)
+void AliceFileStream::SPReadMatrix(const std::string& strMat_, AliceMathF::Matrix4& mat_)
 {
-	lineData.str(strMat.substr(1, strMat.size() - 2));
-	lineData.clear();
+	sLineData.str(strMat_.substr(1, strMat_.size() - 2));
+	sLineData.clear();
 
 	for (size_t i = 0; i < 4; i++)
 	{
 		for (size_t j = 0; j < 4; j++)
 		{
-			getline(lineData, buff, ',');
-			mat.m[i][j] = Atof(buff);
+			getline(sLineData, sBbuff, ',');
+			mat_.m[i][j] = SPAtof(sBbuff);
 		}
 	}
 }
-void AliceFileStream::ReadVectorKey(const std::string& strVer, VectorKey& ver)
+void AliceFileStream::SPReadVectorKey(const std::string& strVec_, VectorKey& vectorKey_)
 {
-	std::istringstream data(strVer.substr(2, strVer.size()));
+	std::istringstream lData(strVec_.substr(2, strVec_.size()));
 
-	getline(data, buff, '|');
-	ReadVector3(buff, ver.value);
+	getline(lData, sBbuff, '|');
+	SPReadVector3(sBbuff, vectorKey_.value);
 
-	getline(data, buff, '\n');
-	ReadNumber(buff, ver.time);
+	getline(lData, sBbuff, '\n');
+	SPReadNumber(sBbuff, vectorKey_.time);
 }
-void AliceFileStream::ReadQuaternionKey(const std::string& strVer, QuaternionKey& ver)
+void AliceFileStream::SPReadQuaternionKey(const std::string& strVer, QuaternionKey& quaternionKey_)
 {
-	std::istringstream data(strVer.substr(1, strVer.size() - 2));
-	data.clear();
-	data.clear();
+	std::istringstream lData(strVer.substr(1, strVer.size() - 2));
+	lData.clear();
+	lData.clear();
 
-	getline(data, buff, '|');
-	ReadQuaternion(buff, ver.value);
+	getline(lData, sBbuff, '|');
+	SPReadQuaternion(sBbuff, quaternionKey_.value);
 
-	getline(data, buff, '|');
-	ReadNumber(buff, ver.time);
+	getline(lData, sBbuff, '|');
+	SPReadNumber(sBbuff, quaternionKey_.time);
 }
-void AliceFileStream::ReadString(const std::string& strData, std::string& str)
+void AliceFileStream::SPReadString(const std::string& strData_, std::string& str_)
 {
-	str = strData.substr(1, strData.size() - 2);
+	str_ = strData_.substr(1, strData_.size() - 2);
 
 }
-void AliceFileStream::ReadBoneWeight(const std::string& strWei, std::array<float, MAX_BONE_INDICES>& boneWeight)
+void AliceFileStream::SPReadBoneWeight(const std::string& strWeight_, std::array<float, MAX_BONE_INDICES>& boneWeight_)
 {
-	lineData.str(strWei.substr(1, strWei.size() - 2));
-	lineData.clear();
+	sLineData.str(strWeight_.substr(1, strWeight_.size() - 2));
+	sLineData.clear();
 
-	getline(lineData, buff, ',');
-	boneWeight[0] = Atof(buff);
+	getline(sLineData, sBbuff, ',');
+	boneWeight_[0] = SPAtof(sBbuff);
 
-	getline(lineData, buff, ',');
-	boneWeight[1] = Atof(buff);
+	getline(sLineData, sBbuff, ',');
+	boneWeight_[1] = SPAtof(sBbuff);
 
-	getline(lineData, buff, ',');
-	boneWeight[2] = Atof(buff);
+	getline(sLineData, sBbuff, ',');
+	boneWeight_[2] = SPAtof(sBbuff);
 
-	getline(lineData, buff, ',');
-	boneWeight[3] = Atof(buff);
+	getline(sLineData, sBbuff, ',');
+	boneWeight_[3] = SPAtof(sBbuff);
 }
-void AliceFileStream::ReadBoneIndex(const std::string& strInd, std::array<UINT, MAX_BONE_INDICES>& boneIndex)
+void AliceFileStream::SPReadBoneIndex(const std::string& strIndex_, std::array<uint32_t, MAX_BONE_INDICES>& boneIndex_)
 {
-	lineData.str(strInd.substr(1, strInd.size() - 2));
-	lineData.clear();
+	sLineData.str(strIndex_.substr(1, strIndex_.size() - 2));
+	sLineData.clear();
 
-	getline(lineData, buff, ',');
-	boneIndex[0] = (UINT)Atof(buff);
+	getline(sLineData, sBbuff, ',');
+	boneIndex_[0] = static_cast<uint32_t>(SPAtof(sBbuff));
 
-	getline(lineData, buff, ',');
-	boneIndex[1] = (UINT)Atof(buff);
+	getline(sLineData, sBbuff, ',');
+	boneIndex_[1] = static_cast<uint32_t>(SPAtof(sBbuff));
 
-	getline(lineData, buff, ',');
-	boneIndex[2] = (UINT)Atof(buff);
+	getline(sLineData, sBbuff, ',');
+	boneIndex_[2] = static_cast<uint32_t>(SPAtof(sBbuff));
 
-	getline(lineData, buff, ',');
-	boneIndex[3] = (UINT)Atof(buff);
+	getline(sLineData, sBbuff, ',');
+	boneIndex_[3] = static_cast<uint32_t>(SPAtof(sBbuff));
 }
 
 #pragma endregion

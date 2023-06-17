@@ -17,7 +17,7 @@ protected:
 
 	std::unique_ptr<IWindowsApp> windowsApp;
 
-	DirectX12Core* directX12Core = nullptr;
+	std::unique_ptr<DirectX12Core> directX12Core;
 
 	Mesh* mesh = nullptr;
 
@@ -25,13 +25,13 @@ protected:
 
 	TextureManager* textureManager = nullptr;
 
-	AudioManager* audioManager = nullptr;
+	std::unique_ptr<IAudioManager> audioManager = nullptr;
 
 	std::unique_ptr<AliceInput::IInput> input;
 
-	FPS* fps = nullptr;
+	std::unique_ptr<IFPS>fps;
 
-	std::unique_ptr<ImGuiManager> imGuiManager;
+	std::unique_ptr<IImGuiManager> imGuiManager;
 
 	SceneManager* sceneManager = nullptr;
 

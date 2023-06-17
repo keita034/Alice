@@ -1,49 +1,43 @@
 ﻿#include<Sprite.h>
 #include<DirectX12Core.h>
-#include<Sprite2D.h>
-#include<Sprite3D.h>
 
-IWindowsApp* Sprite::windowsApp = nullptr;
+IWindowsApp* Sprite::sWindowsApp = nullptr;
+ID3D12Device* Sprite::sDevice = nullptr;
+ID3D12GraphicsCommandList* Sprite::sCmdList = nullptr;
 
-void Sprite::SpriteInitialize()
+void Sprite::PSpriteDraw(Transform& transform_, Material* material_)
 {
-	device = DirectX12Core::GetDeviceSta();
-	cmdList = DirectX12Core::GetCommandListSta();
-}
-
-void Sprite::SpriteDraw(Transform& transform, Material* material)
-{
-	D3D12_VERTEX_BUFFER_VIEW vbView = vertexBuffer->GetView();
-	D3D12_INDEX_BUFFER_VIEW ibView = indexBuffer->GetView();
+	D3D12_VERTEX_BUFFER_VIEW lVbView = vertexBuffer->GetView();
+	D3D12_INDEX_BUFFER_VIEW lIbView = indexBuffer->GetView();
 
 	// パイプラインステートとルートシグネチャの設定コマンド
-	cmdList->SetPipelineState(material->pipelineState->GetPipelineState());
-	cmdList->SetGraphicsRootSignature(material->rootSignature->GetRootSignature());
+	sCmdList->SetPipelineState(material_->pipelineState->GetPipelineState());
+	sCmdList->SetGraphicsRootSignature(material_->rootSignature->GetRootSignature());
 
 	// プリミティブ形状の設定コマンド
-	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+	sCmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
 	// 頂点バッファビューの設定コマンド
-	cmdList->IASetVertexBuffers(0, 1, &vbView);
+	sCmdList->IASetVertexBuffers(0, 1, &lVbView);
 
 	//インデックスバッファビューの設定コマンド
-	cmdList->IASetIndexBuffer(&ibView);
+	sCmdList->IASetIndexBuffer(&lIbView);
 
 	// 定数バッファビュー(CBV)の設定コマンド
-	cmdList->SetGraphicsRootConstantBufferView(0, transform.GetAddress());
+	sCmdList->SetGraphicsRootConstantBufferView(0, transform_.GetAddress());
 
 	// SRVヒープの設定コマンド
-	ID3D12DescriptorHeap* descriptorHeaps[] = { texture->srvHeap };
-	cmdList->SetDescriptorHeaps(1, descriptorHeaps);
+	ID3D12DescriptorHeap* lDescriptorHeaps[] = { texture->srvHeap };
+	sCmdList->SetDescriptorHeaps(1, lDescriptorHeaps);
 
 	//// SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
-	cmdList->SetGraphicsRootDescriptorTable(1, texture->gpuHandle);
+	sCmdList->SetGraphicsRootDescriptorTable(1, texture->gpuHandle);
 
 	// 描画コマンド
-	cmdList->DrawIndexedInstanced(6, 1, 0, 0, 0);
+	sCmdList->DrawIndexedInstanced(6, 1, 0, 0, 0);
 }
 
-void Sprite::CreatVertexIndexBuffer()
+void Sprite::PCreatVertexIndexBuffer()
 {
 	//頂点バッファの生成
 	vertexBuffer = CreateUniqueVertexBuffer(4, sizeof(PosUvColor));
@@ -60,54 +54,40 @@ Sprite::~Sprite()
 {
 }
 
-void Sprite::SetAnchorPoint(const AliceMathF::Vector2& point)
+void Sprite::SetAnchorPoint(const AliceMathF::Vector2& point_)
 {
-	anchorPoint = point;
+	anchorPoint = point_;
 }
 
-void Sprite::SetFlipFlag(bool isFlipX, bool isFlipY)
+void Sprite::SetFlipFlag(bool isFlipX_, bool isFlipY_)
 {
-	flipX = isFlipX;
-	flipY = isFlipY;
+	flipX = isFlipX_;
+	flipY = isFlipY_;
 }
 
-void Sprite::SetColor(const AliceMathF::Vector4& col)
+void Sprite::SetColor(const AliceMathF::Vector4& color_)
 {
-	color = col;
+	color = color_;
 }
 
-void Sprite::SetTextureTrimmingRange(const AliceMathF::Vector2& leftTop, const AliceMathF::Vector2& rightDown)
+void Sprite::SetTextureTrimmingRange(const AliceMathF::Vector2& leftTop_, const AliceMathF::Vector2& rightDown_)
 {
-	trimmingRange = { leftTop.x,leftTop.y,rightDown.x,rightDown.y };
+	trimmingRange = { leftTop_.x,leftTop_.y,rightDown_.x,rightDown_.y };
 }
 
-void Sprite::SetTex(uint32_t handle)
+void Sprite::SetTex(uint32_t handle_)
 {
-	texture = TextureManager::GetTextureData(handle);
+	texture = TextureManager::SGetTextureData(handle_);
 	trimmingRange.z = static_cast<float>(texture->width);
 	trimmingRange.w = static_cast<float>(texture->height);
 	spriteSize.x = static_cast<float>(texture->width);
 	spriteSize.y = static_cast<float>(texture->height);
 }
 
-void Sprite::SetSize(const AliceMathF::Vector2& size)
+void Sprite::SetSize(const AliceMathF::Vector2& size_)
 {
-	spriteSize.x = size.x;
-	spriteSize.y = size.y;
-}
-
-Sprite2D* Sprite::Create2DSprite(uint32_t handle)
-{
-	Sprite2D* s2D = new Sprite2D;
-	s2D->Initialize(handle);
-	return s2D;
-}
-
-Sprite3D* Sprite::Create3DSprite(uint32_t handle)
-{
-	Sprite3D* s3D = new Sprite3D;
-	s3D->Initialize(handle);
-	return s3D;
+	spriteSize.x = size_.x;
+	spriteSize.y = size_.y;
 }
 
 const TextureData* Sprite::GetTexture()
@@ -115,7 +95,13 @@ const TextureData* Sprite::GetTexture()
 	return texture;
 }
 
-void Sprite::SetWindowsApp(IWindowsApp* windowsApp_)
+void Sprite::SSetWindowsApp(IWindowsApp* windowsApp_)
 {
-	windowsApp = windowsApp_;
+	sWindowsApp = windowsApp_;
+}
+
+void Sprite::SSetDirectX12Core(DirectX12Core* directX12Core_)
+{
+	sDevice = directX12Core_->GetDevice();
+	sCmdList = directX12Core_->GetCommandList();
 }

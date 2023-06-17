@@ -1,19 +1,10 @@
 ﻿#include<Light.h>
 #include<DirectX12Core.h>
-Light* Light::Create()
-{
-	//3Dオブジェクトのインスタンス生成
-	Light* instance = new Light();
-	//初期化
-	instance->Initialize();
-	//生成したインスタンスを返す
-	return instance;
-}
+
+ID3D12Device* Light::device = nullptr;
 
 void Light::Initialize()
 {
-	device = DirectX12Core::GetInstance()->GetDevice();
-
 	//定数バッファ
 	constBuff = CreateUniqueConstantBuffer(sizeof(LightConstBuffData));
 
@@ -51,8 +42,27 @@ void Light::Update()
 	}
 }
 
-void Light::SetConstBufferView(ID3D12GraphicsCommandList* cmdList, UINT rootParameterIndex)
+void Light::SetConstBufferView(ID3D12GraphicsCommandList* cmdList_, uint32_t rootParameterIndex_)
 {
 	//定数バッファビューをセット
-	cmdList->SetGraphicsRootConstantBufferView(rootParameterIndex, constBuff->GetAddress());
+	cmdList_->SetGraphicsRootConstantBufferView(rootParameterIndex_, constBuff->GetAddress());
+}
+
+void Light::SSetDevice(ID3D12Device* device_)
+{
+	device = device_;
+}
+
+std::unique_ptr<Light> CreateUniqueLight()
+{
+	std::unique_ptr<Light>lLight = std::make_unique<Light>();
+	lLight->Initialize();
+	return std::move(lLight);
+}
+
+std::shared_ptr<Light> CreateSharedLight()
+{
+	std::shared_ptr<Light> lLight = std::make_unique<Light>();
+	lLight->Initialize();
+	return lLight;
 }

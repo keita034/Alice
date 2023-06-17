@@ -14,309 +14,307 @@
 #include<AliceFileStream.h>
 #include<AliceFunctionUtility.h>
 
-ID3D12Device* AliceModel::device;
-ID3D12GraphicsCommandList* AliceModel::cmdList;
-Light* AliceModel::light;
-std::vector<std::string>AliceModel::filePaths;
-std::unordered_map<std::string, std::unique_ptr<AliceModelData>> AliceModel::modelDatas;
-uint32_t AliceModel::modelCount = 0u;
+ID3D12Device* AliceModel::sDevice;
+ID3D12GraphicsCommandList* AliceModel::sCmdList;
+Light* AliceModel::sLight;
+std::vector<std::string>AliceModel::sFilePaths;
+std::unordered_map<std::string, std::unique_ptr<AliceModelData>> AliceModel::sModelDatas;
+uint32_t AliceModel::sModelCount = 0u;
 
-uint32_t AliceModel::CreateModel(const std::string& fileDirectoryPath)
+uint32_t AliceModel::SCreateModel(const std::string& fileDirectoryPath_)
 {
-	std::string path = fileDirectoryPath;
+	std::string lDirectoryPath = fileDirectoryPath_;
 
 	//一回読み込んだことがあるファイルはそのまま返す
-	auto itr = find_if(modelDatas.begin(), modelDatas.end(), [&](std::pair<const std::string, std::unique_ptr<AliceModelData, std::default_delete<AliceModelData>>>& p)
+	auto lModelItr = find_if(sModelDatas.begin(), sModelDatas.end(), [&](std::pair<const std::string, std::unique_ptr<AliceModelData, std::default_delete<AliceModelData>>>& modelData)
 		{
-			return p.second->filePath == path;
+			return modelData.second->filePath == lDirectoryPath;
 		});
 
-	if (itr == modelDatas.end())
+	if (lModelItr == sModelDatas.end())
 	{
+		uint32_t lModelHandle = sModelCount;
 
-		uint32_t modelHandle = modelCount;
-
-		std::unique_ptr<AliceModelData> data;
-		data = std::make_unique<AliceModelData>();
+		std::unique_ptr<AliceModelData> lModelData;
+		lModelData = std::make_unique<AliceModelData>();
 
 		{
-			std::vector<std::string> files;
+			std::vector<std::string> lFiles;
 
-			std::string filePath;
+			std::string lFilePath;
 
-			files = AliceFunctionUtility::getFileNames(path);
+			lFiles = AliceFunctionUtility::getFileNames(lDirectoryPath);
 
 			//ディレクトリからFBXファイルを探す
-			for (std::string file : files)
+			for (std::string file : lFiles)
 			{
 				if (file.find(".alpb") != std::string::npos || file.find(".alp") != std::string::npos)
 				{
-					filePath = file;
+					lFilePath = file;
 				}
 			}
 
-			std::string fileExtension = AliceFunctionUtility::FileExtension(filePath);
+			std::string lFileExtension = AliceFunctionUtility::FileExtension(lFilePath);
 
-			if (fileExtension == "alpb")
+			if (lFileExtension == "alpb")
 			{
-				AliceFileStream::LoadAlicePolygonBinaryData(filePath, data.get());
+				AliceFileStream::SLoadAlicePolygonBinaryData(lFilePath, lModelData.get());
 			}
-			else if (fileExtension == "alp")
+			else if (lFileExtension == "alp")
 			{
-				AliceFileStream::LoadAlicePolygonData(filePath, data.get());
+				AliceFileStream::SLoadAlicePolygonData(lFilePath, lModelData.get());
 			}
 
-			data->postureMatBuff = CreateUniqueConstantBuffer(sizeof(AliceMathF::Matrix4));
+			lModelData->postureMatBuff = CreateUniqueConstantBuffer(sizeof(AliceMathF::Matrix4));
 
 			AliceMathF::Matrix4 lTmp = AliceMathF::Matrix4();
-			data->postureMatBuff->Update(&lTmp);
+			lModelData->postureMatBuff->Update(&lTmp);
 
-			for (size_t i = 0; i < data->nodes.size(); i++)
+			for (size_t i = 0; i < lModelData->nodes.size(); i++)
 			{
-				if (data->nodes[i].parent)
+				if (lModelData->nodes[i].parent)
 				{
-					auto parentItr = std::find_if(data->nodes.begin(), data->nodes.end(), [&](Node& node)
+					auto lParentItr = std::find_if(lModelData->nodes.begin(), lModelData->nodes.end(), [&](Node& node)
 						{
-							return node.name == data->nodes[i].parent->name;
+							return node.name == lModelData->nodes[i].parent->name;
 						});
 
-					parentItr->childrens.push_back(&data->nodes[i]);
+					lParentItr->childrens.push_back(&lModelData->nodes[i]);
 				}
 
 			}
 
 			//バッファ生成
-			for (size_t i = 0; i < data->meshes.size(); i++)
+			for (size_t i = 0; i < lModelData->meshes.size(); i++)
 			{
-				for (size_t j = 0; j < data->meshes[i]->vecBones.size(); j++)
+				for (size_t j = 0; j < lModelData->meshes[i]->vecBones.size(); j++)
 				{
-					data->meshes[i]->bones[data->meshes[i]->vecBones[j].name] = &data->meshes[i]->vecBones[j];
+					lModelData->meshes[i]->bones[lModelData->meshes[i]->vecBones[j].name] = &lModelData->meshes[i]->vecBones[j];
 				}
 
-				data->meshes[i]->CreateBuffer();
+				lModelData->meshes[i]->CreateBuffer();
 			}
 		}
 
-		data->modelHandle = modelCount;
+		lModelData->modelHandle = sModelCount;
 
-		data->filePath = path;
+		lModelData->filePath = lDirectoryPath;
 
-		modelDatas[path] = std::move(data);
+		sModelDatas[lDirectoryPath] = std::move(lModelData);
 
-		filePaths[modelCount] = path;
+		sFilePaths[sModelCount] = lDirectoryPath;
 
-		modelCount++;
+		sModelCount++;
 
-		return modelHandle;
+		return lModelHandle;
 	}
 	else
 	{
 
-		uint32_t modelHandle = modelDatas[path]->modelHandle;
+		uint32_t lModelHandle = sModelDatas[lDirectoryPath]->modelHandle;
 
-		return modelHandle;
+		return lModelHandle;
 	}
 
 	return INT32_MAX;
 }
 
-void AliceModel::Draw(Transform& transform, const AliceMotionData* animation, float frame, Material* material)
+void AliceModel::Draw(Transform& transform_, const AliceMotionData* animation_, float frame_, Material* material_)
 {
-	if (animation)
+	if (animation_)
 	{
-		if (!material)
+		if (!material_)
 		{
-			modelMaterialData = MaterialManager::GetMaterial("DefaultFbxAnimation");
+			modelMaterialData = MaterialManager::SGetMaterial("DefaultFbxAnimation");
 		}
 		else
 		{
-			modelMaterialData = material;
+			modelMaterialData = material_;
 		}
 
-		AnimationUpdate(animation, frame);
+		AnimationUpdate(animation_, frame_);
 
-		ModelAnimationDraw(transform);
+		PModelAnimationDraw(transform_);
 	}
 	else
 	{
-		if (!material)
+		if (!material_)
 		{
-			modelMaterialData = MaterialManager::GetMaterial("DefaultFbx");;
+			modelMaterialData = MaterialManager::SGetMaterial("DefaultFbx");;
 		}
 		else
 		{
-			modelMaterialData = material;
+			modelMaterialData = material_;
 		}
 
-		ModelDraw(transform);
+		PModelDraw(transform_);
 	}
 
 	modelData->IsAnime = false;
 }
 
-void AliceModel::AnimationUpdate(const AliceMotionData* animation, float frame)
+void AliceModel::AnimationUpdate(const AliceMotionData* animation_, float frame_)
 {
 	modelData->IsAnime = true;
 
 	modelData->vertexInitialize = true;
 
-	AliceMathF::Matrix4 mxIdentity = AliceMathF::MakeIdentity();
+	AliceMathF::Matrix4 lMatIdentity = AliceMathF::MakeIdentity();
 
-	Node* pNode = &modelData->nodes[0];
+	Node* lPtrNode = &modelData->nodes[0];
 
-	float TicksPerSecond = (animation->motionData->ticksPerSecond != 0 ? animation->motionData->ticksPerSecond : 25.0f);
+	float lTicksPerSecond = (animation_->motionData->ticksPerSecond != 0 ? animation_->motionData->ticksPerSecond : 25.0f);
 
-	float TimeInTicks = frame * TicksPerSecond;
-	float AnimationTime = fmod(TimeInTicks, animation->motionData->duration);
+	float lTimeInTicks = frame_ * lTicksPerSecond;
+	float lAnimationTime = fmod(lTimeInTicks, animation_->motionData->duration);
 
 	for (std::unique_ptr<ModelMesh>& mesh : modelData->meshes)
 	{
-		ReadNodeHeirarchy(mesh.get(), animation, AnimationTime, pNode, mxIdentity);
+		PReadNodeHeirarchy(mesh.get(), animation_, lAnimationTime, lPtrNode, lMatIdentity);
 
 		mesh->Update();
 	}
 }
 
-uint32_t AliceModel::CreateToonModel(const std::string& fileDirectoryPath, const std::string& rampFilePath)
+uint32_t AliceModel::SCreateToonModel(const std::string& fileDirectoryPath_, const std::string& rampFilePath_)
 {
-	std::string path = fileDirectoryPath;
+	std::string lDirectoryPath = fileDirectoryPath_;
 
 	//一回読み込んだことがあるファイルはそのまま返す
-	auto itr = find_if(modelDatas.begin(), modelDatas.end(), [&](std::pair<const std::string, std::unique_ptr<AliceModelData, std::default_delete<AliceModelData>>>& p)
+	auto lModelItr = find_if(sModelDatas.begin(), sModelDatas.end(), [&](std::pair<const std::string, std::unique_ptr<AliceModelData, std::default_delete<AliceModelData>>>& modelData)
 		{
-			return p.second->filePath == path ;
+			return modelData.second->filePath == lDirectoryPath;
 		});
 
-	if (itr == modelDatas.end())
+	if (lModelItr == sModelDatas.end())
 	{
+		uint32_t lModelHandle = sModelCount;
 
-		uint32_t modelHandle = modelCount;
-
-		std::unique_ptr<AliceModelData> data;
-		data = std::make_unique<AliceModelData>();
+		std::unique_ptr<AliceModelData> lModelData;
+		lModelData = std::make_unique<AliceModelData>();
 
 		{
-			std::vector<std::string> files;
+			std::vector<std::string> lFiles;
 
-			std::string filePath;
+			std::string lFilePath;
 
-			files = AliceFunctionUtility::getFileNames(path);
+			lFiles = AliceFunctionUtility::getFileNames(lDirectoryPath);
 
 			//ディレクトリからFBXファイルを探す
-			for (std::string file : files)
+			for (std::string file : lFiles)
 			{
 				if (file.find(".alpb") != std::string::npos || file.find(".alp") != std::string::npos)
 				{
-					filePath = file;
+					lFilePath = file;
 				}
 			}
 
-			if (filePath == "")
+			if (lFilePath == "")
 			{
 				assert(0);
 			}
 
-			std::string fileExtension = AliceFunctionUtility::FileExtension(filePath);
+			std::string lFileExtension = AliceFunctionUtility::FileExtension(lFilePath);
 
-			if (fileExtension == "alpb")
+			if (lFileExtension == "alpb")
 			{
-				AliceFileStream::LoadAlicePolygonBinaryData(filePath, data.get());
+				AliceFileStream::SLoadAlicePolygonBinaryData(lFilePath, lModelData.get());
 			}
-			else if (fileExtension == "alp")
+			else if (lFileExtension == "alp")
 			{
-				AliceFileStream::LoadAlicePolygonData(filePath, data.get());
+				AliceFileStream::SLoadAlicePolygonData(lFilePath, lModelData.get());
 			}
 
-			data->postureMatBuff = CreateUniqueConstantBuffer(sizeof(AliceMathF::Matrix4));
+			lModelData->postureMatBuff = CreateUniqueConstantBuffer(sizeof(AliceMathF::Matrix4));
 
 			AliceMathF::Matrix4 lTmp = AliceMathF::Matrix4();
-			data->postureMatBuff->Update(&lTmp);
+			lModelData->postureMatBuff->Update(&lTmp);
 
-			for (size_t i = 0; i < data->nodes.size(); i++)
+			for (size_t i = 0; i < lModelData->nodes.size(); i++)
 			{
-				if (data->nodes[i].parent)
+				if (lModelData->nodes[i].parent)
 				{
-					auto parentItr = std::find_if(data->nodes.begin(), data->nodes.end(), [&](Node& node)
+					auto lParentItr = std::find_if(lModelData->nodes.begin(), lModelData->nodes.end(), [&](Node& node)
 						{
-							return node.name == data->nodes[i].parent->name;
+							return node.name == lModelData->nodes[i].parent->name;
 						});
 
-					parentItr->childrens.push_back(&data->nodes[i]);
+					lParentItr->childrens.push_back(&lModelData->nodes[i]);
 				}
 
 			}
 
 			//バッファ生成
-			for (size_t i = 0; i < data->meshes.size(); i++)
+			for (size_t i = 0; i < lModelData->meshes.size(); i++)
 			{
-				for (size_t j = 0; j < data->meshes[i]->vecBones.size(); j++)
+				for (size_t j = 0; j < lModelData->meshes[i]->vecBones.size(); j++)
 				{
-					data->meshes[i]->bones[data->meshes[i]->vecBones[j].name] = &data->meshes[i]->vecBones[j];
+					lModelData->meshes[i]->bones[lModelData->meshes[i]->vecBones[j].name] = &lModelData->meshes[i]->vecBones[j];
 				}
 
-				data->meshes[i]->CreateBuffer();
+				lModelData->meshes[i]->CreateBuffer();
 			}
 		}
 
-		data->modelHandle = modelCount;
+		lModelData->modelHandle = sModelCount;
 
-		data->filePath = path;
+		lModelData->filePath = lDirectoryPath;
 
-		data->isToon = true;
-		uint32_t rampHnadel = TextureManager::Load(rampFilePath);
-		data->rampTex = TextureManager::GetTextureData(rampHnadel);
+		lModelData->isToon = true;
+		uint32_t rampHnadel = TextureManager::SLoad(rampFilePath_);
+		lModelData->rampTex = TextureManager::SGetTextureData(rampHnadel);
 
-		modelDatas[path] = std::move(data);
+		sModelDatas[lDirectoryPath] = std::move(lModelData);
 
-		filePaths[modelCount] = path;
+		sFilePaths[sModelCount] = lDirectoryPath;
 
-		modelCount++;
+		sModelCount++;
 
-		return modelHandle;
+		return lModelHandle;
 	}
 	else
 	{
-		if (!modelDatas[path]->isToon)
+		if (!sModelDatas[lDirectoryPath]->isToon)
 		{
 			printf("NotToonModel");
 
 		}
-		uint32_t modelHandle = modelDatas[path]->modelHandle;
+		uint32_t lModelHandle = sModelDatas[lDirectoryPath]->modelHandle;
 
-		return modelHandle;
+		return lModelHandle;
 
 	}
 }
 
-void AliceModel::CommonInitialize()
+void AliceModel::SCommonInitialize(DirectX12Core* directX12Core_)
 {
-	device = DirectX12Core::GetInstance()->GetDevice().Get();
-	cmdList = DirectX12Core::GetInstance()->GetCommandList().Get();
+	sDevice = directX12Core_->GetDevice();
+	sCmdList = directX12Core_->GetCommandList();
 
-	filePaths.resize(maxModel);
+	sFilePaths.resize(sMAX_MODEL);
 }
 
-bool AliceModel::TransTexture(const std::string& materialName, const std::string& textureName, TextureData* textureData)
+bool AliceModel::TransTexture(const std::string& materialName_, const std::string& textureName_, TextureData* textureData_)
 {
 	//メッシュの中からマテリアルを探す
-	auto materialItr = std::find_if(modelData->meshes.begin(), modelData->meshes.end(), [&](std::unique_ptr<ModelMesh>& p)
+	auto lMaterialItr = std::find_if(modelData->meshes.begin(), modelData->meshes.end(), [&](std::unique_ptr<ModelMesh>& model)
 		{
-			return p->material.name == materialName;
+			return model->material.name == materialName_;
 		});
 
-	if (materialItr != modelData->meshes.end())
+	if (lMaterialItr != modelData->meshes.end())
 	{
-		std::unique_ptr<ModelMesh>& mesh = *materialItr;
+		std::unique_ptr<ModelMesh>& mesh = *lMaterialItr;
 
 		//マテリアルの中からテクスチャ探す
 		auto textureItr = std::find_if(mesh->textures.begin(), mesh->textures.end(), [&](TextureData* p)
 			{
-				return p->path == textureName;
+				return p->path == textureName_;
 			});
 
 		if (textureItr != mesh->textures.end())
 		{
-			*textureItr = textureData;
+			*textureItr = textureData_;
 
 			return true;
 		}
@@ -325,20 +323,20 @@ bool AliceModel::TransTexture(const std::string& materialName, const std::string
 	return false;
 }
 
-bool AliceModel::TransTexture(const std::string& materialName, size_t textureIndex, TextureData* textureData)
+bool AliceModel::TransTexture(const std::string& materialName_, size_t textureIndex_, TextureData* textureData_)
 {
 	//メッシュの中からマテリアルを探す
-	auto materialItr = std::find_if(modelData->meshes.begin(), modelData->meshes.end(), [&](std::unique_ptr<ModelMesh>& p)
+	auto lMaterialItr = std::find_if(modelData->meshes.begin(), modelData->meshes.end(), [&](std::unique_ptr<ModelMesh>& modelData)
 		{
-			return p->material.name == materialName;
+			return modelData->material.name == materialName_;
 		});
 
-	if (materialItr != modelData->meshes.end())
+	if (lMaterialItr != modelData->meshes.end())
 	{
 		//マテリアルの中からテクスチャ探す
-		std::unique_ptr<ModelMesh>& mesh = *materialItr;
+		std::unique_ptr<ModelMesh>& lMesh = *lMaterialItr;
 
-		mesh->textures[textureIndex] = textureData;
+		lMesh->textures[textureIndex_] = textureData_;
 
 		return true;
 	}
@@ -346,55 +344,55 @@ bool AliceModel::TransTexture(const std::string& materialName, size_t textureInd
 	return false;
 }
 
-bool AliceModel::FlipUV(const std::string& materialName, bool inverseU, bool inverseV)
+bool AliceModel::FlipUV(const std::string& materialName_, bool inverseU_, bool inverseV_)
 {
 	//メッシュの中からマテリアルを探す
-	auto materialItr = std::find_if(modelData->meshes.begin(), modelData->meshes.end(), [&](std::unique_ptr<ModelMesh>& p)
+	auto lMaterialItr = std::find_if(modelData->meshes.begin(), modelData->meshes.end(), [&](std::unique_ptr<ModelMesh>& mesh)
 		{
-			return p->material.name == materialName;
+			return mesh->material.name == materialName_;
 		});
 
-	if (materialItr != modelData->meshes.end())
+	if (lMaterialItr != modelData->meshes.end())
 	{
-		std::unique_ptr<ModelMesh>& mesh = *materialItr;
+		std::unique_ptr<ModelMesh>& lMesh = *lMaterialItr;
 
-		for (PosNormUvTangeColSkin& vertice : mesh->vertices)
+		for (PosNormUvTangeColSkin& vertice : lMesh->vertices)
 		{
-			if (inverseU)
+			if (inverseU_)
 			{
 				vertice.uv.x *= -1.0f;
 			}
 
-			if (inverseV)
+			if (inverseV_)
 			{
 				vertice.uv.y *= -1.0f;
 			}
 		}
 
-		mesh->dirtyFlag = true;
-		mesh->vertexBuffer->Update(mesh->vertices.data());
+		lMesh->dirtyFlag = true;
+		lMesh->vertexBuffer->Update(lMesh->vertices.data());
 	}
 	return false;
 }
 
-bool AliceModel::rotationUV(const std::string& materialName, float angle)
+bool AliceModel::rotationUV(const std::string& materialName_, float angle_)
 {
 	//メッシュの中からマテリアルを探す
-	auto materialItr = std::find_if(modelData->meshes.begin(), modelData->meshes.end(), [&](std::unique_ptr<ModelMesh>& p)
+	auto lMaterialItr = std::find_if(modelData->meshes.begin(), modelData->meshes.end(), [&](std::unique_ptr<ModelMesh>& mesh)
 		{
-			return p->material.name == materialName;
+			return mesh->material.name == materialName_;
 		});
 
-	if (materialItr != modelData->meshes.end())
+	if (lMaterialItr != modelData->meshes.end())
 	{
-		std::unique_ptr<ModelMesh>& mesh = *materialItr;
+		std::unique_ptr<ModelMesh>& mesh = *lMaterialItr;
 
-		AliceMathF::Matrix3 mat;
-		mat.MakeRotation(angle);
+		AliceMathF::Matrix3 lMat;
+		lMat.MakeRotation(angle_);
 
 		for (PosNormUvTangeColSkin& vertice : mesh->vertices)
 		{
-			vertice.uv = AliceMathF::Vec2Mat3Mul(vertice.uv, mat);
+			vertice.uv = AliceMathF::Vec2Mat3Mul(vertice.uv, lMat);
 		}
 
 		mesh->vertexBuffer->Update(mesh->vertices.data());
@@ -421,127 +419,122 @@ const std::vector<std::unique_ptr<ModelMesh>>& AliceModel::GetMeshs()
 	return modelData->meshes;
 }
 
-void AliceModel::SetLight(Light* lightPtr)
+void AliceModel::SetLight(Light* light_)
 {
-	light = lightPtr;
+	sLight = light_;
 }
 
-void AliceModel::SetModel(uint32_t modelHandle)
+void AliceModel::SetModel(uint32_t lModelHandle_)
 {
-	modelData = modelDatas[filePaths[modelHandle]].get();
+	modelData = sModelDatas[sFilePaths[lModelHandle_]].get();
 }
 
-void AliceModel::ReadNodeHeirarchy(ModelMesh* mesh, const AliceMotionData* pAnimation, float AnimationTime, const Node* pNode, const AliceMathF::Matrix4& mxParentTransform)
+void AliceModel::PReadNodeHeirarchy(ModelMesh* mesh_, const AliceMotionData* pAnimation_, float animationTime_, const Node* pNode_, const AliceMathF::Matrix4& mxParentTransform_)
 {
-	AliceMathF::Matrix4 mxNodeTransformation = AliceMathF::MakeIdentity();
-	mxNodeTransformation = pNode->transform;
+	AliceMathF::Matrix4 lMatNodeTransformation = AliceMathF::MakeIdentity();
+	lMatNodeTransformation = pNode_->transform;
 
-	AliceMathF::Matrix4 mxThisTrans = mxNodeTransformation.Transpose();
+	AliceMathF::Matrix4 lMatThisTrans = lMatNodeTransformation.Transpose();
 
-	std::string strNodeName = pNode->name;
+	std::string lStrNodeName = pNode_->name;
 
-	const MotionNode* pNodeAnim = FindNodeAnim(pAnimation, strNodeName);
+	const MotionNode* lPtrNodeAnim = PFindNodeAnim(pAnimation_, lStrNodeName);
 
-	if (pNodeAnim)
+	if (lPtrNodeAnim)
 	{
 		//スケーリング
-		AliceMathF::Vector3 vScaling = {};
-		CalcInterpolatedScaling(vScaling, AnimationTime, pNodeAnim);
-		AliceMathF::Matrix4 mxScaling;
-		mxScaling.MakeScaling(vScaling);
+		AliceMathF::Vector3 lScaling = {};
+		PCalcInterpolatedScaling(lScaling, animationTime_, lPtrNodeAnim);
+		AliceMathF::Matrix4 lMatScaling;
+		lMatScaling.MakeScaling(lScaling);
 
 		//回転角
-		AliceMathF::Quaternion vRotationQ = {};
-		CalcInterpolatedRotation(vRotationQ, AnimationTime, pNodeAnim);
-		AliceMathF::Matrix4 mxRotationM = vRotationQ.Rotate();
+		AliceMathF::Quaternion lRotation = {};
+		PCalcInterpolatedRotation(lRotation, animationTime_, lPtrNodeAnim);
+		AliceMathF::Matrix4 lMatRotation = lRotation.Rotate();
 
 		//移動
-		AliceMathF::Vector3 vTranslation = {};
-		CalcInterpolatedPosition(vTranslation, AnimationTime, pNodeAnim);
-		AliceMathF::Matrix4 mxTranslationM;
-		mxTranslationM.MakeTranslation(vTranslation);
+		AliceMathF::Vector3 lTranslation = {};
+		PCalcInterpolatedPosition(lTranslation, animationTime_, lPtrNodeAnim);
+		AliceMathF::Matrix4 lMatTranslation;
+		lMatTranslation.MakeTranslation(lTranslation);
 
-		mxNodeTransformation = mxScaling * mxRotationM * mxTranslationM;
+		lMatNodeTransformation = lMatScaling * lMatRotation * lMatTranslation;
 	}
 
-	AliceMathF::Matrix4 mxGlobalTransformation = mxNodeTransformation * mxParentTransform;
+	AliceMathF::Matrix4 mxGlobalTransformation = lMatNodeTransformation * mxParentTransform_;
 
-	AliceMathF::Matrix4 offsetMatirx;
-	AliceMathF::Matrix4 matirx;
-	if (mesh->bones.find(strNodeName) != mesh->bones.end())
+	AliceMathF::Matrix4 lOffsetMatirx;
+	AliceMathF::Matrix4 lMatWorld;
+	if (mesh_->bones.find(lStrNodeName) != mesh_->bones.end())
 	{
-		offsetMatirx = mesh->bones[strNodeName]->offsetMatirx;
+		lOffsetMatirx = mesh_->bones[lStrNodeName]->offsetMatirx;
 
-		matirx
-			= offsetMatirx * mxGlobalTransformation * modelData->globalInverseTransform;
+		lMatWorld = lOffsetMatirx * mxGlobalTransformation * modelData->globalInverseTransform;
 
-		mesh->bones[strNodeName]->matrix = matirx;
+		mesh_->bones[lStrNodeName]->matrix = lMatWorld;
 
 	}
 
-	for (UINT i = 0; i < pNode->childrens.size(); i++)
+	for (uint32_t i = 0; i < pNode_->childrens.size(); i++)
 	{
-		ReadNodeHeirarchy(mesh
-			, pAnimation
-			, AnimationTime
-			, pNode->childrens[i]
-			, mxGlobalTransformation);
+		PReadNodeHeirarchy(mesh_, pAnimation_, animationTime_, pNode_->childrens[i], mxGlobalTransformation);
 	}
 }
 
-const MotionNode* AliceModel::FindNodeAnim(const AliceMotionData* pAnimation, const std::string& strNodeName)
+const MotionNode* AliceModel::PFindNodeAnim(const AliceMotionData* pAnimation_, const std::string& strNodeName_)
 {
-	for (UINT i = 0; i < pAnimation->motionData->channels.size(); i++)
+	for (uint32_t i = 0; i < pAnimation_->motionData->channels.size(); i++)
 	{
-		if (std::string(pAnimation->motionData->channels[i].name) == strNodeName)
+		if (std::string(pAnimation_->motionData->channels[i].name) == strNodeName_)
 		{
-			return &pAnimation->motionData->channels[i];
+			return &pAnimation_->motionData->channels[i];
 		}
 	}
 
 	return nullptr;
 }
 
-void AliceModel::CalcInterpolatedScaling(AliceMathF::Vector3& mxOut, float AnimationTime, const MotionNode* pNodeAnim)
+void AliceModel::PCalcInterpolatedScaling(AliceMathF::Vector3& mxOut_, float animationTime_, const MotionNode* pNodeAnim_)
 {
-	if (pNodeAnim->scalingKeys.size() == 1)
+	if (pNodeAnim_->scalingKeys.size() == 1)
 	{
-		mxOut = pNodeAnim->scalingKeys[0].value;
+		mxOut_ = pNodeAnim_->scalingKeys[0].value;
 		return;
 	}
 
-	UINT ScalingIndex = 0;
-	if (!FindScaling(AnimationTime, pNodeAnim, ScalingIndex))
+	uint32_t lScalingIndex = 0;
+	if (!PFindScaling(animationTime_, pNodeAnim_, lScalingIndex))
 	{
-		mxOut = AliceMathF::Vector3(1.0f, 1.0f, 1.0f);
+		mxOut_ = AliceMathF::Vector3(1.0f, 1.0f, 1.0f);
 		return;
 	}
 
-	UINT NextScalingIndex = (ScalingIndex + 1);
-	ATLASSERT(NextScalingIndex < pNodeAnim->scalingKeys.size());
+	uint32_t lNextScalingIndex = (lScalingIndex + 1);
+	ATLASSERT(lNextScalingIndex < pNodeAnim_->scalingKeys.size());
 
-	float DeltaTime = (pNodeAnim->scalingKeys[NextScalingIndex].time - pNodeAnim->scalingKeys[ScalingIndex].time);
+	float lDeltaTime = (pNodeAnim_->scalingKeys[lNextScalingIndex].time - pNodeAnim_->scalingKeys[lScalingIndex].time);
 
-	float Factor = (AnimationTime - pNodeAnim->scalingKeys[ScalingIndex].time) / DeltaTime;
-	ATLASSERT(Factor >= 0.0f && Factor <= 1.0f);
+	float lFactor = (animationTime_ - pNodeAnim_->scalingKeys[lScalingIndex].time) / lDeltaTime;
+	ATLASSERT(lFactor >= 0.0f && lFactor <= 1.0f);
 
-	mxOut = AliceMathF::Vector3Lerp(pNodeAnim->scalingKeys[ScalingIndex].value, pNodeAnim->scalingKeys[NextScalingIndex].value, Factor);
+	mxOut_ = AliceMathF::Vector3Lerp(pNodeAnim_->scalingKeys[lScalingIndex].value, pNodeAnim_->scalingKeys[lNextScalingIndex].value, lFactor);
 
 }
 
-bool AliceModel::FindScaling(float AnimationTime, const MotionNode* pNodeAnim, UINT& nScalingIndex)
+bool AliceModel::PFindScaling(float animationTime_, const MotionNode* pNodeAnim_, uint32_t& nScalingIndex_)
 {
-	nScalingIndex = 0;
-	if (!(pNodeAnim->scalingKeys.size() > 0))
+	nScalingIndex_ = 0;
+	if (!(pNodeAnim_->scalingKeys.size() > 0))
 	{
 		return false;
 	}
 
-	for (size_t i = 0; i < pNodeAnim->scalingKeys.size() - 1; i++)
+	for (size_t i = 0; i < pNodeAnim_->scalingKeys.size() - 1; i++)
 	{
-		if ((AnimationTime >= pNodeAnim->scalingKeys[i].time) && (AnimationTime < pNodeAnim->scalingKeys[i + 1].time))
+		if ((animationTime_ >= pNodeAnim_->scalingKeys[i].time) && (animationTime_ < pNodeAnim_->scalingKeys[i + 1].time))
 		{
-			nScalingIndex = static_cast<UINT>(i);
+			nScalingIndex_ = static_cast<uint32_t>(i);
 			return true;
 		}
 	}
@@ -549,46 +542,46 @@ bool AliceModel::FindScaling(float AnimationTime, const MotionNode* pNodeAnim, U
 	return false;
 }
 
-void AliceModel::CalcInterpolatedRotation(AliceMathF::Quaternion& mxOut, float AnimationTime, const MotionNode* pNodeAnim)
+void AliceModel::PCalcInterpolatedRotation(AliceMathF::Quaternion& mxOut_, float animationTime_, const MotionNode* pNodeAnim_)
 {
-	if (pNodeAnim->rotationKeys.size() == 1)
+	if (pNodeAnim_->rotationKeys.size() == 1)
 	{
-		mxOut = pNodeAnim->rotationKeys[0].value;
+		mxOut_ = pNodeAnim_->rotationKeys[0].value;
 		return;
 	}
 
-	UINT RotationIndex = 0;
-	if (!FindRotation(AnimationTime, pNodeAnim, RotationIndex))
+	uint32_t lRotationIndex = 0;
+	if (!PFindRotation(animationTime_, pNodeAnim_, lRotationIndex))
 	{
-		mxOut = AliceMathF::Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
+		mxOut_ = AliceMathF::Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
 		return;
 	}
 
-	UINT NextRotationIndex = (RotationIndex + 1);
-	ATLASSERT(NextRotationIndex < pNodeAnim->rotationKeys.size());
+	uint32_t lNextRotationIndex = (lRotationIndex + 1);
+	ATLASSERT(lNextRotationIndex < pNodeAnim_->rotationKeys.size());
 
-	float DeltaTime = pNodeAnim->rotationKeys[NextRotationIndex].time - pNodeAnim->rotationKeys[RotationIndex].time;
-	float Factor = (AnimationTime - pNodeAnim->rotationKeys[RotationIndex].time) / DeltaTime;
-	ATLASSERT(Factor >= 0.0f && Factor <= 1.0f);
+	float lDeltaTime = pNodeAnim_->rotationKeys[lNextRotationIndex].time - pNodeAnim_->rotationKeys[lRotationIndex].time;
+	float lFactor = (animationTime_ - pNodeAnim_->rotationKeys[lRotationIndex].time) / lDeltaTime;
+	ATLASSERT(lFactor >= 0.0f && lFactor <= 1.0f);
 
-	AliceMathF::QuaternionSlerp(mxOut, pNodeAnim->rotationKeys[RotationIndex].value, pNodeAnim->rotationKeys[NextRotationIndex].value, Factor);
+	AliceMathF::QuaternionSlerp(mxOut_, pNodeAnim_->rotationKeys[lRotationIndex].value, pNodeAnim_->rotationKeys[lNextRotationIndex].value, lFactor);
 
 }
 
-bool AliceModel::FindRotation(float AnimationTime, const MotionNode* pNodeAnim, UINT& nRotationIndex)
+bool AliceModel::PFindRotation(float animationTime_, const MotionNode* pNodeAnim_, uint32_t& nRotationIndex_)
 {
-	nRotationIndex = 0;
-	if (!(pNodeAnim->rotationKeys.size() > 0))
+	nRotationIndex_ = 0;
+	if (!(pNodeAnim_->rotationKeys.size() > 0))
 	{
 		return false;
 	}
 
-	for (size_t i = 0; i < pNodeAnim->rotationKeys.size() - 1; i++)
+	for (size_t i = 0; i < pNodeAnim_->rotationKeys.size() - 1; i++)
 	{
 
-		if ((AnimationTime >= pNodeAnim->rotationKeys[i].time) && (AnimationTime < pNodeAnim->rotationKeys[i + 1].time))
+		if ((animationTime_ >= pNodeAnim_->rotationKeys[i].time) && (animationTime_ < pNodeAnim_->rotationKeys[i + 1].time))
 		{
-			nRotationIndex = static_cast<UINT>(i);
+			nRotationIndex_ = static_cast<uint32_t>(i);
 			return true;
 		}
 	}
@@ -596,44 +589,44 @@ bool AliceModel::FindRotation(float AnimationTime, const MotionNode* pNodeAnim, 
 	return false;
 }
 
-void AliceModel::CalcInterpolatedPosition(AliceMathF::Vector3& mxOut, float AnimationTime, const MotionNode* pNodeAnim)
+void AliceModel::PCalcInterpolatedPosition(AliceMathF::Vector3& mxOut_, float animationTime_, const MotionNode* pNodeAnim_)
 {
-	if (pNodeAnim->positionKeys.size() == 1)
+	if (pNodeAnim_->positionKeys.size() == 1)
 	{
-		mxOut = pNodeAnim->positionKeys[0].value;
+		mxOut_ = pNodeAnim_->positionKeys[0].value;
 		return;
 	}
 
-	UINT PositionIndex = 0;
-	if (!FindPosition(AnimationTime, pNodeAnim, PositionIndex))
+	uint32_t lPositionIndex = 0;
+	if (!PFindPosition(animationTime_, pNodeAnim_, lPositionIndex))
 	{
-		mxOut = AliceMathF::Vector3(0.0f, 0.0f, 0.0f);
+		mxOut_ = AliceMathF::Vector3(0.0f, 0.0f, 0.0f);
 		return;
 	}
 
-	UINT NextPositionIndex = (PositionIndex + 1);
+	uint32_t lNextPositionIndex = (lPositionIndex + 1);
 
-	ATLASSERT(NextPositionIndex < pNodeAnim->positionKeys.size());
-	float DeltaTime = (pNodeAnim->positionKeys[NextPositionIndex].time - pNodeAnim->positionKeys[PositionIndex].time);
-	float Factor = (AnimationTime - pNodeAnim->positionKeys[PositionIndex].time) / DeltaTime;
-	ATLASSERT(Factor >= 0.0f && Factor <= 1.0f);
+	ATLASSERT(lNextPositionIndex < pNodeAnim_->positionKeys.size());
+	float lDeltaTime = (pNodeAnim_->positionKeys[lNextPositionIndex].time - pNodeAnim_->positionKeys[lPositionIndex].time);
+	float lFactor = (animationTime_ - pNodeAnim_->positionKeys[lPositionIndex].time) / lDeltaTime;
+	ATLASSERT(lFactor >= 0.0f && lFactor <= 1.0f);
 
-	mxOut = AliceMathF::Vector3Lerp(pNodeAnim->positionKeys[PositionIndex].value, pNodeAnim->positionKeys[NextPositionIndex].value, Factor);
+	mxOut_ = AliceMathF::Vector3Lerp(pNodeAnim_->positionKeys[lPositionIndex].value, pNodeAnim_->positionKeys[lNextPositionIndex].value, lFactor);
 }
 
-bool AliceModel::FindPosition(float AnimationTime, const MotionNode* pNodeAnim, UINT& nPosIndex)
+bool AliceModel::PFindPosition(float animationTime_, const MotionNode* pNodeAnim_, uint32_t& nPosIndex_)
 {
-	nPosIndex = 0;
-	if (!(pNodeAnim->positionKeys.size() > 0))
+	nPosIndex_ = 0;
+	if (!(pNodeAnim_->positionKeys.size() > 0))
 	{
 		return false;
 	}
 
-	for (size_t i = 0; i < pNodeAnim->positionKeys.size() - 1; i++)
+	for (size_t i = 0; i < pNodeAnim_->positionKeys.size() - 1; i++)
 	{
-		if ((AnimationTime >= pNodeAnim->positionKeys[i].time) && (AnimationTime < pNodeAnim->positionKeys[i + 1].time))
+		if ((animationTime_ >= pNodeAnim_->positionKeys[i].time) && (animationTime_ < pNodeAnim_->positionKeys[i + 1].time))
 		{
-			nPosIndex = static_cast<UINT>(i);
+			nPosIndex_ = static_cast<uint32_t>(i);
 			return true;
 		}
 	}
@@ -641,40 +634,40 @@ bool AliceModel::FindPosition(float AnimationTime, const MotionNode* pNodeAnim, 
 	return false;
 }
 
-void AliceModel::ModelDraw(Transform& transform)
+void AliceModel::PModelDraw(Transform& transform_)
 {
 	for (size_t i = 0; i < modelData->meshes.size(); i++)
 	{
 		// プリミティブ形状の設定コマンド
-		cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+		sCmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
 		// パイプラインステートとルートシグネチャの設定コマンド
-		cmdList->SetPipelineState(modelMaterialData->pipelineState->GetPipelineState());
-		cmdList->SetGraphicsRootSignature(modelMaterialData->rootSignature->GetRootSignature());
+		sCmdList->SetPipelineState(modelMaterialData->pipelineState->GetPipelineState());
+		sCmdList->SetGraphicsRootSignature(modelMaterialData->rootSignature->GetRootSignature());
 
 		if (modelData->meshes[i]->node)
 		{
 			modelData->postureMatBuff->Update(&modelData->meshes[i]->node->globalTransform);
 		}
 
-		cmdList->SetGraphicsRootConstantBufferView(3, modelData->postureMatBuff->GetAddress());
-		modelData->meshes[i]->Draw(cmdList, transform, light);
+		sCmdList->SetGraphicsRootConstantBufferView(3, modelData->postureMatBuff->GetAddress());
+		modelData->meshes[i]->Draw(sCmdList, transform_, sLight);
 	}
 }
 
-void AliceModel::ModelAnimationDraw(Transform& transform)
+void AliceModel::PModelAnimationDraw(Transform& transform_)
 {
 	for (size_t i = 0; i < modelData->meshes.size(); i++)
 	{
 		// プリミティブ形状の設定コマンド
-		cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+		sCmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
 		// パイプラインステートとルートシグネチャの設定コマンド
-		cmdList->SetPipelineState(modelMaterialData->pipelineState->GetPipelineState());
-		cmdList->SetGraphicsRootSignature(modelMaterialData->rootSignature->GetRootSignature());
+		sCmdList->SetPipelineState(modelMaterialData->pipelineState->GetPipelineState());
+		sCmdList->SetGraphicsRootSignature(modelMaterialData->rootSignature->GetRootSignature());
 
 
-		modelData->meshes[i]->AnimDraw(cmdList, transform, light);
+		modelData->meshes[i]->AnimDraw(sCmdList, transform_, sLight);
 	}
 }
 

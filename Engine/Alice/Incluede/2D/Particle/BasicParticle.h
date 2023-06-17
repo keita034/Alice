@@ -1,29 +1,23 @@
 ﻿#pragma once
 
-#include<Particle.h>
 #include<AliceMathUtility.h>
 #include<Camera.h>
-#include<DefaultMaterial.h>
-#include<DirectX12Core.h>
+#include<Material.h>
 
-class BasicParticle : public Particle
+class IBasicParticle
 {
-private:
-
-	AliceMathF::Matrix4 mTrans, mRot, mScale;
-
 public:
 
-	BasicParticle() = default;
-	~BasicParticle();
+	IBasicParticle() = default;
+	virtual ~IBasicParticle() = default;
 
 	//初期化
-	virtual void Initialize()override;
+	virtual void Initialize() = 0;
 
 	///<summary>
 	///更新
 	///</summary>
-	virtual void Update()override;
+	virtual void Update() = 0;
 
 	/// <summary>
 	/// パーティクルの追加
@@ -37,20 +31,36 @@ public:
 	/// <param name="sColor">開始カラー</param>
 	/// <param name="eColor">終了カラー</param>
 	virtual void Add(
-		UINT life, const AliceMathF::Vector3& position, const AliceMathF::Vector3& velocity,
-		const AliceMathF::Vector3& accel, const AliceMathF::Vector2& scale, const AliceMathF::Vector2& rotation
-		, const AliceMathF::Vector4& sColor, const AliceMathF::Vector4& eColor)override;
-
+		uint32_t life_,
+		const AliceMathF::Vector3& position_,
+		const AliceMathF::Vector3& velocity_,
+		const AliceMathF::Vector3& accel_,
+		const AliceMathF::Vector2& scale_,
+		const AliceMathF::Vector2& rotation_,
+		const AliceMathF::Vector4& sColor_,
+		const AliceMathF::Vector4& eColor_) = 0;
 
 	///<summary>
 	///ビルボード描画
 	///</summary>
-	virtual void Draw(Camera* camera, Material* material = nullptr)override;
+	virtual void Draw(Camera* camera_, Material* material_ = nullptr) = 0;
 
 private:
 
 	//コピーコンストラクタ・代入演算子削除
-	BasicParticle& operator=(const BasicParticle&) = delete;
-	BasicParticle(const BasicParticle&) = delete;
+	IBasicParticle& operator=(const IBasicParticle&) = delete;
+	IBasicParticle(const IBasicParticle&) = delete;
 };
 
+
+/// <summary>
+/// 基本パーティクルの生成(ユニーク)
+/// </summary>
+/// <returns>生成されたポインタ</returns>
+std::unique_ptr<IBasicParticle> CreateUniqueBasicParticle();
+
+/// <summary>
+/// 基本パーティクルの生成(シェアード)
+/// </summary>
+/// <returns>生成されたポインタ</returns>
+std::shared_ptr<IBasicParticle> CreateSharedBasicParticle();

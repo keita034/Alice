@@ -9,22 +9,22 @@ SceneFactrory* SceneFactrory::GetInstance()
 	return &instance;
 }
 
-BaseScene* SceneFactrory::CreateScene(const std::string& sceneName)
+std::unique_ptr<BaseScene> SceneFactrory::CreateScene(const std::string& sceneName)
 {
 	//éüÇÃÉVÅ[ÉìÇê∂ê¨
-	BaseScene* newScene = nullptr;
+	std::unique_ptr<BaseScene> lNewScene = nullptr;
 
 	if (sceneName == "TITLE")
 	{
-		newScene = new TitleScene();
+		lNewScene = std::make_unique<TitleScene>();
 	}
 	else if(sceneName == "GAME")
 	{
-		newScene = new GameScene();
+		lNewScene = std::make_unique<GameScene>();
 	}
 	else if (sceneName == "RESULT")
 	{
-		newScene = new ResultScene();
+		lNewScene = std::make_unique<ResultScene>();
 	}
-	return newScene;
+	return std::move(lNewScene);
 }

@@ -1,49 +1,55 @@
 ﻿#pragma once
-#pragma once
+
 #pragma warning(push)
 #pragma warning(disable: 4365)
-#pragma warning(disable: 4514)
-#pragma warning(disable: 4619)
 #pragma warning(disable: 4668)
+#pragma warning(disable: 4710)
+#pragma warning(disable: 4711)
+#pragma warning(disable: 4820)
 #pragma warning(disable: 5039)
 
-#include<Windows.h>
+#include<memory>
+
 #pragma warning(pop)
 
-class FPS
+class IFPS
 {
-private:
-	//CPU周波数
-	LARGE_INTEGER cpuClock{};
-	//計測開始時間
-	LARGE_INTEGER timeStart{};
-	//計測終了時間
-	LARGE_INTEGER timeEnd{};
-	//固定する時間
-	float frameTime = 1 / 60.0f;
-	//FPS値
-	float fps;
 public:
+
+	IFPS() = default;
+	virtual ~IFPS() = default;
+
 	/// <summary>
 	/// FPS制御初期化
 	/// </summary>
-	void FpsControlBegin();
+	virtual void FpsControlBegin() =0;
 
 	/// <summary>
 	/// FPS制御
 	/// </summary>
-	void FpsControlEnd();
+	virtual void FpsControlEnd() = 0;
 
 	/// <summary>
 	/// フレームレートを設定
 	/// </summary>
 	/// <param name="fps_">フレームレート</param>
-	void SetFrameRate(float frameRate);
+	virtual void SetFrameRate(float frameRate_) = 0;
 
 	/// <summary>
 	/// フレームレートを取得
 	/// </summary>
 	/// <returns>フレームレート</returns>
-	float GetFrameRate();
+	virtual float GetFrameRate() = 0;
 };
 
+/// <summary>
+/// FPSマネージャーの生成(ユニーク)
+/// </summary>
+/// <returns>生成されたポインタ</returns>
+std::unique_ptr<IFPS> CreateUniqueFPS();
+
+/// <summary>
+/// FPSマネージャーの生成(シェアード)
+/// </summary>
+/// <returns>生成されたポインタ</returns>
+std::shared_ptr<IFPS> CreateSharedFPS();

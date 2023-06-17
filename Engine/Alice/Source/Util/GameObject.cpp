@@ -1,8 +1,8 @@
 ﻿#include<GameObject.h>
 
-void GameObject::SetCollider(BaseCollider* coll)
+void GameObject::SetCollider(BaseCollider* coll_)
 {
-	SetColl(coll);
+	SetColl(coll_);
 
 	collider->SetObject(this);
 }
@@ -16,7 +16,7 @@ const Transform* GameObject::GetTransformPtr() const
 	return &transform;
 }
 
-void GameObject::SetName(const std::string& objectName)
+void GameObject::SetName(const std::string& objectName_)
 {
-	name = objectName;
+	name = objectName_;
 }

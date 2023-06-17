@@ -1,8 +1,8 @@
 ﻿#include<Game2DObject.h>
 
-void Game2DObject::SetCollider(Base2DCollider* coll)
+void Game2DObject::SetCollider(Base2DCollider* coll_)
 {
-	SetColl(coll);
+	SetColl(coll_);
 
 	collider->SetObject(this);
 }

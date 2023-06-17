@@ -17,12 +17,10 @@
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
 
-DirectX12Core* DirectX12Core::DirectX12Core_ = nullptr;
-
 #include<BaseBuffer.h>
 #include<BaseDescriptorHeap.h>
 
-HRESULT DirectX12Core::CreateSwapChain()
+HRESULT DirectX12Core::PCreateSwapChain()
 {
 	swapChainDesc.Width = static_cast<UINT>(width);//横幅
 	swapChainDesc.Height = static_cast<UINT>(height);//縦幅
@@ -33,19 +31,19 @@ HRESULT DirectX12Core::CreateSwapChain()
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;//フリップ後は破棄
 	swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
-	DXGI_SWAP_CHAIN_FULLSCREEN_DESC fsDesc{};
-	fsDesc.Windowed = false ? FALSE : TRUE;
-	fsDesc.RefreshRate.Denominator = 1000;
-	fsDesc.RefreshRate.Numerator = 60317;
-	fsDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
-	fsDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_PROGRESSIVE;
+	DXGI_SWAP_CHAIN_FULLSCREEN_DESC lFsDesc{};
+	lFsDesc.Windowed = false ? FALSE : TRUE;
+	lFsDesc.RefreshRate.Denominator = 1000;
+	lFsDesc.RefreshRate.Numerator = 60317;
+	lFsDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+	lFsDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_PROGRESSIVE;
 
 	//生成
 	if (commandQueue != 0)
 	{
-		Microsoft::WRL::ComPtr<IDXGISwapChain1> tmpSwapChain;
-		result = dxgiFactory->CreateSwapChainForHwnd(commandQueue.Get(), *handle, &swapChainDesc, &fsDesc, nullptr, tmpSwapChain.ReleaseAndGetAddressOf());
-		swapChain = CreateUniqueSwapChain(device.Get(), tmpSwapChain, commandQueue.Get());
+		Microsoft::WRL::ComPtr<IDXGISwapChain1> lTmpSwapChain;
+		result = dxgiFactory->CreateSwapChainForHwnd(commandQueue.Get(), *handle, &swapChainDesc, &lFsDesc, nullptr, lTmpSwapChain.ReleaseAndGetAddressOf());
+		swapChain = CreateUniqueSwapChain(device.Get(), lTmpSwapChain, commandQueue.Get());
 	}
 	else
 	{
@@ -55,20 +53,14 @@ HRESULT DirectX12Core::CreateSwapChain()
 	return result;
 }
 
-void DirectX12Core::Transition(ID3D12Resource* resource, D3D12_RESOURCE_STATES beforeState, D3D12_RESOURCE_STATES afterState)
-{
-	auto barrier = CD3DX12_RESOURCE_BARRIER::Transition(resource, beforeState, afterState);
-	commandList->ResourceBarrier(1, &barrier);
-}
-
 size_t DirectX12Core::GetBackBufferCount() const
 {
 	return swapChain->GetBackBufferCount();
 }
 
-bool DirectX12Core::SetWindowType(WindowMode mode, UINT windowHeight, UINT windowWidth)
+bool DirectX12Core::SetWindowType(WindowMode mode_, uint32_t windowHeight_, uint32_t windowWidth_)
 {
-	switch (mode)
+	switch (mode_)
 	{
 	case WindowMode::WINDOW:
 
@@ -79,17 +71,17 @@ bool DirectX12Core::SetWindowType(WindowMode mode, UINT windowHeight, UINT windo
 
 		swapChain->SetFullScreen(false);
 
-		windowsApp->ShowDefaultWindow(static_cast<uint64_t>(windowHeight), static_cast<uint64_t>(windowWidth));
+		windowsApp->ShowDefaultWindow(static_cast<uint64_t>(windowHeight_), static_cast<uint64_t>(windowWidth_));
 
-		IWindowsApp::WindowsSize winSize = windowsApp->GetNowWindowSize();
+		IWindowsApp::WindowsSize lWinSize = windowsApp->GetNowWindowSize();
 
-		width = static_cast<float>(winSize.width);
-		height = static_cast<float>(winSize.height);
+		width = static_cast<float>(lWinSize.width);
+		height = static_cast<float>(lWinSize.height);
 
-		swapChain->ResizeBuffers(winSize.width, winSize.height);
+		swapChain->ResizeBuffers(lWinSize.width, lWinSize.height);
 
 		//レンダーサイズ変更
-		RenderSizeChanged(winSize.width, winSize.height);
+		RenderSizeChanged(lWinSize.width, lWinSize.height);
 
 		break;
 
@@ -101,25 +93,25 @@ bool DirectX12Core::SetWindowType(WindowMode mode, UINT windowHeight, UINT windo
 
 			swapChain->SetFullScreen(true);
 
-			IWindowsApp::WindowsSize size = windowsApp->GetNowWindowSize();
+			IWindowsApp::WindowsSize lSize = windowsApp->GetNowWindowSize();
 
-			width = static_cast<float>(size.width);
-			height = static_cast<float>(size.height);
+			width = static_cast<float>(lSize.width);
+			height = static_cast<float>(lSize.height);
 
-			DXGI_MODE_DESC desc{};
-			desc.Format = surfaceFormat;
-			desc.Width = size.width;
-			desc.Height = size.height;
-			desc.RefreshRate.Denominator = 1;
-			desc.RefreshRate.Numerator = 60;
-			desc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
-			desc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
-			swapChain->ResizeTarget(&desc);
+			DXGI_MODE_DESC lModeDesc{};
+			lModeDesc.Format = surfaceFormat;
+			lModeDesc.Width = lSize.width;
+			lModeDesc.Height = lSize.height;
+			lModeDesc.RefreshRate.Denominator = 1;
+			lModeDesc.RefreshRate.Numerator = 60;
+			lModeDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+			lModeDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+			swapChain->ResizeTarget(&lModeDesc);
 
-			swapChain->ResizeBuffers(size.width, size.height);
+			swapChain->ResizeBuffers(lSize.width, lSize.height);
 
 			//レンダーサイズ変更
-			RenderSizeChanged(size.width, size.height);
+			RenderSizeChanged(lSize.width, lSize.height);
 		}
 
 		break;
@@ -132,15 +124,15 @@ bool DirectX12Core::SetWindowType(WindowMode mode, UINT windowHeight, UINT windo
 
 			windowsApp->ShowFullScreen();
 
-			IWindowsApp::WindowsSize size = windowsApp->GetNowWindowSize();
+			IWindowsApp::WindowsSize lSize = windowsApp->GetNowWindowSize();
 
-			width = static_cast<float>(size.width);
-			height = static_cast<float>(size.height);
+			width = static_cast<float>(lSize.width);
+			height = static_cast<float>(lSize.height);
 
-			swapChain->ResizeBuffers(size.width, size.height);
+			swapChain->ResizeBuffers(lSize.width, lSize.height);
 
 			//レンダーサイズ変更
-			RenderSizeChanged(size.width, size.height);
+			RenderSizeChanged(lSize.width, lSize.height);
 		}
 
 		break;
@@ -151,17 +143,16 @@ bool DirectX12Core::SetWindowType(WindowMode mode, UINT windowHeight, UINT windo
 	return true;
 }
 
-void DirectX12Core::RenderSizeChanged(UINT w, UINT h)
+void DirectX12Core::RenderSizeChanged(uint32_t width_, uint32_t height_)
 {
-	width = static_cast<float>(w);
-	height = static_cast<float>(h);
-
+	width = static_cast<float>(width_);
+	height = static_cast<float>(height_);
 
 	//バッファのサイズ変更
-	swapChain->ResizeBuffers(w, h);
+	swapChain->ResizeBuffers(width_, height_);
 
 	// デプスバッファの作り直し.
-	depthBuff->Resize(w, h);
+	depthBuff->Resize(width_, height_);
 
 	bbIndex = swapChain->GetCurrentBackBufferIndex();
 
@@ -173,10 +164,10 @@ void DirectX12Core::RenderSizeChanged(UINT w, UINT h)
 
 }
 
-HRESULT DirectX12Core::InitializeDXGIDevice()
+HRESULT DirectX12Core::PInitializeDXGIDevice()
 {
 	//対応レベルの配列
-	D3D_FEATURE_LEVEL levels[] =
+	D3D_FEATURE_LEVEL lLevels[] =
 	{
 		D3D_FEATURE_LEVEL_12_1,
 		D3D_FEATURE_LEVEL_12_0,
@@ -192,43 +183,43 @@ HRESULT DirectX12Core::InitializeDXGIDevice()
 	}
 
 	//アダプター列挙用
-	std::vector<Microsoft::WRL::ComPtr<IDXGIAdapter4>> adapters;
+	std::vector<Microsoft::WRL::ComPtr<IDXGIAdapter4>> lAdapters;
 	//ここに特定の名前を持つアダプターオブジェクトが入る
-	Microsoft::WRL::ComPtr<IDXGIAdapter4> tmpAdapter;
+	Microsoft::WRL::ComPtr<IDXGIAdapter4> lTmpAdapter;
 
 	//パフォーマンスが高いのもから全て列挙
-	for (UINT i = 0; dxgiFactory->EnumAdapterByGpuPreference(i, DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, IID_PPV_ARGS(tmpAdapter.ReleaseAndGetAddressOf())) != DXGI_ERROR_NOT_FOUND; i++)
+	for (uint32_t i = 0; dxgiFactory->EnumAdapterByGpuPreference(i, DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, IID_PPV_ARGS(lTmpAdapter.ReleaseAndGetAddressOf())) != DXGI_ERROR_NOT_FOUND; i++)
 	{
-		adapters.push_back(tmpAdapter);
+		lAdapters.push_back(lTmpAdapter);
 	}
 
 	// 妥当なアダプタを選別する
-	for (size_t i = 0; i < adapters.size(); i++)
+	for (size_t i = 0; i < lAdapters.size(); i++)
 	{
-		DXGI_ADAPTER_DESC3 adapterDesc;
+		DXGI_ADAPTER_DESC3 lAdapterDesc;
 		// アダプターの情報を取得する
-		adapters[i]->GetDesc3(&adapterDesc);
+		lAdapters[i]->GetDesc3(&lAdapterDesc);
 
 		// ソフトウェアデバイスを回避
-		if (!(adapterDesc.Flags & DXGI_ADAPTER_FLAG3_SOFTWARE))
+		if (!(lAdapterDesc.Flags & DXGI_ADAPTER_FLAG3_SOFTWARE))
 		{
 			// デバイスを採用してループを抜ける
-			tmpAdapter = adapters[i];
+			lTmpAdapter = lAdapters[i];
 			break;
 		}
 	}
 
 	//Direct3Dデバイスの初期化
-	D3D_FEATURE_LEVEL featureLevel;
+	D3D_FEATURE_LEVEL lFeatureLevel;
 
-	for (size_t i = 0; i < _countof(levels); i++)
+	for (size_t i = 0; i < _countof(lLevels); i++)
 	{
 		// 採用したアダプターでデバイスを生成
-		result = D3D12CreateDevice(tmpAdapter.Get(), levels[i], IID_PPV_ARGS(device.GetAddressOf()));
+		result = D3D12CreateDevice(lTmpAdapter.Get(), lLevels[i], IID_PPV_ARGS(device.GetAddressOf()));
 		if (result == S_OK)
 		{
 			// デバイスを生成できた時点でループを抜ける
-			featureLevel = levels[i];
+			lFeatureLevel = lLevels[i];
 			break;
 		}
 	}
@@ -236,11 +227,11 @@ HRESULT DirectX12Core::InitializeDXGIDevice()
 	return result;
 }
 
-HRESULT DirectX12Core::InitializeCommand()
+HRESULT DirectX12Core::PInitializeCommand()
 {
 	//コマンドアロケータを生成
 	commandAllocators.resize(FrameBufferCount);
-	for (UINT i = 0; i < FrameBufferCount; ++i)
+	for (size_t i = 0; i < FrameBufferCount; ++i)
 	{
 		result = device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&commandAllocators[i])
 		);
@@ -251,8 +242,8 @@ HRESULT DirectX12Core::InitializeCommand()
 	}
 
 	//コマンドキューの設定＆生成
-	D3D12_COMMAND_QUEUE_DESC commandQueueDesc{};
-	result = device->CreateCommandQueue(&commandQueueDesc, IID_PPV_ARGS(commandQueue.ReleaseAndGetAddressOf()));
+	D3D12_COMMAND_QUEUE_DESC lCommandQueueDesc{};
+	result = device->CreateCommandQueue(&lCommandQueueDesc, IID_PPV_ARGS(commandQueue.ReleaseAndGetAddressOf()));
 	if (FAILED(result))
 	{
 		return result;
@@ -270,7 +261,7 @@ HRESULT DirectX12Core::InitializeCommand()
 	return result;
 }
 
-HRESULT DirectX12Core::CreatDepthBuffer()
+HRESULT DirectX12Core::PCreatDepthBuffer()
 {
 	//深度バッファ生成
 	depthBuff = CreateUniqueDepthStencilBuffer(static_cast<uint32_t>(width), static_cast<uint32_t>(height), DXGI_FORMAT_D32_FLOAT);
@@ -278,7 +269,7 @@ HRESULT DirectX12Core::CreatDepthBuffer()
 	return result;
 }
 
-void DirectX12Core::CreatDescriptorHeap()
+void DirectX12Core::PCreatDescriptorHeap()
 {
 	BaseDescriptorHeap::SSetDevice(device.Get());
 
@@ -299,44 +290,45 @@ void DirectX12Core::CreatDescriptorHeap()
 
 }
 
-void DirectX12Core::ResourceTransition(ID3D12Resource* resource, D3D12_RESOURCE_STATES beforeState, D3D12_RESOURCE_STATES afterState)
+void DirectX12Core::ResourceTransition(ID3D12Resource* resource_, D3D12_RESOURCE_STATES beforeState_, D3D12_RESOURCE_STATES afterState_)
 {
-	GetInstance()->Transition(resource, beforeState, afterState);
+	auto lBarrier = CD3DX12_RESOURCE_BARRIER::Transition(resource_, beforeState_, afterState_);
+	commandList->ResourceBarrier(1, &lBarrier);
 }
 
-void DirectX12Core::DirectXInitialize(float h, float w, HWND* hwnd, IWindowsApp* windows)
+void DirectX12Core::DirectXInitialize(float width_, float height_, HWND* hwnd_, IWindowsApp* windowsApp_)
 {
-	height = h;
-	width = w;
-	handle = hwnd;
-	windowsApp = windows;
+	height = height_;
+	width = width_;
+	handle = hwnd_;
+	windowsApp = windowsApp_;
 
 #ifdef _DEBUG
-	EnableDebugLayer();
+	PEnableDebugLayer();
 #endif
 
-	CheckTearingSupport();
+	PCheckTearingSupport();
 
 	//DirectX12関連初期化
-	if (FAILED(InitializeDXGIDevice()))
+	if (FAILED(PInitializeDXGIDevice()))
 	{
 		assert(0);
 		return;
 	}
 
 #ifdef _DEBUG
-	EnableInfoQueue();
+	PEnableInfoQueue();
 #endif
 
-	CreatDescriptorHeap();
+	PCreatDescriptorHeap();
 
-	if (FAILED(InitializeCommand()))
+	if (FAILED(PInitializeCommand()))
 	{
 		assert(0);
 		return;
 	}
 
-	if (FAILED(CreateSwapChain()))
+	if (FAILED(PCreateSwapChain()))
 	{
 		assert(0);
 		return;
@@ -345,7 +337,7 @@ void DirectX12Core::DirectXInitialize(float h, float w, HWND* hwnd, IWindowsApp*
 	BaseBuffer::SSetDevice(device.Get());
 	BaseBuffer::SSetGraphicsCommandList(commandList.Get());
 
-	if (FAILED(CreatDepthBuffer()))
+	if (FAILED(PCreatDepthBuffer()))
 	{
 		assert(0);
 		return;
@@ -366,29 +358,29 @@ void DirectX12Core::DirectXInitialize(float h, float w, HWND* hwnd, IWindowsApp*
 	scissorRect.bottom = scissorRect.top + static_cast<LONG>(height); // 切り抜き座標下
 }
 
-void DirectX12Core::EnableDebugLayer()
+void DirectX12Core::PEnableDebugLayer()
 {
-	Microsoft::WRL::ComPtr <ID3D12Debug1> debugController;
-	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(debugController.ReleaseAndGetAddressOf()))))
+	Microsoft::WRL::ComPtr <ID3D12Debug1> lDebugController;
+	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(lDebugController.ReleaseAndGetAddressOf()))))
 	{
-		debugController->EnableDebugLayer();
-		debugController->SetEnableGPUBasedValidation(true);
+		lDebugController->EnableDebugLayer();
+		lDebugController->SetEnableGPUBasedValidation(true);
 	}
 }
 
-void DirectX12Core::EnableInfoQueue()
+void DirectX12Core::PEnableInfoQueue()
 {
-	Microsoft::WRL::ComPtr<ID3D12InfoQueue> infoQueue;
-	result = device->QueryInterface(IID_PPV_ARGS(&infoQueue));
+	Microsoft::WRL::ComPtr<ID3D12InfoQueue> lInfoQueue;
+	result = device->QueryInterface(IID_PPV_ARGS(&lInfoQueue));
 	if (SUCCEEDED(result))
 	{
-		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);
-		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);
-		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, true);
+		lInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);
+		lInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);
+		lInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, true);
 	}
 
 	//抑制するエラー
-	D3D12_MESSAGE_ID denyIds[] =
+	D3D12_MESSAGE_ID lDenyIds[] =
 	{
 		/*
 		*windows11でのDXGIデバッグレイヤーとDX12デバッグレイヤー
@@ -398,29 +390,29 @@ void DirectX12Core::EnableInfoQueue()
 
 	};
 		//抑制する表示レベル
-	D3D12_MESSAGE_SEVERITY severities[] = { D3D12_MESSAGE_SEVERITY_INFO };
-	D3D12_INFO_QUEUE_FILTER filter{};
-	filter.DenyList.NumIDs = _countof(denyIds);
-	filter.DenyList.pIDList = denyIds;
-	filter.DenyList.NumSeverities = _countof(severities);
-	filter.DenyList.pSeverityList = severities;
+	D3D12_MESSAGE_SEVERITY lSeverities[] = { D3D12_MESSAGE_SEVERITY_INFO };
+	D3D12_INFO_QUEUE_FILTER lFilter{};
+	lFilter.DenyList.NumIDs = _countof(lDenyIds);
+	lFilter.DenyList.pIDList = lDenyIds;
+	lFilter.DenyList.NumSeverities = _countof(lSeverities);
+	lFilter.DenyList.pSeverityList = lSeverities;
 	//指定したエラーの表示を抑制する
-	infoQueue->PushStorageFilter(&filter);
+	lInfoQueue->PushStorageFilter(&lFilter);
 }
 
-void DirectX12Core::CheckTearingSupport()
+void DirectX12Core::PCheckTearingSupport()
 {
-	Microsoft::WRL::ComPtr<IDXGIFactory6> factory;
-	result = CreateDXGIFactory1(IID_PPV_ARGS(&factory));
+	Microsoft::WRL::ComPtr<IDXGIFactory6> lFactory;
+	result = CreateDXGIFactory1(IID_PPV_ARGS(&lFactory));
 
-	BOOL allowTearing = FALSE;
+	bool lAllowTearing = FALSE;
 
 	if (SUCCEEDED(result))
 	{
-		result = factory->CheckFeatureSupport(DXGI_FEATURE_PRESENT_ALLOW_TEARING, &allowTearing, sizeof(allowTearing));
+		result = lFactory->CheckFeatureSupport(DXGI_FEATURE_PRESENT_ALLOW_TEARING, &lAllowTearing, sizeof(lAllowTearing));
 	}
 
-	tearingSupport = SUCCEEDED(result) && allowTearing;
+	tearingSupport = SUCCEEDED(result) && lAllowTearing;
 }
 
 DirectX12Core::~DirectX12Core()
@@ -458,16 +450,16 @@ void DirectX12Core::EndDraw()
 	windowsApp->RenderShouldFalse();
 }
 
-void DirectX12Core::ExecuteCommand(bool flip)
+void DirectX12Core::ExecuteCommand(bool flip_)
 {
 	//命令のクローズ
 	result = commandList->Close();
 	assert(SUCCEEDED(result));
 	//コマンドリストの実行
-	ID3D12CommandList* commandListts[] = { commandList.Get() };
-	commandQueue->ExecuteCommandLists(1, commandListts);
+	ID3D12CommandList* lCommandListts[] = { commandList.Get() };
+	commandQueue->ExecuteCommandLists(1, lCommandListts);
 
-	if (flip)
+	if (flip_)
 	{
 		//フリップ
 		result = swapChain->Present(1, 0);
@@ -492,64 +484,37 @@ void DirectX12Core::BeginCommand()
 	assert(SUCCEEDED(result));
 }
 
-void DirectX12Core::Destroy()
+void DirectX12Core::SetBackScreenColor(float red_, float green_, float blue_, float alpha_)
 {
-	delete DirectX12Core_;
-}
-
-void DirectX12Core::SetBackScreenColor(float red, float green, float blue, float alpha)
-{
-	clearColor[0] = red;
-	clearColor[1] = green;
-	clearColor[2] = blue;
-	clearColor[3] = alpha;
+	clearColor[0] = red_;
+	clearColor[1] = green_;
+	clearColor[2] = blue_;
+	clearColor[3] = alpha_;
 }
 
 #pragma region ゲッター
 
-DirectX12Core* DirectX12Core::GetInstance()
+ID3D12Device* DirectX12Core::GetDevice()const
 {
-
-	if (DirectX12Core_ == nullptr)
-	{
-		DirectX12Core_ = new DirectX12Core();
-	}
-
-	return DirectX12Core_;
-
+	return device.Get();
 }
 
-Microsoft::WRL::ComPtr<ID3D12Device> DirectX12Core::GetDeviceSta()
+ID3D12GraphicsCommandList* DirectX12Core::GetCommandList()const
 {
-	return GetInstance()->GetDevice();
+	return commandList.Get();
 }
 
-Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> DirectX12Core::GetCommandListSta()
-{
-	return GetInstance()->GetCommandList();
-}
-
-Microsoft::WRL::ComPtr<ID3D12Device> DirectX12Core::GetDevice()
-{
-	return device;
-}
-
-Microsoft::WRL::ComPtr <ID3D12GraphicsCommandList> DirectX12Core::GetCommandList()
-{
-	return commandList;
-}
-
-IDescriptorHeap* DirectX12Core::GetSRVDescriptorHeap()
+IDescriptorHeap* DirectX12Core::GetSRVDescriptorHeap()const
 {
 	return srvHeap.get();
 }
 
-IRTVDescriptorHeap* DirectX12Core::GetRTVDescriptorHeap()
+IRTVDescriptorHeap* DirectX12Core::GetRTVDescriptorHeap()const
 {
 	return rtvHeap.get();
 }
 
-IDSVDescriptorHeap* DirectX12Core::GetDSVDescriptorHeap()
+IDSVDescriptorHeap* DirectX12Core::GetDSVDescriptorHeap()const
 {
 	return dsvHeap.get();
 }

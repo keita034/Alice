@@ -2,12 +2,12 @@
 
 ConstBuffDataMaterial ModelMaterial::GetConstBuffMaterial()
 {
-	ConstBuffDataMaterial rsult;
-	rsult.ambient = ambient;
-	rsult.diffuse = diffuse;
-	rsult.specular = specular;
-	rsult.alpha = alpha;
-	return rsult;
+	ConstBuffDataMaterial lRsult;
+	lRsult.ambient = ambient;
+	lRsult.diffuse = diffuse;
+	lRsult.specular = specular;
+	lRsult.alpha = alpha;
+	return lRsult;
 }
 
 ComputeRelation::ComputeRelation()

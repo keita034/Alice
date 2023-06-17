@@ -2,76 +2,78 @@
 
 #include<cassert>
 
+ID3D12Device* PipelineState::sDevice = nullptr;
+
 bool PipelineState::Create()
 {
-	HRESULT result;
-	Microsoft::WRL::ComPtr<ID3D12Device> device = DirectX12Core::GetDeviceSta();
+	HRESULT lResult;
 
 	// グラフィックスパイプライン設定
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc{};
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC lPipelineDesc{};
 	// シェーダーの設定
 	if (vsByte)
 	{
-		pipelineDesc.VS = *vsByte;
+		lPipelineDesc.VS = *vsByte;
 	}
 	if (psByte)
 	{
-		pipelineDesc.PS = *psByte;
+		lPipelineDesc.PS = *psByte;
 	}
 	if (dsByte)
 	{
-		pipelineDesc.DS = *dsByte;
+		lPipelineDesc.DS = *dsByte;
 	}
 	if (hsByte)
 	{
-		pipelineDesc.HS = *hsByte;
+		lPipelineDesc.HS = *hsByte;
 	}
 	if (gsByte)
 	{
-		pipelineDesc.GS = *gsByte;
+		lPipelineDesc.GS = *gsByte;
 	}
 
 	// サンプルマスクの設定
-	pipelineDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // 標準設定
+	lPipelineDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // 標準設定
 
 	// ラスタライザの設定
-	pipelineDesc.RasterizerState.CullMode = cullMode; // カリングしない
-	pipelineDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID; // ポリゴン内塗りつぶし
-	pipelineDesc.RasterizerState.DepthClipEnable = true; // 深度クリッピングを有効に
+	lPipelineDesc.RasterizerState.CullMode = cullMode; // カリングしない
+	lPipelineDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID; // ポリゴン内塗りつぶし
+	lPipelineDesc.RasterizerState.DepthClipEnable = true; // 深度クリッピングを有効に
 
 	//ブレンドデスク
-	pipelineDesc.BlendState = blendDesc;
+	lPipelineDesc.BlendState = blendDesc;
 
 	// 頂点レイアウトの設定
-	pipelineDesc.InputLayout.NumElements = static_cast<UINT>(inputLayoutlength_);
-	pipelineDesc.InputLayout.pInputElementDescs = inputLayoutData;
+	lPipelineDesc.InputLayout.NumElements = static_cast<UINT>(inputLayoutlength_);
+	lPipelineDesc.InputLayout.pInputElementDescs = inputLayoutData;
 
 	// 図形の形状設定
-	pipelineDesc.PrimitiveTopologyType = primitiveType;
+	lPipelineDesc.PrimitiveTopologyType = primitiveType;
 	//デプスステンシルステートの設定
 	//深度テストを行うか
-	pipelineDesc.DepthStencilState.DepthEnable = depthFlag;
-	pipelineDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;//書き込み許可
-	pipelineDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;//小さければ合格
-	pipelineDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;//深度フォーマット
+	lPipelineDesc.DepthStencilState.DepthEnable = depthFlag;
+	lPipelineDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;//書き込み許可
+	lPipelineDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;//小さければ合格
+	lPipelineDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;//深度フォーマット
 	
 	// その他の設定
 	
 	//描画対象数
-	pipelineDesc.NumRenderTargets = renderTargetFormat.NumRenderTargets;
+	lPipelineDesc.NumRenderTargets = renderTargetFormat.NumRenderTargets;
 	
 	//描画対象のフォーマット
-	std::memcpy(pipelineDesc.RTVFormats, renderTargetFormat.RTVFormats.data(), sizeof(DXGI_FORMAT) * 8);
+	std::memcpy(lPipelineDesc.RTVFormats, renderTargetFormat.RTVFormats.data(), sizeof(DXGI_FORMAT) * 8);
 
-	pipelineDesc.SampleDesc.Count = 1; // 1ピクセルにつき1回サンプリング
+	lPipelineDesc.SampleDesc.Count = 1; // 1ピクセルにつき1回サンプリング
 
 	// パイプラインにルートシグネチャをセット
-	pipelineDesc.pRootSignature = rootSignature;
+	lPipelineDesc.pRootSignature = rootSignature;
 
 	// パイプランステートの生成
-	result = device->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(pipelineState.ReleaseAndGetAddressOf()));
-	assert(SUCCEEDED(result));
-	if (result != S_OK)
+	lResult = sDevice->CreateGraphicsPipelineState(&lPipelineDesc, IID_PPV_ARGS(pipelineState.ReleaseAndGetAddressOf()));
+	assert(SUCCEEDED(lResult));
+
+	if (lResult != S_OK)
 	{
 		return false;
 	}
@@ -79,70 +81,75 @@ bool PipelineState::Create()
 	return true;
 }
 
-void PipelineState::SetHullShader(D3D12_SHADER_BYTECODE* pHsByte)
+void PipelineState::SetHullShader(D3D12_SHADER_BYTECODE* pHsByte_)
 {
-	hsByte = pHsByte;
+	hsByte = pHsByte_;
 }
 
-void PipelineState::SetDomainShader(D3D12_SHADER_BYTECODE* pDsByte)
+void PipelineState::SetDomainShader(D3D12_SHADER_BYTECODE* pDsByte_)
 {
-	dsByte = pDsByte;
+	dsByte = pDsByte_;
 }
 
-void PipelineState::SetPrimitiveType(D3D12_PRIMITIVE_TOPOLOGY_TYPE type)
+void PipelineState::SetPrimitiveType(D3D12_PRIMITIVE_TOPOLOGY_TYPE type_)
 {
-	primitiveType = type;
+	primitiveType = type_;
 }
 
-void PipelineState::SetCullMode(D3D12_CULL_MODE model)
+void PipelineState::SetCullMode(D3D12_CULL_MODE mode_)
 {
-	cullMode = model;
+	cullMode = mode_;
 }
 
-void PipelineState::SetRenderTargetFormat(const RenderTargetFormat& format)
+void PipelineState::SetRenderTargetFormat(const RenderTargetFormat& format_)
 {
-	std::memcpy(&renderTargetFormat, &format, sizeof(RenderTargetFormat));
+	std::memcpy(&renderTargetFormat, &format_, sizeof(RenderTargetFormat));
 }
 
-ID3D12PipelineState* PipelineState::GetPipelineState()
+ID3D12PipelineState* PipelineState::GetPipelineState()const
 {
 	return pipelineState.Get();
 }
 
-void PipelineState::SetInputLayout(D3D12_INPUT_ELEMENT_DESC* desc, size_t length_)
+void PipelineState::SSetDirectX12Core(DirectX12Core* directX12Core_)
 {
-	inputLayoutData = desc;
+	sDevice = directX12Core_->GetDevice();
+}
+
+void PipelineState::SetInputLayout(D3D12_INPUT_ELEMENT_DESC* desc_, size_t length_)
+{
+	inputLayoutData = desc_;
 	inputLayoutlength_ = length_;
 }
 
-void PipelineState::SetRootSignature(ID3D12RootSignature* pRootSignature)
+void PipelineState::SetRootSignature(ID3D12RootSignature* pRootSignature_)
 {
-	rootSignature = pRootSignature;
+	rootSignature = pRootSignature_;
 }
 
-void PipelineState::SetBlend(D3D12_BLEND_DESC& desc)
+void PipelineState::SetBlend(const D3D12_BLEND_DESC& desc_)
 {
-	blendDesc = desc;
+	blendDesc = desc_;
 }
 
-void PipelineState::SetDepthFlag(bool flag)
+void PipelineState::SetDepthFlag(bool flag_)
 {
-	depthFlag = flag;
+	depthFlag = flag_;
 }
 
-void PipelineState::SetVertexShader(D3D12_SHADER_BYTECODE* pVsByte)
+void PipelineState::SetVertexShader(D3D12_SHADER_BYTECODE* pVsByte_)
 {
-	vsByte = pVsByte;
+	vsByte = pVsByte_;
 }
 
-void PipelineState::SetPixelShader(D3D12_SHADER_BYTECODE* pPsByte)
+void PipelineState::SetPixelShader(D3D12_SHADER_BYTECODE* pPsByte_)
 {
-	psByte = pPsByte;
+	psByte = pPsByte_;
 }
 
-void PipelineState::SetGeometryShader(D3D12_SHADER_BYTECODE* pGsByte)
+void PipelineState::SetGeometryShader(D3D12_SHADER_BYTECODE* pGsByte_)
 {
-	gsByte = pGsByte;
+	gsByte = pGsByte_;
 }
 
 RenderTargetFormat::RenderTargetFormat()

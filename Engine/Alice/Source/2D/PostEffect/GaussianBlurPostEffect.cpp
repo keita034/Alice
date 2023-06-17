@@ -18,26 +18,26 @@ void GaussianBlurPostEffect::Initialize()
 	}
 }
 
-void GaussianBlurPostEffect::PostUpdate(RenderTarget* mainRenderTarget)
+void GaussianBlurPostEffect::PostUpdate(RenderTarget* mainRenderTarget_)
 {
-	gaussianXBlurPostEffect->PostUpdate(mainRenderTarget);
-	gaussianYBlurPostEffect->PostUpdate(mainRenderTarget);
+	gaussianXBlurPostEffect->PostUpdate(mainRenderTarget_);
+	gaussianYBlurPostEffect->PostUpdate(mainRenderTarget_);
 
 }
 
-void GaussianBlurPostEffect::UpdateWeightsTable(float blurPower)
+void GaussianBlurPostEffect::UpdateWeightsTable(float blurPower_)
 {
-	float total = 0;
+	float lTotal = 0;
 	for (size_t i = 0; i < NUM_WEIGHTS; i++)
 	{
-		weight[i] = expf(-0.5f * (float)(i * i) / blurPower);
-		total += 2.0f * weight[i];
+		weight[i] = expf(-0.5f * static_cast<float>(i * i) / blurPower_);
+		lTotal += 2.0f * weight[i];
 
 	}
 	// 規格化
 	for (size_t i = 0; i < NUM_WEIGHTS; i++)
 	{
-		weight[i] /= total;
+		weight[i] /= lTotal;
 	}
 
 	gaussianXBlurPostEffect->SetWeight(weight);
@@ -55,14 +55,14 @@ GaussianBlurPostEffect* GaussianBlurPostEffect::GetInstance()
 	return &instance;
 }
 
-void GaussianBlurPostEffect::Draw(RenderTarget* mainRenderTarget)
+void GaussianBlurPostEffect::Draw(RenderTarget* mainRenderTarget_)
 {
-	static_cast<void*>(mainRenderTarget);
+	static_cast<void*>(mainRenderTarget_);
 }
 
-void GaussianBlurPostEffect::MainRenderTargetDraw(RenderTarget* mainRenderTarget)
+void GaussianBlurPostEffect::MainRenderTargetDraw(RenderTarget* mainRenderTarget_)
 {
-	static_cast<void*>(mainRenderTarget);
+	static_cast<void*>(mainRenderTarget_);
 }
 
 GaussianBlurPostEffect::GaussianBlurPostEffect()

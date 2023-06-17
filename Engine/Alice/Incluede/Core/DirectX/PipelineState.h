@@ -5,7 +5,7 @@
 struct RenderTargetFormat
 {
 	//描画対象数
-	UINT NumRenderTargets;
+	uint32_t NumRenderTargets;
 	//描画対象のフォーマット
 	std::array<DXGI_FORMAT, 8> RTVFormats;
 
@@ -53,6 +53,8 @@ private:
 	bool depthFlag = true;
 	char PADING[3]{};
 
+	static ID3D12Device* sDevice;
+
 public:
 
 	/// <summary>
@@ -60,69 +62,69 @@ public:
 	/// </summary>
 	/// <param name="desc">インプットレイアウトの先頭アドレス</param>
 	/// <param name="length_">要素数</param>
-	void SetInputLayout(D3D12_INPUT_ELEMENT_DESC* desc, size_t length_);
+	void SetInputLayout(D3D12_INPUT_ELEMENT_DESC* desc_, size_t length_);
 
 	/// <summary>
 	/// ルートシグネチャのアドレスをセット
 	/// </summary>
 	/// <param name="pRootSignature">ルートシグネチャのアドレス</param>
-	void SetRootSignature(ID3D12RootSignature* pRootSignature);
+	void SetRootSignature(ID3D12RootSignature* pRootSignature_);
 
 	/// <summary>
 	/// ブレンドをセット
 	/// </summary>
 	/// <param name="desc">ブレンドデスク</param>
-	void SetBlend(D3D12_BLEND_DESC& desc);
+	void SetBlend(const D3D12_BLEND_DESC& desc_);
 
 	/// <summary>
 	/// 深度テストのフラグをセット
 	/// </summary>
 	/// <param name="flag">深度テストのフラグ</param>
-	void SetDepthFlag(bool flag);
+	void SetDepthFlag(bool flag_);
 
 	/// <summary>
 	/// 頂点シェーダをセット
 	/// </summary>
 	/// <param name="vsByte">頂点シェーダオブジェクト</param>
-	void SetVertexShader(D3D12_SHADER_BYTECODE* pVsByte);
+	void SetVertexShader(D3D12_SHADER_BYTECODE* pVsByte_);
 
 	/// <summary>
 	/// ピクセルシェーダをセット
 	/// </summary>
 	/// <param name="psByte">ピクセルシェーダオブジェクト</param>
-	void SetPixelShader(D3D12_SHADER_BYTECODE* pPsByte);
+	void SetPixelShader(D3D12_SHADER_BYTECODE* pPsByte_);
 
 	/// <summary>
 	/// ジオメトリシェーダをセット
 	/// </summary>
 	/// <param name="gsByte">ジオメトリシェーダオブジェクト</param>
-	void SetGeometryShader(D3D12_SHADER_BYTECODE* pGsByte);
+	void SetGeometryShader(D3D12_SHADER_BYTECODE* pGsByte_);
 
 	/// <summary>
 	/// ハルシェーダをセット
 	/// </summary>
 	/// <param name="hsByte">ハルシェーダオブジェクト</param>
-	void SetHullShader(D3D12_SHADER_BYTECODE* pHsByte);
+	void SetHullShader(D3D12_SHADER_BYTECODE* pHsByte_);
 
 	/// <summary>
 	/// ドメインシェーダをセット
 	/// </summary>
 	/// <param name="pDsByte">ドメインシェーダオブジェクト</param>
-	void SetDomainShader(D3D12_SHADER_BYTECODE* pDsByte);
+	void SetDomainShader(D3D12_SHADER_BYTECODE* pDsByte_);
 
 	/// <summary>
 	/// プリミティブ形状をセット
 	/// </summary>
 	/// <param name="type">プリミティブ形状</param>
-	void SetPrimitiveType(D3D12_PRIMITIVE_TOPOLOGY_TYPE type);
+	void SetPrimitiveType(D3D12_PRIMITIVE_TOPOLOGY_TYPE type_);
 
 	/// <summary>
 	/// カリングモードをセット
 	/// </summary>
-	/// <param name="model">モード</param>
-	void SetCullMode(D3D12_CULL_MODE model);
+	/// <param name="mode">モード</param>
+	void SetCullMode(D3D12_CULL_MODE mode_);
 
-	void SetRenderTargetFormat(const RenderTargetFormat& format);
+	void SetRenderTargetFormat(const RenderTargetFormat& format_);
 
 	/// <summary>
 	/// パイプラインステートを生成
@@ -133,8 +135,8 @@ public:
 	/// <summary>
 	/// パイプラインステートを取得
 	/// </summary>
-	ID3D12PipelineState* GetPipelineState();
+	ID3D12PipelineState* GetPipelineState()const;
 
-
+	static void SSetDirectX12Core(DirectX12Core* directX12Core_);
 };
 

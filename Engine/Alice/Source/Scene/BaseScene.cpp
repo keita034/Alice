@@ -1,13 +1,19 @@
 ﻿#include<BaseScene.h>
 
-AliceInput::IInput* BaseScene::input = nullptr;
+AliceInput::IInput* BaseScene::sInput = nullptr;
+IAudioManager* BaseScene::sAudioManager = nullptr;
 
-void BaseScene::SetSceneManager(SceneManager* manager)
+void BaseScene::SetSceneManager(SceneManager* manager_)
 {
-	sceneManager = manager;
+	sceneManager = manager_;
 }
 
-void  BaseScene::SetInput(AliceInput::IInput* iInput)
+void  BaseScene::SSetInput(AliceInput::IInput* input_)
 {
-	input = iInput;
+	sInput = input_;
+}
+
+void BaseScene::SSetAudioManager(IAudioManager* audioManager_)
+{
+	sAudioManager = audioManager_;
 }

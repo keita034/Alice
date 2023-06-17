@@ -23,25 +23,23 @@ private:
 
 	lutSize size = {};
 
-
-
 public:
 
 	static LutPostEffect* GetInstance();
 
 	void Initialize() override;
 
-	void PostUpdate(RenderTarget* mainRenderTarget) override;
+	void PostUpdate(RenderTarget* mainRenderTarget_) override;
 
-	void SetLutTexture(uint32_t handle);
+	void SetLutTexture(uint32_t handle_);
 
 	const std::string& GetType()override;
 
 private:
 
-	void Draw(RenderTarget* mainRenderTarget)override;
+	void Draw(RenderTarget* mainRenderTarget_)override;
 
-	void MainRenderTargetDraw(RenderTarget* mainRenderTarget)override;
+	void MainRenderTargetDraw(RenderTarget* mainRenderTarget_)override;
 
 
 	LutPostEffect() = default;

@@ -6,70 +6,58 @@ class MaterialManager
 {
 private:
 
-	TextureData* DEFAULT_TEXTURE;
+	TextureData* defaultTexture;
 
 	std::unordered_map<std::string, std::unique_ptr<Material>>materials;
 public:
 
-	void Initialize();
+	void Initialize(ID3D12Device* device_);
 
 	static MaterialManager* GetInstance();
 
-	Material* GetMaterialData(const std::string name);
+	Material* GetMaterialData(const std::string& name_);
 
-	void AddMaterial(std::unique_ptr <Material>& material, const std::string name);
-	void AddMaterial(Material* material, const std::string name);
+	void AddMaterial(std::unique_ptr <Material>& material_, const std::string& name_);
+	void AddMaterial(Material* material_, const std::string& name_);
 
-	static Material* GetMaterial(const std::string name);
+	static Material* SGetMaterial(const std::string& name_);
 
 	TextureData* GetDefaultTextureData();
 
-	static TextureData* GetDefaultTexture();
+	static TextureData* SGetDefaultTexture();
+
+	static ID3D12Device* sDevice;
 
 private:
 
 	MaterialManager() = default;
 	~MaterialManager();
 
-	void CreateDefaultTexture();
+	void PCreateDefaultTexture();
+	void PCreateDefaultTextureMaterial();
+	void PCreateDefaultLambertMaterial();
+	void PCreateDefaultPhongMaterial();
+	void PCreateDefaultSprite2DMaterial();
+	void PCreateDefaultSprite3DMaterial();
+	void PCreateDefaultFbxMaterial();
+	void PCreateDefaultFbxAnimationMaterial();
+	void PCreateDefaultParticleMaterial();
+	void PCreateDefaultMeshMaterial();
+	void PCreateDefaultRainParticleMaterial();
+	void PCreateDefaultPostEffectMaterial();
+	void PCreateDefaultIcosahedronParticleMaterial();
+	void PCreateDefaultToonModelMaterial();
+	void PCreateDefaultToonModelAnimationMaterial();
+	void PCreateDefaultToonModelOutLineMaterial();
+	void PCreateDefaultToonModelOutLineAnimationMaterial();
+	void PCreateDefaultZeldaToonModelMaterial();
+	void PCreateDefaultZeldaToonModelAnimationMaterial();
 
-	void CreateDefaultTextureMaterial();
+	Material* PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE type_, BlendMode mode_, IShader* vex_, IShader* pix_);
+	Material* PCreateDefaultSprite2DBlend(BlendMode mode_, IShader* vex_, IShader* pix_);
+	Material* PCreateDefaultSprite3DBlend(BlendMode mode_, IShader* vex_, IShader* pix_);
 
-	void CreateDefaultLambertMaterial();
-
-	void CreateDefaultPhongMaterial();
-
-	void CreateDefaultSprite2DMaterial();
-	void CreateDefaultSprite3DMaterial();
-
-	void CreateDefaultFbxMaterial();
-	void CreateDefaultFbxAnimationMaterial();
-
-	void CreateDefaultParticleMaterial();
-
-	void CreateDefaultMeshMaterial();
-
-	void CreateDefaultRainParticleMaterial();
-
-	void CreateDefaultPostEffectMaterial();
-
-	void CreateDefaultIcosahedronParticleMaterial();
-
-	void CreateDefaultToonModelMaterial();
-	void CreateDefaultToonModelAnimationMaterial();
-	void CreateDefaultToonModelOutLineMaterial();
-	void CreateDefaultToonModelOutLineAnimationMaterial();
-
-	void CreateDefaultZeldaToonModelMaterial();
-	void CreateDefaultZeldaToonModelAnimationMaterial();
-
-	Material* CreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE type, BlendMode mode, IShader* vex, IShader* pix);
-
-	Material* CreateDefaultSprite2DBlend(BlendMode mode, IShader* vex, IShader* pix);
-
-	Material* CreateDefaultSprite3DBlend(BlendMode mode, IShader* vex, IShader* pix);
-
-	D3D12_BLEND_DESC CreateBlend(BlendMode mode);
+	D3D12_BLEND_DESC PCreateBlend(BlendMode mode_);
 
    //Rs[RXgN^EăüZqí
 	MaterialManager& operator=(const MaterialManager&) = delete;

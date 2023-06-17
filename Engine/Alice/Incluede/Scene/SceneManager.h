@@ -10,10 +10,10 @@ class SceneManager
 private:
 
 	//今のシーン(実行中のシーン)
-	BaseScene* scene = nullptr;
+	std::unique_ptr<BaseScene> scene;
 
 	//次のシーン
-	BaseScene* nextScene = nullptr;
+	std::unique_ptr<BaseScene> nextScene;
 
 	AbstractSceneFactory* sceneFactory = nullptr;
 
@@ -22,7 +22,7 @@ public:
 	static SceneManager* GetInstance();
 
 	//次のシーン予約
-	void ChangeScene(const std::string& sceneName);
+	void ChangeScene(const std::string& sceneName_);
 
 	/// <summary>
 	/// 更新処理
@@ -34,11 +34,15 @@ public:
 	/// </summary>
 	void Draw();
 
-	void SetSceneFactory(AbstractSceneFactory* factory);
+	void SetSceneFactory(AbstractSceneFactory* factory_);
 
 private:
 
 	SceneManager();
 	~SceneManager();
+
+	//コピーコンストラクタ・代入演算子削除
+	SceneManager(const SceneManager&) = delete;
+	SceneManager& operator=(const SceneManager&) = delete;
 };
 

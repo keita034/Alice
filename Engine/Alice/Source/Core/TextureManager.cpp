@@ -15,47 +15,48 @@
 #include "TextureManager.h"
 #include"AliceFunctionUtility.h"
 
-TextureManager* TextureManager::textureManager = nullptr;
-std::vector<std::string>TextureManager::filePaths;
-std::unordered_map<std::string, std::unique_ptr<TextureData>> TextureManager::textureDatas;
+std::unique_ptr<TextureManager> TextureManager::sTextureManager = nullptr;
+DirectX12Core* TextureManager::sDirectX12Core = nullptr;
+std::vector<std::string>TextureManager::sFilePaths;
+std::unordered_map<std::string, std::unique_ptr<TextureData>> TextureManager::sTextureDatas;
 
-void TextureManager::LoadFile(const std::string& path, DirectX::TexMetadata& metadata, DirectX::ScratchImage& scratchImg)
+void TextureManager::PLoadFile(const std::string& path_,  DirectX::TexMetadata& metadata_,  DirectX::ScratchImage& scratchImg_)
 {
-	wchar_t wfilepath[256];
-	HRESULT result = 0;
+	wchar_t lWfilepath[256];
+	HRESULT lResult = 0;
 
-	switch (GetFileType(path))
+	switch (PGetFileType(path_))
 	{
 	case WIC:
-		MultiByteToWideChar(CP_ACP, 0, path.c_str(), -1, wfilepath, _countof(wfilepath));
+		MultiByteToWideChar(CP_ACP, 0, path_.c_str(), -1, lWfilepath, _countof(lWfilepath));
 		// WICテクスチャのロード
-		result = LoadFromWICFile(
-			wfilepath,
+		lResult = LoadFromWICFile(
+			lWfilepath,
 			DirectX::WIC_FLAGS_NONE,
-			&metadata, scratchImg);
-		assert(SUCCEEDED(result));
+			&metadata_, scratchImg_);
+		assert(SUCCEEDED(lResult));
 		break;
 
 	case TGA:
-		MultiByteToWideChar(CP_ACP, 0, path.c_str(), -1, wfilepath, _countof(wfilepath));
+		MultiByteToWideChar(CP_ACP, 0, path_.c_str(), -1, lWfilepath, _countof(lWfilepath));
 		// TGAテクスチャのロード
-		result = LoadFromTGAFile(
-			wfilepath,
-			&metadata, scratchImg);
-		assert(SUCCEEDED(result));
+		lResult = LoadFromTGAFile(
+			lWfilepath,
+			&metadata_, scratchImg_);
+		assert(SUCCEEDED(lResult));
 		break;
 
 	case PSD:
 	{
-		std::string texPath = AliceFunctionUtility::ReplaceExtension(path, "tga");
+		std::string texPath = AliceFunctionUtility::ReplaceExtension(path_, "tga");
 
-		MultiByteToWideChar(CP_ACP, 0, texPath.c_str(), -1, wfilepath, _countof(wfilepath));
+		MultiByteToWideChar(CP_ACP, 0, texPath.c_str(), -1, lWfilepath, _countof(lWfilepath));
 
 		// TGAテクスチャのロード
-		result = LoadFromTGAFile(
-			wfilepath,
-			&metadata, scratchImg);
-		assert(SUCCEEDED(result));
+		lResult = LoadFromTGAFile(
+			lWfilepath,
+			&metadata_, scratchImg_);
+		assert(SUCCEEDED(lResult));
 		break;
 	}
 	case ETC:
@@ -67,60 +68,59 @@ void TextureManager::LoadFile(const std::string& path, DirectX::TexMetadata& met
 	}
 }
 
-TextureData* TextureManager::FromTextureData(const std::string& path)
+TextureData* TextureManager::PFromTextureData(const std::string& path_)
 {
-	TextureData* result = new TextureData();
+	TextureData* lResult = new TextureData();
 
-	DirectX::TexMetadata metadata{};
-	DirectX::ScratchImage scratchImg{};
-	DirectX::ScratchImage mipChain{};
+	DirectX::TexMetadata lMetadata{};
+	DirectX::ScratchImage lScratchImg{};
+	DirectX::ScratchImage lMipChain{};
 
-	result->srvHeap = directX12Core->GetSRVDescriptorHeap()->GetHeap();
+	lResult->srvHeap = sDirectX12Core->GetSRVDescriptorHeap()->GetHeap();
 
-	LoadFile(path, metadata, scratchImg);
+	PLoadFile(path_, lMetadata, lScratchImg);
 
 	//ミップマップ生成
-	HRESULT hr = GenerateMipMaps(
-		scratchImg.GetImages(), scratchImg.GetImageCount(), scratchImg.GetMetadata(),
-		DirectX::TEX_FILTER_DEFAULT, 0, mipChain);
+	HRESULT lHresult = GenerateMipMaps(
+		lScratchImg.GetImages(), lScratchImg.GetImageCount(), lScratchImg.GetMetadata(),
+		DirectX::TEX_FILTER_DEFAULT, 0, lMipChain);
 
-
-	if (SUCCEEDED(hr))
+	if (SUCCEEDED(lHresult))
 	{
-		scratchImg = std::move(mipChain);
-		metadata = scratchImg.GetMetadata();
+		lScratchImg = std::move(lMipChain);
+		lMetadata = lScratchImg.GetMetadata();
 	}
 
 	//読み込んだディフューズテクスチャをSRGBとして扱う
-	metadata.format = DirectX::MakeSRGB(metadata.format);
+	lMetadata.format = DirectX::MakeSRGB(lMetadata.format);
 
-	result->texBuff = CreateTexBuff(metadata, scratchImg);
+	lResult->texBuff = PCreateTexBuff(lMetadata, lScratchImg);
 
-	result->gpuHandle = CreateShaderResourceView(result->texBuff.Get(), metadata);
+	lResult->gpuHandle = PCreateShaderResourceView(lResult->texBuff.Get(), lMetadata);
 
-	result->width = metadata.width;
-	result->height = metadata.height;
+	lResult->width = lMetadata.width;
+	lResult->height = lMetadata.height;
 
-	return result;
+	return lResult;
 }
 
-TextureManager::ImgFileType TextureManager::GetFileType(const std::string& path)
+TextureManager::ImgFileType TextureManager::PGetFileType(const std::string& path_)
 {
-	std::string extend = AliceFunctionUtility::FileExtension(path);
-	if (extend == "png" ||
-		extend == "bmp" ||
-		extend == "gif" ||
-		extend == "tiff"||
-		extend == "jpeg"||
-		extend == "jpg")
+	std::string lExtend = AliceFunctionUtility::FileExtension(path_);
+	if (lExtend == "png" ||
+		lExtend == "bmp" ||
+		lExtend == "gif" ||
+		lExtend == "tiff"||
+		lExtend == "jpeg"||
+		lExtend == "jpg")
 	{
 		return WIC;
 	}
-	else if (extend == "tga")
+	else if (lExtend == "tga")
 	{
 		return TGA;
 	}
-	else if(extend == "psd")
+	else if(lExtend == "psd")
 	{
 		return PSD;
 	}
@@ -130,7 +130,7 @@ TextureManager::ImgFileType TextureManager::GetFileType(const std::string& path)
 	}
 }
 
-uint32_t TextureManager::LoadTexture(const std::string& path)
+uint32_t TextureManager::LoadTexture(const std::string& path_)
 {
 	if (nextTexture > 2024)
 	{
@@ -138,159 +138,159 @@ uint32_t TextureManager::LoadTexture(const std::string& path)
 	}
 
 	//一回読み込んだことがあるファイルはそのまま返す
-	auto itr = find_if(textureDatas.begin(), textureDatas.end(), [&](std::pair<const std::string, std::unique_ptr<TextureData, std::default_delete<TextureData>>>& p)
+	auto textureItr = find_if(sTextureDatas.begin(), sTextureDatas.end(), [&](std::pair<const std::string, std::unique_ptr<TextureData, std::default_delete<TextureData>>>& texture)
 		{
-			return p.second->path == path;
+			return texture.second->path == path_;
 		});
 
-	if (itr == textureDatas.end())
+	if (textureItr == sTextureDatas.end())
 	{
-		std::unique_ptr<TextureData> data;
+		std::unique_ptr<TextureData> lData;
 
-		data.reset(FromTextureData(path));
-		data->textureHandle = nextTexture;
-		data->path = path;
+		lData.reset(PFromTextureData(path_));
+		lData->textureHandle = nextTexture;
+		lData->path = path_;
 
-		textureDatas[path] = std::move(data);
-		filePaths[nextTexture] = path;
-		uint32_t handl = nextTexture;
+		sTextureDatas[path_] = std::move(lData);
+		sFilePaths[nextTexture] = path_;
+		uint32_t lHandl = nextTexture;
 
 		nextTexture++;
 
-		return handl;
+		return lHandl;
 	}
 	else
 	{
 
-		uint32_t modelHandle = textureDatas[path]->textureHandle;
+		uint32_t lModelHandle = sTextureDatas[path_]->textureHandle;
 
-		return modelHandle;
+		return lModelHandle;
 	}
 }
 
 void TextureManager::Initialize()
 {
-	directX12Core = DirectX12Core::GetInstance();
-
 	// ヒープ設定
 	textureHeapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
 
-	filePaths.resize(static_cast<size_t>(2024));
+	sFilePaths.resize(static_cast<size_t>(2024));
 }
 
 TextureManager* TextureManager::GetInstance()
 {
-	if (!textureManager)
+	if (!sTextureManager)
 	{
-		textureManager = new TextureManager();
+		TextureManager* lTextureManager = new TextureManager();
+		sTextureManager.reset(lTextureManager);
 	}
 
-	return textureManager;
+	return sTextureManager.get();
 }
 
-void TextureManager::Destroy()
+uint32_t TextureManager::SLoad(const std::string& path_)
 {
-	delete textureManager;
+	return TextureManager::GetInstance()->LoadTexture(path_);
 }
 
-uint32_t TextureManager::Load(const std::string& path)
+TextureData* TextureManager::SGetTextureData(uint32_t handle_)
 {
-	return TextureManager::GetInstance()->LoadTexture(path);
+	return sTextureDatas[sFilePaths[handle_]].get();
 }
 
-TextureData* TextureManager::GetTextureData(uint32_t handle)
+void TextureManager::SSetDirectX12Core(DirectX12Core* directX12Core_)
 {
-	return textureDatas[filePaths[handle]].get();
+	sDirectX12Core = directX12Core_;
 }
 
-Microsoft::WRL::ComPtr<ID3D12Resource> TextureManager::CreateTexBuff(DirectX::TexMetadata& metadata, DirectX::ScratchImage& scratchImg)
+Microsoft::WRL::ComPtr<ID3D12Resource> TextureManager::PCreateTexBuff(DirectX::TexMetadata& metadata_, DirectX::ScratchImage& scratchImg_)
 {
-	directX12Core->BeginCommand();
+	sDirectX12Core->BeginCommand();
 
-	std::vector<D3D12_SUBRESOURCE_DATA> textureSubresources;
+	std::vector<D3D12_SUBRESOURCE_DATA> lTextureSubresources;
 
-	for (size_t i = 0; i < metadata.mipLevels; i++)
+	for (size_t i = 0; i < metadata_.mipLevels; i++)
 	{
-		D3D12_SUBRESOURCE_DATA subresouce;
+		D3D12_SUBRESOURCE_DATA lSubresouce;
 
-		subresouce.pData = scratchImg.GetImages()[i].pixels;
-		subresouce.RowPitch = static_cast<LONG_PTR>(scratchImg.GetImages()[i].rowPitch);
-		subresouce.SlicePitch = static_cast<LONG_PTR>(scratchImg.GetImages()[i].slicePitch);
+		lSubresouce.pData = scratchImg_.GetImages()[i].pixels;
+		lSubresouce.RowPitch = static_cast<LONG_PTR>(scratchImg_.GetImages()[i].rowPitch);
+		lSubresouce.SlicePitch = static_cast<LONG_PTR>(scratchImg_.GetImages()[i].slicePitch);
 
-		textureSubresources.push_back(subresouce);
+		lTextureSubresources.push_back(lSubresouce);
 	}
 
-	Microsoft::WRL::ComPtr<ID3D12Resource> result;
+	Microsoft::WRL::ComPtr<ID3D12Resource> lResult;
 	// リソース設定
-	D3D12_RESOURCE_DESC textureResourceDesc = 
-		CD3DX12_RESOURCE_DESC::Tex2D(metadata.format,
-			metadata.width,
-		static_cast<UINT>(metadata.height),
-			static_cast<UINT16>(metadata.arraySize),
-			static_cast<UINT16>(metadata.mipLevels));
+	D3D12_RESOURCE_DESC lTextureResourceDesc = 
+		CD3DX12_RESOURCE_DESC::Tex2D(
+			metadata_.format,
+			metadata_.width,
+			static_cast<UINT>(metadata_.height),
+			static_cast<UINT16>(metadata_.arraySize),
+			static_cast<UINT16>(metadata_.mipLevels));
 
 
 	//テクスチャバッファにデータ転送
-	directX12Core->GetDevice()->CreateCommittedResource(
+	sDirectX12Core->GetDevice()->CreateCommittedResource(
 		&textureHeapProp,
 		D3D12_HEAP_FLAG_NONE,
-		&textureResourceDesc,
+		&lTextureResourceDesc,
 		D3D12_RESOURCE_STATE_COPY_DEST,
 		nullptr,
-		IID_PPV_ARGS(&result)
+		IID_PPV_ARGS(&lResult)
 	);
 
 	// ステージングバッファ準備
-	UINT64 totalBytes;
+	UINT64 lTotalBytes;
 
-	totalBytes = GetRequiredIntermediateSize(result.Get(), 0, static_cast<UINT>(textureSubresources.size()));
+	lTotalBytes = GetRequiredIntermediateSize(lResult.Get(), 0, static_cast<UINT>(lTextureSubresources.size()));
 
-	Microsoft::WRL::ComPtr<ID3D12Resource> stagingBuffer;
-	const auto heapProps = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
-	const auto resDesc = CD3DX12_RESOURCE_DESC::Buffer(totalBytes);
-	HRESULT hr = directX12Core->GetDevice()->CreateCommittedResource(
-		&heapProps,
+	Microsoft::WRL::ComPtr<ID3D12Resource> lStagingBuffer;
+	auto lHeapProps = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+	auto lResDesc = CD3DX12_RESOURCE_DESC::Buffer(lTotalBytes);
+	HRESULT lHresult = sDirectX12Core->GetDevice()->CreateCommittedResource(
+		&lHeapProps,
 		D3D12_HEAP_FLAG_NONE,
-		&resDesc,
+		&lResDesc,
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&stagingBuffer)
-	);
+		IID_PPV_ARGS(&lStagingBuffer));
 
-	if (FAILED(hr))
+	if (FAILED(lHresult))
 	{
 		assert(0);
 	}
 
-	UpdateSubresources(directX12Core->GetCommandList().Get(), result.Get(), stagingBuffer.Get(), 0, 0, uint32_t(textureSubresources.size()), textureSubresources.data());
+	UpdateSubresources(sDirectX12Core->GetCommandList(), lResult.Get(), lStagingBuffer.Get(), 0, 0, static_cast<uint32_t>(lTextureSubresources.size()), lTextureSubresources.data());
 
 	// コピー後にはテクスチャとしてのステートへ.
-	auto barrierTex = CD3DX12_RESOURCE_BARRIER::Transition(
-		result.Get(),
+	auto lBarrierTex = CD3DX12_RESOURCE_BARRIER::Transition(
+		lResult.Get(),
 		D3D12_RESOURCE_STATE_COPY_DEST,
 		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE
 	);
-	directX12Core->GetCommandList()->ResourceBarrier(1, &barrierTex);
 
-	directX12Core->ExecuteCommand(false);
+	sDirectX12Core->GetCommandList()->ResourceBarrier(1, &lBarrierTex);
 
-	return result;
+	sDirectX12Core->ExecuteCommand(false);
+
+	return lResult;
 }
 
-D3D12_GPU_DESCRIPTOR_HANDLE TextureManager::CreateShaderResourceView(ID3D12Resource* texBuff, DirectX::TexMetadata& metadata)
+D3D12_GPU_DESCRIPTOR_HANDLE TextureManager::PCreateShaderResourceView(ID3D12Resource* texBuff, const DirectX::TexMetadata& metadata_)
 {
 	// シェーダリソースビュー設定
-	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	srvDesc.Format = metadata.format;
-	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-	srvDesc.Texture2D.MipLevels = static_cast<UINT>(metadata.mipLevels);
+	D3D12_SHADER_RESOURCE_VIEW_DESC lSrvDesc{};
+	lSrvDesc.Format = metadata_.format;
+	lSrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	lSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	lSrvDesc.Texture2D.MipLevels = static_cast<UINT>(metadata_.mipLevels);
 
-	D3D12_GPU_DESCRIPTOR_HANDLE result{};
+	D3D12_GPU_DESCRIPTOR_HANDLE lResult{};
 
-	result.ptr = directX12Core->GetSRVDescriptorHeap()->CreateSRV(srvDesc, texBuff);
+	lResult.ptr = sDirectX12Core->GetSRVDescriptorHeap()->CreateSRV(lSrvDesc, texBuff);
 
-	return result;
+	return lResult;
 }
 
 TextureData::~TextureData()

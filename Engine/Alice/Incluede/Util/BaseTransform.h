@@ -14,10 +14,10 @@ protected:
 	char PADING1[4];
 
 	//初期化用のビュー行列計算
-	static AliceMathF::Matrix4 defaultViewMat;
+	static AliceMathF::Matrix4 sDefaultViewMat;
 
 	//初期化用のプロジェクション行列計算
-	static AliceMathF::Matrix4 defaultProjectionMat;
+	static AliceMathF::Matrix4 sDefaultProjectionMat;
 
 public:
 	// ローカル座標
@@ -41,10 +41,10 @@ namespace AliceMathF
 	/// <summary>
 	/// ワールド行列生成
 	/// </summary>
-	Matrix4 MakeWorldMatrix4(BaseTransform& transform);
+	Matrix4 MakeWorldMatrix4(BaseTransform& transform_);
 
 	/// <summary>
 	/// ワールド座標取得
 	/// </summary>
-	Vector3 GetWorldPosition(BaseTransform& transform);
+	Vector3 GetWorldPosition(BaseTransform& transform_);
 }

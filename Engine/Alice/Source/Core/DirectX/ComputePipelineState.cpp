@@ -11,49 +11,49 @@
 
 #include<ComputePipelineState.h>
 
-void ComputePipelineState::SetShader(D3D12_SHADER_BYTECODE& shader)
+void ComputePipelineState::SetShader(const D3D12_SHADER_BYTECODE& shader_)
 {
-	shaderByte = shader;
+	shaderByte = shader_;
 }
 
-void ComputePipelineState::SetRootSignature(IRootSignature* rootSignature)
+void ComputePipelineState::SetRootSignature(IRootSignature* rootSignature_)
 {
-	rootSignaturePtr = rootSignature;
+	rootSignaturePtr = rootSignature_;
 }
 
-void ComputePipelineState::SetNodeMask(UINT nodeMask)
+void ComputePipelineState::SetNodeMask(uint32_t nodeMas_)
 {
-	pipelineNodeMask = nodeMask;
+	pipelineNodeMask = nodeMas_;
 }
 
-void ComputePipelineState::SetCachedPSO(D3D12_CACHED_PIPELINE_STATE& cachedPSO)
+void ComputePipelineState::SetCachedPSO(const D3D12_CACHED_PIPELINE_STATE& cachedPSO)
 {
 	cachedPipeline = cachedPSO;
 }
 
-void ComputePipelineState::SetFlag(D3D12_PIPELINE_STATE_FLAGS flag)
+void ComputePipelineState::SetFlag(D3D12_PIPELINE_STATE_FLAGS flag_)
 {
-	pipelineFlag = flag;
+	pipelineFlag = flag_;
 }
 
-void ComputePipelineState::Create(ID3D12Device* device)
+void ComputePipelineState::Create(ID3D12Device* device_)
 {
-	D3D12_COMPUTE_PIPELINE_STATE_DESC pipelineDesc{};
-	pipelineDesc.CS = shaderByte;
-	pipelineDesc.pRootSignature = rootSignaturePtr->GetRootSignature();
-	pipelineDesc.NodeMask = pipelineNodeMask;
-	pipelineDesc.CachedPSO = cachedPipeline;
-	pipelineDesc.Flags = pipelineFlag;
+	D3D12_COMPUTE_PIPELINE_STATE_DESC lPipelineDesc{};
+	lPipelineDesc.CS = shaderByte;
+	lPipelineDesc.pRootSignature = rootSignaturePtr->GetRootSignature();
+	lPipelineDesc.NodeMask = pipelineNodeMask;
+	lPipelineDesc.CachedPSO = cachedPipeline;
+	lPipelineDesc.Flags = pipelineFlag;
 
-	HRESULT result =  device->CreateComputePipelineState(&pipelineDesc, IID_PPV_ARGS(pipelineState.GetAddressOf()));
+	HRESULT lResult = device_->CreateComputePipelineState(&lPipelineDesc, IID_PPV_ARGS(pipelineState.GetAddressOf()));
 
-	if (FAILED(result))
+	if (FAILED(lResult))
 	{
 		assert(0);
 	}
 }
 
-ID3D12PipelineState* ComputePipelineState::GetPipelineState()
+ID3D12PipelineState* ComputePipelineState::GetPipelineState() const
 {
 	return pipelineState.Get();
 }

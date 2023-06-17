@@ -1,46 +1,46 @@
 ﻿#include <BaseTransform.h>
 
-AliceMathF::Matrix4 BaseTransform::defaultProjectionMat = { 1.3579f, 0.0f, 0.0f, 0.0f, 0.0f, 2.4142f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0001f, 1.0f, 0.0f, 0.0f, -0.1000f, 0.0f };
-AliceMathF::Matrix4 BaseTransform::defaultViewMat = { 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 50.0f, 0.0f };
+AliceMathF::Matrix4 BaseTransform::sDefaultProjectionMat = { 1.3579f, 0.0f, 0.0f, 0.0f, 0.0f, 2.4142f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0001f, 1.0f, 0.0f, 0.0f, -0.1000f, 0.0f };
+AliceMathF::Matrix4 BaseTransform::sDefaultViewMat = { 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 50.0f, 0.0f };
 
 
 namespace AliceMathF
 {
-	Matrix4 MakeWorldMatrix4(BaseTransform& transform)
+	Matrix4 MakeWorldMatrix4(BaseTransform& transform_)
 	{
 
-		Matrix4 matWorld = MakeIdentity();
+		Matrix4 lMatWorld = MakeIdentity();
 
-		Matrix4 matScal, matRot, matTrans;
+		Matrix4 lMatScal, lMatRot, lMatTrans;
 
 		//スケーリング倍率
-		matScal.MakeScaling(transform.scale);
+		lMatScal.MakeScaling(transform_.scale);
 
 		//回転行列
-		matRot.MakeRotation(transform.rotation);
+		lMatRot.MakeRotation(transform_.rotation);
 
 		// matWorld_に移動量を掛け算
-		matTrans.MakeTranslation(transform.translation);
+		lMatTrans.MakeTranslation(transform_.translation);
 
-		matWorld = matScal * matRot * matTrans;
+		lMatWorld = lMatScal * lMatRot * lMatTrans;
 
-		if (transform.parent)
+		if (transform_.parent)
 		{
-			matWorld *= transform.parent->matWorld;
+			lMatWorld *= transform_.parent->matWorld;
 		}
 
-		return matWorld;
+		return lMatWorld;
 	}
 
-	Vector3 GetWorldPosition(BaseTransform& transform)
+	Vector3 GetWorldPosition(BaseTransform& transform_)
 	{
 		//ワールド座標を入れる変数
-		Vector3 worldPos;
+		Vector3 lWorldPos;
 		//ワールド行列の平行移動成分を取得(ワールド座標)
-		worldPos.x = transform.matWorld.m[3][0];
-		worldPos.y = transform.matWorld.m[3][1];
-		worldPos.z = transform.matWorld.m[3][2];
+		lWorldPos.x = transform_.matWorld.m[3][0];
+		lWorldPos.y = transform_.matWorld.m[3][1];
+		lWorldPos.z = transform_.matWorld.m[3][2];
 
-		return worldPos;
+		return lWorldPos;
 	}
 }

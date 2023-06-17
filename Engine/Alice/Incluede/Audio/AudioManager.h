@@ -13,130 +13,45 @@
 #pragma warning(disable: 5220)
 #pragma warning(disable: 5246)
 
-#include<xaudio2.h>
 #include<string>
 #include<vector>
-#include<mfapi.h>
-#include<mfidl.h>
-#include<mfreadwrite.h>
-#include<wrl.h>
-#include<list>
-
+#include<stdint.h>
+#include<memory>
 #pragma warning(pop)
 
-
-#pragma comment(lib,"xaudio2.lib")
-#pragma comment(lib, "Mf.lib")
-#pragma comment(lib, "mfplat.lib")
-#pragma comment(lib, "Mfreadwrite.lib")
-#pragma comment(lib, "mfuuid.lib")
-
-class AudioData
-{
-public:
-	std::string filePass;
-	IMFSourceReader* pMFSourceReader = nullptr;
-	WAVEFORMATEX* waveFormat = nullptr;
-	std::vector<BYTE> mediaData;
-	char* pBuffer = nullptr;
-	IXAudio2SourceVoice* pSourceVoice = nullptr;
-	float volume = 1.0f;
-	bool loop = false;
-	bool playTrigger = false;
-	char PADDING2[2]{};
-	AudioData(std::string FilePass);
-	void Unload();
-};
-
-class XAudio2VoiceCallback : public IXAudio2VoiceCallback
+class IAudioManager
 {
 public:
 
-	virtual ~XAudio2VoiceCallback()
-	{
-	};
+	virtual void Destroy() = 0;
 
-	//ボイス処理パスの開始時
-	STDMETHOD_(void, OnVoiceProcessingPassStart)(THIS_ UINT32 BytesRequired)
-	{
-		static_cast<void>(BytesRequired);
-	};
+	virtual void Initialize() = 0;
+	virtual void Update() = 0;
+	virtual bool NowPlay(uint32_t handle_) = 0;
+	virtual void ChangeVolume(uint32_t handle_, float volume_) = 0;
+	virtual float GetVolume(uint32_t handle_) = 0;
+	virtual uint32_t LoadAudio(const std::string& fileName_, const float& volume_ = 1.0f) = 0;
+	virtual int32_t PlayWave(uint32_t handle_, bool loopFlag_ = false) = 0;
+	virtual int32_t PlayWaveArray(const std::vector<uint32_t>& handles_) = 0;
+	virtual void StopWave(uint32_t handle_) = 0;
 
-	//ボイス処理パスの終了時
-	STDMETHOD_(void, OnVoiceProcessingPassEnd) (THIS)
-	{
-	};
-
-	//バッファストリームの再生が終了したとき
-	STDMETHOD_(void, OnStreamEnd) (THIS)
-	{
-	};
-
-	//バッファの使用開始時
-	STDMETHOD_(void, OnBufferStart) (THIS_ void* pBufferContext)
-	{
-		static_cast<void>(pBufferContext);
-
-	};
-
-	//バッファの末尾に達した時
-	STDMETHOD_(void, OnBufferEnd) (THIS_ void* pBufferContext)
-	{
-		static_cast<void>(pBufferContext);
-	};
-
-	//再生がループ位置に達した時
-	STDMETHOD_(void, OnLoopEnd) (THIS_ void* pBufferContext)
-	{
-		static_cast<void>(pBufferContext);
-	};
-
-	//ボイスの実行エラー時
-	STDMETHOD_(void, OnVoiceError) (THIS_ void* pBufferContext, HRESULT Error)
-	{
-		static_cast<void>(pBufferContext);
-		static_cast<void>(Error);
-	};
-};
-
-struct PlayAudioArray
-{
-	std::vector<uint32_t>handles;
-	int32_t nowIdx = 0;
-	char PADDING[4]{};
-	PlayAudioArray(const std::vector<uint32_t>& Handles);
-};
-
-class AudioManager
-{
-private:
-	static AudioManager* instance;
-	Microsoft::WRL::ComPtr<IXAudio2>xAudio2;
-	IXAudio2MasteringVoice* masterVoice = nullptr;
-	XAudio2VoiceCallback voiceCallback;
-	std::list<AudioData>audios;
-	std::vector<PlayAudioArray>playHandleArray;
-
-public:
-
-	static AudioManager* GetInstance();
-	void Destroy();
-
-	void Initialize();
-	void Update();
-	bool NowPlay(const uint32_t& handle);
-	void ChangeVolume(const uint32_t& handle, float volume);
-	float GetVolume(const uint32_t& handle);
-	uint32_t LoadAudio(std::string fileName, const float& volume = 1.0f);
-	int32_t PlayWave(const uint32_t& handle, bool loopFlag = false);
-	int32_t PlayWaveArray(const std::vector<uint32_t>& handles);
-	void StopWave(const uint32_t& handle);
+	IAudioManager() = default;
+	virtual ~IAudioManager() = default;
 
 private:
-	AudioManager();
-	~AudioManager();
-
 	//コピーコンストラクタ・代入演算子削除
-	AudioManager& operator=(const AudioManager&) = delete;
-	AudioManager(const AudioManager&) = delete;
+	IAudioManager& operator=(const IAudioManager&) = delete;
+	IAudioManager(const IAudioManager&) = delete;
 };
+
+/// <summary>
+/// オーディオマネージャーの生成(ユニーク)
+/// </summary>
+/// <returns>生成されたポインタ</returns>
+std::unique_ptr<IAudioManager> CreateUniqueAudioManager();
+
+/// <summary>
+/// オーディオマネージャーの生成(シェアード)
+/// </summary>
+/// <returns>生成されたポインタ</returns>
+std::shared_ptr<IAudioManager> CreateSharedAudioManager();

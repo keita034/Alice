@@ -4,6 +4,8 @@
 #include<AliceMotionData.h>
 #include<DefaultMaterial.h>
 #include<Collision2DManager.h>
+#include<Particle.h>
+#include<Sprite.h>
 
 void AliceFramework::DebugInitialize()
 {
@@ -20,17 +22,28 @@ void AliceFramework::Initialize()
 
 	//DirectX初期化処理ここから
 
-	directX12Core = DirectX12Core::GetInstance();//DirectX12Coreクラス読み込み
+	directX12Core = std::make_unique<DirectX12Core>();//DirectX12Coreクラス読み込み
 	directX12Core->DirectXInitialize(static_cast<float>(windowsApp->GetWindowSize().height), static_cast<float>(windowsApp->GetWindowSize().width), windowsApp->GetHwnd(), windowsApp.get());//DirectX12初期化
 	directX12Core->SetBackScreenColor(0.1f, 0.25f, 0.5f, 0.0f);	//背景の色変更(R,G,B,A)
 
 	//DirectX初期化処理ここまで
 
 	//描画初期化処理ここから
-	Mesh::SetWindowsApp(windowsApp.get());
-	Mesh3D::SetWindowsApp(windowsApp.get());
-	PostEffectManager::SetWindowsApp(windowsApp.get());
+
+	Mesh::SSetWindowsApp(windowsApp.get());
+	Mesh3D::SSetWindowsApp(windowsApp.get());
+	PostEffectManager::SSetWindowsApp(windowsApp.get());
 	Camera::SetWindowsApp(windowsApp.get());
+	Sprite::SSetWindowsApp(windowsApp.get());
+
+	Particle::SSetDirectX12Core(directX12Core.get());
+	BasePostEffect::SSetDirectX12Core(directX12Core.get());
+	PostEffectManager::SSetDirectX12Core(directX12Core.get());
+	Sprite::SSetDirectX12Core(directX12Core.get());
+	Mesh::SSetDirectX12Core(directX12Core.get());
+	Mesh3D::SSetDirectX12Core(directX12Core.get());
+	PipelineState::SSetDirectX12Core(directX12Core.get());
+	TextureManager::SSetDirectX12Core(directX12Core.get());
 
 	mesh = Mesh::GetInstance();
 	mesh3D = Mesh3D::GetInstance();
@@ -38,28 +51,28 @@ void AliceFramework::Initialize()
 	textureManager = TextureManager::GetInstance();
 	textureManager->Initialize();
 
-	MaterialManager::GetInstance()->Initialize();
+	Particle::SSetTextureManager(textureManager);
+
+	MaterialManager::GetInstance()->Initialize(directX12Core->GetDevice());
 	//描画初期化処理ここまで
 
 	//その他初期化ここから
 
-	audioManager = AudioManager::GetInstance();
-	audioManager->Initialize();
+	audioManager = CreateUniqueAudioManager();
 
 	input = AliceInput::CreateUniqueInput(windowsApp->GetHwnd(), &windowsApp->GetWndclassex()->hInstance);
 
-	BaseScene::SetInput(input.get());
-	fps = new FPS;
+	BaseScene::SSetInput(input.get());
+	BaseScene::SSetAudioManager(audioManager.get());
 
-	AliceModel::CommonInitialize();
-	AliceMotionData::CommonInitialize();
+	fps = CreateUniqueFPS();
 
-	imGuiManager = std::make_unique<ImGuiManager>();
-	imGuiManager->Initialize(windowsApp.get(), directX12Core);
+	AliceModel::SCommonInitialize(directX12Core.get());
+	AliceMotionData::SCommonInitialize();
+
+	imGuiManager = CreateUniqueImGuiManager(windowsApp.get(), directX12Core.get());
 	
 	sceneManager = SceneManager::GetInstance();
-
-	BasePostEffect::SetSrvHeap(directX12Core->GetSRVDescriptorHeap());
 
 	postEffectManager = PostEffectManager::GetInstance();
 
@@ -73,12 +86,8 @@ void AliceFramework::Finalize()
 	imGuiManager.release();
 
 	windowsApp->Break();
-	directX12Core->Destroy();
 	mesh->Destroy();
-	mesh3D->Destroy();
-	textureManager->Destroy();
 	audioManager->Destroy();
-	delete fps;
 }
 
 void AliceFramework::Update()

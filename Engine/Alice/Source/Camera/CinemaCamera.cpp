@@ -5,24 +5,24 @@ void CinemaCamera::Initialize()
 {
 	//アスペクト比を計算する
 	aspect =
-		static_cast<float>(windowsApp->GetWindowSize().width) /
-		static_cast<float>(windowsApp->GetWindowSize().height);
+		static_cast<float>(sWindowsApp->GetWindowSize().width) /
+		static_cast<float>(sWindowsApp->GetWindowSize().height);
 
-	if (near_ == 0.0f)
+	if (nearClip == 0.0f)
 	{
-		near_ = 0.1f;
+		nearClip = 0.1f;
 	}
-	if (far_ == 0.0f)
+	if (farClip == 0.0f)
 	{
-		far_ = 1000.0f;
+		farClip = 1000.0f;
 	}
 	if (fovAngleY == 0.0f)
 	{
-		fovAngleY = fovAngleY = 2 * AliceMathF::Atan(AliceMathF::GetDiagonal(cameraSensorSize.width, cameraSensorSize.height) / (2 * focallength_));
+		fovAngleY = fovAngleY = 2 * AliceMathF::Atan(AliceMathF::GetDiagonal(cameraSensorSize.width, cameraSensorSize.height) / (2 * focallength));
 	}
 
 	//透視投影行列の計算
-	AliceMathF::MakePerspectiveL(fovAngleY, aspect, near_, far_, projectionMatrix);
+	AliceMathF::MakePerspectiveL(fovAngleY, aspect, nearClip, farClip, projectionMatrix);
 
 	updateProjMatrix = false;
 
@@ -38,9 +38,9 @@ void CinemaCamera::Initialize()
 	forward.Normal();
 
 	//注視点と視点の距離取得
-	AliceMathF::Vector3 toPos;
-	toPos = eye - target;
-	tgtToPosLen = toPos.length_();
+	AliceMathF::Vector3 lTgtToPosLen;
+	lTgtToPosLen = eye - target;
+	tgtToPosLen = lTgtToPosLen.length_();
 
 	updateViewMatrix = false;
 }
@@ -49,14 +49,14 @@ void CinemaCamera::Update()
 {
 	if (updatefovAngleY)
 	{
-		fovAngleY = 2 * AliceMathF::Atan(AliceMathF::GetDiagonal(cameraSensorSize.width, cameraSensorSize.height) / (2 * focallength_));
+		fovAngleY = 2 * AliceMathF::Atan(AliceMathF::GetDiagonal(cameraSensorSize.width, cameraSensorSize.height) / (2 * focallength));
 
 		updatefovAngleY = false;
 	}
 
 	if (updateProjMatrix)
 	{
-		AliceMathF::MakePerspectiveL(fovAngleY, aspect, near_, far_, projectionMatrix);
+		AliceMathF::MakePerspectiveL(fovAngleY, aspect, nearClip, farClip, projectionMatrix);
 
 		updateProjMatrix = false;
 	}
@@ -72,30 +72,30 @@ void CinemaCamera::Update()
 
 		forward = { viewMatrixInv.m[2][0], viewMatrixInv.m[2][1], viewMatrixInv.m[2][2] };
 
-		AliceMathF::Vector3 toPos;
-		toPos = eye - target;
-		tgtToPosLen = toPos.length_();
+		AliceMathF::Vector3 lTgtToPosLen;
+		lTgtToPosLen = eye - target;
+		tgtToPosLen = lTgtToPosLen.length_();
 
 		updateViewMatrix = false;
 	}
 }
 
-void CinemaCamera::Move(const AliceMathF::Vector3& move)
+void CinemaCamera::Move(const AliceMathF::Vector3& move_)
 {
-	eye += move;
-	target += move;
+	eye += move_;
+	target += move_;
 	updateViewMatrix = true;
 }
 
-void CinemaCamera::MoveTarget(const AliceMathF::Vector3& move)
+void CinemaCamera::MoveTarget(const AliceMathF::Vector3& move_)
 {
-	target += move;
+	target += move_;
 	updateViewMatrix = true;
 }
 
-void CinemaCamera::MovePosition(const AliceMathF::Vector3& move)
+void CinemaCamera::MovePosition(const AliceMathF::Vector3& move_)
 {
-	eye += move;
+	eye += move_;
 	updateViewMatrix = true;
 }
 
@@ -105,35 +105,35 @@ void CinemaCamera::SetAspect(float aspect_)
 	updateViewMatrix = true;
 }
 
-void CinemaCamera::SetFar(float fFar)
+void CinemaCamera::SetFar(float far_)
 {
-	far_ = fFar;
+	farClip = far_;
 	updateProjMatrix = true;
 }
 
-void CinemaCamera::SetNear(float fNear)
+void CinemaCamera::SetNear(float near_)
 {
-	near_ = fNear;
+	nearClip = near_;
 	updateProjMatrix = true;
 }
 
 void CinemaCamera::SetFocallength_(float length_)
 {
-	focallength_ = length_;
+	focallength = length_;
 	updatefovAngleY = true;
 	updateProjMatrix = true;
 
 }
 
-void CinemaCamera::SetAperture(float value)
+void CinemaCamera::SetAperture(float value_)
 {
-	aperture = value;
+	aperture = value_;
 }
 
-void CinemaCamera::SetSensorSize(SensorSize size)
+void CinemaCamera::SetSensorSize(SensorSize size_)
 {
-	sensorSize = size;
-	switch (size)
+	sensorSize = size_;
+	switch (size_)
 	{
 	case SensorSize::MEDIUM_FORMAT:
 		cameraSensorSize = { 43.8f,32.8f };
@@ -162,27 +162,27 @@ void CinemaCamera::SetSensorSize(SensorSize size)
 	updatefovAngleY = true;
 }
 
-void CinemaCamera::SetShootingDistance(float distance)
+void CinemaCamera::SetShootingDistance(float distance_)
 {
-	shootingDistance = distance;
+	shootingDistance = distance_;
 }
 
-void CinemaCamera::SetEye(const AliceMathF::Vector3& pos)
+void CinemaCamera::SetEye(const AliceMathF::Vector3& pos_)
 {
-	eye = pos;
+	eye = pos_;
 	updateViewMatrix = true;
 
 }
 
-void CinemaCamera::SetTarget(const AliceMathF::Vector3& pos)
+void CinemaCamera::SetTarget(const AliceMathF::Vector3& pos_)
 {
-	target = pos;
+	target = pos_;
 	updateViewMatrix = true;
 }
 
-void CinemaCamera::SetUp(const AliceMathF::Vector3& vec)
+void CinemaCamera::SetUp(const AliceMathF::Vector3& vec_)
 {
-	up = vec;
+	up = vec_;
 	updateViewMatrix = true;
 }
 
@@ -223,12 +223,12 @@ const AliceMathF::Matrix4& CinemaCamera::GetCameraRotation()
 
 float CinemaCamera::GetFar() const
 {
-	return far_;
+	return farClip;
 }
 
 float CinemaCamera::GetNear() const
 {
-	return near_;
+	return nearClip;
 }
 
 float CinemaCamera::GetFovAngleY() const
@@ -236,14 +236,14 @@ float CinemaCamera::GetFovAngleY() const
 	return fovAngleY;
 }
 
-float CinemaCamera::GetTargetToPositionlength_() const
+float CinemaCamera::GetTargetToPositionLength() const
 {
 	return tgtToPosLen;
 }
 
-float CinemaCamera::GetFocallength_() const
+float CinemaCamera::GetFocalLength() const
 {
-	return focallength_;
+	return focallength;
 }
 
 float CinemaCamera::GetAperture() const
@@ -266,17 +266,17 @@ float CinemaCamera::GetAspect() const
 	return aspect;
 }
 
-const AliceMathF::Vector3& CinemaCamera::GetEye()
+const AliceMathF::Vector3& CinemaCamera::GetEye()const
 {
 	return eye;
 }
 
-const AliceMathF::Vector3& CinemaCamera::GetUp()
+const AliceMathF::Vector3& CinemaCamera::GetUp()const
 {
 	return up;
 }
 
-const AliceMathF::Vector3& CinemaCamera::GetTarget()
+const AliceMathF::Vector3& CinemaCamera::GetTarget()const
 {
 	return target;
 }

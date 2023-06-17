@@ -15,18 +15,24 @@ private:
 	//コマンドリスト
 	ID3D12GraphicsCommandList* cmdList;
 	//クリアーカラー
-	std::array<float, 4> clearColor;
+	std::array<float, 4> clearColor = {};
 
 	IDescriptorHeap* srvHeap = nullptr;
 
-	D3D12_GPU_DESCRIPTOR_HANDLE handle;
+	D3D12_GPU_DESCRIPTOR_HANDLE handle = {};
 
 public:
 
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(UINT w, UINT h, D3D12_RESOURCE_STATES resourceStates, const AliceMathF::Vector4& col = { 1.0f,1.0f, 1.0f, 1.0f }, DXGI_FORMAT rtFormat = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, DXGI_FORMAT dsFormat = DXGI_FORMAT_D32_FLOAT);
+	void Initialize(
+		uint32_t width_, 
+		uint32_t height_,
+		D3D12_RESOURCE_STATES resourceStates_,
+		const AliceMathF::Vector4& clear_ = {1.0f,1.0f, 1.0f, 1.0f},
+		DXGI_FORMAT rtFormat_ = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB,
+		DXGI_FORMAT dsFormat_ = DXGI_FORMAT_D32_FLOAT);
 
 	/// <summary>
 	/// レンダーターゲットとデプスステンシルをセット＆クリアー
@@ -48,7 +54,7 @@ public:
 	/// <summary>
 	/// 
 	/// </summary>
-	void Transition(D3D12_RESOURCE_STATES resourceStates);
+	void Transition(D3D12_RESOURCE_STATES resourceStates_);
 
 	/// <summary>
 	/// コンストラクタ
@@ -57,21 +63,21 @@ public:
 	/// <param name="rtvDescriptorHeap">レンダーターゲットテクスチャ用のデスクプリタヒープ</param>
 	/// <param name="descriptorHeap">デプステクスチャ用のデスクプリタヒープ</param>
 	/// <param name="commandList">コマンドリスト</param>
-	RenderTarget(IDescriptorHeap* srvDescriptorHeap, ID3D12GraphicsCommandList* commandList);
+	RenderTarget(IDescriptorHeap* srvDescriptorHeap_, ID3D12GraphicsCommandList* commandList_);
 
 	/// <summary>
 	/// レンダーターゲットテクスチャを取得
 	/// </summary>
-	IRenderTargetBuffer* GetRenderTargetBuffer();
+	IRenderTargetBuffer* GetRenderTargetBuffer()const;
 
 	/// <summary>
 	/// デプステクスチャを取得
 	/// </summary>
-	IDepthStencilBuffer* GetDepthStencilBuffer();
+	IDepthStencilBuffer* GetDepthStencilBuffer()const;
 
-	const D3D12_GPU_DESCRIPTOR_HANDLE& GetGpuHandle();
+	const D3D12_GPU_DESCRIPTOR_HANDLE& GetGpuHandle()const;
 
-	const D3D12_CPU_DESCRIPTOR_HANDLE& GetCpuHandle();
+	const D3D12_CPU_DESCRIPTOR_HANDLE& GetCpuHandle()const;
 
 private:
 

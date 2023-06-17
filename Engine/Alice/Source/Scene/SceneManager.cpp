@@ -8,7 +8,6 @@ SceneManager::SceneManager()
 SceneManager::~SceneManager()
 {
 	scene->Finalize();
-	delete scene;
 }
 
 SceneManager* SceneManager::GetInstance()
@@ -18,17 +17,16 @@ SceneManager* SceneManager::GetInstance()
 	return &instance;
 }
 
-void SceneManager::ChangeScene(const std::string& sceneName)
+void SceneManager::ChangeScene(const std::string& sceneName_)
 {
 	assert(sceneFactory);
 	assert(nextScene == nullptr);
 
-	nextScene = sceneFactory->CreateScene(sceneName);
+	nextScene = sceneFactory->CreateScene(sceneName_);
 }
 
 void SceneManager::Update()
 {
-
 	//次のシーンの予約があるなら
 	if (nextScene)
 	{
@@ -37,12 +35,11 @@ void SceneManager::Update()
 		{
 			scene->Finalize();
 			PostEffectManager::GetInstance()->Finalize();
-			delete scene;
+			scene.reset();
 		}
 
 		//シーン切り替え
-		scene = nextScene;
-		nextScene = nullptr;
+		scene = std::move(nextScene);
 
 		//シーンマネージャーをセット
 		scene->SetSceneManager(this);
@@ -60,7 +57,7 @@ void SceneManager::Draw()
 	scene->Draw();
 }
 
-void SceneManager::SetSceneFactory(AbstractSceneFactory* factory)
+void SceneManager::SetSceneFactory(AbstractSceneFactory* factory_)
 {
-	sceneFactory = factory;
+	sceneFactory = factory_;
 }

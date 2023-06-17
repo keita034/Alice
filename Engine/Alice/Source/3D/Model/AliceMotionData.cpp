@@ -3,73 +3,72 @@
 #include<AliceFileStream.h>
 
 
-std::vector<std::string>AliceMotionData::filePaths;
-std::unordered_map<std::string, std::unique_ptr<MotionData>> AliceMotionData::motionDatas;
-uint32_t AliceMotionData::modelCount;
+std::vector<std::string>AliceMotionData::sFilePaths;
+std::unordered_map<std::string, std::unique_ptr<MotionData>> AliceMotionData::sMotionDatas;
+uint32_t AliceMotionData::sModelCount;
 
-float AliceMotionData::GetAnimeMaxflame()
+float AliceMotionData::GetAnimeMaxflame()const
 {
 	return motionData->duration;
 }
 
-float AliceMotionData::GetTickTimes(float frame)
+float AliceMotionData::GetTickTimes(float frame_)
 {
-	float TicksPerSecond = motionData->ticksPerSecond != 0 ? motionData->ticksPerSecond : 25.0f;
+	float lTicksPerSecond_ = motionData->ticksPerSecond != 0 ? motionData->ticksPerSecond : 25.0f;
 
-	return  frame * TicksPerSecond;
+	return  frame_ * lTicksPerSecond_;
 }
 
-void AliceMotionData::SetMotion(uint32_t motionHandle)
+void AliceMotionData::SetMotion(uint32_t motionHandle_)
 {
-	motionData = motionDatas[filePaths[motionHandle]].get();
+	motionData = sMotionDatas[sFilePaths[motionHandle_]].get();
 }
 
-uint32_t AliceMotionData::CreateMotion(const std::string& fileDirectoryPath)
+uint32_t AliceMotionData::SCreateMotion(const std::string& fileDirectoryPath_)
 {
-	std::string path = fileDirectoryPath;
+	std::string lDirectoryPath = fileDirectoryPath_;
 
 	//一回読み込んだことがあるファイルはそのまま返す
-	auto itr = find_if(motionDatas.begin(), motionDatas.end(), [&](std::pair<const std::string, std::unique_ptr<MotionData, std::default_delete<MotionData>>>& p)
+	auto lMotionItr = find_if(sMotionDatas.begin(), sMotionDatas.end(), [&](std::pair<const std::string, std::unique_ptr<MotionData, std::default_delete<MotionData>>>& motion)
 		{
-			return p.second->filePath == path;
+			return motion.second->filePath == lDirectoryPath;
 		});
 
-	if (itr == motionDatas.end())
+	if (lMotionItr == sMotionDatas.end())
 	{
+		uint32_t lModelHandle = sModelCount;
 
-		uint32_t modelHandle = modelCount;
-
-		std::unique_ptr<MotionData> data;
-		data = std::make_unique<MotionData>();
+		std::unique_ptr<MotionData> lMotionData;
+		lMotionData = std::make_unique<MotionData>();
 
 		{
-			std::vector<std::string> files;
+			std::vector<std::string> lFiles;
 
-			std::string filePath;
+			std::string lFilePath;
 
-			files = AliceFunctionUtility::getFileNames(fileDirectoryPath);
+			lFiles = AliceFunctionUtility::getFileNames(fileDirectoryPath_);
 
 			//ディレクトリからFBXファイルを探す
-			for (std::string file : files)
+			for (std::string file : lFiles)
 			{
 				if (file.find(".almb") != std::string::npos || file.find(".alm") != std::string::npos)
 				{
-					filePath = file;
+					lFilePath = file;
 				}
 			}
 
-			std::string fileExtension = AliceFunctionUtility::FileExtension(filePath);
+			std::string lFileExtension = AliceFunctionUtility::FileExtension(lFilePath);
 
-			if (fileExtension == "almb")
+			if (lFileExtension == "almb")
 			{
-				if (!AliceFileStream::LoadAliceMotionBinaryData(filePath, data.get()))
+				if (!AliceFileStream::SLoadAliceMotionBinaryData(lFilePath, lMotionData.get()))
 				{
 					assert(0);
 				}
 			}
-			else if (fileExtension == "alm")
+			else if (lFileExtension == "alm")
 			{
-				if (!AliceFileStream::LoadAliceMotionData(filePath, data.get()))
+				if (!AliceFileStream::SLoadAliceMotionData(lFilePath, lMotionData.get()))
 				{
 					assert(0);
 				}
@@ -80,30 +79,30 @@ uint32_t AliceMotionData::CreateMotion(const std::string& fileDirectoryPath)
 			}
 		}
 
-		data->modelHandle = modelCount;
+		lMotionData->modelHandle = sModelCount;
 
-		data->filePath = path;
+		lMotionData->filePath = lDirectoryPath;
 
-		motionDatas[path] = std::move(data);
+		sMotionDatas[lDirectoryPath] = std::move(lMotionData);
 
-		filePaths[modelCount] = path;
+		sFilePaths[sModelCount] = lDirectoryPath;
 
-		modelCount++;
+		sModelCount++;
 
-		return modelHandle;
+		return lModelHandle;
 	}
 	else
 	{
 
-		uint32_t modelHandle = motionDatas[path]->modelHandle;
+		uint32_t lModelHandle = sMotionDatas[lDirectoryPath]->modelHandle;
 
-		return modelHandle;
+		return lModelHandle;
 	}
 
 	return 0;
 }
 
-void AliceMotionData::CommonInitialize()
+void AliceMotionData::SCommonInitialize()
 {
-	filePaths.resize(maxMotion);
+	sFilePaths.resize(sMAX_MOTION);
 }

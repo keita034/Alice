@@ -1,50 +1,57 @@
 ﻿#pragma once
-#pragma warning(push)
-#pragma warning(disable: 4514)
-#pragma warning(disable: 4820)
-
-#include <imgui_impl_win32.h>
-#include <imgui_impl_dx12.h>
-
-#pragma warning(pop)
-
 
 #include<WindowsApp.h>
-#include<DescriptorHeap.h>
 #include<DirectX12Core.h>
 
-//ImGUIの管理
-class ImGuiManager
+/// <summary>
+/// IMGUIマネージャー
+/// </summary>
+class IImGuiManager
 {
-
-private:
-
-	DirectX12Core* directX12Core;
-
 public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(IWindowsApp* windowsApp, DirectX12Core* core);
+	/// <param name="windowsApp_">ウィンドウズ</param>
+	/// <param name="directX12Core_">directX</param>
+	virtual void Initialize(IWindowsApp* windowsApp_, DirectX12Core* directX12Core_) =0;
 
 	/// <summary>
 	/// 終了
 	/// </summary>
-	void Finalize();
+	virtual void Finalize() = 0;
 
 	/// <summary>
 	/// ImGui受付開始
 	/// </summary>
-	void Bigin();
+	virtual void Bigin() = 0;
 
 	/// <summary>
 	/// ImGui受付終了
 	/// </summary>
-	void End();
+	virtual void End() = 0;
 
 	/// <summary>
 	/// 画面への描画
 	/// </summary>
-	void Draw();
+	virtual void Draw() = 0;
+
+	IImGuiManager() = default;
+	virtual ~IImGuiManager() = default;
 };
 
+/// <summary>
+/// IMGUIマネージャーの生成(ユニーク)
+/// </summary>
+/// <param name="windowsApp_">ウィンドウズ</param>
+/// <param name="directX12Core_">directX</param>
+/// <returns>生成されたポインタ</returns>
+std::unique_ptr<IImGuiManager> CreateUniqueImGuiManager(IWindowsApp* windowsApp_, DirectX12Core* directX12Core_);
+
+/// <summary>
+/// IMGUIマネージャーの生成(シェアード)
+/// </summary>
+/// <param name="windowsApp_">ウィンドウズ</param>
+/// <param name="directX12Core_">directX</param>
+/// <returns>生成されたポインタ</returns>
+std::shared_ptr<IImGuiManager> CreateSharedImGuiManager(IWindowsApp* windowsApp_, DirectX12Core* directX12Core_);

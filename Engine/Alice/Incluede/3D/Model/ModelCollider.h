@@ -24,12 +24,12 @@ public:
 	/// メッシュをセット
 	/// </summary>
 	/// <param name="modelMeshs">メッシュ</param>
-	void SetMeshs(std::vector<ModelMesh> modelMeshs);
+	void SetMeshs(std::vector<ModelMesh> modelMeshs_);
 
 	/// <summary>
 	/// メッシュ配列を取得
 	/// </summary>
-	const std::vector<MeshCollider>& GetMeshs();
+	const std::vector<MeshCollider>& GetMeshs()const;
 
 	/// <summary>
 	/// メッシュの数を取得
@@ -40,7 +40,7 @@ public:
 	/// メッシュを取得
 	/// </summary>
 	/// <param name="index">要素番号</param>
-	const MeshCollider& GetMeshs(size_t index);
+	const MeshCollider& GetMeshs(size_t index_)const;
 
 private:
 

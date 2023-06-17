@@ -5,22 +5,22 @@ void Transform::Initialize()
 	//定数バッファ生成(3D座標変換行列)
 	constBuff = CreateUniqueConstantBuffer(sizeof(worldViewpojCamera));
 
-	AliceMathF::Matrix4 matScale, matRot, matTrans;
+	AliceMathF::Matrix4 lMatScale, lMatRot, lMatTrans;
 
 	//スケール、回転、平行移動行列の計算
-	matScale.MakeScaling(scale);
-	matRot.MakeRotation(rotation);
-	matTrans.MakeTranslation(translation);
+	lMatScale.MakeScaling(scale);
+	lMatRot.MakeRotation(rotation);
+	lMatTrans.MakeTranslation(translation);
 
 	//ワールド行列の合成
 	//変形をリセット
 	matWorld = AliceMathF::MakeIdentity();
 	//ワールド行列にスケーリングを反映
-	matWorld *= matScale;
+	matWorld *= lMatScale;
 	//ワールド行列に回転を反映
-	matWorld *= matRot;
+	matWorld *= lMatRot;
 	//ワールド行列に平行移動を反映
-	matWorld *= matTrans;
+	matWorld *= lMatTrans;
 	//親行列の指定がある場合は、掛け算する
 	if (parent)
 	{
@@ -28,31 +28,31 @@ void Transform::Initialize()
 	}
 
 	//定数バッファに書き込み
-	constBuffMap.matWorld = matWorld * defaultViewMat * defaultProjectionMat;
+	constBuffMap.matWorld = matWorld * sDefaultViewMat * sDefaultProjectionMat;
 	constBuffMap.world = matWorld;
 	constBuffMap.cameraPos = { 0.0f,0.0f,-50.0f };
 
 	Update();
 }
 
-void Transform::TransUpdate(Camera* camera)
+void Transform::TransUpdate(Camera* camera_)
 {
-	AliceMathF::Matrix4 matScale, matRot, matTrans;
+	AliceMathF::Matrix4 lMatScale, lMatRot, lMatTrans;
 
 	//スケール、回転、平行移動行列の計算
-	matScale.MakeScaling(scale);
-	matRot.MakeRotation(rotation);
-	matTrans.MakeTranslation(translation);
+	lMatScale.MakeScaling(scale);
+	lMatRot.MakeRotation(rotation);
+	lMatTrans.MakeTranslation(translation);
 
 	//ワールド行列の合成
 	//変形をリセット
 	matWorld = AliceMathF::MakeIdentity();
 	//ワールド行列にスケーリングを反映
-	matWorld *= matScale;
+	matWorld *= lMatScale;
 	//ワールド行列に回転を反映
-	matWorld *= matRot;
+	matWorld *= lMatRot;
 	//ワールド行列に平行移動を反映
-	matWorld *= matTrans;
+	matWorld *= lMatTrans;
 	//親行列の指定がある場合は、掛け算する
 	if (parent)
 	{
@@ -60,9 +60,9 @@ void Transform::TransUpdate(Camera* camera)
 	}
 
 	//定数バッファに書き込み
-	constBuffMap.matWorld = matWorld * camera->GetViewMatrixInv() * camera->GetProjectionMatrix();
+	constBuffMap.matWorld = matWorld * camera_->GetViewMatrixInv() * camera_->GetProjectionMatrix();
   	constBuffMap.world = matWorld;
-	constBuffMap.cameraPos = camera->GetEye();
+	constBuffMap.cameraPos = camera_->GetEye();
 	Update();
 }
 
@@ -73,22 +73,22 @@ void Transform::Update()
 
 void Transform::MakeWorldMatrix()
 {
-	AliceMathF::Matrix4 matScale, matRot, matTrans;
+	AliceMathF::Matrix4 lMatScale, lMatRot, lMatTrans;
 
 	//スケール、回転、平行移動行列の計算
-	matScale.MakeScaling(scale);
-	matRot.MakeRotation(rotation);
-	matTrans.MakeTranslation(translation);
+	lMatScale.MakeScaling(scale);
+	lMatRot.MakeRotation(rotation);
+	lMatTrans.MakeTranslation(translation);
 
 	//ワールド行列の合成
 	//変形をリセット
 	matWorld = AliceMathF::MakeIdentity();
 	//ワールド行列にスケーリングを反映
-	matWorld *= matScale;
+	matWorld *= lMatScale;
 	//ワールド行列に回転を反映
-	matWorld *= matRot;
+	matWorld *= lMatRot;
 	//ワールド行列に平行移動を反映
-	matWorld *= matTrans;
+	matWorld *= lMatTrans;
 	//親行列の指定がある場合は、掛け算する
 	if (parent)
 	{
@@ -96,7 +96,7 @@ void Transform::MakeWorldMatrix()
 	}
 }
 
-const ID3D12Resource* Transform::GetconstBuff()
+const ID3D12Resource* Transform::GetconstBuff()const
 {
 	return constBuff->GetResource();
 }
@@ -106,7 +106,7 @@ worldViewpojCamera* Transform::GetWorldViewpojCamera()
 	return &constBuffMap;
 }
 
-D3D12_GPU_VIRTUAL_ADDRESS Transform::GetAddress()
+const D3D12_GPU_VIRTUAL_ADDRESS& Transform::GetAddress()const
 {
 	return constBuff->GetAddress();
 }

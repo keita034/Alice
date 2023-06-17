@@ -4,7 +4,9 @@
 #include<PostEffectFactory.h>
 
 const float PostEffectManager::clearColor[4] = { 1.0f,1.0f,1.0f,0.0f };
-IWindowsApp* PostEffectManager::windowsApp = nullptr;
+ID3D12GraphicsCommandList* PostEffectManager::sCmdList = nullptr;
+IDescriptorHeap* PostEffectManager::sSrvHeap = nullptr;
+IWindowsApp* PostEffectManager::sWindowsApp = nullptr;
 
 PostEffectManager* PostEffectManager::GetInstance()
 {
@@ -14,19 +16,12 @@ PostEffectManager* PostEffectManager::GetInstance()
 
 void PostEffectManager::Initialize()
 {
-	device = DirectX12Core::GetDeviceSta().Get();
-	cmdList = DirectX12Core::GetCommandListSta().Get();
+	width = static_cast<float>(sWindowsApp->GetWindowSize().width);
+	height = static_cast<float>(sWindowsApp->GetWindowSize().height);
 
-	srvHeap = DirectX12Core::GetInstance()->GetSRVDescriptorHeap();
-	dsvHeap = DirectX12Core::GetInstance()->GetDSVDescriptorHeap();
-	rtvHeap = DirectX12Core::GetInstance()->GetRTVDescriptorHeap();
+	mainRenderTarget = std::make_unique<RenderTarget>(sSrvHeap, sCmdList);
 
-	width = static_cast<float>(windowsApp->GetWindowSize().width);
-	height = static_cast<float>(windowsApp->GetWindowSize().height);
-
-	mainRenderTarget = std::make_unique<RenderTarget>(srvHeap, cmdList);
-
-	mainRenderTarget->Initialize(windowsApp->GetWindowSize().width, windowsApp->GetWindowSize().height, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	mainRenderTarget->Initialize(sWindowsApp->GetWindowSize().width, sWindowsApp->GetWindowSize().height, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 	//頂点バッファの生成
 	vertexBuffer = CreateUniqueVertexBuffer(4, sizeof(PosUvColor));
@@ -60,11 +55,11 @@ void PostEffectManager::PreDrawScen()
 
 	mainRenderTarget->SetRenderTarget();
 
-	CD3DX12_VIEWPORT viewPort = CD3DX12_VIEWPORT(0.0f, 0.0f, width, height);
-	cmdList->RSSetViewports(1, &viewPort);
+	CD3DX12_VIEWPORT lViewPort = CD3DX12_VIEWPORT(0.0f, 0.0f, width, height);
+	sCmdList->RSSetViewports(1, &lViewPort);
 
-	CD3DX12_RECT rect = CD3DX12_RECT(0, 0, static_cast<LONG>(width), static_cast<LONG>(height));
-	cmdList->RSSetScissorRects(1, &rect);
+	CD3DX12_RECT lRect = CD3DX12_RECT(0, 0, static_cast<LONG>(width), static_cast<LONG>(height));
+	sCmdList->RSSetScissorRects(1, &lRect);
 
 	mainRenderTarget->ClearRenderTarget();
 }
@@ -74,9 +69,9 @@ void PostEffectManager::PostDrawScen()
 	mainRenderTarget->Transition(D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 }
 
-void PostEffectManager::AddPostEffect(const std::string& postEffectName)
+void PostEffectManager::AddPostEffect(const std::string& postEffectName_)
 {
-	postEffects.push_back(factory->CreatePostEffect(postEffectName));
+	postEffects.push_back(factory->CreatePostEffect(postEffectName_));
 
 	isAalid = true;
 }
@@ -100,31 +95,12 @@ bool PostEffectManager::IsAalid()
 	return isAalid;
 }
 
-void PostEffectManager::SubPostEffect(const std::string& postEffectName)
+void PostEffectManager::SubPostEffect(const std::string& postEffectName_)
 {
-	postEffects.remove_if([&postEffectName](BasePostEffect* postEffect)
+	postEffects.remove_if([&postEffectName_](BasePostEffect* postEffect_)
 		{
-			return postEffect->GetType() == postEffectName;
+			return postEffect_->GetType() == postEffectName_;
 		});
-}
-
-void PostEffectManager::CreateWindowTex()
-{
-
-
-
-
-
-}
-
-void PostEffectManager::CreateRenderTarget()
-{
-
-}
-
-void PostEffectManager::CreateDepthStencilView()
-{
-
 }
 
 PostEffectManager::~PostEffectManager()
@@ -134,7 +110,7 @@ PostEffectManager::~PostEffectManager()
 void PostEffectManager::Draw()
 {
 	// 頂点データ
-	PosUvColor vertices[] =
+	PosUvColor lVertices[] =
 	{//		x		y		z		u	v
 		{{-1.0f,1.0f,0.0f},{0.0f,0.0f},{1.0f,1.0f,1.0f,1.0f}},//左上インデックス0
 		{{-1.0f,-1.0f,0.0f},{0.0f,1.0f},{1.0f,1.0f,1.0f,1.0f}},//左下インデックス1
@@ -143,53 +119,60 @@ void PostEffectManager::Draw()
 	};
 
 	// インデックスデータ
-	uint32_t indices[] =
+	uint32_t lIndices[] =
 	{
 		1, 0, 3, // 三角形1つ目
 		2, 3, 0, // 三角形2つ目
 	};
 
 	//頂点バッファへのデータ転送
-	vertexBuffer->Update(vertices);
+	vertexBuffer->Update(lVertices);
 
 	//インデックスバッファへのデータ転送
-	indexBuffer->Update(indices);
+	indexBuffer->Update(lIndices);
 
-	postEffectMaterial = MaterialManager::GetMaterial("DefaultPostEffect");
+	postEffectMaterial = MaterialManager::SGetMaterial("DefaultPostEffect");
 
-	D3D12_VERTEX_BUFFER_VIEW vbView = vertexBuffer->GetView();
-	D3D12_INDEX_BUFFER_VIEW ibView = indexBuffer->GetView();
+	D3D12_VERTEX_BUFFER_VIEW lVbView = vertexBuffer->GetView();
+	D3D12_INDEX_BUFFER_VIEW lIView = indexBuffer->GetView();
 
 	// パイプラインステートとルートシグネチャの設定コマンド
-	cmdList->SetPipelineState(postEffectMaterial->pipelineState->GetPipelineState());
-	cmdList->SetGraphicsRootSignature(postEffectMaterial->rootSignature->GetRootSignature());
+	sCmdList->SetPipelineState(postEffectMaterial->pipelineState->GetPipelineState());
+	sCmdList->SetGraphicsRootSignature(postEffectMaterial->rootSignature->GetRootSignature());
 
 	// プリミティブ形状の設定コマンド
-	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+	sCmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
 	// 頂点バッファビューの設定コマンド
-	cmdList->IASetVertexBuffers(0, 1, &vbView);
+	sCmdList->IASetVertexBuffers(0, 1, &lVbView);
 
 	//インデックスバッファビューの設定コマンド
-	cmdList->IASetIndexBuffer(&ibView);
+	sCmdList->IASetIndexBuffer(&lIView);
 
 	// SRVヒープの設定コマンド
-	ID3D12DescriptorHeap* descriptorHeaps[] =
+	ID3D12DescriptorHeap* lDescriptorHeaps[] =
 	{
-		srvHeap->GetHeap(),
+		sSrvHeap->GetHeap(),
 	};
 
-	cmdList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
+	sCmdList->SetDescriptorHeaps(_countof(lDescriptorHeaps), lDescriptorHeaps);
 
 	//// SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
-	cmdList->SetGraphicsRootDescriptorTable(0, mainRenderTarget->GetGpuHandle());
+	sCmdList->SetGraphicsRootDescriptorTable(0, mainRenderTarget->GetGpuHandle());
 
 	// 描画コマンド
-	cmdList->DrawIndexedInstanced(6, 1, 0, 0, 0);
+	sCmdList->DrawIndexedInstanced(6, 1, 0, 0, 0);
 }
 
-void PostEffectManager::SetWindowsApp(IWindowsApp* windowsApp_)
+
+void PostEffectManager::SSetDirectX12Core(DirectX12Core* directX12Core_)
 {
-	windowsApp = windowsApp_;
+	sCmdList = directX12Core_->GetCommandList();
+	sSrvHeap = directX12Core_->GetSRVDescriptorHeap();
+}
+
+void PostEffectManager::SSetWindowsApp(IWindowsApp* windowsApp_)
+{
+	sWindowsApp = windowsApp_;
 }
 

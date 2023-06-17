@@ -1,18 +1,22 @@
 ﻿#include<BasePostEffect.h>
 
-IDescriptorHeap* BasePostEffect::srvHeap = nullptr;
-IWindowsApp* BasePostEffect::windowsApp = nullptr;
+IDescriptorHeap* BasePostEffect::sSrvHeap = nullptr;
+IWindowsApp* BasePostEffect::sWindowsApp = nullptr;
+ID3D12GraphicsCommandList* BasePostEffect::sCmdList = nullptr;
+ID3D12Device* BasePostEffect::sDevice = nullptr;
 
 BasePostEffect::~BasePostEffect()
 {
 }
 
-void BasePostEffect::SetSrvHeap(IDescriptorHeap* heap)
+void BasePostEffect::SSetDirectX12Core(DirectX12Core* directX12Core_)
 {
-	srvHeap = heap;
+	sCmdList = directX12Core_->GetCommandList();
+	sSrvHeap = directX12Core_->GetSRVDescriptorHeap();
+	sDevice = directX12Core_->GetDevice();
 }
 
-void BasePostEffect::SetWindowsApp(IWindowsApp* windowsApp_)
+void BasePostEffect::SSetWindowsApp(IWindowsApp* windowsApp_)
 {
-	windowsApp = windowsApp_;
+	sWindowsApp = windowsApp_;
 }

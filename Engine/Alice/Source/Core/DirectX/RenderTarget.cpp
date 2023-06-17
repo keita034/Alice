@@ -1,27 +1,26 @@
 ﻿#include<RenderTarget.h>
 
-void RenderTarget::Initialize(UINT w, UINT h, D3D12_RESOURCE_STATES resourceStates, const AliceMathF::Vector4& col, DXGI_FORMAT rtFormat, DXGI_FORMAT dsFormat)
+void RenderTarget::Initialize(uint32_t width_, uint32_t height_, D3D12_RESOURCE_STATES resourceStates_, const AliceMathF::Vector4& clear_, DXGI_FORMAT rtFormat_, DXGI_FORMAT dsFormat_)
 {
 	//クリアカラー
 	
-	clearColor = {{ col.x,col.y,col.z,col.w }};
+	clearColor = {{ clear_.x,clear_.y,clear_.z,clear_.w }};
 	
-
 	//レンダーターゲットの生成
-	renderTargetBuffer = CreateUniqueRenderTargetBuffer(w, h, resourceStates, 0, 1, rtFormat, clearColor);
+	renderTargetBuffer = CreateUniqueRenderTargetBuffer(width_, height_, resourceStates_, 0, 1, rtFormat_, clearColor);
 
 	//デプスステンシルの生成
-	depthStencilBuffer = CreateUniqueDepthStencilBuffer(w, h, dsFormat);
+	depthStencilBuffer = CreateUniqueDepthStencilBuffer(width_, height_, dsFormat_);
 
 
 	{//SRV作成
 
-		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-		srvDesc.Format = rtFormat;
-		srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-		srvDesc.Texture2D.MipLevels = 1;
-		handle.ptr = srvHeap->CreateSRV(srvDesc, renderTargetBuffer->GetTexture());
+		D3D12_SHADER_RESOURCE_VIEW_DESC lSrvDesc{};
+		lSrvDesc.Format = rtFormat_;
+		lSrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+		lSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+		lSrvDesc.Texture2D.MipLevels = 1;
+		handle.ptr = srvHeap->CreateSRV(lSrvDesc, renderTargetBuffer->GetTexture());
 	}
 }
 
@@ -58,30 +57,30 @@ void RenderTarget::Transition(D3D12_RESOURCE_STATES resourceStates)
 	renderTargetBuffer->Transition(resourceStates);
 }
 
-RenderTarget::RenderTarget(IDescriptorHeap* srvDescriptorHeap, ID3D12GraphicsCommandList* commandList)
+RenderTarget::RenderTarget(IDescriptorHeap* srvDescriptorHeap_, ID3D12GraphicsCommandList* commandList_)
 {
 
-	cmdList = commandList;
+	cmdList = commandList_;
 
-	srvHeap = srvDescriptorHeap;
+	srvHeap = srvDescriptorHeap_;
 }
 
-IRenderTargetBuffer* RenderTarget::GetRenderTargetBuffer()
+IRenderTargetBuffer* RenderTarget::GetRenderTargetBuffer()const
 {
 	return renderTargetBuffer.get();
 }
 
-IDepthStencilBuffer* RenderTarget::GetDepthStencilBuffer()
+IDepthStencilBuffer* RenderTarget::GetDepthStencilBuffer()const
 {
 	return depthStencilBuffer.get();
 }
 
-const D3D12_GPU_DESCRIPTOR_HANDLE& RenderTarget::GetGpuHandle()
+const D3D12_GPU_DESCRIPTOR_HANDLE& RenderTarget::GetGpuHandle()const
 {
 	return handle;
 }
 
-const D3D12_CPU_DESCRIPTOR_HANDLE& RenderTarget::GetCpuHandle()
+const D3D12_CPU_DESCRIPTOR_HANDLE& RenderTarget::GetCpuHandle()const
 {
 	return renderTargetBuffer->GetHandle();
 }

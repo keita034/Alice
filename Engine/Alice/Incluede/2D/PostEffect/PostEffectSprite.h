@@ -26,11 +26,11 @@ public:
 	PostEffectSprite() = default;
 	~PostEffectSprite() = default;
 
-	void Initialize(ID3D12GraphicsCommandList* commandList, IDescriptorHeap* descriptorHeap);
+	void Initialize(ID3D12GraphicsCommandList* commandList_, IDescriptorHeap* descriptorHeap_);
 
-	void SetSize(const AliceMathF::Vector2& size);
+	void SetSize(const AliceMathF::Vector2& size_);
 
-	void Draw(Material* material, D3D12_GPU_DESCRIPTOR_HANDLE handle);
+	void Draw(Material* material_, D3D12_GPU_DESCRIPTOR_HANDLE handle_);
 
 private:
 

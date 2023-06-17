@@ -16,16 +16,12 @@ enum BillboardFlag
 	XYBillboard//Z軸を打ち消す
 };
 
-class Sprite2D;
-class Sprite3D;
-
 class Sprite
 {
 protected:
-	HRESULT result = S_OK;
-	char PADDING[4]={};
-	Microsoft::WRL::ComPtr<ID3D12Device> device;
-	Microsoft::WRL::ComPtr <ID3D12GraphicsCommandList> cmdList = nullptr;
+	static IWindowsApp* sWindowsApp;
+	static ID3D12Device* sDevice;
+	static ID3D12GraphicsCommandList* sCmdList;
 
 	//頂点バッファ
 	std::unique_ptr<IVertexBuffer> vertexBuffer;
@@ -38,11 +34,7 @@ protected:
 
 	Material* spriteMaterial = nullptr ;
 
-	bool InitializeFlag = true;
-	char PADDING2[3]={};
-
 	AliceMathF::Vector2 anchorPoint = { 0.5f, 0.5f };
-	char PADDING3[4]={};
 
 	TextureData* texture;
 
@@ -52,14 +44,17 @@ protected:
 	bool flipX = false;
 	// 上下反転
 	bool flipY = false;
-	char PADDING4[6]={};
+
+	bool InitializeFlag = true;
+
+	int8_t PADING = 0;
+
+	HRESULT result = S_OK;
 
 	AliceMathF::Vector2 spriteSize;
 
 	//カラー
 	AliceMathF::Vector4 color = { 1.0f,1.0f,1.0f,1.0f };
-
-	static IWindowsApp* windowsApp;
 
 public:
 
@@ -67,78 +62,64 @@ public:
 	virtual ~Sprite();
 
 	//初期化
-	virtual void Initialize(uint32_t handle) = 0;
+	virtual void Initialize(uint32_t handle_) = 0;
 
 	//描画
-	virtual void Draw(Transform& transform, BlendMode blend, Material* material)=0;
+	virtual void Draw(Transform& transform_, BlendMode blend_, Material* material_)=0;
 
 	//アニメーション描画
-	virtual void AnimationDraw(Transform& transform, uint16_t radiusX, uint16_t radiusY, float& frame, float frameDiv, BlendMode blend, Material* material) = 0;
+	virtual void AnimationDraw(Transform& transform_, uint16_t radiusX_, uint16_t radiusY_, float& frame_, float frameDiv_, BlendMode blend_, Material* material_) = 0;
 
 	/// <summary>
 	/// アンカーポイントの位置変更
 	/// </summary>
 	/// <param name="point">X,Y座標(0.0~1.0)初期値は0.5</param>
-	virtual void SetAnchorPoint(const AliceMathF::Vector2& point);
+	virtual void SetAnchorPoint(const AliceMathF::Vector2& point_);
 
 	/// <summary>
 	/// 画像を反転するか
 	/// </summary>
 	/// <param name="isFlipX">左右反転</param>
 	/// <param name="isFlipY">上下反転</param>
-	virtual void SetFlipFlag(bool isFlipX = false, bool isFlipY = false);
+	virtual void SetFlipFlag(bool isFlipX_ = false, bool isFlipY_ = false);
 
 	/// <summary>
 	/// カラーを設定
 	/// </summary>
 	/// <param name="color">RGBA</param>
-	virtual void SetColor(const AliceMathF::Vector4& col);
+	virtual void SetColor(const AliceMathF::Vector4& color_);
 
 	/// <summary>
 	/// 画像の切り取り範囲を指定
 	/// </summary>
 	/// <param name="leftTop">左上座標 初期値は(0,0)</param>
 	/// <param name="rightDown">右下座標 初期値は画像の大きさ</param>
-	virtual void SetTextureTrimmingRange(const AliceMathF::Vector2& leftTop, const AliceMathF::Vector2& rightDown);
+	virtual void SetTextureTrimmingRange(const AliceMathF::Vector2& leftTop_, const AliceMathF::Vector2& rightDown_);
 
 	/// <summary>
 	/// テクスチャを設定
 	/// </summary>
 	/// <param name="handle">テクスチャハンドル</param>
-	virtual void SetTex(uint32_t handle);
+	virtual void SetTex(uint32_t handle_);
 
-	virtual void SetSize(const AliceMathF::Vector2& size);
-
-	/// <summary>
-	/// 2Dスプライトを生成
-	/// </summary>
-	/// <param name="handle">テクスチャハンドル</param>
-	static Sprite2D* Create2DSprite(uint32_t handle);
-
-	/// <summary>
-	/// 3Dスプライトを生成
-	/// </summary>
-	/// <param name="handle">テクスチャハンドル</param>
-	static Sprite3D* Create3DSprite(uint32_t handle);
+	virtual void SetSize(const AliceMathF::Vector2& size_);
 
 	/// <summary>
 	/// テクスチャを取得
 	/// </summary>
 	const TextureData* GetTexture();
 
-	static void SetWindowsApp(IWindowsApp* windowsApp_);
+	static void SSetWindowsApp(IWindowsApp* windowsApp_);
+
+	static void SSetDirectX12Core(DirectX12Core* directX12Core_);
 
 protected:
 
-	//初期化
-	virtual void SpriteInitialize();
-
 	//描画
-	virtual void SpriteDraw(Transform& transform, Material* material);
-
+	virtual void PSpriteDraw(Transform& transform_, Material* material_);
 
 	//頂点バッファ・インデックス生成
-	virtual void CreatVertexIndexBuffer();
+	virtual void PCreatVertexIndexBuffer();
 
 	//コピーコンストラクタ・代入演算子削除
 	Sprite& operator=(const Sprite&) = delete;

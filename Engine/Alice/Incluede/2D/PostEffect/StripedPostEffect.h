@@ -25,7 +25,7 @@ public:
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void PostUpdate(RenderTarget* mainRenderTarget) override;
+	void PostUpdate(RenderTarget* mainRenderTarget_) override;
 
 	/// <summary>
 	/// タイプを取得
@@ -38,9 +38,9 @@ private:
 	~StripedPostEffect() = default;
 
 	//描画
-	void Draw(RenderTarget* mainRenderTarget)override;
+	void Draw(RenderTarget* mainRenderTarget_)override;
 
-	void MainRenderTargetDraw(RenderTarget* mainRenderTarget)override;
+	void MainRenderTargetDraw(RenderTarget* mainRenderTarget_)override;
 
 	//コピーコンストラクタ・代入演算子削除
 	StripedPostEffect& operator=(const StripedPostEffect&) = delete;

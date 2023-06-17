@@ -37,7 +37,7 @@ public:
 	void Initialize() override;
 
 	//更新
-	void PostUpdate(RenderTarget* mainRenderTarget) override;
+	void PostUpdate(RenderTarget* mainRenderTarget_) override;
 
 	/// <summary>
 	/// ビネットの設定
@@ -46,31 +46,31 @@ public:
 	/// <param name="center">ビネットの中心座標(1.0～0.0)</param>
 	/// <param name="power">ビネットの強さ</param>
 	/// <param name="size">ビネットの縦横比(ウィンドウの比率に依存)</param>
-	static void SetVignetteData(const AliceMathF::Vector3& color = { 1.0f,1.0f,1.0f }, const AliceMathF::Vector2& center = { 0.5f,0.5f }, float power = 1.0f, const AliceMathF::Vector2& size = { 1.0,1.0f });
+	static void SSetVignetteData(const AliceMathF::Vector3& color_ = { 1.0f,1.0f,1.0f }, const AliceMathF::Vector2& center_ = { 0.5f,0.5f }, float power_ = 1.0f, const AliceMathF::Vector2& size_ = { 1.0,1.0f });
 
 	/// <summary>
 	/// カラーを設定
 	/// </summary>
 	/// <param name="color">ビネットの色(255～0)</param>
-	static void SetColor(const AliceMathF::Vector3& color = { 1.0f,1.0f,1.0f });
+	static void SSetColor(const AliceMathF::Vector3& color_ = { 1.0f,1.0f,1.0f });
 
 	/// <summary>
 	/// 中心座標を設定
 	/// </summary>
 	/// <param name="center">ビネットの中心座標(1.0～0.0)</param>
-	static void SetCenter(const AliceMathF::Vector2& center = { 0.5f,0.5f });
+	static void SSetCenter(const AliceMathF::Vector2& center_ = { 0.5f,0.5f });
 
 	/// <summary>
 	/// 強さを設定
 	/// </summary>
 	/// <param name="power">ビネットの強さ</param>
-	static void SetPower(float power = 1.0f);
+	static void SSetPower(float power_ = 1.0f);
 
 	/// <summary>
 	/// 縦横比を設定(ウィンドウの比率に依存)
 	/// </summary>
 	/// <param name="size">ビネットの縦横比</param>
-	static void SetSize(const AliceMathF::Vector2& size = { 1.0,1.0f });
+	static void SSetSize(const AliceMathF::Vector2& size_ = { 1.0,1.0f });
 
 	/// <summary>
 	/// タイプを取得
@@ -79,27 +79,29 @@ public:
 
 private:
 
-	void Draw(RenderTarget* mainRenderTarget)override;
+	void Draw(RenderTarget* mainRenderTarget_)override;
 
-	void MainRenderTargetDraw(RenderTarget* mainRenderTarget)override;
+	void MainRenderTargetDraw(RenderTarget* mainRenderTarget_)override;
 
 	//ビネットデータを設定
-	void SetData(const AliceMathF::Vector3& color = { 1.0f,1.0f,1.0f }, const AliceMathF::Vector2& center = { 0.5f,0.5f }, float power = 1.0f, const AliceMathF::Vector2& size = { 1.0,1.0f });
+	void PSetVignetteData(const AliceMathF::Vector3& color_ = { 1.0f,1.0f,1.0f }, const AliceMathF::Vector2& center_ = { 0.5f,0.5f }, float power_ = 1.0f, const AliceMathF::Vector2& size_ = { 1.0,1.0f });
 
 	//ビネットカラーを設定
-	void SetCol(const AliceMathF::Vector3& color = { 1.0f,1.0f,1.0f });
+	void PSetColor(const AliceMathF::Vector3& color_ = { 1.0f,1.0f,1.0f });
 
 	//ビネットの中心座標を設定
-	void SetCent(const AliceMathF::Vector2& center = { 0.5f,0.5f });
+	void PSetCenter(const AliceMathF::Vector2& center_ = { 0.5f,0.5f });
 
 	//ビネットの強さを設定
-	void SetPow(float power = 1.0f);
+	void PSetPower(float power_ = 1.0f);
 
 	//ビネットの縦横比を設定
-	void SetSi(const AliceMathF::Vector2& size = { 1.0,1.0f });
+	void PSetSize(const AliceMathF::Vector2& size_ = { 1.0,1.0f });
 
 	VignettePostEffect() = default;
 	~VignettePostEffect() = default;
+
+private:
 
 	//コピーコンストラクタ・代入演算子削除
 	VignettePostEffect& operator=(const VignettePostEffect&) = delete;

@@ -11,13 +11,12 @@ void ChromaticAberrationPostEffect::Initialize()
 {
 	if (needsInit)
 	{
-		cmdList = DirectX12Core::GetInstance()->GetCommandList().Get();
 
-		width = static_cast<float>(windowsApp->GetWindowSize().width);
-		height = static_cast<float>(windowsApp->GetWindowSize().height);
+		width = static_cast<float>(sWindowsApp->GetWindowSize().width);
+		height = static_cast<float>(sWindowsApp->GetWindowSize().height);
 
 		sprite = std::make_unique<PostEffectSprite>();
-		sprite->Initialize(DirectX12Core::GetCommandListSta().Get(), DirectX12Core::GetInstance()->GetSRVDescriptorHeap());
+		sprite->Initialize(sCmdList, sSrvHeap);
 
 		material = std::make_unique<Material>();
 
@@ -49,34 +48,34 @@ void ChromaticAberrationPostEffect::Initialize()
 		material->rootSignature->Add(IRootSignature::RangeType::SRV, 0);//t0
 		material->rootSignature->AddStaticSampler(0);//s0
 		material->rootSignature->Add(IRootSignature::RootType::CBV, 0);//t0
-		material->rootSignature->Create(DirectX12Core::GetInstance()->GetDevice().Get());
+		material->rootSignature->Create(sDevice);
 
 		//生成
 		material->Initialize();
 
 		{
 			//レンダーターゲットの生成
-			std::unique_ptr<IRenderTargetBuffer> buff = CreateUniqueRenderTargetBuffer(static_cast<uint32_t>(width), static_cast<uint32_t>(height), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+			std::unique_ptr<IRenderTargetBuffer> lRenderTargetBuffer = CreateUniqueRenderTargetBuffer(static_cast<uint32_t>(width), static_cast<uint32_t>(height), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 			{//SRV作成
 
-				D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-				srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
-				srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-				srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-				srvDesc.Texture2D.MipLevels = 1;
-				D3D12_GPU_DESCRIPTOR_HANDLE handle{};
-				handle.ptr = srvHeap->CreateSRV(srvDesc, buff->GetTexture());
-				handles.push_back(handle);
+				D3D12_SHADER_RESOURCE_VIEW_DESC lSrvDesc{};
+				lSrvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+				lSrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+				lSrvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+				lSrvDesc.Texture2D.MipLevels = 1;
+				D3D12_GPU_DESCRIPTOR_HANDLE lHandle{};
+				lHandle.ptr = sSrvHeap->CreateSRV(lSrvDesc, lRenderTargetBuffer->GetTexture());
+				handles.push_back(lHandle);
 			}
 
-			renderTargetBuffers.push_back(std::move(buff));
+			renderTargetBuffers.push_back(std::move(lRenderTargetBuffer));
 		}
 
 		{
 			//デプスステンシルの生成
-			std::unique_ptr<IDepthStencilBuffer> buff = CreateUniqueDepthStencilBuffer(static_cast<uint32_t>(width), static_cast<uint32_t>(height), DXGI_FORMAT_D32_FLOAT);
-			depthStencilBuffers.push_back(std::move(buff));
+			std::unique_ptr<IDepthStencilBuffer> lDepthStencilBuffer = CreateUniqueDepthStencilBuffer(static_cast<uint32_t>(width), static_cast<uint32_t>(height), DXGI_FORMAT_D32_FLOAT);
+			depthStencilBuffers.push_back(std::move(lDepthStencilBuffer));
 		}
 
 		needsInit = false;
@@ -89,11 +88,11 @@ void ChromaticAberrationPostEffect::Initialize()
 	}
 }
 
-void ChromaticAberrationPostEffect::PostUpdate(RenderTarget* mainRenderTarget)
+void ChromaticAberrationPostEffect::PostUpdate(RenderTarget* mainRenderTarget_)
 {
-	Draw(mainRenderTarget);
+	Draw(mainRenderTarget_);
 
-	MainRenderTargetDraw(mainRenderTarget);
+	MainRenderTargetDraw(mainRenderTarget_);
 }
 
 const std::string& ChromaticAberrationPostEffect::GetType()
@@ -105,56 +104,56 @@ ChromaticAberrationPostEffect::ChromaticAberrationPostEffect()
 {
 }
 
-void ChromaticAberrationPostEffect::Draw(RenderTarget* mainRenderTarget)
+void ChromaticAberrationPostEffect::Draw(RenderTarget* mainRenderTarget_)
 {
 	renderTargetBuffers[0]->Transition(D3D12_RESOURCE_STATE_RENDER_TARGET);
 
-	D3D12_CPU_DESCRIPTOR_HANDLE rtvHs[] =
+	D3D12_CPU_DESCRIPTOR_HANDLE lRtvHs[] =
 	{
 		renderTargetBuffers[0]->GetHandle()
 	};
 
-	cmdList->OMSetRenderTargets(1, rtvHs, false, &depthStencilBuffers[0]->GetHandle());
+	sCmdList->OMSetRenderTargets(1, lRtvHs, false, &depthStencilBuffers[0]->GetHandle());
 
-	cmdList->ClearRenderTargetView(renderTargetBuffers[0]->GetHandle(), clearColor.data(), 0, nullptr);
-	cmdList->ClearDepthStencilView(depthStencilBuffers[0]->GetHandle(), D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+	sCmdList->ClearRenderTargetView(renderTargetBuffers[0]->GetHandle(), clearColor.data(), 0, nullptr);
+	sCmdList->ClearDepthStencilView(depthStencilBuffers[0]->GetHandle(), D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
 
-	CD3DX12_VIEWPORT viewPort = CD3DX12_VIEWPORT(0.0f, 0.0f, width, height);
-	cmdList->RSSetViewports(1, &viewPort);
+	CD3DX12_VIEWPORT lViewPort = CD3DX12_VIEWPORT(0.0f, 0.0f, width, height);
+	sCmdList->RSSetViewports(1, &lViewPort);
 
-	CD3DX12_RECT rect = CD3DX12_RECT(0, 0, static_cast<LONG>(width), static_cast<LONG>(height));
-	cmdList->RSSetScissorRects(1, &rect);
+	CD3DX12_RECT lRect = CD3DX12_RECT(0, 0, static_cast<LONG>(width), static_cast<LONG>(height));
+	sCmdList->RSSetScissorRects(1, &lRect);
 
 	sprite->SetSize({ 1.0f,1.0f });
 
-	sprite->Draw(material.get(), mainRenderTarget->GetGpuHandle());
+	sprite->Draw(material.get(), mainRenderTarget_->GetGpuHandle());
 
 	// 定数バッファビュー(CBV)の設定コマンド
-	cmdList->SetGraphicsRootConstantBufferView(1, constantBuffer->GetAddress());
+	sCmdList->SetGraphicsRootConstantBufferView(1, constantBuffer->GetAddress());
 
 	// 描画コマンド
-	cmdList->DrawIndexedInstanced(6, 1, 0, 0, 0);
+	sCmdList->DrawIndexedInstanced(6, 1, 0, 0, 0);
 
 	renderTargetBuffers[0]->Transition(D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 }
 
-void ChromaticAberrationPostEffect::MainRenderTargetDraw(RenderTarget* mainRenderTarget)
+void ChromaticAberrationPostEffect::MainRenderTargetDraw(RenderTarget* mainRenderTarget_)
 {
-	mainRenderTarget->Transition(D3D12_RESOURCE_STATE_RENDER_TARGET);
+	mainRenderTarget_->Transition(D3D12_RESOURCE_STATE_RENDER_TARGET);
 
-	mainRenderTarget->SetRenderTarget();
+	mainRenderTarget_->SetRenderTarget();
 
-	CD3DX12_VIEWPORT viewPort = CD3DX12_VIEWPORT(0.0f, 0.0f, width, height);
-	cmdList->RSSetViewports(1, &viewPort);
+	CD3DX12_VIEWPORT lViewPort = CD3DX12_VIEWPORT(0.0f, 0.0f, width, height);
+	sCmdList->RSSetViewports(1, &lViewPort);
 
-	CD3DX12_RECT rect = CD3DX12_RECT(0, 0, static_cast<LONG>(width), static_cast<LONG>(height));
-	cmdList->RSSetScissorRects(1, &rect);
+	CD3DX12_RECT lRect = CD3DX12_RECT(0, 0, static_cast<LONG>(width), static_cast<LONG>(height));
+	sCmdList->RSSetScissorRects(1, &lRect);
 	sprite->SetSize({ 1.01f,1.01f });
-	sprite->Draw(MaterialManager::GetMaterial("DefaultPostEffect"), handles[0]);
+	sprite->Draw(MaterialManager::SGetMaterial("DefaultPostEffect"), handles[0]);
 
 	// 描画コマンド
-	cmdList->DrawIndexedInstanced(6, 1, 0, 0, 0);
+	sCmdList->DrawIndexedInstanced(6, 1, 0, 0, 0);
 
-	mainRenderTarget->Transition(D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	mainRenderTarget_->Transition(D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 }

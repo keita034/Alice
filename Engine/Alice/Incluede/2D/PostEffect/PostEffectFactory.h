@@ -15,7 +15,7 @@ public:
 	/// </summary>
 	/// <param name="sceneName">ポストエフェクト名</param>
 	/// <returns>生成したポストエフェクト</returns>
-	BasePostEffect* CreatePostEffect(const std::string& postEffectName) override;
+	BasePostEffect* CreatePostEffect(const std::string& postEffectName_) override;
 
 private:
 

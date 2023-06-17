@@ -16,13 +16,10 @@ private:
 
 	HRESULT result;
 	char PADDING1[4]{};
-	ID3D12Device* device = nullptr;
-	ID3D12GraphicsCommandList* cmdList = nullptr;
 
-	IDSVDescriptorHeap* dsvHeap = nullptr;
-	IRTVDescriptorHeap* rtvHeap = nullptr;
-	IDescriptorHeap* srvHeap = nullptr;
-	static IWindowsApp* windowsApp;
+	static ID3D12GraphicsCommandList* sCmdList;
+	static IDescriptorHeap* sSrvHeap;
+	static IWindowsApp* sWindowsApp;
 
 	//頂点バッファ
 	std::unique_ptr<IVertexBuffer> vertexBuffer;
@@ -63,9 +60,9 @@ public:
 
 	void PostDrawScen();
 
-	void AddPostEffect(const std::string& postEffectName);
+	void AddPostEffect(const std::string& postEffectName_);
 
-	void SubPostEffect(const std::string& postEffectName);
+	void SubPostEffect(const std::string& postEffectName_);
 
 	void Finalize();
 
@@ -73,20 +70,13 @@ public:
 
 	void Draw();
 
-	static void SetWindowsApp(IWindowsApp* windowsApp_);
+	static void SSetWindowsApp(IWindowsApp* windowsApp_);
+	static void SSetDirectX12Core(DirectX12Core* directX12Core_);
 
 private:
 
 	~PostEffectManager();
 	PostEffectManager() = default;
-
-	void CreateWindowTex();
-
-	void CreateRenderTarget();
-
-	void CreateDepthStencilView();
-
-
 
 	//コピーコンストラクタ・代入演算子削除
 	PostEffectManager& operator=(const PostEffectManager&) = delete;

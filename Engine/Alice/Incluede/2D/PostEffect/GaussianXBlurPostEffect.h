@@ -18,20 +18,20 @@ public:
 
 	void Initialize() override;
 
-	void PostUpdate(RenderTarget* mainRenderTarget) override;
+	void PostUpdate(RenderTarget* mainRenderTarget_) override;
 
 	const std::string& GetType()override;
 
-	void SetWeight(std::array<float, 8>& weightPtr);
+	void SetWeight(const std::array<float, 8>& weight_);
 
 	GaussianXBlurPostEffect() = default;
 	~GaussianXBlurPostEffect() = default;
 
 private:
 
-	void Draw(RenderTarget* mainRenderTarget)override;
+	void Draw(RenderTarget* mainRenderTarget_)override;
 
-	void MainRenderTargetDraw(RenderTarget* mainRenderTarget)override;
+	void MainRenderTargetDraw(RenderTarget* mainRenderTarget_)override;
 
 	//コピーコンストラクタ・代入演算子削除
 	GaussianXBlurPostEffect& operator=(const GaussianXBlurPostEffect&) = delete;

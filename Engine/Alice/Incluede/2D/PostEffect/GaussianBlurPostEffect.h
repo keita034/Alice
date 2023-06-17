@@ -26,19 +26,19 @@ public:
 	void Initialize() override;
 
 	//更新
-	void PostUpdate(RenderTarget* mainRenderTarget) override;
+	void PostUpdate(RenderTarget* mainRenderTarget_) override;
 
 	/// <summary>
 	/// タイプを取得
 	/// </summary>
 	const std::string& GetType()override;
 
-	void UpdateWeightsTable(float blurPower);
+	void UpdateWeightsTable(float blurPower_);
 private:
 
-	void Draw(RenderTarget* mainRenderTarget)override;
+	void Draw(RenderTarget* mainRenderTarget_)override;
 
-	void MainRenderTargetDraw(RenderTarget* mainRenderTarget)override;
+	void MainRenderTargetDraw(RenderTarget* mainRenderTarget_)override;
 	GaussianBlurPostEffect();
 	~GaussianBlurPostEffect() = default;
 

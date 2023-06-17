@@ -34,7 +34,7 @@ public:
 	/// <summary>
 	/// コライダーをセット
 	/// </summary>
-	void SetCollider(Base2DCollider* coll);
+	void SetCollider(Base2DCollider* coll_);
 
 	/// <summary>
 	/// 初期化
@@ -44,7 +44,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	virtual void Initialize(const Point2D& pos, const AliceMathF::Vector3& rot = { 0.0f,0.0f,0.0f }, const AliceMathF::Vector3& scl = { 1.0f,1.0f,1.0 }, Transform* parent = nullptr) = 0;
+	virtual void Initialize(const Point2D& pos_, const AliceMathF::Vector3& rot_ = { 0.0f,0.0f,0.0f }, const AliceMathF::Vector3& scl_ = { 1.0f,1.0f,1.0 }, Transform* parent_ = nullptr) = 0;
 
 	/// <summary>
 	/// 終了
@@ -54,7 +54,7 @@ public:
 	/// <summary>
 	/// 毎フレーム更新
 	/// </summary>
-	virtual void Update(Camera* camera) = 0;
+	virtual void Update(Camera* camera_) = 0;
 
 	/// <summary>
 	/// 描画

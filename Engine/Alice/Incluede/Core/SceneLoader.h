@@ -31,7 +31,12 @@ struct SceneData
 		/// <summary>
 		/// 初期化
 		/// </summary>
-		virtual void Initialize(uint32_t handle, const AliceMathF::Vector3& pos, const AliceMathF::Vector3& rot = { 0.0f,0.0f,0.0f }, const AliceMathF::Vector3& scl = { 1.0f,1.0f,1.0 },const Transform* parent = nullptr)override;
+		virtual void Initialize(
+			uint32_t handle_, 
+			const AliceMathF::Vector3& pos_, 
+			const AliceMathF::Vector3& rot_ = { 0.0f,0.0f,0.0f }, 
+			const AliceMathF::Vector3& scl_ = { 1.0f,1.0f,1.0 },
+			const Transform* parent_ = nullptr)override;
 
 		/// <summary>
 		/// 終了
@@ -41,7 +46,7 @@ struct SceneData
 		/// <summary>
 		/// 毎フレーム更新
 		/// </summary>
-		virtual void Update(Camera* camera)override;
+		virtual void Update(Camera* camera_)override;
 
 		/// <summary>
 		/// 描画
@@ -62,7 +67,7 @@ struct SceneData
 	// オブジェクト配列
 	std::vector<std::unique_ptr<Object>> objects;
 
-	void Update(Camera* camera);
+	void Update(Camera* camera_);
 
 	void Draw();
 };
@@ -71,7 +76,7 @@ class SceneLoader
 {
 private:
 
-	static const std::string baseDirectorypath;
+	static const std::string sBaseDirectorypath;
 
 public:
 
@@ -79,10 +84,10 @@ public:
 	/// レベルデータファイルの読み込み
 	/// </summary>
 	/// <param name="fileName">ファイル名</param>
-	static SceneData* LoadFile(const std::string& filepath);
+	static SceneData* SLoadFile(const std::string& filepath_);
 
 private:
 
-	static void ObjectScan(SceneData* sceneData, nlohmann::json& jsonObj, SceneData::Object* parent = nullptr);
+	static void SObjectScan(SceneData* sceneData_,const nlohmann::json& jsonObj_, SceneData::Object* parent_ = nullptr);
 };
 

@@ -19,6 +19,10 @@ struct CinemaCameraSensorSize
 	float height;
 };
 
+#pragma warning(push)
+#pragma warning(disable:4263)
+#pragma warning(disable:4264)
+
 class CinemaCamera :public Camera
 {
 private:
@@ -46,9 +50,9 @@ private:
 	//アスペクト比(画面横幅/画面縦幅)
 	float aspect = 0.0f;
 	//ニアクリップ(前端)
-	float near_ = 0.0f;
+	float nearClip = 0.0f;
 	//ファークリップ(奥端)
-	float far_ = 0.0f;
+	float farClip = 0.0f;
 
 	//プロジェクション行列の更新フラグ
 	bool updateProjMatrix = true;
@@ -66,7 +70,7 @@ private:
 	char PADDING2[3]{};
 
 	//焦点距離
-	float focallength_ = 70.0f;
+	float focallength = 70.0f;
 	//センサーサイズ
 	SensorSize sensorSize = SensorSize::MEDIUM_FORMAT;
 	//画角計算フラグ
@@ -97,20 +101,20 @@ public:
 	/// <summary>
 	/// カメラを動かす
 	/// </summary>
-	/// <param name="move">動かす量</param>
-	void Move(const AliceMathF::Vector3& move);
+	/// <param name="move_">動かす量</param>
+	void Move(const AliceMathF::Vector3& move_);
 
 	/// <summary>
 	/// 注視点を動かす
 	/// </summary>
-	/// <param name="move">移動量</param>
-	void MoveTarget(const AliceMathF::Vector3& move);
+	/// <param name="move_">移動量</param>
+	void MoveTarget(const AliceMathF::Vector3& move_);
 
 	/// <summary>
 	/// 視点を動かす
 	/// </summary>
-	/// <param name="move">移動量</param>
-	void MovePosition(const AliceMathF::Vector3& move);
+	/// <param name="move_">移動量</param>
+	void MovePosition(const AliceMathF::Vector3& move_);
 
 #pragma region セッター
 
@@ -122,12 +126,12 @@ public:
 	/// <summary>
 	/// 遠平面までの距離を設定
 	/// </summary>
-	void SetFar(float fFar);
+	void SetFar(float far_);
 
 	/// <summary>
 	/// 近平面までの距離を設定
 	/// </summary>
-	void SetNear(float fNear);
+	void SetNear(float near_);
 
 	/// <summary>
 	/// 焦点距離を設定
@@ -138,36 +142,36 @@ public:
 	/// <summary>
 	/// F値を設定
 	/// </summary>
-	void SetAperture(float value);
+	void SetAperture(float value_);
 
 	/// <summary>
 	/// センサーの種類を設定
 	/// </summary>
 	/// <param name="size">種類</param>
-	void SetSensorSize(SensorSize size);
+	void SetSensorSize(SensorSize size_);
 
 	/// <summary>
 	/// 撮影距離を設定
 	/// </summary>
-	void SetShootingDistance(float distance);
+	void SetShootingDistance(float distance_);
 
 	/// <summary>
 	/// カメラの座標を設定
 	/// </summary>
 	/// <param name="pos">座標</param>
-	void SetEye(const AliceMathF::Vector3& pos);
+	void SetEye(const AliceMathF::Vector3& pos_);
 
 	/// <summary>
 	/// カメラのターゲット座標を設定
 	/// </summary>
 	/// <param name="pos">座標</param>
-	void SetTarget(const AliceMathF::Vector3& pos);
+	void SetTarget(const AliceMathF::Vector3& pos_);
 
 	/// <summary>
 	/// カメラの上ベクトルを設定
 	/// </summary>
 	/// <param name="vec">ベクトル</param>
-	void SetUp(const AliceMathF::Vector3& vec);
+	void SetUp(const AliceMathF::Vector3& vec_);
 
 #pragma endregion
 
@@ -176,58 +180,58 @@ public:
 	/// <summary>
 	/// ビュー行列を取得
 	/// </summary>
-	const AliceMathF::Matrix4& GetViewMatrix();
+	const AliceMathF::Matrix4& GetViewMatrix() override;
 
 	/// <summary>
 	/// ビュー行列の逆行列を取得
 	/// </summary>
-	const AliceMathF::Matrix4& GetViewMatrixInv();
+	const AliceMathF::Matrix4& GetViewMatrixInv() override;
 
 	/// <summary>
 	/// プロジェクション行列を取得
 	/// </summary>
-	const AliceMathF::Matrix4& GetProjectionMatrix();
+	const AliceMathF::Matrix4& GetProjectionMatrix()override;
 
 	/// <summary>
 	/// ビュー×プロジェクション行列を取得
 	/// </summary>
-	const AliceMathF::Matrix4& GetViewProjectionMatrix();
+	const AliceMathF::Matrix4& GetViewProjectionMatrix()override;
 
 	/// <summary>
 	/// カメラの回転行列を取得
 	/// </summary>
-	const AliceMathF::Matrix4& GetCameraRotation();
+	const AliceMathF::Matrix4& GetCameraRotation()override;
 
 	/// <summary>
 	/// 遠平面までの距離を取得
 	/// </summary>
-	float GetFar() const;
+	float GetFar() const override;
 
 	/// <summary>
 	/// 近平面までの距離を取得
 	/// </summary>
-	float GetNear() const;
+	float GetNear() const override;
 
 	/// <summary>
 	/// アスペクト比を取得
 	/// </summary>
-	float GetAspect() const;
+	float GetAspect() const override;
 
 	/// <summary>
 	/// 画角を取得
 	/// </summary>
 	/// <returns>画角。単位ラジアン</returns>
-	float GetFovAngleY() const;
+	float GetFovAngleY() const override;
 
 	/// <summary>
 	/// 注視点と視点の距離を取得
 	/// </summary>
-	float GetTargetToPositionlength_() const;
+	float GetTargetToPositionLength() const override;
 
 	/// <summary>
 	/// 焦点距離を取得
 	/// </summary>
-	float GetFocallength_() const;
+	float GetFocalLength() const;
 
 	/// <summary>
 	/// F値を設定
@@ -247,17 +251,17 @@ public:
 	/// <summary>
 	/// 視点座標を取得
 	/// </summary>
-	const AliceMathF::Vector3& GetEye();
+	const AliceMathF::Vector3& GetEye()const override;
 
 	/// <summary>
 	/// 注視点座標を取得
 	/// </summary>
-	const AliceMathF::Vector3& GetUp();
+	const AliceMathF::Vector3& GetUp()const override;
 
 	/// <summary>
 	/// 上方向ベクトルを取得
 	/// </summary>
-	const AliceMathF::Vector3& GetTarget();
+	const AliceMathF::Vector3& GetTarget()const override;
 
 #pragma endregion
 
@@ -265,7 +269,7 @@ private:
 	/// <summary>
 	/// 平行投影の下端を取得
 	/// </summary>
-	float GetBottom()
+	float GetBottom()const override
 	{
 		return float();
 	};
@@ -273,7 +277,7 @@ private:
 	/// <summary>
 	/// 平行投影の上端を取得
 	/// </summary>
-	float GetTop()
+	float GetTop()const override
 	{
 		return float();
 	};
@@ -281,7 +285,7 @@ private:
 	/// <summary>
 	/// 平行投影の右端を取得
 	/// </summary>
-	float GetRight()
+	float GetRight()const override
 	{
 		return float();
 	};
@@ -289,8 +293,10 @@ private:
 	/// <summary>
 	/// 平行投影の左端を取得
 	/// </summary>
-	float GetLeft()
+	float GetLeft()const override
 	{
 		return float();
 	};
 };
+
+#pragma warning(pop)

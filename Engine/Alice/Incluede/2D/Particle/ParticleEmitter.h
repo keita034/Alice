@@ -1,129 +1,109 @@
 ﻿#pragma once
 #include<AliceMathUtility.h>
-#include<BasicParticle.h>
-#include<TextureManager.h>
+#include<Camera.h>
+#include<Material.h>
 
-class ParticleEmitter
+class IParticleEmitter
 {
-private:
-
-	//基準の座標
-	AliceMathF::Vector3 position = { 0,0,0 };
-	//開始時カラー
-	AliceMathF::Vector4 startColor = { 1.0f,0.0f,0.0f,1.0f };
-	//終了時カラー
-	AliceMathF::Vector4 endColor = { 0.0f,0.0f,1.0f,1.0f };
-	//基準の加速度
-	AliceMathF::Vector3 particleAccel = {0.0f, 0.001f ,0.0f};
-	//基準の速度
-	AliceMathF::Vector3 particleVelocity = { 0.1f,0.1f,0.1f };
-	//スケール(開始時スケール,終了時スケール)
-	AliceMathF::Vector2 particleScale = {1.0f,0.0f};
-	//回転角(開始時回転角,終了時回転角)
-	AliceMathF::Vector2 particleRotation = {0.0f,0.0f};
-
-	//基準の生存時間
-	UINT lifeTime = 50;
-	//最大発生間隔
-	size_t maxIntervalTime = 60;
-	//発生間隔
-	size_t intervalTime = 0;
-	//一度に発生させる数
-	size_t maxIndex = 50;
-
-	//パーティクル
-	std::unique_ptr<BasicParticle> particle;
-
-	TextureData* textureData;
-
 public:
 
 	/// <summary>
 	/// 基準の座標を設定
 	/// </summary>
 	/// <param name="pos">座標</param>
-	void SetPosition(const AliceMathF::Vector3& pos);
+	virtual void SetPosition(const AliceMathF::Vector3& pos_) = 0;
 
 	/// <summary>
 	/// 開始時カラーを設定
 	/// </summary>
 	/// <param name="color">カラー</param>
-	void SetStartColor(const AliceMathF::Vector4& color);
+	virtual void SetStartColor(const AliceMathF::Vector4& color_) = 0;
 
 	/// <summary>
 	/// 終了時カラーを設定
 	/// </summary>
 	/// <param name="color">カラー</param>
-	void SetEndColor(const AliceMathF::Vector4& color);
+	virtual void SetEndColor(const AliceMathF::Vector4& color_) = 0;
 
 	/// <summary>
 	/// 基準の加速度を設定
 	/// </summary>
 	/// <param name="accel">加速度</param>
-	void SetAccel(const AliceMathF::Vector3& accel);
+	virtual void SetAccel(const AliceMathF::Vector3& accel_) = 0;
 
 	/// <summary>
 	/// 基準の速度を設定
 	/// </summary>
 	/// <param name="velocity">速度</param>
-	void SetVelocity(const AliceMathF::Vector3& velocity);
+	virtual void SetVelocity(const AliceMathF::Vector3& velocity_) = 0;
 
 	/// <summary>
 	/// スケールを設定
 	/// </summary>
 	/// <param name="scale">(開始時スケール,終了時スケール)</param>
-	void SetScale(const AliceMathF::Vector2& scale);
+	virtual void SetScale(const AliceMathF::Vector2& scale_) = 0;
 
 	/// <summary>
 	/// 回転角を設定
 	/// </summary>
 	/// <param name="rotation">(開始時回転角,終了時回転角)</param>
-	void SetRotation(const AliceMathF::Vector2& rotation);
+	virtual void SetRotation(const AliceMathF::Vector2& rotation_) = 0;
 
 	/// <summary>
 	/// 発生間隔を設定
 	/// </summary>
 	/// <param name="time">発生間隔</param>
-	void SetIntervalTime(size_t time);
+	virtual void SetIntervalTime(size_t time_) = 0;
 
 	/// <summary>
 	/// 基準の生存時間を設定
 	/// </summary>
 	/// <param name="time">生存時間</param>
-	void SetLife(UINT time);
+	virtual void SetLife(uint32_t time_) = 0;
 
 	/// <summary>
 	/// 一度に発生させる数を設定
 	/// </summary>
 	/// <param name="index">一度に発生させる数</param>
-	void SetIndex(size_t index);
+	virtual void SetIndex(size_t index_) = 0;
 
-	void SetTex(uint32_t handle);
+	virtual void SetTex(uint32_t handle_) = 0;
 
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize();
+	virtual void Initialize() = 0;
 
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	void FireWorkUpdate();
+	virtual void FireWorkUpdate() = 0;
 
-	void BasicUpdate();
+	virtual void BasicUpdate() = 0;
 
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw(Camera* camera, Material* material = nullptr);
+	virtual void Draw(Camera* camera_, Material* material_ = nullptr) = 0;
 
-	ParticleEmitter() = default;
-	~ParticleEmitter() = default;
+	IParticleEmitter() = default;
+	virtual ~IParticleEmitter() = default;
 
 private:
 
 	//コピーコンストラクタ・代入演算子削除
-	ParticleEmitter& operator=(const ParticleEmitter&) = delete;
-	ParticleEmitter(const ParticleEmitter&) = delete;
+	IParticleEmitter& operator=(const IParticleEmitter&) = delete;
+	IParticleEmitter(const IParticleEmitter&) = delete;
 };
 
+/// <summary>
+/// パーティクルエミッターの生成(ユニーク)
+/// </summary>
+/// <returns>生成されたポインタ</returns>
+std::unique_ptr<IParticleEmitter> CreateUniqueParticleEmitter();
+
+/// <summary>
+/// パーティクルエミッターの生成(シェアード)
+/// </summary>
+/// <returns>生成されたポインタ</returns>
+std::shared_ptr<IParticleEmitter> CreateSharedParticleEmitter();

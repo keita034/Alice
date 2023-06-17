@@ -9,6 +9,7 @@
 #pragma warning(disable: 5039)
 
 #include<string>
+#include<memory>
 
 #pragma warning(pop)
 
@@ -24,6 +25,6 @@ public:
 	virtual ~AbstractSceneFactory() = default;
 
 	//シーン生成
-	virtual BaseScene* CreateScene(const std::string& sceneName) = 0;
+	virtual std::unique_ptr<BaseScene> CreateScene(const std::string& sceneName_) = 0;
 };
 

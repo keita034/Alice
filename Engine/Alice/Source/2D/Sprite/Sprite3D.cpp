@@ -9,96 +9,94 @@ Sprite3D::~Sprite3D()
 {
 }
 
-void Sprite3D::Initialize(const uint32_t handle)
+void Sprite3D::Initialize(uint32_t handle_)
 {
-	texture = TextureManager::GetTextureData(handle);
+	texture = TextureManager::SGetTextureData(handle_);
 
-	SpriteInitialize();
-
-	CreatVertexIndexBuffer();
+	PCreatVertexIndexBuffer();
 
 	trimmingRange.z = static_cast<float>(texture->width);
 	trimmingRange.w = static_cast<float>(texture->height);
 }
 
-void Sprite3D::Draw(Transform& transform, Camera* camera, BlendMode blend, BillboardFlag flag, Material* material)
+void Sprite3D::Draw(Transform& transform_, Camera* camera_, BlendMode blend_, BillboardFlag flag_, Material* material_)
 {
-	AliceMathF::Matrix4 mTrans, mRot, mScale;
+	AliceMathF::Matrix4 lMatTrans, lMatRot, lMatScale;
 
 	//平行移動行列
-	mTrans.MakeTranslation(transform.translation);
+	lMatTrans.MakeTranslation(transform_.translation);
 	//回転行列
-	mRot.MakeRotation(transform.rotation);
+	lMatRot.MakeRotation(transform_.rotation);
 	//スケール行列
-	mScale.MakeScaling(transform.scale);
+	lMatScale.MakeScaling(transform_.scale);
 
-	switch (flag)
+	switch (flag_)
 	{
 	case NonBillboard:
-		transform.matWorld = mScale * mRot * mTrans * camera->GetViewMatrixInv() * camera->GetProjectionMatrix();
+		transform_.matWorld = lMatScale * lMatRot * lMatTrans * camera_->GetViewMatrixInv() * camera_->GetProjectionMatrix();
 		break;
 	case AllBillboard:
 	{
-		AliceMathF::Matrix4 mat = camera->GetViewMatrix();
+		AliceMathF::Matrix4 lMatBillboard = camera_->GetViewMatrix();
 
-		mat.m[3][0] = 0;
-		mat.m[3][1] = 0;
-		mat.m[3][2] = 0;
-		mat.m[3][3] = 1;
+		lMatBillboard.m[3][0] = 0;
+		lMatBillboard.m[3][1] = 0;
+		lMatBillboard.m[3][2] = 0;
+		lMatBillboard.m[3][3] = 1;
 
-		transform.matWorld = mScale * mRot * mat * mTrans * camera->GetViewMatrixInv() * camera->GetProjectionMatrix();
+		transform_.matWorld = lMatScale * lMatRot * lMatBillboard * lMatTrans * camera_->GetViewMatrixInv() * camera_->GetProjectionMatrix();
 		break;
 	}
 	case XBillboard:
 	{
-		AliceMathF::Matrix4 mat = camera->GetViewMatrix();
+		AliceMathF::Matrix4 lMatBillboard = camera_->GetViewMatrix();
 
-		mat.m[1][0] = 0;
-		mat.m[1][1] = 1;
-		mat.m[1][2] = 0;
-		mat.m[1][3] = 0;
+		lMatBillboard.m[1][0] = 0;
+		lMatBillboard.m[1][1] = 1;
+		lMatBillboard.m[1][2] = 0;
+		lMatBillboard.m[1][3] = 0;
 
-		mat.m[3][0] = 0;
-		mat.m[3][1] = 0;
-		mat.m[3][2] = 0;
-		mat.m[3][3] = 1;
+		lMatBillboard.m[3][0] = 0;
+		lMatBillboard.m[3][1] = 0;
+		lMatBillboard.m[3][2] = 0;
+		lMatBillboard.m[3][3] = 1;
 
-		transform.matWorld = mScale * mRot * mat * mTrans * camera->GetViewMatrixInv() * camera->GetProjectionMatrix();
+		transform_.matWorld = lMatScale * lMatRot * lMatBillboard * lMatTrans * camera_->GetViewMatrixInv() * camera_->GetProjectionMatrix();
 		break;
 	}
 	case YBillboard:
 	{
-		AliceMathF::Matrix4 mat = camera->GetViewMatrix();
+		AliceMathF::Matrix4 lMatBillboard = camera_->GetViewMatrix();
 
-		mat.m[0][0] = 1;
-		mat.m[0][1] = 0;
-		mat.m[0][2] = 0;
-		mat.m[0][3] = 0;
+		lMatBillboard.m[0][0] = 1;
+		lMatBillboard.m[0][1] = 0;
+		lMatBillboard.m[0][2] = 0;
+		lMatBillboard.m[0][3] = 0;
 
-		mat.m[3][0] = 0;
-		mat.m[3][1] = 0;
-		mat.m[3][2] = 0;
-		mat.m[3][3] = 1;
+		lMatBillboard.m[3][0] = 0;
+		lMatBillboard.m[3][1] = 0;
+		lMatBillboard.m[3][2] = 0;
+		lMatBillboard.m[3][3] = 1;
 
 
-		transform.matWorld = mScale * mRot * mat * mTrans * camera->GetViewMatrixInv() * camera->GetProjectionMatrix();
+		transform_.matWorld = lMatScale * lMatRot * lMatBillboard * lMatTrans * camera_->GetViewMatrixInv() * camera_->GetProjectionMatrix();
 		break;
 	}
 	case XYBillboard:
 	{
-		AliceMathF::Matrix4 mat = camera->GetViewMatrix();
+		AliceMathF::Matrix4 lMatBillboard = camera_->GetViewMatrix();
 
-		mat.m[2][0] = 0;
-		mat.m[2][1] = 0;
-		mat.m[2][2] = 1;
-		mat.m[2][3] = 0;
+		lMatBillboard.m[2][0] = 0;
+		lMatBillboard.m[2][1] = 0;
+		lMatBillboard.m[2][2] = 1;
+		lMatBillboard.m[2][3] = 0;
 
-		mat.m[3][0] = 0;
-		mat.m[3][1] = 0;
-		mat.m[3][2] = 0;
-		mat.m[3][3] = 1;
+		lMatBillboard.m[3][0] = 0;
+		lMatBillboard.m[3][1] = 0;
+		lMatBillboard.m[3][2] = 0;
+		lMatBillboard.m[3][3] = 1;
 
-		transform.matWorld = mScale * mRot * mat * mTrans * camera->GetViewMatrixInv() * camera->GetProjectionMatrix();
+		transform_.matWorld = lMatScale * lMatRot * lMatBillboard * lMatTrans * camera_->GetViewMatrixInv() * camera_->GetProjectionMatrix();
 		break;
 	}
 	default:
@@ -106,39 +104,39 @@ void Sprite3D::Draw(Transform& transform, Camera* camera, BlendMode blend, Billb
 		break;
 	}
 
-	switch (blend)
+	switch (blend_)
 	{
 	case BlendMode::AX_BLENDMODE_NOBLEND:
-		spriteMaterial = MaterialManager::GetMaterial("Sprite3DNoblend");
+		spriteMaterial = MaterialManager::SGetMaterial("Sprite3DNoblend");
 		break;
 	case BlendMode::AX_BLENDMODE_ALPHA:
-		spriteMaterial = MaterialManager::GetMaterial("Sprite3DAlpha");
+		spriteMaterial = MaterialManager::SGetMaterial("Sprite3DAlpha");
 		break;
 	case BlendMode::AX_BLENDMODE_ADD:
-		spriteMaterial = MaterialManager::GetMaterial("Sprite3DAdd");
+		spriteMaterial = MaterialManager::SGetMaterial("Sprite3DAdd");
 		break;
 	case BlendMode::AX_BLENDMODE_SUB:
-		spriteMaterial = MaterialManager::GetMaterial("Sprite3DSub");
+		spriteMaterial = MaterialManager::SGetMaterial("Sprite3DSub");
 		break;
 	case BlendMode::AX_BLENDMODE_MULA:
-		spriteMaterial = MaterialManager::GetMaterial("Sprite3DMula");
+		spriteMaterial = MaterialManager::SGetMaterial("Sprite3DMula");
 		break;
 	case BlendMode::AX_BLENDMODE_INVSRC:
-		spriteMaterial = MaterialManager::GetMaterial("Sprite3DInvsrc");
+		spriteMaterial = MaterialManager::SGetMaterial("Sprite3DInvsrc");
 		break;
 	case BlendMode::AX_BLENDMODE_MAX:
-		spriteMaterial = MaterialManager::GetMaterial("Sprite3DNoblend");
+		spriteMaterial = MaterialManager::SGetMaterial("Sprite3DNoblend");
 		//printf("ブレンドの種類数を入れています");
 		break;
 	case BlendMode::AX_BLENDMODE_CUSTOM:
-		if (material)
+		if (material_)
 		{
-			spriteMaterial = material;
+			spriteMaterial = material_;
 		}
 		else
 		{
 			//printf("マテリアルがnullです");
-			spriteMaterial = MaterialManager::GetMaterial("Sprite3DNoblend");
+			spriteMaterial = MaterialManager::SGetMaterial("Sprite3DNoblend");
 		}
 		break;
 	default:
@@ -147,83 +145,82 @@ void Sprite3D::Draw(Transform& transform, Camera* camera, BlendMode blend, Billb
 		break;
 	}
 
-	transform.Update();
+	transform_.Update();
 
-	SpriteDraw(transform, spriteMaterial);
+	PSpriteDraw(transform_, spriteMaterial);
 }
 
-void Sprite3D::Draw(Transform& transform, BlendMode blend, Material* material)
+void Sprite3D::Draw(Transform& transform_, BlendMode blend_, Material* material_)
 {
+	float lIsFlipX, lIsFlipY;
+	lIsFlipX = flipX ? -1.0f : 1.0f;
+	lIsFlipY = flipY ? -1.0f : 1.0f;
 
-	float isFlipX, isFlipY;
-	isFlipX = flipX ? -1.0f : 1.0f;
-	isFlipY = flipY ? -1.0f : 1.0f;
+	float lLeft = ((0.0f - anchorPoint.x) * (static_cast<float>(texture->width) * 0.0625f)) * lIsFlipX;
+	float lRight = ((1.0f - anchorPoint.x) * (static_cast<float>(texture->width) * 0.0625f)) * lIsFlipX;
+	float lTop = ((0.0f - anchorPoint.y) * (static_cast<float>(texture->height) * 0.0625f)) * lIsFlipY;
+	float lBottom = ((1.0f - anchorPoint.y) * (static_cast<float>(texture->height) * 0.0625f)) * lIsFlipY;
 
-	float left = ((0.0f - anchorPoint.x) * (static_cast<float>(texture->width) * 0.0625f)) * isFlipX;
-	float right = ((1.0f - anchorPoint.x) * (static_cast<float>(texture->width) * 0.0625f)) * isFlipX;
-	float top = ((0.0f - anchorPoint.y) * (static_cast<float>(texture->height) * 0.0625f)) * isFlipY;
-	float bottom = ((1.0f - anchorPoint.y) * (static_cast<float>(texture->height) * 0.0625f)) * isFlipY;
-
-	float texLeft = trimmingRange.x / static_cast<float>(texture->width);
-	float texTop = trimmingRange.y / static_cast<float>(texture->height);
-	float texRight = trimmingRange.z / static_cast<float>(texture->width);
-	float texBottom = trimmingRange.w / static_cast<float>(texture->height);
+	float lTexLeft = trimmingRange.x / static_cast<float>(texture->width);
+	float lTexTop = trimmingRange.y / static_cast<float>(texture->height);
+	float lTexRight = trimmingRange.z / static_cast<float>(texture->width);
+	float lTexBottom = trimmingRange.w / static_cast<float>(texture->height);
 
 	// 頂点データ
-	PosUvColor vertices[] =
+	PosUvColor lVertices[] =
 	{//		x		y		z		u	v
-		{{left,top,0.0f},{texLeft,texTop},{color.x,color.y,color.z,color.w}},//左上インデックス0
-		{{left,bottom,0.0f},{texLeft,texBottom},{color.x,color.y,color.z,color.w}},//左下インデックス1
-		{{right,top,0.0f},{texRight,texTop},{color.x,color.y,color.z,color.w}},//右上インデックス2
-		{{right,bottom,0.0f},{texRight,texBottom},{color.x,color.y,color.z,color.w}},//右下インデックス3
+		{{lLeft,lTop,0.0f},{lTexLeft,lTexTop},{color.x,color.y,color.z,color.w}},//左上インデックス0
+		{{lLeft,lBottom,0.0f},{lTexLeft,lTexBottom},{color.x,color.y,color.z,color.w}},//左下インデックス1
+		{{lRight,lTop,0.0f},{lTexRight,lTexTop},{color.x,color.y,color.z,color.w}},//右上インデックス2
+		{{lRight,lBottom,0.0f},{lTexRight,lTexBottom},{color.x,color.y,color.z,color.w}},//右下インデックス3
 	};
 
 	// インデックスデータ
-	uint32_t indices[] =
+	uint32_t lIndices[] =
 	{
 		3, 0, 1, // 三角形1つ目
 		0, 3, 2, // 三角形2つ目
 	};
 
 	//頂点バッファへのデータ転送
-	vertexBuffer->Update(vertices);
+	vertexBuffer->Update(lVertices);
 
 	//インデックスバッファへのデータ転送
-	indexBuffer->Update(indices);
+	indexBuffer->Update(lIndices);
 
-	switch (blend)
+	switch (blend_)
 	{
 	case BlendMode::AX_BLENDMODE_NOBLEND:
-		spriteMaterial = MaterialManager::GetMaterial("Sprite3DNoblend");
+		spriteMaterial = MaterialManager::SGetMaterial("Sprite3DNoblend");
 		break;
 	case BlendMode::AX_BLENDMODE_ALPHA:
-		spriteMaterial = MaterialManager::GetMaterial("Sprite3DAlpha");
+		spriteMaterial = MaterialManager::SGetMaterial("Sprite3DAlpha");
 		break;
 	case BlendMode::AX_BLENDMODE_ADD:
-		spriteMaterial = MaterialManager::GetMaterial("Sprite3DAdd");
+		spriteMaterial = MaterialManager::SGetMaterial("Sprite3DAdd");
 		break;
 	case BlendMode::AX_BLENDMODE_SUB:
-		spriteMaterial = MaterialManager::GetMaterial("Sprite3DSub");
+		spriteMaterial = MaterialManager::SGetMaterial("Sprite3DSub");
 		break;
 	case BlendMode::AX_BLENDMODE_MULA:
-		spriteMaterial = MaterialManager::GetMaterial("Sprite3DMula");
+		spriteMaterial = MaterialManager::SGetMaterial("Sprite3DMula");
 		break;
 	case BlendMode::AX_BLENDMODE_INVSRC:
-		spriteMaterial = MaterialManager::GetMaterial("Sprite3DInvsrc");
+		spriteMaterial = MaterialManager::SGetMaterial("Sprite3DInvsrc");
 		break;
 	case BlendMode::AX_BLENDMODE_MAX:
-		spriteMaterial = MaterialManager::GetMaterial("Sprite3DNoblend");
+		spriteMaterial = MaterialManager::SGetMaterial("Sprite3DNoblend");
 		//printf("ブレンドの種類数を入れています");
 		break;
 	case BlendMode::AX_BLENDMODE_CUSTOM:
-		if (material)
+		if (material_)
 		{
-			spriteMaterial = material;
+			spriteMaterial = material_;
 		}
 		else
 		{
 			//printf("マテリアルがnullです");
-			spriteMaterial = MaterialManager::GetMaterial("Sprite3DNoblend");
+			spriteMaterial = MaterialManager::SGetMaterial("Sprite3DNoblend");
 		}
 		break;
 	default:
@@ -232,80 +229,80 @@ void Sprite3D::Draw(Transform& transform, BlendMode blend, Material* material)
 		break;
 	}
 
-	SpriteDraw(transform, spriteMaterial);
+	PSpriteDraw(transform_, spriteMaterial);
 }
 
-void Sprite3D::AnimationDraw(Transform& transform, uint16_t radiusX, uint16_t radiusY, float& frame, float frameDiv, BlendMode blend, Material* material)
+void Sprite3D::AnimationDraw(Transform& transform_, uint16_t radiusX, uint16_t radiusY, float& frame, float frameDiv, BlendMode blend, Material* material)
 {
-	size_t animeFrame = static_cast<size_t>(frame / frameDiv);
+	size_t lAnimeFrame = static_cast<size_t>(frame / frameDiv);
 
-	size_t width = static_cast<size_t>(radiusX) * 2;
-	size_t height = static_cast<size_t>(radiusY) * 2;
-	float texTop = trimmingRange.y / static_cast<float>(texture->height);
-	float texRight = trimmingRange.z / static_cast<float>(texture->width);
+	size_t lWidth = static_cast<size_t>(radiusX) * 2;
+	size_t lHeight = static_cast<size_t>(radiusY) * 2;
+	float lTexTop = trimmingRange.y / static_cast<float>(texture->height);
+	float lTexRight = trimmingRange.z / static_cast<float>(texture->width);
 
-	float widthU = static_cast<float>(width) / (texRight * static_cast<float>(texture->width));
+	float widthU = static_cast<float>(lWidth) / (lTexRight * static_cast<float>(texture->width));
 
 	//画像の半分のサイズ
 
-	if (texture->width / width < animeFrame + 1)
+	if (texture->width / lWidth < lAnimeFrame + 1)
 	{
 		frame = 0;
 	}
 
-	float isFlipX, isFlipY;
-	isFlipX = flipX ? -1.0f : 1.0f;
-	isFlipY = flipY ? -1.0f : 1.0f;
+	float lIsFlipX, lIsFlipY;
+	lIsFlipX = flipX ? -1.0f : 1.0f;
+	lIsFlipY = flipY ? -1.0f : 1.0f;
 
-	float left = ((0.0f - anchorPoint.x) * (static_cast<float>(width / 10))) * isFlipX;
-	float right = ((1.0f - anchorPoint.x) * (static_cast<float>(width / 10))) * isFlipX;
-	float top = ((0.0f - anchorPoint.y) * static_cast<float>(height / 10)) * isFlipY;
-	float bottom = ((1.0f - anchorPoint.y) * static_cast<float>(height / 10)) * isFlipY;
+	float lLeft = ((0.0f - anchorPoint.x) * (static_cast<float>(lWidth / 10))) * lIsFlipX;
+	float lRight = ((1.0f - anchorPoint.x) * (static_cast<float>(lWidth / 10))) * lIsFlipX;
+	float lTop = ((0.0f - anchorPoint.y) * static_cast<float>(lHeight / 10)) * lIsFlipY;
+	float lBottom = ((1.0f - anchorPoint.y) * static_cast<float>(lHeight / 10)) * lIsFlipY;
 
 	// 頂点データ
-	PosUvColor vertices[] =
+	PosUvColor lVertices[] =
 	{//		x		y		z		u	v
-		{{left, top, 0.0f},{widthU * static_cast<float>(animeFrame),texTop},{1.0f,1.0f,1.0f,1.0f}},//左上インデックス0
-		{{left, bottom, 0.0f},{widthU * static_cast<float>(animeFrame),texRight},{1.0f,1.0f,1.0f,1.0f}},//左下インデックス1
-		{{right, top, 0.0f},{widthU * static_cast<float>((animeFrame + 1)),texTop},{1.0f,1.0f,1.0f,1.0f}},//右上インデックス2
-		{{right, bottom, 0.0f},{widthU * static_cast<float>((animeFrame + 1)),texRight},{1.0f,1.0f,1.0f,1.0f}},//右下インデックス3
+		{{lLeft, lTop, 0.0f},{widthU * static_cast<float>(lAnimeFrame),lTexTop},{1.0f,1.0f,1.0f,1.0f}},//左上インデックス0
+		{{lLeft, lBottom, 0.0f},{widthU * static_cast<float>(lAnimeFrame),lTexRight},{1.0f,1.0f,1.0f,1.0f}},//左下インデックス1
+		{{lRight, lTop, 0.0f},{widthU * static_cast<float>((lAnimeFrame + 1)),lTexTop},{1.0f,1.0f,1.0f,1.0f}},//右上インデックス2
+		{{lRight, lBottom, 0.0f},{widthU * static_cast<float>((lAnimeFrame + 1)),lTexRight},{1.0f,1.0f,1.0f,1.0f}},//右下インデックス3
 	};
 
 	// インデックスデータ
-	uint32_t indices[] =
+	uint32_t lIndices[] =
 	{
 		3, 0, 1, // 三角形1つ目
 		0, 3, 2, // 三角形2つ目
 	};
 
 	//頂点バッファへのデータ転送
-	vertexBuffer->Update(vertices);
+	vertexBuffer->Update(lVertices);
 
 	//インデックスバッファへのデータ転送
-	indexBuffer->Update(indices);
+	indexBuffer->Update(lIndices);
 
 	switch (blend)
 	{
 	case BlendMode::AX_BLENDMODE_NOBLEND:
-		spriteMaterial = MaterialManager::GetMaterial("Sprite3DNoblend");
+		spriteMaterial = MaterialManager::SGetMaterial("Sprite3DNoblend");
 		break;
 	case BlendMode::AX_BLENDMODE_ALPHA:
-		spriteMaterial = MaterialManager::GetMaterial("Sprite3DAlpha");
+		spriteMaterial = MaterialManager::SGetMaterial("Sprite3DAlpha");
 		break;
 	case BlendMode::AX_BLENDMODE_ADD:
-		spriteMaterial = MaterialManager::GetMaterial("Sprite3DAdd");
+		spriteMaterial = MaterialManager::SGetMaterial("Sprite3DAdd");
 		break;
 	case BlendMode::AX_BLENDMODE_SUB:
-		spriteMaterial = MaterialManager::GetMaterial("Sprite3DSub");
+		spriteMaterial = MaterialManager::SGetMaterial("Sprite3DSub");
 		break;
 	case BlendMode::AX_BLENDMODE_MULA:
-		spriteMaterial = MaterialManager::GetMaterial("Sprite3DMula");
+		spriteMaterial = MaterialManager::SGetMaterial("Sprite3DMula");
 		break;
 	case BlendMode::AX_BLENDMODE_INVSRC:
-		spriteMaterial = MaterialManager::GetMaterial("Sprite3DInvsrc");
+		spriteMaterial = MaterialManager::SGetMaterial("Sprite3DInvsrc");
 		break;
 	case BlendMode::AX_BLENDMODE_MAX:
-		spriteMaterial = MaterialManager::GetMaterial("Sprite3DNoblend");
+		spriteMaterial = MaterialManager::SGetMaterial("Sprite3DNoblend");
 		//printf("ブレンドの種類数を入れています");
 		break;
 	case BlendMode::AX_BLENDMODE_CUSTOM:
@@ -316,7 +313,7 @@ void Sprite3D::AnimationDraw(Transform& transform, uint16_t radiusX, uint16_t ra
 		else
 		{
 			//printf("マテリアルがnullです");
-			spriteMaterial = MaterialManager::GetMaterial("Sprite3DNoblend");
+			spriteMaterial = MaterialManager::SGetMaterial("Sprite3DNoblend");
 		}
 		break;
 	default:
@@ -325,90 +322,90 @@ void Sprite3D::AnimationDraw(Transform& transform, uint16_t radiusX, uint16_t ra
 		break;
 	}
 
-	transform.Update();
+	transform_.Update();
 
 
-	SpriteDraw(transform, spriteMaterial);
+	PSpriteDraw(transform_, spriteMaterial);
 }
 
-void Sprite3D::AnimationDraw(Transform& transform, uint16_t radiusX, uint16_t radiusY, float& frame, float frameDiv, Camera* camera, BlendMode blend, BillboardFlag flag, Material* material)
+void Sprite3D::AnimationDraw(Transform& transform_, uint16_t radiusX, uint16_t radiusY, float& frame, float frameDiv, Camera* camera_, BlendMode blend, BillboardFlag flag, Material* material)
 {
-	AliceMathF::Matrix4 mTrans, mRot, mScale;
+	AliceMathF::Matrix4 lMatTrans, lMatRot, lMatScale;
 
 	//平行移動行列
-	mTrans.MakeTranslation(transform.translation);
+	lMatTrans.MakeTranslation(transform_.translation);
 	//回転行列
-	mRot.MakeRotation(transform.rotation);
+	lMatRot.MakeRotation(transform_.rotation);
 	//スケール行列
-	mScale.MakeScaling(transform.scale);
+	lMatScale.MakeScaling(transform_.scale);
 
 	switch (flag)
 	{
 	case NonBillboard:
-		transform.matWorld = mScale * mRot * mTrans * camera->GetViewMatrixInv() * camera->GetProjectionMatrix();
+		transform_.matWorld = lMatScale * lMatRot * lMatTrans * camera_->GetViewMatrixInv() * camera_->GetProjectionMatrix();
 		break;
 	case AllBillboard:
 	{
-		AliceMathF::Matrix4 mat = camera->GetViewMatrix();
+		AliceMathF::Matrix4 lMatBillboard = camera_->GetViewMatrix();
 
-		mat.m[3][0] = 0;
-		mat.m[3][1] = 0;
-		mat.m[3][2] = 0;
-		mat.m[3][3] = 1;
+		lMatBillboard.m[3][0] = 0;
+		lMatBillboard.m[3][1] = 0;
+		lMatBillboard.m[3][2] = 0;
+		lMatBillboard.m[3][3] = 1;
 
-		transform.matWorld = mScale * mRot * mat * mTrans * camera->GetViewMatrixInv() * camera->GetProjectionMatrix();
+		transform_.matWorld = lMatScale * lMatRot * lMatBillboard * lMatTrans * camera_->GetViewMatrixInv() * camera_->GetProjectionMatrix();
 		break;
 	}
 	case XBillboard:
 	{
-		AliceMathF::Matrix4 mat = camera->GetViewMatrix();
+		AliceMathF::Matrix4 lMatBillboard = camera_->GetViewMatrix();
 
-		mat.m[1][0] = 0;
-		mat.m[1][1] = 1;
-		mat.m[1][2] = 0;
-		mat.m[1][3] = 0;
+		lMatBillboard.m[1][0] = 0;
+		lMatBillboard.m[1][1] = 1;
+		lMatBillboard.m[1][2] = 0;
+		lMatBillboard.m[1][3] = 0;
 
-		mat.m[3][0] = 0;
-		mat.m[3][1] = 0;
-		mat.m[3][2] = 0;
-		mat.m[3][3] = 1;
+		lMatBillboard.m[3][0] = 0;
+		lMatBillboard.m[3][1] = 0;
+		lMatBillboard.m[3][2] = 0;
+		lMatBillboard.m[3][3] = 1;
 
-		transform.matWorld = mScale * mRot * mat * mTrans * camera->GetViewMatrixInv() * camera->GetProjectionMatrix();
+		transform_.matWorld = lMatScale * lMatRot * lMatBillboard * lMatTrans * camera_->GetViewMatrixInv() * camera_->GetProjectionMatrix();
 		break;
 	}
 	case YBillboard:
 	{
-		AliceMathF::Matrix4 mat = camera->GetViewMatrix();
+		AliceMathF::Matrix4 lMatBillboard = camera_->GetViewMatrix();
 
-		mat.m[0][0] = 1;
-		mat.m[0][1] = 0;
-		mat.m[0][2] = 0;
-		mat.m[0][3] = 0;
+		lMatBillboard.m[0][0] = 1;
+		lMatBillboard.m[0][1] = 0;
+		lMatBillboard.m[0][2] = 0;
+		lMatBillboard.m[0][3] = 0;
 
-		mat.m[3][0] = 0;
-		mat.m[3][1] = 0;
-		mat.m[3][2] = 0;
-		mat.m[3][3] = 1;
+		lMatBillboard.m[3][0] = 0;
+		lMatBillboard.m[3][1] = 0;
+		lMatBillboard.m[3][2] = 0;
+		lMatBillboard.m[3][3] = 1;
 
 
-		transform.matWorld = mScale * mRot * mat * mTrans * camera->GetViewMatrixInv() * camera->GetProjectionMatrix();
+		transform_.matWorld = lMatScale * lMatRot * lMatBillboard * lMatTrans * camera_->GetViewMatrixInv() * camera_->GetProjectionMatrix();
 		break;
 	}
 	case XYBillboard:
 	{
-		AliceMathF::Matrix4 mat = camera->GetViewMatrix();
+		AliceMathF::Matrix4 lMatBillboard = camera_->GetViewMatrix();
 
-		mat.m[2][0] = 0;
-		mat.m[2][1] = 0;
-		mat.m[2][2] = 1;
-		mat.m[2][3] = 0;
+		lMatBillboard.m[2][0] = 0;
+		lMatBillboard.m[2][1] = 0;
+		lMatBillboard.m[2][2] = 1;
+		lMatBillboard.m[2][3] = 0;
 
-		mat.m[3][0] = 0;
-		mat.m[3][1] = 0;
-		mat.m[3][2] = 0;
-		mat.m[3][3] = 1;
+		lMatBillboard.m[3][0] = 0;
+		lMatBillboard.m[3][1] = 0;
+		lMatBillboard.m[3][2] = 0;
+		lMatBillboard.m[3][3] = 1;
 
-		transform.matWorld = mScale * mRot * mat * mTrans * camera->GetViewMatrixInv() * camera->GetProjectionMatrix();
+		transform_.matWorld = lMatScale * lMatRot * lMatBillboard * lMatTrans * camera_->GetViewMatrixInv() * camera_->GetProjectionMatrix();
 		break;
 	}
 	default:
@@ -416,7 +413,21 @@ void Sprite3D::AnimationDraw(Transform& transform, uint16_t radiusX, uint16_t ra
 		break;
 	}
 
-	transform.Update();
+	transform_.Update();
 
-	AnimationDraw(transform, radiusX, radiusY, frame, frameDiv, blend, material);
+	AnimationDraw(transform_, radiusX, radiusY, frame, frameDiv, blend, material);
+}
+
+std::unique_ptr<Sprite3D> CreateUniqueSprite3D(uint32_t handle_)
+{
+	std::unique_ptr<Sprite3D>lSprite3D = std::make_unique<Sprite3D>();
+	lSprite3D->Initialize(handle_);
+	return std::move(lSprite3D);
+}
+
+std::shared_ptr<Sprite3D> CreateSharedSprite3D(uint32_t handle_)
+{
+	std::shared_ptr<Sprite3D> lSprite3D = std::make_unique<Sprite3D>();
+	lSprite3D->Initialize(handle_);
+	return lSprite3D;
 }
