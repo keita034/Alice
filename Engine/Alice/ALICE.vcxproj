@@ -46,14 +46,14 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)Engine\Alice\lib\include;$(SolutionDir)Engine\AliceCore\Incluede;$(SolutionDir)Engine\AliceCore\Incluede\Buffer;$(SolutionDir)Engine\AliceCore\Incluede\DescriptorHeap;$(SolutionDir)Engine\AliceMath\Incluede;$(SolutionDir)Engine\AliceMath\Incluede\Collision;$(SolutionDir)Engine\AliceMath\Incluede\Collision\2D;$(SolutionDir)Engine\AliceMath\Incluede\Collision\3D;$(SolutionDir)Engine\AliceMath\Incluede\Double;$(SolutionDir)Engine\AliceMath\Incluede\Double\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Double\Vector;$(SolutionDir)Engine\AliceMath\Incluede\Float;$(SolutionDir)Engine\AliceMath\Incluede\Float\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Float\Vector;$(SolutionDir)Engine\AliceInput\Incluede</IncludePath>
+    <IncludePath>$(SolutionDir)Engine\Alice\lib\include;$(SolutionDir)Engine\AliceCore\Incluede;$(SolutionDir)Engine\AliceCore\Incluede\Buffer;$(SolutionDir)Engine\AliceCore\Incluede\DescriptorHeap;$(SolutionDir)Engine\AliceMath\Incluede;$(SolutionDir)Engine\AliceMath\Incluede\Collision;$(SolutionDir)Engine\AliceMath\Incluede\Collision\2D;$(SolutionDir)Engine\AliceMath\Incluede\Collision\3D;$(SolutionDir)Engine\AliceMath\Incluede\Double;$(SolutionDir)Engine\AliceMath\Incluede\Double\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Double\Vector;$(SolutionDir)Engine\AliceMath\Incluede\Float;$(SolutionDir)Engine\AliceMath\Incluede\Float\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Float\Vector;$(SolutionDir)Engine\AliceInput\Incluede;$(SolutionDir)Engine\AliceAudio\Incluede</IncludePath>
     <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</ExternalIncludePath>
     <LibraryPath>$(SolutionDir)Engine\Alice\lib\lib\debug;$(LibraryPath)</LibraryPath>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)Lib\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)Engine\Alice\lib\include;$(SolutionDir)Engine\AliceCore\Incluede;$(SolutionDir)Engine\AliceCore\Incluede\Buffer;$(SolutionDir)Engine\AliceCore\Incluede\DescriptorHeap;$(SolutionDir)Engine\AliceMath\Incluede;$(SolutionDir)Engine\AliceMath\Incluede\Collision;$(SolutionDir)Engine\AliceMath\Incluede\Collision\2D;$(SolutionDir)Engine\AliceMath\Incluede\Collision\3D;$(SolutionDir)Engine\AliceMath\Incluede\Double;$(SolutionDir)Engine\AliceMath\Incluede\Double\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Double\Vector;$(SolutionDir)Engine\AliceMath\Incluede\Float;$(SolutionDir)Engine\AliceMath\Incluede\Float\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Float\Vector;$(SolutionDir)Engine\AliceInput\Incluede</IncludePath>
+    <IncludePath>$(SolutionDir)Engine\Alice\lib\include;$(SolutionDir)Engine\AliceCore\Incluede;$(SolutionDir)Engine\AliceCore\Incluede\Buffer;$(SolutionDir)Engine\AliceCore\Incluede\DescriptorHeap;$(SolutionDir)Engine\AliceMath\Incluede;$(SolutionDir)Engine\AliceMath\Incluede\Collision;$(SolutionDir)Engine\AliceMath\Incluede\Collision\2D;$(SolutionDir)Engine\AliceMath\Incluede\Collision\3D;$(SolutionDir)Engine\AliceMath\Incluede\Double;$(SolutionDir)Engine\AliceMath\Incluede\Double\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Double\Vector;$(SolutionDir)Engine\AliceMath\Incluede\Float;$(SolutionDir)Engine\AliceMath\Incluede\Float\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Float\Vector;$(SolutionDir)Engine\AliceInput\Incluede;$(SolutionDir)Engine\AliceAudio\Incluede</IncludePath>
     <LibraryPath>$(SolutionDir)Engine\Alice\lib\lib;$(LibraryPath)</LibraryPath>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)Lib\$(Configuration)\</OutDir>
@@ -164,7 +164,6 @@
     <ClInclude Include="Incluede\3D\3DMesh.h" />
     <ClInclude Include="Incluede\3D\Model\ModelMesh.h" />
     <ClInclude Include="Incluede\Util\Transform.h" />
-    <ClInclude Include="Incluede\Audio\AudioManager.h" />
     <ClInclude Include="Incluede\Camera\Camera.h" />
     <ClInclude Include="Incluede\Camera\CinemaCamera.h" />
     <ClInclude Include="Incluede\Core\DirectX\ComputePipelineState.h" />
@@ -243,7 +242,6 @@
     <ClCompile Include="Source\3D\3DMesh.cpp" />
     <ClCompile Include="Source\3D\Model\ModelMesh.cpp" />
     <ClCompile Include="Source\Util\Transform.cpp" />
-    <ClCompile Include="Source\Audio\AudioManager.cpp" />
     <ClCompile Include="Source\Camera\Camera.cpp" />
     <ClCompile Include="Source\Camera\CinemaCamera.cpp" />
     <ClCompile Include="Source\Core\DirectX\ComputePipelineState.cpp" />
@@ -459,6 +457,9 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AliceAudio\AliceAudio.vcxproj">
+      <Project>{80af1d92-0c19-4b7d-bb88-d86607958efe}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\AliceCore\AliceCore.vcxproj">
       <Project>{0c4e6eb7-9df9-4089-b866-c3b8815bf856}</Project>
     </ProjectReference>

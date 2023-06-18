@@ -38,9 +38,6 @@
     <Filter Include="ソース ファイル\Light">
       <UniqueIdentifier>{209fad85-2044-4779-95ee-258b1314a073}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Audio">
-      <UniqueIdentifier>{c64ffc37-fa6b-46de-bd5a-e77e718c55f6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Util">
       <UniqueIdentifier>{72ee2f8a-4c7b-4efa-b30c-b9543bd282b8}</UniqueIdentifier>
     </Filter>
@@ -83,9 +80,6 @@
     </Filter>
     <Filter Include="ヘッダー ファイル\Light">
       <UniqueIdentifier>{b68b129b-cdd0-40e7-b83c-734eaed6d4e2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Audio">
-      <UniqueIdentifier>{603c0c88-0c93-4383-9734-60f88c4a0fa7}</UniqueIdentifier>
     </Filter>
     <Filter Include="ヘッダー ファイル\Util">
       <UniqueIdentifier>{f60025ab-bf0a-4ff7-82f9-ecb2bbc3c472}</UniqueIdentifier>
@@ -194,9 +188,6 @@
     </ClInclude>
     <ClInclude Include="Incluede\Camera\Camera.h">
       <Filter>ヘッダー ファイル\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Audio\AudioManager.h">
-      <Filter>ヘッダー ファイル\Audio</Filter>
     </ClInclude>
     <ClInclude Include="Incluede\2D\Particle\Particle.h">
       <Filter>ヘッダー ファイル\2D\Particle</Filter>
@@ -421,9 +412,6 @@
     </ClCompile>
     <ClCompile Include="Source\Light\Light.cpp">
       <Filter>ソース ファイル\Light</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Audio\AudioManager.cpp">
-      <Filter>ソース ファイル\Audio</Filter>
     </ClCompile>
     <ClCompile Include="Source\2D\Mesh.cpp">
       <Filter>ソース ファイル\2D</Filter>

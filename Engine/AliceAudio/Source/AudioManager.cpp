@@ -21,9 +21,9 @@
 #include<wrl.h>
 #include<list>
 #include<cassert>
+#include<filesystem>
 
 #pragma warning(pop)
-
 
 #pragma comment(lib,"xaudio2.lib")
 #pragma comment(lib, "Mf.lib")
@@ -31,7 +31,21 @@
 #pragma comment(lib, "Mfreadwrite.lib")
 #pragma comment(lib, "mfuuid.lib")
 
-#include<AliceFunctionUtility.h>
+std::wstring StrToWstr(const std::string& string_)
+{
+	auto const lDestSize = ::MultiByteToWideChar(CP_ACP, 0U, string_.data(), -1, nullptr, 0U);
+	std::vector<wchar_t> lDest(static_cast<const uint64_t>(lDestSize), L'\0');
+
+	if (::MultiByteToWideChar(CP_ACP, 0U, string_.data(), -1, lDest.data(), static_cast<int32_t>(lDest.size())) == 0)
+	{
+		throw std::system_error{ static_cast<int32_t>(::GetLastError()), std::system_category() };
+	}
+
+	lDest.resize(std::char_traits<wchar_t>::length(lDest.data()));
+	lDest.shrink_to_fit();
+
+	return std::wstring(lDest.begin(), lDest.end());
+}
 
 class AudioData
 {
@@ -294,7 +308,7 @@ uint32_t AudioManager::LoadAudio(const std::string& fileName_, const float& volu
 
 	audios.emplace_back(fileName_);
 
-	std::wstring lWFilePath = AliceFunctionUtility::StringToWstring(fileName_);
+	std::wstring lWFilePath = StrToWstr(fileName_);
 
 	lResult = MFCreateSourceReaderFromURL(lWFilePath.c_str(), NULL, &audios.back().pMFSourceReader);
 
