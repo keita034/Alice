@@ -47,7 +47,7 @@ public:
 	virtual ~AliceFramework() = default;
 	AliceFramework() = default;
 
-	static void DebugInitialize();
+	static void SDebugInitialize();
 
 	/// <summary>
 	/// 初期化

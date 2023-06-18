@@ -15,7 +15,7 @@ private:
 
 public:
 
-	static StripedPostEffect* GetInstance();
+	static StripedPostEffect* SGetInstance();
 
 	/// <summary>
 	/// 初期化

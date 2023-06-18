@@ -20,7 +20,7 @@ private:
 
 public:
 
-	static OilPaintingPostEffect* GetInstance();
+	static OilPaintingPostEffect* SGetInstance();
 
 	/// <summary>
 	/// 初期化

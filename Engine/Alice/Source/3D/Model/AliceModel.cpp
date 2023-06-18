@@ -419,7 +419,7 @@ const std::vector<std::unique_ptr<ModelMesh>>& AliceModel::GetMeshs()
 	return modelData->meshes;
 }
 
-void AliceModel::SetLight(Light* light_)
+void AliceModel::SSetLight(Light* light_)
 {
 	sLight = light_;
 }

@@ -25,7 +25,7 @@ private:
 
 public:
 
-	static LutPostEffect* GetInstance();
+	static LutPostEffect* SGetInstance();
 
 	void Initialize() override;
 

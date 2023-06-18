@@ -3,7 +3,7 @@
 #include<CapsuleCllider2D.h>
 #include<Collision.h>
 
-Collision2DManager* Collision2DManager::GetInstance()
+Collision2DManager* Collision2DManager::SGetInstance()
 {
 	static Collision2DManager lInstance;
 	return &lInstance;

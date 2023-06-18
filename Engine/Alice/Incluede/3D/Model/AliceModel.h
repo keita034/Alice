@@ -160,7 +160,7 @@ public:
 	/// ライトをセット(共通)
 	/// </summary>
 	/// <param name="lightPtr">ライトのポインタ</param>
-	static void SetLight(Light* light_);
+	static void SSetLight(Light* light_);
 
 	/// <summary>
 	/// モデル生成

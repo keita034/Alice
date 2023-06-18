@@ -1,10 +1,10 @@
 ﻿#include "ChromaticAberrationPostEffect.h"
 #include<DefaultMaterial.h>
 
-ChromaticAberrationPostEffect* ChromaticAberrationPostEffect::GetInstance()
+ChromaticAberrationPostEffect* ChromaticAberrationPostEffect::SGetInstance()
 {
-	static ChromaticAberrationPostEffect instance;
-	return &instance;
+	static ChromaticAberrationPostEffect lInstance;
+	return &lInstance;
 }
 
 void ChromaticAberrationPostEffect::Initialize()

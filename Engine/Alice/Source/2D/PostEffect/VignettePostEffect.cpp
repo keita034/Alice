@@ -1,9 +1,9 @@
 ﻿#include<VignettePostEffect.h>
 
-VignettePostEffect* VignettePostEffect::GetInstance()
+VignettePostEffect* VignettePostEffect::SGetInstance()
 {
-	static VignettePostEffect instance;
-	return &instance;
+	static VignettePostEffect lInstance;
+	return &lInstance;
 }
 
 void VignettePostEffect::Initialize()
@@ -106,27 +106,27 @@ void VignettePostEffect::PostUpdate(RenderTarget* mainRenderTarget_)
 
 void VignettePostEffect::SSetVignetteData(const AliceMathF::Vector3& color_, const AliceMathF::Vector2& center_, float power_, const AliceMathF::Vector2& size_)
 {
-	VignettePostEffect::GetInstance()->PSetVignetteData(color_, center_, power_, size_);
+	VignettePostEffect::SGetInstance()->PSetVignetteData(color_, center_, power_, size_);
 }
 
 void VignettePostEffect::SSetColor(const AliceMathF::Vector3& color_)
 {
-	VignettePostEffect::GetInstance()->PSetColor(color_);
+	VignettePostEffect::SGetInstance()->PSetColor(color_);
 }
 
 void VignettePostEffect::SSetCenter(const AliceMathF::Vector2& center_)
 {
-	VignettePostEffect::GetInstance()->PSetCenter(center_);
+	VignettePostEffect::SGetInstance()->PSetCenter(center_);
 }
 
 void VignettePostEffect::SSetPower(float power_)
 {
-	VignettePostEffect::GetInstance()->PSetPower(power_);
+	VignettePostEffect::SGetInstance()->PSetPower(power_);
 }
 
 void VignettePostEffect::SSetSize(const AliceMathF::Vector2& size_)
 {
-	VignettePostEffect::GetInstance()->PSetSize(size_);
+	VignettePostEffect::SGetInstance()->PSetSize(size_);
 }
 
 const std::string& VignettePostEffect::GetType()

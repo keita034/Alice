@@ -4,10 +4,10 @@
 #include<WindowsApp.h>
 #include<DefaultMaterial.h>
 
-LutPostEffect* LutPostEffect::GetInstance()
+LutPostEffect* LutPostEffect::SGetInstance()
 {
-	static LutPostEffect instance;
-	return &instance;
+	static LutPostEffect lInstance;
+	return &lInstance;
 }
 
 void LutPostEffect::Initialize()

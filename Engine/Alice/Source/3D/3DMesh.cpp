@@ -1,7 +1,7 @@
 ﻿#include<3DMesh.h>
 
 
-std::unique_ptr<Mesh3D> Mesh3D::mesh;
+std::unique_ptr<Mesh3D> Mesh3D::sMesh;
 IWindowsApp* Mesh3D::sWindowsApp = nullptr;
 ID3D12GraphicsCommandList* Mesh3D::sCmdList = nullptr;
 
@@ -158,15 +158,15 @@ void Mesh3D::SSetDirectX12Core(DirectX12Core* directX12Core_)
 
 #pragma region プライベート
 
-Mesh3D* Mesh3D::GetInstance()
+Mesh3D* Mesh3D::SGetInstance()
 {
-	if (!mesh)
+	if (!sMesh)
 	{
 		Mesh3D* lMesh3D = new Mesh3D();
-		mesh.reset(lMesh3D);
+		sMesh.reset(lMesh3D);
 	}
 	
-	return mesh.get();
+	return sMesh.get();
 }
 
 void Mesh3D::SetCamera(GameCamera* camera_)

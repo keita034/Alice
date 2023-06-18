@@ -20,7 +20,7 @@ private:
 
 public:
 
-	static GaussianBlurPostEffect* GetInstance();
+	static GaussianBlurPostEffect* SGetInstance();
 
 	//初期化
 	void Initialize() override;

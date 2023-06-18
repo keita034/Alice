@@ -7,7 +7,7 @@
 #include<Particle.h>
 #include<Sprite.h>
 
-void AliceFramework::DebugInitialize()
+void AliceFramework::SDebugInitialize()
 {
 	HANDLE stdOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	DWORD consoleMode = 0;
@@ -33,7 +33,7 @@ void AliceFramework::Initialize()
 	Mesh::SSetWindowsApp(windowsApp.get());
 	Mesh3D::SSetWindowsApp(windowsApp.get());
 	PostEffectManager::SSetWindowsApp(windowsApp.get());
-	Camera::SetWindowsApp(windowsApp.get());
+	Camera::SSetWindowsApp(windowsApp.get());
 	Sprite::SSetWindowsApp(windowsApp.get());
 
 	Particle::SSetDirectX12Core(directX12Core.get());
@@ -45,15 +45,15 @@ void AliceFramework::Initialize()
 	PipelineState::SSetDirectX12Core(directX12Core.get());
 	TextureManager::SSetDirectX12Core(directX12Core.get());
 
-	mesh = Mesh::GetInstance();
-	mesh3D = Mesh3D::GetInstance();
+	mesh = Mesh::SGetInstance();
+	mesh3D = Mesh3D::SGetInstance();
 
-	textureManager = TextureManager::GetInstance();
+	textureManager = TextureManager::SGetInstance();
 	textureManager->Initialize();
 
 	Particle::SSetTextureManager(textureManager);
 
-	MaterialManager::GetInstance()->Initialize(directX12Core->GetDevice());
+	MaterialManager::SGetInstance()->Initialize(directX12Core->GetDevice());
 	//描画初期化処理ここまで
 
 	//その他初期化ここから
@@ -72,9 +72,9 @@ void AliceFramework::Initialize()
 
 	imGuiManager = CreateUniqueImGuiManager(windowsApp.get(), directX12Core.get());
 	
-	sceneManager = SceneManager::GetInstance();
+	sceneManager = SceneManager::SGetInstance();
 
-	postEffectManager = PostEffectManager::GetInstance();
+	postEffectManager = PostEffectManager::SGetInstance();
 
 	postEffectManager->Initialize();
 	//その他初期化ここまで
@@ -102,7 +102,7 @@ void AliceFramework::Update()
 
 	imGuiManager->Bigin();
 
-	Collision2DManager::GetInstance()->CheckAllCollisions();
+	Collision2DManager::SGetInstance()->CheckAllCollisions();
 
 	sceneManager->Update();
 

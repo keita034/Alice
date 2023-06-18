@@ -13,14 +13,14 @@ GameScene::~GameScene()
 void GameScene::Initialize()
 {
 
-	mesh2D = Mesh::GetInstance();
+	mesh2D = Mesh::SGetInstance();
 
 	//ライト初期化
 	light = CreateUniqueLight();
 	light->SetLightColor(lightColor);
 	light->SetLightDir({ 1.0f,0.0f,1.0f });
 	//モデルにライトをセット
-	AliceModel::SetLight(light.get());
+	AliceModel::SSetLight(light.get());
 
 	camera = std::make_unique<GameCamera>();
 	camera->Initialize(UpdateProjMatrixFunc_Perspective);

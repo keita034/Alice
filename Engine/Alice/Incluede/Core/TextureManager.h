@@ -92,7 +92,7 @@ public:
 	/// インスタンスを所得
 	/// </summary>
 	/// <returns>インスタンス</returns>
-	static TextureManager* GetInstance();
+	static TextureManager* SGetInstance();
 
 	/// <summary>
 	/// テクスチャをロードします

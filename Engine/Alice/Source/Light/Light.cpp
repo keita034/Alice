@@ -1,7 +1,7 @@
 ﻿#include<Light.h>
 #include<DirectX12Core.h>
 
-ID3D12Device* Light::device = nullptr;
+ID3D12Device* Light::sDevice = nullptr;
 
 void Light::Initialize()
 {
@@ -50,7 +50,7 @@ void Light::SetConstBufferView(ID3D12GraphicsCommandList* cmdList_, uint32_t roo
 
 void Light::SSetDevice(ID3D12Device* device_)
 {
-	device = device_;
+	sDevice = device_;
 }
 
 std::unique_ptr<Light> CreateUniqueLight()

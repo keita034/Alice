@@ -176,7 +176,7 @@ void TextureManager::Initialize()
 	sFilePaths.resize(static_cast<size_t>(2024));
 }
 
-TextureManager* TextureManager::GetInstance()
+TextureManager* TextureManager::SGetInstance()
 {
 	if (!sTextureManager)
 	{
@@ -189,7 +189,7 @@ TextureManager* TextureManager::GetInstance()
 
 uint32_t TextureManager::SLoad(const std::string& path_)
 {
-	return TextureManager::GetInstance()->LoadTexture(path_);
+	return TextureManager::SGetInstance()->LoadTexture(path_);
 }
 
 TextureData* TextureManager::SGetTextureData(uint32_t handle_)

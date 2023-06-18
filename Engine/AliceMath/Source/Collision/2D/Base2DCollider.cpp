@@ -59,13 +59,13 @@ Collider2DObject* Base2DCollider::GetColliderObject()
 
 void Base2DCollider::Valid()
 {
-	Collision2DManager::GetInstance()->AddCollider(this);
+	Collision2DManager::SGetInstance()->AddCollider(this);
 	isValid = true;
 }
 
 void Base2DCollider::Invalid()
 {
-	Collision2DManager::GetInstance()->RemoveCollider(this);
+	Collision2DManager::SGetInstance()->RemoveCollider(this);
 	isValid = false;
 }
 

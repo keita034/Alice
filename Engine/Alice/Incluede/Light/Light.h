@@ -16,7 +16,7 @@ struct LightConstBuffData
 class Light
 {
 private:
-	static ID3D12Device* device;
+	static ID3D12Device* sDevice;
 	//定数バッファ
 	std::unique_ptr<IConstantBuffer>constBuff;
 	//定数バッファのマップ

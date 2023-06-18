@@ -3,10 +3,10 @@
 #include<WindowsApp.h>
 #include<DefaultMaterial.h>
 
-OilPaintingPostEffect* OilPaintingPostEffect::GetInstance()
+OilPaintingPostEffect* OilPaintingPostEffect::SGetInstance()
 {
-	static OilPaintingPostEffect instance;
-	return &instance;
+	static OilPaintingPostEffect lInstance;
+	return &lInstance;
 }
 
 void OilPaintingPostEffect::Initialize()

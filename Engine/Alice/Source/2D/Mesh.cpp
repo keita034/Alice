@@ -1,6 +1,6 @@
 ﻿#include<Mesh.h>
 
-std::unique_ptr<Mesh> Mesh::mesh;
+std::unique_ptr<Mesh> Mesh::sMesh;
 IWindowsApp* Mesh::sWindowsApp = nullptr;
 ID3D12GraphicsCommandList* Mesh::sCmdList = nullptr;
 
@@ -219,15 +219,15 @@ Mesh::Mesh()
 
 #pragma region プライベート
 
-Mesh* Mesh::GetInstance()
+Mesh* Mesh::SGetInstance()
 {
-	if (!mesh)
+	if (!sMesh)
 	{
 		Mesh* lMesh = new Mesh();
-		mesh.reset(lMesh);
+		sMesh.reset(lMesh);
 	}
 
-	return mesh.get();
+	return sMesh.get();
 }
 
 void Mesh::Destroy()

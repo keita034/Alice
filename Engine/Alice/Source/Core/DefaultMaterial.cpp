@@ -8,7 +8,7 @@ void MaterialManager::Initialize(ID3D12Device* device_)
 	PCreateDefaultTexture();
 }
 
-MaterialManager* MaterialManager::GetInstance()
+MaterialManager* MaterialManager::SGetInstance()
 {
 	static MaterialManager material;
 	return &material;
@@ -172,7 +172,7 @@ void MaterialManager::AddMaterial(Material* material, const std::string& name_)
 
 Material* MaterialManager::SGetMaterial(const std::string& name_)
 {
-	return MaterialManager::GetInstance()->GetMaterialData(name_);
+	return MaterialManager::SGetInstance()->GetMaterialData(name_);
 }
 
 TextureData* MaterialManager::GetDefaultTextureData()
@@ -182,7 +182,7 @@ TextureData* MaterialManager::GetDefaultTextureData()
 
 TextureData* MaterialManager::SGetDefaultTexture()
 {
-	return MaterialManager::GetInstance()->GetDefaultTextureData();
+	return MaterialManager::SGetInstance()->GetDefaultTextureData();
 }
 
 MaterialManager::~MaterialManager()

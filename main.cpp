@@ -4,7 +4,7 @@
 #ifdef _DEBUG
 int main()
 {
-	GameMain::DebugInitialize();
+	GameMain::SDebugInitialize();
 
 #else
 int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int)

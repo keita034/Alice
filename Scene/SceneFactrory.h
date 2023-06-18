@@ -8,7 +8,7 @@ class SceneFactrory:public AbstractSceneFactory
 {
 public:
 
-	static SceneFactrory* GetInstance();
+	static SceneFactrory* SGetInstance();
 
 	/// <summary>
 	/// ÉVÅ[Éìê∂ê¨

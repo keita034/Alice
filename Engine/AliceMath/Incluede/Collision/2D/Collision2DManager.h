@@ -24,7 +24,7 @@ public:
 	/// <summary>
 	/// インスタンスを取得
 	/// </summary>
-	static Collision2DManager* GetInstance();
+	static Collision2DManager* SGetInstance();
 
 	/// <summary>
 	/// コライダーを追加

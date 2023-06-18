@@ -20,7 +20,7 @@ private:
 
 public:
 
-	static ChromaticAberrationPostEffect* GetInstance();
+	static ChromaticAberrationPostEffect* SGetInstance();
 
 	/// <summary>
 	/// 初期化

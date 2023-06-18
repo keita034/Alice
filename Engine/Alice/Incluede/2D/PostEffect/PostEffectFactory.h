@@ -8,7 +8,7 @@ class PostEffectFactory final : public AbstractPostEffectFactory
 {
 public:
 
-	static PostEffectFactory* GetInstance();
+	static PostEffectFactory* SGetInstance();
 
 	/// <summary>
 	/// ポストエフェクト生成

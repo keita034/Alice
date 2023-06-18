@@ -6,10 +6,10 @@ void GameMain::Initialize()
 	AliceFramework::Initialize();
 
 	//ƒV[ƒ“‚Ì‰Šú‰»
-	sceneFactory = SceneFactrory::GetInstance();
-	SceneManager::GetInstance()->SetSceneFactory(sceneFactory);
+	sceneFactory = SceneFactrory::SGetInstance();
+	SceneManager::SGetInstance()->SetSceneFactory(sceneFactory);
 
-	SceneManager::GetInstance()->ChangeScene("GAME");
+	SceneManager::SGetInstance()->ChangeScene("GAME");
 }
 
 void GameMain::Finalize()

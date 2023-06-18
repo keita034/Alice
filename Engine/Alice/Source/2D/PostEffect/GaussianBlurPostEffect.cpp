@@ -49,10 +49,10 @@ const std::string& GaussianBlurPostEffect::GetType()
 	return type;
 }
 
-GaussianBlurPostEffect* GaussianBlurPostEffect::GetInstance()
+GaussianBlurPostEffect* GaussianBlurPostEffect::SGetInstance()
 {
-	static GaussianBlurPostEffect instance;
-	return &instance;
+	static GaussianBlurPostEffect lInstance;
+	return &lInstance;
 }
 
 void GaussianBlurPostEffect::Draw(RenderTarget* mainRenderTarget_)

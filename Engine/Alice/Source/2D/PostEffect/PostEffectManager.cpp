@@ -3,15 +3,14 @@
 #include<DefaultMaterial.h>
 #include<PostEffectFactory.h>
 
-const float PostEffectManager::clearColor[4] = { 1.0f,1.0f,1.0f,0.0f };
 ID3D12GraphicsCommandList* PostEffectManager::sCmdList = nullptr;
 IDescriptorHeap* PostEffectManager::sSrvHeap = nullptr;
 IWindowsApp* PostEffectManager::sWindowsApp = nullptr;
 
-PostEffectManager* PostEffectManager::GetInstance()
+PostEffectManager* PostEffectManager::SGetInstance()
 {
-	static PostEffectManager instance;
-	return &instance;
+	static PostEffectManager lInstance;
+	return &lInstance;
 }
 
 void PostEffectManager::Initialize()
@@ -29,7 +28,7 @@ void PostEffectManager::Initialize()
 	//インデックスバッファの生成
 	indexBuffer = CreateUniqueIndexBuffer(6);
 
-	factory = PostEffectFactory::GetInstance();
+	factory = PostEffectFactory::SGetInstance();
 }
 
 void PostEffectManager::PostInitialize()

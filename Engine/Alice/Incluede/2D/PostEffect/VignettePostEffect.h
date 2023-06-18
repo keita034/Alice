@@ -31,7 +31,7 @@ private:
 
 public:
 
-	static VignettePostEffect* GetInstance();
+	static VignettePostEffect* SGetInstance();
 
 	//初期化
 	void Initialize() override;

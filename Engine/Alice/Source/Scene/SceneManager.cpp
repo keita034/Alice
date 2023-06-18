@@ -10,11 +10,11 @@ SceneManager::~SceneManager()
 	scene->Finalize();
 }
 
-SceneManager* SceneManager::GetInstance()
+SceneManager* SceneManager::SGetInstance()
 {
-	static SceneManager instance;
+	static SceneManager lInstance;
 
-	return &instance;
+	return &lInstance;
 }
 
 void SceneManager::ChangeScene(const std::string& sceneName_)
@@ -34,7 +34,7 @@ void SceneManager::Update()
 		if (scene)
 		{
 			scene->Finalize();
-			PostEffectManager::GetInstance()->Finalize();
+			PostEffectManager::SGetInstance()->Finalize();
 			scene.reset();
 		}
 
@@ -46,7 +46,7 @@ void SceneManager::Update()
 
 		//次のシーンを初期化する
 		scene->Initialize();
-		PostEffectManager::GetInstance()->PostInitialize();
+		PostEffectManager::SGetInstance()->PostInitialize();
 	}
 
 	scene->Update();

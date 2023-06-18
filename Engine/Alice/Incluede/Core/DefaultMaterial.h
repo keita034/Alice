@@ -16,7 +16,7 @@ public:
 	/// </summary>
 	void Initialize(ID3D12Device* device_);
 
-	static MaterialManager* GetInstance();
+	static MaterialManager* SGetInstance();
 
 	/// <summary>
 	/// マテリアル取得

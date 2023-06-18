@@ -40,15 +40,13 @@ private:
 	bool isFlip = false;
 	char PADDING2[6]{};
 
-	static const float clearColor[4];
-
 	PostEffectFactory* factory = nullptr;
 
 	std::unique_ptr<RenderTarget> mainRenderTarget;
 
 public:
 	
-	static PostEffectManager* GetInstance();
+	static PostEffectManager* SGetInstance();
 
 	void Initialize();
 

@@ -3,10 +3,10 @@
 #include "GameScene.h"
 #include "ResultScene.h"
 
-SceneFactrory* SceneFactrory::GetInstance()
+SceneFactrory* SceneFactrory::SGetInstance()
 {
-	static SceneFactrory instance;
-	return &instance;
+	static SceneFactrory lInstance;
+	return &lInstance;
 }
 
 std::unique_ptr<BaseScene> SceneFactrory::CreateScene(const std::string& sceneName)

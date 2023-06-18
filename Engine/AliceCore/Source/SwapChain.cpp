@@ -26,7 +26,7 @@ private:
 	Microsoft::WRL::ComPtr<IDXGISwapChain4> swapChain;
 
 	//バッファの数
-	static const uint32_t FrameBufferCount = 2;
+	static const uint32_t sFrameBufferCount = 2;
 
 	//バックバッファ
 	std::vector<std::unique_ptr<IRenderTargetBuffer>> backBuffers;

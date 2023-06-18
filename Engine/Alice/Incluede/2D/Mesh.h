@@ -59,7 +59,7 @@ private:
 	//四角形使用数
 	uint32_t boxCount = 0;
 
-	static std::unique_ptr<Mesh> mesh;
+	static std::unique_ptr<Mesh> sMesh;
 
 public:
 
@@ -142,7 +142,7 @@ public:
 	/// インスタンスを所得
 	/// </summary>
 	/// <returns>インスタンス</returns>
-	static Mesh* GetInstance();
+	static Mesh* SGetInstance();
 
 	/// <summary>
 	/// インスタンスを解放

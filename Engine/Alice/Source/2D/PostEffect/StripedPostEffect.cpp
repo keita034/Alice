@@ -1,9 +1,9 @@
 ﻿#include "StripedPostEffect.h"
 
-StripedPostEffect* StripedPostEffect::GetInstance()
+StripedPostEffect* StripedPostEffect::SGetInstance()
 {
-	static StripedPostEffect instance;
-	return &instance;
+	static StripedPostEffect lInstance;
+	return &lInstance;
 }
 
 void StripedPostEffect::Initialize()

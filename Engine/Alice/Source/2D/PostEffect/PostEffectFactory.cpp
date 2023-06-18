@@ -6,10 +6,10 @@
 #include<OilPaintingPostEffect.h>
 #include<ChromaticAberrationPostEffect.h>
 
-PostEffectFactory* PostEffectFactory::GetInstance()
+PostEffectFactory* PostEffectFactory::SGetInstance()
 {
-	static PostEffectFactory instance;
-	return &instance;
+	static PostEffectFactory lInstance;
+	return &lInstance;
 }
 
 BasePostEffect* PostEffectFactory::CreatePostEffect(const std::string& postEffectName_)
@@ -18,27 +18,27 @@ BasePostEffect* PostEffectFactory::CreatePostEffect(const std::string& postEffec
 
 	if (postEffectName_ == "LUT")
 	{
-		lPostEffect = LutPostEffect::GetInstance();
+		lPostEffect = LutPostEffect::SGetInstance();
 	}
 	else if (postEffectName_ == "VIGNETTE")
 	{
-		lPostEffect = VignettePostEffect::GetInstance();
+		lPostEffect = VignettePostEffect::SGetInstance();
 	}
 	else if (postEffectName_ == "GAUSSIANBLUR")
 	{
-		lPostEffect = GaussianBlurPostEffect::GetInstance();
+		lPostEffect = GaussianBlurPostEffect::SGetInstance();
 	}
 	else if (postEffectName_ == "STRIPED")
 	{
-		lPostEffect = StripedPostEffect::GetInstance();
+		lPostEffect = StripedPostEffect::SGetInstance();
 	}
 	else if(postEffectName_ == "OILPAINTING")
 	{
-		lPostEffect = OilPaintingPostEffect::GetInstance();
+		lPostEffect = OilPaintingPostEffect::SGetInstance();
 	}
 	else if(postEffectName_ == "CHROMATICABERRATION")
 	{
-		lPostEffect = ChromaticAberrationPostEffect::GetInstance();
+		lPostEffect = ChromaticAberrationPostEffect::SGetInstance();
 	}
 
 	return lPostEffect;

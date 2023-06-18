@@ -113,7 +113,7 @@ public:
 	/// </summary>
 	virtual const AliceMathF::Vector3& GetTarget() const = 0;
 
-	static void SetWindowsApp(IWindowsApp* windowsApp_);
+	static void SSetWindowsApp(IWindowsApp* windowsApp_);
 };
 
 #pragma warning(push)

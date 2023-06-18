@@ -19,7 +19,7 @@ private:
 
 public:
 
-	static SceneManager* GetInstance();
+	static SceneManager* SGetInstance();
 
 	//次のシーン予約
 	void ChangeScene(const std::string& sceneName_);
