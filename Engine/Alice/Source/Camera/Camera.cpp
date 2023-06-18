@@ -11,7 +11,7 @@ void GameCamera::Initialize(UpdateProjMatrixFunc matFunc_)
 
 	matrixFunc = matFunc_;
 
-	if (matFunc_ == UpdateProjMatrixFunc_Ortho)//平行投影
+	if (matFunc_ == UPDATE_PROJMATRIXFUNC_ORTHO)//平行投影
 	{
 		if (nearClip == 0.0f)
 		{
@@ -73,7 +73,7 @@ void GameCamera::Update()
 {
 	if (updateProjMatrix)
 	{
-		if (matrixFunc == UpdateProjMatrixFunc_Ortho)
+		if (matrixFunc == UPDATE_PROJMATRIXFUNC_ORTHO)
 		{
 
 			right = static_cast<float>(sWindowsApp->GetWindowSize().width);

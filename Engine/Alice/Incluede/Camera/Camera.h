@@ -7,8 +7,8 @@
 ///</summary>
 enum UpdateProjMatrixFunc
 {
-	UpdateProjMatrixFunc_Perspective,		//透視射影行列。遠近法が効いた絵を作りたいならこっち。
-	UpdateProjMatrixFunc_Ortho,			//平行投影。２Ｄ的な表現がしたいならこっち。
+	UPDATE_PROJMATRIXFUNC_PERSPECTIVE,		//透視射影行列。遠近法が効いた絵を作りたいならこっち。
+	UPDATE_PROJMATRIXFUNC_ORTHO,			//平行投影。２Ｄ的な表現がしたいならこっち。
 };
 
 class Camera
@@ -165,7 +165,7 @@ private:
 	//カメラの正面ベクトル
 	AliceMathF::Vector3 forward = { 0.0f,0.0f,0.0f };
 
-	UpdateProjMatrixFunc matrixFunc = UpdateProjMatrixFunc_Perspective;
+	UpdateProjMatrixFunc matrixFunc = UPDATE_PROJMATRIXFUNC_PERSPECTIVE;
 
 	//プロジェクション行列の更新フラグ
 	bool updateProjMatrix = true;

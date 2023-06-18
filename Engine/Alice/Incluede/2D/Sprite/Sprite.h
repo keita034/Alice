@@ -9,11 +9,11 @@
 
 enum BillboardFlag
 {
-	NonBillboard,//ビルボードをしない
-	AllBillboard,//すべて打ち消す
-	XBillboard,//X軸を打ち消す
-	YBillboard,//Y軸を打ち消す
-	XYBillboard//Z軸を打ち消す
+	NON_BILLBOARD,//ビルボードをしない
+	ALL_BILLBOARD,//すべて打ち消す
+	X_BILLBOARD,//X軸を打ち消す
+	Y_BILLBOARD,//Y軸を打ち消す
+	XY_BILLBOARD//Z軸を打ち消す
 };
 
 class Sprite

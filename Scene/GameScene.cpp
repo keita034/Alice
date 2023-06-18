@@ -23,7 +23,7 @@ void GameScene::Initialize()
 	AliceModel::SSetLight(light.get());
 
 	camera = std::make_unique<GameCamera>();
-	camera->Initialize(UpdateProjMatrixFunc_Perspective);
+	camera->Initialize(UPDATE_PROJMATRIXFUNC_PERSPECTIVE);
 	//camera->SetEye({ 0,0,-5 });
 	camera->SetEye({ 0,90,-800 });
 	camera->SetTarget({ 0,90,0 });

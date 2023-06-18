@@ -32,10 +32,10 @@ void Sprite3D::Draw(Transform& transform_, Camera* camera_, BlendMode blend_, Bi
 
 	switch (flag_)
 	{
-	case NonBillboard:
+	case NON_BILLBOARD:
 		transform_.matWorld = lMatScale * lMatRot * lMatTrans * camera_->GetViewMatrixInv() * camera_->GetProjectionMatrix();
 		break;
-	case AllBillboard:
+	case ALL_BILLBOARD:
 	{
 		AliceMathF::Matrix4 lMatBillboard = camera_->GetViewMatrix();
 
@@ -47,7 +47,7 @@ void Sprite3D::Draw(Transform& transform_, Camera* camera_, BlendMode blend_, Bi
 		transform_.matWorld = lMatScale * lMatRot * lMatBillboard * lMatTrans * camera_->GetViewMatrixInv() * camera_->GetProjectionMatrix();
 		break;
 	}
-	case XBillboard:
+	case X_BILLBOARD:
 	{
 		AliceMathF::Matrix4 lMatBillboard = camera_->GetViewMatrix();
 
@@ -64,7 +64,7 @@ void Sprite3D::Draw(Transform& transform_, Camera* camera_, BlendMode blend_, Bi
 		transform_.matWorld = lMatScale * lMatRot * lMatBillboard * lMatTrans * camera_->GetViewMatrixInv() * camera_->GetProjectionMatrix();
 		break;
 	}
-	case YBillboard:
+	case Y_BILLBOARD:
 	{
 		AliceMathF::Matrix4 lMatBillboard = camera_->GetViewMatrix();
 
@@ -82,7 +82,7 @@ void Sprite3D::Draw(Transform& transform_, Camera* camera_, BlendMode blend_, Bi
 		transform_.matWorld = lMatScale * lMatRot * lMatBillboard * lMatTrans * camera_->GetViewMatrixInv() * camera_->GetProjectionMatrix();
 		break;
 	}
-	case XYBillboard:
+	case XY_BILLBOARD:
 	{
 		AliceMathF::Matrix4 lMatBillboard = camera_->GetViewMatrix();
 
@@ -341,10 +341,10 @@ void Sprite3D::AnimationDraw(Transform& transform_, uint16_t radiusX, uint16_t r
 
 	switch (flag)
 	{
-	case NonBillboard:
+	case NON_BILLBOARD:
 		transform_.matWorld = lMatScale * lMatRot * lMatTrans * camera_->GetViewMatrixInv() * camera_->GetProjectionMatrix();
 		break;
-	case AllBillboard:
+	case ALL_BILLBOARD:
 	{
 		AliceMathF::Matrix4 lMatBillboard = camera_->GetViewMatrix();
 
@@ -356,7 +356,7 @@ void Sprite3D::AnimationDraw(Transform& transform_, uint16_t radiusX, uint16_t r
 		transform_.matWorld = lMatScale * lMatRot * lMatBillboard * lMatTrans * camera_->GetViewMatrixInv() * camera_->GetProjectionMatrix();
 		break;
 	}
-	case XBillboard:
+	case X_BILLBOARD:
 	{
 		AliceMathF::Matrix4 lMatBillboard = camera_->GetViewMatrix();
 
@@ -373,7 +373,7 @@ void Sprite3D::AnimationDraw(Transform& transform_, uint16_t radiusX, uint16_t r
 		transform_.matWorld = lMatScale * lMatRot * lMatBillboard * lMatTrans * camera_->GetViewMatrixInv() * camera_->GetProjectionMatrix();
 		break;
 	}
-	case YBillboard:
+	case Y_BILLBOARD:
 	{
 		AliceMathF::Matrix4 lMatBillboard = camera_->GetViewMatrix();
 
@@ -391,7 +391,7 @@ void Sprite3D::AnimationDraw(Transform& transform_, uint16_t radiusX, uint16_t r
 		transform_.matWorld = lMatScale * lMatRot * lMatBillboard * lMatTrans * camera_->GetViewMatrixInv() * camera_->GetProjectionMatrix();
 		break;
 	}
-	case XYBillboard:
+	case XY_BILLBOARD:
 	{
 		AliceMathF::Matrix4 lMatBillboard = camera_->GetViewMatrix();
 
