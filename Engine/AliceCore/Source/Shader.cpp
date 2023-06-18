@@ -28,10 +28,10 @@
 std::wstring StringToWstring(const std::string& string)
 {
 	auto const dest_size = ::MultiByteToWideChar(CP_ACP, 0U, string.data(), -1, nullptr, 0U);
-	std::vector<wchar_t> dest(static_cast<const unsigned _int64>(dest_size), L'\0');
-	if (::MultiByteToWideChar(CP_ACP, 0U, string.data(), -1, dest.data(), static_cast<int>(dest.size())) == 0)
+	std::vector<wchar_t> dest(static_cast<const uint64_t>(dest_size), L'\0');
+	if (::MultiByteToWideChar(CP_ACP, 0U, string.data(), -1, dest.data(), static_cast<int32_t>(dest.size())) == 0)
 	{
-		throw std::system_error{ static_cast<int>(::GetLastError()), std::system_category() };
+		throw std::system_error{ static_cast<int32_t>(::GetLastError()), std::system_category() };
 	}
 	dest.resize(std::char_traits<wchar_t>::length(dest.data()));
 	dest.shrink_to_fit();

@@ -65,7 +65,7 @@ void ImGuiManager::Initialize(IWindowsApp* windowsApp_, DirectX12Core* directX12
 
 	ImGui_ImplDX12_Init(
 		directX12Core->GetDevice(),
-		static_cast<int>(directX12Core->GetBackBufferCount()),
+		static_cast<int32_t>(directX12Core->GetBackBufferCount()),
 		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, directX12Core->GetSRVDescriptorHeap()->GetHeap(),
 		lHandl.cpuHandle,
 		lHandl.gpuHandle

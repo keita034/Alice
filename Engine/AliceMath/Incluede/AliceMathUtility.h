@@ -29,9 +29,9 @@ namespace AliceMathUtility
 	/// 値が大きい奴を返す(vector)
 	/// </summary>
 	template<typename T>
-	T Max(std::vector<T> values_)
+	T Max(const std::vector<T>& values_)
 	{
-		int lNum = values_.size() - 1;
+		size_t lNum = values_.size() - 1;
 
 		if (lNum == 0)
 		{
@@ -40,7 +40,7 @@ namespace AliceMathUtility
 
 		float lNum2 = values_[0];
 
-		for (int i = 1; i < lNum; i++)
+		for (size_t i = 1; i < lNum; i++)
 		{
 			if (values_[i] > lNum2)
 			{
@@ -66,7 +66,7 @@ namespace AliceMathUtility
 	template<typename T>
 	T Min(std::vector<T> values_)
 	{
-		int lNum = values_.size() - 1;
+		size_t lNum = values_.size() - 1;
 
 		if (lNum == 0)
 		{
@@ -75,7 +75,7 @@ namespace AliceMathUtility
 
 		float lNum2 = values_[0];
 
-		for (int i = 1; i < lNum; i++)
+		for (size_t i = 1; i < lNum; i++)
 		{
 			if (values_[i] < lNum2)
 			{

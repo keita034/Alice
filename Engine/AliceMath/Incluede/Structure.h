@@ -6,8 +6,8 @@
 #pragma warning(push)
 #pragma warning(disable: 5264)
 //ボーンの最大数
-constexpr int MAX_BONES = 128;
-constexpr int MAX_BONE_INDICES = 4;
+constexpr size_t MAX_BONES = 128;
+constexpr size_t MAX_BONE_INDICES = 4;
 #pragma warning(pop)
 
 #pragma region 頂点データ
