@@ -17,7 +17,7 @@ void PostEffectSprite::SetSize(const AliceMathF::Vector2& size_)
 	spriteSize = size_;
 }
 
-void PostEffectSprite::Draw(Material* material_, D3D12_GPU_DESCRIPTOR_HANDLE handle_)
+void PostEffectSprite::Draw(const Material* material_, D3D12_GPU_DESCRIPTOR_HANDLE handle_)
 {
 	// 頂点データ
 	PosUvColor lVertices[] =

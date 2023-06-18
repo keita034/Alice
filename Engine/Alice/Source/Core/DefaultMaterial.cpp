@@ -341,12 +341,25 @@ void MaterialManager::PCreateDefaultSprite2DMaterial()
 	//ピクセルシェーダの読み込み
 	std::unique_ptr<IShader>lPixelShader = CreateUniqueShader("Resources/Shaders/2D/Sprite/SpritePS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
 
-	AddMaterial(PCreateDefaultSprite2DBlend(BlendMode::AX_BLENDMODE_NOBLEND, lVertexShader.get(), lPixelShader.get()), "Sprite2DNoblend");
-	AddMaterial(PCreateDefaultSprite2DBlend(BlendMode::AX_BLENDMODE_ALPHA, lVertexShader.get(), lPixelShader.get()), "Sprite2DAlpha");
-	AddMaterial(PCreateDefaultSprite2DBlend(BlendMode::AX_BLENDMODE_ADD, lVertexShader.get(), lPixelShader.get()), "Sprite2DAdd");
-	AddMaterial(PCreateDefaultSprite2DBlend(BlendMode::AX_BLENDMODE_SUB, lVertexShader.get(), lPixelShader.get()), "Sprite2DSub");
-	AddMaterial(PCreateDefaultSprite2DBlend(BlendMode::AX_BLENDMODE_MULA, lVertexShader.get(), lPixelShader.get()), "Sprite2DMula");
-	AddMaterial(PCreateDefaultSprite2DBlend(BlendMode::AX_BLENDMODE_INVSRC, lVertexShader.get(), lPixelShader.get()), "Sprite2DInvsrc");
+	std::unique_ptr<Material>lMaterial;
+
+	lMaterial = PCreateDefaultSprite2DBlend(BlendMode::AX_BLENDMODE_NOBLEND, lVertexShader.get(), lPixelShader.get());
+	AddMaterial(lMaterial, "Sprite2DNoblend");
+
+	lMaterial = PCreateDefaultSprite2DBlend(BlendMode::AX_BLENDMODE_ALPHA, lVertexShader.get(), lPixelShader.get());
+	AddMaterial(lMaterial, "Sprite2DAlpha");
+
+	lMaterial = PCreateDefaultSprite2DBlend(BlendMode::AX_BLENDMODE_ADD, lVertexShader.get(), lPixelShader.get());
+	AddMaterial(lMaterial, "Sprite2DAdd");
+
+	lMaterial = PCreateDefaultSprite2DBlend(BlendMode::AX_BLENDMODE_SUB, lVertexShader.get(), lPixelShader.get());
+	AddMaterial(lMaterial, "Sprite2DSub");
+
+	lMaterial = PCreateDefaultSprite2DBlend(BlendMode::AX_BLENDMODE_MULA, lVertexShader.get(), lPixelShader.get());
+	AddMaterial(lMaterial, "Sprite2DMula");
+
+	lMaterial = PCreateDefaultSprite2DBlend(BlendMode::AX_BLENDMODE_INVSRC, lVertexShader.get(), lPixelShader.get());
+	AddMaterial(lMaterial, "Sprite2DInvsrc");
 }
 
 void MaterialManager::PCreateDefaultSprite3DMaterial()
@@ -357,12 +370,25 @@ void MaterialManager::PCreateDefaultSprite3DMaterial()
 	//ピクセルシェーダの読み込み
 	std::unique_ptr<IShader>lPixelShader = CreateUniqueShader("Resources/Shaders/2D/Sprite/SpritePS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
 
-	AddMaterial(PCreateDefaultSprite3DBlend(BlendMode::AX_BLENDMODE_NOBLEND, lVertexShader.get(), lPixelShader.get()), "Sprite3DNoblend");
-	AddMaterial(PCreateDefaultSprite3DBlend(BlendMode::AX_BLENDMODE_ALPHA, lVertexShader.get(), lPixelShader.get()), "Sprite3DAlpha");
-	AddMaterial(PCreateDefaultSprite3DBlend(BlendMode::AX_BLENDMODE_ADD, lVertexShader.get(), lPixelShader.get()), "Sprite3DAdd");
-	AddMaterial(PCreateDefaultSprite3DBlend(BlendMode::AX_BLENDMODE_SUB, lVertexShader.get(), lPixelShader.get()), "Sprite3DSub");
-	AddMaterial(PCreateDefaultSprite3DBlend(BlendMode::AX_BLENDMODE_MULA, lVertexShader.get(), lPixelShader.get()), "Sprite3DMula");
-	AddMaterial(PCreateDefaultSprite3DBlend(BlendMode::AX_BLENDMODE_INVSRC, lVertexShader.get(), lPixelShader.get()), "Sprite3DInvsrc");
+	std::unique_ptr<Material>lMaterial;
+
+	lMaterial = PCreateDefaultSprite3DBlend(BlendMode::AX_BLENDMODE_NOBLEND, lVertexShader.get(), lPixelShader.get());
+	AddMaterial(lMaterial, "Sprite3DNoblend");
+
+	lMaterial = PCreateDefaultSprite3DBlend(BlendMode::AX_BLENDMODE_ALPHA, lVertexShader.get(), lPixelShader.get());
+	AddMaterial(lMaterial, "Sprite3DAlpha");
+
+	lMaterial = PCreateDefaultSprite3DBlend(BlendMode::AX_BLENDMODE_ADD, lVertexShader.get(), lPixelShader.get());
+	AddMaterial(lMaterial, "Sprite3DAdd");
+
+	lMaterial = PCreateDefaultSprite3DBlend(BlendMode::AX_BLENDMODE_SUB, lVertexShader.get(), lPixelShader.get());
+	AddMaterial(lMaterial, "Sprite3DSub");
+
+	lMaterial = PCreateDefaultSprite3DBlend(BlendMode::AX_BLENDMODE_MULA, lVertexShader.get(), lPixelShader.get());
+	AddMaterial(lMaterial, "Sprite3DMula");
+
+	lMaterial = PCreateDefaultSprite3DBlend(BlendMode::AX_BLENDMODE_INVSRC, lVertexShader.get(), lPixelShader.get());
+	AddMaterial(lMaterial, "Sprite3DInvsrc");
 }
 
 void MaterialManager::PCreateDefaultFbxMaterial()
@@ -514,21 +540,45 @@ void MaterialManager::PCreateDefaultMeshMaterial()
 	//ピクセルシェーダの読み込み
 	std::unique_ptr<IShader>lPixelShader = CreateUniqueShader("Resources/Shaders/2D/Mesh/MeshPS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
 
+	std::unique_ptr<Material>lMaterial;
+
 	//三角形形状用パイプラインセット
-	AddMaterial(PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, BlendMode::AX_BLENDMODE_NOBLEND, lVertexShader.get(), lPixelShader.get()), "MashTriangleNoblend");
-	AddMaterial(PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, BlendMode::AX_BLENDMODE_ALPHA, lVertexShader.get(), lPixelShader.get()), "MashTriangleAlpha");
-	AddMaterial(PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, BlendMode::AX_BLENDMODE_ADD, lVertexShader.get(), lPixelShader.get()), "MashTriangleAdd");
-	AddMaterial(PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, BlendMode::AX_BLENDMODE_SUB, lVertexShader.get(), lPixelShader.get()), "MashTriangleSub");
-	AddMaterial(PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, BlendMode::AX_BLENDMODE_MULA, lVertexShader.get(), lPixelShader.get()), "MashTriangleMula");
-	AddMaterial(PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, BlendMode::AX_BLENDMODE_INVSRC, lVertexShader.get(), lPixelShader.get()), "MashTriangleInvsrc");
+	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, BlendMode::AX_BLENDMODE_NOBLEND, lVertexShader.get(), lPixelShader.get());
+	AddMaterial(lMaterial, "MashTriangleNoblend");
+
+	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, BlendMode::AX_BLENDMODE_ALPHA, lVertexShader.get(), lPixelShader.get());
+	AddMaterial(lMaterial, "MashTriangleAlpha");
+
+	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, BlendMode::AX_BLENDMODE_ADD, lVertexShader.get(), lPixelShader.get());
+	AddMaterial(lMaterial, "MashTriangleAdd");
+
+	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, BlendMode::AX_BLENDMODE_SUB, lVertexShader.get(), lPixelShader.get());
+	AddMaterial(lMaterial, "MashTriangleSub");
+
+	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, BlendMode::AX_BLENDMODE_MULA, lVertexShader.get(), lPixelShader.get());
+	AddMaterial(lMaterial, "MashTriangleMula");
+
+	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, BlendMode::AX_BLENDMODE_INVSRC, lVertexShader.get(), lPixelShader.get());
+	AddMaterial(lMaterial, "MashTriangleInvsrc");
 
 	//ライン形状用パイプラインセット
-	AddMaterial(PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE, BlendMode::AX_BLENDMODE_NOBLEND, lVertexShader.get(), lPixelShader.get()), "MashLineNoblend");
-	AddMaterial(PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE, BlendMode::AX_BLENDMODE_ALPHA, lVertexShader.get(), lPixelShader.get()), "MashLineAlpha");
-	AddMaterial(PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE, BlendMode::AX_BLENDMODE_ADD, lVertexShader.get(), lPixelShader.get()), "MashLineAdd");
-	AddMaterial(PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE, BlendMode::AX_BLENDMODE_SUB, lVertexShader.get(), lPixelShader.get()), "MashLineSub");
-	AddMaterial(PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE, BlendMode::AX_BLENDMODE_MULA, lVertexShader.get(), lPixelShader.get()), "MashLineMula");
-	AddMaterial(PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE, BlendMode::AX_BLENDMODE_INVSRC, lVertexShader.get(), lPixelShader.get()), "MashLineInvsrc");
+	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE, BlendMode::AX_BLENDMODE_NOBLEND, lVertexShader.get(), lPixelShader.get());
+	AddMaterial(lMaterial, "MashLineNoblend");
+
+	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE, BlendMode::AX_BLENDMODE_ALPHA, lVertexShader.get(), lPixelShader.get());
+	AddMaterial(lMaterial, "MashLineAlpha");
+
+	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE, BlendMode::AX_BLENDMODE_ADD, lVertexShader.get(), lPixelShader.get());
+	AddMaterial(lMaterial, "MashLineAdd");
+
+	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE, BlendMode::AX_BLENDMODE_SUB, lVertexShader.get(), lPixelShader.get());
+	AddMaterial(lMaterial, "MashLineSub");
+
+	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE, BlendMode::AX_BLENDMODE_MULA, lVertexShader.get(), lPixelShader.get());
+	AddMaterial(lMaterial, "MashLineMula");
+
+	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE, BlendMode::AX_BLENDMODE_INVSRC, lVertexShader.get(), lPixelShader.get());
+	AddMaterial(lMaterial, "MashLineInvsrc");
 
 }
 
@@ -934,9 +984,9 @@ void MaterialManager::PCreateDefaultZeldaToonModelAnimationMaterial()
 	AddMaterial(lDefaultModelMaterial, "DefaultZeldaToonModelAnimation");
 }
 
-Material* MaterialManager::PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE type_, BlendMode mode_, IShader* vex_, IShader* pix_)
+std::unique_ptr<Material> MaterialManager::PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE type_, BlendMode mode_, IShader* vex_, IShader* pix_)
 {
-	Material* lMaterial = new Material;
+	std::unique_ptr<Material> lMaterial = std::make_unique<Material>();
 
 	//頂点シェーダの読み込み
 	lMaterial->vertexShader = CopyUniqueShader(vex_);
@@ -965,12 +1015,12 @@ Material* MaterialManager::PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE
 	//生成
 	lMaterial->Initialize();
 
-	return lMaterial;
+	return std::move(lMaterial);
 }
 
-Material* MaterialManager::PCreateDefaultSprite2DBlend(BlendMode mode_, IShader* vex_, IShader* pix_)
+std::unique_ptr<Material> MaterialManager::PCreateDefaultSprite2DBlend(BlendMode mode_, IShader* vex_, IShader* pix_)
 {
-	Material* lMaterial = new Material;
+	std::unique_ptr<Material> lMaterial = std::make_unique<Material>();
 
 	//頂点シェーダの読み込み
 	lMaterial->vertexShader = CopyUniqueShader(vex_);
@@ -1003,14 +1053,14 @@ Material* MaterialManager::PCreateDefaultSprite2DBlend(BlendMode mode_, IShader*
 	//生成
 	lMaterial->Initialize();
 
-	return lMaterial;
+	return std::move(lMaterial);
 }
 
-Material* MaterialManager::PCreateDefaultSprite3DBlend(BlendMode mode_, IShader* vex_, IShader* pix_)
+std::unique_ptr<Material> MaterialManager::PCreateDefaultSprite3DBlend(BlendMode mode_, IShader* vex_, IShader* pix_)
 {
-	Material* lMaterial = new Material;
+	std::unique_ptr<Material> lMaterial = std::make_unique<Material>();
 
-//頂点シェーダの読み込み
+	//頂点シェーダの読み込み
 	lMaterial->vertexShader = CopyUniqueShader(vex_);
 
 	//ピクセルシェーダの読み込み
@@ -1042,7 +1092,7 @@ Material* MaterialManager::PCreateDefaultSprite3DBlend(BlendMode mode_, IShader*
 	//生成
 	lMaterial->Initialize();
 
-	return lMaterial;
+	return std::move(lMaterial);
 }
 
 D3D12_BLEND_DESC MaterialManager::PCreateBlend(BlendMode mode_)

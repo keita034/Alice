@@ -67,7 +67,7 @@ void ModelMesh::InitializeVertex()
 	vertexBuffer->Update(vertices.data());
 }
 
-void ModelMesh::Draw(ID3D12GraphicsCommandList* cmdList_, Transform& transform_, Light* light_)
+void ModelMesh::Draw(ID3D12GraphicsCommandList* cmdList_, const Transform& transform_, const Light* light_)
 {
 	D3D12_VERTEX_BUFFER_VIEW lVbView = vertexBuffer->GetView();
 	D3D12_INDEX_BUFFER_VIEW lIbView = indexBuffer->GetView();
@@ -97,7 +97,7 @@ void ModelMesh::Draw(ID3D12GraphicsCommandList* cmdList_, Transform& transform_,
 	}
 }
 
-void ModelMesh::AnimDraw(ID3D12GraphicsCommandList* cmdList_, Transform& transform_, Light* light_)
+void ModelMesh::AnimDraw(ID3D12GraphicsCommandList* cmdList_, const Transform& transform_, const Light* light_)
 {
 	D3D12_VERTEX_BUFFER_VIEW lVbView = vertexBuffer->GetView();
 	D3D12_INDEX_BUFFER_VIEW lIbView = indexBuffer->GetView();
@@ -129,7 +129,7 @@ void ModelMesh::AnimDraw(ID3D12GraphicsCommandList* cmdList_, Transform& transfo
 	}
 }
 
-void ModelMesh::ToonDraw(ID3D12GraphicsCommandList* cmdList_, Transform& transform_, D3D12_GPU_DESCRIPTOR_HANDLE rampHandle_, Light* light_)
+void ModelMesh::ToonDraw(ID3D12GraphicsCommandList* cmdList_, const Transform& transform_, D3D12_GPU_DESCRIPTOR_HANDLE rampHandle_, const Light* light_)
 {
 	D3D12_VERTEX_BUFFER_VIEW lVbView = vertexBuffer->GetView();
 	D3D12_INDEX_BUFFER_VIEW lIbView = indexBuffer->GetView();
@@ -159,7 +159,7 @@ void ModelMesh::ToonDraw(ID3D12GraphicsCommandList* cmdList_, Transform& transfo
 	}
 }
 
-void ModelMesh::OutLineDraw(ID3D12GraphicsCommandList* cmdList_, Transform& transform_)
+void ModelMesh::OutLineDraw(ID3D12GraphicsCommandList* cmdList_, const Transform& transform_)
 {
 	D3D12_VERTEX_BUFFER_VIEW lVbView = vertexBuffer->GetView();
 	D3D12_INDEX_BUFFER_VIEW lIbView = indexBuffer->GetView();
@@ -177,7 +177,7 @@ void ModelMesh::OutLineDraw(ID3D12GraphicsCommandList* cmdList_, Transform& tran
 	cmdList_->DrawIndexedInstanced(static_cast<UINT>(indices.size()), 1, 0, 0, 0);
 }
 
-void ModelMesh::AnimToonDraw(ID3D12GraphicsCommandList* cmdList_, Transform& transform_, D3D12_GPU_DESCRIPTOR_HANDLE rampHandle_, Light* light_)
+void ModelMesh::AnimToonDraw(ID3D12GraphicsCommandList* cmdList_, const Transform& transform_, D3D12_GPU_DESCRIPTOR_HANDLE rampHandle_, const Light* light_)
 {
 	D3D12_VERTEX_BUFFER_VIEW lVbView = vertexBuffer->GetView();
 	D3D12_INDEX_BUFFER_VIEW lIbView = indexBuffer->GetView();
@@ -210,7 +210,7 @@ void ModelMesh::AnimToonDraw(ID3D12GraphicsCommandList* cmdList_, Transform& tra
 	}
 }
 
-void ModelMesh::AnimOutLineDraw(ID3D12GraphicsCommandList* cmdList_, Transform& transform_)
+void ModelMesh::AnimOutLineDraw(ID3D12GraphicsCommandList* cmdList_, const Transform& transform_)
 {
 	D3D12_VERTEX_BUFFER_VIEW lVbView = vertexBuffer->GetView();
 	D3D12_INDEX_BUFFER_VIEW lIbView = indexBuffer->GetView();

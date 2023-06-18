@@ -42,7 +42,7 @@ void Light::Update()
 	}
 }
 
-void Light::SetConstBufferView(ID3D12GraphicsCommandList* cmdList_, uint32_t rootParameterIndex_)
+void Light::SetConstBufferView(ID3D12GraphicsCommandList* cmdList_, uint32_t rootParameterIndex_)const
 {
 	//定数バッファビューをセット
 	cmdList_->SetGraphicsRootConstantBufferView(rootParameterIndex_, constBuff->GetAddress());

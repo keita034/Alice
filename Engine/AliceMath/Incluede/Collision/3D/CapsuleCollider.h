@@ -66,6 +66,6 @@ public:
 private:
 
 	CapsuleCollider(const CapsuleCollider&) = delete;
-	void operator = (const CapsuleCollider&) = delete;
+	CapsuleCollider& operator = (const CapsuleCollider&) = delete;
 };
 

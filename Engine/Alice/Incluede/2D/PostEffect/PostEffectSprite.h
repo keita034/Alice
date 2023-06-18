@@ -30,7 +30,7 @@ public:
 
 	void SetSize(const AliceMathF::Vector2& size_);
 
-	void Draw(Material* material_, D3D12_GPU_DESCRIPTOR_HANDLE handle_);
+	void Draw(const Material* material_, D3D12_GPU_DESCRIPTOR_HANDLE handle_);
 
 private:
 

@@ -114,7 +114,7 @@ public:
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw(Camera* camera_, Material* material_ = nullptr);
+	void Draw(Camera* camera_, const Material* material_ = nullptr);
 
 	ParticleEmitter() = default;
 	~ParticleEmitter() = default;
@@ -218,7 +218,7 @@ void ParticleEmitter::FireWorkUpdate()
 	particle->Update();
 }
 
-void ParticleEmitter::Draw(Camera* camera_, Material* material_)
+void ParticleEmitter::Draw(Camera* camera_, const Material* material_)
 {
 	particle->Draw(camera_, material_);
 }

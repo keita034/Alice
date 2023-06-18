@@ -49,7 +49,7 @@ public:
 private:
 
 	IndexBuffer(const IndexBuffer&) = delete;
-	void operator = (const IndexBuffer&) = delete;
+	IndexBuffer& operator = (const IndexBuffer&) = delete;
 };
 
 void IndexBuffer::Create(size_t length_, const uint32_t* data)

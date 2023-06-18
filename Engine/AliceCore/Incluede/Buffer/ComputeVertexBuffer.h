@@ -70,7 +70,7 @@ public:
 private:
 
 	IComputeVertexBuffer(const IComputeVertexBuffer&) = delete;
-	void operator = (const IComputeVertexBuffer&) = delete;
+	IComputeVertexBuffer& operator = (const IComputeVertexBuffer&) = delete;
 };
 
 /// <summary>

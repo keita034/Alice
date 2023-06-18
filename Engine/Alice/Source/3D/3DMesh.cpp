@@ -1,7 +1,7 @@
 ﻿#include<3DMesh.h>
 
 
-std::unique_ptr<Mesh3D> Mesh3D::mesh = nullptr;
+std::unique_ptr<Mesh3D> Mesh3D::mesh;
 IWindowsApp* Mesh3D::sWindowsApp = nullptr;
 ID3D12GraphicsCommandList* Mesh3D::sCmdList = nullptr;
 
@@ -165,7 +165,7 @@ Mesh3D* Mesh3D::GetInstance()
 		Mesh3D* lMesh3D = new Mesh3D();
 		mesh.reset(lMesh3D);
 	}
-
+	
 	return mesh.get();
 }
 

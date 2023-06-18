@@ -50,7 +50,7 @@ public:
 private:
 
 	IIndexBuffer(const IIndexBuffer&) = delete;
-	void operator = (const IIndexBuffer&) = delete;
+	IIndexBuffer& operator = (const IIndexBuffer&) = delete;
 };
 
 /// <summary>

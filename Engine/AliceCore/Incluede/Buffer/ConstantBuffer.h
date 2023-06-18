@@ -67,7 +67,7 @@ public:
 private:
 
 	IConstantBuffer(const IConstantBuffer&) = delete;
-	void operator = (const IConstantBuffer&) = delete;
+	IConstantBuffer& operator = (const IConstantBuffer&) = delete;
 
 };
 

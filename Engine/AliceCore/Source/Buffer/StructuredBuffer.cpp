@@ -67,7 +67,7 @@ public:
 private:
 
 	StructuredBuffer(const StructuredBuffer&) = delete;
-	void operator = (const StructuredBuffer&) = delete;
+	StructuredBuffer& operator = (const StructuredBuffer&) = delete;
 
 };
 

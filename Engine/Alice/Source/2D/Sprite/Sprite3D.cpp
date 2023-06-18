@@ -19,7 +19,7 @@ void Sprite3D::Initialize(uint32_t handle_)
 	trimmingRange.w = static_cast<float>(texture->height);
 }
 
-void Sprite3D::Draw(Transform& transform_, Camera* camera_, BlendMode blend_, BillboardFlag flag_, Material* material_)
+void Sprite3D::Draw(Transform& transform_, Camera* camera_, BlendMode blend_, BillboardFlag flag_, const Material* material_)
 {
 	AliceMathF::Matrix4 lMatTrans, lMatRot, lMatScale;
 
@@ -150,7 +150,7 @@ void Sprite3D::Draw(Transform& transform_, Camera* camera_, BlendMode blend_, Bi
 	PSpriteDraw(transform_, spriteMaterial);
 }
 
-void Sprite3D::Draw(Transform& transform_, BlendMode blend_, Material* material_)
+void Sprite3D::Draw(Transform& transform_, BlendMode blend_, const Material* material_)
 {
 	float lIsFlipX, lIsFlipY;
 	lIsFlipX = flipX ? -1.0f : 1.0f;
@@ -232,7 +232,7 @@ void Sprite3D::Draw(Transform& transform_, BlendMode blend_, Material* material_
 	PSpriteDraw(transform_, spriteMaterial);
 }
 
-void Sprite3D::AnimationDraw(Transform& transform_, uint16_t radiusX, uint16_t radiusY, float& frame, float frameDiv, BlendMode blend, Material* material)
+void Sprite3D::AnimationDraw(Transform& transform_, uint16_t radiusX, uint16_t radiusY, float& frame, float frameDiv, BlendMode blend, const Material* material)
 {
 	size_t lAnimeFrame = static_cast<size_t>(frame / frameDiv);
 
@@ -328,7 +328,7 @@ void Sprite3D::AnimationDraw(Transform& transform_, uint16_t radiusX, uint16_t r
 	PSpriteDraw(transform_, spriteMaterial);
 }
 
-void Sprite3D::AnimationDraw(Transform& transform_, uint16_t radiusX, uint16_t radiusY, float& frame, float frameDiv, Camera* camera_, BlendMode blend, BillboardFlag flag, Material* material)
+void Sprite3D::AnimationDraw(Transform& transform_, uint16_t radiusX, uint16_t radiusY, float& frame, float frameDiv, Camera* camera_, BlendMode blend, BillboardFlag flag, const Material* material)
 {
 	AliceMathF::Matrix4 lMatTrans, lMatRot, lMatScale;
 

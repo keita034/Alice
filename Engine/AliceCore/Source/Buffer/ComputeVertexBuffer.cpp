@@ -54,8 +54,7 @@ public:
 private:
 
 	ComputeVertexBuffer(const ComputeVertexBuffer&) = delete;
-
-	void operator = (const ComputeVertexBuffer&) = delete;
+	ComputeVertexBuffer& operator = (const ComputeVertexBuffer&) = delete;
 };
 
 void ComputeVertexBuffer::Create(size_t length_, size_t singleSize_, const void* data_)

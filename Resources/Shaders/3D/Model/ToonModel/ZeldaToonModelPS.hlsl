@@ -5,14 +5,14 @@ SamplerState smp : register(s0); //0番スロットに設定されたサンプラー
 
 float4 main(VSOutput input) : SV_TARGET
 {
-    float NdotL = dot(lightv, input.normal);
+    float NdotL = saturate(dot(lightv, input.normal));
 
     float lightIntensity = smoothstep(0, 0.01, NdotL );
 
     float4 light = lightIntensity * lightcolor;
 
     float3 halfVector = normalize(lightv + input.eyeDir);
-    float NdotH = dot(input.normal, halfVector);
+    float NdotH = saturate(dot(input.normal, halfVector));
     
     float specularIntensity = pow(NdotH * lightIntensity, 32 * 32);
     float specularIntensitySmooth = smoothstep(0.005, 0.01, specularIntensity);

@@ -47,7 +47,7 @@ public:
 private:
 
 	VertexBuffer(const VertexBuffer&) = delete;
-	void operator = (const VertexBuffer&) = delete;
+	VertexBuffer& operator = (const VertexBuffer&) = delete;
 };
 
 

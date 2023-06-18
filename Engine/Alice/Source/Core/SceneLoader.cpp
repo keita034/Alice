@@ -5,7 +5,7 @@
 
 const std::string SceneLoader::sBaseDirectorypath = "Resources/";
 
-SceneData* SceneLoader::SLoadFile(const std::string& fileName_)
+std::unique_ptr<SceneData> SceneLoader::SLoadFile(const std::string& fileName_)
 {
 	std::ifstream lFile;
 
@@ -28,14 +28,14 @@ SceneData* SceneLoader::SLoadFile(const std::string& fileName_)
 
 	assert(lName.compare("scene") == 0);
 
-	SceneData* lSceneData = new SceneData();
+	std::unique_ptr<SceneData> lSceneData = std::make_unique<SceneData>();
 
 	for (nlohmann::json& jsonObject : lDeserialized["objects"])
 	{
-		SObjectScan(lSceneData, jsonObject);
+		SObjectScan(lSceneData.get(), jsonObject);
 	}
 
-	return lSceneData;
+	return std::move(lSceneData);
 }
 
 void SceneLoader::SObjectScan(SceneData* sceneData_, const nlohmann::json& jsonObj_, SceneData::Object* parent_)

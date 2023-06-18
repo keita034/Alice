@@ -29,7 +29,7 @@ void Sprite2D::Initialize(uint32_t handle_)
 }
 
 //描画
-void Sprite2D::Draw(Transform& transform_, BlendMode blend_, Material* material_)
+void Sprite2D::Draw(Transform& transform_, BlendMode blend_, const Material* material_)
 {
 	float lIsFlipX, lIsFlipY;
 	lIsFlipX = flipX ? -1.0f : 1.0f;
@@ -90,7 +90,7 @@ void Sprite2D::Draw(Transform& transform_, BlendMode blend_, Material* material_
 		lMatWorld *= transform_.parent->matWorld;
 	}
 
-	transform_.matWorld = lMatWorld ;
+	transform_.matWorld = lMatWorld;
 
 	transform_.GetWorldViewpojCamera()->matWorld = transform_.matWorld * matProjection;
 
@@ -140,7 +140,7 @@ void Sprite2D::Draw(Transform& transform_, BlendMode blend_, Material* material_
 	PSpriteDraw(transform_, spriteMaterial);
 }
 
-void Sprite2D::AnimationDraw(Transform& transform_, uint16_t radiusX, uint16_t radiusY, float& frame, float frameDiv, BlendMode blend_, Material* material_)
+void Sprite2D::AnimationDraw(Transform& transform_, uint16_t radiusX, uint16_t radiusY, float& frame, float frameDiv, BlendMode blend_, const Material* material_)
 {
 	size_t lAnimeFrame = static_cast<size_t>(frame / frameDiv);
 

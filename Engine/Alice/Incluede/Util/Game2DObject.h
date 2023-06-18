@@ -73,6 +73,6 @@ private:
 	// コピーコンストラクタを禁止
 	Game2DObject(const Game2DObject& obj) = delete;
 	// コピー代入演算子を禁止
-	void operator=(const Game2DObject& obj) = delete;
+	Game2DObject& operator=(const Game2DObject& obj) = delete;
 };
 

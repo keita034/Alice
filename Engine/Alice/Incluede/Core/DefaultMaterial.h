@@ -53,9 +53,9 @@ private:
 	void PCreateDefaultZeldaToonModelMaterial();
 	void PCreateDefaultZeldaToonModelAnimationMaterial();
 
-	Material* PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE type_, BlendMode mode_, IShader* vex_, IShader* pix_);
-	Material* PCreateDefaultSprite2DBlend(BlendMode mode_, IShader* vex_, IShader* pix_);
-	Material* PCreateDefaultSprite3DBlend(BlendMode mode_, IShader* vex_, IShader* pix_);
+	std::unique_ptr<Material> PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE type_, BlendMode mode_, IShader* vex_, IShader* pix_);
+	std::unique_ptr<Material> PCreateDefaultSprite2DBlend(BlendMode mode_, IShader* vex_, IShader* pix_);
+	std::unique_ptr<Material> PCreateDefaultSprite3DBlend(BlendMode mode_, IShader* vex_, IShader* pix_);
 
 	D3D12_BLEND_DESC PCreateBlend(BlendMode mode_);
 

@@ -46,7 +46,7 @@ public:
 	///<summary>
 	///ビルボード描画
 	///</summary>
-	virtual void Draw(Camera* camera_, Material* material_ = nullptr)override;
+	virtual void Draw(Camera* camera_, const Material* material_ = nullptr)override;
 
 private:
 
@@ -161,7 +161,7 @@ void IcosahedronParticle::Add(
 	}
 }
 
-void IcosahedronParticle::Draw(Camera* camera_, Material* material_)
+void IcosahedronParticle::Draw(Camera* camera_, const Material* material_)
 {
 	D3D12_VERTEX_BUFFER_VIEW lVbView = vertexBuffer->GetView();
 

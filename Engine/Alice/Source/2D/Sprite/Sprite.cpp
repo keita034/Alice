@@ -5,7 +5,7 @@ IWindowsApp* Sprite::sWindowsApp = nullptr;
 ID3D12Device* Sprite::sDevice = nullptr;
 ID3D12GraphicsCommandList* Sprite::sCmdList = nullptr;
 
-void Sprite::PSpriteDraw(Transform& transform_, Material* material_)
+void Sprite::PSpriteDraw(const Transform& transform_, const Material* material_)
 {
 	D3D12_VERTEX_BUFFER_VIEW lVbView = vertexBuffer->GetView();
 	D3D12_INDEX_BUFFER_VIEW lIbView = indexBuffer->GetView();

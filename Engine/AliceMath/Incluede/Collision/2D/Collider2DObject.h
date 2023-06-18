@@ -47,6 +47,6 @@ protected:
 private:
 
 	Collider2DObject(const Collider2DObject&) = delete;
-	void operator = (const Collider2DObject&) = delete;
+	Collider2DObject& operator = (const Collider2DObject&) = delete;
 
 };

@@ -325,7 +325,7 @@
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Incluede\2D\Particle\ParticleData.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\2D\Particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

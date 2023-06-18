@@ -81,7 +81,7 @@ public:
 private:
 
 	RWStructuredBuffer(const RWStructuredBuffer&) = delete;
-	void operator = (const RWStructuredBuffer&) = delete;
+	RWStructuredBuffer& operator = (const RWStructuredBuffer&) = delete;
 
 };
 void RWStructuredBuffer::CreateSRV(size_t length_, size_t singleSize_, const void* data_)

@@ -62,7 +62,7 @@ public:
 	/// </summary>
 	/// <param name="cmdlist">コマンドリスト</param>
 	/// <param name="rootParameterIndex">パラメーター番号</param>
-	void SetConstBufferView(ID3D12GraphicsCommandList* cmdList_,uint32_t rootParameterIndex_);
+	void SetConstBufferView(ID3D12GraphicsCommandList* cmdList_,uint32_t rootParameterIndex_)const;
 
 	static void SSetDevice(ID3D12Device* device_);
 

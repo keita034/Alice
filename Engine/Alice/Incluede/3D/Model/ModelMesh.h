@@ -80,26 +80,26 @@ public:
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw(ID3D12GraphicsCommandList* cmdList_, Transform& transform_, Light* light_);
+	void Draw(ID3D12GraphicsCommandList* cmdList_, const Transform& transform_, const Light* light_);
 	
 	/// <summary>
 	/// アニメーション描画
 	/// </summary>
-	void AnimDraw(ID3D12GraphicsCommandList* cmdList_, Transform& transform_, Light* light_);
+	void AnimDraw(ID3D12GraphicsCommandList* cmdList_, const Transform& transform_, const Light* light_);
 
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void ToonDraw(ID3D12GraphicsCommandList* cmdList_, Transform& transform_, D3D12_GPU_DESCRIPTOR_HANDLE rampHandle_, Light* light_);
+	void ToonDraw(ID3D12GraphicsCommandList* cmdList_, const Transform& transform_, D3D12_GPU_DESCRIPTOR_HANDLE rampHandle_, const Light* light_);
 
-	void OutLineDraw(ID3D12GraphicsCommandList* cmdList_, Transform& transform_);
+	void OutLineDraw(ID3D12GraphicsCommandList* cmdList_, const Transform& transform_);
 
 	/// <summary>
 	/// アニメーション描画
 	/// </summary>
-	void AnimToonDraw(ID3D12GraphicsCommandList* cmdList_, Transform& transform_, D3D12_GPU_DESCRIPTOR_HANDLE rampHandle_, Light* light_);
+	void AnimToonDraw(ID3D12GraphicsCommandList* cmdList_, const Transform& transform_, D3D12_GPU_DESCRIPTOR_HANDLE rampHandle_, const Light* light_);
 
-	void AnimOutLineDraw(ID3D12GraphicsCommandList* cmdList_, Transform& transform_);
+	void AnimOutLineDraw(ID3D12GraphicsCommandList* cmdList_, const Transform& transform_);
 
 	void Update();
 

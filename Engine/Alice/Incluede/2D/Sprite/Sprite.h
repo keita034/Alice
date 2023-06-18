@@ -32,7 +32,7 @@ protected:
 	//プロジェクション行列
 	AliceMathF::Matrix4 matProjection;
 
-	Material* spriteMaterial = nullptr ;
+	const Material* spriteMaterial = nullptr ;
 
 	AliceMathF::Vector2 anchorPoint = { 0.5f, 0.5f };
 
@@ -65,10 +65,10 @@ public:
 	virtual void Initialize(uint32_t handle_) = 0;
 
 	//描画
-	virtual void Draw(Transform& transform_, BlendMode blend_, Material* material_)=0;
+	virtual void Draw(Transform& transform_, BlendMode blend_, const Material* material_)=0;
 
 	//アニメーション描画
-	virtual void AnimationDraw(Transform& transform_, uint16_t radiusX_, uint16_t radiusY_, float& frame_, float frameDiv_, BlendMode blend_, Material* material_) = 0;
+	virtual void AnimationDraw(Transform& transform_, uint16_t radiusX_, uint16_t radiusY_, float& frame_, float frameDiv_, BlendMode blend_, const Material* material_) = 0;
 
 	/// <summary>
 	/// アンカーポイントの位置変更
@@ -116,7 +116,7 @@ public:
 protected:
 
 	//描画
-	virtual void PSpriteDraw(Transform& transform_, Material* material_);
+	virtual void PSpriteDraw(const Transform& transform_, const Material* material_);
 
 	//頂点バッファ・インデックス生成
 	virtual void PCreatVertexIndexBuffer();

@@ -118,7 +118,7 @@ private:
 
 	void PLoadFile(const std::string& path_,  DirectX::TexMetadata& metadata_,  DirectX::ScratchImage& scratchImg_);
 
-	TextureData* PFromTextureData(const std::string& path_);
+	std::unique_ptr<TextureData> PFromTextureData(const std::string& path_);
 
 	ImgFileType PGetFileType(const std::string& path_);
 };

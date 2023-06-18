@@ -68,9 +68,9 @@ void TextureManager::PLoadFile(const std::string& path_,  DirectX::TexMetadata& 
 	}
 }
 
-TextureData* TextureManager::PFromTextureData(const std::string& path_)
+std::unique_ptr<TextureData> TextureManager::PFromTextureData(const std::string& path_)
 {
-	TextureData* lResult = new TextureData();
+	std::unique_ptr<TextureData> lResult = std::make_unique<TextureData>();
 
 	DirectX::TexMetadata lMetadata{};
 	DirectX::ScratchImage lScratchImg{};
@@ -101,7 +101,7 @@ TextureData* TextureManager::PFromTextureData(const std::string& path_)
 	lResult->width = lMetadata.width;
 	lResult->height = lMetadata.height;
 
-	return lResult;
+	return std::move(lResult);
 }
 
 TextureManager::ImgFileType TextureManager::PGetFileType(const std::string& path_)
@@ -147,7 +147,7 @@ uint32_t TextureManager::LoadTexture(const std::string& path_)
 	{
 		std::unique_ptr<TextureData> lData;
 
-		lData.reset(PFromTextureData(path_));
+		lData = PFromTextureData(path_);
 		lData->textureHandle = nextTexture;
 		lData->path = path_;
 

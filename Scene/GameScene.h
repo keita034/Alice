@@ -1,24 +1,22 @@
 #pragma once
 
-#include<Camera.h>
-#include<Sprite2D.h>
-#include<Sprite3D.h>
-#include<BasicParticle.h>
-#include<RainParticle.h>
-#include<ParticleEmitter.h>
-#include<Light.h>
-#include<Mesh.h>
 #include<3DMesh.h>
-#include<Transform.h>
-#include<DefaultMaterial.h>
-#include<AudioManager.h>
 #include<AliceModel.h>
 #include<AliceToonModel.h>
-#include<CinemaCamera.h>
 #include<BaseScene.h>
+#include<BasicParticle.h>
+#include<Camera.h>
+#include<CinemaCamera.h>
+#include<DefaultMaterial.h>
 #include<Light.h>
+#include<Mesh.h>
+#include<ParticleEmitter.h>
 #include<PostEffectManager.h>
+#include<RainParticle.h>
 #include<SceneLoader.h>
+#include<Sprite2D.h>
+#include<Sprite3D.h>
+#include<Transform.h>
 
 class GameScene : public BaseScene
 {
@@ -26,7 +24,6 @@ private:
 
 	Mesh* mesh2D = nullptr;
 	Mesh3D* mesh3D = nullptr;
-	AudioManager* audioManager = nullptr;
 
 	std::unique_ptr<Light> light;
 	AliceMathF::Vector4 lightColor = { 1, 1, 1, 1 };

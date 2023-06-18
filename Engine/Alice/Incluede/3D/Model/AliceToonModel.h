@@ -14,14 +14,14 @@ public:
 	/// </summary>
 	/// <param name="transform">ワールド変換データ</param>
 	/// <param name="material">マテリアル(パイプライン)</param>
-	void Draw(Transform& transform_, const AliceMotionData* animation_ = nullptr, float frame_ = 0.0f, Material* material_ = nullptr) override;
+	void Draw(const Transform& transform_, const AliceMotionData* animation_ = nullptr, float frame_ = 0.0f, const Material* material_ = nullptr) override;
 
 	/// <summary>
 	/// ゼルダの伝説風描画
 	/// </summary>
 	/// <param name="transform">ワールド変換データ</param>
 	/// <param name="material">マテリアル(パイプライン)</param>
-	void ZeldaDraw(Transform& transform_, const AliceMotionData* animation_ = nullptr, float frame_ = 0.0f, Material* material_ = nullptr);
+	void ZeldaDraw(const Transform& transform_, const AliceMotionData* animation_ = nullptr, float frame_ = 0.0f, const Material* material_ = nullptr);
 
 	void SetRampTexture(const std::string& rampFilePath_);
 
@@ -30,8 +30,8 @@ public:
 
 private:
 
-	void PToonModelDraw(Transform& transform_);
-	void PToonModelAnimationDraw(Transform& transform_);
+	void PToonModelDraw(const Transform& transform_);
+	void PToonModelAnimationDraw(const Transform& transform_);
 
 	//コピーコンストラクタ・代入演算子削除
 	AliceToonModel& operator=(const AliceToonModel&) = delete;

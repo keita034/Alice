@@ -81,7 +81,7 @@ public:
 private:
 
 	IRWStructuredBuffer(const IRWStructuredBuffer&) = delete;
-	void operator = (const IRWStructuredBuffer&) = delete;
+	IRWStructuredBuffer& operator = (const IRWStructuredBuffer&) = delete;
 
 };
 

@@ -46,6 +46,6 @@ protected:
 private:
 
 	ColliderObject(const ColliderObject&) = delete;
-	void operator = (const ColliderObject&) = delete;
+	ColliderObject& operator = (const ColliderObject&) = delete;
 };
 

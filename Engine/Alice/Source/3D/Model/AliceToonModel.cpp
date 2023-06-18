@@ -1,6 +1,6 @@
 ﻿#include "AliceToonModel.h"
 
-void AliceToonModel::Draw(Transform& transform_, const AliceMotionData* animation_, float frame_, Material* material_)
+void AliceToonModel::Draw(const Transform& transform_, const AliceMotionData* animation_, float frame_, const Material* material_)
 {
 	if (modelData->isToon)
 	{
@@ -42,7 +42,7 @@ void AliceToonModel::Draw(Transform& transform_, const AliceMotionData* animatio
 	}
 }
 
-void AliceToonModel::ZeldaDraw(Transform& transform_, const AliceMotionData* animation_, float frame_, Material* material_)
+void AliceToonModel::ZeldaDraw(const Transform& transform_, const AliceMotionData* animation_, float frame_, const Material* material_)
 {
 	if (animation_)
 	{
@@ -85,7 +85,7 @@ void AliceToonModel::SetRampTexture(const std::string& rampFilePath_)
 	}
 }
 
-void AliceToonModel::PToonModelDraw(Transform& transform_)
+void AliceToonModel::PToonModelDraw(const Transform& transform_)
 {
 	for (size_t i = 0; i < modelData->meshes.size(); i++)
 	{
@@ -114,7 +114,7 @@ void AliceToonModel::PToonModelDraw(Transform& transform_)
 	}
 }
 
-void AliceToonModel::PToonModelAnimationDraw(Transform& transform_)
+void AliceToonModel::PToonModelAnimationDraw(const Transform& transform_)
 {
 	for (size_t i = 0; i < modelData->meshes.size(); i++)
 	{

@@ -1,6 +1,6 @@
 ﻿#include<Mesh.h>
 
-Mesh* Mesh::mesh = nullptr;
+std::unique_ptr<Mesh> Mesh::mesh;
 IWindowsApp* Mesh::sWindowsApp = nullptr;
 ID3D12GraphicsCommandList* Mesh::sCmdList = nullptr;
 
@@ -221,12 +221,13 @@ Mesh::Mesh()
 
 Mesh* Mesh::GetInstance()
 {
-	if (mesh == nullptr)
+	if (!mesh)
 	{
-		mesh = new Mesh();
+		Mesh* lMesh = new Mesh();
+		mesh.reset(lMesh);
 	}
 
-	return mesh;
+	return mesh.get();
 }
 
 void Mesh::Destroy()
@@ -237,8 +238,6 @@ void Mesh::Destroy()
 	free(lineBuff->indexMap);
 	free(boxBuff->vertMap);
 	free(boxBuff->indexMap);
-
-	delete mesh;
 }
 
 void Mesh::SSetWindowsApp(IWindowsApp* windowsApp_)

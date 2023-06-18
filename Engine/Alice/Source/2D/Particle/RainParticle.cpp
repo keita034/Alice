@@ -26,7 +26,7 @@ public:
 	///<summary>
 	///ビルボード描画
 	///</summary>
-	virtual void Draw(Camera* camera_, Material* material_ = nullptr);
+	virtual void Draw(Camera* camera_, const Material* material_ = nullptr);
 
 private:
 
@@ -192,7 +192,7 @@ void RainParticle::Add(
 	}
 }
 
-void RainParticle::Draw(Camera* camera_, Material* material_)
+void RainParticle::Draw(Camera* camera_, const Material* material_)
 {
 	D3D12_VERTEX_BUFFER_VIEW lVbView = vertexBuffer->GetView();
 

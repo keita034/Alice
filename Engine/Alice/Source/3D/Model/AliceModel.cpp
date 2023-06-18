@@ -119,7 +119,7 @@ uint32_t AliceModel::SCreateModel(const std::string& fileDirectoryPath_)
 	return INT32_MAX;
 }
 
-void AliceModel::Draw(Transform& transform_, const AliceMotionData* animation_, float frame_, Material* material_)
+void AliceModel::Draw(const Transform& transform_, const AliceMotionData* animation_, float frame_, const Material* material_)
 {
 	if (animation_)
 	{
@@ -634,7 +634,7 @@ bool AliceModel::PFindPosition(float animationTime_, const MotionNode* pNodeAnim
 	return false;
 }
 
-void AliceModel::PModelDraw(Transform& transform_)
+void AliceModel::PModelDraw(const Transform& transform_)
 {
 	for (size_t i = 0; i < modelData->meshes.size(); i++)
 	{
@@ -655,7 +655,7 @@ void AliceModel::PModelDraw(Transform& transform_)
 	}
 }
 
-void AliceModel::PModelAnimationDraw(Transform& transform_)
+void AliceModel::PModelAnimationDraw(const Transform& transform_)
 {
 	for (size_t i = 0; i < modelData->meshes.size(); i++)
 	{

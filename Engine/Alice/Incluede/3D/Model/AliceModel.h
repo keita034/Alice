@@ -74,7 +74,7 @@ protected:
 
 	static const uint32_t sMAX_MODEL = 1024;
 
-	Material* modelMaterialData = nullptr;
+	const Material* modelMaterialData = nullptr;
 
 	AliceModelData* modelData = nullptr;
 
@@ -95,7 +95,7 @@ public:
 	/// </summary>
 	/// <param name="transform">ワールド変換データ</param>
 	/// <param name="material">マテリアル(パイプライン)</param>
-	virtual void Draw(Transform& transform_, const AliceMotionData* animation_ = nullptr, float frame_ = 0.0f, Material* material_ = nullptr);
+	virtual void Draw(const Transform& transform_, const AliceMotionData* animation_ = nullptr, float frame_ = 0.0f, const Material* material_ = nullptr);
 
 	/// <summary>
 	/// アニメーションの更新
@@ -191,8 +191,8 @@ protected:
 	bool PFindRotation(float AnimationTime_, const MotionNode* pNodeAnim_, uint32_t& nRotationIndex_);
 	void PCalcInterpolatedPosition(AliceMathF::Vector3& mxOut_, float animationTime_, const MotionNode* pNodeAnim_);
 	bool PFindPosition(float AnimationTime_, const MotionNode* pNodeAnim_, uint32_t& nPosIndex_);
-	void PModelDraw(Transform& transform_);
-	void PModelAnimationDraw(Transform& transform_);
+	void PModelDraw(const Transform& transform_);
+	void PModelAnimationDraw(const Transform& transform_);
 
 	//コピーコンストラクタ・代入演算子削除
 	AliceModel& operator=(const AliceModel&) = delete;

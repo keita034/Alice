@@ -59,7 +59,7 @@ private:
 	//四角形使用数
 	uint32_t boxCount = 0;
 
-	static Mesh* mesh;
+	static std::unique_ptr<Mesh> mesh;
 
 public:
 

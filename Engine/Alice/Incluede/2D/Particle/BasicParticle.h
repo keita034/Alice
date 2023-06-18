@@ -43,7 +43,7 @@ public:
 	///<summary>
 	///ビルボード描画
 	///</summary>
-	virtual void Draw(Camera* camera_, Material* material_ = nullptr) = 0;
+	virtual void Draw(Camera* camera_, const Material* material_ = nullptr) = 0;
 
 private:
 

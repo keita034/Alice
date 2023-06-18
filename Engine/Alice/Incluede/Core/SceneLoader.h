@@ -61,7 +61,7 @@ struct SceneData
 		virtual void Initialize()override;
 
 		Object(const Object&) = delete;
-		void operator = (const Object&) = delete;
+		Object& operator = (const Object&) = delete;
 	};
 
 	// オブジェクト配列
@@ -84,7 +84,7 @@ public:
 	/// レベルデータファイルの読み込み
 	/// </summary>
 	/// <param name="fileName">ファイル名</param>
-	static SceneData* SLoadFile(const std::string& filepath_);
+	static std::unique_ptr<SceneData> SLoadFile(const std::string& filepath_);
 
 private:
 

@@ -30,7 +30,7 @@ public:
 	/// <param name="blend">ブレンド設定(初期値はアルファブレンド)</param>
 	/// <param name="flag">ビルボードの種類(初期値は無効)</param>
 	/// <param name="material">ブレンドがCUSTOM時に使う</param>
-	virtual void Draw(Transform& transform_, Camera* camera_, BlendMode blend_ = BlendMode::AX_BLENDMODE_ALPHA, BillboardFlag flag_ = NonBillboard, Material* material_ = nullptr);
+	virtual void Draw( Transform& transform_,  Camera* camera_, BlendMode blend_ = BlendMode::AX_BLENDMODE_ALPHA, BillboardFlag flag_ = NonBillboard, const Material* material_ = nullptr);
 
 	/// <summary>
 	/// 描画(ビルボードなし)
@@ -38,7 +38,7 @@ public:
 	/// <param name="transform">ワールド変換データ</param>
 	/// <param name="blend">ブレンド設定(初期値はアルファブレンド)</param>
 	//// <param name="material">ブレンドがCUSTOM時に使う</param>
-	virtual void Draw(Transform& transform_, BlendMode blend_ = BlendMode::AX_BLENDMODE_ALPHA, Material* material_ = nullptr)override;
+	virtual void Draw(Transform& transform_, BlendMode blend_ = BlendMode::AX_BLENDMODE_ALPHA, const Material* material_ = nullptr)override;
 
 	/// <summary>
 	/// アニメーション描画(ビルボードなし)
@@ -50,7 +50,7 @@ public:
 	/// <param name="frameDiv">アニメーションフレームの最大値</param>
 	/// <param name="blend">ブレンド設定(初期値はアルファブレンド)</param>
 	/// <param name="material">ブレンドがCUSTOM時に使う</param>
-	virtual void AnimationDraw(Transform& transform_, uint16_t radiusX_, uint16_t radiusY_, float& frame_, float frameDiv_, BlendMode blend_ = BlendMode::AX_BLENDMODE_ALPHA, Material* material_ = nullptr)override;
+	virtual void AnimationDraw(Transform& transform_, uint16_t radiusX_, uint16_t radiusY_, float& frame_, float frameDiv_, BlendMode blend_ = BlendMode::AX_BLENDMODE_ALPHA, const Material* material_ = nullptr)override;
 
 	/// <summary>
 	/// アニメーション描画(ビルボードあり)
@@ -63,7 +63,7 @@ public:
 	//// <param name="camera">カメラ</param>
 	/// <param name="blend">ブレンド設定(初期値はアルファブレンド)</param>
 	/// <param name="material">ブレンドがCUSTOM時に使う</param>
-	virtual void AnimationDraw(Transform& transform_, uint16_t radiusX_, uint16_t radiusY_, float& frame_, float frameDiv_, Camera* camera_, BlendMode blend_ = BlendMode::AX_BLENDMODE_ALPHA, BillboardFlag flag_ = NonBillboard, Material* material_ = nullptr);
+	virtual void AnimationDraw(Transform& transform_, uint16_t radiusX_, uint16_t radiusY_, float& frame_, float frameDiv_, Camera* camera_, BlendMode blend_ = BlendMode::AX_BLENDMODE_ALPHA, BillboardFlag flag_ = NonBillboard, const Material* material_ = nullptr);
 
 private:
 
