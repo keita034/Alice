@@ -11,15 +11,33 @@ private:
 	std::unordered_map<std::string, std::unique_ptr<Material>>materials;
 public:
 
+	/// <summary>
+	/// 初期化
+	/// </summary>
 	void Initialize(ID3D12Device* device_);
 
 	static MaterialManager* GetInstance();
 
+	/// <summary>
+	/// マテリアル取得
+	/// </summary>
+	/// <param name="name_">名前</param>
 	Material* GetMaterialData(const std::string& name_);
 
+	/// <summary>
+	/// マテリアル追加
+	/// </summary>
 	void AddMaterial(std::unique_ptr <Material>& material_, const std::string& name_);
+
+	/// <summary>
+	/// マテリアル追加
+	/// </summary>
 	void AddMaterial(Material* material_, const std::string& name_);
 
+	/// <summary>
+	/// マテリアル取得
+	/// </summary>
+	/// <param name="name_">名前</param>
 	static Material* SGetMaterial(const std::string& name_);
 
 	TextureData* GetDefaultTextureData();
