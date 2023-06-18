@@ -61,14 +61,13 @@ private:
 	uint32_t windowHeight;
 	//ウインドウスタイル(サイズ変更できない・最大化できない)
 	DWORD windowStyle = WS_OVERLAPPEDWINDOW & ~(WS_MAXIMIZEBOX | WS_THICKFRAME);
+	RECT windowRect;
 
 	//レンダーすべきか
 	bool renderShould = false;
 	//サイズが変更されたか
 	bool isSizeChanged = false;
-	char PADING[2];
-
-	RECT windowRect;
+	int16_t PADING;
 
 public:
 

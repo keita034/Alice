@@ -24,19 +24,19 @@ namespace AliceInput
 	class Mouse : public IMouse
 	{
 	private:
+		HWND* handl;
 		//マウス
 		Microsoft::WRL::ComPtr<IDirectInputDevice8> mouseDevice;
 		DIMOUSESTATE2 mouseState = {};
 		DIMOUSESTATE2 oldMouseState = {};
 
+		AliceMathF::Vector3 mouseMove;
 		AliceMathF::Vector2 mousePos;
 		AliceMathF::Vector2 worldMousePos;
 		AliceMathF::Vector2 localMousePos;
-		AliceMathF::Vector3 mouseMove;
 
-		char PADING[4];
+		int32_t PADING;
 
-		HWND* handl;
 
 	public:
 

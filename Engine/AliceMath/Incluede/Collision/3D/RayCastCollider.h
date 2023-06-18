@@ -7,7 +7,7 @@ protected:
 	//距離
 	float range = 0.0f;
 private:
-	char PADING[4]{};
+	int32_t PADING;
 public:
 	//半径を取得
 	float GetRange()const;

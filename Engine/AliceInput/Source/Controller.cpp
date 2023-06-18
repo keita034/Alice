@@ -9,18 +9,19 @@ namespace AliceInput
 	{
 	private:
 
-		XINPUT_STATE xinputState{};
-		XINPUT_STATE oldXinputState{};
+		//最高入力強度
+		const float STICK_INPUT_MAX = 32768.0f;
 
-		//コントローラー振動強さ
-		float shakePower = 0.0f;
 		//コントローラー振動長さ(フレーム数)
 		int32_t shakeTimer = 0;
 
-		//最高入力強度
-		const float STICK_INPUT_MAX = 32768.0f;
-		char PADING[4]{};
+		//コントローラー振動強さ
+		float shakePower = 0.0f;
 
+		XINPUT_STATE xinputState{};
+		XINPUT_STATE oldXinputState{};
+
+		int32_t PADING;
 
 	public:
 

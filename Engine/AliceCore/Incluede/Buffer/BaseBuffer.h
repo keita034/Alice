@@ -43,7 +43,7 @@ protected:
 	bool isValid = false;
 
 private:
-	char PADING[7]{};
+	int8_t PADING[7]{};
 
 public:
 

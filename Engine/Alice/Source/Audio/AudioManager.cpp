@@ -104,7 +104,7 @@ struct PlayAudioArray
 {
 	std::vector<uint32_t>handles;
 	int32_t nowIdx = 0;
-	char PADDING[4]{};
+	int32_t PADING;
 	PlayAudioArray(const std::vector<uint32_t>& Handles_);
 };
 

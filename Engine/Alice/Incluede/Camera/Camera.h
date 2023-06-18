@@ -159,12 +159,6 @@ private:
 	//画面下側
 	float bottom = 0.0f;
 
-	//プロジェクション行列の更新フラグ
-	bool updateProjMatrix = true;
-	//ビュー行列の更新フラグ
-	bool updateViewMatrix = true;
-	char PADDING[2]{};
-
 	//注視点と視点の距離
 	float tgtToPosLen = 0.0f;
 
@@ -173,7 +167,11 @@ private:
 
 	UpdateProjMatrixFunc matrixFunc = UpdateProjMatrixFunc_Perspective;
 
-	char PADDING2[4]{};
+	//プロジェクション行列の更新フラグ
+	bool updateProjMatrix = true;
+	//ビュー行列の更新フラグ
+	bool updateViewMatrix = true;
+	int8_t PADING[6];
 
 public:
 

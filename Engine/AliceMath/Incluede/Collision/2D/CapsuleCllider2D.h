@@ -10,16 +10,15 @@ private:
 	float radius;
 	//縦幅
 	float height;
+	//長さ
+	float length_;
+	//カプセルの中心線分
+	Segment2D segment;
 	//中心座標
 	Point2D center;
 	//軸の方向
 	AliceMathF::Vector2 axis;
-	//カプセルの中心線分
-	Segment2D segment;
-	//長さ
-	float length_;
-
-	char PADING2[4]{};
+	int32_t PADING;
 
 public:
 

@@ -19,6 +19,11 @@ class Base2DCollider
 {
 protected:
 
+	Collider2DObject* object = nullptr;
+
+	//ポインター(相手)
+	Base2DCollider* opponentCollider = nullptr;
+
 	uint32_t collisionAttribute = 0xffffffff;
 	//衝突マスク(相手)
 	uint32_t CollisionMask = 0xffffffff;
@@ -28,19 +33,11 @@ protected:
 	//名前(相手)
 	std::string opponentCollsionName;
 
-	Collider2DObject* object = nullptr;
-
-	//ポインター(相手)
-	Base2DCollider* opponentCollider = nullptr;
+	CollisionShapeType shapeType = SHAPE_UNKNOWN;
 
 	//有効か
 	bool isValid = false;
-
-	char PADING[7]{};
-
-	CollisionShapeType shapeType = SHAPE_UNKNOWN;
-
-	char PADING1[4]{};
+	int8_t PADING[3];
 
 public:
 	/// <summary>

@@ -29,22 +29,23 @@ struct TextureData
 	//GPUデスクプリタハンドル
 	D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle{};
 
+	std::string path;
+
+	//カラー
+	AliceMathF::Vector4 color = { 1.0f,1.0f,1.0f,1.0f };
+
 	//横幅
 	size_t width = 0;
 	//縦幅
 	size_t height = 0;
 
-	//カラー
-	AliceMathF::Vector4 color = { 1.0f,1.0f,1.0f,1.0f };
-
-	std::string path;
-
 	uint32_t textureHandle;
 
-	~TextureData();
-
 private:
-	char PADING[4]{};
+	int32_t PADING;
+public:
+
+	~TextureData();
 };
 
 class TextureManager

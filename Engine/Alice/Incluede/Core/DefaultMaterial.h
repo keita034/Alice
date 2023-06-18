@@ -77,7 +77,7 @@ private:
 
 	D3D12_BLEND_DESC PCreateBlend(BlendMode mode_);
 
-   //Rs[RXgN^EăüZqí
+	//コピーコンストラクタ・代入演算子削除
 	MaterialManager& operator=(const MaterialManager&) = delete;
 	MaterialManager(const MaterialManager&) = delete;
 };

@@ -13,9 +13,6 @@ private:
 
 	std::string filePath;
 
-	uint32_t modelHandle;
-	char PADING[4]{};
-
 	//モデル名
 	std::string name;
 
@@ -30,6 +27,8 @@ private:
 
 	AliceMathF::Matrix4 globalInverseTransform;
 
+	uint32_t modelHandle;
+
 	//アニメーション中か
 	bool IsAnime = false;
 
@@ -40,8 +39,6 @@ private:
 	bool canAnimation = false;
 
 	bool isToon = false;
-
-	char PADING3[4]{};
 
 	TextureData* rampTex = nullptr;
 

@@ -41,14 +41,6 @@ public:
 
 	std::vector< AliceMathF::Matrix4> deformationMat;
 
-	//有効
-	bool enable = false;
-	char PADING1[3]{};
-
-	// カラー
-	float col[4] = { 1.0f,1.0f,1.0f,1.0f };
-	char PADING2[4]{};
-
 	// マテリアル
 	ModelMaterial material;
 
@@ -66,7 +58,13 @@ public:
 	BoneData bonedata;
 
 	bool dirtyFlag;
-	char PADING3[7]{};
+	//有効
+	bool enable = false;
+	int16_t PADING;
+
+	// カラー
+	std::array<float, 4> col = { {1.0f,1.0f,1.0f,1.0f} };
+	int32_t PADING2;
 
 	ModelMesh() = default;
 	~ModelMesh();

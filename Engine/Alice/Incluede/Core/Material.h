@@ -41,13 +41,13 @@ public:
 
 	RenderTargetFormat renderTargetFormat;
 
-	//深度フラグ
-	bool depthFlag = true;
-	char PADING[3]{};
-
 	D3D12_PRIMITIVE_TOPOLOGY_TYPE primitiveType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 
 	D3D12_CULL_MODE cullMode = D3D12_CULL_MODE_BACK;
+
+	//深度フラグ
+	bool depthFlag = true;
+	int8_t PADING[3]{};
 
 public:
 

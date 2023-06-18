@@ -9,15 +9,15 @@ class BaseTransform
 protected:
 	// 定数バッファ
 	std::shared_ptr<IConstantBuffer> constBuff;
-	//定数バッファのマッピング用ポインタ
-	worldViewpojCamera constBuffMap;
-	char PADING1[4];
 
 	//初期化用のビュー行列計算
 	static AliceMathF::Matrix4 sDefaultViewMat;
 
 	//初期化用のプロジェクション行列計算
 	static AliceMathF::Matrix4 sDefaultProjectionMat;
+
+	//定数バッファのマッピング用ポインタ
+	worldViewpojCamera constBuffMap;
 
 public:
 	// ローカル座標
@@ -28,8 +28,7 @@ public:
 	AliceMathF::Vector3 scale = { 1.0f, 1.0f, 1.0f };
 
 	AliceMathF::Matrix4 matWorld;
-private:
-	char PADING2[4];
+
 public:
 
 	// 親となるワールド変換へのポインタ

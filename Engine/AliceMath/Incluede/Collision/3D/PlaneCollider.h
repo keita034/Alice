@@ -9,7 +9,7 @@ protected:
 	//原点点(0,0,0)からの距離
 	float distance = 0.0f;
 private:
-	char PADING[4]{};
+	int32_t PADING{};
 public:
 
 	/// <summary>

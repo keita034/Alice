@@ -22,12 +22,20 @@ private:
 	//定数バッファのマッピング用
 	ConstBufferDataTransform constMapTransform;
 
-	//ブレンドモード
-	uint32_t blendMode;
-	char PADDING[4];
+	static std::unique_ptr<Mesh> sMesh;
 
 	//三角形バッファ
 	std::unique_ptr <Buff> triangleBuff;
+
+	//線バッファ
+	std::unique_ptr <Buff> lineBuff;
+
+	//四角形バッファ
+	std::unique_ptr <Buff> boxBuff;
+
+	//ブレンドモード
+	uint32_t blendMode;
+
 	//三角形描画上限
 	uint32_t triangleMaxCount = 4096;
 	//三角形頂点数
@@ -37,8 +45,6 @@ private:
 	//三角形使用数
 	uint32_t triangleCount = 0;
 
-	//線バッファ
-	std::unique_ptr <Buff> lineBuff;
 	//線描画上限
 	uint32_t lineMaxCount = 4096;
 	//線頂点数
@@ -48,8 +54,6 @@ private:
 	//線使用数
 	uint32_t lineCount = 0;
 
-	//四角形バッファ
-	std::unique_ptr <Buff> boxBuff;
 	//四角形描画上限
 	uint32_t boxMaxCount = 2048;
 	//四角形頂点数
@@ -59,7 +63,7 @@ private:
 	//四角形使用数
 	uint32_t boxCount = 0;
 
-	static std::unique_ptr<Mesh> sMesh;
+	int32_t PADING;
 
 public:
 

@@ -22,9 +22,6 @@
 class Particle
 {
 protected:
-	HRESULT result;
-	uint32_t PADDING;
-
 	static ID3D12Device* sDevice;
 	static ID3D12GraphicsCommandList* sCmdList;
 	static TextureManager* sTextureManager;
@@ -40,7 +37,8 @@ protected:
 	AliceMathF::Matrix4 matProjection;
 	//頂点数
 	const uint32_t VERTEX_COUNT = 1024;
-	uint32_t PADING;
+
+	HRESULT result;
 
 	//パーティクル配列
 	std::forward_list<ParticleData>particleDatas;

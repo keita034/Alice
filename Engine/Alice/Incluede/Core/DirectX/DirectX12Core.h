@@ -31,8 +31,9 @@ class DirectX12Core
 {
 private:
 
-	HRESULT result;
-	char PADING[4];
+	HWND* handle;
+	IWindowsApp* windowsApp = nullptr;
+
 	Microsoft::WRL::ComPtr<ID3D12Device> device;
 	Microsoft::WRL::ComPtr<IDXGIFactory7> dxgiFactory;
 	std::vector<Microsoft::WRL::ComPtr<ID3D12CommandAllocator>> commandAllocators;
@@ -64,7 +65,6 @@ private:
 	DXGI_FORMAT surfaceFormat;
 
 	//クリアーカラー
-	//FLOAT clearColor[4] = { 0.1f, 0.25f, 0.5f, 0.0f };
 	float clearColor[4] = { 1.0f,1.0f,1.0f,1.0f};
 
 	//ビューポート
@@ -73,18 +73,16 @@ private:
 	//シザー矩形
 	D3D12_RECT scissorRect{};
 	
-	bool tearingSupport;
-	char PADING2[3]{};
-
 	float height;
 
 	float width;
 
-	HWND* handle;
-	IWindowsApp* windowsApp = nullptr;
-
 	WindowMode windowMode;
-	char PADING5[4]{};
+	HRESULT result;
+
+	bool tearingSupport;
+	int8_t PADING[3];
+
 public:
 
 	/// <summary>

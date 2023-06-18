@@ -14,9 +14,6 @@ class PostEffectManager final
 {
 private:
 
-	HRESULT result;
-	char PADDING1[4]{};
-
 	static ID3D12GraphicsCommandList* sCmdList;
 	static IDescriptorHeap* sSrvHeap;
 	static IWindowsApp* sWindowsApp;
@@ -34,15 +31,17 @@ private:
 
 	std::list<BasePostEffect*> postEffects;
 
+	PostEffectFactory* factory = nullptr;
+
+	std::unique_ptr<RenderTarget> mainRenderTarget;
+
 	//有効か
 	bool isAalid = false;
 
 	bool isFlip = false;
-	char PADDING2[6]{};
+	int8_t PADING[2]{};
 
-	PostEffectFactory* factory = nullptr;
-
-	std::unique_ptr<RenderTarget> mainRenderTarget;
+	HRESULT result;
 
 public:
 	

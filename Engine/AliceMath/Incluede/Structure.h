@@ -214,10 +214,10 @@ struct Bone
 	AliceMathF::Matrix4 offsetMatirx;
 
 	//番号
-	UINT index;
+	uint32_t index;
 
 private:
-	char PADING[4] = {};
+	int32_t PADING;
 
 };
 
@@ -273,7 +273,7 @@ struct VectorKey
 
 private:
 
-	char PADING[4]{};
+	int32_t PADING;
 };
 
 //Quaternionのアニメーションキー

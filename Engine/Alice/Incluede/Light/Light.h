@@ -27,7 +27,7 @@ private:
 	AliceMathF::Vector4 lightcolor = { 1,1,1,1 };
 	//ダーティフラグ
 	bool dirty = false;
-	char PADING[3]{};
+	int8_t PADING[3]{};
 public:
 
 	/// <summary>

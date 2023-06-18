@@ -4,14 +4,14 @@
 class OBBCollider : public BaseCollider
 {
 protected:
+	// 各軸方向の長さ
+	float length[3]{};
 	//位置
 	AliceMathF::Vector3 center = {};
 	//方向ベクトル
 	AliceMathF::Vector3 normaDirect[3];
-	// 各軸方向の長さ
-	float length[3]{};
 private:
-	char PADING[4]{};
+	int32_t PADING;
 public:
 
 	/// <summary>

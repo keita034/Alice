@@ -18,7 +18,7 @@ protected:
 
 	//モデルハンドル
 	uint32_t modelHandle;
-	char PADING[4];
+	int32_t PADING;
 
 	virtual ~GameObject() = default;
 	GameObject() = default;

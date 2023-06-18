@@ -12,16 +12,13 @@ protected:
 
 	//パイプラインステート
 	std::unique_ptr<Material> material;
-	//初期化が必要かどうか
-	bool needsInit = true;
-	char PADING[7]{};
+
+	std::unique_ptr<PostEffectSprite> sprite;
 
 	static ID3D12GraphicsCommandList* sCmdList;
 	static ID3D12Device* sDevice;
 	static IDescriptorHeap* sSrvHeap;
 	static IWindowsApp* sWindowsApp;
-
-	std::unique_ptr<PostEffectSprite> sprite;
 
 	//レンダーターゲットテクスチャ
 	std::vector<std::unique_ptr<IRenderTargetBuffer>>renderTargetBuffers;
@@ -36,6 +33,11 @@ protected:
 
 	float width = 0.0f;
 	float height = 0.0f;
+
+	//初期化が必要かどうか
+	bool needsInit = true;
+
+	int8_t PADING[7];
 
 public:
 

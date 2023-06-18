@@ -10,22 +10,19 @@ class Game2DObject : public Collider2DObject
 {
 protected:
 
-	//ワールド変換データ
-	Transform transform;
-
 	//モデル
 	std::unique_ptr<AliceModel>model;
-
-	//モデルハンドル
-	uint32_t modelHandle;
-	char PADING[4];
 
 	//スプライト
 	std::unique_ptr<Sprite2D>sprite;
 
-	uint32_t spriteHandle;
-	char PADING2[4];
+	//ワールド変換データ
+	Transform transform;
 
+	//モデルハンドル
+	uint32_t modelHandle;
+
+	uint32_t spriteHandle;
 
 public:
 

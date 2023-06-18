@@ -13,7 +13,7 @@ protected:
 	//半径
 	float radius = 1.0f;
 private:
-	char PADING[4]{};
+	int32_t PADING;
 
 public:
 

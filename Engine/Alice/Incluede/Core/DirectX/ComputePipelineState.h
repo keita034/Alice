@@ -34,17 +34,15 @@ private:
 	
 	//ルートシグネチャ
 	IRootSignature* rootSignaturePtr;
-	
-	//ノードマスク
-	uint32_t pipelineNodeMask = 0;
-	int32_t PADING;
 
 	//キャッシュパイプライン
 	D3D12_CACHED_PIPELINE_STATE cachedPipeline;
 	
 	//フラグ
 	D3D12_PIPELINE_STATE_FLAGS  pipelineFlag = D3D12_PIPELINE_STATE_FLAG_NONE;
-	int32_t PADING2;
+
+	//ノードマスク
+	uint32_t pipelineNodeMask = 0;
 
 public:
 

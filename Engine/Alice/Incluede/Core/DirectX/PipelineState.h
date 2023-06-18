@@ -18,6 +18,7 @@ struct RenderTargetFormat
 class PipelineState
 {
 private:
+	static ID3D12Device* sDevice;
 	//パイプラインステート
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelineState;
 	//ルートシグネチャ
@@ -51,9 +52,7 @@ private:
 
 	//深度フラグ
 	bool depthFlag = true;
-	char PADING[3]{};
-
-	static ID3D12Device* sDevice;
+	int8_t PADING[3]{};
 
 public:
 

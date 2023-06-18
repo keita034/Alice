@@ -21,10 +21,10 @@ private:
 	friend class AliceFileStream;
 	friend class AliceModel;
 
-	std::string filePath;
+	//ノードアニメーションチャンネル
+	std::vector<MotionNode> channels;
 
-	uint32_t modelHandle;
-	char PADING[4]{};
+	std::string filePath;
 
 	//名前
 	std::string name;
@@ -35,8 +35,8 @@ private:
 	//アニメーション時間
 	float duration;
 
-	//ノードアニメーションチャンネル
-	std::vector<MotionNode> channels;
+	uint32_t modelHandle;
+	int32_t PADING;
 
 };
 

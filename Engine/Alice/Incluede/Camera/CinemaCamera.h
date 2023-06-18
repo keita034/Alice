@@ -54,33 +54,35 @@ private:
 	//ファークリップ(奥端)
 	float farClip = 0.0f;
 
-	//プロジェクション行列の更新フラグ
-	bool updateProjMatrix = true;
-	//ビュー行列の更新フラグ
-	bool updateViewMatrix = true;
-	char PADDING[2]{};
-
 	//注視点と視点の距離
 	float tgtToPosLen = 0.0f;
 
 	//カメラの正面ベクトル
 	AliceMathF::Vector3 forward = { 0.0f,0.0f,0.0f };
 
-	bool simpleFollowWithWorldUp = false;
-	char PADDING2[3]{};
-
 	//焦点距離
 	float focallength = 70.0f;
+
 	//センサーサイズ
 	SensorSize sensorSize = SensorSize::MEDIUM_FORMAT;
+
 	//画角計算フラグ
 	bool updatefovAngleY;
-	char PDING[3];
+
+	bool simpleFollowWithWorldUp = false;
+
+	//プロジェクション行列の更新フラグ
+	bool updateProjMatrix = true;
+
+	//ビュー行列の更新フラグ
+	bool updateViewMatrix = true;
 
 	//センサーサイズ
 	CinemaCameraSensorSize cameraSensorSize = { 43.8f,32.8f };
+
 	//F値
 	float aperture;
+
 	//撮影距離
 	float shootingDistance;
 public:

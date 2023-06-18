@@ -11,15 +11,15 @@ class RenderTargetBuffer : public BaseBuffer, public IRenderTargetBuffer
 {
 private:
 
-	//幅
-	uint32_t width = 0;
-	//高さ
-	uint32_t height = 0;
 	//ハンドル
 	D3D12_CPU_DESCRIPTOR_HANDLE handle{};
 	//ステータス
 	D3D12_RESOURCE_STATES states{};
-	char PADING[4];
+	//幅
+	uint32_t width = 0;
+	//高さ
+	uint32_t height = 0;
+	int32_t PADING{};
 
 public:
 

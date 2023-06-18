@@ -12,12 +12,10 @@ private:
 
 	size_t countRTV = 0;
 
-	uint32_t incrementSize;
-
-	char PADING2[4];
-
-
 	D3D12_CPU_DESCRIPTOR_HANDLE	startCpuHandle;
+
+	uint32_t incrementSize;
+	int32_t PADING;
 
 public:
 

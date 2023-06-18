@@ -20,6 +20,8 @@ class BaseCollider
 {
 protected:
 
+	ColliderObject* object = nullptr;
+
 	uint32_t collisionAttribute = 0xffffffff;
 	//衝突マスク(相手)
 	uint32_t CollisionMask = 0xffffffff;
@@ -29,12 +31,10 @@ protected:
 	//名前(相手)
 	std::string opponentCollsionName;
 
-	ColliderObject* object = nullptr;
-
 	//有効か
 	bool isValid = false;
 
-	char PADING[7];
+	int8_t PADING[7];
 
 public:
 	/// <summary>

@@ -41,15 +41,15 @@ std::wstring StringToWstring(const std::string& string)
 class Shader : public IShader
 {
 private:
-	//タイプ
-	ShaderType type = ShaderType::VS;
-	char PADING[4]{};
-
 	//シェーダオブジェクト
 	Microsoft::WRL::ComPtr<ID3DBlob> blob;
 
 	//シェーダバイトコード
 	D3D12_SHADER_BYTECODE shaderBytecode{};
+
+	//タイプ
+	ShaderType type = ShaderType::VS;
+	int32_t PADING;
 
 public:
 	/// <summary>
