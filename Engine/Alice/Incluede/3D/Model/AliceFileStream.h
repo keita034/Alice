@@ -23,6 +23,8 @@ class AliceFileStream
 	static std::array<char, 256>cBuffC;
 
 	static std::string sDirectoryPath;
+	static float sMeshNum;
+	static float sNodeNum;
 
 	friend class AliceModelData;
 	friend class AliceModel;

@@ -4,12 +4,13 @@
 #include <cassert>
 
 const std::string SceneLoader::sBaseDirectorypath = "Resources/";
+AliceInput::IInput* SceneData::input = nullptr;
 
-std::unique_ptr<SceneData> SceneLoader::SLoadFile(const std::string& fileName_)
+std::unique_ptr<SceneData> SceneLoader::SLoadFile(const std::string& filepath_)
 {
 	std::ifstream lFile;
 
-	lFile.open(fileName_);
+	lFile.open(filepath_);
 
 	if (lFile.fail())
 	{
@@ -30,12 +31,43 @@ std::unique_ptr<SceneData> SceneLoader::SLoadFile(const std::string& fileName_)
 
 	std::unique_ptr<SceneData> lSceneData = std::make_unique<SceneData>();
 
+	lSceneData->sceneDataFilepath = filepath_;
+
 	for (nlohmann::json& jsonObject : lDeserialized["objects"])
 	{
 		SObjectScan(lSceneData.get(), jsonObject);
 	}
 
 	return std::move(lSceneData);
+}
+
+void SceneLoader::SLoadFile(SceneData* sceneData_)
+{
+	std::ifstream lFile;
+
+	lFile.open(sceneData_->sceneDataFilepath);
+
+	if (lFile.fail())
+	{
+		assert(0);
+	}
+
+	nlohmann::json lDeserialized;
+
+	lFile >> lDeserialized;
+
+	assert(lDeserialized.is_object());
+	assert(lDeserialized.contains("name"));
+	assert(lDeserialized["name"].is_string());
+
+	std::string lName = lDeserialized["name"].get<std::string>();
+
+	assert(lName.compare("scene") == 0);
+
+	for (nlohmann::json& jsonObject : lDeserialized["objects"])
+	{
+		SObjectScan(sceneData_, jsonObject);
+	}
 }
 
 void SceneLoader::SObjectScan(SceneData* sceneData_, const nlohmann::json& jsonObj_, SceneData::Object* parent_)
@@ -80,14 +112,18 @@ void SceneLoader::SObjectScan(SceneData* sceneData_, const nlohmann::json& jsonO
 		lTranslation.z = -static_cast<float>(lTransform["translation"][0]);
 
 		// 回転角
-		lRotation.x = -static_cast<float>(lTransform["rotation"][1]);
-		lRotation.y = -static_cast<float>(lTransform["rotation"][2]);
-		lRotation.z = static_cast<float>(lTransform["rotation"][0]);
+		lRotation.x = -static_cast<float>(lTransform["rotation"][1]) * AliceMathF::DEG_TO_RAD;
+		lRotation.y = -static_cast<float>(lTransform["rotation"][2]) * AliceMathF::DEG_TO_RAD;
+		lRotation.z = static_cast<float>(lTransform["rotation"][0]) * AliceMathF::DEG_TO_RAD;
 
 		// スケーリング
 		lScaling.x = static_cast<float>(lTransform["scaling"][1]);
 		lScaling.y = static_cast<float>(lTransform["scaling"][2]);
 		lScaling.z = static_cast<float>(lTransform["scaling"][0]);
+
+		lScaling.x = 0.01f;
+		lScaling.y = 0.01f;
+		lScaling.z = 0.01f;
 
 		//モデル読み込み
 		uint32_t lHandle = AliceModel::SCreateModel(sBaseDirectorypath + lFileName);
@@ -113,6 +149,77 @@ void SceneLoader::SObjectScan(SceneData* sceneData_, const nlohmann::json& jsonO
 			}
 		}
 	}
+
+	if (lType.compare("CAMERA") == 0)
+	{
+		sceneData_->camera = std::make_unique<GameCamera>();
+		sceneData_->camera->Initialize(UPDATE_PROJMATRIXFUNC_PERSPECTIVE);
+
+		const nlohmann::json& lCameradata = jsonObj_["cameradata"];
+
+		// 平行移動
+		AliceMathF::Vector3 eye;
+		eye.x = static_cast<float>(lCameradata["translation"][1]);
+		eye.y = -static_cast<float>(lCameradata["translation"][2]);
+		eye.z = -static_cast<float>(lCameradata["translation"][0]);
+		sceneData_->camera->SetEye(eye);
+
+		// 上ベクトル
+		AliceMathF::Vector3 upVec;
+		upVec.x = -static_cast<float>(lCameradata["up"][1]);
+		upVec.y = -static_cast<float>(lCameradata["up"][2]);
+		upVec.z = static_cast<float>(lCameradata["up"][0]);
+		sceneData_->camera->SetUp(upVec);
+
+		//カメラの方向
+		AliceMathF::Vector3 direction;
+		direction.x = static_cast<float>(lCameradata["direction"][1]);
+		direction.y = -static_cast<float>(lCameradata["direction"][2]);
+		direction.z = -static_cast<float>(lCameradata["direction"][0]);
+		sceneData_->camera->SetTarget(sceneData_->camera->GetEye() + direction);
+
+		float lNear = static_cast<float>(lCameradata["nearclip"]);
+		sceneData_->camera->SetNear(lNear);
+
+		float lFar = static_cast<float>(lCameradata["farclip"]);
+		sceneData_->camera->SetFar(lFar);
+
+		float lFovAngleY = static_cast<float>(lCameradata["fovAngleY"]);
+		sceneData_->camera->SetFovAngleY(lFovAngleY);
+
+		sceneData_->camera->Update();
+
+	}
+
+	if (lType.compare("LIGHT") == 0)
+	{
+		// トランスフォームのパラメータ読み込み
+		const nlohmann::json& lTransform = jsonObj_["transform"];
+
+		AliceMathF::Vector3 lRotation;
+		AliceMathF::Vector4 lColor;
+
+		// 回転角
+		lRotation.x = -static_cast<float>(lTransform["rotation"][1])*AliceMathF::DEG_TO_RAD;
+		lRotation.y = -static_cast<float>(lTransform["rotation"][2]) * AliceMathF::DEG_TO_RAD;
+		lRotation.z = static_cast<float>(lTransform["rotation"][0]) * AliceMathF::DEG_TO_RAD;
+
+		lRotation = lRotation.Normal();
+
+		const nlohmann::json& lCameradata = jsonObj_["cameradata"];
+
+		lColor.x = static_cast<float>(lCameradata["color"][1]);
+		lColor.y = static_cast<float>(lCameradata["color"][2]);
+		lColor.z = static_cast<float>(lCameradata["color"][0]);
+		lColor.w = 1.0f;
+
+		sceneData_->light = CreateUniqueLight();
+		sceneData_->light->SetLightColor(lColor);
+		sceneData_->light->SetLightDir(lRotation);
+		sceneData_->light->Update();
+		//モデルにライトをセット
+		AliceModel::SSetLight(sceneData_->light.get());
+	}
 }
 
 void SceneData::Object::Initialize(uint32_t handle_, const AliceMathF::Vector3& pos_, const AliceMathF::Vector3& rot_, const AliceMathF::Vector3& scl_, const Transform* parent_)
@@ -136,6 +243,7 @@ void SceneData::Object::Finalize()
 
 void SceneData::Object::Update(Camera* camera)
 {
+
 	transform.TransUpdate(camera);
 }
 
@@ -150,9 +258,29 @@ void SceneData::Object::Initialize()
 
 void SceneData::Update(Camera* camera_)
 {
+	if (input->TriggerKey(Keys::F5))
+	{
+		light.reset();
+		camera.reset();
+		objects.clear();
+
+		SceneLoader::SLoadFile(this);
+	}
+
+	light->Update();
+	camera->Update();
+
 	for (std::unique_ptr<Object>& object : objects)
 	{
-		object->Update(camera_);
+		if (camera_)
+		{
+			object->Update(camera_);
+		}
+		else
+		{
+			object->Update(camera.get());
+		}
+
 	}
 }
 
@@ -162,4 +290,9 @@ void SceneData::Draw()
 	{
 		object->Draw();
 	}
+}
+
+void SceneData::SSetInput(AliceInput::IInput* input_)
+{
+	input = input_;
 }

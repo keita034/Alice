@@ -65,7 +65,7 @@
     <ClCompile>
       <WarningLevel>EnableAllWarnings</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_LIB;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Incluede\2D;$(ProjectDir)Incluede\2D\PostEffect;$(ProjectDir)Incluede\2D\Particle;$(ProjectDir)Incluede\2D\Sprite;$(ProjectDir)Incluede\3D;$(ProjectDir)Incluede\3D\Model;$(ProjectDir)Incluede\AliceMath;$(ProjectDir)Incluede\AliceMath\Collision;$(ProjectDir)Incluede\AliceMath\float;$(ProjectDir)Incluede\AliceMath\double;$(ProjectDir)Incluede\Audio;$(ProjectDir)Incluede\Camera;$(ProjectDir)Incluede\Core;$(ProjectDir)Incluede\Core\DirectX;$(ProjectDir)Incluede\Core\Buffer;$(ProjectDir)Incluede\Core\Framework;$(ProjectDir)Incluede\Input;$(ProjectDir)Incluede\Scene;$(ProjectDir)Incluede\Light;$(ProjectDir)Incluede\Util;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -97,7 +97,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Incluede\2D;$(ProjectDir)Incluede\2D\PostEffect;$(ProjectDir)Incluede\2D\Particle;$(ProjectDir)Incluede\2D\Sprite;$(ProjectDir)Incluede\3D;$(ProjectDir)Incluede\3D\Model;$(ProjectDir)Incluede\AliceMath;$(ProjectDir)Incluede\AliceMath\Collision;$(ProjectDir)Incluede\AliceMath\float;$(ProjectDir)Incluede\AliceMath\double;$(ProjectDir)Incluede\Audio;$(ProjectDir)Incluede\Camera;$(ProjectDir)Incluede\Core;$(ProjectDir)Incluede\Core\DirectX;$(ProjectDir)Incluede\Core\Buffer;$(ProjectDir)Incluede\Core\Framework;$(ProjectDir)Incluede\Input;$(ProjectDir)Incluede\Scene;$(ProjectDir)Incluede\Light;$(ProjectDir)Incluede\Util;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>

@@ -34,11 +34,11 @@ namespace AliceMathF
 	{
 		Vector3 retVec = {};
 
-		retVec.x = vec_.x * mat_.m[0][0] + vec_.y * mat_.m[1][0] + vec_.z * mat_.m[2][0] + 1 * mat_.m[3][0];
+		retVec.x = vec_.x * mat_.m[0][0] + vec_.y * mat_.m[1][0] + vec_.z * mat_.m[2][0];
 
-		retVec.y = vec_.x * mat_.m[0][1] + vec_.y * mat_.m[1][1] + vec_.z * mat_.m[2][1] + 1 * mat_.m[3][1];
+		retVec.y = vec_.x * mat_.m[0][1] + vec_.y * mat_.m[1][1] + vec_.z * mat_.m[2][1];
 
-		retVec.z = vec_.x * mat_.m[0][2] + vec_.y * mat_.m[1][2] + vec_.z * mat_.m[2][2] + 1 * mat_.m[3][2];
+		retVec.z = vec_.x * mat_.m[0][2] + vec_.y * mat_.m[1][2] + vec_.z * mat_.m[2][2];
 
 		return retVec;;
 	}

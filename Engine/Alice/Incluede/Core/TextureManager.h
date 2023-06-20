@@ -18,8 +18,10 @@
 #include<AliceFunctionUtility.h>
 #include<DirectX12Core.h>
 
-struct TextureData
+class TextureData
 {
+public:
+
 	//テクスチャバッファ
 	Microsoft::WRL::ComPtr<ID3D12Resource> texBuff;
 

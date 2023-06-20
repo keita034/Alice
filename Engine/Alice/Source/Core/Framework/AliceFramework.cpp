@@ -6,6 +6,7 @@
 #include<Collision2DManager.h>
 #include<Particle.h>
 #include<Sprite.h>
+#include<SceneLoader.h>
 
 void AliceFramework::SDebugInitialize()
 {
@@ -23,7 +24,7 @@ void AliceFramework::Initialize()
 	//DirectX初期化処理ここから
 
 	directX12Core = std::make_unique<DirectX12Core>();//DirectX12Coreクラス読み込み
-	directX12Core->DirectXInitialize(static_cast<float>(windowsApp->GetWindowSize().height), static_cast<float>(windowsApp->GetWindowSize().width), windowsApp->GetHwnd(), windowsApp.get());//DirectX12初期化
+	directX12Core->DirectXInitialize(static_cast<float>(windowsApp->GetWindowSize().width), static_cast<float>(windowsApp->GetWindowSize().height), windowsApp->GetHwnd(), windowsApp.get());//DirectX12初期化
 	directX12Core->SetBackScreenColor(0.1f, 0.25f, 0.5f, 0.0f);	//背景の色変更(R,G,B,A)
 
 	//DirectX初期化処理ここまで
@@ -59,11 +60,13 @@ void AliceFramework::Initialize()
 	//その他初期化ここから
 
 	audioManager = CreateUniqueAudioManager();
+	BaseScene::SSetAudioManager(audioManager.get());
 
 	input = AliceInput::CreateUniqueInput(windowsApp->GetHwnd(), &windowsApp->GetWndclassex()->hInstance);
 
 	BaseScene::SSetInput(input.get());
-	BaseScene::SSetAudioManager(audioManager.get());
+	SceneData::SSetInput(input.get());
+
 
 	fps = CreateUniqueFPS();
 

@@ -15,73 +15,76 @@ void GameScene::Initialize()
 
 	mesh2D = Mesh::SGetInstance();
 
-	//ライト初期化
-	light = CreateUniqueLight();
-	light->SetLightColor(lightColor);
-	light->SetLightDir({ 1.0f,0.0f,1.0f });
-	//モデルにライトをセット
-	AliceModel::SSetLight(light.get());
+	////ライト初期化
+	//light = CreateUniqueLight();
+	//light->SetLightColor(lightColor);
+	//light->SetLightDir({ 1.0f,0.0f,1.0f });
+	////モデルにライトをセット
+	//AliceModel::SSetLight(light.get());
 
-	camera = std::make_unique<GameCamera>();
-	camera->Initialize(UPDATE_PROJMATRIXFUNC_PERSPECTIVE);
-	//camera->SetEye({ 0,0,-5 });
-	camera->SetEye({ 0,90,-800 });
-	camera->SetTarget({ 0,90,0 });
+	//camera = std::make_unique<GameCamera>();
+	//camera->Initialize(UPDATE_PROJMATRIXFUNC_PERSPECTIVE);
+	////camera->SetEye({ 0,0,-5 });
+	//camera->SetEye({ 0,90,-800 });
+	//camera->SetTarget({ 0,90,0 });
 
-	modelHanle = AliceModel::SCreateToonModel("Resources/Neru");
-	model = std::make_unique<AliceToonModel>();
-	model->SetModel(modelHanle);
+	//modelHanle = AliceModel::SCreateToonModel("Resources/Neru");
+	//model = std::make_unique<AliceToonModel>();
+	//model->SetModel(modelHanle);
 
-	trans.Initialize();
+	//trans.Initialize();
+
+	sceneData = SceneLoader::SLoadFile("Resources/ed.json");
 }
 
 void GameScene::Update()
 {
-	if (sInput->CheckKey(Keys::UP))
-	{
-		AliceMathF::Vector3 move = { 0.0f,1.0 ,0.0f };
-		camera->Move(move);
-	}
+	sceneData->Update();
+	//if (sInput->CheckKey(Keys::UP))
+	//{
+	//	AliceMathF::Vector3 move = { 0.0f,1.0 ,0.0f };
+	//	camera->Move(move);
+	//}
 
-	if (sInput->CheckKey(Keys::LEFT))
-	{
-		AliceMathF::Vector3 move = { -1.0,0.0f,0.0f };
-		camera->Move(move);
-	}
+	//if (sInput->CheckKey(Keys::LEFT))
+	//{
+	//	AliceMathF::Vector3 move = { -1.0,0.0f,0.0f };
+	//	camera->Move(move);
+	//}
 
-	if (sInput->CheckKey(Keys::RIGHT))
-	{
-		AliceMathF::Vector3 move = { 1.0f,0.0f,0.0f };
-		camera->Move(move);
-	}
-	if (sInput->CheckKey(Keys::DOWN))
-	{
-		AliceMathF::Vector3 move = { 0.0f,-1.0, 0.0f };
-		camera->Move(move);
-	}
+	//if (sInput->CheckKey(Keys::RIGHT))
+	//{
+	//	AliceMathF::Vector3 move = { 1.0f,0.0f,0.0f };
+	//	camera->Move(move);
+	//}
+	//if (sInput->CheckKey(Keys::DOWN))
+	//{
+	//	AliceMathF::Vector3 move = { 0.0f,-1.0, 0.0f };
+	//	camera->Move(move);
+	//}
 
-	if (sInput->CheckKey(Keys::W))
-	{
-		AliceMathF::Vector3 move = { 0.0f,0.0 ,1.0f };
-		camera->Move(move);
-	}
+	//if (sInput->CheckKey(Keys::W))
+	//{
+	//	AliceMathF::Vector3 move = { 0.0f,0.0 ,1.0f };
+	//	camera->Move(move);
+	//}
 
-	if (sInput->CheckKey(Keys::S))
-	{
-		AliceMathF::Vector3 move = { 0.0,0.0f,-1.0f };
-		camera->Move(move);
-	}
+	//if (sInput->CheckKey(Keys::S))
+	//{
+	//	AliceMathF::Vector3 move = { 0.0,0.0f,-1.0f };
+	//	camera->Move(move);
+	//}
 
-	light->Update();
-	camera->Update();
+	//light->Update();
+	//camera->Update();
 
-	trans.TransUpdate(camera.get());
+	//trans.TransUpdate(camera.get());
 }
 
 void GameScene::Draw()
 {
-
-	model->ZeldaDraw(trans);
+	sceneData->Draw();
+	//model->ZeldaDraw(trans);
 }
 
 void GameScene::Finalize()

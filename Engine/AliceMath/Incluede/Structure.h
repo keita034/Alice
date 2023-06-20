@@ -203,8 +203,9 @@ struct ModelMaterial
 /// <summary>
 /// 骨
 /// </summary>
-struct Bone
+class Bone
 {
+public:
 	//名前
 	std::string name;
 
@@ -263,8 +264,9 @@ struct BoneData
 };
 
 //Vector3のアニメーションキー
-struct VectorKey
+class VectorKey
 {
+public:
 	//キーの時間
 	float time;
 

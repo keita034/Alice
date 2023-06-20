@@ -45,7 +45,6 @@ struct Buff
 	Buff() = default;
 	~Buff() = default;
 
-private:
 	//コピーコンストラクタ・代入演算子削除
 	Buff& operator=(const Buff&) = delete;
 	Buff(const Buff&) = delete;
@@ -82,7 +81,6 @@ struct ComputeRelation
 	//シェーダー
 	std::unique_ptr<IShader> computeShader;
 
-private:
 	//コピーコンストラクタ・代入演算子削除
 	ComputeRelation& operator=(const ComputeRelation&) = delete;
 	ComputeRelation(const ComputeRelation&) = delete;

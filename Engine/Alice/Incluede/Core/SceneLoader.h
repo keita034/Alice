@@ -1,6 +1,4 @@
 ﻿#pragma once
-#include<GameObject.h>
-
 #pragma warning(push)
 #pragma warning(disable: 4365)
 #pragma warning(disable: 4514)
@@ -15,11 +13,13 @@
 
 #pragma warning(pop)
 
+#include<GameObject.h>
+#include<Input.h>
 
 // レベルデータ
-struct SceneData
+class SceneData
 {
-
+public:
 	class Object : public GameObject
 	{
 
@@ -66,10 +66,30 @@ struct SceneData
 
 	// オブジェクト配列
 	std::vector<std::unique_ptr<Object>> objects;
+	//カメラ
+	std::unique_ptr<GameCamera>camera;
+	//ライト
+	std::unique_ptr<Light>light;
 
-	void Update(Camera* camera_);
+	std::string sceneDataFilepath;
+
+	void Update(Camera* camera_ = nullptr);
 
 	void Draw();
+
+	SceneData() = default;
+	~SceneData() = default;
+
+	static void SSetInput(AliceInput::IInput* input_);
+
+private:
+
+	static AliceInput::IInput* input;
+
+	//コピーコンストラクタ・代入演算子削除
+	SceneData& operator=(const SceneData&) = delete;
+	SceneData(const SceneData&) = delete;
+
 };
 
 class SceneLoader
@@ -85,6 +105,8 @@ public:
 	/// </summary>
 	/// <param name="fileName">ファイル名</param>
 	static std::unique_ptr<SceneData> SLoadFile(const std::string& filepath_);
+
+	static void SLoadFile(SceneData* sceneData_);
 
 private:
 

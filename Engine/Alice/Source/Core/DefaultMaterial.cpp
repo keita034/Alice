@@ -130,7 +130,7 @@ Material* MaterialManager::GetMaterialData(const std::string& name_)
 			PCreateDefaultZeldaToonModelAnimationMaterial();
 		}
 
-		return materials.end()._Ptr->_Myval.second.get();
+		return materials[name_].get();
 	}
 
 	return nullptr;

@@ -5,7 +5,8 @@ std::string AliceFileStream::sBbuff;
 std::istringstream AliceFileStream::sLineData;
 std::array<char, 256>  AliceFileStream::cBuffC;
 std::string AliceFileStream::sDirectoryPath;
-
+float AliceFileStream::sMeshNum;
+float AliceFileStream::sNodeNum;
 #pragma region モデルデータ
 
 #pragma region ASCII
@@ -92,10 +93,10 @@ void AliceFileStream::SPReadMeshsData(std::stringstream& data_, std::string& str
 		{
 			continue;
 		}
-
+		 
 		std::istringstream lStream(lLine);
 
-		for (size_t i = 0; i < model_->meshes.size(); i++)
+		for (size_t i = 0; i < static_cast<size_t>(sMeshNum); i++)
 		{
 			std::unique_ptr<ModelMesh>lMesh = std::make_unique<ModelMesh>();
 
@@ -358,10 +359,9 @@ void AliceFileStream::SPReadHesderData(std::stringstream& data_, std::string& st
 		{
 			getline(lStream, lLine, ':');
 
-			float lMeshNum;
-			SPReadNumber(lLine, lMeshNum);
+			SPReadNumber(lLine, sMeshNum);
 
-			model_->meshes.reserve(static_cast<size_t>(lMeshNum));
+			model_->meshes.reserve(static_cast<size_t>(sMeshNum));
 			continue;
 		}
 	}
@@ -726,7 +726,7 @@ bool AliceFileStream::SPReadNodesBinaryData(AliceModelData* model_, FILE* fp_)
 
 bool AliceFileStream::SPReadMeshBinaryData(AliceModelData* model_, FILE* fp_)
 {
-	for (size_t i = 0; i < model_->meshes.size(); i++)
+	for (size_t i = 0; i < static_cast<size_t>(sMeshNum); i++)
 	{
 		std::unique_ptr<ModelMesh>lMesh;
 
