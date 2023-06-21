@@ -13,7 +13,7 @@ GameScene::~GameScene()
 void GameScene::Initialize()
 {
 
-	sceneData = SceneLoader::SLoadFile("Resources/test.json");
+	sceneData = SceneLoader::SLoadFile("Resources/TestScene.json");
 }
 
 void GameScene::Update()

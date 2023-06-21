@@ -117,13 +117,9 @@ void SceneLoader::SObjectScan(SceneData* sceneData_, const nlohmann::json& jsonO
 		lRotation.z = static_cast<float>(lTransform["rotation"][0]) * AliceMathF::DEG_TO_RAD;
 
 		// スケーリング
-		lScaling.x = static_cast<float>(lTransform["scaling"][1]);
-		lScaling.y = static_cast<float>(lTransform["scaling"][2]);
-		lScaling.z = static_cast<float>(lTransform["scaling"][0]);
-
-		lScaling.x = 0.01f;
-		lScaling.y = 0.01f;
-		lScaling.z = 0.01f;
+		lScaling.x = static_cast<float>(lTransform["scaling"][1])* 0.01f;
+		lScaling.y = static_cast<float>(lTransform["scaling"][2]) * 0.01f;
+		lScaling.z = static_cast<float>(lTransform["scaling"][0]) * 0.01f;
 
 		//モデル読み込み
 		uint32_t lHandle = AliceModel::SCreateModel(sBaseDirectorypath + lFileName);
@@ -160,21 +156,21 @@ void SceneLoader::SObjectScan(SceneData* sceneData_, const nlohmann::json& jsonO
 		// 平行移動
 		AliceMathF::Vector3 lEye;
 		lEye.x = static_cast<float>(lCameradata["translation"][1]);
-		lEye.y = -static_cast<float>(lCameradata["translation"][2]);
+		lEye.y = static_cast<float>(lCameradata["translation"][2]);
 		lEye.z = -static_cast<float>(lCameradata["translation"][0]);
 		sceneData_->camera->SetEye(lEye);
 
 		// 上ベクトル
 		AliceMathF::Vector3 lUpVec;
-		lUpVec.x = -static_cast<float>(lCameradata["up"][1]);
-		lUpVec.y = -static_cast<float>(lCameradata["up"][2]);
-		lUpVec.z = static_cast<float>(lCameradata["up"][0]);
+		lUpVec.x = static_cast<float>(lCameradata["up"][1]);
+		lUpVec.y = static_cast<float>(lCameradata["up"][2]);
+		lUpVec.z = -static_cast<float>(lCameradata["up"][0]);
 		sceneData_->camera->SetUp(lUpVec);
 
 		//カメラの方向
 		AliceMathF::Vector3 lDirection;
 		lDirection.x = static_cast<float>(lCameradata["direction"][1]);
-		lDirection.y = -static_cast<float>(lCameradata["direction"][2]);
+		lDirection.y = static_cast<float>(lCameradata["direction"][2]);
 		lDirection.z = -static_cast<float>(lCameradata["direction"][0]);
 		sceneData_->camera->SetTarget(sceneData_->camera->GetEye() + lDirection);
 
@@ -216,7 +212,7 @@ void SceneLoader::SObjectScan(SceneData* sceneData_, const nlohmann::json& jsonO
 
 		AliceMathF::Vector3 lDirection;
 		lDirection.x = static_cast<float>(lCameradata["direction"][1]);
-		lDirection.y = -static_cast<float>(lCameradata["direction"][2]);
+		lDirection.y = static_cast<float>(lCameradata["direction"][2]);
 		lDirection.z = -static_cast<float>(lCameradata["direction"][0]);
 
 		sceneData_->light = CreateUniqueLight();
