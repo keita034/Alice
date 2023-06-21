@@ -1,11 +1,12 @@
 #include "GameMain.h"
 #include"SceneFactrory.h"
 
+
 void GameMain::Initialize()
 {
 	AliceFramework::Initialize();
 
-	//ƒV[ƒ“‚Ì‰Šú‰»
+	//ã‚·ãƒ¼ãƒ³ã®åˆæœŸåŒ–
 	sceneFactory = SceneFactrory::SGetInstance();
 	SceneManager::SGetInstance()->SetSceneFactory(sceneFactory);
 

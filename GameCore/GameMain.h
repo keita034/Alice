@@ -1,9 +1,9 @@
 #pragma once
 
-//#DirectX‚Ì‚â‚Â
+//#DirectXã®ã‚„ã¤
 
 
-//©ì.h
+//è‡ªä½œ.h
 #include"GameScene.h"
 #include"AliceFramework.h"
 
@@ -14,22 +14,22 @@ private:
 public:
 
 	/// <summary>
-	/// ‰Šú‰»
+	/// åˆæœŸåŒ–
 	/// </summary>
 	void Initialize() override;
 
 	/// <summary>
-	/// I—¹
+	/// çµ‚äº†
 	/// </summary>
 	void Finalize() override;
 
 	/// <summary>
-	/// –ˆƒtƒŒ[ƒ€XV
+	/// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ æ›´æ–°
 	/// </summary>
 	void Update() override;;
 
 	/// <summary>
-	/// •`‰æ
+	/// æç”»
 	/// </summary>
 	void Draw() override;;
 
@@ -37,7 +37,7 @@ public:
 	~GameMain();
 private:
 
-	//ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^E‘ã“ü‰‰Zqíœ
+	//ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ãƒ»ä»£å…¥æ¼”ç®—å­å‰Šé™¤
 	GameMain& operator=(const GameMain&) = delete;
 	GameMain(const GameMain&) = delete;
 };

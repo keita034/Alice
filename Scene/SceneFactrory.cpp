@@ -11,14 +11,14 @@ SceneFactrory* SceneFactrory::SGetInstance()
 
 std::unique_ptr<BaseScene> SceneFactrory::CreateScene(const std::string& sceneName)
 {
-	//Ÿ‚ÌƒV[ƒ“‚ğ¶¬
+	//æ¬¡ã®ã‚·ãƒ¼ãƒ³ã‚’ç”Ÿæˆ
 	std::unique_ptr<BaseScene> lNewScene = nullptr;
 
 	if (sceneName == "TITLE")
 	{
 		lNewScene = std::make_unique<TitleScene>();
 	}
-	else if(sceneName == "GAME")
+	else if (sceneName == "GAME")
 	{
 		lNewScene = std::make_unique<GameScene>();
 	}

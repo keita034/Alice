@@ -2,7 +2,7 @@
 #include"AbstractSceneFactory.h"
 
 /// <summary>
-/// ƒV[ƒ“Hê
+/// ã‚·ãƒ¼ãƒ³å·¥å ´
 /// </summary>
 class SceneFactrory:public AbstractSceneFactory
 {
@@ -11,10 +11,10 @@ public:
 	static SceneFactrory* SGetInstance();
 
 	/// <summary>
-	/// ƒV[ƒ“¶¬
+	/// ã‚·ãƒ¼ãƒ³ç”Ÿæˆ
 	/// </summary>
-	/// <param name="sceneName">ƒV[ƒ“–¼</param>
-	/// <returns>¶¬‚µ‚½ƒV[ƒ“</returns>
+	/// <param name="sceneName">ã‚·ãƒ¼ãƒ³å</param>
+	/// <returns>ç”Ÿæˆã—ãŸã‚·ãƒ¼ãƒ³</returns>
 	std::unique_ptr<BaseScene> CreateScene(const std::string& sceneName) override;
 };
 
