@@ -22,22 +22,9 @@ class GameScene : public BaseScene
 {
 private:
 
-	Mesh* mesh2D = nullptr;
-	Mesh3D* mesh3D = nullptr;
-
-	std::unique_ptr<Light> light;
-	AliceMathF::Vector4 lightColor = { 1, 1, 1, 1 };
-
-	std::unique_ptr<GameCamera> camera;
-
+	//シーンデータ
 	std::unique_ptr<SceneData> sceneData;
 
-	uint32_t modelHanle;
-	std::unique_ptr<AliceToonModel> model;
-	Transform trans;
-
-
-	float angle;
 public:
 
 	GameScene();

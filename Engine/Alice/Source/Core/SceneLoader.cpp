@@ -158,25 +158,25 @@ void SceneLoader::SObjectScan(SceneData* sceneData_, const nlohmann::json& jsonO
 		const nlohmann::json& lCameradata = jsonObj_["cameradata"];
 
 		// 平行移動
-		AliceMathF::Vector3 eye;
-		eye.x = static_cast<float>(lCameradata["translation"][1]);
-		eye.y = -static_cast<float>(lCameradata["translation"][2]);
-		eye.z = -static_cast<float>(lCameradata["translation"][0]);
-		sceneData_->camera->SetEye(eye);
+		AliceMathF::Vector3 lEye;
+		lEye.x = static_cast<float>(lCameradata["translation"][1]);
+		lEye.y = -static_cast<float>(lCameradata["translation"][2]);
+		lEye.z = -static_cast<float>(lCameradata["translation"][0]);
+		sceneData_->camera->SetEye(lEye);
 
 		// 上ベクトル
-		AliceMathF::Vector3 upVec;
-		upVec.x = -static_cast<float>(lCameradata["up"][1]);
-		upVec.y = -static_cast<float>(lCameradata["up"][2]);
-		upVec.z = static_cast<float>(lCameradata["up"][0]);
-		sceneData_->camera->SetUp(upVec);
+		AliceMathF::Vector3 lUpVec;
+		lUpVec.x = -static_cast<float>(lCameradata["up"][1]);
+		lUpVec.y = -static_cast<float>(lCameradata["up"][2]);
+		lUpVec.z = static_cast<float>(lCameradata["up"][0]);
+		sceneData_->camera->SetUp(lUpVec);
 
 		//カメラの方向
-		AliceMathF::Vector3 direction;
-		direction.x = static_cast<float>(lCameradata["direction"][1]);
-		direction.y = -static_cast<float>(lCameradata["direction"][2]);
-		direction.z = -static_cast<float>(lCameradata["direction"][0]);
-		sceneData_->camera->SetTarget(sceneData_->camera->GetEye() + direction);
+		AliceMathF::Vector3 lDirection;
+		lDirection.x = static_cast<float>(lCameradata["direction"][1]);
+		lDirection.y = -static_cast<float>(lCameradata["direction"][2]);
+		lDirection.z = -static_cast<float>(lCameradata["direction"][0]);
+		sceneData_->camera->SetTarget(sceneData_->camera->GetEye() + lDirection);
 
 		float lNear = static_cast<float>(lCameradata["nearclip"]);
 		sceneData_->camera->SetNear(lNear);
@@ -197,7 +197,6 @@ void SceneLoader::SObjectScan(SceneData* sceneData_, const nlohmann::json& jsonO
 		const nlohmann::json& lTransform = jsonObj_["transform"];
 
 		AliceMathF::Vector3 lRotation;
-		AliceMathF::Vector4 lColor;
 
 		// 回転角
 		lRotation.x = -static_cast<float>(lTransform["rotation"][1])*AliceMathF::DEG_TO_RAD;
@@ -208,14 +207,21 @@ void SceneLoader::SObjectScan(SceneData* sceneData_, const nlohmann::json& jsonO
 
 		const nlohmann::json& lCameradata = jsonObj_["cameradata"];
 
+		//ライトカラー
+		AliceMathF::Vector4 lColor;
 		lColor.x = static_cast<float>(lCameradata["color"][1]);
 		lColor.y = static_cast<float>(lCameradata["color"][2]);
 		lColor.z = static_cast<float>(lCameradata["color"][0]);
 		lColor.w = 1.0f;
 
+		AliceMathF::Vector3 lDirection;
+		lDirection.x = static_cast<float>(lCameradata["direction"][1]);
+		lDirection.y = -static_cast<float>(lCameradata["direction"][2]);
+		lDirection.z = -static_cast<float>(lCameradata["direction"][0]);
+
 		sceneData_->light = CreateUniqueLight();
 		sceneData_->light->SetLightColor(lColor);
-		sceneData_->light->SetLightDir(lRotation);
+		sceneData_->light->SetLightDir(lDirection);
 		sceneData_->light->Update();
 		//モデルにライトをセット
 		AliceModel::SSetLight(sceneData_->light.get());
