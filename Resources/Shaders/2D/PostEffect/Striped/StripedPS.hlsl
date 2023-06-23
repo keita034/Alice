@@ -12,7 +12,34 @@ PSOutput main(VSOutput input)
     
     output.target0 = textureColor;
     
-    output.target1 = float4(1 - (textureColor).rgb, 1);
+    //•½‹Ïƒuƒ‰[
+    {
+        const float offsetU = blurLevel / windowSize.x;
+        const float offsetV = blurLevel / windowSize.y;
+        float4 color = { 0, 0, 0, 0 };
+        
+        for (float v = 0; v < vForRange; v++)
+        {
+            for (float u = 0; u < uForRange; u++)
+            {
+                float2 offSet = float2((u - 1) * offsetU, (v - 1) * offsetV);
+                color += tex.Sample(smp, saturate(input.uv - offSet));
+            }
+        }
+        
+        output.target0 = color / (uForRange * vForRange);
+        output.target0.a = 1;
+
+    }
+    
+    //F”½“]
+    {
+        output.target1 = float4(1 - (textureColor).rgb, 1);
+    }
+    
+
+    
+    
 
     return output;
 }

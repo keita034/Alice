@@ -22,8 +22,32 @@ class GameScene : public BaseScene
 {
 private:
 
-	//シーンデータ
-	std::unique_ptr<SceneData> sceneData;
+	enum class DemoIndex
+	{
+		SKINNING_ANIMATION,
+		PHONG_SHADER,
+		POSTEFFECT,
+	};
+
+	std::unique_ptr<Light> light;
+	AliceMathF::Vector4 lightColor = { 1, 1, 1, 1 };
+
+	std::unique_ptr<GameCamera> camera;
+
+	std::unique_ptr<AliceModel>skinningModel;
+	uint32_t skinningModelHandle;
+	Transform skinningModelTransform;
+	float modelAnimationFrame = 0.0f;
+
+	std::unique_ptr<AliceMotionData> modelAnimation;
+	uint32_t modelAnimationHandle;
+
+
+	std::unique_ptr<AliceModel>sphereModel;
+	uint32_t sphereModelHandle;
+	Transform sphereModelTransform;
+
+	DemoIndex demoIndex = DemoIndex::POSTEFFECT;
 
 public:
 

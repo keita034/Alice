@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include<BasePostEffect.h>
 #include<ConstantBuffer.h>
 

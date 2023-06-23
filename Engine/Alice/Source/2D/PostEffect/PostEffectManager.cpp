@@ -1,4 +1,4 @@
-﻿#include<PostEffectManager.h>
+#include<PostEffectManager.h>
 #include<WindowsApp.h>
 #include<DefaultMaterial.h>
 #include<PostEffectFactory.h>

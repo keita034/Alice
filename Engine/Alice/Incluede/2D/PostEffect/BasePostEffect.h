@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include<Shader.h>
 #include<Material.h>

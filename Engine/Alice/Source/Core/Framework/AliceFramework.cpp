@@ -1,4 +1,4 @@
-﻿#include <AliceFramework.h>
+#include <AliceFramework.h>
 
 #include<AliceModel.h>
 #include<AliceMotionData.h>
@@ -36,6 +36,7 @@ void AliceFramework::Initialize()
 	PostEffectManager::SSetWindowsApp(windowsApp.get());
 	Camera::SSetWindowsApp(windowsApp.get());
 	Sprite::SSetWindowsApp(windowsApp.get());
+	BasePostEffect::SSetWindowsApp(windowsApp.get());
 
 	Particle::SSetDirectX12Core(directX12Core.get());
 	BasePostEffect::SSetDirectX12Core(directX12Core.get());
@@ -88,9 +89,10 @@ void AliceFramework::Finalize()
 	imGuiManager->Finalize();
 	imGuiManager.release();
 
-	windowsApp->Break();
+
 	mesh->Destroy();
 	audioManager->Destroy();
+	windowsApp->Break();
 }
 
 void AliceFramework::Update()
@@ -109,6 +111,7 @@ void AliceFramework::Update()
 
 	sceneManager->Update();
 
+	postEffectManager->PostInitialize();
 
 	imGuiManager->End();
 }
@@ -136,6 +139,7 @@ void AliceFramework::Draw()
 
 		directX12Core->BeginDraw();//描画準備
 		postEffectManager->Draw();
+
 		imGuiManager->Draw();
 		//DirectX毎フレーム処理　ここまで
 		directX12Core->EndDraw();//描画後処理

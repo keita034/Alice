@@ -1,4 +1,4 @@
-﻿#include "StripedPostEffect.h"
+#include "StripedPostEffect.h"
 
 StripedPostEffect* StripedPostEffect::SGetInstance()
 {
@@ -23,10 +23,10 @@ void StripedPostEffect::Initialize()
 		material = std::make_unique<Material>();
 
 		//頂点シェーダの読み込み
-		material->vertexShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/StripedVS.hlsl");
+		material->vertexShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/Striped/StripedVS.hlsl");
 
 		//ピクセルシェーダの読み込み
-		material->pixelShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/StripedPS.hlsl", "main", "ps_5_0");
+		material->pixelShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/Striped/StripedPS.hlsl", "main", "ps_5_0");
 
 		//頂点レイアウト設定
 		material->inputLayouts =
@@ -66,7 +66,7 @@ void StripedPostEffect::Initialize()
 		for (size_t i = 0; i < 2; i++)
 		{
 			//レンダーターゲットの生成
-			std::unique_ptr<IRenderTargetBuffer> lRenderTargetBuffer = CreateUniqueRenderTargetBuffer(static_cast<uint32_t>(width), static_cast<uint32_t>(height), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+			std::unique_ptr<IRenderTargetBuffer> lRenderTargetBuffer = CreateUniqueRenderTargetBuffer(static_cast<uint32_t>(width), static_cast<uint32_t>(height), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, 0, 1, DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, { {0.1f, 0.25f, 0.5f, 1.0f} });
 			
 			{//SRV作成
 
@@ -96,10 +96,10 @@ void StripedPostEffect::Initialize()
 		material2= std::make_unique<Material>();
 
 		//頂点シェーダの読み込み
-		material2->vertexShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/StripedDrawVS.hlsl");
+		material2->vertexShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/StripedDraw/StripedDrawVS.hlsl");
 
 		//ピクセルシェーダの読み込み
-		material2->pixelShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/StripedDrawPS.hlsl", "main", "ps_5_0");
+		material2->pixelShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/StripedDraw/StripedDrawPS.hlsl", "main", "ps_5_0");
 
 		//頂点レイアウト設定
 		material2->inputLayouts =
@@ -131,6 +131,18 @@ void StripedPostEffect::Initialize()
 
 		//生成
 		material2->Initialize();
+
+		constantBuffer = CreateUniqueConstantBuffer(sizeof(ConstantBufferMap));
+
+
+		ConstantBufferMap tmp;
+		tmp.blurLevel = 1;
+		tmp.uForRange = 6;
+		tmp.vForRange = 6;
+		tmp.windowSize = { static_cast<float>(sWindowsApp->GetWindowSize().width),static_cast<float>(sWindowsApp->GetWindowSize().height) };
+		constantBuffer->Update(&tmp);
+
+			clearColor = { {0.1f, 0.25f, 0.5f, 1.0f} };
 
 	}
 }
@@ -188,6 +200,8 @@ void StripedPostEffect::Draw(RenderTarget* mainRenderTarget_)
 	sprite->SetSize({ 1.0f,1.0f });
 
 	sprite->Draw(material.get(), mainRenderTarget_->GetGpuHandle());
+
+	sCmdList->SetGraphicsRootConstantBufferView(1, constantBuffer->GetAddress());
 
 	// 描画コマンド
 	sCmdList->DrawIndexedInstanced(6, 1, 0, 0, 0);

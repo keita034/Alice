@@ -1,4 +1,4 @@
-﻿#include "OilPaintingPostEffect.h"
+#include "OilPaintingPostEffect.h"
 #include<DirectX12Core.h>
 #include<WindowsApp.h>
 #include<DefaultMaterial.h>
@@ -22,10 +22,10 @@ void OilPaintingPostEffect::Initialize()
 		material = std::make_unique<Material>();
 
 		//頂点シェーダの読み込み
-		material->vertexShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/OilPaintingVS.hlsl");
+		material->vertexShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/OilPainting/OilPaintingVS.hlsl");
 
 		//ピクセルシェーダの読み込み
-		material->pixelShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/OilPaintingPS.hlsl", "main", "ps_5_0",IShader::ShaderType::PS);
+		material->pixelShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/OilPainting/OilPaintingPS.hlsl", "main", "ps_5_0",IShader::ShaderType::PS);
 
 		//頂点レイアウト設定
 		material->inputLayouts =

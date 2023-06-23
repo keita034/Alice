@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include<BasePostEffect.h>
 #include<ConstantBuffer.h>
 #include<AliceMathUtility.h>
@@ -12,6 +12,18 @@ class StripedPostEffect : public BasePostEffect
 private:
 
 	std::unique_ptr<Material>material2;
+
+		//定数バッファ用構造体
+	struct ConstantBufferMap
+	{
+		float uForRange;
+		float vForRange;
+		float blurLevel ;
+		float pad;
+		AliceMathF::Vector2 windowSize;
+	};
+
+	std::unique_ptr<IConstantBuffer> constantBuffer;
 
 public:
 

@@ -1,4 +1,4 @@
-﻿#include<DefaultMaterial.h>
+#include<DefaultMaterial.h>
 
 ID3D12Device* MaterialManager::sDevice = nullptr;
 
@@ -6,6 +6,8 @@ void MaterialManager::Initialize(ID3D12Device* device_)
 {
 	sDevice = device_;
 	PCreateDefaultTexture();
+	PCreateDefaultFbxMaterial();
+	PCreateDefaultFbxAnimationMaterial();
 }
 
 MaterialManager* MaterialManager::SGetInstance()
@@ -42,7 +44,7 @@ Material* MaterialManager::GetMaterialData(const std::string& name_)
 			PCreateDefaultPhongMaterial();
 		}
 		else if (
-			name_ == "Sprite2DNoblend"||
+			name_ == "Sprite2DNoblend" ||
 			name_ == "Sprite2DAlpha" ||
 			name_ == "Sprite2DAdd" ||
 			name_ == "Sprite2DSub" ||
@@ -61,14 +63,6 @@ Material* MaterialManager::GetMaterialData(const std::string& name_)
 		{
 			PCreateDefaultSprite3DMaterial();
 		}
-		else if (name_ == "DefaultFbx")
-		{
-			PCreateDefaultFbxMaterial();
-		}
-		else if (name_ == "DefaultFbxAnimation")
-		{
-			PCreateDefaultFbxAnimationMaterial();
-		}
 		else if (name_ == "DefaultParticle")
 		{
 			PCreateDefaultParticleMaterial();
@@ -77,12 +71,12 @@ Material* MaterialManager::GetMaterialData(const std::string& name_)
 		{
 			PCreateDefaultParticleMaterial();
 		}
-		else if(
-			name_ == "MashTriangleNoblend"||
+		else if (
+			name_ == "MashTriangleNoblend" ||
 			name_ == "MashTriangleAlpha" ||
 			name_ == "MashTriangleAdd" ||
 			name_ == "MashTriangleSub" ||
-			name_ == "MashTriangleMula" || 
+			name_ == "MashTriangleMula" ||
 			name_ == "MashTriangleInvsrc" ||
 			name_ == "MashLineNoblend" ||
 			name_ == "MashLineAlpha" ||
@@ -303,12 +297,13 @@ void MaterialManager::PCreateDefaultPhongMaterial()
 
 	//頂点レイアウト設定
 	lDefaultPhongMaterial->inputLayouts = {
-		// xyz座標
-		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,D3D12_APPEND_ALIGNED_ELEMENT,D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
-		//法線
-		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,D3D12_APPEND_ALIGNED_ELEMENT,D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
-		// uv座標
-		{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0,D3D12_APPEND_ALIGNED_ELEMENT,D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+	{ "POSITION",	0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0  }, // float3のPOSITION
+	{ "NORMAL",		0, DXGI_FORMAT_R32G32B32_FLOAT,		0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0   }, // float3のNORMAL
+	{ "TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT,		0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0  }, // float2のTEXCOORD
+	{ "TANGENT",	0, DXGI_FORMAT_R32G32B32_FLOAT,		0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }, // float3のTANGENT
+	{ "COLOR",		0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }, // float4のCOLOR
+	{ "INDEX",		0, DXGI_FORMAT_R32G32B32A32_UINT,	0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }, // UINT[4]のINDEX
+	{ "WEIGHT",		0, DXGI_FORMAT_R32G32B32A32_FLOAT,	0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }, // float[4]のWEIGHT
 	};
 
 	//ルートシグネチャ設定
@@ -321,10 +316,11 @@ void MaterialManager::PCreateDefaultPhongMaterial()
 	lDefaultPhongMaterial->rootSignature->AddStaticSampler(0);//s0
 	lDefaultPhongMaterial->rootSignature->Create(sDevice);
 
-	//ブレンド設定
-	lDefaultPhongMaterial->blenddesc.RenderTarget[0].BlendEnable = true;// ブレンドを有効
-	lDefaultPhongMaterial->blenddesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;// ソースのアルファ値
-	lDefaultPhongMaterial->blenddesc.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;// 1.0f-ソースのアルファ値
+
+	lDefaultPhongMaterial->blenddesc = PCreateBlend(BlendMode::AX_BLENDMODE_ALPHA);
+
+	lDefaultPhongMaterial->cullMode = D3D12_CULL_MODE_BACK;
+	lDefaultPhongMaterial->depthFlag = true;
 
 	//生成
 	lDefaultPhongMaterial->Initialize();
@@ -428,7 +424,7 @@ void MaterialManager::PCreateDefaultFbxMaterial()
 
 	lDefaultModelMaterial->blenddesc = PCreateBlend(BlendMode::AX_BLENDMODE_ALPHA);
 
-	lDefaultModelMaterial->cullMode = D3D12_CULL_MODE_NONE;
+	lDefaultModelMaterial->cullMode = D3D12_CULL_MODE_BACK;
 	lDefaultModelMaterial->depthFlag = true;
 
 	//生成
@@ -475,7 +471,7 @@ void MaterialManager::PCreateDefaultFbxAnimationMaterial()
 
 	lDefaultModelMaterial->blenddesc = PCreateBlend(BlendMode::AX_BLENDMODE_ALPHA);
 
-	lDefaultModelMaterial->cullMode = D3D12_CULL_MODE_FRONT;
+	lDefaultModelMaterial->cullMode = D3D12_CULL_MODE_BACK;
 	//生成
 	lDefaultModelMaterial->Initialize();
 

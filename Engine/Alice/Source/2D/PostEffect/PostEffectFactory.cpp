@@ -1,4 +1,4 @@
-﻿#include<PostEffectFactory.h>
+#include<PostEffectFactory.h>
 #include<LutPostEffect.h>
 #include<VignettePostEffect.h>
 #include<GaussianBlurPostEffect.h>
