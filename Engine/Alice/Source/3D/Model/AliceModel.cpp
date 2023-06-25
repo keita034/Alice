@@ -434,8 +434,6 @@ void AliceModel::PReadNodeHeirarchy(ModelMesh* mesh_, const AliceMotionData* pAn
 	AliceMathF::Matrix4 lMatNodeTransformation = AliceMathF::MakeIdentity();
 	lMatNodeTransformation = pNode_->transform;
 
-	AliceMathF::Matrix4 lMatThisTrans = lMatNodeTransformation.Transpose();
-
 	std::string lStrNodeName = pNode_->name;
 
 	const MotionNode* lPtrNodeAnim = PFindNodeAnim(pAnimation_, lStrNodeName);

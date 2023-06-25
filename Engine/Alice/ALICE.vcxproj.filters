@@ -133,9 +133,6 @@
     <Filter Include="リソース ファイル\シェーダー\2D\PostEffect\Striped">
       <UniqueIdentifier>{8f06359a-cf25-4b1d-abc7-322de47d33b9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="リソース ファイル\シェーダー\2D\PostEffect\StripedDraw">
-      <UniqueIdentifier>{ada3ed79-b738-496e-b603-41389d7efec8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="リソース ファイル\シェーダー\2D\PostEffect\Vignette">
       <UniqueIdentifier>{a6de0675-9d7c-4f99-8a98-5d10b2444203}</UniqueIdentifier>
     </Filter>
@@ -165,6 +162,15 @@
     </Filter>
     <Filter Include="リソース ファイル\シェーダー\2D\PostEffect\Monochrome">
       <UniqueIdentifier>{32b6c57a-a173-43dc-8c10-98ced57af2c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\シェーダー\2D\PostEffect\FrostedGlass">
+      <UniqueIdentifier>{d479241a-3760-48a3-9ada-ee7c1d4771d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\シェーダー\2D\PostEffect\Mosaic">
+      <UniqueIdentifier>{663c5e2b-5a97-4677-9c6c-70dc1cb14e6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\シェーダー\2D\PostEffect\Distortion">
+      <UniqueIdentifier>{f30a9772-705c-4511-b006-499ce98b2923}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -336,10 +342,19 @@
     <ClInclude Include="Incluede\2D\PostEffect\SandStormPostEffect.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="CRTPostEffect.h">
+    <ClInclude Include="Incluede\2D\PostEffect\MonochromePostEffect.h">
+      <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Incluede\2D\PostEffect\CRTPostEffect.h">
+      <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="FrostedGlassPostEffect.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="MonochromePostEffect.h">
+    <ClInclude Include="MosaicPostEffect.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DistortionPostEffect.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -374,9 +389,6 @@
     </None>
     <None Include="..\..\Resources\Shaders\2D\PostEffect\Striped\Striped.hlsli">
       <Filter>リソース ファイル\シェーダー\2D\PostEffect\Striped</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\StripedDraw\StripedDraw.hlsli">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\StripedDraw</Filter>
     </None>
     <None Include="..\..\Resources\Shaders\2D\PostEffect\Vignette\VignetteShader.hlsli">
       <Filter>リソース ファイル\シェーダー\2D\PostEffect\Vignette</Filter>
@@ -419,6 +431,18 @@
     </None>
     <None Include="..\..\Resources\Shaders\2D\PostEffect\Monochrome\Monochrome.hlsli">
       <Filter>リソース ファイル\シェーダー\2D\PostEffect\Monochrome</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\FrostedGlass\FrostedGlass.hlsli">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\FrostedGlass</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Mosaic\Mosaic.hlsli">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Mosaic</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Striped\StripedDraw.hlsli">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Striped</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Distortion\Distortion.hlsli">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Distortion</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -581,10 +605,19 @@
     <ClCompile Include="Source\2D\PostEffect\SandStormPostEffect.cpp">
       <Filter>ソース ファイル\2D\PostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="CRTPostEffect.cpp">
+    <ClCompile Include="Source\2D\PostEffect\MonochromePostEffect.cpp">
+      <Filter>ソース ファイル\2D\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\2D\PostEffect\CRTPostEffect.cpp">
+      <Filter>ソース ファイル\2D\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="FrostedGlassPostEffect.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="MonochromePostEffect.cpp">
+    <ClCompile Include="MosaicPostEffect.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DistortionPostEffect.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -660,12 +693,6 @@
     </FxCompile>
     <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Striped\StripedVS.hlsl">
       <Filter>リソース ファイル\シェーダー\2D\PostEffect\Striped</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\StripedDraw\StripedDrawVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\StripedDraw</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\StripedDraw\StripedDrawPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\StripedDraw</Filter>
     </FxCompile>
     <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Vignette\VignetteShaderPS.hlsl">
       <Filter>リソース ファイル\シェーダー\2D\PostEffect\Vignette</Filter>
@@ -765,6 +792,30 @@
     </FxCompile>
     <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Monochrome\MonochromeVS.hlsl">
       <Filter>リソース ファイル\シェーダー\2D\PostEffect\Monochrome</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\FrostedGlass\FrostedGlassVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\FrostedGlass</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\FrostedGlass\FrostedGlassPS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\FrostedGlass</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Mosaic\MosaicVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Mosaic</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Mosaic\MosaicPS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Mosaic</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Striped\StripedDrawVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Striped</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Striped\StripedDrawPS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Striped</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Distortion\DistortionPS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Distortion</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Distortion\DistortionVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Distortion</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

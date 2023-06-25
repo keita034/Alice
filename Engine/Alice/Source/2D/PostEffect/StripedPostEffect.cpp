@@ -96,10 +96,10 @@ void StripedPostEffect::Initialize()
 		material2= std::make_unique<Material>();
 
 		//頂点シェーダの読み込み
-		material2->vertexShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/StripedDraw/StripedDrawVS.hlsl");
+		material2->vertexShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/Striped/StripedDrawVS.hlsl");
 
 		//ピクセルシェーダの読み込み
-		material2->pixelShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/StripedDraw/StripedDrawPS.hlsl", "main", "ps_5_0");
+		material2->pixelShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/Striped/StripedDrawPS.hlsl", "main", "ps_5_0");
 
 		//頂点レイアウト設定
 		material2->inputLayouts =

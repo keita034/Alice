@@ -58,7 +58,6 @@ void GameScene::Initialize()
 	posteffectModelTransform.Initialize();
 	posteffectModelTransform.scale = { 0.01f,0.01f ,0.01f };
 	posteffectModelTransform.translation = { 0,10 ,-45 };
-
 }
 
 void GameScene::Update()
@@ -252,6 +251,48 @@ void GameScene::PostEffectGui()
 		{
 			monochromePostEffect[1] = false;
 			PostEffectManager::SGetInstance()->SubPostEffect("MONOCHROME");
+		}
+	}
+
+	if (ImGui::Checkbox("FrostedGlass", &frostedGlassPostEffect[0]))
+	{
+		if (!frostedGlassPostEffect[1])
+		{
+			frostedGlassPostEffect[1] = true;
+			PostEffectManager::SGetInstance()->AddPostEffect("FROSTEDGLASS");
+		}
+		else
+		{
+			frostedGlassPostEffect[1] = false;
+			PostEffectManager::SGetInstance()->SubPostEffect("FROSTEDGLASS");
+		}
+	}
+
+	if (ImGui::Checkbox("Mosaic", &mosaicPostEffect[0]))
+	{
+		if (!mosaicPostEffect[1])
+		{
+			mosaicPostEffect[1] = true;
+			PostEffectManager::SGetInstance()->AddPostEffect("MOSAIC");
+		}
+		else
+		{
+			mosaicPostEffect[1] = false;
+			PostEffectManager::SGetInstance()->SubPostEffect("MOSAIC");
+		}
+	}
+
+	if (ImGui::Checkbox("Distortion", &distortionPostEffect[0]))
+	{
+		if (!distortionPostEffect[1])
+		{
+			distortionPostEffect[1] = true;
+			PostEffectManager::SGetInstance()->AddPostEffect("DISTORTION");
+		}
+		else
+		{
+			distortionPostEffect[1] = false;
+			PostEffectManager::SGetInstance()->SubPostEffect("DISTORTION");
 		}
 	}
 }

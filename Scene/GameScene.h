@@ -68,6 +68,10 @@ private:
 	std::array<bool, 2>sandStormPostEffect;
 	std::array<bool, 2>crtPostEffect;
 	std::array<bool, 2>monochromePostEffect;
+	std::array<bool, 2>frostedGlassPostEffect;
+
+	std::array<bool, 2>mosaicPostEffect;
+	std::array<bool, 2>distortionPostEffect;
 
 public:
 

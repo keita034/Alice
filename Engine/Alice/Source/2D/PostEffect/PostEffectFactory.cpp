@@ -9,7 +9,9 @@
 #include<SandStormPostEffect.h>
 #include<CRTPostEffect.h>
 #include<MonochromePostEffect.h>
-
+#include<FrostedGlassPostEffect.h>
+#include<MosaicPostEffect.h>
+#include<DistortionPostEffect.h>
 
 PostEffectFactory* PostEffectFactory::SGetInstance()
 {
@@ -60,6 +62,18 @@ BasePostEffect* PostEffectFactory::CreatePostEffect(const std::string& postEffec
 	else if (postEffectName_ == "MONOCHROME")
 	{
 		lPostEffect = MonochromePostEffect::SGetInstance();
+	}
+	else if (postEffectName_ == "FROSTEDGLASS")
+	{
+		lPostEffect = FrostedGlassPostEffect::SGetInstance();
+	}
+	else if (postEffectName_ == "MOSAIC")
+	{
+		lPostEffect = MosaicPostEffect::SGetInstance();
+	}
+	else if (postEffectName_ == "DISTORTION")
+	{
+		lPostEffect = DistortionPostEffect::SGetInstance();
 	}
 
 	return lPostEffect;
