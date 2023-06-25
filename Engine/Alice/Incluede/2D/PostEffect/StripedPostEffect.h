@@ -18,8 +18,8 @@ private:
 	{
 		float uForRange;
 		float vForRange;
-		float blurLevel ;
-		float pad;
+		float blurLevel;
+		float pad = 0.0f;
 		AliceMathF::Vector2 windowSize;
 	};
 

@@ -154,6 +154,18 @@
     <Filter Include="リソース ファイル\シェーダー\3D\Model\ToonModel">
       <UniqueIdentifier>{06438353-fc08-41ca-aea5-c69a5d0320a8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リソース ファイル\シェーダー\2D\PostEffect\Bloom">
+      <UniqueIdentifier>{1d2c254d-7acc-423b-9813-ed059f1cd29a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\シェーダー\2D\PostEffect\SandStorm">
+      <UniqueIdentifier>{5aec83dd-00b1-4615-9243-0ee1fbb97298}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\シェーダー\2D\PostEffect\CRT">
+      <UniqueIdentifier>{51779d61-4d6e-4620-85d7-21de44a62c2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\シェーダー\2D\PostEffect\Monochrome">
+      <UniqueIdentifier>{32b6c57a-a173-43dc-8c10-98ced57af2c7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Incluede\Util\AliceFunctionUtility.h">
@@ -318,6 +330,18 @@
     <ClInclude Include="Incluede\2D\Particle\ParticleData.h">
       <Filter>ヘッダー ファイル\2D\Particle</Filter>
     </ClInclude>
+    <ClInclude Include="Incluede\2D\PostEffect\BloomPostEffect.h">
+      <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="Incluede\2D\PostEffect\SandStormPostEffect.h">
+      <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="CRTPostEffect.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="MonochromePostEffect.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
@@ -380,6 +404,21 @@
     </None>
     <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ZeldaToonModel.hlsli">
       <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Bloom\Bloom.hlsli">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Bloom</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Bloom\BloomDraw.hlsli">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Bloom</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\SandStorm\SandStorm.hlsli">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\SandStorm</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\CRT\CRT.hlsli">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\CRT</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Monochrome\Monochrome.hlsli">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Monochrome</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -536,6 +575,18 @@
     <ClCompile Include="Source\Core\SceneLoader.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Source\2D\PostEffect\BloomPostEffect.cpp">
+      <Filter>ソース ファイル\2D\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\2D\PostEffect\SandStormPostEffect.cpp">
+      <Filter>ソース ファイル\2D\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="CRTPostEffect.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="MonochromePostEffect.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\..\Resources\Shaders\2D\Mesh\MeshPS.hlsl">
@@ -684,6 +735,36 @@
     </FxCompile>
     <FxCompile Include="..\..\Resources\Shaders\3D\Model\ToonModel\ZeldaToonModelVS.hlsl">
       <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Bloom\BloomDrawPS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Bloom</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Bloom\BloomDrawVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Bloom</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Bloom\BloomPS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Bloom</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Bloom\BloomVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Bloom</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\SandStorm\SandStormPS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\SandStorm</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\SandStorm\SandStormVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\SandStorm</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\CRT\CRTPS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\CRT</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\CRT\CRTVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\CRT</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Monochrome\MonochromePS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Monochrome</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Monochrome\MonochromeVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Monochrome</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

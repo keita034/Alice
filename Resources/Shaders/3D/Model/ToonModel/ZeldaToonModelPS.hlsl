@@ -17,6 +17,7 @@ float4 main(VSOutput input) : SV_TARGET
     float specularIntensity = pow(NdotH * lightIntensity, 32 * 32);
     float specularIntensitySmooth = smoothstep(0.005, 0.01, specularIntensity);
     float4 specular = specularIntensitySmooth * lightcolor;
+    specular.a = 1;
 
     float rimDot = 1 - dot(input.eyeDir, input.normal);
 
@@ -25,7 +26,7 @@ float4 main(VSOutput input) : SV_TARGET
     float4 rim = rimIntensity * lightcolor;
 
     float4 sample = tex.Sample(smp, input.uv);
-    sample.a *= m_alpha;
+    sample.a = m_alpha;
     float4 ambient = float4(m_ambient,1);
 
     return (light + ambient + specular + rim) * sample;

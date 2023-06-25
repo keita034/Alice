@@ -127,6 +127,8 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CRTPostEffect.h" />
+    <ClInclude Include="Incluede\2D\PostEffect\BloomPostEffect.h" />
     <ClInclude Include="Incluede\2D\Particle\ParticleData.h" />
     <ClInclude Include="Incluede\2D\PostEffect\ChromaticAberrationPostEffect.h" />
     <ClInclude Include="Incluede\2D\Particle\IcosahedronParticle.h" />
@@ -181,16 +183,23 @@
     <ClInclude Include="Incluede\2D\PostEffect\StripedPostEffect.h" />
     <ClInclude Include="Incluede\2D\PostEffect\OilPaintingPostEffect.h" />
     <ClInclude Include="Incluede\Core\SceneLoader.h" />
+    <ClInclude Include="Incluede\2D\PostEffect\SandStormPostEffect.h" />
+    <ClInclude Include="MonochromePostEffect.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Resources\Shaders\2D\Mesh\Mesh.hlsli" />
     <None Include="..\..\Resources\Shaders\2D\Particle\Particle.hlsli" />
     <None Include="..\..\Resources\Shaders\2D\Particle\RainParticle.hlsli" />
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Bloom\Bloom.hlsli" />
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Bloom\BloomDraw.hlsli" />
     <None Include="..\..\Resources\Shaders\2D\PostEffect\ChromaticAberration\ChromaticAberration.hlsli" />
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\CRT\CRT.hlsli" />
     <None Include="..\..\Resources\Shaders\2D\PostEffect\GaussianBlur\GaussianBlur.hlsli" />
     <None Include="..\..\Resources\Shaders\2D\PostEffect\Lut\LutShader.hlsli" />
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Monochrome\Monochrome.hlsli" />
     <None Include="..\..\Resources\Shaders\2D\PostEffect\OilPainting\OilPainting.hlsli" />
     <None Include="..\..\Resources\Shaders\2D\PostEffect\PostEffectTest\PostEffectTest.hlsli" />
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\SandStorm\SandStorm.hlsli" />
     <None Include="..\..\Resources\Shaders\2D\PostEffect\StripedDraw\StripedDraw.hlsli" />
     <None Include="..\..\Resources\Shaders\2D\PostEffect\Striped\Striped.hlsli" />
     <None Include="..\..\Resources\Shaders\2D\PostEffect\Vignette\VignetteShader.hlsli" />
@@ -206,6 +215,10 @@
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CRTPostEffect.cpp" />
+    <ClCompile Include="MonochromePostEffect.cpp" />
+    <ClCompile Include="Source\2D\PostEffect\SandStormPostEffect.cpp" />
+    <ClCompile Include="Source\2D\PostEffect\BloomPostEffect.cpp" />
     <ClCompile Include="Source\Core\SceneLoader.cpp" />
     <ClCompile Include="Source\2D\PostEffect\ChromaticAberrationPostEffect.cpp" />
     <ClCompile Include="Source\2D\PostEffect\OilPaintingPostEffect.cpp" />
@@ -295,11 +308,35 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Bloom\BloomDrawPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Bloom\BloomDrawVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Bloom\BloomPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Bloom\BloomVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\ChromaticAberration\ChromaticAberrationPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
     <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\ChromaticAberration\ChromaticAberrationVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\CRT\CRTPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\CRT\CRTVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
@@ -323,6 +360,14 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Monochrome\MonochromePS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Monochrome\MonochromeVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\OilPainting\OilPaintingPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
@@ -336,6 +381,14 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
     <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\PostEffectTest\PostEffectTestVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\SandStorm\SandStormPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\SandStorm\SandStormVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>

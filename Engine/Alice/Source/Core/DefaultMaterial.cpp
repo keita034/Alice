@@ -809,7 +809,7 @@ void MaterialManager::PCreateDefaultToonModelAnimationMaterial()
 	AddMaterial(lDefaultModelMaterial, "DefaultToonModelAnimation");
 }
 
-void MaterialManager::PCreateDefaultToonModelOutLineMaterial()
+void MaterialManager::PCreateDefaultToonModelOutLineAnimationMaterial()
 {
 	std::unique_ptr<Material>lDefaultModelMaterial = std::make_unique<Material>();
 
@@ -846,10 +846,10 @@ void MaterialManager::PCreateDefaultToonModelOutLineMaterial()
 	//生成
 	lDefaultModelMaterial->Initialize();
 
-	AddMaterial(lDefaultModelMaterial, "DefaultToonModelOutLine");
+	AddMaterial(lDefaultModelMaterial, "DefaultToonModelAnimationOutLine");
 }
 
-void MaterialManager::PCreateDefaultToonModelOutLineAnimationMaterial()
+void MaterialManager::PCreateDefaultToonModelOutLineMaterial()
 {
 	std::unique_ptr<Material>lDefaultModelMaterial = std::make_unique<Material>();
 
@@ -886,7 +886,7 @@ void MaterialManager::PCreateDefaultToonModelOutLineAnimationMaterial()
 	//生成
 	lDefaultModelMaterial->Initialize();
 
-	AddMaterial(lDefaultModelMaterial, "DefaultToonModelAnimationOutLine");
+	AddMaterial(lDefaultModelMaterial, "DefaultToonModelOutLine");
 }
 
 void MaterialManager::PCreateDefaultZeldaToonModelMaterial()
@@ -926,7 +926,7 @@ void MaterialManager::PCreateDefaultZeldaToonModelMaterial()
 
 	lDefaultModelMaterial->blenddesc = PCreateBlend(BlendMode::AX_BLENDMODE_ALPHA);
 
-	lDefaultModelMaterial->cullMode = D3D12_CULL_MODE_NONE;
+	lDefaultModelMaterial->cullMode = D3D12_CULL_MODE_BACK;
 	lDefaultModelMaterial->depthFlag = true;
 
 	//生成
@@ -973,7 +973,7 @@ void MaterialManager::PCreateDefaultZeldaToonModelAnimationMaterial()
 
 	lDefaultModelMaterial->blenddesc = PCreateBlend(BlendMode::AX_BLENDMODE_ALPHA);
 
-	lDefaultModelMaterial->cullMode = D3D12_CULL_MODE_FRONT;
+	lDefaultModelMaterial->cullMode = D3D12_CULL_MODE_BACK;
 	//生成
 	lDefaultModelMaterial->Initialize();
 

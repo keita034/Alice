@@ -5,6 +5,11 @@
 #include<StripedPostEffect.h>
 #include<OilPaintingPostEffect.h>
 #include<ChromaticAberrationPostEffect.h>
+#include<BloomPostEffect.h>
+#include<SandStormPostEffect.h>
+#include<CRTPostEffect.h>
+#include<MonochromePostEffect.h>
+
 
 PostEffectFactory* PostEffectFactory::SGetInstance()
 {
@@ -39,6 +44,22 @@ BasePostEffect* PostEffectFactory::CreatePostEffect(const std::string& postEffec
 	else if(postEffectName_ == "CHROMATICABERRATION")
 	{
 		lPostEffect = ChromaticAberrationPostEffect::SGetInstance();
+	}
+	else if (postEffectName_ == "BLOOM")
+	{
+		lPostEffect = BloomPostEffect::SGetInstance();
+	}
+	else if (postEffectName_ == "SANDSTORM")
+	{
+		lPostEffect = SandStormPostEffect::SGetInstance();
+	}
+	else if (postEffectName_ == "CRT")
+	{
+		lPostEffect = CRTPostEffect::SGetInstance();
+	}
+	else if (postEffectName_ == "MONOCHROME")
+	{
+		lPostEffect = MonochromePostEffect::SGetInstance();
 	}
 
 	return lPostEffect;

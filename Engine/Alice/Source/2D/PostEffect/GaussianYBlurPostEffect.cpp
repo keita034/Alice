@@ -1,4 +1,4 @@
-﻿#include "GaussianYBlurPostEffect.h"
+#include "GaussianYBlurPostEffect.h"
 
 void GaussianYBlurPostEffect::Initialize()
 {
@@ -14,10 +14,10 @@ void GaussianYBlurPostEffect::Initialize()
 		material = std::make_unique<Material>();
 
 		//頂点シェーダの読み込み
-		material->vertexShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/GaussianYBlurVS.hlsl");
+		material->vertexShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/GaussianBlur/GaussianYBlurVS.hlsl");
 
 		//ピクセルシェーダの読み込み
-		material->pixelShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/GaussianBlurPS.hlsl", "main", "ps_5_0");
+		material->pixelShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/GaussianBlur/GaussianBlurPS.hlsl", "main", "ps_5_0");
 
 		//頂点レイアウト設定
 		material->inputLayouts =
@@ -137,10 +137,10 @@ void GaussianYBlurPostEffect::MainRenderTargetDraw(RenderTarget* mainRenderTarge
 
 	mainRenderTarget_->SetRenderTarget();
 
-	CD3DX12_VIEWPORT lViewPort = CD3DX12_VIEWPORT(0.0f, 0.0f, width*2.0f, height * 2.0f);
+	CD3DX12_VIEWPORT lViewPort = CD3DX12_VIEWPORT(0.0f, 0.0f, width, height );
 	sCmdList->RSSetViewports(1, &lViewPort);
 
-	CD3DX12_RECT lRect = CD3DX12_RECT(0, 0, static_cast<LONG>(width * 2.0f), static_cast<LONG>(height * 2.00f));
+	CD3DX12_RECT lRect = CD3DX12_RECT(0, 0, static_cast<LONG>(width), static_cast<LONG>(height));
 	sCmdList->RSSetScissorRects(1, &lRect);
 	sprite->SetSize({1.01f,1.01f });
 	sprite->Draw(MaterialManager::SGetMaterial("DefaultPostEffect"), handles[0]);

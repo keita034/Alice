@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #pragma warning(push)
 #pragma warning(disable: 4061)
 #pragma warning(disable: 4062)
@@ -62,7 +62,12 @@ public:
 	/// <summary>
 	/// ハンドルを取得
 	/// </summary>
-	virtual HWND* GetHwnd() = 0;
+	virtual HWND* GetHwndPtr() = 0;
+
+	/// <summary>
+	/// ハンドルを取得
+	/// </summary>
+	virtual HWND GetHwnd() = 0;
 
 	/// <summary>
 	/// ウィンドサイズを取得

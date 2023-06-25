@@ -12,7 +12,8 @@ VSOutput main(VSInput input)
     
     VSOutput output = (VSOutput) 0; // ピクセルシェーダーに渡す値
  
-    output.svpos = mul(matWorld, mul(postureMat, input.pos + wnormal * 0.3f));
+    input.pos += wnormal * 0.03f;
+    output.svpos = mul(matWorld, mul(postureMat, input.pos));
     output.color = input.color;
     return output;
 }

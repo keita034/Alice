@@ -1,4 +1,4 @@
-﻿#include "WindowsApp.h"
+#include "WindowsApp.h"
 
 #pragma comment( lib, "shell32.lib" )
 
@@ -94,7 +94,12 @@ public:
 	/// <summary>
 	/// ハンドルを取得
 	/// </summary>
-	HWND* GetHwnd() override;
+	HWND* GetHwndPtr() override;
+
+	/// <summary>
+	/// ハンドルを取得
+	/// </summary>
+	HWND GetHwnd() override;
 
 	/// <summary>
 	/// ウィンドサイズを取得
@@ -246,9 +251,14 @@ WNDCLASSEX* WindowsApp::GetWndclassex()
 	return &wndclassex;
 }
 
-HWND* WindowsApp::GetHwnd()
+HWND* WindowsApp::GetHwndPtr()
 {
 	return &hwnd;
+}
+
+HWND WindowsApp::GetHwnd()
+{
+	return hwnd;
 }
 
 WindowsApp::WindowsSize WindowsApp::GetWindowSize()

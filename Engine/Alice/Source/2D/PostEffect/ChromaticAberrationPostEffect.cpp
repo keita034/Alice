@@ -1,4 +1,4 @@
-﻿#include "ChromaticAberrationPostEffect.h"
+#include "ChromaticAberrationPostEffect.h"
 #include<DefaultMaterial.h>
 
 ChromaticAberrationPostEffect* ChromaticAberrationPostEffect::SGetInstance()
@@ -21,10 +21,10 @@ void ChromaticAberrationPostEffect::Initialize()
 		material = std::make_unique<Material>();
 
 		//頂点シェーダの読み込み
-		material->vertexShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/ChromaticAberrationVS.hlsl");
+		material->vertexShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/ChromaticAberration/ChromaticAberrationVS.hlsl");
 
 		//ピクセルシェーダの読み込み
-		material->pixelShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/ChromaticAberrationPS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
+		material->pixelShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/ChromaticAberration/ChromaticAberrationPS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
 
 		//頂点レイアウト設定
 		material->inputLayouts =

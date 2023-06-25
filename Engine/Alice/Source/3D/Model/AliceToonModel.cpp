@@ -1,10 +1,11 @@
-﻿#include "AliceToonModel.h"
+#include "AliceToonModel.h"
 
 void AliceToonModel::Draw(const Transform& transform_, const AliceMotionData* animation_, float frame_, const Material* material_)
 {
 	if (modelData->isToon)
 	{
 		outLineMaterialData = MaterialManager::SGetMaterial("DefaultToonModelOutLine");
+
 		if (animation_)
 		{
 			if (!material_)

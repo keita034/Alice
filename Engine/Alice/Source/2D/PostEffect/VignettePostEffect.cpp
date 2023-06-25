@@ -1,4 +1,4 @@
-﻿#include<VignettePostEffect.h>
+#include<VignettePostEffect.h>
 
 VignettePostEffect* VignettePostEffect::SGetInstance()
 {
@@ -20,10 +20,10 @@ void VignettePostEffect::Initialize()
 		material = std::make_unique<Material>();
 
 		//頂点シェーダの読み込み
-		material->vertexShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/VignetteShaderVS.hlsl");
+		material->vertexShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/Vignette/VignetteShaderVS.hlsl");
 
 		//ピクセルシェーダの読み込み
-		material->pixelShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/VignetteShaderPS.hlsl", "main", "ps_5_0");
+		material->pixelShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/Vignette/VignetteShaderPS.hlsl", "main", "ps_5_0");
 
 		//頂点レイアウト設定
 		material->inputLayouts =
@@ -154,7 +154,7 @@ void VignettePostEffect::Draw(RenderTarget* mainRenderTarget_)
 	CD3DX12_RECT lRect = CD3DX12_RECT(0, 0, static_cast<LONG>(width), static_cast<LONG>(height));
 	sCmdList->RSSetScissorRects(1, &lRect);
 
-	sprite->SetSize({ width, height });
+	sprite->SetSize({ 1.0f,1.0f });
 
 	sprite->Draw(material.get(), mainRenderTarget_->GetGpuHandle());
 
@@ -180,7 +180,7 @@ void VignettePostEffect::MainRenderTargetDraw(RenderTarget* mainRenderTarget_)
 	CD3DX12_RECT lRect = CD3DX12_RECT(0, 0, static_cast<LONG>(width), static_cast<LONG>(height));
 	sCmdList->RSSetScissorRects(1, &lRect);
 
-	sprite->SetSize({ width, height });
+	sprite->SetSize({ 1.0f,1.0f });
 	sprite->Draw(material.get(), handles[0]);
 
 	// 描画コマンド

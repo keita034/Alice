@@ -1,4 +1,4 @@
-﻿#include "Shader.h"
+#include "Shader.h"
 
 #pragma warning(push)
 #pragma warning(disable: 4061)

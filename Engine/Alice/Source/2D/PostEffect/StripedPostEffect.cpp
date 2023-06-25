@@ -12,7 +12,7 @@ void StripedPostEffect::Initialize()
 	{
 		needsInit = false;
 
-		type = "STRIPEDPOSTEFFECT";
+		type = "STRIPED";
 
 		width = static_cast<float>(sWindowsApp->GetWindowSize().width);
 		height = static_cast<float>(sWindowsApp->GetWindowSize().height);

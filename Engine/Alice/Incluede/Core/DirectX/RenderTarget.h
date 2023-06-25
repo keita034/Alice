@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include<AliceUtility.h>
 #include<RenderTargetBuffer.h>
 #include<DepthStencilBuffer.h>
@@ -30,7 +30,7 @@ public:
 		uint32_t width_, 
 		uint32_t height_,
 		D3D12_RESOURCE_STATES resourceStates_,
-		const AliceMathF::Vector4& clear_ = {1.0f,1.0f, 1.0f, 1.0f},
+		const AliceMathF::Vector4& clear_ = { 0.1f, 0.25f, 0.5f, 1.0f },
 		DXGI_FORMAT rtFormat_ = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB,
 		DXGI_FORMAT dsFormat_ = DXGI_FORMAT_D32_FLOAT);
 

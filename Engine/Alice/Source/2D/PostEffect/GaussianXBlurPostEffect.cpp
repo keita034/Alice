@@ -1,4 +1,4 @@
-﻿#include<GaussianXBlurPostEffect.h>
+#include<GaussianXBlurPostEffect.h>
 
 void GaussianXBlurPostEffect::Initialize()
 {
@@ -14,10 +14,10 @@ void GaussianXBlurPostEffect::Initialize()
 		material = std::make_unique<Material>();
 
 		//頂点シェーダの読み込み
-		material->vertexShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/GaussianXBlurVS.hlsl");
+		material->vertexShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/GaussianBlur/GaussianXBlurVS.hlsl");
 
 		//ピクセルシェーダの読み込み
-		material->pixelShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/GaussianBlurPS.hlsl", "main", "ps_5_0",IShader::ShaderType::PS);
+		material->pixelShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/GaussianBlur/GaussianBlurPS.hlsl", "main", "ps_5_0",IShader::ShaderType::PS);
 
 		//頂点レイアウト設定
 		material->inputLayouts =

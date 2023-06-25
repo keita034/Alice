@@ -25,7 +25,7 @@ protected:
 	//デプステクスチャ
 	std::vector<std::unique_ptr<IDepthStencilBuffer>>depthStencilBuffers;
 	//クリアーカラー
-	std::array<float, 4> clearColor = { {1.0f,1.0f,1.0f,1.0f} };
+	std::array<float, 4> clearColor = { {0.1f, 0.25f, 0.5f, 1.0f} };
 
 	std::vector<D3D12_GPU_DESCRIPTOR_HANDLE> handles;
 

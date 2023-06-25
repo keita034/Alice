@@ -1,4 +1,4 @@
-﻿#include<ImGuiManager.h>
+#include<ImGuiManager.h>
 
 #pragma warning(push)
 #pragma warning(disable: 4514)
