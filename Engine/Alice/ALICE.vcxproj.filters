@@ -348,13 +348,13 @@
     <ClInclude Include="Incluede\2D\PostEffect\CRTPostEffect.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="FrostedGlassPostEffect.h">
+    <ClInclude Include="Incluede\2D\PostEffect\FrostedGlassPostEffect.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="MosaicPostEffect.h">
+    <ClInclude Include="Incluede\2D\PostEffect\MosaicPostEffect.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="DistortionPostEffect.h">
+    <ClInclude Include="Incluede\2D\PostEffect\DistortionPostEffect.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -611,13 +611,13 @@
     <ClCompile Include="Source\2D\PostEffect\CRTPostEffect.cpp">
       <Filter>ソース ファイル\2D\PostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="FrostedGlassPostEffect.cpp">
+    <ClCompile Include="Source\2D\PostEffect\FrostedGlassPostEffect.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="MosaicPostEffect.cpp">
+    <ClCompile Include="Source\2D\PostEffect\MosaicPostEffect.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="DistortionPostEffect.cpp">
+    <ClCompile Include="Source\2D\PostEffect\DistortionPostEffect.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

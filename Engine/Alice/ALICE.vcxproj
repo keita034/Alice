@@ -127,8 +127,8 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="DistortionPostEffect.h" />
-    <ClInclude Include="FrostedGlassPostEffect.h" />
+    <ClInclude Include="Incluede\2D\PostEffect\DistortionPostEffect.h" />
+    <ClInclude Include="Incluede\2D\PostEffect\FrostedGlassPostEffect.h" />
     <ClInclude Include="Incluede\2D\PostEffect\CRTPostEffect.h" />
     <ClInclude Include="Incluede\2D\PostEffect\BloomPostEffect.h" />
     <ClInclude Include="Incluede\2D\Particle\ParticleData.h" />
@@ -187,7 +187,7 @@
     <ClInclude Include="Incluede\Core\SceneLoader.h" />
     <ClInclude Include="Incluede\2D\PostEffect\SandStormPostEffect.h" />
     <ClInclude Include="Incluede\2D\PostEffect\MonochromePostEffect.h" />
-    <ClInclude Include="MosaicPostEffect.h" />
+    <ClInclude Include="Incluede\2D\PostEffect\MosaicPostEffect.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Resources\Shaders\2D\Mesh\Mesh.hlsli" />
@@ -221,9 +221,9 @@
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DistortionPostEffect.cpp" />
-    <ClCompile Include="FrostedGlassPostEffect.cpp" />
-    <ClCompile Include="MosaicPostEffect.cpp" />
+    <ClCompile Include="Source\2D\PostEffect\DistortionPostEffect.cpp" />
+    <ClCompile Include="Source\2D\PostEffect\FrostedGlassPostEffect.cpp" />
+    <ClCompile Include="Source\2D\PostEffect\MosaicPostEffect.cpp" />
     <ClCompile Include="Source\2D\PostEffect\CRTPostEffect.cpp" />
     <ClCompile Include="Source\2D\PostEffect\MonochromePostEffect.cpp" />
     <ClCompile Include="Source\2D\PostEffect\SandStormPostEffect.cpp" />
