@@ -19,6 +19,8 @@ public:
 
 	void MakeWorldMatrix();
 
+	void LookAtMatrixAxisFix(const AliceMathF::Vector3& target_,const AliceMathF::Vector3& up_,Camera* camera_);
+
 	const ID3D12Resource* GetconstBuff()const;
 
 	worldViewpojCamera* GetWorldViewpojCamera();

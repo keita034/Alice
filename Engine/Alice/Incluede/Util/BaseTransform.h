@@ -40,7 +40,17 @@ namespace AliceMathF
 	/// <summary>
 	/// ワールド行列生成
 	/// </summary>
+	Matrix4 MakeWorldMatrix4(BaseTransform& transform_,const Quaternion& quaternion_);
+
+		/// <summary>
+	/// ワールド行列生成
+	/// </summary>
 	Matrix4 MakeWorldMatrix4(BaseTransform& transform_);
+
+	/// <summary>
+	/// ワールド行列生成
+	/// </summary>
+	Matrix4 MakeWorldMatrix4(BaseTransform& transform_,const AliceMathF::Matrix4& rotMat_);
 
 	/// <summary>
 	/// ワールド座標取得

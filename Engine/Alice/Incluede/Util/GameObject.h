@@ -4,6 +4,29 @@
 #include<ColliderObject.h>
 #include<Camera.h>
 #include<AliceMathUtility.h>
+#include<Sprite2D.h>
+
+class UI
+{
+public:
+	//ワールド変換データ
+	Transform transform;
+	//画像
+	std::unique_ptr<Sprite2D>sprite;
+	//画像ハンドル
+	uint32_t spriteHandle;
+
+	UI() = default;
+	~UI() = default;
+
+private:
+	int32_t PADING;
+
+	// コピーコンストラクタを禁止
+	UI(const UI& obj) = delete;
+	// コピー代入演算子を禁止
+	UI& operator=(const UI& obj) = delete;
+};
 
 class GameObject :public ColliderObject
 {
@@ -48,7 +71,13 @@ public:
 	/// <summary>
 	/// 毎フレーム更新
 	/// </summary>
-	virtual void Update(Camera* camera_) = 0;
+	virtual void Update() = 0;
+
+	/// <summary>
+	/// ワールド行列更新
+	/// </summary>
+	/// <param name="camera_"></param>
+	virtual void TransUpdate(Camera* camera_);
 
 	/// <summary>
 	/// 描画

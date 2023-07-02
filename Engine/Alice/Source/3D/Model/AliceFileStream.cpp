@@ -1,5 +1,6 @@
-﻿#include<AliceFileStream.h>
+#include<AliceFileStream.h>
 #include<AliceFunctionUtility.h>
+#include<DefaultMaterial.h>
 
 std::string AliceFileStream::sBbuff;
 std::istringstream AliceFileStream::sLineData;
@@ -102,7 +103,14 @@ void AliceFileStream::SPReadMeshsData(std::stringstream& data_, std::string& str
 
 			SPReadMeshData(data_, lLine, lMesh, model_->nodes);
 
+			//メッシュにテクスチャがなかった場合は白色のテクスチャを貼る
+			if (lMesh->textures.empty())
+			{
+				lMesh->textures.push_back(MaterialManager::SGetDefaultTexture());
+			}
+
 			model_->meshes.push_back(std::move(lMesh));
+
 		}
 
 		if (str_ == lLine)

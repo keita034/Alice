@@ -1,10 +1,16 @@
-﻿#include<GameObject.h>
+﻿#include "GameObject.h"
+#include<GameObject.h>
 
 void GameObject::SetCollider(BaseCollider* coll_)
 {
 	SetColl(coll_);
 
 	collider->SetObject(this);
+}
+
+void GameObject::TransUpdate(Camera* camera_)
+{
+	transform.TransUpdate(camera_);
 }
 
 void GameObject::OnCollision()

@@ -1,4 +1,4 @@
-﻿#include<CinemaCamera.h>
+#include<CinemaCamera.h>
 #include<WindowsApp.h>
 
 void CinemaCamera::Initialize()
@@ -40,7 +40,7 @@ void CinemaCamera::Initialize()
 	//注視点と視点の距離取得
 	AliceMathF::Vector3 lTgtToPosLen;
 	lTgtToPosLen = eye - target;
-	tgtToPosLen = lTgtToPosLen.length_();
+	tgtToPosLen = lTgtToPosLen.Length();
 
 	updateViewMatrix = false;
 }
@@ -74,7 +74,7 @@ void CinemaCamera::Update()
 
 		AliceMathF::Vector3 lTgtToPosLen;
 		lTgtToPosLen = eye - target;
-		tgtToPosLen = lTgtToPosLen.length_();
+		tgtToPosLen = lTgtToPosLen.Length();
 
 		updateViewMatrix = false;
 	}

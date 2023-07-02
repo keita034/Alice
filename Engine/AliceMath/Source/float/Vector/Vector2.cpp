@@ -36,7 +36,7 @@ namespace AliceMathF
 	}
 
 	// ベクトルの長さを計算する
-	float Vector2::length_() const
+	float Vector2::Length() const
 	{
 		return Sqrt(x * x + y * y);
 	}
@@ -44,7 +44,7 @@ namespace AliceMathF
 	// 正規化ベクトル
 	Vector2& Vector2::Normalization()
 	{
-		float lLen = length_();
+		float lLen = Length();
 		if (lLen != 0)
 		{
 			return *this /= lLen;

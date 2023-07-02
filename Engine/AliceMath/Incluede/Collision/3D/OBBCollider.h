@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include"BaseCollider.h"
 #include"Structure.h"
 class OBBCollider : public BaseCollider
@@ -38,6 +38,16 @@ public:
 	/// <param name="rotation_">回転角</param>
 	/// <param name="scale_">scale</param>
 	void CreateOBB(const std::vector<PosNormalUv>& vertexs_, const  AliceMathF::Vector3& translation_, const AliceMathF::Vector3& rotation_, const AliceMathF::Vector3& scale_);
+
+	/// <summary>
+	/// OBBを生成
+	/// </summary>
+	/// <param name="vertexs_">頂点配列</param>
+	/// <param name="translation_">中心座標</param>
+	/// <param name="rotation_">回転角</param>
+	/// <param name="scale_">scale</param>
+	void CreateOBB(const std::vector<PosNormUvTangeColSkin>& vertexs_, const  AliceMathF::Vector3& translation_, const AliceMathF::Vector3& rotation_, const AliceMathF::Vector3& scale_);
+
 
 	/// <summary>
 	/// 更新

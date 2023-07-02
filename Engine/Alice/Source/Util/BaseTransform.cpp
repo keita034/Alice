@@ -6,6 +6,30 @@ AliceMathF::Matrix4 BaseTransform::sDefaultViewMat = { 1.0f, 0.0f, 0.0f, 0.0f, 0
 
 namespace AliceMathF
 {
+	Matrix4 MakeWorldMatrix4(BaseTransform& transform_, const Quaternion& quaternion_)
+	{
+		Matrix4 lMatWorld = MakeIdentity();
+
+		Matrix4 lMatScal, lMatRot, lMatTrans;
+
+		//スケーリング倍率
+		lMatScal.MakeScaling(transform_.scale);
+
+		//回転行列
+		lMatRot = quaternion_.Rotate();
+
+		// matWorld_に移動量を掛け算
+		lMatTrans.MakeTranslation(transform_.translation);
+
+		lMatWorld = lMatScal * lMatRot * lMatTrans;
+
+		if (transform_.parent)
+		{
+			lMatWorld *= transform_.parent->matWorld;
+		}
+
+		return lMatWorld;
+	}
 	Matrix4 MakeWorldMatrix4(BaseTransform& transform_)
 	{
 
@@ -23,6 +47,28 @@ namespace AliceMathF
 		lMatTrans.MakeTranslation(transform_.translation);
 
 		lMatWorld = lMatScal * lMatRot * lMatTrans;
+
+		if (transform_.parent)
+		{
+			lMatWorld *= transform_.parent->matWorld;
+		}
+
+		return lMatWorld;
+	}
+
+	Matrix4 MakeWorldMatrix4(BaseTransform& transform_, const AliceMathF::Matrix4& rotMat_)
+	{
+		Matrix4 lMatWorld = MakeIdentity();
+
+		Matrix4 lMatScal, lMatTrans;
+
+		//スケーリング倍率
+		lMatScal.MakeScaling(transform_.scale);
+
+		// matWorld_に移動量を掛け算
+		lMatTrans.MakeTranslation(transform_.translation);
+
+		lMatWorld = lMatScal * rotMat_ * lMatTrans;
 
 		if (transform_.parent)
 		{

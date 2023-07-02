@@ -1,4 +1,4 @@
-﻿#pragma warning(push)
+#pragma warning(push)
 #pragma warning(disable: 4365)
 #pragma warning(disable: 4619)
 #pragma warning(disable: 4668)
@@ -40,14 +40,14 @@ namespace AliceMathF
 		y = vec_.y;
 	}
 
-	float Vector3::length_() const
+	float Vector3::Length() const
 	{
 		return Sqrt(x * x + y * y + z * z);
 	}
 
 	Vector3& Vector3::Normal()
 	{
-		float lLen = length_();
+		float lLen = Length();
 		if (lLen != 0)
 		{
 			return *this /= lLen;
@@ -56,11 +56,11 @@ namespace AliceMathF
 		return *this;
 	}
 
-	Vector3 Vector3::Normalization() const
+	Vector3 Vector3::Normal() const
 	{
 		Vector3 lTmp(*this);
 
-		float lLen = length_();
+		float lLen = Length();
 		if (lLen != 0)
 		{
 			return lTmp /= lLen;
@@ -108,6 +108,15 @@ namespace AliceMathF
 		x -= v_.x;
 		y -= v_.y;
 		z -= v_.z;
+
+		return *this;
+	}
+
+	Vector3& Vector3::operator*=(const Vector3& v_)
+	{
+		x *= v_.x;
+		y *= v_.y;
+		z *= v_.z;
 
 		return *this;
 	}
@@ -185,6 +194,12 @@ namespace AliceMathF
 	{
 		Vector3 lTmp(v_);
 		return lTmp *= s_;
+	}
+
+	const Vector3 operator*(const Vector3& v_, const Vector3& v2_)
+	{
+		Vector3 lTmp(v_);
+		return lTmp *= v2_;
 	}
 
 	const Vector3 operator*(float s_, const Vector3& v_)

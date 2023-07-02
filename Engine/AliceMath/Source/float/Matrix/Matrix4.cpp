@@ -1,4 +1,4 @@
-﻿#pragma warning(push)
+#pragma warning(push)
 #pragma warning(disable: 4365)
 #pragma warning(disable: 4619)
 #pragma warning(disable: 4668)
@@ -574,5 +574,26 @@ namespace AliceMathF
 		float lWinW = width_ / 2.0f;
 
 		return { lWinW, 0, 0, 0, 0, -lWinH, 0, 0, 0, 0, 1, 0, lWinW, lWinH, 0, 1 };
+	}
+	Matrix4 CreateLookToMatrix(const Vector3& pos_, const Vector3& direction_, const Vector3& up_)
+	{
+		Vector3 z;
+		z = direction_.Normal();
+		Vector3 x = up_.Cross(z);
+		x = x.Normal();
+		Vector3 y = z.Cross(x);
+
+		Vector3 p(
+			x.Dot(-pos_),
+			y.Dot(-pos_),
+			z.Dot(-pos_)
+		);
+
+		return Matrix4(
+			x.x, y.x, z.x, 0,
+			x.y, y.y, z.y, 0,
+			x.z, y.z, z.z, 0,
+			p.x, p.y, p.z, 1
+		);
 	}
 }

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #pragma warning(push)
 #pragma warning(disable: 4365)
 #pragma warning(disable: 4514)
@@ -37,8 +37,8 @@ namespace AliceMathF
 		Vector3(aiVector3D& aiVector_);
 		Vector3(const Vector2& vec_,float z_);
 
-		float length_()const;//ノルムを求める
-		Vector3 Normalization()const;//正規化する
+		float Length()const;//ノルムを求める
+		Vector3 Normal()const;//正規化する
 		Vector3& Normal();//正規化する
 		float Dot(const Vector3& v_)const;//内積を求める
 		Vector3 Cross(const Vector3& v_)const;//外積を求める
@@ -50,6 +50,7 @@ namespace AliceMathF
 		// 代入演算子オーバーロード
 		Vector3& operator+=(const Vector3& v_);
 		Vector3& operator-=(const Vector3& v_);
+		Vector3& operator*=(const Vector3& v_);
 		Vector3& operator-=(float s_);
 		Vector3& operator*=(float s_);
 		Vector3& operator/=(float s_);
@@ -63,6 +64,7 @@ namespace AliceMathF
 	const Vector3 operator-(const Vector3& v1_, const Vector3& v2_);
 	const Vector3 operator-(const Vector3& v_, float s_);
 	const Vector3 operator*(const Vector3& v_, float s_);
+	const Vector3 operator*(const Vector3& v_, const Vector3& v2_);
 	const Vector3 operator*(float s_, const Vector3& v_);
 	const Vector3 operator/(const Vector3& v_, float s_);
 

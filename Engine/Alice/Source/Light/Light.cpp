@@ -1,4 +1,4 @@
-﻿#include<Light.h>
+#include<Light.h>
 #include<DirectX12Core.h>
 
 ID3D12Device* Light::sDevice = nullptr;
@@ -22,7 +22,7 @@ void Light::TransferConstBuffer(){
 void Light::SetLightDir(const AliceMathF::Vector3& lightdir_)
 {
 	//正規化してセット
-	lightdir = lightdir_.Normalization();
+	lightdir = lightdir_.Normal();
 	dirty = true;
 }
 

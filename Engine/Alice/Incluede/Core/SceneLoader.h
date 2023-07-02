@@ -46,7 +46,7 @@ public:
 		/// <summary>
 		/// 毎フレーム更新
 		/// </summary>
-		virtual void Update(Camera* camera_)override;
+		virtual void Update()override;
 
 		/// <summary>
 		/// 描画

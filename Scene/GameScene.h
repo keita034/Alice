@@ -19,10 +19,19 @@
 #include<Transform.h>
 #include<ImGuiManager.h>
 
+#include<GameCameraManager.h>
+#include<Player.h>
+#include<Boss.h>
+
 class GameScene : public BaseScene
 {
 private:
 
+	std::unique_ptr<SceneData>fieldObjData;
+
+	std::unique_ptr<GameCameraManager>gameCameraManager;
+	std::unique_ptr<Player>player;
+	std::unique_ptr<Boss>boss;
 
 public:
 

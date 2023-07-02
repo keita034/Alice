@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #pragma warning(push)
 #pragma warning(disable: 4365)
 #pragma warning(disable: 4514)
@@ -252,8 +252,8 @@ namespace AliceMathF
 
 	Vector3 Slerp(const Vector3& v1_, const Vector3& v2_, float t_)
 	{
-		Vector3 lTmp1 = v1_.Normalization();
-		Vector3 lTmp2 = v2_.Normalization();
+		Vector3 lTmp1 = v1_.Normal();
+		Vector3 lTmp2 = v2_.Normal();
 		float lOmega = Acos(lTmp1.Dot(lTmp2));
 
 		float lSinOmega = Sin(lOmega);

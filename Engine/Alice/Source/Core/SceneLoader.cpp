@@ -1,4 +1,4 @@
-﻿#include "SceneLoader.h"
+#include "SceneLoader.h"
 
 #include <fstream>
 #include <cassert>
@@ -117,9 +117,9 @@ void SceneLoader::SObjectScan(SceneData* sceneData_, const nlohmann::json& jsonO
 		lRotation.z = static_cast<float>(lTransform["rotation"][0]) * AliceMathF::DEG_TO_RAD;
 
 		// スケーリング
-		lScaling.x = static_cast<float>(lTransform["scaling"][1])* 0.01f;
-		lScaling.y = static_cast<float>(lTransform["scaling"][2]) * 0.01f;
-		lScaling.z = static_cast<float>(lTransform["scaling"][0]) * 0.01f;
+		lScaling.x = static_cast<float>(lTransform["scaling"][1]);
+		lScaling.y = static_cast<float>(lTransform["scaling"][2]);
+		lScaling.z = static_cast<float>(lTransform["scaling"][0]);
 
 		//モデル読み込み
 		uint32_t lHandle = AliceModel::SCreateModel(sBaseDirectorypath + lFileName);
@@ -243,10 +243,9 @@ void SceneData::Object::Finalize()
 {
 }
 
-void SceneData::Object::Update(Camera* camera)
+void SceneData::Object::Update()
 {
 
-	transform.TransUpdate(camera);
 }
 
 void SceneData::Object::Draw()
@@ -269,18 +268,27 @@ void SceneData::Update(Camera* camera_)
 		SceneLoader::SLoadFile(this);
 	}
 
-	light->Update();
-	camera->Update();
+	if (light)
+	{
+		light->Update();
+	}
+
+	if (camera)
+	{
+		camera->Update();
+	}
 
 	for (std::unique_ptr<Object>& object : objects)
 	{
 		if (camera_)
 		{
-			object->Update(camera_);
+			object->Update();
+			object->TransUpdate(camera_);
 		}
 		else
 		{
-			object->Update(camera.get());
+			object->Update();
+			object->TransUpdate(camera.get());
 		}
 
 	}

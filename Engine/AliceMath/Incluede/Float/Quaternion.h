@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include"Vector4.h"
 #include"Vector3.h"
 #include"Matrix4.h"
@@ -58,7 +58,7 @@ namespace AliceMathF
 		Quaternion Lerp(const Quaternion& q_, float t_);
 
 		//クオータニオンから回転行列を求める
-		Matrix4 Rotate();
+		Matrix4 Rotate()const;
 
 		//回転軸の算出
 		Vector3 GetAxis();
@@ -92,4 +92,7 @@ namespace AliceMathF
 	const Vector3 operator*(Quaternion q_, Vector3 vec_);
 
 	void QuaternionSlerp(Quaternion& vOut_, const Quaternion& qStart_, const Quaternion& qEnd_, float t_);
+
+	Quaternion LookRotation(const Vector3& forward, const Vector3& up = {0.0f,-1.0f,0.0f });
+
 }

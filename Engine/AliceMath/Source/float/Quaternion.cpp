@@ -1,4 +1,4 @@
-﻿#pragma warning(push)
+#pragma warning(push)
 #pragma warning(disable: 4365)
 #pragma warning(disable: 4619)
 #pragma warning(disable: 4668)
@@ -106,14 +106,14 @@ namespace AliceMathF
 
 	Quaternion::Quaternion(const Vector3& u_, const Vector3& v_)
 	{
-		Vector3 lVecU = u_.Normalization();
-		Vector3 lVecV = v_.Normalization();
+		Vector3 lVecU = u_.Normal();
+		Vector3 lVecV = v_.Normal();
 
 		float lDot = lVecU.Dot(lVecV);
 
 		Vector3 lCross = lVecU.Cross(lVecV);
 
-		Vector3 Axis = lCross.Normalization();
+		Vector3 Axis = lCross.Normal();
 
 		float lTheta = Acos(lDot);
 
@@ -209,7 +209,7 @@ namespace AliceMathF
 		return *this * lK0 + lT2 * lK1;
 	}
 
-	Matrix4 Quaternion::Rotate()
+	Matrix4 Quaternion::Rotate()const
 	{
 		float lXX = x * x * 2.0f;
 		float lYY = y * y * 2.0f;
@@ -220,8 +220,6 @@ namespace AliceMathF
 		float lWX = w * x * 2.0f;
 		float lWY = w * y * 2.0f;
 		float lWZ = w * z * 2.0f;
-
-
 
 		Matrix4 lResult = {
 			1.0f - lYY - lZZ,lXY + lWZ,lXZ - lWY,0.0f,
@@ -432,8 +430,17 @@ namespace AliceMathF
 
 		Quaternion start = Quaternion(qStart_);
 		Quaternion end = Quaternion(qEnd_);
-		
+
 		vOut_ = start.Slerp(end, t_);
+	}
+
+	Quaternion LookRotation(const Vector3& forward, const Vector3& up)
+	{
+		Matrix4 m = CreateLookToMatrix({0.0f,0.0f,0.0f}, forward, up);
+
+		Quaternion result = Quaternion(m);
+
+		return result;
 	}
 
 }

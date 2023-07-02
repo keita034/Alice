@@ -1,4 +1,4 @@
-﻿#pragma warning(push)
+#pragma warning(push)
 #pragma warning(disable: 4365)
 #pragma warning(disable: 4514)
 #pragma warning(disable: 4619)
@@ -364,7 +364,7 @@ bool Collision::SCheckOBB2OBB(const OBBCollider& obb1_, const OBBCollider& obb2_
 	AliceMathF::Vector3 lInterval = obb1_.GetCenter() - obb2_.GetCenter();
 
 	//分離軸:lAe1
-	float lRA = lAe1.length_();
+	float lRA = lAe1.Length();
 	float lRB = AliceMathF::LenSegOnSeparateAxis(&lNAe1, &lBe1, &lBe2, &lBe3);
 	float lL = AliceMathF::Abs(lInterval.Dot(lNAe1));
 	if (lL > lRA + lRB)
@@ -374,7 +374,7 @@ bool Collision::SCheckOBB2OBB(const OBBCollider& obb1_, const OBBCollider& obb2_
 	}
 
 	//分離軸:lAe2
-	lRA = lAe2.length_();
+	lRA = lAe2.Length();
 	lRB = AliceMathF::LenSegOnSeparateAxis(&lNAe2, &lBe1, &lBe2, &lBe3);
 	lL = AliceMathF::Abs(lInterval.Dot(lNAe2));
 	if (lL > lRA + lRB)
@@ -384,7 +384,7 @@ bool Collision::SCheckOBB2OBB(const OBBCollider& obb1_, const OBBCollider& obb2_
 	}
 
 	//分離軸:lAe3
-	lRA = lAe3.length_();
+	lRA = lAe3.Length();
 	lRB = AliceMathF::LenSegOnSeparateAxis(&lNAe3, &lBe1, &lBe2, &lBe3);
 	lL = AliceMathF::Abs(lInterval.Dot(lNAe3));
 	if (lL > lRA + lRB)
@@ -395,7 +395,7 @@ bool Collision::SCheckOBB2OBB(const OBBCollider& obb1_, const OBBCollider& obb2_
 
 	//分離軸:lBe1
 	lRA = AliceMathF::LenSegOnSeparateAxis(&lNBe1, &lAe1, &lAe2, &lAe3);
-	lRB = lBe1.length_();
+	lRB = lBe1.Length();
 	lL = AliceMathF::Abs(lInterval.Dot(lNBe1));
 	if (lL > lRA + lRB)
 	{
@@ -405,7 +405,7 @@ bool Collision::SCheckOBB2OBB(const OBBCollider& obb1_, const OBBCollider& obb2_
 
 	//分離軸:lBe2
 	lRA = AliceMathF::LenSegOnSeparateAxis(&lNBe2, &lAe1, &lAe2, &lAe3);
-	lRB = lBe2.length_();
+	lRB = lBe2.Length();
 	lL = AliceMathF::Abs(lInterval.Dot(lNBe2));
 	if (lL > lRA + lRB)
 	{
@@ -415,7 +415,7 @@ bool Collision::SCheckOBB2OBB(const OBBCollider& obb1_, const OBBCollider& obb2_
 
 	//分離軸:lBe3
 	lRA = AliceMathF::LenSegOnSeparateAxis(&lNBe3, &lAe1, &lAe2, &lAe3);
-	lRB = lBe3.length_();
+	lRB = lBe3.Length();
 	lL = AliceMathF::Abs(lInterval.Dot(lNBe3));
 	if (lL > lRA + lRB)
 	{
@@ -545,7 +545,7 @@ float Collision::SPoint2LineDistance(const Point2D& point_, const Line2D& line_,
 	}
 
 	mPoint_ = line_.GetStart() + lVec * t_;
-	return (point_ - mPoint_).length_();
+	return (point_ - mPoint_).Length();
 }
 
 

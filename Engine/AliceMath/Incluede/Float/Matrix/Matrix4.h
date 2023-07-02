@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #pragma warning(push)
 #pragma warning(disable: 4365)
 #pragma warning(disable: 4514)
@@ -225,6 +225,14 @@ namespace AliceMathF
 	/// <param name="up"></param>
 	void MakeLookL(const Vector3& eye_, const Vector3& target_, const Vector3& up_, Matrix4& mat_);
 
+	/// <summary>
+	/// ビューポート行列を生成
+	/// </summary>
+	/// <param name="width_">横幅</param>
+	/// <param name="height_">縦幅</param>
 	Matrix4 MakeViewport(float width_, float height_);
+
+
+	Matrix4 CreateLookToMatrix(const Vector3& pos_, const Vector3& direction_, const Vector3& up_);
 }
 

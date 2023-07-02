@@ -1,4 +1,4 @@
-﻿#include "CapsuleCllider2D.h"
+#include "CapsuleCllider2D.h"
 
 CapsuleCllider2D::CapsuleCllider2D()
 {
@@ -14,7 +14,7 @@ void CapsuleCllider2D::Update()
 	segment.CreateSegment2D(center, axis, height);
 
 	Segment2D lSeg = GetSegment();
-	length_ = (lSeg.GetEnd() - lSeg.GetStart()).length_();
+	length_ = (lSeg.GetEnd() - lSeg.GetStart()).Length();
 }
 
 void CapsuleCllider2D::SetRadius(float radius_)

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include"AliceMathUtility.h"
 #include"WindowsApp.h"
 
@@ -269,10 +269,22 @@ public:
 	void SetEye(const AliceMathF::Vector3& pos_);
 
 	/// <summary>
+	/// カメラの座標を設定
+	/// </summary>
+	/// <param name="x,y,z">座標</param>
+	void SetEye(float x_, float y_, float z_);
+
+	/// <summary>
 	/// カメラのターゲット座標を設定
 	/// </summary>
 	/// <param name="pos">座標</param>
 	void SetTarget(const AliceMathF::Vector3& pos_);
+
+	/// <summary>
+	/// カメラのターゲット座標を設定
+	/// </summary>
+	/// <param name="pos">座標</param>
+	void SetTarget(float x_,float y_,float z_);
 
 	/// <summary>
 	/// カメラの上ベクトルを設定

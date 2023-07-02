@@ -109,15 +109,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BaseGameCamera.cpp" />
+    <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="GameCameraManager.cpp" />
     <ClCompile Include="GameCore\GameMain.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerGameCamera.cpp" />
     <ClCompile Include="Scene\GameScene.cpp" />
     <ClCompile Include="Scene\ResultScene.cpp" />
     <ClCompile Include="Scene\SceneFactrory.cpp" />
     <ClCompile Include="Scene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseGameCamera.h" />
+    <ClInclude Include="Boss.h" />
+    <ClInclude Include="GameCameraManager.h" />
+    <ClInclude Include="GameCore\GameCollisionConflg.h" />
     <ClInclude Include="GameCore\GameMain.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerGameCamera.h" />
     <ClInclude Include="Scene\GameScene.h" />
     <ClInclude Include="Scene\ResultScene.h" />
     <ClInclude Include="Scene\SceneFactrory.h" />

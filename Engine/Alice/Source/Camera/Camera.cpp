@@ -1,4 +1,4 @@
-﻿#include "Camera.h"
+#include "Camera.h"
 
 IWindowsApp* Camera::sWindowsApp = nullptr;
 
@@ -64,7 +64,7 @@ void GameCamera::Initialize(UpdateProjMatrixFunc matFunc_)
 	//注視点と視点の距離取得
 	AliceMathF::Vector3 lTgtToPosLen;
 	lTgtToPosLen = eye - target;
-	tgtToPosLen = lTgtToPosLen.length_();
+	tgtToPosLen = lTgtToPosLen.Length();
 
 	updateViewMatrix = false;
 }
@@ -114,7 +114,7 @@ void GameCamera::Update()
 
 		AliceMathF::Vector3 lTgtToPosLen;
 		lTgtToPosLen = eye - target;
-		tgtToPosLen = lTgtToPosLen.length_();
+		tgtToPosLen = lTgtToPosLen.Length();
 
 		updateViewMatrix = false;
 	}
@@ -200,10 +200,26 @@ void GameCamera::SetEye(const AliceMathF::Vector3& pos_)
 	eye = pos_;
 }
 
+void GameCamera::SetEye(float x_, float y_, float z_)
+{
+	updateViewMatrix = true;
+	eye.x = x_;
+	eye.y = y_;
+	eye.z = z_;
+}
+
 void GameCamera::SetTarget(const AliceMathF::Vector3& pos_)
 {
 	updateViewMatrix = true;
 	target = pos_;
+}
+
+void GameCamera::SetTarget(float x_,float y_,float z_)
+{
+	updateViewMatrix = true;
+	target.x = x_;
+	target.y = y_;
+	target.z = z_;
 }
 
 void GameCamera::SetUp(const AliceMathF::Vector3& vec_)
