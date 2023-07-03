@@ -67,7 +67,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Scene;$(ProjectDir)GameCore;$(ProjectDir)Users\Stage\Fold;$(ProjectDir)Users\Player;$(ProjectDir)Users\Camera;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Scene;$(ProjectDir)GameCore;$(ProjectDir)Player;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
@@ -91,7 +91,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Scene;$(ProjectDir)GameCore;$(ProjectDir)Users\Stage\Fold;$(ProjectDir)Users\Player;$(ProjectDir)Users\Camera;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Scene;$(ProjectDir)GameCore;$(ProjectDir)Player;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <DisableSpecificWarnings>
@@ -114,8 +114,10 @@
     <ClCompile Include="GameCameraManager.cpp" />
     <ClCompile Include="GameCore\GameMain.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PlayerGameCamera.cpp" />
+    <ClCompile Include="PlayerAnimation.cpp" />
+    <ClCompile Include="Player\Player.cpp" />
+    <ClCompile Include="Player\PlayerGameCamera.cpp" />
+    <ClCompile Include="Player\PlayerUI.cpp" />
     <ClCompile Include="Scene\GameScene.cpp" />
     <ClCompile Include="Scene\ResultScene.cpp" />
     <ClCompile Include="Scene\SceneFactrory.cpp" />
@@ -127,8 +129,10 @@
     <ClInclude Include="GameCameraManager.h" />
     <ClInclude Include="GameCore\GameCollisionConflg.h" />
     <ClInclude Include="GameCore\GameMain.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="PlayerGameCamera.h" />
+    <ClInclude Include="PlayerAnimation.h" />
+    <ClInclude Include="Player\Player.h" />
+    <ClInclude Include="Player\PlayerGameCamera.h" />
+    <ClInclude Include="Player\PlayerUI.h" />
     <ClInclude Include="Scene\GameScene.h" />
     <ClInclude Include="Scene\ResultScene.h" />
     <ClInclude Include="Scene\SceneFactrory.h" />

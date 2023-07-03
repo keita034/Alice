@@ -2,6 +2,7 @@
 #include<GameObject.h>
 #include<Input.h>
 #include<GameCameraManager.h>
+#include<PlayerUI.h>
 
 class Player : public GameObject
 {
@@ -19,27 +20,17 @@ private:
 
 	const int32_t MAX_HP = 300;
 	int32_t hp = 0;
-	UI hpBarUI;
-	const AliceMathF::Vector3 MAX_HP_BAR_SCALE = { 63.0f,1.5f,1.0f };
 
 	const int32_t MAX_STAMINA = 100;
 	int32_t stamina = 0;
-	UI staminaBarUI;
-	const AliceMathF::Vector3 MAX_STAMINA_BAR_SCALE = { 40.3f,1.5f,1.0f };
 
 	const int32_t MAX_BULLET = 20;
 	int32_t bullet = 0;
-	UI bulletUI;
 
 	const int32_t MAX_HEALING = 20;
 	int32_t healing = 0;
-	UI healingUI;
 
-	UI hpBarBackUI;
-	UI staminaBarBackUI;
-
-	uint32_t hitTex;
-	uint32_t defTex;
+	std::unique_ptr<PlayerUI>ui;
 
 public:
 
@@ -81,8 +72,10 @@ public:
 	/// </summary>
 	void UIDraw();
 
-	virtual void OnCollision()override;
-
+	/// <summary>
+	/// リセット
+	/// </summary>
+	void Reset();
 private:
 
 	/// <summary>
@@ -94,11 +87,6 @@ private:
 	/// 回転
 	/// </summary>
 	void PRotate();
-
-	/// <summary>
-	/// UI初期化
-	/// </summary>
-	void PUIInitialize();
 
 	void Initialize()override {};
 	void Update()override {};

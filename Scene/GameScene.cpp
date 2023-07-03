@@ -46,25 +46,8 @@ void GameScene::Update()
 
 	gameCameraManager->Update();
 
-
 	player->TransUpdate(gameCameraManager->GetCamera());
 	boss->TransUpdate(gameCameraManager->GetCamera());
-
-
-	{
-		OBBCollider* lPlayObb = dynamic_cast<OBBCollider*>(player->GetCollider());
-		OBBCollider* lBossObb = dynamic_cast<OBBCollider*>(boss->GetCollider());
-
-		if (Collision::SCheckOBB2OBB(*lPlayObb, *lBossObb))
-		{
-			player->OnCollision();
-			player->GetCollider()->SetOpponentCollsionName(boss->GetCollider()->GetCollsionName());
-			boss->OnCollision();
-			boss->GetCollider()->SetOpponentCollsionName(player->GetCollider()->GetCollsionName());
-		}
-	}
-
-
 
 	fieldObjData->Update(gameCameraManager->GetCamera());
 
