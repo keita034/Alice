@@ -14,12 +14,26 @@
 #include<AliceMathUtility.h>
 #include<AliceUtility.h>
 
+struct ReturnMotionNode
+{
+	//名前
+	std::string name;
+
+	//スケーリング
+	AliceMathF::Vector3 scalingKeys;
+
+	//回転角
+	AliceMathF::Quaternion rotationKeys;
+
+	//位置
+	AliceMathF::Vector3 positionKeys;
+};
+
 class MotionData
 {
 private:
 	friend class AliceMotionData;
 	friend class AliceFileStream;
-	friend class AliceModel;
 
 	//ノードアニメーションチャンネル
 	std::vector<MotionNode> channels;
@@ -38,13 +52,13 @@ private:
 	uint32_t modelHandle;
 	int32_t PADING;
 
+	std::unordered_map<std::string,ReturnMotionNode> returnChannels;
 };
 
 class AliceMotionData
 {
 private:
 	friend class AliceFileStream;
-	friend class AliceModel;
 
 	static std::vector<std::string>sFilePaths;
 
@@ -64,6 +78,10 @@ public:
 
 	void SetMotion(uint32_t motionHandle_);
 
+	void SetFrame(float frame_);
+
+	const ReturnMotionNode* GetMotion(const std::string& nodeName)const ;
+
 	/// <summary>
 	/// モーション生成
 	/// </summary>
@@ -75,5 +93,15 @@ public:
 	/// 共通初期化
 	/// </summary>
 	static void SCommonInitialize();
+
+private:
+	void PCalcInterpolatedScaling(AliceMathF::Vector3& mxOut_,float animationTime_,const MotionNode* pNodeAnim_);
+	bool PFindScaling(float animationTime_,const MotionNode* pNodeAnim_,uint32_t& nScalingIndex_);
+
+	void PCalcInterpolatedRotation(AliceMathF::Quaternion& mxOut_,float animationTime_,const MotionNode* pNodeAnim_);
+	bool PFindRotation(float animationTime_,const MotionNode* pNodeAnim_,uint32_t& nRotationIndex_);
+
+	void PCalcInterpolatedPosition(AliceMathF::Vector3& mxOut_,float animationTime_,const MotionNode* pNodeAnim_);
+	bool PFindPosition(float animationTime_,const MotionNode* pNodeAnim_,uint32_t& nPosIndex_);
 };
 

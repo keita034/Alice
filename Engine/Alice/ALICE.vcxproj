@@ -127,6 +127,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Incluede\3D\Model\AliceBlendTree.h" />
     <ClInclude Include="Incluede\2D\PostEffect\DistortionPostEffect.h" />
     <ClInclude Include="Incluede\2D\PostEffect\FrostedGlassPostEffect.h" />
     <ClInclude Include="Incluede\2D\PostEffect\CRTPostEffect.h" />
@@ -221,6 +222,7 @@
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\3D\Model\AliceBlendTree.cpp" />
     <ClCompile Include="Source\2D\PostEffect\DistortionPostEffect.cpp" />
     <ClCompile Include="Source\2D\PostEffect\FrostedGlassPostEffect.cpp" />
     <ClCompile Include="Source\2D\PostEffect\MosaicPostEffect.cpp" />
@@ -317,42 +319,51 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Bloom\BloomDrawPS.hlsl">
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Bloom\BloomDrawPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Bloom\BloomDrawVS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Bloom\BloomDrawVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Bloom\BloomPS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Bloom\BloomPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Bloom\BloomVS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Bloom\BloomVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\ChromaticAberration\ChromaticAberrationPS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\ChromaticAberration\ChromaticAberrationPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\ChromaticAberration\ChromaticAberrationVS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\ChromaticAberration\ChromaticAberrationVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\CRT\CRTPS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\CRT\CRTPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\CRT\CRTVS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\CRT\CRTVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Distortion\DistortionPS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Distortion\DistortionPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
+      <FileType>Document</FileType>
+    </None>
     <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Distortion\DistortionVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>

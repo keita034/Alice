@@ -31,7 +31,6 @@ private:
 
 	std::unique_ptr<GameCameraManager>gameCameraManager;
 	std::unique_ptr<Player>player;
-	std::unique_ptr<Boss>boss;
 
 public:
 

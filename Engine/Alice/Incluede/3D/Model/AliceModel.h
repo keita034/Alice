@@ -2,6 +2,7 @@
 #include<ModelMesh.h>
 #include<StructuredBuffer.h>
 #include<AliceMotionData.h>
+#include<AliceBlendTree.h>
 
 class AliceModelData
 {
@@ -92,14 +93,34 @@ public:
 	/// </summary>
 	/// <param name="transform">ワールド変換データ</param>
 	/// <param name="material">マテリアル(パイプライン)</param>
-	virtual void Draw(const Transform& transform_, const AliceMotionData* animation_ = nullptr, float frame_ = 0.0f, const Material* material_ = nullptr);
+	virtual void Draw(const Transform& transform_, const AliceMotionData* animation_,const Material* material_ = nullptr);
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	virtual void Draw(const Transform& transform_,AliceBlendTree* blendTree_,const Material* material_ = nullptr);
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	virtual void Draw(const Transform& transform_);
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	virtual void Draw(const Transform& transform_,const Material* material_);
 
 	/// <summary>
 	/// アニメーションの更新
 	/// </summary>
 	/// <param name="animation">アニメーションデータ</param>
-	/// <param name="frame">フレーム</param>
-	void AnimationUpdate(const AliceMotionData* animation_, float frame_);
+	void AnimationUpdate(const AliceMotionData* animation_);
+
+	/// <summary>
+	/// アニメーションの更新
+	/// </summary>
+	/// <param name="animation">アニメーションデータ</param>
+	void AnimationUpdate(AliceBlendTree* blendTree_);
 
 	/// <summary>
 	/// テクスチャの変更
@@ -180,14 +201,9 @@ public:
 
 protected:
 
-	void PReadNodeHeirarchy(ModelMesh* mesh_, const AliceMotionData* pAnimation_, float AnimationTime_, const Node* pNode_, const AliceMathF::Matrix4& mxParentTransform_);
-	const MotionNode* PFindNodeAnim(const AliceMotionData* pAnimation_, const std::string& strNodeName_);
-	void PCalcInterpolatedScaling(AliceMathF::Vector3& mxOut_, float animationTime_, const MotionNode* pNodeAnim_);
-	bool PFindScaling(float AnimationTime_, const MotionNode* pNodeAnim_, uint32_t& nScalingIndex_);
-	void PCalcInterpolatedRotation(AliceMathF::Quaternion& mxOut_, float animationTime_, const MotionNode* pNodeAnim_);
-	bool PFindRotation(float AnimationTime_, const MotionNode* pNodeAnim_, uint32_t& nRotationIndex_);
-	void PCalcInterpolatedPosition(AliceMathF::Vector3& mxOut_, float animationTime_, const MotionNode* pNodeAnim_);
-	bool PFindPosition(float AnimationTime_, const MotionNode* pNodeAnim_, uint32_t& nPosIndex_);
+	void PReadNodeHeirarchy(ModelMesh* mesh_,const AliceMotionData* pAnimation_,const Node* pNode_,const AliceMathF::Matrix4& mxParentTransform_);
+	void PReadNodeHeirarchy(ModelMesh* mesh_, AliceBlendTree* blendTree_,const Node* pNode_, const AliceMathF::Matrix4& mxParentTransform_);
+	const ReturnMotionNode* PFindNodeAnim(const AliceMotionData* pAnimation_, const std::string& strNodeName_);
 	void PModelDraw(const Transform& transform_);
 	void PModelAnimationDraw(const Transform& transform_);
 

@@ -87,7 +87,8 @@ void Shader::Create(const std::string& fileName_, const std::string& entryPoint_
 	std::wstring lWFileName;
 	lWFileName = StringToWstring(fileName_);
 
-	// ピクセルシェーダの読み込みとコンパイル
+#ifdef _DEBUG
+		// シェーダの読み込みとコンパイル
 	lResult = D3DCompileFromFile(
 		lWFileName.c_str(), // シェーダファイル名
 		nullptr,
@@ -96,6 +97,22 @@ void Shader::Create(const std::string& fileName_, const std::string& entryPoint_
 		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
 		0,
 		&blob, &lErrorBlob);
+
+#else
+	// シェーダの読み込みとコンパイル
+	lResult = D3DCompileFromFile(
+		lWFileName.c_str(), // シェーダファイル名
+		nullptr,
+		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
+		entryPoint_.c_str(), target_.c_str(), // エントリーポイント名、シェーダーモデル指定
+		D3DCOMPILE_OPTIMIZATION_LEVEL3, // リリース用設定
+		0,
+		&blob, &lErrorBlob);
+
+#endif // DEBUG
+
+
+
 
 	// エラーなら
 	if (FAILED(lResult))

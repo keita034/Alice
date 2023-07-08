@@ -3,6 +3,7 @@
 #include<Input.h>
 #include<GameCameraManager.h>
 #include<PlayerUI.h>
+#include<PlayerAnimation.h>
 
 class Player : public GameObject
 {
@@ -23,7 +24,7 @@ private:
 
 	const int32_t MAX_STAMINA = 100;
 	int32_t stamina = 0;
-
+	
 	const int32_t MAX_BULLET = 20;
 	int32_t bullet = 0;
 
@@ -31,6 +32,11 @@ private:
 	int32_t healing = 0;
 
 	std::unique_ptr<PlayerUI>ui;
+	std::unique_ptr<PlayerAnimation>animation;
+
+	std::unique_ptr<AliceMotionData>testAnime;
+	uint32_t testHandle = 0;
+	float testFrame = 0.0f;
 
 public:
 

@@ -127,7 +127,7 @@ namespace AliceMathF
 
 	float Quaternion::Dot(const Quaternion& q_)const
 	{
-		return w * q_.w + x * q_.x + y * q_.y + z * q_.z;
+		return x * q_.x + y * q_.y + z * q_.z + w * q_.w;
 	}
 
 	float Quaternion::Norm()const
@@ -167,30 +167,65 @@ namespace AliceMathF
 
 	Quaternion Quaternion::Slerp(const Quaternion& q_, float t_)
 	{
-		float lCos = Dot(q_);
+		Quaternion lResult = { 0 };
+		Quaternion lStart = *this;
+		Quaternion lEnd = q_;
 
-		Quaternion lT2 = *this;
+		float lCosHalfTheta = lStart.Dot(lEnd);
 
-		if (lCos < 0.0f)
+		if (lCosHalfTheta < 0.0f)
 		{
-			lCos = -lCos;
-			lT2 = -*this;
+			lEnd.x = -lEnd.x; lEnd.y = -lEnd.y; lEnd.z = -lEnd.z; lEnd.w = -lEnd.w;
+			lCosHalfTheta = -lCosHalfTheta;
 		}
 
-		if (lCos >= 1.0f - 0.0005f)
+		if (Abs(lCosHalfTheta) >= 1.0f)
 		{
-			return (1.0f - t_) * q_ + t_ * lT2;
+			lResult = lStart;
+		}
+		else if (lCosHalfTheta > 0.95f)
+		{
+			lResult = lStart.Nlerp(lEnd, t_);
+		}
+		else
+		{
+			float lHalfTheta = Acos(lCosHalfTheta);
+			float lSinHalfTheta = Sqrt(1.0f - lCosHalfTheta * lCosHalfTheta);
+
+			if (Abs(lSinHalfTheta) < 0.001f)
+			{
+				lResult = (lStart * 0.5f + lEnd * 0.5f);
+			}
+			else
+			{
+				float lSatioA = Sin((1 - t_) * lHalfTheta) / lSinHalfTheta;
+				float lRatioB = Sin(t_ * lHalfTheta) / lSinHalfTheta;
+
+				lResult = (lStart * lSatioA + lEnd * lRatioB);
+			}
 		}
 
-		float lK0 = t_;
-		float lK1 = 1.0f - t_;
+		return lResult;
+	}
 
-		float lTheta = acosf(lCos);
+	Quaternion Quaternion::Nlerp(const Quaternion& q_, float t_)
+	{
+		Quaternion lResult = { 0 };
 
-		lK0 = (sinf(lTheta * lK0) / sinf(lTheta));
-		lK1 = (sinf(lTheta * lK1) / sinf(lTheta));
+		lResult = *this + t_ * (q_ - *this);
 
-		return  lK0 * q_ + lK1 * lT2;
+		float lLength = lResult.Norm();
+
+		if (lLength == 0.0f)
+		{
+			lLength = 1.0f;
+		}
+
+		float lIlength = 1.0f / lLength;
+
+		lResult = lResult * lIlength;
+
+		return lResult;
 	}
 
 	Quaternion Quaternion::Lerp(const Quaternion& q_, float t_)
@@ -211,23 +246,24 @@ namespace AliceMathF
 
 	Matrix4 Quaternion::Rotate()const
 	{
-		float lXX = x * x * 2.0f;
-		float lYY = y * y * 2.0f;
-		float lZZ = z * z * 2.0f;
-		float lXY = x * y * 2.0f;
-		float lXZ = x * z * 2.0f;
-		float lYZ = y * z * 2.0f;
-		float lWX = w * x * 2.0f;
-		float lWY = w * y * 2.0f;
-		float lWZ = w * z * 2.0f;
+		float xx = x * x * 2.0f;
+		float yy = y * y * 2.0f;
+		float zz = z * z * 2.0f;
+		float xy = x * y * 2.0f;
+		float xz = x * z * 2.0f;
+		float yz = y * z * 2.0f;
+		float wx = w * x * 2.0f;
+		float wy = w * y * 2.0f;
+		float wz = w * z * 2.0f;
+
+
 
 		Matrix4 lResult = {
-			1.0f - lYY - lZZ,lXY + lWZ,lXZ - lWY,0.0f,
-			lXY - lWZ, 1.0f - lXX - lZZ,lYZ + lWX,0.0f,
-			lWZ + lWY, lYZ - lWX,1.0f - lXX - lYY,0.0f,
+			1.0f - yy - zz,xy + wz,xz - wy,0.0f,
+			xy - wz, 1.0f - xx - zz,yz + wx,0.0f,
+			xz + wy, yz - wx,1.0f - xx - yy,0.0f,
 			0.0f,0.0f,0.0f,1.0f
 		};
-
 		return lResult;
 	}
 
@@ -428,10 +464,15 @@ namespace AliceMathF
 	void QuaternionSlerp(Quaternion& vOut_, const Quaternion& qStart_, const Quaternion& qEnd_, float t_)
 	{
 
-		Quaternion start = Quaternion(qStart_);
-		Quaternion end = Quaternion(qEnd_);
+		//vOut_ = DirectX::XMQuaternionSlerp(
+		//	{ { qStart_.x, qStart_.y ,qStart_.z ,qStart_.w } },
+		//	{{ qEnd_.x, qEnd_.y ,qEnd_.z ,qEnd_.w }},
+		//	t_);
 
-		vOut_ = start.Slerp(end, t_);
+		Quaternion start = Quaternion(qStart_);
+		Quaternion lEnd = Quaternion(qEnd_);
+
+		vOut_ = start.Slerp(lEnd, t_);
 	}
 
 	Quaternion LookRotation(const Vector3& forward, const Vector3& up)

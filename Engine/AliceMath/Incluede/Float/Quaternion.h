@@ -54,6 +54,9 @@ namespace AliceMathF
 		//クオータニオン球面線形補間
 		Quaternion Slerp(const Quaternion& q_, float t_);
 
+		//クオータニオン補間正規化済み
+		Quaternion Nlerp(const Quaternion& q_, float t_);
+
 		//クオータニオン線形補間
 		Quaternion Lerp(const Quaternion& q_, float t_);
 

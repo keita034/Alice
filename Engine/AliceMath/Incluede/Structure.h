@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include"AliceMathUtility.h"
 
 #include<string>
@@ -264,9 +264,8 @@ struct BoneData
 };
 
 //Vector3のアニメーションキー
-class VectorKey
+struct VectorKey
 {
-public:
 	//キーの時間
 	float time;
 

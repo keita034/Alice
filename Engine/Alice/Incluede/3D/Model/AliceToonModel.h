@@ -14,14 +14,29 @@ public:
 	/// </summary>
 	/// <param name="transform">ワールド変換データ</param>
 	/// <param name="material">マテリアル(パイプライン)</param>
-	void Draw(const Transform& transform_, const AliceMotionData* animation_ = nullptr, float frame_ = 0.0f, const Material* material_ = nullptr) override;
+	void Draw(const Transform& transform_, const AliceMotionData* animation_ = nullptr, const Material* material_ = nullptr) override;
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	virtual void Draw(const Transform& transform_,AliceBlendTree* blendTree_,const Material* material_ = nullptr)override;
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	virtual void Draw(const Transform& transform_)override;
+
+	/// <summary>
+	/// 描画
+	/// </summary>
+	virtual void Draw(const Transform& transform_,const Material* material_)override;
 
 	/// <summary>
 	/// ゼルダの伝説風描画
 	/// </summary>
 	/// <param name="transform">ワールド変換データ</param>
 	/// <param name="material">マテリアル(パイプライン)</param>
-	void ZeldaDraw(const Transform& transform_, const AliceMotionData* animation_ = nullptr, float frame_ = 0.0f, const Material* material_ = nullptr);
+	void ZeldaDraw(const Transform& transform_, const AliceMotionData* animation_ = nullptr, const Material* material_ = nullptr);
 
 	void SetRampTexture(const std::string& rampFilePath_);
 

@@ -1,4 +1,4 @@
-﻿#include "Vector.h"
+#include "Vector.h"
 #include"AliceMathUtility.h"
 
 namespace AliceMathF
@@ -90,9 +90,9 @@ namespace AliceMathF
 	{
 		Vector3 dest;
 
-		dest.x = src1_.x + (src2_.x - src1_.x) * t_;
-		dest.y = src1_.y + (src2_.y - src1_.y) * t_;
-		dest.z = src1_.z + (src2_.z - src1_.z) * t_;
+		dest.x = src1_.x + ((src2_.x - src1_.x) * t_);
+		dest.y = src1_.y + ((src2_.y - src1_.y) * t_);
+		dest.z = src1_.z + ((src2_.z - src1_.z) * t_);
 
 		return dest;
 	}

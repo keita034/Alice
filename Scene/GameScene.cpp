@@ -28,9 +28,6 @@ void GameScene::Initialize()
 	player = std::make_unique<Player>();
 	player->Initialize(sInput);
 
-	boss = std::make_unique<Boss>();
-	boss->Initialize();
-
 	gameCameraManager = std::make_unique<GameCameraManager>();
 	gameCameraManager->Initialize(player.get(),sInput);
 
@@ -42,12 +39,10 @@ void GameScene::Update()
 	gameCameraManager->BeginUpdate();
 
 	player->Update(gameCameraManager->GetGameCamera(), gameCameraManager->GetCameraIndex());
-	boss->Update();
 
 	gameCameraManager->Update();
 
 	player->TransUpdate(gameCameraManager->GetCamera());
-	boss->TransUpdate(gameCameraManager->GetCamera());
 
 	fieldObjData->Update(gameCameraManager->GetCamera());
 
@@ -55,12 +50,11 @@ void GameScene::Update()
 
 void GameScene::Draw()
 {
-	fieldObjData->Draw();
+	//fieldObjData->Draw();
 
 	player->Draw();
-	boss->Draw();
 
-	player->UIDraw();
+	//player->UIDraw();
 }
 
 void GameScene::Finalize()

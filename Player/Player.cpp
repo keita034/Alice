@@ -26,12 +26,21 @@ void Player::Initialize(AliceInput::IInput* input_)
 	ui = std::make_unique<PlayerUI>();
 	ui->Initialize();
 
+	animation = std::make_unique<PlayerAnimation>();
+	animation->Initialize(input);
+
 	Reset();
+
+	testHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Idle.almb");
+	testAnime = std::make_unique<AliceMotionData>();
+	testAnime->SetMotion(testHandle);
 
 }
 
 void Player::Update(BaseGameCamera* camera_, GameCameraManager::CameraIndex index_)
 {
+	testFrame += 0.01f;
+
 	oldTrans = transform.translation;
 	isStationary = true;
 
@@ -47,11 +56,16 @@ void Player::Update(BaseGameCamera* camera_, GameCameraManager::CameraIndex inde
 	}
 
 	ui->Update();
+	animation->Update();
+	
+	testAnime->SetFrame(testFrame);
 }
 
 void Player::Draw()
 {
-	model->Draw(transform);
+	/*model->Draw(transform, testAnime.get());*/
+	model->Draw(transform, animation->GetAnimation());
+	//model->Draw(transform);
 }
 
 void Player::Finalize()
@@ -97,7 +111,7 @@ void Player::PMove(BaseGameCamera* camera_)
 	AliceMathF::Vector3 lCameraForward = camera_->GetGameCamera()->GetTarget().Normal();
 	lCameraForward = { lCameraForward.x, 0.0f, lCameraForward.z };
 
-	if (input->InputStick(ControllerStick::LUP))
+	/*if (input->InputStick(ControllerStick::LUP))
 	{
 		lMove += {0.0f, 0.0f, speed};
 		isStationary = false;
@@ -116,7 +130,7 @@ void Player::PMove(BaseGameCamera* camera_)
 	{
 		lMove += {speed, 0.0f, 0.0f};
 		isStationary = false;
-	}
+	}*/
 
 	PlayerGameCamera* lPlayerCamera = dynamic_cast<PlayerGameCamera*>(camera_);
 
