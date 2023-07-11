@@ -39,8 +39,6 @@ void Player::Initialize(AliceInput::IInput* input_)
 
 void Player::Update(BaseGameCamera* camera_, GameCameraManager::CameraIndex index_)
 {
-	testFrame += 0.01f;
-
 	oldTrans = transform.translation;
 	isStationary = true;
 
@@ -57,8 +55,6 @@ void Player::Update(BaseGameCamera* camera_, GameCameraManager::CameraIndex inde
 
 	ui->Update();
 	animation->Update();
-	
-	testAnime->SetFrame(testFrame);
 }
 
 void Player::Draw()

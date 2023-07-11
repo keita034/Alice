@@ -1,4 +1,4 @@
-﻿#include<Controller.h>
+#include<Controller.h>
 
 #include <xinput.h>
 #pragma comment (lib, "xinput.lib")

@@ -18,13 +18,17 @@ void PlayerAnimation::Initialize(AliceInput::IInput* input_)
 	standAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Idle.almb");
 	walkAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Walk.almb");
 	runAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Run.almb");
+	rowlingAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Rowling.almb");
+
 
 	blendTree = std::make_unique<AliceBlendTree>();
 
 	blendTree->AddAnimation(standAnimationHandle);
 	blendTree->AddAnimation(walkAnimationHandle);
 	blendTree->AddAnimation(runAnimationHandle);
-	
+
+
+	attackAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Attack.almb");
 }
 
 void PlayerAnimation::Update()
@@ -36,11 +40,11 @@ void PlayerAnimation::Update()
 
 	ImGui::End();
 
-	frame += 0.02f;
-
 	PWalkAnimationUpdate();
 
-	blendTree->Update(frame);
+	PAttackAnimationUpdate();
+
+	blendTree->Update(0.02f);
 }
 
 void PlayerAnimation::Finalize()
@@ -63,14 +67,27 @@ void PlayerAnimation::PWalkAnimationUpdate()
 
 	float lStickPower = AliceMathUtility::Max<float>(AliceMathF::Abs(lLeftStickPower.x), AliceMathF::Abs(lLeftStickPower.y));
 
-	if (input->InputButton(ControllerButton::A))
-	{
-		walkAnimationThresh = lStickPower;
-	}
-	else
-	{
-		walkAnimationThresh = 0.5f * lStickPower;
-	}
+	//if (input->InputButton(ControllerButton::A))
+	//{
+	//	walkAnimationThresh = lStickPower;
+	//}
+	//else
+	//{
+	//	walkAnimationThresh = 0.5f * lStickPower;
+	//}
 
 	blendTree->SetThresh(walkAnimationThresh);
+}
+
+void PlayerAnimation::PAttackAnimationUpdate()
+{
+	if (input->TriggerButton(ControllerButton::RB))
+	{
+		blendTree->InsertAnimation(attackAnimationHandle);
+	}
+
+	if (input->TriggerButton(ControllerButton::A))
+	{
+		blendTree->InsertAnimation(rowlingAnimationHandle);
+	}
 }

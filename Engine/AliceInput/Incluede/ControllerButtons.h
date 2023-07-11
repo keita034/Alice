@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 /// <summary>
 /// コントローラーボタン
@@ -20,18 +20,18 @@ enum class ControllerButton
 	BACK = 0x0020,
 
 	//左バンパー
-	LB = 0x0040,
+	LB = 0x0100,
 	//右バンパー
-	RB = 0x0080,
+	RB = 0x0200,
 	//左トリガー
-	LT = 0x0041,
+	LT = 0x0101,
 	//右トリガー
-	RT = 0x0081,
+	RT = 0x0201,
 
 	//左スティック
-	LSTICK = 0x0100,
+	LSTICK = 0x0040,
 	//右スティック
-	RSTICK = 0x0200,
+	RSTICK = 0x0080,
 
 	//A
 	A = 0x1000,

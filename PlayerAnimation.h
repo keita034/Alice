@@ -11,6 +11,9 @@ private:
 	uint32_t walkAnimationHandle;
 	uint32_t runAnimationHandle;
 
+	uint32_t attackAnimationHandle;
+	uint32_t rowlingAnimationHandle;
+
 	float frame = 0.0f;
 
 	float walkAnimationThresh =0.0f;
@@ -52,7 +55,12 @@ public:
 
 private:
 
+	/// <summary>
+	/// 歩きモーション関係
+	/// </summary>
 	void PWalkAnimationUpdate();
+
+	void PAttackAnimationUpdate();
 
 	//コピーコンストラクタ・代入演算子削除
 	PlayerAnimation& operator=(const PlayerAnimation&) = delete;

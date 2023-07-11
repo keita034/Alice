@@ -70,6 +70,7 @@ private:
 
 	MotionData* motionData = nullptr;
 
+
 public:
 
 	float GetAnimeMaxflame()const ;
