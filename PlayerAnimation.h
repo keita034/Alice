@@ -53,6 +53,11 @@ public:
 	/// </summary>
 	float GetFrame();
 
+	void InsertAttackAnimation();
+
+	void InsertRowlingAnimation();
+
+
 private:
 
 	/// <summary>

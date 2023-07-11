@@ -1,14 +1,5 @@
 #include "PlayerAnimation.h"
 
-#pragma warning(push)
-#pragma warning(disable: 4514)
-#pragma warning(disable: 4820)
-
-#include <imgui_impl_win32.h>
-#include <imgui_impl_dx12.h>
-
-#pragma warning(pop)
-
 void PlayerAnimation::Initialize(AliceInput::IInput* input_)
 {
 	assert(input_);
@@ -34,15 +25,7 @@ void PlayerAnimation::Initialize(AliceInput::IInput* input_)
 void PlayerAnimation::Update()
 {
 
-	ImGui::Begin("blend");
-
-	ImGui::SliderFloat("thresh", &walkAnimationThresh, 0.0f, 1.0f);
-
-	ImGui::End();
-
 	PWalkAnimationUpdate();
-
-	PAttackAnimationUpdate();
 
 	blendTree->Update(0.02f);
 }
@@ -61,33 +44,31 @@ float PlayerAnimation::GetFrame()
 	return frame;
 }
 
+void PlayerAnimation::InsertAttackAnimation()
+{
+	blendTree->InsertAnimation(attackAnimationHandle);
+}
+
+void PlayerAnimation::InsertRowlingAnimation()
+{
+	blendTree->InsertAnimation(rowlingAnimationHandle);
+}
+
 void PlayerAnimation::PWalkAnimationUpdate()
 {
 	AliceMathF::Vector2 lLeftStickPower = input->GetLeftStickVec();
 
 	float lStickPower = AliceMathUtility::Max<float>(AliceMathF::Abs(lLeftStickPower.x), AliceMathF::Abs(lLeftStickPower.y));
 
-	//if (input->InputButton(ControllerButton::A))
-	//{
-	//	walkAnimationThresh = lStickPower;
-	//}
-	//else
-	//{
-	//	walkAnimationThresh = 0.5f * lStickPower;
-	//}
+	if (input->InputButton(ControllerButton::A))
+	{
+		walkAnimationThresh = lStickPower;
+	}
+	else
+	{
+		walkAnimationThresh = 0.5f * lStickPower;
+	}
 
 	blendTree->SetThresh(walkAnimationThresh);
 }
 
-void PlayerAnimation::PAttackAnimationUpdate()
-{
-	if (input->TriggerButton(ControllerButton::RB))
-	{
-		blendTree->InsertAnimation(attackAnimationHandle);
-	}
-
-	if (input->TriggerButton(ControllerButton::A))
-	{
-		blendTree->InsertAnimation(rowlingAnimationHandle);
-	}
-}
