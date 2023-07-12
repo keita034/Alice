@@ -46,14 +46,14 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)Engine\Alice\lib\include;$(SolutionDir)Engine\AliceCore\Incluede;$(SolutionDir)Engine\AliceCore\Incluede\Buffer;$(SolutionDir)Engine\AliceCore\Incluede\DescriptorHeap;$(SolutionDir)Engine\AliceMath\Incluede;$(SolutionDir)Engine\AliceMath\Incluede\Collision;$(SolutionDir)Engine\AliceMath\Incluede\Collision\2D;$(SolutionDir)Engine\AliceMath\Incluede\Collision\3D;$(SolutionDir)Engine\AliceMath\Incluede\Double;$(SolutionDir)Engine\AliceMath\Incluede\Double\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Double\Vector;$(SolutionDir)Engine\AliceMath\Incluede\Float;$(SolutionDir)Engine\AliceMath\Incluede\Float\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Float\Vector;$(SolutionDir)Engine\AliceInput\Incluede;$(SolutionDir)Engine\AliceAudio\Incluede</IncludePath>
+    <IncludePath>$(SolutionDir)Engine\Alice\lib\include;$(SolutionDir)Engine\AliceCore\Incluede;$(SolutionDir)Engine\AliceCore\Incluede\Buffer;$(SolutionDir)Engine\AliceCore\Incluede\DescriptorHeap;$(SolutionDir)Engine\AliceMath\Incluede;$(SolutionDir)Engine\AliceMath\Incluede\Collision;$(SolutionDir)Engine\AliceMath\Incluede\Collision\2D;$(SolutionDir)Engine\AliceMath\Incluede\Collision\3D;$(SolutionDir)Engine\AliceMath\Incluede\Double;$(SolutionDir)Engine\AliceMath\Incluede\Double\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Double\Vector;$(SolutionDir)Engine\AliceMath\Incluede\Float;$(SolutionDir)Engine\AliceMath\Incluede\Float\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Float\Vector;$(SolutionDir)Engine\AliceMath\Incluede\Physics;$(SolutionDir)Engine\AliceInput\Incluede;$(SolutionDir)Engine\AliceAudio\Incluede</IncludePath>
     <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</ExternalIncludePath>
     <LibraryPath>$(SolutionDir)Engine\Alice\lib\lib\debug;$(LibraryPath)</LibraryPath>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)Lib\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)Engine\Alice\lib\include;$(SolutionDir)Engine\AliceCore\Incluede;$(SolutionDir)Engine\AliceCore\Incluede\Buffer;$(SolutionDir)Engine\AliceCore\Incluede\DescriptorHeap;$(SolutionDir)Engine\AliceMath\Incluede;$(SolutionDir)Engine\AliceMath\Incluede\Collision;$(SolutionDir)Engine\AliceMath\Incluede\Collision\2D;$(SolutionDir)Engine\AliceMath\Incluede\Collision\3D;$(SolutionDir)Engine\AliceMath\Incluede\Double;$(SolutionDir)Engine\AliceMath\Incluede\Double\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Double\Vector;$(SolutionDir)Engine\AliceMath\Incluede\Float;$(SolutionDir)Engine\AliceMath\Incluede\Float\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Float\Vector;$(SolutionDir)Engine\AliceInput\Incluede;$(SolutionDir)Engine\AliceAudio\Incluede</IncludePath>
+    <IncludePath>$(SolutionDir)Engine\Alice\lib\include;$(SolutionDir)Engine\AliceCore\Incluede;$(SolutionDir)Engine\AliceCore\Incluede\Buffer;$(SolutionDir)Engine\AliceCore\Incluede\DescriptorHeap;$(SolutionDir)Engine\AliceMath\Incluede;$(SolutionDir)Engine\AliceMath\Incluede\Collision;$(SolutionDir)Engine\AliceMath\Incluede\Collision\2D;$(SolutionDir)Engine\AliceMath\Incluede\Collision\3D;$(SolutionDir)Engine\AliceMath\Incluede\Double;$(SolutionDir)Engine\AliceMath\Incluede\Double\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Double\Vector;$(SolutionDir)Engine\AliceMath\Incluede\Float;$(SolutionDir)Engine\AliceMath\Incluede\Float\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Float\Vector;$(SolutionDir)Engine\AliceMath\Incluede\Physics;$(SolutionDir)Engine\AliceInput\Incluede;$(SolutionDir)Engine\AliceAudio\Incluede</IncludePath>
     <LibraryPath>$(SolutionDir)Engine\Alice\lib\lib;$(LibraryPath)</LibraryPath>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)Lib\$(Configuration)\</OutDir>
@@ -65,7 +65,7 @@
     <ClCompile>
       <WarningLevel>EnableAllWarnings</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_LIB;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_LIB;NOMINMAX;_SILENCE_CXX20_CISO646_REMOVED_WARNING;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;PX_PHYSX_STATIC_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Incluede\2D;$(ProjectDir)Incluede\2D\PostEffect;$(ProjectDir)Incluede\2D\Particle;$(ProjectDir)Incluede\2D\Sprite;$(ProjectDir)Incluede\3D;$(ProjectDir)Incluede\3D\Model;$(ProjectDir)Incluede\AliceMath;$(ProjectDir)Incluede\AliceMath\Collision;$(ProjectDir)Incluede\AliceMath\float;$(ProjectDir)Incluede\AliceMath\double;$(ProjectDir)Incluede\Audio;$(ProjectDir)Incluede\Camera;$(ProjectDir)Incluede\Core;$(ProjectDir)Incluede\Core\DirectX;$(ProjectDir)Incluede\Core\Buffer;$(ProjectDir)Incluede\Core\Framework;$(ProjectDir)Incluede\Input;$(ProjectDir)Incluede\Scene;$(ProjectDir)Incluede\Light;$(ProjectDir)Incluede\Util;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -87,7 +87,7 @@
       <ObjectFileOutput>$(SolutionDir)..\Generated\Obj\%(Filename).cso</ObjectFileOutput>
     </FxCompile>
     <Lib>
-      <AdditionalDependencies>assimp-vc143-mtd.lib;DirectX-Headers.lib;DirectXTex.lib;imguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>assimp-vc143-mtd.lib;DirectX-Guids.lib;DirectX-Headers.lib;DirectXTex.lib;draco.lib;imguid.lib;kubazip.lib;minizip.lib;PhysX_static_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXCommon_static_64.lib;PhysXCooking_static_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_static_64.lib;PhysXPvdSDK_static_64.lib;PhysXVehicle_static_64.lib;poly2tri.lib;pugixml.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
     </Lib>
   </ItemDefinitionGroup>
@@ -122,7 +122,7 @@
       <ObjectFileOutput>$(SolutionDir)..\Generated\Obj\%(Filename).cso</ObjectFileOutput>
     </FxCompile>
     <Lib>
-      <AdditionalDependencies>assimp-vc143-mt.lib;DirectXTex.lib;draco.lib;imgui.lib;kubazip.lib;minizip.lib;poly2tri.lib;pugixml.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>assimp-vc143-mt.lib;DirectX-Guids.lib;DirectX-Headers.lib;DirectXTex.lib;draco.lib;imgui.lib;kubazip.lib;minizip.lib;PhysX_static_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXCommon_static_64.lib;PhysXCooking_static_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_static_64.lib;PhysXPvdSDK_static_64.lib;PhysXVehicle_static_64.lib;poly2tri.lib;pugixml.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
     </Lib>
   </ItemDefinitionGroup>
@@ -364,18 +364,21 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <FileType>Document</FileType>
     </None>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Distortion\DistortionVS.hlsl">
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Distortion\DistortionVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\FrostedGlass\FrostedGlassPS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\FrostedGlass\FrostedGlassPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\FrostedGlass\FrostedGlassVS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\FrostedGlass\FrostedGlassVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
+      <FileType>Document</FileType>
+    </None>
     <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\GaussianBlur\GaussianBlurPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
@@ -396,162 +399,201 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Monochrome\MonochromePS.hlsl">
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Monochrome\MonochromePS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Monochrome\MonochromeVS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Monochrome\MonochromeVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Mosaic\MosaicPS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Mosaic\MosaicPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Mosaic\MosaicVS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Mosaic\MosaicVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\OilPainting\OilPaintingPS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\OilPainting\OilPaintingPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\OilPainting\OilPaintingVS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\OilPainting\OilPaintingVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\PostEffectTest\PostEffectTestPS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\PostEffectTest\PostEffectTestPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\PostEffectTest\PostEffectTestVS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\PostEffectTest\PostEffectTestVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\SandStorm\SandStormPS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\SandStorm\SandStormPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\SandStorm\SandStormVS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\SandStorm\SandStormVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Striped\StripedDrawPS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Striped\StripedDrawPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Striped\StripedDrawVS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Striped\StripedDrawVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Striped\StripedPS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Striped\StripedPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Striped\StripedVS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Striped\StripedVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Vignette\VignetteShaderPS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Vignette\VignetteShaderPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Vignette\VignetteShaderVS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Vignette\VignetteShaderVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\Sprite\SpritePS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\Sprite\SpritePS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\Sprite\SpriteVS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\Sprite\SpriteVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\BlendShapeCS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\BlendShapeCS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\DefaultModel\ModelAnimationVS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\DefaultModel\ModelAnimationVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\DefaultModel\ModelPS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\DefaultModel\ModelPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\DefaultModel\ModelVS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\DefaultModel\ModelVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\GpuSkinningCS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\GpuSkinningCS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\Lambert\LambertPS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\Lambert\LambertPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\Lambert\LambertVS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\Lambert\LambertVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\ModelBasic\ModelBasicPS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\ModelBasic\ModelBasicPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\ModelBasic\ModelBasicVS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\ModelBasic\ModelBasicVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\ModelBasic\PolygonEffectGS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\ModelBasic\PolygonEffectGS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\Phong\PhongPS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\Phong\PhongPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\Phong\PhongVS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\Phong\PhongVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelAnimationOutLineVS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelAnimationOutLineVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelAnimationVS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelAnimationVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelOutLinePS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelOutLinePS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelOutLineVS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelOutLineVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelPS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelVS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\ToonModel\ZeldaToonModelAnimationVS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ZeldaToonModelAnimationVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\ToonModel\ZeldaToonModelPS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ZeldaToonModelPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\ToonModel\ZeldaToonModelVS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ZeldaToonModelVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
+      <FileType>Document</FileType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AliceAudio\AliceAudio.vcxproj">

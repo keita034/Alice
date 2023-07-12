@@ -474,6 +474,132 @@
     <None Include="..\..\Resources\Shaders\2D\PostEffect\Distortion\DistortionPS.hlsl">
       <Filter>リソース ファイル\シェーダー\2D\PostEffect\Distortion</Filter>
     </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Distortion\DistortionVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Distortion</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\FrostedGlass\FrostedGlassVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\FrostedGlass</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\FrostedGlass\FrostedGlassPS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\FrostedGlass</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Monochrome\MonochromePS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Monochrome</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Monochrome\MonochromeVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Monochrome</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Mosaic\MosaicPS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Mosaic</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Mosaic\MosaicVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Mosaic</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\OilPainting\OilPaintingPS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\OilPainting</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\OilPainting\OilPaintingVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\OilPainting</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\PostEffectTest\PostEffectTestPS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\PostEffectTest</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\PostEffectTest\PostEffectTestVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\PostEffectTest</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\SandStorm\SandStormPS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\SandStorm</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\SandStorm\SandStormVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\SandStorm</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Striped\StripedDrawPS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Striped</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Striped\StripedDrawVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Striped</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Striped\StripedPS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Striped</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Striped\StripedVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Striped</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Vignette\VignetteShaderPS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Vignette</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Vignette\VignetteShaderVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Vignette</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\Sprite\SpritePS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\Sprite</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\Sprite\SpriteVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\Sprite</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\DefaultModel\ModelAnimationVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\3D\Model\DefaultModel</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\DefaultModel\ModelPS.hlsl">
+      <Filter>リソース ファイル\シェーダー\3D\Model\DefaultModel</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\DefaultModel\ModelVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\3D\Model\DefaultModel</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\Lambert\LambertPS.hlsl">
+      <Filter>リソース ファイル\シェーダー\3D\Model\Lambert</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\Lambert\LambertVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\3D\Model\Lambert</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\ModelBasic\ModelBasicPS.hlsl">
+      <Filter>リソース ファイル\シェーダー\3D\Model\ModelBasic</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\ModelBasic\ModelBasicVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\3D\Model\ModelBasic</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\ModelBasic\PolygonEffectGS.hlsl">
+      <Filter>リソース ファイル\シェーダー\3D\Model\ModelBasic</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\Phong\PhongPS.hlsl">
+      <Filter>リソース ファイル\シェーダー\3D\Model\Phong</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\Phong\PhongVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\3D\Model\Phong</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelAnimationOutLineVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelAnimationVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelOutLinePS.hlsl">
+      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelOutLineVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelPS.hlsl">
+      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ZeldaToonModelAnimationVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ZeldaToonModelPS.hlsl">
+      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ZeldaToonModelVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\BlendShapeCS.hlsl">
+      <Filter>リソース ファイル\シェーダー\3D\Model</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\3D\Model\GpuSkinningCS.hlsl">
+      <Filter>リソース ファイル\シェーダー\3D\Model</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Core\TextureManager.cpp">
@@ -661,12 +787,6 @@
     <FxCompile Include="..\..\Resources\Shaders\2D\Mesh\MeshVS.hlsl">
       <Filter>リソース ファイル\シェーダー\2D\Mesh</Filter>
     </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\Sprite\SpritePS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\Sprite</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\Sprite\SpriteVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\Sprite</Filter>
-    </FxCompile>
     <FxCompile Include="..\..\Resources\Shaders\2D\Particle\IcosahedronGS.hlsl">
       <Filter>リソース ファイル\シェーダー\2D\Particle</Filter>
     </FxCompile>
@@ -702,126 +822,6 @@
     </FxCompile>
     <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Lut\LutShaderPS.hlsl">
       <Filter>リソース ファイル\シェーダー\2D\PostEffect\Lut</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\OilPainting\OilPaintingPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\OilPainting</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\OilPainting\OilPaintingVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\OilPainting</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\PostEffectTest\PostEffectTestPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\PostEffectTest</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\PostEffectTest\PostEffectTestVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\PostEffectTest</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Striped\StripedPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Striped</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Striped\StripedVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Striped</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Vignette\VignetteShaderPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Vignette</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Vignette\VignetteShaderVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Vignette</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\Lambert\LambertPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\Lambert</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\Lambert\LambertVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\Lambert</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\Phong\PhongPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\Phong</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\Phong\PhongVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\Phong</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\ModelBasic\ModelBasicVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\ModelBasic</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\ModelBasic\ModelBasicPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\ModelBasic</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\DefaultModel\ModelPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\DefaultModel</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\DefaultModel\ModelVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\DefaultModel</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\DefaultModel\ModelAnimationVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\DefaultModel</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\BlendShapeCS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\GpuSkinningCS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\ModelBasic\PolygonEffectGS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\ModelBasic</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelAnimationVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelOutLineVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelOutLinePS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelAnimationOutLineVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\ToonModel\ZeldaToonModelPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\ToonModel\ZeldaToonModelAnimationVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\3D\Model\ToonModel\ZeldaToonModelVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\SandStorm\SandStormPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\SandStorm</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\SandStorm\SandStormVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\SandStorm</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Monochrome\MonochromePS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Monochrome</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Monochrome\MonochromeVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Monochrome</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\FrostedGlass\FrostedGlassVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\FrostedGlass</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\FrostedGlass\FrostedGlassPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\FrostedGlass</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Mosaic\MosaicVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Mosaic</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Mosaic\MosaicPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Mosaic</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Striped\StripedDrawVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Striped</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Striped\StripedDrawPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Striped</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Distortion\DistortionVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Distortion</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

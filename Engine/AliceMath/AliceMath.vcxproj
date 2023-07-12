@@ -62,10 +62,10 @@
     <ClCompile>
       <WarningLevel>EnableAllWarnings</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_LIB;_SILENCE_CXX20_CISO646_REMOVED_WARNING;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;PX_PHYSX_STATIC_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Incluede;$(ProjectDir)Incluede\Collision\2D;$(ProjectDir)Incluede\Collision\3D;$(ProjectDir)Incluede\Collision;$(ProjectDir)Incluede\Float;$(ProjectDir)Incluede\Float\Matrix;$(ProjectDir)Incluede\Float\Vector;$(ProjectDir)Incluede\Double;$(ProjectDir)Incluede\Double\Matrix;$(ProjectDir)Incluede\Double\Vector;$(SolutionDir)Alice;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Incluede;$(ProjectDir)Incluede\Collision\2D;$(ProjectDir)Incluede\Collision\3D;$(ProjectDir)Incluede\Collision;$(ProjectDir)Incluede\Float;$(ProjectDir)Incluede\Float\Matrix;$(ProjectDir)Incluede\Float\Vector;$(ProjectDir)Incluede\Double;$(ProjectDir)Incluede\Double\Matrix;$(ProjectDir)Incluede\Double\Vector;$(ProjectDir)Incluede\Physics;$(SolutionDir)Alice;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>5045</DisableSpecificWarnings>
       <AdditionalOptions>/utf-8 </AdditionalOptions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -78,7 +78,7 @@
     </Link>
     <Lib />
     <Lib>
-      <AdditionalDependencies>assimp-vc143-mtd.lib;DirectX-Headers.lib;DirectXTex.lib;imguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>assimp-vc143-mtd.lib;DirectX-Guids.lib;DirectX-Headers.lib;DirectXTex.lib;draco.lib;imguid.lib;kubazip.lib;minizip.lib;PhysX_static_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXCommon_static_64.lib;PhysXCooking_static_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_static_64.lib;PhysXPvdSDK_static_64.lib;PhysXVehicle_static_64.lib;poly2tri.lib;pugixml.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
     </Lib>
   </ItemDefinitionGroup>
@@ -91,7 +91,7 @@
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Incluede;$(ProjectDir)Incluede\Collision\2D;$(ProjectDir)Incluede\Collision\3D;$(ProjectDir)Incluede\Collision;$(ProjectDir)Incluede\Float;$(ProjectDir)Incluede\Float\Matrix;$(ProjectDir)Incluede\Float\Vector;$(ProjectDir)Incluede\Double;$(ProjectDir)Incluede\Double\Matrix;$(ProjectDir)Incluede\Double\Vector;$(SolutionDir)Alice;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Incluede;$(ProjectDir)Incluede\Collision\2D;$(ProjectDir)Incluede\Collision\3D;$(ProjectDir)Incluede\Collision;$(ProjectDir)Incluede\Float;$(ProjectDir)Incluede\Float\Matrix;$(ProjectDir)Incluede\Float\Vector;$(ProjectDir)Incluede\Double;$(ProjectDir)Incluede\Double\Matrix;$(ProjectDir)Incluede\Double\Vector;$(ProjectDir)Incluede\Physics;$(SolutionDir)Alice;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>5045;4710;4711</DisableSpecificWarnings>
       <AdditionalOptions>/utf-8 </AdditionalOptions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -107,11 +107,12 @@
     </Link>
     <Lib />
     <Lib>
-      <AdditionalDependencies>assimp-vc143-mt.lib;DirectX-Guids.lib;DirectX-Headers.lib;DirectXTex.lib;draco.lib;imgui.lib;kubazip.lib;minizip.lib;poly2tri.lib;pugixml.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>assimp-vc143-mt.lib;DirectX-Guids.lib;DirectX-Headers.lib;DirectXTex.lib;draco.lib;imgui.lib;kubazip.lib;minizip.lib;PhysX_static_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXCommon_static_64.lib;PhysXCooking_static_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_static_64.lib;PhysXPvdSDK_static_64.lib;PhysXVehicle_static_64.lib;poly2tri.lib;pugixml.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Incluede\Physics\AlicePhysics.h" />
     <ClInclude Include="Incluede\Float\Easing.h" />
     <ClInclude Include="Incluede\Collision\2D\Base2DCollider.h" />
     <ClInclude Include="Incluede\Collision\2D\BoxCollider2D.h" />
@@ -157,6 +158,7 @@
     <ClInclude Include="Incluede\Float\Line2D.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Physics\AlicePhysics.cpp" />
     <ClCompile Include="Source\float\Easing.cpp" />
     <ClCompile Include="Source\float\Line2D.cpp" />
     <ClCompile Include="Source\float\Segment2D.cpp" />

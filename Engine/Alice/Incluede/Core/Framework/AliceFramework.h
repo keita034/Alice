@@ -10,6 +10,7 @@
 #include<SceneManager.h>
 #include<AbstractSceneFactory.h>
 #include<PostEffectManager.h>
+#include<AlicePhysics.h>
 
 class AliceFramework
 {
@@ -39,6 +40,8 @@ protected:
 	AbstractSceneFactory* sceneFactory = nullptr;
 
 	PostEffectManager* postEffectManager = nullptr;
+
+	std::unique_ptr<AlicePhysics>physics;
 
 	//終了フラグ
 

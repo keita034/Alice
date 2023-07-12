@@ -81,6 +81,10 @@ void AliceFramework::Initialize()
 	postEffectManager = PostEffectManager::SGetInstance();
 
 	postEffectManager->Initialize();
+
+	physics = std::make_unique<AlicePhysics>();
+	physics->Initialize();
+
 	//その他初期化ここまで
 }
 
