@@ -9,7 +9,7 @@
 
 #pragma warning(pop)
 
-class AlicePhysics
+class AlicePhysics final
 {
 private:
 	physx::PxDefaultAllocator defaultAllocator;

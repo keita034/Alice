@@ -88,7 +88,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_LIB;_SILENCE_CXX20_CISO646_REMOVED_WARNING;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;PX_PHYSX_STATIC_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)Incluede;$(ProjectDir)Incluede\Collision\2D;$(ProjectDir)Incluede\Collision\3D;$(ProjectDir)Incluede\Collision;$(ProjectDir)Incluede\Float;$(ProjectDir)Incluede\Float\Matrix;$(ProjectDir)Incluede\Float\Vector;$(ProjectDir)Incluede\Double;$(ProjectDir)Incluede\Double\Matrix;$(ProjectDir)Incluede\Double\Vector;$(ProjectDir)Incluede\Physics;$(SolutionDir)Alice;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
