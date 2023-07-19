@@ -40,6 +40,8 @@ public:
 	/// </summary>
 	/// <returns>フレームレート</returns>
 	virtual float GetFrameRate() = 0;
+
+	virtual float GetDeltaTime() = 0;
 };
 
 /// <summary>

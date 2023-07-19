@@ -1,4 +1,4 @@
-﻿#include<AudioManager.h>
+#include<AudioManager.h>
 
 #pragma warning(push)
 #pragma warning(disable: 4265)
@@ -24,12 +24,6 @@
 #include<filesystem>
 
 #pragma warning(pop)
-
-#pragma comment(lib,"xaudio2.lib")
-#pragma comment(lib, "Mf.lib")
-#pragma comment(lib, "mfplat.lib")
-#pragma comment(lib, "Mfreadwrite.lib")
-#pragma comment(lib, "mfuuid.lib")
 
 std::wstring StrToWstr(const std::string& string_)
 {

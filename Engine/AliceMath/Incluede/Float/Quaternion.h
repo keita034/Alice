@@ -3,6 +3,10 @@
 #include"Vector3.h"
 #include"Matrix4.h"
 
+namespace physx
+{
+	class PxQuat;
+}
 namespace AliceMathF
 {
 	class Quaternion
@@ -25,6 +29,8 @@ namespace AliceMathF
 		Quaternion(const Matrix4& m_);
 
 		Quaternion(const aiQuaternion& q_);
+
+		Quaternion(const physx::PxQuat& q_);
 
 		Quaternion(const Vector4& v_);
 
@@ -82,6 +88,8 @@ namespace AliceMathF
 		Quaternion& operator *= (float s_);
 		Quaternion& operator /= (float s_);
 		Quaternion& operator *= (const Quaternion& q_);
+
+		operator physx::PxQuat() const;
 
 	};
 

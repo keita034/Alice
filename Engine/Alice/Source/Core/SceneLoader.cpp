@@ -237,6 +237,23 @@ void SceneData::Object::Initialize(uint32_t handle_, const AliceMathF::Vector3& 
 	{
 		transform.parent = parent_;
 	}
+
+	for (const PosNormUvTangeColSkin& ver :model->GetMeshs()[0]->GetVertices())
+	{
+		points.push_back({ ver.position.x,ver.position.y,ver.position.z });
+	}
+
+	for ( const uint32_t& ind : model->GetMeshs()[ 0 ]->GetIndices() )
+	{
+		triangles.push_back(ind);
+	}
+
+	CreateMaterial();
+	CreateShape(points,triangles,0,0);
+	SetPos(pos_);
+	SetRot(rot_);
+	CreateRigidBody(RigidBodyType::STATIC);
+
 }
 
 void SceneData::Object::Finalize()

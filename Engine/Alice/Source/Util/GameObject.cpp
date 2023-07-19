@@ -26,3 +26,11 @@ void GameObject::SetName(const std::string& objectName_)
 {
 	name = objectName_;
 }
+
+void GameObject::OnTrigger()
+{
+}
+
+void GameObject::OnContact()
+{
+}

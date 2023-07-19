@@ -23,8 +23,6 @@
 
 #pragma warning(pop)
 
-#pragma comment(lib, "d3dcompiler.lib")
-
 std::wstring StringToWstring(const std::string& string)
 {
 	auto const dest_size = ::MultiByteToWideChar(CP_ACP, 0U, string.data(), -1, nullptr, 0U);

@@ -5,6 +5,7 @@
 #include<Camera.h>
 #include<AliceMathUtility.h>
 #include<Sprite2D.h>
+#include<IAliceRigidBody.h>
 
 class UI
 {
@@ -28,7 +29,7 @@ private:
 	UI& operator=(const UI& obj) = delete;
 };
 
-class GameObject :public ColliderObject
+class GameObject :public ColliderObject , public IAliceRigidBody
 {
 protected:
 
@@ -92,6 +93,12 @@ public:
 	const Transform* GetTransformPtr()const;
 
 	void SetName(const std::string& objectName_);
+
+	//すり抜ける当たり判定
+	virtual void OnTrigger()override;
+
+	//すり抜けない当たり判定
+	virtual void OnContact()override;
 
 private:
 

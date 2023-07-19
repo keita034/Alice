@@ -600,6 +600,48 @@
     <None Include="..\..\Resources\Shaders\3D\Model\GpuSkinningCS.hlsl">
       <Filter>リソース ファイル\シェーダー\3D\Model</Filter>
     </None>
+    <None Include="..\..\Resources\Shaders\2D\Mesh\MeshPS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\Mesh</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\Mesh\MeshVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\Mesh</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\Particle\IcosahedronGS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\Particle</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\Particle\ParticleGS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\Particle</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\Particle\ParticlePS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\Particle</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\Particle\ParticleVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\Particle</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\Particle\RainParticleGS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\Particle</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\Particle\RainParticlePS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\Particle</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\Particle\RainParticleVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\Particle</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Lut\LutShaderPS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Lut</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\Lut\LutShaderVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Lut</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\GaussianBlur\GaussianBlurPS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\GaussianBlur</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\GaussianBlur\GaussianXBlurVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\GaussianBlur</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\2D\PostEffect\GaussianBlur\GaussianYBlurVS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\PostEffect\GaussianBlur</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Core\TextureManager.cpp">
@@ -779,49 +821,5 @@
     <ClCompile Include="Source\3D\Model\AliceBlendTree.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="..\..\Resources\Shaders\2D\Mesh\MeshPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\Mesh</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\Mesh\MeshVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\Mesh</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\Particle\IcosahedronGS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\Particle</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\Particle\ParticleGS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\Particle</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\Particle\ParticlePS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\Particle</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\Particle\ParticleVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\Particle</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\Particle\RainParticleGS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\Particle</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\Particle\RainParticlePS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\Particle</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\Particle\RainParticleVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\Particle</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\GaussianBlur\GaussianXBlurVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\GaussianBlur</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\GaussianBlur\GaussianYBlurVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\GaussianBlur</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\GaussianBlur\GaussianBlurPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\GaussianBlur</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Lut\LutShaderVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Lut</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\Resources\Shaders\2D\PostEffect\Lut\LutShaderPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Lut</Filter>
-    </FxCompile>
   </ItemGroup>
 </Project>

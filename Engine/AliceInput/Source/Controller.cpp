@@ -1,7 +1,6 @@
 #include<Controller.h>
 
 #include <xinput.h>
-#pragma comment (lib, "xinput.lib")
 
 namespace AliceInput
 {

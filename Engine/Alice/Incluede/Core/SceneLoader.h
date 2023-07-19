@@ -25,6 +25,8 @@ public:
 
 	protected:
 
+		std::vector<AliceMathF::Vector3> points;
+		std::vector<uint32_t> triangles;
 
 	public:
 

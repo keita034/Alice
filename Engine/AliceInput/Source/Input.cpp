@@ -1,4 +1,4 @@
-﻿#pragma warning(push)
+#pragma warning(push)
 #pragma warning(disable: 4265)
 #pragma warning(disable: 4365)
 #pragma warning(disable: 4514)
@@ -23,8 +23,6 @@
 #include<Mouse.h>
 #include<Controller.h>
 
-#pragma comment(lib,"dinput8.lib")
-#pragma comment(lib,"dxguid.lib")
 
 namespace AliceInput
 {

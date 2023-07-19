@@ -10,8 +10,6 @@
 #include<Windows.h>
 #pragma warning(pop)
 
-#pragma comment(lib,"winmm.lib")
-
 class FPS : public IFPS
 {
 private:
@@ -25,6 +23,9 @@ private:
 	float frameTime = 1 / 60.0f;
 	//FPS値
 	float fps;
+	float deltaTime;
+
+	int32_t PADING;
 
 public:
 	/// <summary>
@@ -49,6 +50,7 @@ public:
 	/// <returns>フレームレート</returns>
 	float GetFrameRate()override;
 
+	float GetDeltaTime()override;
 
 	FPS() = default;
 	~FPS() = default;
@@ -67,19 +69,19 @@ void FPS::FpsControlEnd()
 	//今の時間を取得
 	QueryPerformanceCounter(&timeEnd);
 	//経過時間
-	float lElapsedFrame = static_cast<float>(timeEnd.QuadPart - timeStart.QuadPart)/static_cast<float>(cpuClock.QuadPart);
+	deltaTime = static_cast<float>(timeEnd.QuadPart - timeStart.QuadPart)/static_cast<float>(cpuClock.QuadPart);
 	//余裕があるときは待つ
-	if (lElapsedFrame < frameTime)
+	if ( deltaTime < frameTime)
 	{
 		//sleep時間
-		DWORD sleepTime = static_cast<DWORD>((frameTime - lElapsedFrame) * 1000.0f);
+		DWORD sleepTime = static_cast<DWORD>((frameTime - deltaTime ) * 1000.0f);
 		timeBeginPeriod(1);
 		//寝る
 		Sleep(sleepTime);
 		timeEndPeriod(1);
 	}
 
-	fps = 1 / lElapsedFrame;
+	fps = 1 / deltaTime;
 }
 
 void FPS::SetFrameRate(float frameRate_)
@@ -90,6 +92,11 @@ void FPS::SetFrameRate(float frameRate_)
 float FPS::GetFrameRate()
 {
 	return fps;
+}
+
+float FPS::GetDeltaTime()
+{
+	return deltaTime;
 }
 
 std::unique_ptr<IFPS> CreateUniqueFPS()

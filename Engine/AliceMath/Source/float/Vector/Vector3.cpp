@@ -1,9 +1,12 @@
 #pragma warning(push)
 #pragma warning(disable: 4365)
+#pragma warning(disable: 4514)
 #pragma warning(disable: 4619)
 #pragma warning(disable: 4668)
+#pragma warning(disable: 4820)
 
 #include<assimp/vector3.h>
+#include<foundation/PxVec3.h>
 
 #pragma warning(pop)
 
@@ -38,6 +41,13 @@ namespace AliceMathF
 	{
 		x = vec_.x;
 		y = vec_.y;
+	}
+
+	Vector3::Vector3(physx::PxVec3 vec_)
+	{
+		x = vec_.x;
+		y = vec_.y;
+		z = vec_.z;
 	}
 
 	float Vector3::Length() const
@@ -170,6 +180,11 @@ namespace AliceMathF
 		{
 			return true;
 		}
+	}
+
+	Vector3::operator physx::PxVec3() const
+	{
+		return physx::PxVec3(x,y,z);
 	}
 
 	const Vector3 operator+(const Vector3& v1_, const Vector3& v2_)

@@ -1,9 +1,12 @@
 #pragma warning(push)
 #pragma warning(disable: 4365)
+#pragma warning(disable: 4514)
 #pragma warning(disable: 4619)
 #pragma warning(disable: 4668)
+#pragma warning(disable: 4820)
 
 #include<assimp/quaternion.h>
+#include<foundation/PxQuat.h>
 
 #pragma warning(pop)
 
@@ -51,6 +54,14 @@ namespace AliceMathF
 	}
 
 	Quaternion::Quaternion(const aiQuaternion& q_)
+	{
+		x = q_.x;
+		y = q_.y;
+		z = q_.z;
+		w = q_.w;
+	}
+
+	Quaternion::Quaternion(const physx::PxQuat& q_)
 	{
 		x = q_.x;
 		y = q_.y;
@@ -394,6 +405,11 @@ namespace AliceMathF
 		w = lRW;
 
 		return *this;
+	}
+
+	Quaternion::operator physx::PxQuat() const
+	{
+		return physx::PxQuat(x, y, z, w);
 	}
 
 	const Quaternion operator+(const Quaternion& q1_, const Quaternion& q2_)

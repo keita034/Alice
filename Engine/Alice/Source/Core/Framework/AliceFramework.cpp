@@ -7,6 +7,7 @@
 #include<Particle.h>
 #include<Sprite.h>
 #include<SceneLoader.h>
+#include<IAliceRigidBody.h>
 
 void AliceFramework::SDebugInitialize()
 {
@@ -68,7 +69,6 @@ void AliceFramework::Initialize()
 	BaseScene::SSetInput(input.get());
 	SceneData::SSetInput(input.get());
 
-
 	fps = CreateUniqueFPS();
 
 	AliceModel::SCommonInitialize(directX12Core.get());
@@ -85,7 +85,10 @@ void AliceFramework::Initialize()
 	physics = std::make_unique<AlicePhysics>();
 	physics->Initialize();
 
-	//その他初期化ここまで
+	aliceRigidBodyManager = std::make_unique<AliceRigidBodyManager>();
+	
+	IAliceRigidBody::SetManager(aliceRigidBodyManager.get());
+	
 }
 
 void AliceFramework::Finalize()
@@ -123,6 +126,8 @@ void AliceFramework::Update()
 void AliceFramework::PostUpdate()
 {
 	fps->FpsControlEnd();
+
+	physics->SimulateTime(fps->GetDeltaTime());
 }
 
 void AliceFramework::Draw()

@@ -1,7 +1,5 @@
 #include "WindowsApp.h"
 
-#pragma comment( lib, "shell32.lib" )
-
 #pragma once
 #pragma warning(push)
 #pragma warning(disable: 4514)

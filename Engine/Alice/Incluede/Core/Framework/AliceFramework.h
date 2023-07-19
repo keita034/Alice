@@ -11,6 +11,7 @@
 #include<AbstractSceneFactory.h>
 #include<PostEffectManager.h>
 #include<AlicePhysics.h>
+#include<AliceRigidBodyManager.h>
 
 class AliceFramework
 {
@@ -42,6 +43,8 @@ protected:
 	PostEffectManager* postEffectManager = nullptr;
 
 	std::unique_ptr<AlicePhysics>physics;
+
+	std::unique_ptr<AliceRigidBodyManager>aliceRigidBodyManager;
 
 	//終了フラグ
 

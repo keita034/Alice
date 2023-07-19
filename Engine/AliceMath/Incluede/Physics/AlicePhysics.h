@@ -26,6 +26,8 @@ private:
 
 	physx::PxPvd* pvd = nullptr;
 
+	physx::PxCooking* cooking = nullptr;
+
 public:
 
 	AlicePhysics() = default;
@@ -33,5 +35,6 @@ public:
 
 	void Initialize();
 
+	void SimulateTime(float time_);
 };
 

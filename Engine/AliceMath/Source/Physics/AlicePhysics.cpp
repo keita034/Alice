@@ -1,7 +1,10 @@
 #include "AlicePhysics.h"
+#include <FilterShader.h>
+#include<IAliceRigidBody.h>
 
 AlicePhysics::~AlicePhysics()
 {
+	cooking->release();
 	PxCloseExtensions();
 	scene->release();
 	dispatcher->release();
@@ -31,7 +34,7 @@ void AlicePhysics::Initialize()
 	sceneDesc.gravity = physx::PxVec3(0.0f, -9.8f, 0.0f);
 	dispatcher = physx::PxDefaultCpuDispatcherCreate(8);
 	sceneDesc.cpuDispatcher = dispatcher;
-	sceneDesc.filterShader = physx::PxDefaultSimulationFilterShader;
+	sceneDesc.filterShader = FilterShader;
 	scene = physics->createScene(sceneDesc);
 	// PVD の設定
 	physx::PxPvdSceneClient* pvdClient = scene->getScenePvdClient();
@@ -42,4 +45,16 @@ void AlicePhysics::Initialize()
 		pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_CONTACTS, true);
 		pvdClient->setScenePvdFlag(physx::PxPvdSceneFlag::eTRANSMIT_SCENEQUERIES, true);
 	}
+
+	cooking = PxCreateCooking(PX_PHYSICS_VERSION, *foundation, physx::PxCookingParams(physics->getTolerancesScale()));
+
+	IAliceRigidBody::SetPhysics(physics);
+	IAliceRigidBody::SetScene(scene);
+	IAliceRigidBody::SetCooking(cooking);
+}
+
+void AlicePhysics::SimulateTime(float time_)
+{
+	scene->simulate(time_);
+	scene->fetchResults(true);
 }

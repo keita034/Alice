@@ -15,6 +15,10 @@ class aiVector3t;
 typedef float ai_real;
 typedef aiVector3t<ai_real> aiVector3D;
 
+namespace physx
+{
+	class PxVec3;
+}
 namespace AliceMathF
 {
 	class Vector2;
@@ -35,7 +39,9 @@ namespace AliceMathF
 		Vector3(int32_t x_, int32_t y_, int32_t z_);//成分を指定して生成
 		Vector3(int64_t x_, int64_t y_, int64_t z_);//成分を指定して生成
 		Vector3(aiVector3D& aiVector_);
-		Vector3(const Vector2& vec_,float z_);
+		Vector3(const Vector2& vec_, float z_);
+		Vector3(physx::PxVec3 vec_);
+
 
 		float Length()const;//ノルムを求める
 		Vector3 Normal()const;//正規化する
@@ -56,6 +62,8 @@ namespace AliceMathF
 		Vector3& operator/=(float s_);
 		bool operator==(const Vector3& v_)const;
 		bool operator!=(const Vector3& v_) const;
+
+		operator physx::PxVec3() const;
 	};
 
 	//2項演算子オーバーロード
@@ -67,6 +75,8 @@ namespace AliceMathF
 	const Vector3 operator*(const Vector3& v_, const Vector3& v2_);
 	const Vector3 operator*(float s_, const Vector3& v_);
 	const Vector3 operator/(const Vector3& v_, float s_);
+
+
 
 	/// <summary>
 	/// 符号を反転

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
@@ -112,6 +112,9 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Incluede\Physics\AliceRigidBodyManager.h" />
+    <ClInclude Include="Incluede\Physics\FilterShader.h" />
+    <ClInclude Include="Incluede\Physics\IAliceRigidBody.h" />
     <ClInclude Include="Incluede\Physics\AlicePhysics.h" />
     <ClInclude Include="Incluede\Float\Easing.h" />
     <ClInclude Include="Incluede\Collision\2D\Base2DCollider.h" />
@@ -158,6 +161,9 @@
     <ClInclude Include="Incluede\Float\Line2D.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Physics\RigidBody\AliceRigidBodyManager.cpp" />
+    <ClCompile Include="Source\Physics\FilterShader.cpp" />
+    <ClCompile Include="Source\Physics\RigidBody\IAliceRigidBody.cpp" />
     <ClCompile Include="Source\Physics\AlicePhysics.cpp" />
     <ClCompile Include="Source\float\Easing.cpp" />
     <ClCompile Include="Source\float\Line2D.cpp" />
