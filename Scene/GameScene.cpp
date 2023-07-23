@@ -50,7 +50,7 @@ void GameScene::Update()
 
 void GameScene::Draw()
 {
-	//fieldObjData->Draw();
+	fieldObjData->Draw();
 
 	player->Draw();
 

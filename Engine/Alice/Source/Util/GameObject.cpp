@@ -1,20 +1,9 @@
 ﻿#include "GameObject.h"
 #include<GameObject.h>
 
-void GameObject::SetCollider(BaseCollider* coll_)
-{
-	SetColl(coll_);
-
-	collider->SetObject(this);
-}
-
 void GameObject::TransUpdate(Camera* camera_)
 {
 	transform.TransUpdate(camera_);
-}
-
-void GameObject::OnCollision()
-{
 }
 
 const Transform* GameObject::GetTransformPtr() const
@@ -27,10 +16,17 @@ void GameObject::SetName(const std::string& objectName_)
 	name = objectName_;
 }
 
-void GameObject::OnTrigger()
+void GameObject::OnTrigger(uint32_t attribute_)
 {
+	static_cast< void >( attribute_ );
 }
 
-void GameObject::OnContact()
+void GameObject::OnContact(uint32_t attribute_)
 {
+	static_cast< void >( attribute_ );
+}
+
+void GameObject::SetObjectCollsionDraw(ObjectCollsionDraw* objectCollsionDraw_)
+{
+	objectCollsionDraw = objectCollsionDraw_;
 }

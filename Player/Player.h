@@ -11,7 +11,7 @@ private:
 
 	AliceInput::IInput* input;
 
-	float speed = 1.0f;
+	float speed = 50.0f;
 	float scale = 0.35f;
 
 	AliceMathF::Vector3 oldTrans;
@@ -34,9 +34,9 @@ private:
 	std::unique_ptr<PlayerUI>ui;
 	std::unique_ptr<PlayerAnimation>animation;
 
-	std::unique_ptr<AliceMotionData>testAnime;
-	uint32_t testHandle = 0;
-	float testFrame = 0.0f;
+	Camera* camera = nullptr;
+
+	bool fieldHit=false;
 
 public:
 
@@ -82,6 +82,9 @@ public:
 	/// リセット
 	/// </summary>
 	void Reset();
+
+	virtual void OnContact(uint32_t attribute_)override;
+
 private:
 
 	/// <summary>

@@ -6,7 +6,7 @@
 #include<AliceMathUtility.h>
 #include<Sprite2D.h>
 #include<IAliceRigidBody.h>
-
+#include<ObjectCollsionDraw.h>
 class UI
 {
 public:
@@ -29,9 +29,11 @@ private:
 	UI& operator=(const UI& obj) = delete;
 };
 
-class GameObject :public ColliderObject , public IAliceRigidBody
+class GameObject :public IAliceRigidBody
 {
 protected:
+
+	static ObjectCollsionDraw* objectCollsionDraw;
 
 	std::string name;
 
@@ -42,17 +44,9 @@ protected:
 
 	//モデルハンドル
 	uint32_t modelHandle;
-	int32_t PADING;
 
-	virtual ~GameObject() = default;
-	GameObject() = default;
-
+	int32_t debugIndex = -1;
 public:
-
-	/// <summary>
-	/// コライダーをセット
-	/// </summary>
-	void SetCollider(BaseCollider* coll_);
 
 	/// <summary>
 	/// 初期化
@@ -85,20 +79,20 @@ public:
 	/// </summary>
 	virtual void Draw() = 0;
 
-	/// <summary>
-	/// 衝突時に呼ばれる関数
-	/// </summary>
-	virtual void OnCollision()override;
-
 	const Transform* GetTransformPtr()const;
 
 	void SetName(const std::string& objectName_);
 
 	//すり抜ける当たり判定
-	virtual void OnTrigger()override;
+	virtual void OnTrigger(uint32_t attribute_)override;
 
 	//すり抜けない当たり判定
-	virtual void OnContact()override;
+	virtual void OnContact(uint32_t attribute_)override;
+
+	static void SetObjectCollsionDraw(ObjectCollsionDraw* objectCollsionDraw_);
+
+	virtual ~GameObject() = default;
+	GameObject() = default;
 
 private:
 

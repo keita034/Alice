@@ -20,7 +20,7 @@ AlicePhysics::~AlicePhysics()
 	foundation->release();
 }
 
-void AlicePhysics::Initialize()
+void AlicePhysics::Initialize(AliceRigidBodyManager* aliceRigidBodyManager)
 {
 	foundation = PxCreateFoundation(PX_PHYSICS_VERSION, defaultAllocator, defaultErrorCallback);
 		
@@ -35,6 +35,7 @@ void AlicePhysics::Initialize()
 	dispatcher = physx::PxDefaultCpuDispatcherCreate(8);
 	sceneDesc.cpuDispatcher = dispatcher;
 	sceneDesc.filterShader = FilterShader;
+	sceneDesc.simulationEventCallback = aliceRigidBodyManager;
 	scene = physics->createScene(sceneDesc);
 	// PVD の設定
 	physx::PxPvdSceneClient* pvdClient = scene->getScenePvdClient();
@@ -55,6 +56,8 @@ void AlicePhysics::Initialize()
 
 void AlicePhysics::SimulateTime(float time_)
 {
-	scene->simulate(time_);
+	static_cast<void>(time_);
+	const physx::PxReal kElapsedTime = 1.0f / 60.0f; // 60Hz
+	scene->simulate(kElapsedTime);
 	scene->fetchResults(true);
 }

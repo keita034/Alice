@@ -5,13 +5,30 @@ physx::PxScene* IAliceRigidBody::scene = nullptr;
 AliceRigidBodyManager* IAliceRigidBody::manager = nullptr;
 physx::PxCooking* IAliceRigidBody::cooking = nullptr;
 
+std::string GuidToString(const GUID& guid)
+{
+	char guid_cstr[37];
+	snprintf(guid_cstr, sizeof(guid_cstr),
+		"%lX-%04X-%04X-%02X%02X-%02X%02X%02X%02X%02X%02X",
+		guid.Data1, guid.Data2, guid.Data3,
+		guid.Data4[0], guid.Data4[1], guid.Data4[2], guid.Data4[3],
+		guid.Data4[4], guid.Data4[5], guid.Data4[6], guid.Data4[7]);
+
+	return std::string(guid_cstr);
+}
+
 void IAliceRigidBody::CreateRigidBody(RigidBodyType type)
 {
 	if (type == RigidBodyType::DYNAMIC)
 	{
-		shape->userData = name.data();
-		dynamicBody = PxCreateDynamic(*physics, transform, *shape, density);
-		dynamicBody->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, isGravity);
+		GUID guid;
+		CoCreateGuid(&guid);
+		userData.id = GuidToString(guid);
+		shape->userData = &userData;
+
+		dynamicBody = PxCreateDynamic(*physics, pxTransform, *shape, density);
+		dynamicBody->setMass(1.0f);
+		//dynamicBody->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, isGravity);
 		scene->addActor(*dynamicBody);
 		manager->AddRigidBody(this);
 
@@ -19,8 +36,12 @@ void IAliceRigidBody::CreateRigidBody(RigidBodyType type)
 	}
 	else
 	{
-		shape->userData = name.data();
-		staticBody = PxCreateStatic(*physics, transform, *shape);
+		GUID guid;
+		CoCreateGuid(&guid);
+		userData.id = GuidToString(guid);
+		shape->userData = &userData;
+
+		staticBody = PxCreateStatic(*physics, pxTransform, *shape);
 		scene->addActor(*staticBody);
 		manager->AddRigidBody(this);
 
@@ -33,7 +54,7 @@ void IAliceRigidBody::CreateShape(float radius_, uint32_t filterGroup_, uint32_t
 	isTrigger = trigger_;
 	isGravity = gravity_;
 
-	shape = physics->createShape(physx::PxSphereGeometry(radius_), *material);
+	shape = physics->createShape(physx::PxSphereGeometry(radius_), *pxMaterial);
 
 	if (isTrigger)
 	{
@@ -50,6 +71,7 @@ void IAliceRigidBody::CreateShape(float radius_, uint32_t filterGroup_, uint32_t
 	physx::PxFilterData lFilterData;
 	lFilterData.word0 = filterGroup_;
 	lFilterData.word1 = filterMask_;
+	userData.attribute = filterGroup_;
 	shape->setSimulationFilterData(lFilterData);
 
 	collisionShape = CollisionShape::SPHERE;
@@ -60,7 +82,7 @@ void IAliceRigidBody::CreateShape(float radius_, float halfHeight_, uint32_t fil
 	isTrigger = trigger_;
 	isGravity = gravity_;
 
-	shape = physics->createShape(physx::PxCapsuleGeometry(radius_, halfHeight_), *material);
+	shape = physics->createShape(physx::PxCapsuleGeometry(radius_, halfHeight_), *pxMaterial);
 
 	if (isTrigger)
 	{
@@ -77,6 +99,7 @@ void IAliceRigidBody::CreateShape(float radius_, float halfHeight_, uint32_t fil
 	physx::PxFilterData lFilterData;
 	lFilterData.word0 = filterGroup_;
 	lFilterData.word1 = filterMask_;
+	userData.attribute = filterGroup_;
 	shape->setSimulationFilterData(lFilterData);
 
 	collisionShape = CollisionShape::CAPSULE;
@@ -114,7 +137,7 @@ void IAliceRigidBody::CreateShape(const std::vector<AliceMathF::Vector3>& points
 
 	mesh.triangleMesh = lTriangleMesh;
 
-	shape = physics->createShape(mesh, *material);
+	shape = physics->createShape(mesh, *pxMaterial);
 
 	if (isTrigger)
 	{
@@ -131,6 +154,7 @@ void IAliceRigidBody::CreateShape(const std::vector<AliceMathF::Vector3>& points
 	physx::PxFilterData lFilterData;
 	lFilterData.word0 = filterGroup_;
 	lFilterData.word1 = filterMask_;
+	userData.attribute = filterGroup_;
 	shape->setSimulationFilterData(lFilterData);
 
 	collisionShape = CollisionShape::MESH;
@@ -141,7 +165,7 @@ void IAliceRigidBody::CreateShape(const AliceMathF::Vector3& halfExtent, uint32_
 	isTrigger = trigger_;
 	isGravity = gravity_;
 
-	shape = physics->createShape(physx::PxBoxGeometry(halfExtent), *material);
+	shape = physics->createShape(physx::PxBoxGeometry(halfExtent), *pxMaterial);
 
 	if (isTrigger)
 	{
@@ -158,6 +182,7 @@ void IAliceRigidBody::CreateShape(const AliceMathF::Vector3& halfExtent, uint32_
 	physx::PxFilterData lFilterData;
 	lFilterData.word0 = filterGroup_;
 	lFilterData.word1 = filterMask_;
+	userData.attribute = filterGroup_;
 	shape->setSimulationFilterData(lFilterData);
 
 	collisionShape = CollisionShape::SPHERE;
@@ -165,7 +190,7 @@ void IAliceRigidBody::CreateShape(const AliceMathF::Vector3& halfExtent, uint32_
 
 void IAliceRigidBody::CreateMaterial(float staticFriction_, float dynamicFriction_, float restitution_)
 {
-	material = physics->createMaterial(staticFriction_, dynamicFriction_, restitution_);
+	pxMaterial = physics->createMaterial(staticFriction_, dynamicFriction_, restitution_);
 
 }
 
@@ -189,50 +214,116 @@ void IAliceRigidBody::SetCooking(physx::PxCooking* cooking_)
 	cooking = cooking_;
 }
 
-void IAliceRigidBody::SetPos(const AliceMathF::Vector3 pos_)
+void IAliceRigidBody::SetInitializePos(const AliceMathF::Vector3& pos_)
 {
-	transform.p = pos_;
+	pxTransform.p = pos_;
 }
 
-void IAliceRigidBody::SetRot(const AliceMathF::Vector3 rot_)
+void IAliceRigidBody::SetInitializeRot(const AliceMathF::Vector3& rot_)
 {
 	AliceMathF::Quaternion lQuaternion;
 	lQuaternion.SeTEuler(rot_);
-	transform.q = lQuaternion;
+	pxTransform.q = lQuaternion;
 }
 
-void IAliceRigidBody::SetRot(const AliceMathF::Quaternion quaternion_)
+void IAliceRigidBody::SetInitializeRot(const AliceMathF::Quaternion& quaternion_)
 {
-	transform.q = quaternion_;
+	pxTransform.q = quaternion_;
+}
+
+void IAliceRigidBody::AddForce(const AliceMathF::Vector3& force_, ForceMode mode_)
+{
+	if (rigidBodyType == RigidBodyType::DYNAMIC)
+	{
+		dynamicBody->addForce(force_, static_cast<physx::PxForceMode::Enum>(mode_));
+	}
+}
+
+void IAliceRigidBody::SetPos(const AliceMathF::Vector3& pos_)
+{
+	pxTransform.p = pos_;
+
+	if (rigidBodyType == RigidBodyType::DYNAMIC)
+	{
+		dynamicBody->setGlobalPose(pxTransform);
+	}
+	else
+	{
+		staticBody->setGlobalPose(pxTransform);
+	}
+}
+
+void IAliceRigidBody::SetRot(const AliceMathF::Vector3& rot_)
+{
+	AliceMathF::Quaternion lQuaternion;
+	lQuaternion.SeTEuler(rot_);
+	pxTransform.q = lQuaternion;
+
+	if (rigidBodyType == RigidBodyType::DYNAMIC)
+	{
+		dynamicBody->setGlobalPose(pxTransform);
+	}
+	else
+	{
+		staticBody->setGlobalPose(pxTransform);
+	}
+}
+
+void IAliceRigidBody::SetRot(const AliceMathF::Quaternion& quaternion_)
+{
+	pxTransform.q = quaternion_;
+
+	if (rigidBodyType == RigidBodyType::DYNAMIC)
+	{
+		dynamicBody->setGlobalPose(pxTransform);
+	}
+	else
+	{
+		staticBody->setGlobalPose(pxTransform);
+	}
 }
 
 const std::string& IAliceRigidBody::GetName()const
 {
-	return name;
+	return userData.id;
+}
+
+const AliceMathF::Vector3& IAliceRigidBody::GetGlobalPos()
+{
+	if (rigidBodyType == RigidBodyType::DYNAMIC)
+	{
+		globalPos = dynamicBody->getGlobalPose().p;
+		return globalPos;
+	}
+	else
+	{
+		globalPos = staticBody->getGlobalPose().p;
+		return globalPos;
+	}
 }
 
 IAliceRigidBody::~IAliceRigidBody()
 {
-	if (rigidBodyType == RigidBodyType::DYNAMIC)
-	{
-		if (dynamicBody)
-		{
-			dynamicBody->detachShape(*shape);
-			dynamicBody->release();
-		}
-	}
-	else
-	{
-		if (staticBody)
-		{
-			staticBody->detachShape(*shape);
-			staticBody->release();
-		}
-	}
+	//if (rigidBodyType == RigidBodyType::DYNAMIC)
+	//{
+	//	if (dynamicBody)
+	//	{
+	//		dynamicBody->detachShape(*shape);
+	//		dynamicBody->release();
+	//	}
+	//}
+	//else
+	//{
+	//	if (staticBody)
+	//	{
+	//		staticBody->detachShape(*shape);
+	//		staticBody->release();
+	//	}
+	//}
 
-	if (material)
-	{
-		material->release();
+	//if (pxMaterial)
+	//{
+	//	pxMaterial->release();
 
-	}
+	//}
 }

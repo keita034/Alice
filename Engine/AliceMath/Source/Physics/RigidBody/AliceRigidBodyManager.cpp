@@ -13,14 +13,17 @@ void AliceRigidBodyManager::onContact(const physx::PxContactPairHeader& pairHead
 
 		if (curContactPair.events & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND)
 		{
+			physx::PxShape* triggerActor = curContactPair.shapes[0];
+			physx::PxShape* otherActor = curContactPair.shapes[1];
 
-			for (size_t j = 0; j < 2;j++)
-			{
-				std::string lRigidBodyName =  static_cast<const char*>(curContactPair.shapes[j]->userData);
+			RigidBodyUserData* lTriggerRigidBodyData = static_cast<RigidBodyUserData*>(triggerActor->userData);
+			RigidBodyUserData* lOtherRigidBodyData = static_cast<RigidBodyUserData*>(otherActor->userData);
 
-				IAliceRigidBody* lRigidBody = rigidBodyMap.at(lRigidBodyName);
-				lRigidBody->OnContact();
-			}
+			IAliceRigidBody* lTriggerRigidBody = rigidBodyMap.at(lTriggerRigidBodyData->id);
+			IAliceRigidBody* lOtherRigidBody = rigidBodyMap.at(lOtherRigidBodyData->id);
+
+			lTriggerRigidBody->OnContact(lOtherRigidBodyData->attribute);
+			lOtherRigidBody->OnContact(lTriggerRigidBodyData->attribute);
 		}
 	}
 
@@ -36,21 +39,17 @@ void AliceRigidBodyManager::onTrigger(physx::PxTriggerPair* pairs, physx::PxU32 
 
 		const physx::PxTriggerPair& curTriggerPair = pairs[i];
 
-		{
-			physx::PxRigidActor* triggerActor = curTriggerPair.triggerActor;
-			std::string lRigidBodyName = static_cast<const char*>(triggerActor->userData);
+		physx::PxShape* triggerActor = curTriggerPair.triggerShape;
+		physx::PxShape* otherActor = curTriggerPair.otherShape;
 
-			IAliceRigidBody* lRigidBody = rigidBodyMap.at(lRigidBodyName);
-			lRigidBody->OnContact();
-		}
+		RigidBodyUserData* lTriggerRigidBodyData = static_cast<RigidBodyUserData*>(triggerActor->userData);
+		RigidBodyUserData* lOtherRigidBodyData = static_cast<RigidBodyUserData*>(otherActor->userData);
 
-		{
-			physx::PxRigidActor* otherActor = curTriggerPair.otherActor;
-			std::string lRigidBodyName = static_cast<const char*>(otherActor->userData);
+		IAliceRigidBody* lTriggerRigidBody = rigidBodyMap.at(lTriggerRigidBodyData->id);
+		IAliceRigidBody* lOtherRigidBody = rigidBodyMap.at(lOtherRigidBodyData->id);
 
-			IAliceRigidBody* lRigidBody = rigidBodyMap.at(lRigidBodyName);
-			lRigidBody->OnContact();
-		}
+		lTriggerRigidBody->OnTrigger(lOtherRigidBodyData->attribute);
+		lOtherRigidBody->OnTrigger(lTriggerRigidBodyData->attribute);
 	}
 }
 

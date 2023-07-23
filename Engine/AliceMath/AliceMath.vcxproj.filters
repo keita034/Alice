@@ -222,6 +222,9 @@
     <ClInclude Include="Incluede\Physics\FilterShader.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Incluede\Collision\CollisionAttribute.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\float\Matrix\Matrix.cpp">

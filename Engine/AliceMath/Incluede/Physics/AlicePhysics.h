@@ -9,6 +9,8 @@
 
 #pragma warning(pop)
 
+#include<AliceRigidBodyManager.h>
+
 class AlicePhysics final
 {
 private:
@@ -33,7 +35,7 @@ public:
 	AlicePhysics() = default;
 	~AlicePhysics();
 
-	void Initialize();
+	void Initialize(AliceRigidBodyManager* aliceRigidBodyManager);
 
 	void SimulateTime(float time_);
 };

@@ -69,6 +69,11 @@ void PlayerAnimation::PWalkAnimationUpdate()
 		walkAnimationThresh = 0.5f * lStickPower;
 	}
 
+	if (input->InputButton(ControllerButton::LB))
+	{
+		InsertAttackAnimation();
+	}
+
 	blendTree->SetThresh(walkAnimationThresh);
 }
 

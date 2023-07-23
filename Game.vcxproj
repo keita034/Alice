@@ -114,7 +114,7 @@
     <ClCompile Include="GameCameraManager.cpp" />
     <ClCompile Include="GameCore\GameMain.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="PlayerAnimation.cpp" />
+    <ClCompile Include="Player\PlayerAnimation.cpp" />
     <ClCompile Include="Player\Player.cpp" />
     <ClCompile Include="Player\PlayerGameCamera.cpp" />
     <ClCompile Include="Player\PlayerUI.cpp" />
@@ -129,7 +129,7 @@
     <ClInclude Include="GameCameraManager.h" />
     <ClInclude Include="GameCore\GameCollisionConflg.h" />
     <ClInclude Include="GameCore\GameMain.h" />
-    <ClInclude Include="PlayerAnimation.h" />
+    <ClInclude Include="Player\PlayerAnimation.h" />
     <ClInclude Include="Player\Player.h" />
     <ClInclude Include="Player\PlayerGameCamera.h" />
     <ClInclude Include="Player\PlayerUI.h" />

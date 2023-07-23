@@ -82,12 +82,16 @@ void AliceFramework::Initialize()
 
 	postEffectManager->Initialize();
 
-	physics = std::make_unique<AlicePhysics>();
-	physics->Initialize();
-
 	aliceRigidBodyManager = std::make_unique<AliceRigidBodyManager>();
 	
 	IAliceRigidBody::SetManager(aliceRigidBodyManager.get());
+
+	physics = std::make_unique<AlicePhysics>();
+	physics->Initialize(aliceRigidBodyManager.get());
+
+	objectCollsionDraw = std::make_unique<ObjectCollsionDraw>();
+
+	GameObject::SetObjectCollsionDraw(objectCollsionDraw.get());
 	
 }
 
@@ -100,10 +104,13 @@ void AliceFramework::Finalize()
 	mesh->Destroy();
 	audioManager->Destroy();
 	windowsApp->Break();
+	objectCollsionDraw.reset();
 }
 
 void AliceFramework::Update()
 {
+	physics->SimulateTime(fps->GetDeltaTime());
+
 	fps->FpsControlBegin();
 	//準備処理
 	mesh->DrawReset();
@@ -121,13 +128,13 @@ void AliceFramework::Update()
 	postEffectManager->PostInitialize();
 
 	imGuiManager->End();
+
 }
 
 void AliceFramework::PostUpdate()
 {
 	fps->FpsControlEnd();
 
-	physics->SimulateTime(fps->GetDeltaTime());
 }
 
 void AliceFramework::Draw()

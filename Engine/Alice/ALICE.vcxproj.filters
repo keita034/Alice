@@ -177,9 +177,6 @@
     <ClInclude Include="Incluede\Util\AliceFunctionUtility.h">
       <Filter>ヘッダー ファイル\Util</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Core\FPS.h">
-      <Filter>ヘッダー ファイル\Core</Filter>
-    </ClInclude>
     <ClInclude Include="Incluede\Core\TextureManager.h">
       <Filter>ヘッダー ファイル\Core</Filter>
     </ClInclude>
@@ -216,7 +213,7 @@
     <ClInclude Include="Incluede\Light\Light.h">
       <Filter>ヘッダー ファイル\Light</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\3D\Model\ModelMesh.h">
+    <ClInclude Include="Incluede\Util\ModelMesh.h">
       <Filter>ヘッダー ファイル\3D\Model</Filter>
     </ClInclude>
     <ClInclude Include="Incluede\2D\Particle\RainParticle.h">
@@ -358,6 +355,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Incluede\3D\Model\AliceBlendTree.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Incluede\3D\Model\ObjectCollsionDraw.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -647,9 +647,6 @@
     <ClCompile Include="Source\Core\TextureManager.cpp">
       <Filter>ソース ファイル\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\FPS.cpp">
-      <Filter>ソース ファイル\Core</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\DefaultMaterial.cpp">
       <Filter>ソース ファイル\Core</Filter>
     </ClCompile>
@@ -819,6 +816,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\3D\Model\AliceBlendTree.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Util\ObjectCollsionDraw.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

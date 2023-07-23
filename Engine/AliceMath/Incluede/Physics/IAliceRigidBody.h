@@ -32,6 +32,22 @@ enum class RigidBodyType
 	STATIC
 };
 
+enum class ForceMode
+{
+	FORCE,
+	IMPULSE,
+	VELOCITY_CHANGE,
+	ACCELERATION
+};
+
+struct RigidBodyUserData
+{
+	std::string id;
+	uint32_t attribute;
+
+	int32_t PADING;
+};
+
 class IAliceRigidBody
 {
 protected:
@@ -45,16 +61,20 @@ protected:
 
 	physx::PxRigidStatic* staticBody;
 
-	physx::PxMaterial* material;
+	physx::PxMaterial* pxMaterial;
 
 	physx::PxShape* shape;
 
 	std::vector<AliceMathF::Vector3>* points;
 	std::vector<uint32_t>* triangles;
 
-	std::string name;
+	RigidBodyUserData userData;
 
-	physx::PxTransform transform;
+	physx::PxTransform pxTransform;
+
+	AliceMathF::Vector3 rigidBodyoffset;
+	AliceMathF::Vector3 globalPos;
+	AliceMathF::Quaternion GlobalRot;
 
 	uint32_t filterGroup;
 	uint32_t filterMask;
@@ -65,7 +85,7 @@ protected:
 	RigidBodyType rigidBodyType;
 
 	bool isTrigger = false;
-	bool isGravity = true;
+	bool isGravity = false;
 
 	int8_t PADING[6];
 
@@ -85,9 +105,15 @@ public:
 	static void SetManager(AliceRigidBodyManager* manager_);
 	static void SetCooking(physx::PxCooking* cooking_);
 
-	void SetPos(const AliceMathF::Vector3 pos_);
-	void SetRot(const AliceMathF::Vector3 rot_);
-	void SetRot(const AliceMathF::Quaternion quaternion_);
+	void SetInitializePos(const AliceMathF::Vector3& pos_);
+	void SetInitializeRot(const AliceMathF::Vector3& rot_);
+	void SetInitializeRot(const AliceMathF::Quaternion& quaternion_);
+
+	void AddForce(const AliceMathF::Vector3& force_, ForceMode mode_);
+
+	void SetPos(const AliceMathF::Vector3& pos_);
+	void SetRot(const AliceMathF::Vector3& rot_);
+	void SetRot(const AliceMathF::Quaternion& quaternion_);
 
 	/// <summary>
 	/// 名前取得
@@ -95,11 +121,13 @@ public:
 	/// <returns></returns>
 	const std::string& GetName()const;
 
+	const AliceMathF::Vector3& GetGlobalPos();
+
 	//すり抜ける当たり判定
-	virtual void OnTrigger() = 0;
+	virtual void OnTrigger(uint32_t attribute_) = 0;
 
 	//すり抜けない当たり判定
-	virtual void OnContact() = 0;
+	virtual void OnContact(uint32_t attribute_) = 0;
 
 	IAliceRigidBody() = default;
 	virtual ~IAliceRigidBody();

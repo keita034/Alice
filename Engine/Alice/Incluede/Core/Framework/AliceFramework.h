@@ -12,6 +12,7 @@
 #include<PostEffectManager.h>
 #include<AlicePhysics.h>
 #include<AliceRigidBodyManager.h>
+#include<ObjectCollsionDraw.h>
 
 class AliceFramework
 {
@@ -45,6 +46,8 @@ protected:
 	std::unique_ptr<AlicePhysics>physics;
 
 	std::unique_ptr<AliceRigidBodyManager>aliceRigidBodyManager;
+
+	std::unique_ptr<ObjectCollsionDraw>objectCollsionDraw;
 
 	//終了フラグ
 

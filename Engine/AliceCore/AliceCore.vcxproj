@@ -24,12 +24,14 @@
     <ClInclude Include="Incluede\Buffer\RWStructuredBuffer.h" />
     <ClInclude Include="Incluede\Buffer\StructuredBuffer.h" />
     <ClInclude Include="Incluede\Buffer\VertexBuffer.h" />
+    <ClInclude Include="Incluede\FPS.h" />
     <ClInclude Include="Incluede\RootSignature.h" />
     <ClInclude Include="Incluede\Shader.h" />
     <ClInclude Include="Incluede\WindowsApp.h" />
     <ClInclude Include="Incluede\SwapChain.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\FPS.cpp" />
     <ClCompile Include="Source\RootSignature.cpp" />
     <ClCompile Include="Source\Shader.cpp" />
     <ClCompile Include="Source\Buffer\BaseBuffer.cpp" />

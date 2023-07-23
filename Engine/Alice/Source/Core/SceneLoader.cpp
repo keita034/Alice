@@ -3,9 +3,11 @@
 #include <fstream>
 #include <cassert>
 
+#include<CollisionAttribute.h>
+
 const std::string SceneLoader::sBaseDirectorypath = "Resources/";
 AliceInput::IInput* SceneData::input = nullptr;
-
+ObjectCollsionDraw* GameObject::objectCollsionDraw = nullptr;
 std::unique_ptr<SceneData> SceneLoader::SLoadFile(const std::string& filepath_)
 {
 	std::ifstream lFile;
@@ -120,6 +122,9 @@ void SceneLoader::SObjectScan(SceneData* sceneData_, const nlohmann::json& jsonO
 		lScaling.x = static_cast<float>(lTransform["scaling"][1]);
 		lScaling.y = static_cast<float>(lTransform["scaling"][2]);
 		lScaling.z = static_cast<float>(lTransform["scaling"][0]);
+
+		bool meshCollision = static_cast< bool >( jsonObj_[ "isMesh" ] );
+		lObject->SetIsMeshCollision(meshCollision);
 
 		//モデル読み込み
 		uint32_t lHandle = AliceModel::SCreateModel(sBaseDirectorypath + lFileName);
@@ -248,12 +253,14 @@ void SceneData::Object::Initialize(uint32_t handle_, const AliceMathF::Vector3& 
 		triangles.push_back(ind);
 	}
 
-	CreateMaterial();
-	CreateShape(points,triangles,0,0);
-	SetPos(pos_);
-	SetRot(rot_);
-	CreateRigidBody(RigidBodyType::STATIC);
-
+	if ( meshCollision )
+	{
+		CreateMaterial();
+		CreateShape(points,triangles,CollisionAttribute::FIELD,( CollisionAttribute::BOSS | CollisionAttribute::PLAYER | CollisionAttribute::ENEMY ));
+		SetInitializePos(pos_);
+		SetInitializeRot(rot_);
+		CreateRigidBody(RigidBodyType::STATIC);
+	}
 }
 
 void SceneData::Object::Finalize()
@@ -272,6 +279,11 @@ void SceneData::Object::Draw()
 
 void SceneData::Object::Initialize()
 {
+}
+
+void SceneData::Object::SetIsMeshCollision(bool flag)
+{
+	meshCollision = flag;
 }
 
 void SceneData::Update(Camera* camera_)

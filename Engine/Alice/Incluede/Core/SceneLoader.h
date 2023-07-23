@@ -27,6 +27,8 @@ public:
 
 		std::vector<AliceMathF::Vector3> points;
 		std::vector<uint32_t> triangles;
+		bool meshCollision = true;
+		int8_t PADING[ 7 ];
 
 	public:
 
@@ -57,6 +59,8 @@ public:
 
 		Object() = default;
 		virtual ~Object() = default;
+
+		void SetIsMeshCollision(bool flag);
 
 	private:
 
