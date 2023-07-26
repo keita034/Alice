@@ -491,6 +491,62 @@ const std::vector<std::unique_ptr<ModelMesh>>& AliceModel::GetMeshs()
 	return modelData->meshes;
 }
 
+AliceMathF::Vector3 AliceModel::GetBonePosition(const std::string boneName)
+{
+		//一回読み込んだことがあるファイルはそのまま返す
+	auto lNodelItr = find_if(modelData->nodes.begin(),modelData->nodes.end(),[ & ] (Node& node)
+		{
+			return node.name == boneName;
+		});
+
+	if ( lNodelItr != modelData->nodes.end() )
+	{
+		Node& node = *lNodelItr;
+		AliceMathF::Matrix4 lOffsetMatirx;
+
+		for ( std::unique_ptr<ModelMesh>& mesh : modelData->meshes )
+		{
+
+			if ( mesh->bones.find(boneName) != mesh->bones.end() )
+			{
+				lOffsetMatirx = mesh->bones[ boneName ]->offsetMatirx;
+
+				//lOffsetMatirx = AliceMathF::MakeInverse(&lOffsetMatirx);
+
+				break;
+
+			}
+		}
+
+		return AliceMathF::GetWorldPosition(lOffsetMatirx * node.globalTransform * modelData->globalInverseTransform);
+	}
+
+	return AliceMathF::Vector3(0,0,0);
+}
+
+AliceMathF::Matrix4 AliceModel::GetAnimationTransform(AliceBlendTree* blendTree_,const std::string boneName)
+{
+	AliceMathF::Matrix4 lMatIdentity = AliceMathF::MakeIdentity();
+
+	AliceMathF::Matrix4 lDust;
+	bool lEnd = false;
+
+	Node* lPtrNode = &modelData->nodes[ 0 ];
+
+	for ( std::unique_ptr<ModelMesh>& mesh : modelData->meshes )
+	{
+		PReadNodeHeirarchy(mesh.get(),blendTree_,lPtrNode,lMatIdentity,boneName,lEnd,lDust);
+
+		if ( lEnd )
+		{
+			break;
+		}
+	}
+
+	return lDust;
+}
+
+
 void AliceModel::SSetLight(Light* light_)
 {
 	sLight = light_;
@@ -594,6 +650,66 @@ void AliceModel::PReadNodeHeirarchy(ModelMesh* mesh_,AliceBlendTree* blendTree_,
 	for ( uint32_t i = 0; i < pNode_->childrens.size(); i++ )
 	{
 		PReadNodeHeirarchy(mesh_,blendTree_,pNode_->childrens[ i ],mxGlobalTransformation);
+	}
+}
+
+void AliceModel::PReadNodeHeirarchy(ModelMesh* mesh_,AliceBlendTree* blendTree_,const Node* pNode_,const AliceMathF::Matrix4& mxParentTransform_,const std::string& boneName_,bool& end_,AliceMathF::Matrix4& dust_)
+{
+	if ( end_ )
+	{
+		return;
+	}
+
+	AliceMathF::Matrix4 lMatNodeTransformation = AliceMathF::MakeIdentity();
+	lMatNodeTransformation = pNode_->transform;
+
+	std::string lStrNodeName = pNode_->name;
+
+	const ReturnMotionNode* lPtrNodeAnim = blendTree_->GetMotion(lStrNodeName);
+
+	if ( lPtrNodeAnim )
+	{
+		//スケーリング
+		AliceMathF::Vector3 lScaling = { 1.0f,1.0f,1.0f };
+		AliceMathF::Matrix4 lMatScaling;
+		lMatScaling.MakeScaling(lScaling);
+
+		//回転角
+		AliceMathF::Quaternion lRotation = lPtrNodeAnim->rotationKeys;
+		AliceMathF::Matrix4 lMatRotation = lRotation.Rotate();
+
+		//移動
+		AliceMathF::Vector3 lTranslation = lPtrNodeAnim->positionKeys;
+		AliceMathF::Matrix4 lMatTranslation;
+		lMatTranslation.MakeTranslation(lTranslation);
+
+		lMatNodeTransformation = lMatScaling * lMatRotation * lMatTranslation;
+	}
+
+	AliceMathF::Matrix4 mxGlobalTransformation = lMatNodeTransformation * mxParentTransform_;
+
+	AliceMathF::Matrix4 lOffsetMatirx;
+	AliceMathF::Matrix4 lMatWorld;
+
+	if ( boneName_ == lStrNodeName && mesh_->bones.find(lStrNodeName) != mesh_->bones.end() )
+	{
+		lOffsetMatirx = mesh_->bones[ lStrNodeName ]->offsetMatirx;
+
+		lMatWorld = lOffsetMatirx * mxGlobalTransformation * modelData->globalInverseTransform;
+
+		dust_ = mxGlobalTransformation;
+		end_ = true;
+		return;
+	}
+
+	for ( uint32_t i = 0; i < pNode_->childrens.size(); i++ )
+	{
+		PReadNodeHeirarchy(mesh_,blendTree_,pNode_->childrens[ i ],mxGlobalTransformation,boneName_,end_,dust_);
+
+		if ( end_ )
+		{
+			break;
+		}
 	}
 }
 

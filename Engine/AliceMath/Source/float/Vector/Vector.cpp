@@ -86,6 +86,18 @@ namespace AliceMathF
 		return retVec;
 	}
 
+	Vector4 Mat4Vec4Mul(const Matrix4& mat_, const Vector4& vec_ )
+	{
+		Vector4 retVec = {};
+
+		retVec.x = mat_.m[0][0] * vec_.x + mat_.m[1][0] * vec_.y + mat_.m[2][0] * vec_.z + mat_.m[3][0] * vec_.w;
+		retVec.y = mat_.m[0][1] * vec_.x + mat_.m[1][1] * vec_.y + mat_.m[2][1] * vec_.z + mat_.m[3][1] * vec_.w;
+		retVec.z = mat_.m[0][2] * vec_.x + mat_.m[1][2] * vec_.y + mat_.m[2][2] * vec_.z + mat_.m[3][2] * vec_.w;
+		retVec.w = mat_.m[0][3] * vec_.x + mat_.m[1][3] * vec_.y + mat_.m[2][3] * vec_.z + mat_.m[3][3] * vec_.w;
+
+		return retVec;
+	}
+
 	Vector3 Vector3Lerp(const Vector3& src1_, const Vector3& src2_, float t_)
 	{
 		Vector3 dest;

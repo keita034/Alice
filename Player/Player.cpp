@@ -41,6 +41,8 @@ void Player::Initialize(AliceInput::IInput* input_)
 	SetInitializeRot(AliceMathF::Quaternion({0,0,1}, AliceMathF::DEG_TO_RAD * 90.0f));
 	CreateRigidBody(RigidBodyType::DYNAMIC);
 
+	weapon = std::make_unique<PlayerWeapon>();
+	weapon->Initialize(&transform);
 }
 
 void Player::Update(BaseGameCamera* camera_, GameCameraManager::CameraIndex index_)
@@ -74,17 +76,16 @@ void Player::Update(BaseGameCamera* camera_, GameCameraManager::CameraIndex inde
 	{
 		PRotate();
 	}
-	
+
 	ui->Update();
 	animation->Update();
+	weapon->Update("mixamorig:RightHand",animation->GetAnimation(),model.get());
 }
 
 void Player::Draw()
 {
-	/*model->Draw(transform, testAnime.get());*/
 	model->Draw(transform, animation->GetAnimation());
-	//model->Draw(transform);
-	//objectCollsionDraw->DebugDraw(collisionShape, shape, debugIndex, pxTransform, camera);
+	weapon->Draw();
 }
 
 void Player::Finalize()
@@ -99,6 +100,8 @@ const AliceMathF::Vector3& Player::GetPosition() const
 void Player::TransUpdate(Camera* camera_)
 {
 	transform.LookAtMatrixAxisFix(direction, { 0,1,0 }, camera_);
+	weapon->TransUpdate(camera_);
+
 	camera = camera_;
 }
 

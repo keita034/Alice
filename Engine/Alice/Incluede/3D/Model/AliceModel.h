@@ -168,6 +168,10 @@ public:
 	/// <returns></returns>
 	const std::vector<std::unique_ptr<ModelMesh>>& GetMeshs();
 
+	AliceMathF::Vector3 GetBonePosition(const std::string boneName_);
+
+	AliceMathF::Matrix4 GetAnimationTransform(AliceBlendTree* blendTree_,const std::string boneName);
+
 	/// <summary>
 	/// モデルをセット
 	/// </summary>
@@ -202,7 +206,8 @@ public:
 protected:
 
 	void PReadNodeHeirarchy(ModelMesh* mesh_,const AliceMotionData* pAnimation_,const Node* pNode_,const AliceMathF::Matrix4& mxParentTransform_);
-	void PReadNodeHeirarchy(ModelMesh* mesh_, AliceBlendTree* blendTree_,const Node* pNode_, const AliceMathF::Matrix4& mxParentTransform_);
+	void PReadNodeHeirarchy(ModelMesh* mesh_,AliceBlendTree* blendTree_,const Node* pNode_,const AliceMathF::Matrix4& mxParentTransform_);
+	void PReadNodeHeirarchy(ModelMesh* mesh_, AliceBlendTree* blendTree_,const Node* pNode_, const AliceMathF::Matrix4& mxParentTransform_,const std::string& boneName_,bool& end_,AliceMathF::Matrix4& dust_);
 	const ReturnMotionNode* PFindNodeAnim(const AliceMotionData* pAnimation_, const std::string& strNodeName_);
 	void PModelDraw(const Transform& transform_);
 	void PModelAnimationDraw(const Transform& transform_);

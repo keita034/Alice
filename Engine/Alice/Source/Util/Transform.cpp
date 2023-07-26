@@ -35,7 +35,7 @@ void Transform::Initialize()
 	Update();
 }
 
-void Transform::TransUpdate(Camera* camera_)
+void Transform::TransUpdate(Camera* camera_,AliceMathF::Matrix4* mat)
 {
 	AliceMathF::Matrix4 lMatScale, lMatRot, lMatTrans;
 
@@ -54,6 +54,11 @@ void Transform::TransUpdate(Camera* camera_)
 	//ワールド行列に平行移動を反映
 	matWorld *= lMatTrans;
 	//親行列の指定がある場合は、掛け算する
+	if ( mat )
+	{
+		matWorld *= *mat;
+	}
+
 	if (parent)
 	{
 		matWorld *= parent->matWorld;

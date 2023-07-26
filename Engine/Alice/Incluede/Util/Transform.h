@@ -13,7 +13,7 @@ public:
 	/// <summary>
 	/// 行列を転送する
 	/// </summary>
-	void TransUpdate(Camera* camera_);
+	void TransUpdate(Camera* camera_,AliceMathF::Matrix4* mat = nullptr);
 
 	void Update();
 

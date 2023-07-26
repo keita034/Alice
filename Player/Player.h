@@ -4,6 +4,7 @@
 #include<GameCameraManager.h>
 #include<PlayerUI.h>
 #include<PlayerAnimation.h>
+#include<PlayerWeapon.h>
 
 class Player : public GameObject
 {
@@ -13,6 +14,7 @@ private:
 
 	float speed = 50.0f;
 	float scale = 0.35f;
+	//float scale = 1.0f;
 
 	AliceMathF::Vector3 oldTrans;
 	AliceMathF::Vector3 direction;
@@ -36,7 +38,9 @@ private:
 
 	Camera* camera = nullptr;
 
-	bool fieldHit=false;
+	bool fieldHit = false;
+
+	std::unique_ptr<PlayerWeapon> weapon;
 
 public:
 

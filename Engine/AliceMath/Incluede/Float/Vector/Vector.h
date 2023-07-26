@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include"Vector4.h"
 #include"Vector3.h"
 #include"Vector2.h"
@@ -57,6 +57,8 @@ namespace AliceMathF
 	/// <param name="mat">行列</param>
 	/// <returns>計算された値</returns>
 	Vector4 Vec4Mat4Mul(const Vector4& vec_, const Matrix4& mat_);
+
+	Vector4 Mat4Vec4Mul(const Matrix4& mat_, const Vector4& vec_);
 
 	Vector3 Vector3Lerp(const Vector3& src1_, const Vector3& src2_, float t_);
 

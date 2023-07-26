@@ -114,11 +114,11 @@ void IAliceRigidBody::CreateShape(const std::vector<AliceMathF::Vector3>& points
 
 	lDesc.setToDefault(); // 初期化
 
-	lDesc.points.data = &points_[0];
+	lDesc.points.data = points_.data();
 	lDesc.points.count = static_cast<physx::PxU32>(points_.size());
 	lDesc.points.stride = sizeof(points_[0]);
 
-	lDesc.triangles.data = &triangles_[0];
+	lDesc.triangles.data = triangles_.data();
 	lDesc.triangles.count = static_cast<physx::PxU32>(triangles_.size());
 	lDesc.triangles.stride = 3 * sizeof(triangles_[0]);
 	lDesc.flags = physx::PxMeshFlags();

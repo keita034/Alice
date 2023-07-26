@@ -16,10 +16,13 @@ VSOutput main(float4 pos : POSITION, float3 normal : NORMAL, float2 uv : TEXCOOR
     float boneWeight; // ボーンウェイト(重み)
     matrix m; // スキニング行列
 
+    float3x3 tmpD;
+    
     // ボーン0
     iBone = index.x;
     boneWeight = weight.x;
     m = bones[iBone];
+    tmpD = (float3x3) m;
     output.svpos += boneWeight * mul(m, pos);
     output.normal += boneWeight * mul((float3x3) m, normal);
 
