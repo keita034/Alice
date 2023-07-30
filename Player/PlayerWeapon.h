@@ -5,8 +5,7 @@ class PlayerWeapon : public GameObject
 {
 private:
 
-	AliceMathF::Matrix4 boneMat;
-
+	AliceModel::AnimationTransform animationTransform;
 public:
 
 	/// <summary>
@@ -43,5 +42,9 @@ private:
 	virtual void Initialize(uint32_t handle_, const AliceMathF::Vector3& pos_, const AliceMathF::Vector3& rot_ = { 0.0f,0.0f,0.0f }, const AliceMathF::Vector3& scl_ = { 1.0f,1.0f,1.0 }, const Transform* parent_ = nullptr)override;
 	virtual void Initialize()override;
 	virtual void Update()override;
+
+	//コピーコンストラクタ・代入演算子削除
+	PlayerWeapon& operator=(const PlayerWeapon&) = delete;
+	PlayerWeapon(const PlayerWeapon&) = delete;
 };
 

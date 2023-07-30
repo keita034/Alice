@@ -76,7 +76,17 @@ protected:
 
 	AliceModelData* modelData = nullptr;
 
+	
 public:
+
+	struct AnimationTransform
+	{
+		AliceMathF::Vector3 scaling;
+		AliceMathF::Quaternion rotation;
+		AliceMathF::Vector3 translation;
+
+		AliceMathF::Matrix4 boneMatrix;
+	};
 
 	/// <summary>
 	/// コンストラクタ
@@ -170,7 +180,7 @@ public:
 
 	AliceMathF::Vector3 GetBonePosition(const std::string boneName_);
 
-	AliceMathF::Matrix4 GetAnimationTransform(AliceBlendTree* blendTree_,const std::string boneName);
+	AliceModel::AnimationTransform GetAnimationTransform(AliceBlendTree* blendTree_,const std::string boneName);
 
 	/// <summary>
 	/// モデルをセット
@@ -207,7 +217,7 @@ protected:
 
 	void PReadNodeHeirarchy(ModelMesh* mesh_,const AliceMotionData* pAnimation_,const Node* pNode_,const AliceMathF::Matrix4& mxParentTransform_);
 	void PReadNodeHeirarchy(ModelMesh* mesh_,AliceBlendTree* blendTree_,const Node* pNode_,const AliceMathF::Matrix4& mxParentTransform_);
-	void PReadNodeHeirarchy(ModelMesh* mesh_, AliceBlendTree* blendTree_,const Node* pNode_, const AliceMathF::Matrix4& mxParentTransform_,const std::string& boneName_,bool& end_,AliceMathF::Matrix4& dust_);
+	void PReadNodeHeirarchy(ModelMesh* mesh_, AliceBlendTree* blendTree_,const Node* pNode_, const AliceMathF::Matrix4& mxParentTransform_,const std::string& boneName_,bool& end_,AliceModel::AnimationTransform& dust_);
 	const ReturnMotionNode* PFindNodeAnim(const AliceMotionData* pAnimation_, const std::string& strNodeName_);
 	void PModelDraw(const Transform& transform_);
 	void PModelAnimationDraw(const Transform& transform_);

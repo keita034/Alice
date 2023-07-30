@@ -29,6 +29,8 @@ public:
 
 	AliceMathF::Matrix4 matWorld;
 
+	AliceMathF::Matrix4 rigidBodyMatWorld;
+
 public:
 
 	// 親となるワールド変換へのポインタ
@@ -56,4 +58,6 @@ namespace AliceMathF
 	/// ワールド座標取得
 	/// </summary>
 	Vector3 GetWorldPosition(BaseTransform& transform_);
+
+	Matrix4 GetRotMatrix(BaseTransform& transform_);
 }

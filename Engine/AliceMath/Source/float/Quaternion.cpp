@@ -330,18 +330,17 @@ namespace AliceMathF
 
 	void Quaternion::SeTEuler(const Vector3& rot_)
 	{
-		float lCosR = cosf(rot_.x / 2.0f);
-		float lSinR = sinf(rot_.x / 2.0f);
-		float lCosP = cosf(rot_.y / 2.0f);
-		float lSinP = sinf(rot_.y / 2.0f);
-		float lCosY = cosf(rot_.z / 2.0f);
-		float lSinY = sinf(rot_.z / 2.0f);
+		auto cx = Cos(0.5f * rot_.x);
+		auto sx = Sin(0.5f * rot_.x);
+		auto cy = Cos(0.5f * rot_.y);
+		auto sy = Sin(0.5f * rot_.y);
+		auto cz = Cos(0.5f * rot_.z);
+		auto sz = Sin(0.5f * rot_.z);
 
-
-		y = lCosR * lSinP * lCosY + lSinR * lCosP * lSinY;
-		z = lCosR * lCosP * lSinY - lSinR * lSinP * lCosY;
-		x = lSinR * lCosP * lCosY - lCosR * lSinP * lSinY;
-		w = lCosR * lCosP * lCosY + lSinR * lSinP * lSinY;
+		y = cx * sy * cz + sx * cy * sz;
+		z = sx * sy * cz + cx * cy * sz;
+		x = -cx * sy * sz + sx * cy * cz;
+		w = -sx * sy * sz + cx * cy * cz;
 	}
 
 	Quaternion Quaternion::operator+()

@@ -119,10 +119,12 @@
   <ItemGroup>
     <ClCompile Include="Boss\BaseGameCamera.cpp" />
     <ClCompile Include="Boss\Boss.cpp" />
+    <ClCompile Include="FadeInTransition.cpp" />
     <ClCompile Include="GameCameraManager.cpp" />
     <ClCompile Include="GameCore\GameMain.cpp" />
+    <ClCompile Include="ITransition.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="PlayerWeapon.cpp" />
+    <ClCompile Include="Player\PlayerWeapon.cpp" />
     <ClCompile Include="Player\PlayerAnimation.cpp" />
     <ClCompile Include="Player\Player.cpp" />
     <ClCompile Include="Player\PlayerGameCamera.cpp" />
@@ -131,14 +133,17 @@
     <ClCompile Include="Scene\ResultScene.cpp" />
     <ClCompile Include="Scene\SceneFactrory.cpp" />
     <ClCompile Include="Scene\TitleScene.cpp" />
+    <ClCompile Include="FadeOutTransition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Boss\BaseGameCamera.h" />
     <ClInclude Include="Boss\Boss.h" />
+    <ClInclude Include="FadeInTransition.h" />
     <ClInclude Include="GameCameraManager.h" />
     <ClInclude Include="GameCore\GameCollisionConflg.h" />
     <ClInclude Include="GameCore\GameMain.h" />
-    <ClInclude Include="PlayerWeapon.h" />
+    <ClInclude Include="ITransition.h" />
+    <ClInclude Include="Player\PlayerWeapon.h" />
     <ClInclude Include="Player\PlayerAnimation.h" />
     <ClInclude Include="Player\Player.h" />
     <ClInclude Include="Player\PlayerGameCamera.h" />
@@ -147,6 +152,7 @@
     <ClInclude Include="Scene\ResultScene.h" />
     <ClInclude Include="Scene\SceneFactrory.h" />
     <ClInclude Include="Scene\TitleScene.h" />
+    <ClInclude Include="FadeOutTransition.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Engine\AliceAudio\AliceAudio.vcxproj">

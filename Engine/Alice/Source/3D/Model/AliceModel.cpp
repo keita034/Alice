@@ -524,11 +524,11 @@ AliceMathF::Vector3 AliceModel::GetBonePosition(const std::string boneName)
 	return AliceMathF::Vector3(0,0,0);
 }
 
-AliceMathF::Matrix4 AliceModel::GetAnimationTransform(AliceBlendTree* blendTree_,const std::string boneName)
+AliceModel::AnimationTransform AliceModel::GetAnimationTransform(AliceBlendTree* blendTree_,const std::string boneName)
 {
 	AliceMathF::Matrix4 lMatIdentity = AliceMathF::MakeIdentity();
 
-	AliceMathF::Matrix4 lDust;
+	AliceModel::AnimationTransform lDust;
 	bool lEnd = false;
 
 	Node* lPtrNode = &modelData->nodes[ 0 ];
@@ -653,7 +653,7 @@ void AliceModel::PReadNodeHeirarchy(ModelMesh* mesh_,AliceBlendTree* blendTree_,
 	}
 }
 
-void AliceModel::PReadNodeHeirarchy(ModelMesh* mesh_,AliceBlendTree* blendTree_,const Node* pNode_,const AliceMathF::Matrix4& mxParentTransform_,const std::string& boneName_,bool& end_,AliceMathF::Matrix4& dust_)
+void AliceModel::PReadNodeHeirarchy(ModelMesh* mesh_,AliceBlendTree* blendTree_,const Node* pNode_,const AliceMathF::Matrix4& mxParentTransform_,const std::string& boneName_,bool& end_,AliceModel::AnimationTransform& dust_)
 {
 	if ( end_ )
 	{
@@ -672,16 +672,18 @@ void AliceModel::PReadNodeHeirarchy(ModelMesh* mesh_,AliceBlendTree* blendTree_,
 		//スケーリング
 		AliceMathF::Vector3 lScaling = { 1.0f,1.0f,1.0f };
 		AliceMathF::Matrix4 lMatScaling;
+		dust_.scaling = lScaling;
 		lMatScaling.MakeScaling(lScaling);
 
 		//回転角
 		AliceMathF::Quaternion lRotation = lPtrNodeAnim->rotationKeys;
 		AliceMathF::Matrix4 lMatRotation = lRotation.Rotate();
-
+		dust_.rotation = lRotation;
 		//移動
 		AliceMathF::Vector3 lTranslation = lPtrNodeAnim->positionKeys;
 		AliceMathF::Matrix4 lMatTranslation;
 		lMatTranslation.MakeTranslation(lTranslation);
+		dust_.translation = lTranslation;
 
 		lMatNodeTransformation = lMatScaling * lMatRotation * lMatTranslation;
 	}
@@ -697,7 +699,7 @@ void AliceModel::PReadNodeHeirarchy(ModelMesh* mesh_,AliceBlendTree* blendTree_,
 
 		lMatWorld = lOffsetMatirx * mxGlobalTransformation * modelData->globalInverseTransform;
 
-		dust_ = mxGlobalTransformation;
+		dust_.boneMatrix = mxGlobalTransformation;
 		end_ = true;
 		return;
 	}

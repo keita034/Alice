@@ -89,4 +89,21 @@ namespace AliceMathF
 
 		return lWorldPos;
 	}
+
+	Matrix4 GetRotMatrix(BaseTransform& transform_)
+	{
+		Matrix4 lTmp;
+		lTmp.m[0][0] = transform_.matWorld.m[0][0];
+		lTmp.m[0][1] = transform_.matWorld.m[0][1];
+		lTmp.m[0][2] = transform_.matWorld.m[0][2];
+
+		lTmp.m[1][0] = transform_.matWorld.m[1][0];
+		lTmp.m[1][1] = transform_.matWorld.m[1][1];
+		lTmp.m[1][2] = transform_.matWorld.m[1][2];
+
+		lTmp.m[2][0] = transform_.matWorld.m[2][0];
+		lTmp.m[2][1] = transform_.matWorld.m[2][1];
+		lTmp.m[2][2] = transform_.matWorld.m[2][2];
+		return lTmp;
+	}
 }

@@ -1,10 +1,17 @@
+#include "Matrix4.h"
 #pragma warning(push)
 #pragma warning(disable: 4365)
+#pragma warning(disable: 4514)
 #pragma warning(disable: 4619)
 #pragma warning(disable: 4668)
+#pragma warning(disable: 4710)
+#pragma warning(disable: 4711)
+#pragma warning(disable: 4820)
+#pragma warning(disable: 5039)
+#pragma warning(disable: 5220)
 
+#include<PxPhysicsAPI.h>
 #include<assimp/matrix4x4.h>
-
 #pragma warning(pop)
 
 #include "Matrix4.h"
@@ -78,6 +85,53 @@ namespace AliceMathF
 		*this *= lMatRot;
 		//ワールド行列に平行移動を反映
 		*this *= lMatTrans;
+	}
+
+	Matrix4::Matrix4(const Vector3* scale_, Quaternion* rotat_, const Vector3* trans_)
+	{
+		Matrix4 lMatScale, lMatRot, lMatTrans;
+
+		*this = AliceMathF::MakeIdentity();
+
+		if (scale_)
+		{
+			lMatScale.MakeScaling(*scale_);
+			*this *= lMatScale;
+		}
+		if (rotat_)
+		{
+			lMatRot = rotat_->Rotate();
+			*this *= lMatRot;
+		}
+		if (trans_)
+		{
+			lMatTrans.MakeTranslation(*trans_);
+			*this *= lMatTrans;
+		}
+	}
+
+	Matrix4::Matrix4(const Vector3* scale_, Vector3* rotat_, const Vector3* trans_)
+	{
+		Matrix4 lMatScale, lMatRot, lMatTrans;
+
+		*this = AliceMathF::MakeIdentity();
+
+		if (scale_)
+		{
+			lMatScale.MakeScaling(*scale_);
+			*this *= lMatScale;
+		}
+		if (rotat_)
+		{
+			lMatRot.MakeRotation(*rotat_);
+			*this *= lMatRot;
+		}
+		if (trans_)
+		{
+			lMatTrans.MakeTranslation(*trans_);
+			*this *= lMatTrans;
+		}
+
 	}
 	
 	Matrix4::Matrix4(const aiMatrix4x4& mat_)
@@ -300,6 +354,33 @@ namespace AliceMathF
 		m[1][0], m[1][1], m[1][2], m[1][3],
 		m[2][0], m[2][1], m[2][2], m[2][3],
 		m[3][0], m[3][1], m[3][2], m[3][3] };
+
+		return lMat;
+	}
+
+	Matrix4::operator physx::PxMat44() const
+	{
+		physx::PxMat44 lMat;
+
+		lMat.column0.x = m[0][0];
+		lMat.column0.y = m[0][1];
+		lMat.column0.z = m[0][2];
+		lMat.column0.w = m[0][3];
+
+		lMat.column1.x = m[1][0];
+		lMat.column1.y = m[1][1];
+		lMat.column1.z = m[1][2];
+		lMat.column1.w = m[1][3];
+
+		lMat.column2.x = m[2][0];
+		lMat.column2.y = m[2][1];
+		lMat.column2.z = m[2][2];
+		lMat.column2.w = m[2][3];
+
+		lMat.column3.x = m[3][0];
+		lMat.column3.y = m[3][1];
+		lMat.column3.z = m[3][2];
+		lMat.column3.w = m[3][3];
 
 		return lMat;
 	}

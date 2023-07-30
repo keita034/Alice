@@ -16,6 +16,11 @@ template <typename TReal>
 class aiMatrix4x4t;
 typedef aiMatrix4x4t<ai_real> aiMatrix4x4;
 
+namespace physx
+{
+	class PxMat44;
+}
+
 namespace AliceMathF
 {
 	class Quaternion;
@@ -37,6 +42,10 @@ namespace AliceMathF
 			float m30_, float m31_, float m32_, float m33_);
 
 		Matrix4(const Vector3& scale_, Quaternion& rotat_, const Vector3& trans_);
+
+		Matrix4(const Vector3* scale_, Quaternion* rotat_, const Vector3* trans_);
+
+		Matrix4(const Vector3* scale_, Vector3* rotat_, const Vector3* trans_);
 
 		Matrix4(const aiMatrix4x4& mat_);
 
@@ -103,6 +112,9 @@ namespace AliceMathF
 		/// DirectX::XMMATRIX型への暗黙の型変換。
 		/// </summary>
 		operator DirectX::XMMATRIX() const;
+
+		operator physx::PxMat44() const;
+
 
 		/// <summary>
 		/// 代入演算子

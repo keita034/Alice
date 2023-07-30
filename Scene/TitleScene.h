@@ -18,13 +18,21 @@
 #include<Sprite3D.h>
 #include<Transform.h>
 
+#include<FadeOutTransition.h>
 
 class TitleScene : public BaseScene
 {
 private:
 
-	std::unique_ptr<CinemaCamera> camera_;
+	std::unique_ptr<GameCamera> camera_;
 
+	std::unique_ptr<Sprite2D>title;
+	uint32_t titleHanlde = 0;
+	Transform transform;
+
+	bool sceneChange = false;
+
+	std::unique_ptr<ITransition>transition;
 public:
 
 	TitleScene() = default;

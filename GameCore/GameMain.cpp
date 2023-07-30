@@ -10,7 +10,7 @@ void GameMain::Initialize()
 	sceneFactory = SceneFactrory::SGetInstance();
 	SceneManager::SGetInstance()->SetSceneFactory(sceneFactory);
 
-	SceneManager::SGetInstance()->ChangeScene("GAME");
+	SceneManager::SGetInstance()->ChangeScene("TITLE");
 }
 
 void GameMain::Finalize()

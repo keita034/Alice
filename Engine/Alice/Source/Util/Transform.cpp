@@ -35,7 +35,7 @@ void Transform::Initialize()
 	Update();
 }
 
-void Transform::TransUpdate(Camera* camera_,AliceMathF::Matrix4* mat)
+void Transform::TransUpdate(Camera* camera_,AliceMathF::Matrix4* mat_)
 {
 	AliceMathF::Matrix4 lMatScale, lMatRot, lMatTrans;
 
@@ -54,14 +54,28 @@ void Transform::TransUpdate(Camera* camera_,AliceMathF::Matrix4* mat)
 	//ワールド行列に平行移動を反映
 	matWorld *= lMatTrans;
 	//親行列の指定がある場合は、掛け算する
-	if ( mat )
+	if ( mat_ )
 	{
-		matWorld *= *mat;
+		matWorld *= *mat_;
 	}
-
 	if (parent)
 	{
 		matWorld *= parent->matWorld;
+	}
+
+	rigidBodyMatWorld = AliceMathF::MakeIdentity();
+	//ワールド行列に回転を反映
+	rigidBodyMatWorld *= lMatRot;
+	//ワールド行列に平行移動を反映
+	rigidBodyMatWorld *= lMatTrans;
+	//親行列の指定がある場合は、掛け算する
+	if ( mat_ )
+	{
+		rigidBodyMatWorld *= *mat_;
+	}
+	if ( parent )
+	{
+		rigidBodyMatWorld *= parent->rigidBodyMatWorld;
 	}
 
 	//定数バッファに書き込み
@@ -76,7 +90,7 @@ void Transform::Update()
 	constBuff->Update(&constBuffMap);
 }
 
-void Transform::MakeWorldMatrix()
+void Transform::MakeWorldMatrix(AliceMathF::Matrix4* mat_)
 {
 	AliceMathF::Matrix4 lMatScale, lMatRot, lMatTrans;
 
@@ -94,11 +108,31 @@ void Transform::MakeWorldMatrix()
 	matWorld *= lMatRot;
 	//ワールド行列に平行移動を反映
 	matWorld *= lMatTrans;
+	if ( mat_ )
+	{
+		matWorld *= *mat_;
+	}
 	//親行列の指定がある場合は、掛け算する
 	if (parent)
 	{
 		matWorld *= parent->matWorld;
 	}
+
+	rigidBodyMatWorld = AliceMathF::MakeIdentity();
+	//ワールド行列に回転を反映
+	rigidBodyMatWorld *= lMatRot;
+	//ワールド行列に平行移動を反映
+	rigidBodyMatWorld *= lMatTrans;
+	//親行列の指定がある場合は、掛け算する
+	if ( mat_ )
+	{
+		rigidBodyMatWorld *= *mat_;
+	}
+	if ( parent )
+	{
+		rigidBodyMatWorld *= parent->rigidBodyMatWorld;
+	}
+
 }
 
 void Transform::LookAtMatrixAxisFix(const AliceMathF::Vector3& target_, const AliceMathF::Vector3& up_, Camera* camera_)
@@ -151,6 +185,17 @@ void Transform::LookAtMatrixAxisFix(const AliceMathF::Vector3& target_, const Al
 	if (parent)
 	{
 		matWorld *= parent->matWorld;
+	}
+
+	rigidBodyMatWorld = AliceMathF::MakeIdentity();
+	//ワールド行列に回転を反映
+	rigidBodyMatWorld *= lMatRot;
+	//ワールド行列に平行移動を反映
+	rigidBodyMatWorld *= lMatTrans;
+	//親行列の指定がある場合は、掛け算する
+	if ( parent )
+	{
+		rigidBodyMatWorld *= parent->rigidBodyMatWorld;
 	}
 
 	//定数バッファに書き込み

@@ -38,6 +38,7 @@ void AliceFramework::Initialize()
 	Camera::SSetWindowsApp(windowsApp.get());
 	Sprite::SSetWindowsApp(windowsApp.get());
 	BasePostEffect::SSetWindowsApp(windowsApp.get());
+	BaseScene::SSetWindowsApp(windowsApp.get());
 
 	Particle::SSetDirectX12Core(directX12Core.get());
 	BasePostEffect::SSetDirectX12Core(directX12Core.get());

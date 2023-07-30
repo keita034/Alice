@@ -283,6 +283,41 @@ void IAliceRigidBody::SetRot(const AliceMathF::Quaternion& quaternion_)
 	}
 }
 
+void IAliceRigidBody::SetMat(const AliceMathF::Matrix4& mat_)
+{
+	pxTransform = physx::PxTransform(mat_);
+
+	//pxTransform.q = { -0.6964f,0.0457f,0.6800f,0.2242f};
+	//pxTransform.p = { -10.9301f,59.8267f,3.2187f };
+
+	if (pxTransform.isFinite())
+	{
+ 		int b =0;
+		b++;
+	}
+
+	if (pxTransform.isValid())
+	{
+		int b = 0;
+		b++;
+	}
+
+	if (pxTransform.isSane())
+	{
+		int b = 0;
+		b++;
+	}
+
+	if (rigidBodyType == RigidBodyType::DYNAMIC)
+	{
+		dynamicBody->setGlobalPose(pxTransform);
+	}
+	else
+	{
+		staticBody->setGlobalPose(pxTransform);
+	}
+}
+
 const std::string& IAliceRigidBody::GetName()const
 {
 	return userData.id;

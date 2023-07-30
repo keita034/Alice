@@ -114,6 +114,7 @@ public:
 	void SetPos(const AliceMathF::Vector3& pos_);
 	void SetRot(const AliceMathF::Vector3& rot_);
 	void SetRot(const AliceMathF::Quaternion& quaternion_);
+	void SetMat(const AliceMathF::Matrix4& mat_);
 
 	/// <summary>
 	/// 名前取得

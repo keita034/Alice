@@ -33,6 +33,11 @@ void GameScene::Initialize()
 
 	boss = std::make_unique<Boss>();
 	boss->Initialize();
+
+	transition = std::make_unique<FadeInTransition>();
+	transition->Initilize(static_cast<float>(sWinApp->GetWindowSize().height), static_cast<float>(sWinApp->GetWindowSize().width));
+	transition->Start();
+	transition->SetIncrement(0.04f);
 }
 
 void GameScene::Update()
@@ -49,6 +54,7 @@ void GameScene::Update()
 
 	fieldObjData->Update(gameCameraManager->GetCamera());
 
+	transition->Update();
 
 }
 
@@ -60,6 +66,9 @@ void GameScene::Draw()
 	boss->Draw();
 
 	//player->UIDraw();
+
+	transition->Draw();
+
 }
 
 void GameScene::Finalize()

@@ -11,7 +11,7 @@ void AliceRigidBodyManager::onContact(const physx::PxContactPairHeader& pairHead
 		//現在のコンタクトペアからコンタントの情報を抽出 
 		const physx::PxContactPair& curContactPair = pairs[i];
 
-		if (curContactPair.events & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND)
+		if (curContactPair.events & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND || curContactPair.events & physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS)
 		{
 			physx::PxShape* triggerActor = curContactPair.shapes[0];
 			physx::PxShape* otherActor = curContactPair.shapes[1];

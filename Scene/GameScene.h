@@ -18,6 +18,7 @@
 #include<Sprite3D.h>
 #include<Transform.h>
 #include<ImGuiManager.h>
+#include<FadeInTransition.h>
 
 #include<GameCameraManager.h>
 #include<Player.h>
@@ -33,6 +34,7 @@ private:
 	std::unique_ptr<Player>player;
 	std::unique_ptr<Boss>boss;
 
+	std::unique_ptr<ITransition>transition;
 public:
 
 	GameScene();

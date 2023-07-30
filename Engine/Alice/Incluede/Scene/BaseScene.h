@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include<Input.h>
 #include<AudioManager.h>
-
+#include<WindowsApp.h>
 /// <summary>
 /// シーン基底クラス
 /// </summary>
@@ -14,6 +14,7 @@ protected:
 
 	static AliceInput::IInput* sInput;
 	static IAudioManager* sAudioManager;
+	static IWindowsApp* sWinApp;
 
 	//シーンマネージャー
 	SceneManager* sceneManager = nullptr;
@@ -45,7 +46,7 @@ public:
 	virtual void SetSceneManager(SceneManager* manager_);
 
 	static void SSetInput(AliceInput::IInput* input_);
-
 	static void SSetAudioManager(IAudioManager* audioManager_);
+	static void SSetWindowsApp(IWindowsApp* windowsApp_);
 };
 
