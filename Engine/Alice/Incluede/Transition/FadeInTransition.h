@@ -6,9 +6,8 @@ class FadeInTransition :public ITransition
 {
 private:
 	std::unique_ptr<Sprite2D> sprite;
-	uint32_t spriteHandle = 0;
 	Transform spriteTransform;
-
+	uint32_t spriteHandle = 0;
 	float alpha = 0.0f;
 
 public:
@@ -37,5 +36,10 @@ public:
 
 	FadeInTransition() = default;
 	virtual ~FadeInTransition() = default;
+
+private:
+//コピーコンストラクタ・代入演算子削除
+	FadeInTransition& operator=(const FadeInTransition&) = delete;
+	FadeInTransition(const FadeInTransition&) = delete;
 };
 

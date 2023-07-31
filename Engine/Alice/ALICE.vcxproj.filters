@@ -172,6 +172,12 @@
     <Filter Include="リソース ファイル\シェーダー\2D\PostEffect\Distortion">
       <UniqueIdentifier>{f30a9772-705c-4511-b006-499ce98b2923}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Transition">
+      <UniqueIdentifier>{215fb3a8-c021-48ed-af09-a2e5e9395863}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Transition">
+      <UniqueIdentifier>{98f2a96a-5cd0-4672-8e48-a82f7d812bed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Incluede\Util\AliceFunctionUtility.h">
@@ -345,23 +351,32 @@
     <ClInclude Include="Incluede\2D\PostEffect\CRTPostEffect.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\2D\PostEffect\FrostedGlassPostEffect.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Incluede\2D\PostEffect\MosaicPostEffect.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="Incluede\2D\PostEffect\DistortionPostEffect.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\3D\Model\AliceBlendTree.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\3D\Model\ObjectCollsionDraw.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Incluede\2D\PostEffect\FrostedGlassPostEffect.h">
+      <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="Incluede\2D\Particle\FireWorkParticle.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\2D\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Incluede\3D\Model\AliceBlendTree.h">
+      <Filter>ヘッダー ファイル\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Incluede\3D\Model\ObjectCollsionDraw.h">
+      <Filter>ヘッダー ファイル\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Incluede\Transition\ITransition.h">
+      <Filter>ヘッダー ファイル\Transition</Filter>
+    </ClInclude>
+    <ClInclude Include="Incluede\Transition\FadeOutTransition.h">
+      <Filter>ヘッダー ファイル\Transition</Filter>
+    </ClInclude>
+    <ClInclude Include="Incluede\Transition\FadeInTransition.h">
+      <Filter>ヘッダー ファイル\Transition</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -809,23 +824,32 @@
     <ClCompile Include="Source\2D\PostEffect\CRTPostEffect.cpp">
       <Filter>ソース ファイル\2D\PostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="Source\2D\PostEffect\FrostedGlassPostEffect.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Source\2D\Particle\FireWorkParticle.cpp">
+      <Filter>ソース ファイル\2D\Particle</Filter>
     </ClCompile>
     <ClCompile Include="Source\2D\PostEffect\MosaicPostEffect.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\2D\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="Source\2D\PostEffect\DistortionPostEffect.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\2D\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\2D\PostEffect\FrostedGlassPostEffect.cpp">
+      <Filter>ソース ファイル\2D\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Transition\FadeOutTransition.cpp">
+      <Filter>ソース ファイル\Transition</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Transition\FadeInTransition.cpp">
+      <Filter>ソース ファイル\Transition</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Transition\ITransition.cpp">
+      <Filter>ソース ファイル\Transition</Filter>
     </ClCompile>
     <ClCompile Include="Source\3D\Model\AliceBlendTree.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\3D</Filter>
     </ClCompile>
     <ClCompile Include="Source\Util\ObjectCollsionDraw.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\Particle\FireWorkParticle.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Util</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

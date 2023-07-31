@@ -67,7 +67,7 @@ void GameScene::Draw()
 	player->Draw();
 	boss->Draw();
 
-	//player->UIDraw();
+	player->UIDraw();
 
 	transition->Draw();
 

@@ -44,13 +44,13 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)Engine\Alice\lib\include;$(SolutionDir)Engine\AliceCore\Incluede;$(SolutionDir)Engine\AliceCore\Incluede\Buffer;$(SolutionDir)Engine\AliceCore\Incluede\DescriptorHeap;$(SolutionDir)Engine\AliceMath\Incluede;$(SolutionDir)Engine\AliceMath\Incluede\Collision;$(SolutionDir)Engine\AliceMath\Incluede\Collision\3D;$(SolutionDir)Engine\AliceMath\Incluede\Collision\2D;$(SolutionDir)Engine\AliceMath\Incluede\Double;$(SolutionDir)Engine\AliceMath\Incluede\Double\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Double\Vector;$(SolutionDir)Engine\AliceMath\Incluede\Float;$(SolutionDir)Engine\AliceMath\Incluede\Float\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Float\Vector;$(SolutionDir)Engine\AliceMath\Incluede\Physics;$(SolutionDir)Engine\Alice\Incluede;$(SolutionDir)Engine\Alice\Incluede\2D;$(SolutionDir)Engine\Alice\Incluede\2D\Particle;$(SolutionDir)Engine\Alice\Incluede\2D\PostEffect;$(SolutionDir)Engine\Alice\Incluede\2D\Sprite;$(SolutionDir)Engine\Alice\Incluede\3D;$(SolutionDir)Engine\Alice\Incluede\3D\Model;$(SolutionDir)Engine\Alice\Incluede\Camera;$(SolutionDir)Engine\Alice\Incluede\Core;$(SolutionDir)Engine\Alice\Incluede\Core\Buffer;$(SolutionDir)Engine\Alice\Incluede\Core\DirectX;$(SolutionDir)Engine\Alice\Incluede\Core\Framework;$(SolutionDir)Engine\Alice\Incluede\Input;$(SolutionDir)Engine\Alice\Incluede\Light;$(SolutionDir)Engine\Alice\Incluede\Scene;$(SolutionDir)Engine\Alice\Incluede\Util;$(SolutionDir)Engine\AliceInput\Incluede;$(SolutionDir)Engine\AliceAudio\Incluede;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Engine\Alice\lib\include;$(SolutionDir)Engine\AliceCore\Incluede;$(SolutionDir)Engine\AliceCore\Incluede\Buffer;$(SolutionDir)Engine\AliceCore\Incluede\DescriptorHeap;$(SolutionDir)Engine\AliceMath\Incluede;$(SolutionDir)Engine\AliceMath\Incluede\Collision;$(SolutionDir)Engine\AliceMath\Incluede\Collision\3D;$(SolutionDir)Engine\AliceMath\Incluede\Collision\2D;$(SolutionDir)Engine\AliceMath\Incluede\Double;$(SolutionDir)Engine\AliceMath\Incluede\Double\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Double\Vector;$(SolutionDir)Engine\AliceMath\Incluede\Float;$(SolutionDir)Engine\AliceMath\Incluede\Float\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Float\Vector;$(SolutionDir)Engine\AliceMath\Incluede\Physics;$(SolutionDir)Engine\Alice\Incluede;$(SolutionDir)Engine\Alice\Incluede\2D;$(SolutionDir)Engine\Alice\Incluede\2D\Particle;$(SolutionDir)Engine\Alice\Incluede\2D\PostEffect;$(SolutionDir)Engine\Alice\Incluede\2D\Sprite;$(SolutionDir)Engine\Alice\Incluede\3D;$(SolutionDir)Engine\Alice\Incluede\3D\Model;$(SolutionDir)Engine\Alice\Incluede\Camera;$(SolutionDir)Engine\Alice\Incluede\Core;$(SolutionDir)Engine\Alice\Incluede\Core\Buffer;$(SolutionDir)Engine\Alice\Incluede\Core\DirectX;$(SolutionDir)Engine\Alice\Incluede\Core\Framework;$(SolutionDir)Engine\Alice\Incluede\Input;$(SolutionDir)Engine\Alice\Incluede\Light;$(SolutionDir)Engine\Alice\Incluede\Scene;$(SolutionDir)Engine\Alice\Incluede\Util;$(SolutionDir)Engine\AliceInput\Incluede;$(SolutionDir)Engine\AliceAudio\Incluede;$(SolutionDir)Engine\Alice\Incluede\Transition;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)..\Generated\Outputs\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
     <LibraryPath>$(SolutionDir)Engine\Alice\lib\lib\debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)Engine\Alice\lib\include;$(SolutionDir)Engine\AliceCore\Incluede;$(SolutionDir)Engine\AliceCore\Incluede\Buffer;$(SolutionDir)Engine\AliceCore\Incluede\DescriptorHeap;$(SolutionDir)Engine\AliceMath\Incluede;$(SolutionDir)Engine\AliceMath\Incluede\Collision;$(SolutionDir)Engine\AliceMath\Incluede\Collision\3D;$(SolutionDir)Engine\AliceMath\Incluede\Collision\2D;$(SolutionDir)Engine\AliceMath\Incluede\Double;$(SolutionDir)Engine\AliceMath\Incluede\Double\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Double\Vector;$(SolutionDir)Engine\AliceMath\Incluede\Float;$(SolutionDir)Engine\AliceMath\Incluede\Float\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Float\Vector;$(SolutionDir)Engine\AliceMath\Incluede\Physics;$(SolutionDir)Engine\Alice\Incluede;$(SolutionDir)Engine\Alice\Incluede\2D;$(SolutionDir)Engine\Alice\Incluede\2D\Particle;$(SolutionDir)Engine\Alice\Incluede\2D\PostEffect;$(SolutionDir)Engine\Alice\Incluede\2D\Sprite;$(SolutionDir)Engine\Alice\Incluede\3D;$(SolutionDir)Engine\Alice\Incluede\3D\Model;$(SolutionDir)Engine\Alice\Incluede\Camera;$(SolutionDir)Engine\Alice\Incluede\Core;$(SolutionDir)Engine\Alice\Incluede\Core\Buffer;$(SolutionDir)Engine\Alice\Incluede\Core\DirectX;$(SolutionDir)Engine\Alice\Incluede\Core\Framework;$(SolutionDir)Engine\Alice\Incluede\Input;$(SolutionDir)Engine\Alice\Incluede\Light;$(SolutionDir)Engine\Alice\Incluede\Scene;$(SolutionDir)Engine\Alice\Incluede\Util;$(SolutionDir)Engine\AliceInput\Incluede;$(SolutionDir)Engine\AliceAudio\Incluede;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Engine\Alice\lib\include;$(SolutionDir)Engine\AliceCore\Incluede;$(SolutionDir)Engine\AliceCore\Incluede\Buffer;$(SolutionDir)Engine\AliceCore\Incluede\DescriptorHeap;$(SolutionDir)Engine\AliceMath\Incluede;$(SolutionDir)Engine\AliceMath\Incluede\Collision;$(SolutionDir)Engine\AliceMath\Incluede\Collision\3D;$(SolutionDir)Engine\AliceMath\Incluede\Collision\2D;$(SolutionDir)Engine\AliceMath\Incluede\Double;$(SolutionDir)Engine\AliceMath\Incluede\Double\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Double\Vector;$(SolutionDir)Engine\AliceMath\Incluede\Float;$(SolutionDir)Engine\AliceMath\Incluede\Float\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Float\Vector;$(SolutionDir)Engine\AliceMath\Incluede\Physics;$(SolutionDir)Engine\Alice\Incluede;$(SolutionDir)Engine\Alice\Incluede\2D;$(SolutionDir)Engine\Alice\Incluede\2D\Particle;$(SolutionDir)Engine\Alice\Incluede\2D\PostEffect;$(SolutionDir)Engine\Alice\Incluede\2D\Sprite;$(SolutionDir)Engine\Alice\Incluede\3D;$(SolutionDir)Engine\Alice\Incluede\3D\Model;$(SolutionDir)Engine\Alice\Incluede\Camera;$(SolutionDir)Engine\Alice\Incluede\Core;$(SolutionDir)Engine\Alice\Incluede\Core\Buffer;$(SolutionDir)Engine\Alice\Incluede\Core\DirectX;$(SolutionDir)Engine\Alice\Incluede\Core\Framework;$(SolutionDir)Engine\Alice\Incluede\Input;$(SolutionDir)Engine\Alice\Incluede\Light;$(SolutionDir)Engine\Alice\Incluede\Scene;$(SolutionDir)Engine\Alice\Incluede\Util;$(SolutionDir)Engine\AliceInput\Incluede;$(SolutionDir)Engine\AliceAudio\Incluede;$(SolutionDir)Engine\Alice\Incluede\Transition;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)..\Generated\Outputs\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
     <LibraryPath>$(SolutionDir)Engine\Alice\lib\lib;$(LibraryPath)</LibraryPath>
@@ -67,7 +67,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;NOMINMAX;_SILENCE_CXX20_CISO646_REMOVED_WARNING;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;PX_PHYSX_STATIC_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Scene;$(ProjectDir)GameCore;$(ProjectDir)Player;$(ProjectDir)Boss;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Scene;$(ProjectDir)GameCore;$(ProjectDir)Player;$(ProjectDir)Boss;$(ProjectDir)Util;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
@@ -95,7 +95,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;NOMINMAX;_SILENCE_CXX20_CISO646_REMOVED_WARNING;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;PX_PHYSX_STATIC_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Scene;$(ProjectDir)GameCore;$(ProjectDir)Player;$(ProjectDir)Boss;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Scene;$(ProjectDir)GameCore;$(ProjectDir)Player;$(ProjectDir)Boss;$(ProjectDir)Util;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <DisableSpecificWarnings>
@@ -119,10 +119,8 @@
   <ItemGroup>
     <ClCompile Include="Boss\BaseGameCamera.cpp" />
     <ClCompile Include="Boss\Boss.cpp" />
-    <ClCompile Include="FadeInTransition.cpp" />
-    <ClCompile Include="GameCameraManager.cpp" />
+    <ClCompile Include="Util\GameCameraManager.cpp" />
     <ClCompile Include="GameCore\GameMain.cpp" />
-    <ClCompile Include="ITransition.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player\PlayerWeapon.cpp" />
     <ClCompile Include="Player\PlayerAnimation.cpp" />
@@ -133,17 +131,14 @@
     <ClCompile Include="Scene\ResultScene.cpp" />
     <ClCompile Include="Scene\SceneFactrory.cpp" />
     <ClCompile Include="Scene\TitleScene.cpp" />
-    <ClCompile Include="FadeOutTransition.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ActorSituation.h" />
+    <ClInclude Include="Util\ActorSituation.h" />
     <ClInclude Include="Boss\BaseGameCamera.h" />
     <ClInclude Include="Boss\Boss.h" />
-    <ClInclude Include="FadeInTransition.h" />
-    <ClInclude Include="GameCameraManager.h" />
+    <ClInclude Include="Util\GameCameraManager.h" />
     <ClInclude Include="GameCore\GameCollisionConflg.h" />
     <ClInclude Include="GameCore\GameMain.h" />
-    <ClInclude Include="ITransition.h" />
     <ClInclude Include="Player\PlayerWeapon.h" />
     <ClInclude Include="Player\PlayerAnimation.h" />
     <ClInclude Include="Player\Player.h" />
@@ -153,7 +148,6 @@
     <ClInclude Include="Scene\ResultScene.h" />
     <ClInclude Include="Scene\SceneFactrory.h" />
     <ClInclude Include="Scene\TitleScene.h" />
-    <ClInclude Include="FadeOutTransition.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Engine\AliceAudio\AliceAudio.vcxproj">
