@@ -5,6 +5,7 @@
 void GameMain::Initialize()
 {
 	AliceFramework::Initialize();
+	directX12Core->SetBackScreenColor(11 / 255.f, 15 / 255.f, 20 / 255.f, 1.0f);
 
 	//シーンの初期化
 	sceneFactory = SceneFactrory::SGetInstance();

@@ -136,6 +136,7 @@
     <ClCompile Include="FadeOutTransition.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActorSituation.h" />
     <ClInclude Include="Boss\BaseGameCamera.h" />
     <ClInclude Include="Boss\Boss.h" />
     <ClInclude Include="FadeInTransition.h" />

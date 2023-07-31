@@ -30,6 +30,10 @@ private:
 	uint32_t titleHanlde = 0;
 	Transform transform;
 
+	std::unique_ptr<Sprite2D>startA;
+	uint32_t startAHanlde = 0;
+	Transform startATransform;
+
 	bool sceneChange = false;
 
 	std::unique_ptr<ITransition>transition;

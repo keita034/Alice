@@ -57,6 +57,9 @@ public:
 
 	void InsertRowlingAnimation();
 
+	bool IsInsert();
+
+	InsertAnimationPhase GetInsertAnimationPhase();
 
 private:
 

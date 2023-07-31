@@ -20,7 +20,7 @@ void AliceFramework::SDebugInitialize()
 
 void AliceFramework::Initialize()
 {
-	windowsApp = CreateUniqueWindowsApp();//ウィンドウ生成
+	windowsApp = CreateUniqueWindowsApp(L"Blood");//ウィンドウ生成
 
 	//DirectX初期化処理ここから
 

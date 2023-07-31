@@ -34,11 +34,11 @@ void Player::Initialize(AliceInput::IInput* input_)
 
 	rigidBodyoffset = { 0.0f, 8.0f + 6.0f, 0.0f };
 
-	CreateMaterial(0.6f,0.6f,0.0f);
+	CreateMaterial(0.6f, 0.6f, 0.0f);
 	CreateShape(6.0f, 8.0f, CollisionAttribute::PLAYER, (CollisionAttribute::BOSS | CollisionAttribute::ENEMY | CollisionAttribute::FIELD));
 	AliceMathF::Vector3 pos = transform.translation + rigidBodyoffset;
 	SetInitializePos(pos);
-	SetInitializeRot(AliceMathF::Quaternion({0,0,1}, AliceMathF::DEG_TO_RAD * 90.0f));
+	SetInitializeRot(AliceMathF::Quaternion({ 0,0,1 }, AliceMathF::DEG_TO_RAD * 90.0f));
 	CreateRigidBody(RigidBodyType::DYNAMIC);
 
 	weapon = std::make_unique<PlayerWeapon>();
@@ -66,10 +66,12 @@ void Player::Update(BaseGameCamera* camera_, GameCameraManager::CameraIndex inde
 
 	}
 
+	PAttack();
+
 	if (index_ == GameCameraManager::CameraIndex::PLAYER_CAMERA)
 	{
 		PMove(camera_);
-		
+
 	}
 
 	if (!isStationary)
@@ -79,7 +81,7 @@ void Player::Update(BaseGameCamera* camera_, GameCameraManager::CameraIndex inde
 
 	ui->Update();
 	animation->Update();
-	weapon->Update("mixamorig:RightHand",animation->GetAnimation(),model.get());
+	weapon->Update("mixamorig:RightHand", animation->GetAnimation(), model.get());
 }
 
 void Player::Draw()
@@ -138,6 +140,16 @@ void Player::OnContact(uint32_t attribute_)
 
 }
 
+bool Player::IsAttack()
+{
+	return situation & PlayerSituation::ATTACK && animation->GetInsertAnimationPhase() == InsertAnimationPhase::DURING;
+}
+
+int32_t Player::GetDamage()
+{
+	return 1;
+}
+
 void Player::PMove(BaseGameCamera* camera_)
 {
 	AliceMathF::Vector3 lMove;
@@ -192,4 +204,19 @@ void Player::PRotate()
 
 	direction = direction.Normal();
 
+}
+
+void Player::PAttack()
+{
+	if (input->InputButton(ControllerButton::LB))
+	{
+		animation->InsertAttackAnimation();
+
+		situation |= PlayerSituation::ATTACK;
+	}
+
+	if (situation & PlayerSituation::ATTACK&& !animation->IsInsert())
+	{
+		situation &= ~PlayerSituation::ATTACK;
+	}
 }

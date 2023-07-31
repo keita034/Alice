@@ -127,6 +127,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Incluede\2D\Particle\FireWorkParticle.h" />
     <ClInclude Include="Incluede\3D\Model\AliceBlendTree.h" />
     <ClInclude Include="Incluede\2D\PostEffect\DistortionPostEffect.h" />
     <ClInclude Include="Incluede\2D\PostEffect\FrostedGlassPostEffect.h" />
@@ -222,6 +223,7 @@
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\2D\Particle\FireWorkParticle.cpp" />
     <ClCompile Include="Source\Util\ObjectCollsionDraw.cpp" />
     <ClCompile Include="Source\3D\Model\AliceBlendTree.cpp" />
     <ClCompile Include="Source\2D\PostEffect\DistortionPostEffect.cpp" />

@@ -1,4 +1,5 @@
 #include "AliceBlendTree.h"
+#include "AliceBlendTree.h"
 
 
 void AliceBlendTree::AddAnimation(uint32_t handle_)
@@ -163,6 +164,11 @@ const ReturnMotionNode* AliceBlendTree::GetMotion(const std::string& nodeName)
 bool AliceBlendTree::IsInsert()
 {
 	return isInsert;
+}
+
+InsertAnimationPhase AliceBlendTree::GetInsertAnimationPhase()
+{
+	return insertAnimationPhase;
 }
 
 AliceBlendTree::AliceBlendTree()

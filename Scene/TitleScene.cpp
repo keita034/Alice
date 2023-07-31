@@ -4,11 +4,16 @@
 
 void TitleScene::Initialize()
 {
-	//titleHanlde = 
-	title = std::make_unique<Sprite2D>();
-	title->SetTex(titleHanlde);
+	titleHanlde = TextureManager::SLoad("Resources/UI/Title.png");
+	title = CreateUniqueSprite2D(titleHanlde);
 	transform.Initialize();
-	transform.translation = { sWinApp->GetWindowSize().width,sWinApp->GetWindowSize().height,0u };
+	transform.translation = { sWinApp->GetWindowSize().width / 2,sWinApp->GetWindowSize().height / 2 - 150,0u };
+
+	startAHanlde = TextureManager::SLoad("Resources/UI/Start-A.png");
+	startA = CreateUniqueSprite2D(startAHanlde);
+	startATransform.Initialize();
+	startATransform.translation = { sWinApp->GetWindowSize().width / 2,sWinApp->GetWindowSize().height / 2 + 200,0u };
+	startATransform.scale = { 0.5f,0.5f,1.0f };
 
 	//camera_ = std::make_unique<GameCamera>();
 	//camera_->Initialize();
@@ -39,9 +44,11 @@ void TitleScene::Update()
 
 void TitleScene::Draw()
 {
-	//title->Draw(transform);
+	title->Draw(transform);
+	startA->Draw(startATransform);
 
 	transition->Draw();
+
 }
 
 void TitleScene::Finalize()

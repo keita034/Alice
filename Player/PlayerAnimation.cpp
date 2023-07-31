@@ -54,6 +54,16 @@ void PlayerAnimation::InsertRowlingAnimation()
 	blendTree->InsertAnimation(rowlingAnimationHandle);
 }
 
+bool PlayerAnimation::IsInsert()
+{
+	return blendTree->IsInsert();
+}
+
+InsertAnimationPhase PlayerAnimation::GetInsertAnimationPhase()
+{
+	return blendTree->GetInsertAnimationPhase();
+}
+
 void PlayerAnimation::PWalkAnimationUpdate()
 {
 	AliceMathF::Vector2 lLeftStickPower = input->GetLeftStickVec();
@@ -67,11 +77,6 @@ void PlayerAnimation::PWalkAnimationUpdate()
 	else
 	{
 		walkAnimationThresh = 0.5f * lStickPower;
-	}
-
-	if (input->InputButton(ControllerButton::LB))
-	{
-		InsertAttackAnimation();
 	}
 
 	blendTree->SetThresh(walkAnimationThresh);

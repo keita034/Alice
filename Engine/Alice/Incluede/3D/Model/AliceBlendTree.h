@@ -70,6 +70,8 @@ public:
 
 	bool IsInsert();
 
+	InsertAnimationPhase GetInsertAnimationPhase();
+
 	AliceBlendTree();
 	~AliceBlendTree() = default;
 

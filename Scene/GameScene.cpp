@@ -32,6 +32,8 @@ void GameScene::Initialize()
 	gameCameraManager->Initialize(player.get(),sInput);
 
 	boss = std::make_unique<Boss>();
+	boss->SetPlayer(player.get());
+	boss->SetAudioManager(sAudioManager);
 	boss->Initialize();
 
 	transition = std::make_unique<FadeInTransition>();

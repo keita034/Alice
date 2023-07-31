@@ -5,6 +5,9 @@
 #include<PlayerUI.h>
 #include<PlayerAnimation.h>
 #include<PlayerWeapon.h>
+#include<ActorSituation.h>
+
+
 
 class Player : public GameObject
 {
@@ -41,6 +44,9 @@ private:
 	bool fieldHit = false;
 
 	std::unique_ptr<PlayerWeapon> weapon;
+
+	int32_t situation = 0;
+
 
 public:
 
@@ -89,6 +95,10 @@ public:
 
 	virtual void OnContact(uint32_t attribute_)override;
 
+	bool IsAttack();
+
+	int32_t GetDamage();
+
 private:
 
 	/// <summary>
@@ -100,6 +110,8 @@ private:
 	/// 回転
 	/// </summary>
 	void PRotate();
+
+	void PAttack();
 
 	void Initialize()override {};
 	void Update()override {};
