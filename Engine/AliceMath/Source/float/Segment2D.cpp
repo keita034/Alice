@@ -1,4 +1,4 @@
-﻿#include "Segment2D.h"
+#include "Segment2D.h"
 
 void Segment2D::SetStart(const AliceMathF::Vector2& pos_)
 {
@@ -30,3 +30,5 @@ AliceMathF::Vector2 Segment2D::GetVector()const
 {
 	return end - start;
 }
+
+Segment2D::Segment2D(const Segment2D&) = default;

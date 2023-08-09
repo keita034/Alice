@@ -44,6 +44,11 @@ float PlayerAnimation::GetFrame()
 	return frame;
 }
 
+float PlayerAnimation::GetRatio()
+{
+	return blendTree->GetRatio();
+}
+
 void PlayerAnimation::InsertAttackAnimation()
 {
 	blendTree->InsertAnimation(attackAnimationHandle);

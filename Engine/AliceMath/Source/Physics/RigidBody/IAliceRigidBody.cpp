@@ -110,7 +110,7 @@ void IAliceRigidBody::CreateShape(const std::vector<AliceMathF::Vector3>& points
 	isTrigger = trigger_;
 	isGravity = gravity_;
 
-	physx::PxTriangleMeshDesc lDesc;
+	physx::PxTriangleMeshDesc lDesc{};
 
 	lDesc.setToDefault(); // 初期化
 
@@ -125,9 +125,13 @@ void IAliceRigidBody::CreateShape(const std::vector<AliceMathF::Vector3>& points
 
 	assert(lDesc.isValid());
 
+	physx::PxTriangleMeshCookingResult::Enum condition;
 	physx::PxDefaultMemoryOutputStream lWriteBuffer{};
+	bool status{ cooking->cookTriangleMesh(lDesc, lWriteBuffer,&condition) };
+	assert(status);
+	status = false;
 
-	assert(cooking->cookTriangleMesh(lDesc, lWriteBuffer));
+	static_cast<void>(condition);
 
 	physx::PxDefaultMemoryInputData read_buffer(lWriteBuffer.getData(), lWriteBuffer.getSize());
 	physx::PxTriangleMesh* lTriangleMesh{ physics->createTriangleMesh(read_buffer) };
@@ -219,11 +223,22 @@ void IAliceRigidBody::SetInitializePos(const AliceMathF::Vector3& pos_)
 	pxTransform.p = pos_;
 }
 
-void IAliceRigidBody::SetInitializeRot(const AliceMathF::Vector3& rot_)
+void IAliceRigidBody::SetInitializeRot(const AliceMathF::Vector3& rot_, const AliceMathF::Quaternion* quaternion_)
 {
 	AliceMathF::Quaternion lQuaternion;
-	lQuaternion.SeTEuler(rot_);
-	pxTransform.q = lQuaternion;
+	if (quaternion_)
+	{
+		AliceMathF::Quaternion lQuaternion2 = *quaternion_;
+		lQuaternion.SeTEuler(rot_);
+		lQuaternion2 *= lQuaternion;
+		pxTransform.q = lQuaternion2;
+	}
+	else
+	{
+		lQuaternion.SeTEuler(rot_);
+		pxTransform.q = lQuaternion;
+	}
+
 }
 
 void IAliceRigidBody::SetInitializeRot(const AliceMathF::Quaternion& quaternion_)

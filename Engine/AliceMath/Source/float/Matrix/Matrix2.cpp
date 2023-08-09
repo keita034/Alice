@@ -1,4 +1,4 @@
-﻿#pragma warning(push)
+#pragma warning(push)
 #pragma warning(disable: 4365)
 #pragma warning(disable: 4514)
 #pragma warning(disable: 4619)
@@ -155,6 +155,8 @@ namespace AliceMathF
 
 		return lTmp;
 	}
+
+	Matrix2::Matrix2(const Matrix2&) = default;
 
 	Matrix2& Matrix2::operator=(const Matrix2& m_)
 	{

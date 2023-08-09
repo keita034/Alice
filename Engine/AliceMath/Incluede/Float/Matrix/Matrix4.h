@@ -152,6 +152,8 @@ namespace AliceMathF
 		Matrix4 operator*(const Matrix4& mat_) const;
 
 		Matrix4 Transpose();
+
+		Matrix4(const Matrix4&);
 	};
 
 	/// <summary>

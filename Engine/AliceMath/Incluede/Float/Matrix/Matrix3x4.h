@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #pragma warning(push)
 #pragma warning(disable: 4365)
 #pragma warning(disable: 4514)
@@ -78,6 +78,8 @@ namespace AliceMathF
 		Matrix3x4 operator*(const Matrix3x4& mat_) const;
 
 		Matrix3x4 Transpose();
+
+		Matrix3x4(const Matrix3x4&);
 	};
 
 	/// <summary>

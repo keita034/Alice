@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include"BaseCollider.h"
 
 class TriangleCollider : public BaseCollider
@@ -41,6 +41,9 @@ public:
 	const AliceMathF::Vector4& GetNormal()const;
 	//法線ベクトルを設定
 	void SetNormal(const AliceMathF::Vector4& normal_);
+
+	TriangleCollider(const TriangleCollider&) = default;
+
 
 private:
 };

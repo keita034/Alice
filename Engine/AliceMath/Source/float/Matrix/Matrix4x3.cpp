@@ -1,4 +1,4 @@
-﻿#include "Matrix4x3.h"
+#include "Matrix4x3.h"
 namespace AliceMathF
 {
 	Matrix4x3::Matrix4x3()
@@ -182,6 +182,8 @@ namespace AliceMathF
 
 		return lTmp;
 	}
+
+	Matrix4x3::Matrix4x3(const Matrix4x3&) = default;
 
 	Matrix4x3 MakeMatrix4x3Identity()
 	{

@@ -4,7 +4,7 @@ void PlayerGameCamera::Initialize()
 {
 	camera = std::make_unique<GameCamera>();
 	camera->Initialize(UPDATE_PROJMATRIXFUNC_PERSPECTIVE);
-
+	camera->SetFar(2000.0f);
 	PCameraPositionUpdate();
 }
 

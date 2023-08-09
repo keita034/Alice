@@ -7,15 +7,13 @@
 #include<PlayerWeapon.h>
 #include<ActorSituation.h>
 
-
-
 class Player : public GameObject
 {
 private:
 
 	AliceInput::IInput* input;
 
-	float speed = 50.0f;
+	float speed = 100.0f;
 	float scale = 0.35f;
 	//float scale = 1.0f;
 
@@ -38,15 +36,18 @@ private:
 
 	std::unique_ptr<PlayerUI>ui;
 	std::unique_ptr<PlayerAnimation>animation;
+	std::unique_ptr<PlayerWeapon> weapon;
 
 	Camera* camera = nullptr;
 
 	bool fieldHit = false;
 
-	std::unique_ptr<PlayerWeapon> weapon;
-
 	int32_t situation = 0;
 
+	AliceMathF::Vector3 rowlingWay;
+	AliceMathF::Vector3 rowlingStartPos;
+	AliceMathF::Vector3 rowlingEndPos;
+	float rowlingDistance = 100.0f;
 
 public:
 
@@ -105,6 +106,8 @@ private:
 	/// 移動
 	/// </summary>
 	void PMove(BaseGameCamera* camera_);
+
+	void PRowling(BaseGameCamera* camera_);
 
 	/// <summary>
 	/// 回転

@@ -60,4 +60,6 @@ void AlicePhysics::SimulateTime(float time_)
 	const physx::PxReal kElapsedTime = 1.0f / 60.0f; // 60Hz
 	scene->simulate(kElapsedTime);
 	scene->fetchResults(true);
+
 }
+

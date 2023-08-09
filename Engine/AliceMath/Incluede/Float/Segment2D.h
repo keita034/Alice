@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <Vector2.h>
 
 /// <summary>
@@ -48,5 +48,7 @@ public:
 	void CreateSegment2D(const AliceMathF::Vector2& center_, const AliceMathF::Vector2& axis_, float height_);
 
 	AliceMathF::Vector2 GetVector()const;
+
+	Segment2D(const Segment2D&);
 };
 

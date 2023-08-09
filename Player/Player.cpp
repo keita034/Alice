@@ -66,13 +66,16 @@ void Player::Update(BaseGameCamera* camera_, GameCameraManager::CameraIndex inde
 
 	}
 
+	PRowling(camera_);
+
 	PAttack();
 
-	if (index_ == GameCameraManager::CameraIndex::PLAYER_CAMERA)
+	if (index_ == GameCameraManager::CameraIndex::PLAYER_CAMERA && !(situation & PlayerSituation::ROWLING))
 	{
 		PMove(camera_);
 
 	}
+
 
 	if (!isStationary)
 	{
@@ -154,29 +157,57 @@ void Player::PMove(BaseGameCamera* camera_)
 {
 	AliceMathF::Vector3 lMove;
 
+	float lSpeed = speed;
+
 	AliceMathF::Vector3 lCameraForward = camera_->GetGameCamera()->GetTarget().Normal();
 	lCameraForward = { lCameraForward.x, 0.0f, lCameraForward.z };
 
-	if (input->InputStick(ControllerStick::LUP))
+	AliceMathF::Vector2 lLeftStickPower = input->GetLeftStickVec();
+
+	float lStickPower = AliceMathUtility::Max<float>(AliceMathF::Abs(lLeftStickPower.x), AliceMathF::Abs(lLeftStickPower.y));
+
+	if (!input->InputButton(ControllerButton::A))
 	{
-		lMove += {0.0f, 0.0f, speed};
+		lLeftStickPower *= 0.5f;
+	}
+
+	if (lStickPower >= 0.01f)
+	{
+		lMove = { lLeftStickPower.x * lSpeed, 0.0f, -
+			lLeftStickPower.y * lSpeed };
+		isStationary = false;
+	}
+
+
+	//if (input->InputButton(ControllerButton::A))
+	//{
+	//	lSpeed *= lStickPower;
+	//}
+	//else
+	//{
+	//	lSpeed *= (0.5f * lStickPower);
+	//}
+
+	/*if (input->InputStick(ControllerStick::LUP))
+	{
+		lMove += {0.0f, 0.0f, lSpeed};
 		isStationary = false;
 	}
 	if (input->InputStick(ControllerStick::LDOWN))
 	{
-		lMove += {0.0f, 0.0f, -speed};
+		lMove += {0.0f, 0.0f, -lSpeed};
 		isStationary = false;
 	}
 	if (input->InputStick(ControllerStick::LLEFT))
 	{
-		lMove += {-speed, 0.0f, 0.0f};
+		lMove += {-lSpeed, 0.0f, 0.0f};
 		isStationary = false;
 	}
 	if (input->InputStick(ControllerStick::LRIGHT))
 	{
-		lMove += {speed, 0.0f, 0.0f};
+		lMove += {lSpeed, 0.0f, 0.0f};
 		isStationary = false;
-	}
+	}*/
 
 	PlayerGameCamera* lPlayerCamera = dynamic_cast<PlayerGameCamera*>(camera_);
 
@@ -192,10 +223,62 @@ void Player::PMove(BaseGameCamera* camera_)
 	};
 
 	dynamicBody->setLinearVelocity(lMove);
-	dynamicBody->setAngularVelocity({ 0,0,0 });
+	//dynamicBody->setAngularVelocity({ 0,0,0 });
 	transform.translation = GetGlobalPos() + -rigidBodyoffset;
 
 
+}
+
+void Player::PRowling(BaseGameCamera* camera_)
+{
+	AliceMathF::Vector2 lLeftStickPower = input->GetLeftStickVec();
+
+	float lStickPower = AliceMathUtility::Max<float>(AliceMathF::Abs(lLeftStickPower.x), AliceMathF::Abs(lLeftStickPower.y));
+
+	if (lStickPower >= 0.5f)
+	{
+		if (input->TriggerButton(ControllerButton::A) && !(situation & PlayerSituation::ROWLING))
+		{
+			situation |= PlayerSituation::ROWLING;
+
+			rowlingWay = AliceMathF::Vector3(lLeftStickPower.x, 0.0f, -lLeftStickPower.y);
+
+			PlayerGameCamera* lPlayerCamera = dynamic_cast<PlayerGameCamera*>(camera_);
+
+			// カメラの角度に合わせて移動ベクトルを回転してから加算
+			float SinParam = AliceMathF::Sin(lPlayerCamera->GetAngle().y / AliceMathF::DEG_TO_RAD);
+			float CosParam = AliceMathF::Cos(lPlayerCamera->GetAngle().y / AliceMathF::DEG_TO_RAD);
+
+			rowlingWay =
+			{
+				rowlingWay.x * CosParam - rowlingWay.z * SinParam ,
+				0.0f ,
+				rowlingWay.x * SinParam + rowlingWay.z * CosParam
+			};
+
+			rowlingStartPos = transform.translation;
+
+			rowlingWay *= rowlingDistance;
+
+			animation->InsertRowlingAnimation();
+		}
+	}
+
+	if (situation & PlayerSituation::ROWLING && animation->IsInsert())
+	{
+		transform.translation = AliceMathF::Easing::EaseInSine(animation->GetRatio(), 1.0f, rowlingStartPos, rowlingWay);
+	}
+
+	if (situation & PlayerSituation::ROWLING && !animation->IsInsert())
+	{
+		situation &= ~PlayerSituation::ROWLING;
+
+		physx::PxTransform lTransform;
+
+		lTransform.q = pxTransform.q;
+		lTransform.p = transform.translation + rigidBodyoffset;;
+		dynamicBody->setGlobalPose(lTransform);
+	}
 }
 
 void Player::PRotate()
@@ -215,7 +298,7 @@ void Player::PAttack()
 		situation |= PlayerSituation::ATTACK;
 	}
 
-	if (situation & PlayerSituation::ATTACK&& !animation->IsInsert())
+	if (situation & PlayerSituation::ATTACK && !animation->IsInsert())
 	{
 		situation &= ~PlayerSituation::ATTACK;
 	}

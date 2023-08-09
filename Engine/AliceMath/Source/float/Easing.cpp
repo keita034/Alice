@@ -10,6 +10,30 @@ namespace AliceMathF
 			return 1.0f - Cos((time_ * AX_PI) / 2.0f);
 		}
 
+		float EaseInSine(float time_, float endTime_, float startPos_, float distance_)
+		{
+			float lCoef = time_ / endTime_;
+
+			float lEasing = EaseInSine(lCoef);
+
+			float lRet = distance_ * lEasing + startPos_;
+
+			return lRet;
+		}
+
+		Vector3 EaseInSine(float time_, float endTime_, const Vector3& startPos_, const Vector3& distance_)
+		{
+			Vector3 lRet;
+
+			lRet = {
+				EaseInSine(time_,endTime_,startPos_.x,distance_.x),
+				EaseInSine(time_,endTime_,startPos_.y,distance_.y),
+				EaseInSine(time_,endTime_,startPos_.z,distance_.z)
+			};
+
+			return lRet;
+		}
+
 		float EaseOutSine(float time_)
 		{
 			return Sin((time_ * AX_PI) / 2.0f);

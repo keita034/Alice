@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "BaseCollider.h"
 #include"TriangleCollider.h"
 #include"Structure.h"
@@ -68,6 +68,8 @@ public:
 
 	MeshCollider() = default;
 	virtual ~MeshCollider() = default;
+
+	MeshCollider(const MeshCollider&) = default;
 
 };
 

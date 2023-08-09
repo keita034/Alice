@@ -161,6 +161,20 @@ const ReturnMotionNode* AliceBlendTree::GetMotion(const std::string& nodeName)
 	return &returnAnimation;
 }
 
+float AliceBlendTree::GetRatio()
+{
+	if (!isInsert)
+	{
+		std::unique_ptr<AliceMotionData>& node = startNode->animation;
+
+		return node->GetTickTimes(frame) / node->GetAnimeMaxflame();;
+	}
+	else
+	{
+		return  insertAnimation->GetTickTimes(frame) / insertAnimation->GetAnimeMaxflame();
+	}
+}
+
 bool AliceBlendTree::IsInsert()
 {
 	return isInsert;

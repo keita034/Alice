@@ -106,7 +106,7 @@ public:
 	static void SetCooking(physx::PxCooking* cooking_);
 
 	void SetInitializePos(const AliceMathF::Vector3& pos_);
-	void SetInitializeRot(const AliceMathF::Vector3& rot_);
+	void SetInitializeRot(const AliceMathF::Vector3& rot_,const AliceMathF::Quaternion* quaternion_ = nullptr);
 	void SetInitializeRot(const AliceMathF::Quaternion& quaternion_);
 
 	void AddForce(const AliceMathF::Vector3& force_, ForceMode mode_);

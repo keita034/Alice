@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #pragma once
 #pragma warning(push)
 #pragma warning(disable: 4365)
@@ -109,4 +109,6 @@ public:
 
 	virtual ~BaseCollider() = default;
 	BaseCollider() = default;
+
+	BaseCollider(const BaseCollider&) = default;
 };

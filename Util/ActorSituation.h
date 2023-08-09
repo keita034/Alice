@@ -3,6 +3,7 @@
 enum PlayerSituation
 {
 	ATTACK = (1 << 0),
+	ROWLING = (1 << 1),
 
 };
 

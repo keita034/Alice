@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #pragma warning(push)
 #pragma warning(disable: 4365)
 #pragma warning(disable: 4514)
@@ -67,6 +67,8 @@ namespace AliceMathF
 
 
 		Matrix2x4 Transpose();
+
+		Matrix2x4(const Matrix2x4&);
 	};
 
 	/// <summary>

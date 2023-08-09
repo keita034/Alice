@@ -1,10 +1,15 @@
 #pragma once
+#include<Vector3.h>
 
 namespace AliceMathF
 {
 	namespace Easing
 	{
 		float EaseInSine(float time_);
+
+		float EaseInSine(float time_, float endTime_, float startPos_, float distance_);
+
+		Vector3 EaseInSine(float time_, float endTime_,const Vector3& startPos_, const Vector3& distance_);
 
 		float EaseOutSine(float time_);
 

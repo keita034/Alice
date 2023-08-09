@@ -53,6 +53,12 @@ public:
 	/// </summary>
 	float GetFrame();
 
+	/// <summary>
+	/// アニメーションが進んだの割合を取得
+	/// </summary>
+	/// <returns></returns>
+	float GetRatio();
+
 	void InsertAttackAnimation();
 
 	void InsertRowlingAnimation();

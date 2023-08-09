@@ -401,6 +401,8 @@ namespace AliceMathF
 		return lTmp;
 	}
 
+	Matrix4::Matrix4(const Matrix4&) = default;
+
 	Matrix4& Matrix4::operator=(const Matrix4& m_)
 	{
 		for (size_t i = 0; i < 4; i++)

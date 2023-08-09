@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #pragma warning(push)
 #pragma warning(disable: 4365)
 #pragma warning(disable: 4514)
@@ -116,6 +116,8 @@ namespace AliceMathF
 		Matrix3 operator*(const Matrix3& mat_) const;
 
 		Matrix3 Transpose();
+
+		Matrix3(const Matrix3&);
 	};
 
 	/// <summary>

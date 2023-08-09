@@ -64,6 +64,8 @@ public:
 
 	void SetThresh(float thresh_);
 
+	float GetRatio();
+
 	void Update(float addFrameNum_);
 
 	const ReturnMotionNode* GetMotion(const std::string& nodeName);

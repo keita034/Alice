@@ -243,9 +243,12 @@ void SceneData::Object::Initialize(uint32_t handle_, const AliceMathF::Vector3& 
 		transform.parent = parent_;
 	}
 
+	AliceMathF::Matrix4 rotMat;
+	rotMat.MakeRotation({0.0f,0.0f,90*AliceMathF::DEG_TO_RAD});
+
 	for (const PosNormUvTangeColSkin& ver :model->GetMeshs()[0]->GetVertices())
 	{
-		points.push_back({ ver.position.x,ver.position.y,ver.position.z });
+		points.push_back({ ver.position.y,ver.position.z,ver.position.x });
 	}
 
 	for ( const uint32_t& ind : model->GetMeshs()[ 0 ]->GetIndices() )
@@ -253,8 +256,10 @@ void SceneData::Object::Initialize(uint32_t handle_, const AliceMathF::Vector3& 
 		triangles.push_back(ind);
 	}
 
+
 	if ( meshCollision )
 	{
+
 		CreateMaterial();
 		CreateShape(points,triangles,CollisionAttribute::FIELD,( CollisionAttribute::BOSS | CollisionAttribute::PLAYER | CollisionAttribute::ENEMY ));
 		SetInitializePos(pos_);

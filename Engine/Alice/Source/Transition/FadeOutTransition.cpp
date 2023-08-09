@@ -10,7 +10,7 @@ void FadeOutTransition::Initilize(float windowHeight, float windowWidth)
 	spriteTransform.translation = { windowWidth * 0.5f,windowHeight * 0.5f ,0.0f };
 	spriteTransform.scale = { windowWidth  ,windowHeight ,1.0f };
 
-	easing = AliceMathF::Easing::EaseInSine;
+	easing = easing = static_cast< float ( * )( float ) >( AliceMathF::Easing::EaseInSine );
 }
 
 void FadeOutTransition::Finalize()
