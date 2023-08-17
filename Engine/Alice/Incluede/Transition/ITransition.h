@@ -45,7 +45,7 @@ public:
 	/// <summary>
 	/// 描画
 	/// </summary>
-	virtual void Draw() = 0;
+	virtual void Draw(bool draw_ = false) = 0;
 
 	void SetEasing(const std::function<float(float)>& easing_);
 
@@ -55,6 +55,8 @@ public:
 	/// 終了したか
 	/// </summary>
 	bool IsEnd();
+
+	bool IsStart();
 
 	virtual bool Start() = 0;
 

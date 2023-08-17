@@ -1,7 +1,8 @@
 #include "SceneFactrory.h"
 #include "TitleScene.h"
 #include "GameScene.h"
-#include "ResultScene.h"
+#include "ClearScene.h"
+#include "FailureScene.h"
 
 SceneFactrory* SceneFactrory::SGetInstance()
 {
@@ -22,9 +23,17 @@ std::unique_ptr<BaseScene> SceneFactrory::CreateScene(const std::string& sceneNa
 	{
 		lNewScene = std::make_unique<GameScene>();
 	}
-	else if (sceneName == "RESULT")
+	else if (sceneName == "CLEAR")
 	{
-		lNewScene = std::make_unique<ResultScene>();
+		lNewScene = std::make_unique<ClearScene>();
 	}
+	else if (sceneName == "FAILURE")
+	{
+		lNewScene = std::make_unique<FailureScene>();
+	}
+
+	lNewScene->SetSceneName(sceneName);
+
+
 	return std::move(lNewScene);
 }

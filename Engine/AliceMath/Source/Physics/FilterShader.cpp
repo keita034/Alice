@@ -5,24 +5,25 @@ physx::PxFilterFlags FilterShader(physx::PxFilterObjectAttributes attributes0, p
 	static_cast<void>(constantBlockSize);
 	static_cast<void>(constantBlock);
 
-	// トリガーを通す
-	if (physx::PxFilterObjectIsTrigger(attributes0) || physx::PxFilterObjectIsTrigger(attributes1))
-	{
-		pairFlags = physx::PxPairFlag::eTRIGGER_DEFAULT;
-		return physx::PxFilterFlag::eDEFAULT;
-	}
-	//  上記でフィルタリングされなかったすべてのコンタクトを生成する
-	pairFlags = physx::PxPairFlag::eCONTACT_DEFAULT;
-
-	// (A,B)のペアに対するコンタクト・コールバックをトリガーする。
-	// AのフィルターマスクはBのIDを含み、逆も同様。
 	if ((filterData0.word0 & filterData1.word1) && (filterData1.word0 & filterData0.word1))
 	{
+		// トリガーを通す
+		if (physx::PxFilterObjectIsTrigger(attributes0) || physx::PxFilterObjectIsTrigger(attributes1))
+		{
+			pairFlags = physx::PxPairFlag::eTRIGGER_DEFAULT;
+			return physx::PxFilterFlag::eDEFAULT;
+		}
+
+		// (A,B)のペアに対するコンタクト・コールバックをトリガーする。
+		// AのフィルターマスクはBのIDを含み、逆も同様。
+
 		pairFlags |= physx::PxPairFlag::eNOTIFY_TOUCH_FOUND;
 		pairFlags |= physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS;
 	}
 
+	pairFlags = physx::PxPairFlag::eCONTACT_DEFAULT;
+
 	return physx::PxFilterFlag::eDEFAULT;
 
-	
+
 }

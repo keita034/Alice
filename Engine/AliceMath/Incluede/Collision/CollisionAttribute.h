@@ -6,4 +6,5 @@ enum CollisionAttribute
 	BOSS = (1 << 2),
 	FIELD = (1 << 3),
 	PLAYERWEAPON = (1 << 4),
+	BOSSHAND = (1<<5),
 };

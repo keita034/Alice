@@ -73,4 +73,20 @@ namespace AliceMathF
 	Vector4 VectorLess(const Vector4& vec_, const Vector4& vec2_);
 
 	Vector4 Vec4CmpltPs(const Vector4& vec_, const Vector4& vec2_);
+
+	/// <summary>
+	/// 値を範囲内に納める
+	/// </summary>
+	/// <param name="Value">値</param>
+	/// <param name="low">最低値</param>
+	/// <param name="high">最高値</param>
+	Vector2 Clamp(Vector2& Value_, const Vector2& low_, const Vector2& high_);
+
+	/// <summary>
+	/// 値を範囲内に納める
+	/// </summary>
+	/// <param name="Value">値</param>
+	/// <param name="low">最低値</param>
+	/// <param name="high">最高値</param>
+	Vector2 Clamp(Vector2& Value_, const float low_, const float high_);
 }

@@ -23,15 +23,21 @@ void SceneManager::ChangeScene(const std::string& sceneName_)
 	assert(nextScene == nullptr);
 
 	nextScene = sceneFactory->CreateScene(sceneName_);
+
+	if ( scene )
+	{
+		previewSceneName = scene->GetSceneName();
+	}
+
 }
 
 void SceneManager::Update()
 {
 	//次のシーンの予約があるなら
-	if (nextScene)
+	if ( nextScene )
 	{
 		//旧シーンの終了
-		if (scene)
+		if ( scene )
 		{
 			scene->Finalize();
 			PostEffectManager::SGetInstance()->Finalize();
@@ -45,7 +51,7 @@ void SceneManager::Update()
 		scene->SetSceneManager(this);
 
 		//次のシーンを初期化する
-		scene->Initialize();
+		scene->Initialize(previewSceneName);
 		PostEffectManager::SGetInstance()->PostInitialize();
 	}
 

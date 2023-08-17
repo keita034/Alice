@@ -14,3 +14,8 @@ bool ITransition::IsEnd()
 {
     return isEnd;
 }
+
+bool ITransition::IsStart()
+{
+	return start;
+}

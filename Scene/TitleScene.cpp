@@ -1,8 +1,9 @@
 #include "TitleScene.h"
 
 #include<SceneManager.h>
+#include<FadeInTransition.h>
 
-void TitleScene::Initialize()
+void TitleScene::Initialize(const std::string& previewSceneName_)
 {
 	titleHanlde = TextureManager::SLoad("Resources/UI/Title.png");
 	title = CreateUniqueSprite2D(titleHanlde);
@@ -18,9 +19,19 @@ void TitleScene::Initialize()
 	//camera_ = std::make_unique<GameCamera>();
 	//camera_->Initialize();
 
-	transition = std::make_unique<FadeOutTransition>();
-	transition->Initilize(static_cast<float>(sWinApp->GetWindowSize().height), static_cast<float>(sWinApp->GetWindowSize().width));
-	transition->SetIncrement(0.02f);
+	inTransition = std::make_unique<FadeInTransition>();
+	inTransition->Initilize(static_cast<float>(sWinApp->GetWindowSize().height), static_cast<float>(sWinApp->GetWindowSize().width));
+	inTransition->SetIncrement(0.008f);
+
+	if (previewSceneName_ != "")
+	{
+		inTransition->Start();
+	}
+
+
+	outTransition = std::make_unique<FadeOutTransition>();
+	outTransition->Initilize(static_cast<float>(sWinApp->GetWindowSize().height), static_cast<float>(sWinApp->GetWindowSize().width));
+	outTransition->SetIncrement(0.008f);
 }
 
 void TitleScene::Update()
@@ -30,13 +41,14 @@ void TitleScene::Update()
 		if (!sceneChange)
 		{
 			sceneChange = true;
-			transition->Start();
+			outTransition->Start();
 		}
 	}
 
-	transition->Update();
+	outTransition->Update();
+	inTransition->Update();
 
-	if (transition->IsEnd())
+	if (outTransition->IsEnd())
 	{
 		sceneManager->ChangeScene("GAME");
 	}
@@ -47,8 +59,8 @@ void TitleScene::Draw()
 	title->Draw(transform);
 	startA->Draw(startATransform);
 
-	transition->Draw();
-
+	inTransition->Draw();
+	outTransition->Draw(true);
 }
 
 void TitleScene::Finalize()

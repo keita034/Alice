@@ -4,24 +4,35 @@
 #include<FireWorkParticle.h>
 #include<AudioManager.h>
 
+#include<BossActionManager.h>
+#include<BossAnimation.h>
+#include<BossHand.h>
+#include<BossUI.h>
+
 class Boss : public GameObject
 {
 private:
 
-	int32_t situation=0;
-
 	Player* player = nullptr;
-
-	const int32_t MAX_HP = 300;
-	int32_t hp = 0;
-
-	std::unique_ptr<FireWorkParticle>fireWorkParticle;
-
-	Camera* camera;
-
+	Camera* camera = nullptr;
 	IAudioManager* audioManager = nullptr;
 
+	std::unique_ptr<FireWorkParticle>fireWorkParticle;
+	std::unique_ptr<BossActionManager> actionManager;
+	std::unique_ptr<BossAnimation> animation;
+	std::unique_ptr<BossUI>bossUI;
+
+	std::array< std::unique_ptr<BossHand>,2> hands;
+
+	AliceMathF::Vector3 direction = { 0,0,1 };
+	AliceMathF::Vector3 oldTrans;
+
+	const int32_t MAX_HP = 3;
+	
 	int32_t damageSE;
+	int32_t situation = 0;
+	int32_t hp = 0;
+
 
 public:
 
@@ -48,12 +59,19 @@ public:
 	/// </summary>
 	void Finalize()override;
 
+	/// <summary>
+	/// リセット
+	/// </summary>
+	void Reset();
+
 	void TransUpdate(Camera* camera_)override;
 
 	virtual void OnTrigger(uint32_t attribute_)override;
 
 	void SetPlayer(Player* player_);
 	void SetAudioManager(IAudioManager* audioManager_);
+
+	int32_t GetHp();
 private:
 
 	void Initialize(uint32_t handle_, const AliceMathF::Vector3& pos_, const AliceMathF::Vector3& rot_, const AliceMathF::Vector3& scl_, const Transform* parent_)override {};

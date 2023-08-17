@@ -158,4 +158,30 @@ namespace AliceMathF
 		lTmp.w = vec_.w < vec2_.w ? static_cast<float>(0xffffffff) :static_cast<float>( 0x0);
 		return lTmp;
 	}
+	Vector2 Clamp(Vector2& Value_, const Vector2& low_, const Vector2& high_)
+	{
+		Vector2 lTmp;
+		Vector2 lSign = { Sign(Value_.x),Sign (Value_.y)};
+
+		lTmp.x = AliceMathF::Clamp(Abs(Value_.x), low_.x, high_.y);
+		lTmp.y = AliceMathF::Clamp(Abs(Value_.y), low_.x, high_.y);
+
+		lTmp.x *= lSign.x;
+		lTmp.y *= lSign.y;
+
+		return lTmp;
+	}
+	Vector2 Clamp(Vector2& Value_, const float low_, const float high_)
+	{
+		Vector2 lTmp;
+		Vector2 lSign = { Sign(Value_.x),Sign(Value_.y) };
+
+		lTmp.x = AliceMathF::Clamp(Abs(Value_.x), low_, high_);
+		lTmp.y = AliceMathF::Clamp(Abs(Value_.y), low_, high_);
+
+		lTmp.x *= lSign.x;
+		lTmp.y *= lSign.y;
+
+		return lTmp;
+	}
 }

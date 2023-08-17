@@ -10,7 +10,7 @@ void PlayerAnimation::Initialize(AliceInput::IInput* input_)
 	walkAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Walk.almb");
 	runAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Run.almb");
 	rowlingAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Rowling.almb");
-
+	attackAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Attack.almb");
 
 	blendTree = std::make_unique<AliceBlendTree>();
 
@@ -18,16 +18,12 @@ void PlayerAnimation::Initialize(AliceInput::IInput* input_)
 	blendTree->AddAnimation(walkAnimationHandle);
 	blendTree->AddAnimation(runAnimationHandle);
 
-
-	attackAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Attack.almb");
 }
 
 void PlayerAnimation::Update()
 {
 
-	PWalkAnimationUpdate();
-
-	blendTree->Update(0.02f);
+	blendTree->Update(addFrame);
 }
 
 void PlayerAnimation::Finalize()
@@ -37,11 +33,6 @@ void PlayerAnimation::Finalize()
 AliceBlendTree* PlayerAnimation::GetAnimation() const
 {
 	return blendTree.get();
-}
-
-float PlayerAnimation::GetFrame()
-{
-	return frame;
 }
 
 float PlayerAnimation::GetRatio()
@@ -69,21 +60,13 @@ InsertAnimationPhase PlayerAnimation::GetInsertAnimationPhase()
 	return blendTree->GetInsertAnimationPhase();
 }
 
-void PlayerAnimation::PWalkAnimationUpdate()
+void PlayerAnimation::SetAddFrame(float num_)
 {
-	AliceMathF::Vector2 lLeftStickPower = input->GetLeftStickVec();
+	addFrame = num_;
+}
 
-	float lStickPower = AliceMathUtility::Max<float>(AliceMathF::Abs(lLeftStickPower.x), AliceMathF::Abs(lLeftStickPower.y));
-
-	if (input->InputButton(ControllerButton::A))
-	{
-		walkAnimationThresh = lStickPower;
-	}
-	else
-	{
-		walkAnimationThresh = 0.5f * lStickPower;
-	}
-
-	blendTree->SetThresh(walkAnimationThresh);
+void PlayerAnimation::WalkAnimationUpdate(float thresh_)
+{
+	blendTree->SetThresh(thresh_);
 }
 

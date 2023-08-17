@@ -6,48 +6,55 @@
 #include<PlayerAnimation.h>
 #include<PlayerWeapon.h>
 #include<ActorSituation.h>
+#include<DeviceInput.h>
 
 class Player : public GameObject
 {
 private:
 
-	AliceInput::IInput* input;
-
-	float speed = 100.0f;
-	float scale = 0.35f;
-	//float scale = 1.0f;
+	AliceInput::IInput* input = nullptr;
+	Camera* camera = nullptr;
 
 	AliceMathF::Vector3 oldTrans;
 	AliceMathF::Vector3 direction;
 
-	bool isStationary = true;
-
-	const int32_t MAX_HP = 300;
-	int32_t hp = 0;
-
-	const int32_t MAX_STAMINA = 100;
-	int32_t stamina = 0;
-	
-	const int32_t MAX_BULLET = 20;
-	int32_t bullet = 0;
-
-	const int32_t MAX_HEALING = 20;
-	int32_t healing = 0;
+	AliceMathF::Vector3 rowlingWay;
+	AliceMathF::Vector3 rowlingStartPos;
+	AliceMathF::Vector3 rowlingEndPos;
 
 	std::unique_ptr<PlayerUI>ui;
 	std::unique_ptr<PlayerAnimation>animation;
 	std::unique_ptr<PlayerWeapon> weapon;
+	std::unique_ptr<DeviceInput> deviceInput;
 
-	Camera* camera = nullptr;
+	float speed = 170.0f;
+	float scale = 0.35f;
+	float rowlingDistance = 100.0f;
+	//float scale = 1.0f;
 
-	bool fieldHit = false;
+	const int32_t MAX_HP = 3;
+	const int32_t MAX_STAMINA = 2000;
+	const int32_t MAX_BULLET = 20;
+	const int32_t MAX_HEALING = 20;
+	const int32_t MAX_DAMAGE_INTERVAL = 20;
+
+	int32_t hp = 0;
+
+	int32_t stamina = 0;
+	int32_t subRunStamina = 2;
+	int32_t subAttackStamina = 200;
+	int32_t subRowlingStamina = 400;
+
+	int32_t bullet = 0;
+
+	int32_t healing = 0;
 
 	int32_t situation = 0;
 
-	AliceMathF::Vector3 rowlingWay;
-	AliceMathF::Vector3 rowlingStartPos;
-	AliceMathF::Vector3 rowlingEndPos;
-	float rowlingDistance = 100.0f;
+	int32_t damageInterval = 0;
+
+	bool isStationary = true;
+	bool fieldHit = false;
 
 public:
 
@@ -96,9 +103,13 @@ public:
 
 	virtual void OnContact(uint32_t attribute_)override;
 
+	virtual void OnTrigger(uint32_t attribute_)override;
+
 	bool IsAttack();
 
 	int32_t GetDamage();
+
+	int32_t GetHp();
 
 private:
 
@@ -108,6 +119,8 @@ private:
 	void PMove(BaseGameCamera* camera_);
 
 	void PRowling(BaseGameCamera* camera_);
+
+	void PUIUpdate();
 
 	/// <summary>
 	/// 回転

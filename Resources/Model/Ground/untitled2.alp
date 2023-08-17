@@ -1855,7 +1855,8 @@ Index:{282.0}
 Index:{86.0}
 Index:{84.0}
 Index:{274.0}
-TextureNum:{0.0}
+TextureNum:{1.0}
+Texture:"white1x1.png"
 TextureNormalNum:{0.0}
 BoneNum:{0.0}
 Material:("None"|{0.0,0.0,0.0}|{0.800000012,0.800000012,0.800000012}|{0.800000012,0.800000012,0.800000012}|{0.0,0.0,0.0}|{1.0}|{1.0}|"")

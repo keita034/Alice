@@ -13,8 +13,8 @@ void AliceRigidBodyManager::onContact(const physx::PxContactPairHeader& pairHead
 
 		if (curContactPair.events & physx::PxPairFlag::eNOTIFY_TOUCH_FOUND || curContactPair.events & physx::PxPairFlag::eNOTIFY_TOUCH_PERSISTS)
 		{
-			physx::PxShape* triggerActor = curContactPair.shapes[0];
-			physx::PxShape* otherActor = curContactPair.shapes[1];
+			physx::PxRigidActor* triggerActor = pairHeader.actors[0];
+			physx::PxRigidActor* otherActor = pairHeader.actors[1];
 
 			RigidBodyUserData* lTriggerRigidBodyData = static_cast<RigidBodyUserData*>(triggerActor->userData);
 			RigidBodyUserData* lOtherRigidBodyData = static_cast<RigidBodyUserData*>(otherActor->userData);
@@ -22,8 +22,8 @@ void AliceRigidBodyManager::onContact(const physx::PxContactPairHeader& pairHead
 			IAliceRigidBody* lTriggerRigidBody = rigidBodyMap.at(lTriggerRigidBodyData->id);
 			IAliceRigidBody* lOtherRigidBody = rigidBodyMap.at(lOtherRigidBodyData->id);
 
-			lTriggerRigidBody->OnContact(lOtherRigidBodyData->attribute);
-			lOtherRigidBody->OnContact(lTriggerRigidBodyData->attribute);
+			lTriggerRigidBody->OnContact(lOtherRigidBody->GetUserData()->attribute);
+			lOtherRigidBody->OnContact(lTriggerRigidBody->GetUserData()->attribute);
 		}
 	}
 
@@ -39,8 +39,8 @@ void AliceRigidBodyManager::onTrigger(physx::PxTriggerPair* pairs, physx::PxU32 
 
 		const physx::PxTriggerPair& curTriggerPair = pairs[i];
 
-		physx::PxShape* triggerActor = curTriggerPair.triggerShape;
-		physx::PxShape* otherActor = curTriggerPair.otherShape;
+		physx::PxRigidActor* triggerActor = curTriggerPair.triggerActor;
+		physx::PxRigidActor* otherActor = curTriggerPair.otherActor;
 
 		RigidBodyUserData* lTriggerRigidBodyData = static_cast<RigidBodyUserData*>(triggerActor->userData);
 		RigidBodyUserData* lOtherRigidBodyData = static_cast<RigidBodyUserData*>(otherActor->userData);
@@ -48,8 +48,10 @@ void AliceRigidBodyManager::onTrigger(physx::PxTriggerPair* pairs, physx::PxU32 
 		IAliceRigidBody* lTriggerRigidBody = rigidBodyMap.at(lTriggerRigidBodyData->id);
 		IAliceRigidBody* lOtherRigidBody = rigidBodyMap.at(lOtherRigidBodyData->id);
 
-		lTriggerRigidBody->OnTrigger(lOtherRigidBodyData->attribute);
-		lOtherRigidBody->OnTrigger(lTriggerRigidBodyData->attribute);
+		lTriggerRigidBody->OnTrigger(lOtherRigidBody->GetUserData()->attribute);
+		lOtherRigidBody->OnTrigger(lTriggerRigidBody->GetUserData()->attribute);
+		int b = 0;
+		b++;
 	}
 }
 
@@ -81,4 +83,9 @@ void AliceRigidBodyManager::onAdvance(const physx::PxRigidBody* const* bodyBuffe
 void AliceRigidBodyManager::AddRigidBody(IAliceRigidBody* AliceRigidBody)
 {
 	rigidBodyMap[AliceRigidBody->GetName()] = AliceRigidBody;
+}
+
+void AliceRigidBodyManager::RemoveRigidBody(IAliceRigidBody* AliceRigidBody)
+{
+	rigidBodyMap.erase(AliceRigidBody->GetName());
 }

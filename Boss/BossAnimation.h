@@ -1,9 +1,8 @@
 #pragma once
 #include<AliceMotionData.h>
 #include<AliceBlendTree.h>
-#include<Input.h>
 
-class PlayerAnimation
+class BossAnimation
 {
 private:
 
@@ -11,26 +10,27 @@ private:
 	uint32_t walkAnimationHandle;
 	uint32_t runAnimationHandle;
 
-	uint32_t attackAnimationHandle;
-	uint32_t rowlingAnimationHandle;
+	uint32_t downAttackAnimationHandle;
 
-	float walkAnimationThresh =0.0f;
+	float walkAnimationThresh = 0.0f;
 
 	std::unique_ptr<AliceBlendTree>blendTree;
 
-	AliceInput::IInput* input;
-
 	float addFrame = 0.02f;
+
+	float standThresh = 0.0f;
+	float walkThresh = 0.5f;
+	float runThresh = 1.0f;
 
 public:
 
-	PlayerAnimation() = default;
-	~PlayerAnimation() = default;
+	BossAnimation() = default;
+	~BossAnimation() = default;
 
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(AliceInput::IInput* input_);
+	void Initialize();
 
 	/// <summary>
 	/// 更新処理
@@ -54,9 +54,7 @@ public:
 	/// <returns></returns>
 	float GetRatio();
 
-	void InsertAttackAnimation();
-
-	void InsertRowlingAnimation();
+	void InsertDownAttackAnimation();
 
 	bool IsInsert();
 
@@ -69,10 +67,14 @@ public:
 	/// </summary>
 	void WalkAnimationUpdate(float thresh_);
 
+	void SetStandThresh();
+	void SetWalkThresh();
+	void SetRunThresh();
+
 private:
 
 	//コピーコンストラクタ・代入演算子削除
-	PlayerAnimation& operator=(const PlayerAnimation&) = delete;
-	PlayerAnimation(const PlayerAnimation&) = delete;
+	BossAnimation& operator=(const BossAnimation&) = delete;
+	BossAnimation(const BossAnimation&) = delete;
 };
 

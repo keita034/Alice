@@ -1,5 +1,4 @@
 #pragma once
-
 #include<3DMesh.h>
 #include<AliceModel.h>
 #include<AliceToonModel.h>
@@ -17,29 +16,25 @@
 #include<Sprite2D.h>
 #include<Sprite3D.h>
 #include<Transform.h>
-#include<ImGuiManager.h>
 #include<FadeInTransition.h>
 
-#include<GameCameraManager.h>
-#include<Player.h>
-#include<Boss.h>
-
-class GameScene : public BaseScene
+class FailureScene : public BaseScene
 {
 private:
 
-	std::unique_ptr<SceneData>fieldObjData;
+	std::unique_ptr<Sprite2D>failure;
+	uint32_t failureHanlde = 0;
+	Transform transform;
 
-	std::unique_ptr<GameCameraManager>gameCameraManager;
-	std::unique_ptr<Player>player;
-	std::unique_ptr<Boss>boss;
 
 	std::unique_ptr<ITransition>inTransition;
 	std::unique_ptr<ITransition>outTransition;
-public:
 
-	GameScene();
-	~GameScene();
+	bool sceneChange = false;
+
+public:
+	FailureScene() = default;
+	~FailureScene() = default;
 
 	/// <summary>
 	/// 初期化
@@ -61,9 +56,9 @@ public:
 	/// </summary>
 	void Finalize() override;
 
-
 private:
 	//コピーコンストラクタ・代入演算子削除
-	GameScene& operator=(const GameScene&) = delete;
-	GameScene(const GameScene&) = delete;
+	FailureScene& operator=(const FailureScene&) = delete;
+	FailureScene(const FailureScene&) = delete;
 };
+

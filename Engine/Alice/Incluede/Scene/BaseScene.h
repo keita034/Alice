@@ -19,6 +19,9 @@ protected:
 	//シーンマネージャー
 	SceneManager* sceneManager = nullptr;
 
+	std::string sceneName;
+
+
 public:
 
 	virtual ~BaseScene() = default;
@@ -26,7 +29,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	virtual void Initialize() = 0;
+	virtual void Initialize(const std::string& previewSceneName_) = 0;
 
 	/// <summary>
 	/// 更新処理
@@ -45,8 +48,13 @@ public:
 
 	virtual void SetSceneManager(SceneManager* manager_);
 
+	void SetSceneName(const std::string& sceneName_);
+
+	const std::string& GetSceneName()const;
+
 	static void SSetInput(AliceInput::IInput* input_);
 	static void SSetAudioManager(IAudioManager* audioManager_);
 	static void SSetWindowsApp(IWindowsApp* windowsApp_);
+
 };
 

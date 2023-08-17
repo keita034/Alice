@@ -124,6 +124,8 @@ public:
 
 	const AliceMathF::Vector3& GetGlobalPos();
 
+	RigidBodyUserData* GetUserData();
+
 	//すり抜ける当たり判定
 	virtual void OnTrigger(uint32_t attribute_) = 0;
 

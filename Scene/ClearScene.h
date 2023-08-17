@@ -17,20 +17,31 @@
 #include<Sprite2D.h>
 #include<Sprite3D.h>
 #include<Transform.h>
+#include<FadeInTransition.h>
 
 
-class ResultScene : public BaseScene
+class ClearScene : public BaseScene
 {
 private:
-	
+
+	std::unique_ptr<ITransition>inTransition;
+	std::unique_ptr<ITransition>outTransition;
+
+	bool sceneChange = false;
+
+
+	std::unique_ptr<Sprite2D>clear;
+	uint32_t clearHanlde = 0;
+	Transform transform;
+
 public:
-	ResultScene() = default;
-	~ResultScene() = default;
+	ClearScene() = default;
+	~ClearScene() = default;
 
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize() override;
+	void Initialize(const std::string& previewSceneName_) override;
 
 	/// <summary>
 	/// 更新処理
@@ -49,7 +60,7 @@ public:
 
 private:
 	//コピーコンストラクタ・代入演算子削除
-	ResultScene& operator=(const ResultScene&) = delete;
-	ResultScene(const ResultScene&) = delete;
+	ClearScene& operator=(const ClearScene&) = delete;
+	ClearScene(const ClearScene&) = delete;
 };
 

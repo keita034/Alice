@@ -30,7 +30,7 @@ public:
 	/// <summary>
 	/// 描画
 	/// </summary>
-	virtual void Draw()override;
+	virtual void Draw(bool draw_)override;
 
 	bool Start()override;
 

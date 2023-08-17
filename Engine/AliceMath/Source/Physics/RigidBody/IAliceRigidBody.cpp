@@ -25,9 +25,11 @@ void IAliceRigidBody::CreateRigidBody(RigidBodyType type)
 		CoCreateGuid(&guid);
 		userData.id = GuidToString(guid);
 		shape->userData = &userData;
+		userData.attribute = filterGroup << 16;
 
 		dynamicBody = PxCreateDynamic(*physics, pxTransform, *shape, density);
 		dynamicBody->setMass(1.0f);
+		dynamicBody->userData = &userData;
 		//dynamicBody->setActorFlag(physx::PxActorFlag::eDISABLE_GRAVITY, isGravity);
 		scene->addActor(*dynamicBody);
 		manager->AddRigidBody(this);
@@ -40,8 +42,11 @@ void IAliceRigidBody::CreateRigidBody(RigidBodyType type)
 		CoCreateGuid(&guid);
 		userData.id = GuidToString(guid);
 		shape->userData = &userData;
+		userData.attribute = filterGroup << 16;
 
 		staticBody = PxCreateStatic(*physics, pxTransform, *shape);
+		staticBody->userData = &userData;
+
 		scene->addActor(*staticBody);
 		manager->AddRigidBody(this);
 
@@ -71,7 +76,8 @@ void IAliceRigidBody::CreateShape(float radius_, uint32_t filterGroup_, uint32_t
 	physx::PxFilterData lFilterData;
 	lFilterData.word0 = filterGroup_;
 	lFilterData.word1 = filterMask_;
-	userData.attribute = filterGroup_;
+	filterGroup = filterGroup_;
+
 	shape->setSimulationFilterData(lFilterData);
 
 	collisionShape = CollisionShape::SPHERE;
@@ -99,7 +105,8 @@ void IAliceRigidBody::CreateShape(float radius_, float halfHeight_, uint32_t fil
 	physx::PxFilterData lFilterData;
 	lFilterData.word0 = filterGroup_;
 	lFilterData.word1 = filterMask_;
-	userData.attribute = filterGroup_;
+	filterGroup = filterGroup_;
+
 	shape->setSimulationFilterData(lFilterData);
 
 	collisionShape = CollisionShape::CAPSULE;
@@ -158,7 +165,8 @@ void IAliceRigidBody::CreateShape(const std::vector<AliceMathF::Vector3>& points
 	physx::PxFilterData lFilterData;
 	lFilterData.word0 = filterGroup_;
 	lFilterData.word1 = filterMask_;
-	userData.attribute = filterGroup_;
+	filterGroup = filterGroup_;
+
 	shape->setSimulationFilterData(lFilterData);
 
 	collisionShape = CollisionShape::MESH;
@@ -186,7 +194,8 @@ void IAliceRigidBody::CreateShape(const AliceMathF::Vector3& halfExtent, uint32_
 	physx::PxFilterData lFilterData;
 	lFilterData.word0 = filterGroup_;
 	lFilterData.word1 = filterMask_;
-	userData.attribute = filterGroup_;
+	filterGroup = filterGroup_;
+
 	shape->setSimulationFilterData(lFilterData);
 
 	collisionShape = CollisionShape::SPHERE;
@@ -352,28 +361,43 @@ const AliceMathF::Vector3& IAliceRigidBody::GetGlobalPos()
 	}
 }
 
+RigidBodyUserData* IAliceRigidBody::GetUserData()
+{
+	return &userData;
+}
+
 IAliceRigidBody::~IAliceRigidBody()
 {
-	//if (rigidBodyType == RigidBodyType::DYNAMIC)
-	//{
-	//	if (dynamicBody)
-	//	{
-	//		dynamicBody->detachShape(*shape);
-	//		dynamicBody->release();
-	//	}
-	//}
-	//else
-	//{
-	//	if (staticBody)
-	//	{
-	//		staticBody->detachShape(*shape);
-	//		staticBody->release();
-	//	}
-	//}
+	if (rigidBodyType == RigidBodyType::DYNAMIC)
+	{
+		if (dynamicBody)
+		{
+			if (shape)
+			{
+				dynamicBody->detachShape(*shape);
+			}
 
-	//if (pxMaterial)
-	//{
-	//	pxMaterial->release();
+			dynamicBody->release();
+		}
+	}
+	else
+	{
+		if (staticBody)
+		{
+			if (shape)
+			{
+				staticBody->detachShape(*shape);
+			}
 
-	//}
+			staticBody->release();
+		}
+	}
+
+	if (pxMaterial)
+	{
+		pxMaterial->release();
+
+	}
+
+	manager->RemoveRigidBody(this);
 }

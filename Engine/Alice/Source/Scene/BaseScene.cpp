@@ -1,4 +1,5 @@
 ﻿#include "BaseScene.h"
+#include "BaseScene.h"
 #include<BaseScene.h>
 
 
@@ -11,9 +12,19 @@ void BaseScene::SetSceneManager(SceneManager* manager_)
 	sceneManager = manager_;
 }
 
+void BaseScene::SetSceneName(const std::string& sceneName_)
+{
+	sceneName = sceneName_;
+}
+
 void  BaseScene::SSetInput(AliceInput::IInput* input_)
 {
 	sInput = input_;
+}
+
+const std::string& BaseScene::GetSceneName()const
+{
+	return sceneName;
 }
 
 void BaseScene::SSetAudioManager(IAudioManager* audioManager_)

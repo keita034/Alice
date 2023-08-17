@@ -36,7 +36,9 @@ private:
 
 	bool sceneChange = false;
 
-	std::unique_ptr<ITransition>transition;
+	std::unique_ptr<ITransition>inTransition;
+	std::unique_ptr<ITransition>outTransition;
+
 public:
 
 	TitleScene() = default;
@@ -45,7 +47,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize() override;
+	void Initialize(const std::string& previewSceneName_) override;
 
 	/// <summary>
 	/// 更新処理

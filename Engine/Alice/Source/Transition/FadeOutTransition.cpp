@@ -35,9 +35,14 @@ void FadeOutTransition::Update()
 }
 
 
-void FadeOutTransition::Draw()
+void FadeOutTransition::Draw(bool draw_)
 {
-	if (start)
+	if (start&& !isEnd)
+	{
+		sprite->Draw(spriteTransform);
+	}
+
+	if ( start && draw_ )
 	{
 		sprite->Draw(spriteTransform);
 	}

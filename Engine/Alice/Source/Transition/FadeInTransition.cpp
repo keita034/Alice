@@ -35,9 +35,14 @@ void FadeInTransition::Update()
 }
 
 
-void FadeInTransition::Draw()
+void FadeInTransition::Draw(bool draw_)
 {
-	if (start)
+	if ( start && !isEnd )
+	{
+		sprite->Draw(spriteTransform);
+	}
+
+	if ( draw_ )
 	{
 		sprite->Draw(spriteTransform);
 	}
@@ -45,7 +50,7 @@ void FadeInTransition::Draw()
 
 bool FadeInTransition::Start()
 {
-	if (start && !isEnd)
+	if (start)
 	{
 		return false;
 	}

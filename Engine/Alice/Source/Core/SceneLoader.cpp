@@ -124,7 +124,9 @@ void SceneLoader::SObjectScan(SceneData* sceneData_, const nlohmann::json& jsonO
 		lScaling.z = static_cast<float>(lTransform["scaling"][0]);
 
 		bool meshCollision = static_cast< bool >( jsonObj_[ "isMesh" ] );
+		bool valid = static_cast< bool >( jsonObj_[ "isValid" ] );
 		lObject->SetIsMeshCollision(meshCollision);
+		lObject->SetIsValid(valid);
 
 		//モデル読み込み
 		uint32_t lHandle = AliceModel::SCreateModel(sBaseDirectorypath + lFileName);
@@ -279,7 +281,12 @@ void SceneData::Object::Update()
 
 void SceneData::Object::Draw()
 {
-	model->Draw(transform);
+	if ( isValid )
+	{
+
+		model->Draw(transform);
+	}
+
 }
 
 void SceneData::Object::Initialize()
@@ -289,6 +296,11 @@ void SceneData::Object::Initialize()
 void SceneData::Object::SetIsMeshCollision(bool flag)
 {
 	meshCollision = flag;
+}
+
+void SceneData::Object::SetIsValid(bool flag)
+{
+	isValid = flag;
 }
 
 void SceneData::Update(Camera* camera_)

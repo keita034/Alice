@@ -422,7 +422,18 @@ namespace AliceInput
 	{
 		AliceMathF::Vector2 lResult(static_cast<float>(xinputState.Gamepad.sThumbLX), static_cast<float>(-xinputState.Gamepad.sThumbLY));
 		StickInDeadZone(lResult, deadRate);
-		return lResult / STICK_INPUT_MAX;
+
+		lResult /= STICK_INPUT_MAX;
+
+		lResult.x = lResult.x * AliceMathF::Pow(10, 2);
+		lResult.x = AliceMathF::Round(lResult.x);
+		lResult.x /= AliceMathF::Pow(10, 2);
+
+		lResult.y = lResult.y * AliceMathF::Pow(10, 2);
+		lResult.y = AliceMathF::Round(lResult.y);
+		lResult.y /= AliceMathF::Pow(10, 2);
+
+		return lResult;
 	}
 
 	AliceMathF::Vector2 Controller::GetRightStickVec(const AliceMathF::Vector2& deadRate)

@@ -117,8 +117,16 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Boss\BossUI.cpp" />
+    <ClCompile Include="Boss\BossAnimation.cpp" />
+    <ClCompile Include="Boss\BossHand.cpp" />
+    <ClCompile Include="Boss\BossActionManager.cpp" />
+    <ClCompile Include="Boss\BossBaseAction.cpp" />
+    <ClCompile Include="Boss\BossChaseMove.cpp" />
     <ClCompile Include="Boss\BaseGameCamera.cpp" />
     <ClCompile Include="Boss\Boss.cpp" />
+    <ClCompile Include="DeviceInput.cpp" />
+    <ClCompile Include="Scene\FailureScene.cpp" />
     <ClCompile Include="Util\GameCameraManager.cpp" />
     <ClCompile Include="GameCore\GameMain.cpp" />
     <ClCompile Include="main.cpp" />
@@ -128,11 +136,19 @@
     <ClCompile Include="Player\PlayerGameCamera.cpp" />
     <ClCompile Include="Player\PlayerUI.cpp" />
     <ClCompile Include="Scene\GameScene.cpp" />
-    <ClCompile Include="Scene\ResultScene.cpp" />
+    <ClCompile Include="Scene\ClearScene.cpp" />
     <ClCompile Include="Scene\SceneFactrory.cpp" />
     <ClCompile Include="Scene\TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Boss\BossUI.h" />
+    <ClInclude Include="Boss\BossAnimation.h" />
+    <ClInclude Include="Boss\BossHand.h" />
+    <ClInclude Include="Boss\BossActionManager.h" />
+    <ClInclude Include="Boss\BossBaseAction.h" />
+    <ClInclude Include="Boss\BossChaseMove.h" />
+    <ClInclude Include="DeviceInput.h" />
+    <ClInclude Include="Scene\FailureScene.h" />
     <ClInclude Include="Util\ActorSituation.h" />
     <ClInclude Include="Boss\BaseGameCamera.h" />
     <ClInclude Include="Boss\Boss.h" />
@@ -145,7 +161,7 @@
     <ClInclude Include="Player\PlayerGameCamera.h" />
     <ClInclude Include="Player\PlayerUI.h" />
     <ClInclude Include="Scene\GameScene.h" />
-    <ClInclude Include="Scene\ResultScene.h" />
+    <ClInclude Include="Scene\ClearScene.h" />
     <ClInclude Include="Scene\SceneFactrory.h" />
     <ClInclude Include="Scene\TitleScene.h" />
   </ItemGroup>

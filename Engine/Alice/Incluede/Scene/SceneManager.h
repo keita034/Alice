@@ -17,6 +17,7 @@ private:
 
 	AbstractSceneFactory* sceneFactory = nullptr;
 
+	std::string previewSceneName;
 public:
 
 	static SceneManager* SGetInstance();
