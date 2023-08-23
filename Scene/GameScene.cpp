@@ -50,12 +50,19 @@ void GameScene::Initialize(const std::string& previewSceneName_)
 
 void GameScene::Update()
 {
-	if (boss->GetHp() <= 0)
+	if ( boss->IsEnd() )
 	{
-		if (outTransition->IsEnd())
+		if ( !outTransition->IsStart() )
+		{
+			outTransition->Start();
+			outTransition->SetIncrement(0.02f);
+		}
+
+		if ( outTransition->IsEnd() )
 		{
 			sceneManager->ChangeScene("CLEAR");
 		}
+
 	}
 
 	if (player->IsEnd())

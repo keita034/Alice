@@ -20,7 +20,6 @@ void PlayerGameCamera::BeginUpdate()
 	{
 		PMove();
 	}
-
 }
 
 void PlayerGameCamera::Draw()

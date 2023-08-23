@@ -8,6 +8,7 @@ void BossAnimation::Initialize()
 	runAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Run.almb");
 
 	downAttackAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/DownAttack.almb");
+	deathAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/Death.almb");
 
 	blendTree = std::make_unique<AliceBlendTree>();
 
@@ -38,6 +39,11 @@ float BossAnimation::GetRatio()
 void BossAnimation::InsertDownAttackAnimation()
 {
 	blendTree->InsertAnimation(downAttackAnimationHandle);
+}
+
+void BossAnimation::InsertDeathAnimation()
+{
+	blendTree->InsertAnimation(deathAnimationHandle,false);
 }
 
 bool BossAnimation::IsInsert()
@@ -73,4 +79,14 @@ void BossAnimation::SetWalkThresh()
 void BossAnimation::SetRunThresh()
 {
 	blendTree->SetThresh(runThresh);
+}
+
+void BossAnimation::AnimationStop()
+{
+	blendTree->Stop();
+}
+
+void BossAnimation::AnimationEndStop()
+{
+	blendTree->AnimationEndStop();
 }

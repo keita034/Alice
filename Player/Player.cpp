@@ -197,7 +197,7 @@ void Player::OnTrigger(uint32_t attribute_)
 
 				if ( hp <= 0 )
 				{
-					animation->InsertDeathgAnimation();
+					animation->InsertDeathAnimation();
 					animation->AnimationEndStop();
 				}
 			}

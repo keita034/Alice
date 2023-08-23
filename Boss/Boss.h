@@ -72,6 +72,13 @@ public:
 	void SetAudioManager(IAudioManager* audioManager_);
 
 	int32_t GetHp();
+
+	bool IsEnd();
+
+	void AnimationStop();
+
+	void AnimationEndStop();
+
 private:
 
 	void Initialize(uint32_t handle_, const AliceMathF::Vector3& pos_, const AliceMathF::Vector3& rot_, const AliceMathF::Vector3& scl_, const Transform* parent_)override {};

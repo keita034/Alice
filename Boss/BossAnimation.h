@@ -11,6 +11,7 @@ private:
 	uint32_t runAnimationHandle;
 
 	uint32_t downAttackAnimationHandle;
+	uint32_t deathAnimationHandle;
 
 	float walkAnimationThresh = 0.0f;
 
@@ -56,6 +57,8 @@ public:
 
 	void InsertDownAttackAnimation();
 
+	void InsertDeathAnimation();
+
 	bool IsInsert();
 
 	InsertAnimationPhase GetInsertAnimationPhase();
@@ -70,6 +73,9 @@ public:
 	void SetStandThresh();
 	void SetWalkThresh();
 	void SetRunThresh();
+
+	void AnimationStop();
+	void AnimationEndStop();
 
 private:
 

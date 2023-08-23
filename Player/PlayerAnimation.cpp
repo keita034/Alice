@@ -52,7 +52,7 @@ void PlayerAnimation::InsertRowlingAnimation()
 	blendTree->InsertAnimation(rowlingAnimationHandle);
 }
 
-void PlayerAnimation::InsertDeathgAnimation()
+void PlayerAnimation::InsertDeathAnimation()
 {
 	blendTree->InsertAnimation(deathAnimationHandle, false);
 }

@@ -47,53 +47,54 @@ void Boss::Update()
 {
 	oldTrans = transform.translation;
 
-	actionManager->Update(player->GetPosition(), transform.translation);
+	if ( hp > 0 )
+	{
+		actionManager->Update(player->GetPosition(),transform.translation);
+	}
 
 	bossUI->SetHp(hp, MAX_HP);
 
-	if (actionManager->GetinternalAction() == BossInternalAction::ATTACK)
+	if ( hp > 0 )
 	{
-		situation |= ActorSituation::ATTACK;
-	}
-	else
-	{
-		if (situation & ActorSituation::ATTACK)
+		if ( actionManager->GetinternalAction() == BossInternalAction::ATTACK )
 		{
-			situation &= ~ActorSituation::ATTACK;
+			situation |= ActorSituation::ATTACK;
 		}
-	}
-
-	//移動
-
-	AliceMathF::Vector3 lMove = actionManager->GetDistanceTraveled();
-	dynamicBody->setLinearVelocity(lMove);
-
-	{
-		physx::PxTransform lTransform;
-		lTransform = dynamicBody->getGlobalPose();
-
-		if (lTransform.q != pxTransform.q)
+		else
 		{
-			lTransform.q = pxTransform.q;
-			dynamicBody->setGlobalPose(lTransform);
-			transform.translation = GetGlobalPos() + -rigidBodyoffset;
-
-			actionManager->SetBossPos(GetGlobalPos());
+			if ( situation & ActorSituation::ATTACK )
+			{
+				situation &= ~ActorSituation::ATTACK;
+			}
 		}
-	}
 
-	if (AliceMathF::Vector3(0,0,0) != lMove)
+		//移動
 
-	{
-		direction = lMove.Normal();
-		direction = -direction;
-		direction = direction.Normal();
+		AliceMathF::Vector3 lMove = actionManager->GetDistanceTraveled();
+		dynamicBody->setLinearVelocity(lMove);
 
-	}
-	else
-	{
-		int b = 0;
-		b++;
+		{
+			physx::PxTransform lTransform;
+			lTransform = dynamicBody->getGlobalPose();
+
+			if ( lTransform.q != pxTransform.q )
+			{
+				lTransform.q = pxTransform.q;
+				dynamicBody->setGlobalPose(lTransform);
+				transform.translation = GetGlobalPos() + -rigidBodyoffset;
+
+				actionManager->SetBossPos(GetGlobalPos());
+			}
+		}
+
+		if ( AliceMathF::Vector3(0,0,0) != lMove )
+
+		{
+			direction = lMove.Normal();
+			direction = -direction;
+			direction = direction.Normal();
+
+		}
 	}
 
 	if (situation & ActorSituation::DAMAGE && !player->IsAttack())
@@ -114,9 +115,6 @@ void Boss::Update()
 		hands[static_cast<size_t>(BossHandIndex::RIGHT)]->SetSituation(situation);
 		hands[static_cast<size_t>(BossHandIndex::LEFT)]->SetSituation(situation);
 	}
-
-
-
 
 }
 
@@ -156,10 +154,20 @@ void Boss::OnTrigger(uint32_t attribute_)
 		player->IsAttack() &&
 		!(situation & ActorSituation::DAMAGE))
 	{
-		hp -= player->GetDamage();
-		situation |= ActorSituation::DAMAGE;
-		fireWorkParticle->Add(transform.translation + rigidBodyoffset);
-		audioManager->PlayWave(damageSE);
+		if ( hp>0 )
+		{
+			hp -= player->GetDamage();
+			situation |= ActorSituation::DAMAGE;
+			fireWorkParticle->Add(transform.translation + rigidBodyoffset);
+			audioManager->PlayWave(damageSE);
+
+			if ( hp <= 0 )
+			{
+				animation->InsertDeathAnimation();
+				animation->AnimationEndStop();
+			}
+		}
+
 
 	}
 }
@@ -177,4 +185,20 @@ void Boss::SetAudioManager(IAudioManager* audioManager_)
 int32_t Boss::GetHp()
 {
 	return hp;
+}
+
+bool Boss::IsEnd()
+{
+	return hp <= 0 && !animation->IsInsert();
+}
+
+void Boss::AnimationStop()
+{
+	animation->AnimationStop();
+}
+
+void Boss::AnimationEndStop()
+{
+	animation->AnimationEndStop();
+
 }

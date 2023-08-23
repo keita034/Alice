@@ -59,7 +59,7 @@ public:
 
 	void InsertRowlingAnimation();
 
-	void InsertDeathgAnimation();
+	void InsertDeathAnimation();
 
 	bool IsInsert();
 
