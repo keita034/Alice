@@ -111,6 +111,12 @@ public:
 
 	int32_t GetHp();
 
+	bool IsEnd();
+
+	void AnimationStop();
+
+	void AnimationEndStop();
+
 private:
 
 	/// <summary>

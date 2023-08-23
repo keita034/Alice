@@ -9,7 +9,8 @@ struct BlendNode
 	uint32_t index;
 	float thresh;
 
-	int32_t PADING;
+
+	uint32_t PADING;
 
 	BlendNode() = default;
 	~BlendNode() = default;
@@ -47,20 +48,20 @@ private:
 	float thresh;
 	float localThresh;
 	float frame;
-
 	float insertAnimationOneThirdFrame;
-
+	
 	bool isInsert = false;
-
 	bool isDirty = true;
+	bool complement;
+	bool isPlay = true;
+	bool animationEndStop = false;
 
-	int8_t PADING[2]{};
-
+	int8_t PADING[7];
 public:
 
 	void AddAnimation(uint32_t handle_);
 
-	void InsertAnimation(uint32_t handle_);
+	void InsertAnimation(uint32_t handle_,bool complement_ = true);
 
 	void SetThresh(float thresh_);
 
@@ -73,6 +74,12 @@ public:
 	bool IsInsert();
 
 	InsertAnimationPhase GetInsertAnimationPhase();
+
+	void Stop();
+
+	void Start();
+
+	void AnimationEndStop();
 
 	AliceBlendTree();
 	~AliceBlendTree() = default;

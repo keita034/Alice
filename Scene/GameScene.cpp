@@ -50,22 +50,35 @@ void GameScene::Initialize(const std::string& previewSceneName_)
 
 void GameScene::Update()
 {
-	gameCameraManager->BeginUpdate();
-
-	if (boss->GetHp() > 0 && player->GetHp() > 0)
+	if (boss->GetHp() <= 0)
 	{
-
-		player->Update(gameCameraManager->GetGameCamera(), gameCameraManager->GetCameraIndex());
-		boss->Update();
+		if (outTransition->IsEnd())
+		{
+			sceneManager->ChangeScene("CLEAR");
+		}
 	}
-	else
+
+	if (player->IsEnd())
 	{
 		if (!outTransition->IsStart())
 		{
 			outTransition->Start();
 			outTransition->SetIncrement(0.02f);
 		}
+
+		if (outTransition->IsEnd())
+		{
+			sceneManager->ChangeScene("FAILURE");
+		}
+
 	}
+
+
+	gameCameraManager->BeginUpdate();
+
+	player->Update(gameCameraManager->GetGameCamera(), gameCameraManager->GetCameraIndex());
+
+	boss->Update();
 
 	gameCameraManager->Update();
 
@@ -76,25 +89,6 @@ void GameScene::Update()
 
 	inTransition->Update();
 	outTransition->Update();
-
-	if (boss->GetHp() <= 0)
-	{
-		if (outTransition->IsEnd())
-		{
-			sceneManager->ChangeScene("CLEAR");
-		}
-
-	}
-
-	if (player->GetHp() <= 0)
-	{
-		if (outTransition->IsEnd())
-		{
-			sceneManager->ChangeScene("FAILURE");
-		}
-
-	}
-
 }
 
 void GameScene::Draw()

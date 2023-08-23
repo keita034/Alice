@@ -36,11 +36,11 @@ void Player::Initialize(AliceInput::IInput* input_)
 
 	rigidBodyoffset = { 0.0f, 8.0f + 6.0f, 0.0f };
 
-	CreateMaterial(0.6f, 0.6f, 0.0f);
-	CreateShape(6.0f, 8.0f, CollisionAttribute::PLAYER, (CollisionAttribute::BOSS | CollisionAttribute::ENEMY | CollisionAttribute::FIELD | CollisionAttribute::BOSSHAND));
+	CreateMaterial(0.6f,0.6f,0.0f);
+	CreateShape(6.0f,8.0f,CollisionAttribute::PLAYER,( CollisionAttribute::BOSS | CollisionAttribute::ENEMY | CollisionAttribute::FIELD | CollisionAttribute::BOSSHAND ));
 	AliceMathF::Vector3 pos = transform.translation + rigidBodyoffset;
 	SetInitializePos(pos);
-	SetInitializeRot(AliceMathF::Quaternion({ 0,0,1 }, AliceMathF::DEG_TO_RAD * 90.0f));
+	SetInitializeRot(AliceMathF::Quaternion({ 0,0,1 },AliceMathF::DEG_TO_RAD * 90.0f));
 	CreateRigidBody(RigidBodyType::DYNAMIC);
 
 	weapon = std::make_unique<PlayerWeapon>();
@@ -48,19 +48,19 @@ void Player::Initialize(AliceInput::IInput* input_)
 
 }
 
-void Player::Update(BaseGameCamera* camera_, GameCameraManager::CameraIndex index_)
+void Player::Update(BaseGameCamera* camera_,GameCameraManager::CameraIndex index_)
 {
 	oldTrans = transform.translation;
 	isStationary = true;
 
-	if (fieldHit && !(situation & ActorSituation::ROWLING))
+	if ( fieldHit && !( situation & ActorSituation::ROWLING ) )
 	{
 		fieldHit = false;
 
 		physx::PxTransform lTransform;
 		lTransform = dynamicBody->getGlobalPose();
 
-		if (lTransform.q != pxTransform.q)
+		if ( lTransform.q != pxTransform.q )
 		{
 			lTransform.q = pxTransform.q;
 			dynamicBody->setGlobalPose(lTransform);
@@ -69,26 +69,29 @@ void Player::Update(BaseGameCamera* camera_, GameCameraManager::CameraIndex inde
 
 	}
 
-	PRowling(camera_);
-
-	PAttack();
-
-	if (index_ == GameCameraManager::CameraIndex::PLAYER_CAMERA && !(situation & ActorSituation::ROWLING))
+	if ( hp > 0 )
 	{
-		PMove(camera_);
+		PRowling(camera_);
 
+		PAttack();
+
+		if ( index_ == GameCameraManager::CameraIndex::PLAYER_CAMERA && !( situation & ActorSituation::ROWLING ) )
+		{
+			PMove(camera_);
+
+		}
 	}
 
-	if (!isStationary)
+	if ( !isStationary )
 	{
 		PRotate();
 	}
 
-	if (deviceInput->NotAction() && situation == 0)
+	if ( deviceInput->NotAction() && situation == 0 )
 	{
-		for (int32_t i = 0; i < 5; i++)
+		for ( int32_t i = 0; i < 5; i++ )
 		{
-			if (stamina <= MAX_STAMINA)
+			if ( stamina <= MAX_STAMINA )
 			{
 				stamina++;
 			}
@@ -101,11 +104,11 @@ void Player::Update(BaseGameCamera* camera_, GameCameraManager::CameraIndex inde
 
 	}
 
-	if (situation & ActorSituation::DAMAGE)
+	if ( situation & ActorSituation::DAMAGE )
 	{
 		damageInterval--;
 
-		if (damageInterval == 0)
+		if ( damageInterval == 0 )
 		{
 			situation &= ~ActorSituation::DAMAGE;
 			damageInterval = MAX_DAMAGE_INTERVAL;
@@ -116,7 +119,7 @@ void Player::Update(BaseGameCamera* camera_, GameCameraManager::CameraIndex inde
 
 	ui->Update();
 	animation->Update();
-	weapon->Update("mixamorig:RightHand", animation->GetAnimation(), model.get());
+	weapon->Update("mixamorig:RightHand",animation->GetAnimation(),model.get());
 
 	{
 		uint32_t lBitTmp = userData.attribute & 0xfff;
@@ -127,7 +130,7 @@ void Player::Update(BaseGameCamera* camera_, GameCameraManager::CameraIndex inde
 
 void Player::Draw()
 {
-	model->Draw(transform, animation->GetAnimation());
+	model->Draw(transform,animation->GetAnimation());
 	weapon->Draw();
 }
 
@@ -142,7 +145,7 @@ const AliceMathF::Vector3& Player::GetPosition() const
 
 void Player::TransUpdate(Camera* camera_)
 {
-	transform.LookAtMatrixAxisFix(direction, { 0,1,0 }, camera_);
+	transform.LookAtMatrixAxisFix(direction,{ 0,1,0 },camera_);
 	weapon->TransUpdate(camera_);
 
 	camera = camera_;
@@ -156,10 +159,10 @@ void Player::UIDraw()
 void Player::Reset()
 {
 	hp = MAX_HP;
-	ui->SetHp(hp, MAX_HP);
+	ui->SetHp(hp,MAX_HP);
 
 	stamina = MAX_STAMINA;
-	ui->SetStamina(stamina, MAX_STAMINA);
+	ui->SetStamina(stamina,MAX_STAMINA);
 
 	bullet = MAX_BULLET;
 	ui->SetBullet(bullet);
@@ -174,7 +177,7 @@ void Player::Reset()
 
 void Player::OnContact(uint32_t attribute_)
 {
-	if (attribute_>>16 & CollisionAttribute::FIELD)
+	if ( attribute_ >> 16 & CollisionAttribute::FIELD )
 	{
 		fieldHit = true;
 	}
@@ -182,13 +185,22 @@ void Player::OnContact(uint32_t attribute_)
 
 void Player::OnTrigger(uint32_t attribute_)
 {
-	if (attribute_ >> 16 & CollisionAttribute::BOSSHAND)
+	if ( attribute_ >> 16 & CollisionAttribute::BOSSHAND )
 	{
-		if ((attribute_ & 0xfff) == ActorSituation::ATTACK &&
-			!(situation & ActorSituation::DAMAGE))
+		if ( ( attribute_ & 0xfff ) == ActorSituation::ATTACK &&
+			!( situation & ActorSituation::DAMAGE ) )
 		{
-			hp -= 10;
-			situation |= ActorSituation::DAMAGE;
+			if ( hp > 0 )
+			{
+				hp -= 10;
+				situation |= ActorSituation::DAMAGE;
+
+				if ( hp <= 0 )
+				{
+					animation->InsertDeathgAnimation();
+					animation->AnimationEndStop();
+				}
+			}
 		}
 	}
 }
@@ -209,6 +221,21 @@ int32_t Player::GetHp()
 	return hp;
 }
 
+bool Player::IsEnd()
+{
+	return hp <= 0 && !animation->IsInsert();
+}
+
+void Player::AnimationStop()
+{
+	animation->AnimationStop();
+}
+
+void Player::AnimationEndStop()
+{
+	animation->AnimationEndStop();
+}
+
 void Player::PMove(BaseGameCamera* camera_)
 {
 	AliceMathF::Vector3 lMove;
@@ -220,22 +247,22 @@ void Player::PMove(BaseGameCamera* camera_)
 
 	AliceMathF::Vector2 lLeftStickPower = input->GetLeftStickVec();
 
-	float lStickPower = AliceMathUtility::Max<float>(AliceMathF::Abs(lLeftStickPower.x), AliceMathF::Abs(lLeftStickPower.y));
+	float lStickPower = AliceMathUtility::Max<float>(AliceMathF::Abs(lLeftStickPower.x),AliceMathF::Abs(lLeftStickPower.y));
 
-	if (!deviceInput->InputButton(ControllerButton::A, 10.0f))
+	if ( !deviceInput->InputButton(ControllerButton::A,10.0f) )
 	{
-		lLeftStickPower = AliceMathF::Clamp(lLeftStickPower, 0, 0.45f);
-		lStickPower = AliceMathF::Clamp(lStickPower, 0, 0.45f);
+		lLeftStickPower = AliceMathF::Clamp(lLeftStickPower,0,0.45f);
+		lStickPower = AliceMathF::Clamp(lStickPower,0,0.45f);
 	}
 	else
 	{
-		if (lStickPower >= 0.5f)
+		if ( lStickPower >= 0.5f )
 		{
-			if (stamina < subRunStamina)
+			if ( stamina < subRunStamina )
 			{
-				lLeftStickPower = AliceMathF::Clamp(lLeftStickPower, 0, 0.45f);
+				lLeftStickPower = AliceMathF::Clamp(lLeftStickPower,0,0.45f);
 
-				lStickPower = AliceMathF::Clamp(lStickPower, 0, 0.45f);
+				lStickPower = AliceMathF::Clamp(lStickPower,0,0.45f);
 			}
 			else
 			{
@@ -246,15 +273,15 @@ void Player::PMove(BaseGameCamera* camera_)
 
 	animation->WalkAnimationUpdate(lStickPower);
 
-	printf("%f\n", lStickPower);
+	printf("%f\n",lStickPower);
 
-	if (lStickPower >= 0.01f)
+	if ( lStickPower >= 0.01f )
 	{
 		lMove = { lLeftStickPower.x * lSpeed, 0.0f, -lLeftStickPower.y * lSpeed };
 		isStationary = false;
 	}
 
-	PlayerGameCamera* lPlayerCamera = dynamic_cast<PlayerGameCamera*>(camera_);
+	PlayerGameCamera* lPlayerCamera = dynamic_cast< PlayerGameCamera* >( camera_ );
 
 	// カメラの角度に合わせて移動ベクトルを回転してから加算
 	float SinParam = AliceMathF::Sin(lPlayerCamera->GetAngle().y / AliceMathF::DEG_TO_RAD);
@@ -276,17 +303,17 @@ void Player::PRowling(BaseGameCamera* camera_)
 {
 	AliceMathF::Vector2 lLeftStickPower = input->GetLeftStickVec();
 
-	float lStickPower = AliceMathUtility::Max<float>(AliceMathF::Abs(lLeftStickPower.x), AliceMathF::Abs(lLeftStickPower.y));
+	float lStickPower = AliceMathUtility::Max<float>(AliceMathF::Abs(lLeftStickPower.x),AliceMathF::Abs(lLeftStickPower.y));
 
-	if (lStickPower >= 0.5f)
+	if ( lStickPower >= 0.5f )
 	{
-		if (deviceInput->TriggerButton(ControllerButton::A, 10.0f) && !(situation & ActorSituation::ROWLING))
+		if ( deviceInput->TriggerButton(ControllerButton::A,10.0f) && !( situation & ActorSituation::ROWLING ) )
 		{
 			situation |= ActorSituation::ROWLING;
 
-			rowlingWay = AliceMathF::Vector3(lLeftStickPower.x, 0.0f, -lLeftStickPower.y);
+			rowlingWay = AliceMathF::Vector3(lLeftStickPower.x,0.0f,-lLeftStickPower.y);
 
-			PlayerGameCamera* lPlayerCamera = dynamic_cast<PlayerGameCamera*>(camera_);
+			PlayerGameCamera* lPlayerCamera = dynamic_cast< PlayerGameCamera* >( camera_ );
 
 			// カメラの角度に合わせて移動ベクトルを回転してから加算
 			float SinParam = AliceMathF::Sin(lPlayerCamera->GetAngle().y / AliceMathF::DEG_TO_RAD);
@@ -310,12 +337,12 @@ void Player::PRowling(BaseGameCamera* camera_)
 		}
 	}
 
-	if (situation & ActorSituation::ROWLING && animation->IsInsert())
+	if ( situation & ActorSituation::ROWLING && animation->IsInsert() )
 	{
-		transform.translation = AliceMathF::Easing::EaseInSine(animation->GetRatio(), 1.0f, rowlingStartPos, rowlingWay);
+		transform.translation = AliceMathF::Easing::EaseInSine(animation->GetRatio(),1.0f,rowlingStartPos,rowlingWay);
 	}
 
-	if (situation & ActorSituation::ROWLING && !animation->IsInsert())
+	if ( situation & ActorSituation::ROWLING && !animation->IsInsert() )
 	{
 		situation &= ~ActorSituation::ROWLING;
 
@@ -330,9 +357,9 @@ void Player::PRowling(BaseGameCamera* camera_)
 
 void Player::PUIUpdate()
 {
-	ui->SetHp(hp, MAX_HP);
+	ui->SetHp(hp,MAX_HP);
 
-	ui->SetStamina(stamina, MAX_STAMINA);
+	ui->SetStamina(stamina,MAX_STAMINA);
 
 	ui->SetBullet(bullet);
 
@@ -349,7 +376,7 @@ void Player::PRotate()
 
 void Player::PAttack()
 {
-	if (input->InputButton(ControllerButton::LB)&&!(situation & ActorSituation::ATTACK))
+	if ( input->InputButton(ControllerButton::LB) && !( situation & ActorSituation::ATTACK ) )
 	{
 		animation->InsertAttackAnimation();
 		stamina -= subAttackStamina;
@@ -358,7 +385,7 @@ void Player::PAttack()
 		situation |= ActorSituation::ATTACK;
 	}
 
-	if (situation & ActorSituation::ATTACK && !animation->IsInsert())
+	if ( situation & ActorSituation::ATTACK && !animation->IsInsert() )
 	{
 		situation &= ~ActorSituation::ATTACK;
 	}

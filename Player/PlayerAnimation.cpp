@@ -9,8 +9,10 @@ void PlayerAnimation::Initialize(AliceInput::IInput* input_)
 	standAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Idle.almb");
 	walkAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Walk.almb");
 	runAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Run.almb");
+
 	rowlingAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Rowling.almb");
 	attackAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Attack.almb");
+	deathAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Death.almb");
 
 	blendTree = std::make_unique<AliceBlendTree>();
 
@@ -50,9 +52,24 @@ void PlayerAnimation::InsertRowlingAnimation()
 	blendTree->InsertAnimation(rowlingAnimationHandle);
 }
 
+void PlayerAnimation::InsertDeathgAnimation()
+{
+	blendTree->InsertAnimation(deathAnimationHandle, false);
+}
+
 bool PlayerAnimation::IsInsert()
 {
 	return blendTree->IsInsert();
+}
+
+void PlayerAnimation::AnimationStop()
+{
+	blendTree->Stop();
+}
+
+void PlayerAnimation::AnimationEndStop()
+{
+	blendTree->AnimationEndStop();
 }
 
 InsertAnimationPhase PlayerAnimation::GetInsertAnimationPhase()

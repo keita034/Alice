@@ -13,6 +13,7 @@ private:
 
 	uint32_t attackAnimationHandle;
 	uint32_t rowlingAnimationHandle;
+	uint32_t deathAnimationHandle;
 
 	float walkAnimationThresh =0.0f;
 
@@ -58,7 +59,13 @@ public:
 
 	void InsertRowlingAnimation();
 
+	void InsertDeathgAnimation();
+
 	bool IsInsert();
+
+	void AnimationStop();
+
+	void AnimationEndStop();
 
 	InsertAnimationPhase GetInsertAnimationPhase();
 

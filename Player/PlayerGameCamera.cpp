@@ -16,7 +16,11 @@ void PlayerGameCamera::Update()
 
 void PlayerGameCamera::BeginUpdate()
 {
-	PMove();
+	if ( player->GetHp() > 0 )
+	{
+		PMove();
+	}
+
 }
 
 void PlayerGameCamera::Draw()
