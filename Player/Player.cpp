@@ -71,14 +71,19 @@ void Player::Update(BaseGameCamera* camera_,GameCameraManager::CameraIndex index
 
 	if ( hp > 0 )
 	{
-		PRowling(camera_);
+		PHealing();
 
-		PAttack();
-
-		if ( index_ == GameCameraManager::CameraIndex::PLAYER_CAMERA && !( situation & ActorSituation::ROWLING ) )
+		if ( !( situation & ActorSituation::HEALING ) )
 		{
-			PMove(camera_);
+			PRowling(camera_);
 
+			PAttack();
+
+			if ( index_ == GameCameraManager::CameraIndex::PLAYER_CAMERA && !( situation & ActorSituation::ROWLING ) )
+			{
+				PMove(camera_);
+
+			}
 		}
 	}
 
@@ -192,13 +197,30 @@ void Player::OnTrigger(uint32_t attribute_)
 		{
 			if ( hp > 0 )
 			{
-				hp -= 10;
+				for ( int32_t i = 0; i < 10; i++ )
+				{
+					if ( hp == 0 )
+					{
+						break;
+					}
+
+					hp--;
+				}
+
 				situation |= ActorSituation::DAMAGE;
 
 				if ( hp <= 0 )
 				{
 					animation->InsertDeathAnimation();
 					animation->AnimationEndStop();
+				}
+				else
+				{
+					if ( !( situation & ActorSituation::WALKING ) )
+					{
+						animation->InsertHitAnimation();
+
+					}
 				}
 			}
 		}
@@ -277,8 +299,15 @@ void Player::PMove(BaseGameCamera* camera_)
 
 	if ( lStickPower >= 0.01f )
 	{
+		situation |= ActorSituation::WALKING;
+
 		lMove = { lLeftStickPower.x * lSpeed, 0.0f, -lLeftStickPower.y * lSpeed };
 		isStationary = false;
+	}
+	else
+	{
+		situation &= ~ActorSituation::WALKING;
+
 	}
 
 	PlayerGameCamera* lPlayerCamera = dynamic_cast< PlayerGameCamera* >( camera_ );
@@ -376,11 +405,10 @@ void Player::PRotate()
 
 void Player::PAttack()
 {
-	if ( input->InputButton(ControllerButton::LB) && !( situation & ActorSituation::ATTACK ) )
+	if ( input->InputButton(ControllerButton::LB)&& !( situation & ActorSituation::ATTACK ) )
 	{
 		animation->InsertAttackAnimation();
 		stamina -= subAttackStamina;
-
 
 		situation |= ActorSituation::ATTACK;
 	}
@@ -388,5 +416,35 @@ void Player::PAttack()
 	if ( situation & ActorSituation::ATTACK && !animation->IsInsert() )
 	{
 		situation &= ~ActorSituation::ATTACK;
+	}
+}
+
+void Player::PHealing()
+{
+	if ( deviceInput->InputButton(ControllerButton::Y,1.0f) && situation == 0 )
+	{
+		if ( healing != 0 )
+		{
+			situation |= ActorSituation::HEALING;
+			animation->InsertHealingAnimation();
+			healing--;
+			ui->SetHealing(healing);
+
+			for ( int32_t i = 0; i < healingNum; i++ )
+			{
+				if ( hp == MAX_HP )
+				{
+					break;
+				}
+
+				hp++;
+			}
+		}
+
+	}
+
+	if ( situation & ActorSituation::HEALING && !animation->IsInsert() )
+	{
+		situation &= ~ActorSituation::HEALING;
 	}
 }

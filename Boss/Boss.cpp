@@ -122,9 +122,12 @@ void Boss::Draw()
 {
 	model->Draw(transform, animation->GetAnimation());
 
-	bossUI->Draw();
-
 	fireWorkParticle->Draw(camera);
+}
+
+void Boss::UIDraw()
+{
+	bossUI->Draw();
 }
 
 void Boss::Finalize()
@@ -154,9 +157,18 @@ void Boss::OnTrigger(uint32_t attribute_)
 		player->IsAttack() &&
 		!(situation & ActorSituation::DAMAGE))
 	{
-		if ( hp>0 )
+		if ( hp > 0 )
 		{
-			hp -= player->GetDamage();
+			for ( int32_t i = 0; i < player->GetDamage(); i++ )
+			{
+				if ( hp <= 0 )
+				{
+					break;
+				}
+
+				hp--;
+			}
+
 			situation |= ActorSituation::DAMAGE;
 			fireWorkParticle->Add(transform.translation + rigidBodyoffset);
 			audioManager->PlayWave(damageSE);
@@ -167,8 +179,6 @@ void Boss::OnTrigger(uint32_t attribute_)
 				animation->AnimationEndStop();
 			}
 		}
-
-
 	}
 }
 

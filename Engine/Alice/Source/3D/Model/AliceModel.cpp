@@ -557,6 +557,17 @@ void AliceModel::SetModel(uint32_t lModelHandle_)
 	modelData = sModelDatas[ sFilePaths[ lModelHandle_ ] ].get();
 }
 
+void AliceModel::SetAlpha(float alpha_)
+{
+	for ( size_t i = 0; i < modelData->meshes.size(); i++ )
+	{
+		std::unique_ptr<ModelMesh>& mesh = modelData->meshes[ i ];
+
+		mesh->material.alpha = alpha_;
+		mesh->materialBuffer->Update(&mesh->material);
+	}
+}
+
 void AliceModel::PReadNodeHeirarchy(ModelMesh* mesh_,const AliceMotionData* pAnimation_,const Node* pNode_,const AliceMathF::Matrix4& mxParentTransform_)
 {
 	AliceMathF::Matrix4 lMatNodeTransformation = AliceMathF::MakeIdentity();

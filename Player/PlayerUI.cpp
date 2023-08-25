@@ -39,6 +39,25 @@ void PlayerUI::Initialize()
 	healingUI.transform.translation = { 100,85,0 };
 	healingUI.transform.scale = { 0.25f,0.25f,1.0f };
 	healingUI.transform.Initialize();
+
+	numberHandle[ 0 ] = TextureManager::SLoad("Resources/UI/0.png");
+	numberHandle[ 1 ] = TextureManager::SLoad("Resources/UI/1.png");
+	numberHandle[ 2 ] = TextureManager::SLoad("Resources/UI/2.png");
+	numberHandle[ 3 ] = TextureManager::SLoad("Resources/UI/3.png");
+	numberHandle[ 4 ] = TextureManager::SLoad("Resources/UI/4.png");
+	numberHandle[ 5 ] = TextureManager::SLoad("Resources/UI/5.png");
+	numberHandle[ 6 ] = TextureManager::SLoad("Resources/UI/6.png");
+	numberHandle[ 7 ] = TextureManager::SLoad("Resources/UI/7.png");
+	numberHandle[ 8 ] = TextureManager::SLoad("Resources/UI/8.png");
+	numberHandle[ 9 ] = TextureManager::SLoad("Resources/UI/9.png");
+
+	for ( size_t i = 0; i < numberSprite.size(); i++ )
+	{
+		numberSprite[ i ] = CreateUniqueSprite2D(numberHandle[ i ]);
+	}
+
+	healingNumberTransform[ 0 ].Initialize();
+	healingNumberTransform[ 1 ].Initialize();
 }
 
 void PlayerUI::Update()
@@ -57,7 +76,7 @@ void PlayerUI::Draw()
 
 	bulletUI.sprite->Draw(bulletUI.transform);
 
-	healingUI.sprite->Draw(healingUI.transform);
+	PDrawHealingUI();
 }
 
 void PlayerUI::Finalize()
@@ -86,4 +105,31 @@ void PlayerUI::SetBullet(int32_t bullet_)
 void PlayerUI::SetHealing(int32_t healing_)
 {
 	healingNum = healing_;
+}
+
+void PlayerUI::PDrawHealingUI()
+{
+	int32_t lOnesPlace = healingNum % 10;
+	int32_t lTensPlace = healingNum / 10;
+
+	if ( lTensPlace != 0 )
+	{
+		healingNumberTransform[ 0 ].translation = healingNumberTrans[ 0 ];
+		healingNumberTransform[ 0 ].scale = healingUI.transform.scale;
+
+		healingNumberTransform[ 1 ].translation = healingNumberTrans[ 1 ];
+		healingNumberTransform[ 1 ].scale = healingUI.transform.scale;
+
+		numberSprite[ lTensPlace ]->Draw(healingNumberTransform[ 0 ]);
+		numberSprite[ lOnesPlace ]->Draw(healingNumberTransform[ 1 ]);
+	}
+	else
+	{
+		healingNumberTransform[ 1 ].translation = healingNumberTrans[ 0 ];
+		healingNumberTransform[ 1 ].scale = healingUI.transform.scale;
+		numberSprite[ lOnesPlace ]->Draw(healingNumberTransform[ 1 ]);
+	}
+
+
+	healingUI.sprite->Draw(healingUI.transform);
 }

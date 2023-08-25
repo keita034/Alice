@@ -61,7 +61,7 @@ public:
 
 	void AddAnimation(uint32_t handle_);
 
-	void InsertAnimation(uint32_t handle_,bool complement_ = true);
+	bool InsertAnimation(uint32_t handle_,bool complement_ = true);
 
 	void SetThresh(float thresh_);
 

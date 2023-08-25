@@ -54,6 +54,8 @@ public:
 	/// </summary>
 	void Draw()override;
 
+	void UIDraw();
+
 	/// <summary>
 	/// 後始末
 	/// </summary>

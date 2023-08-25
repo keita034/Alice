@@ -9,6 +9,10 @@ AlicePhysics::~AlicePhysics()
 	scene->release();
 	dispatcher->release();
 	physics->release();
+
+	IAliceRigidBody::SetPhysics(nullptr);
+	IAliceRigidBody::SetScene(nullptr);
+
 	if (pvd)
 	{
 		pvd->disconnect();

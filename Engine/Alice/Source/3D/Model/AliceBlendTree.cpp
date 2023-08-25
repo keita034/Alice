@@ -13,14 +13,22 @@ void AliceBlendTree::AddAnimation(uint32_t handle_)
 	isDirty = true;
 }
 
-void AliceBlendTree::InsertAnimation(uint32_t handle_, bool complement_)
+bool AliceBlendTree::InsertAnimation(uint32_t handle_, bool complement_)
 {
-	insertAnimation->SetMotion(handle_);
-	frame = 0.0f;
-	isInsert = true;
-	insertAnimationPhase = BEFORE;
-	insertAnimationOneThirdFrame = insertAnimation->GetAnimeMaxflame() / 3.0f;
-	complement = complement_;
+	if (!isInsert|| animationEndStop && !isPlay)
+	{
+		insertAnimation->SetMotion(handle_);
+		frame = 0.0f;
+		isInsert = true;
+		insertAnimationPhase = BEFORE;
+		insertAnimationOneThirdFrame = insertAnimation->GetAnimeMaxflame() / 3.0f;
+		complement = complement_;
+
+		return true;
+	}
+
+	return false;
+
 }
 
 void AliceBlendTree::SetThresh(float thresh_)

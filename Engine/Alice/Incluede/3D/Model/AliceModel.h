@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include<ModelMesh.h>
 #include<StructuredBuffer.h>
 #include<AliceMotionData.h>
@@ -187,6 +187,8 @@ public:
 	/// </summary>
 	/// <param name="modelHandle">ハンドル</param>
 	void SetModel(uint32_t modelHandle_);
+
+	void SetAlpha(float alpha_);
 
 	/// <summary>
 	/// ライトをセット(共通)

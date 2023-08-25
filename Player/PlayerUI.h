@@ -18,6 +18,8 @@ private:
 	UI healingUI;
 	const int32_t MAX_HEALING_NUM = 20;
 	int32_t healingNum;
+	std::array < Transform,2> healingNumberTransform;
+	std::array < AliceMathF::Vector3,2> healingNumberTrans = { {{ 125.0f,95.0f,0.0f},{ 137.0f,95.0f,0.0f } } };
 
 	UI hpBarBackUI;
 	float hpWidthScale = 0.0f;
@@ -26,6 +28,9 @@ private:
 	UI staminaBarBackUI;
 	float staminaWidthScale = 0.0f;
 	int32_t staminaWidthMax = 0;
+
+	std::array<int32_t,10>numberHandle;
+	std::array<std::unique_ptr<Sprite2D>,10>numberSprite;
 
 public:
 
@@ -61,6 +66,8 @@ public:
 	void SetHealing(int32_t healing_);
 
 private:
+
+	void PDrawHealingUI();
 
 	//コピーコンストラクタ・代入演算子削除
 	PlayerUI& operator=(const PlayerUI&) = delete;

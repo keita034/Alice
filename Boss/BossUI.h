@@ -12,6 +12,8 @@ private:
 	float hpWidthScale = 0.0f;
 	int32_t hpWidthMax = 0;
 
+	std::array<int32_t,10>numberHandle;
+
 public:
 
 	/// <summary>

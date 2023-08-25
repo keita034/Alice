@@ -125,7 +125,7 @@
     <ClCompile Include="Boss\BossChaseMove.cpp" />
     <ClCompile Include="Boss\BaseGameCamera.cpp" />
     <ClCompile Include="Boss\Boss.cpp" />
-    <ClCompile Include="DeviceInput.cpp" />
+    <ClCompile Include="Util\DeviceInput.cpp" />
     <ClCompile Include="Scene\FailureScene.cpp" />
     <ClCompile Include="Util\GameCameraManager.cpp" />
     <ClCompile Include="GameCore\GameMain.cpp" />
@@ -147,7 +147,7 @@
     <ClInclude Include="Boss\BossActionManager.h" />
     <ClInclude Include="Boss\BossBaseAction.h" />
     <ClInclude Include="Boss\BossChaseMove.h" />
-    <ClInclude Include="DeviceInput.h" />
+    <ClInclude Include="Util\DeviceInput.h" />
     <ClInclude Include="Scene\FailureScene.h" />
     <ClInclude Include="Util\ActorSituation.h" />
     <ClInclude Include="Boss\BaseGameCamera.h" />

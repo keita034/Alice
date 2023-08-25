@@ -32,7 +32,7 @@ private:
 	float rowlingDistance = 100.0f;
 	//float scale = 1.0f;
 
-	const int32_t MAX_HP = 3;
+	const int32_t MAX_HP = 30;
 	const int32_t MAX_STAMINA = 2000;
 	const int32_t MAX_BULLET = 20;
 	const int32_t MAX_HEALING = 20;
@@ -48,6 +48,7 @@ private:
 	int32_t bullet = 0;
 
 	int32_t healing = 0;
+	int32_t healingNum = 10;
 
 	int32_t situation = 0;
 
@@ -133,7 +134,12 @@ private:
 	/// </summary>
 	void PRotate();
 
+	/// <summary>
+	/// 攻撃
+	/// </summary>
 	void PAttack();
+
+	void PHealing();
 
 	void Initialize()override {};
 	void Update()override {};

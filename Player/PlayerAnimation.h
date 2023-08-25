@@ -14,6 +14,8 @@ private:
 	uint32_t attackAnimationHandle;
 	uint32_t rowlingAnimationHandle;
 	uint32_t deathAnimationHandle;
+	uint32_t hitAnimationHandle;
+	uint32_t healingAnimationHandle;
 
 	float walkAnimationThresh =0.0f;
 
@@ -56,10 +58,10 @@ public:
 	float GetRatio();
 
 	void InsertAttackAnimation();
-
 	void InsertRowlingAnimation();
-
 	void InsertDeathAnimation();
+	void InsertHitAnimation();
+	void InsertHealingAnimation();
 
 	bool IsInsert();
 

@@ -13,6 +13,8 @@ void PlayerAnimation::Initialize(AliceInput::IInput* input_)
 	rowlingAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Rowling.almb");
 	attackAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Attack.almb");
 	deathAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Death.almb");
+	hitAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/HitReaction.almb");
+	healingAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Healing.almb");
 
 	blendTree = std::make_unique<AliceBlendTree>();
 
@@ -24,7 +26,6 @@ void PlayerAnimation::Initialize(AliceInput::IInput* input_)
 
 void PlayerAnimation::Update()
 {
-
 	blendTree->Update(addFrame);
 }
 
@@ -55,6 +56,16 @@ void PlayerAnimation::InsertRowlingAnimation()
 void PlayerAnimation::InsertDeathAnimation()
 {
 	blendTree->InsertAnimation(deathAnimationHandle, false);
+}
+
+void PlayerAnimation::InsertHitAnimation()
+{
+	blendTree->InsertAnimation(hitAnimationHandle);
+}
+
+void PlayerAnimation::InsertHealingAnimation()
+{
+	blendTree->InsertAnimation(healingAnimationHandle);
 }
 
 bool PlayerAnimation::IsInsert()

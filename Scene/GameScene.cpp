@@ -106,6 +106,7 @@ void GameScene::Draw()
 	boss->Draw();
 
 	player->UIDraw();
+	boss->UIDraw();
 
 	inTransition->Draw();
 	outTransition->Draw(true);
