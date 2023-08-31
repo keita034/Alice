@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #pragma warning(push)
 #pragma warning(disable: 4365)
 #pragma warning(disable: 4514)
@@ -84,6 +84,8 @@ public:
 	void Update(Camera* camera_ = nullptr);
 
 	void Draw();
+
+	void Finalize();
 
 	SceneData() = default;
 	~SceneData() = default;

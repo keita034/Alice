@@ -1,4 +1,4 @@
-﻿#include<RenderTarget.h>
+#include<RenderTarget.h>
 
 void RenderTarget::Initialize(uint32_t width_, uint32_t height_, D3D12_RESOURCE_STATES resourceStates_, const AliceMathF::Vector4& clear_, DXGI_FORMAT rtFormat_, DXGI_FORMAT dsFormat_)
 {
@@ -57,7 +57,7 @@ void RenderTarget::Transition(D3D12_RESOURCE_STATES resourceStates)
 	renderTargetBuffer->Transition(resourceStates);
 }
 
-RenderTarget::RenderTarget(IDescriptorHeap* srvDescriptorHeap_, ID3D12GraphicsCommandList* commandList_)
+RenderTarget::RenderTarget(ISRVDescriptorHeap* srvDescriptorHeap_, ID3D12GraphicsCommandList* commandList_)
 {
 
 	cmdList = commandList_;

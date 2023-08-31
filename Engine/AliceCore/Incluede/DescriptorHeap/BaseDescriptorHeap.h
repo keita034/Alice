@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #pragma warning(push)
 #pragma warning(disable: 4061)
 #pragma warning(disable: 4062)
@@ -23,12 +23,13 @@ class BaseDescriptorHeap
 protected:
 
 	//デバイス
-	static ID3D12Device* sDevice;
+	ID3D12Device* device;
 	//デスクプリタヒープ
 	Microsoft::WRL::ComPtr <ID3D12DescriptorHeap> descriptorHeap;
 
 public:
 
-	static void SSetDevice(ID3D12Device* device_);
+	BaseDescriptorHeap() = default;
+	virtual ~BaseDescriptorHeap() = default;
 };
 

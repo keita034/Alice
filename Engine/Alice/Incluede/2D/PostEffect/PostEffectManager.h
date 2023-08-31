@@ -15,8 +15,9 @@ class PostEffectManager final
 private:
 
 	static ID3D12GraphicsCommandList* sCmdList;
-	static IDescriptorHeap* sSrvHeap;
+	static ISRVDescriptorHeap* sSrvHeap;
 	static IWindowsApp* sWindowsApp;
+	static std::unique_ptr<PostEffectManager> postEffectManager;
 
 	//頂点バッファ
 	std::unique_ptr<IVertexBuffer> vertexBuffer;
@@ -67,13 +68,15 @@ public:
 
 	void Draw();
 
+	void Destroy();
+
 	static void SSetWindowsApp(IWindowsApp* windowsApp_);
 	static void SSetDirectX12Core(DirectX12Core* directX12Core_);
 
-private:
-
 	~PostEffectManager();
 	PostEffectManager() = default;
+
+private:
 
 	//コピーコンストラクタ・代入演算子削除
 	PostEffectManager& operator=(const PostEffectManager&) = delete;

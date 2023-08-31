@@ -17,7 +17,7 @@ protected:
 
 	static ID3D12GraphicsCommandList* sCmdList;
 	static ID3D12Device* sDevice;
-	static IDescriptorHeap* sSrvHeap;
+	static ISRVDescriptorHeap* sSrvHeap;
 	static IWindowsApp* sWindowsApp;
 
 	//レンダーターゲットテクスチャ

@@ -215,6 +215,11 @@ public:
 	/// </summary>
 	static void SCommonInitialize(DirectX12Core* directX12Core_);
 
+	/// <summary>
+	/// 終了処理
+	/// </summary>
+	static void Finalize();
+
 protected:
 
 	void PReadNodeHeirarchy(ModelMesh* mesh_,const AliceMotionData* pAnimation_,const Node* pNode_,const AliceMathF::Matrix4& mxParentTransform_);

@@ -435,4 +435,7 @@ namespace AliceInput
 		lInput->Initialize(hwnd_, hInstance_);
 		return lInput;
 	}
+	IInput::~IInput()
+	{
+	}
 }

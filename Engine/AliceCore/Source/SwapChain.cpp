@@ -1,4 +1,4 @@
-﻿#include "SwapChain.h"
+#include "SwapChain.h"
 
 
 #pragma warning(push)
@@ -31,18 +31,13 @@ private:
 	//バックバッファ
 	std::vector<std::unique_ptr<IRenderTargetBuffer>> backBuffers;
 
-	//フェンスの生成
-	std::vector<uint64_t> fenceValues;
-	uint64_t fenceVal;
-
 	//ディスク
 	DXGI_SWAP_CHAIN_DESC1 desc;
 
 	//ハンドル
 	HANDLE waitEvent;
 
-	//フェンス
-	Microsoft::WRL::ComPtr<ID3D12Fence> fence;
+
 
 	//ディスクリプタヒープ
 	ID3D12CommandQueue* commandQueue;
@@ -79,10 +74,6 @@ public:
 	/// </summary>
 	void ResizeBuffers(uint32_t width_, uint32_t height_);
 
-	void WaitPreviousFrame();
-
-	void WaitForGpu();
-
 	HRESULT Present(uint32_t SyncInterval_, uint32_t Flags_);
 
 	void Transition(size_t index, const D3D12_RESOURCE_STATES& resourceStates_);
@@ -110,18 +101,6 @@ void SwapChain::Initialize(ID3D12Device* device_, const Microsoft::WRL::ComPtr<I
 
 	//バックバッファ
 	backBuffers.resize(desc.BufferCount);
-	fenceValues.resize(desc.BufferCount);
-
-	size_t lFrameIndex = swapChain->GetCurrentBackBufferIndex();
-
-	//フェンスの生成
-	if (FAILED(device->CreateFence(fenceValues[lFrameIndex], D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(fence.ReleaseAndGetAddressOf()))))
-	{
-		printf("Failed to generate fence");
-		assert(0);
-	}
-
-	fenceValues[lFrameIndex]++;
 
 	// フレーム同期に使用するイベントハンドルを作成します。
 	waitEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
@@ -171,7 +150,6 @@ bool SwapChain::IsFullScreen() const
 
 void SwapChain::SetFullScreen(bool toFullScreen_)
 {
-	WaitForGpu();
 
 	if (toFullScreen_)
 	{
@@ -203,45 +181,6 @@ void SwapChain::ResizeBuffers(uint32_t width_, uint32_t height_)
 	{
 		backBuffers[i]->Resize(swapChain.Get(), i);
 	}
-}
-
-void SwapChain::WaitPreviousFrame()
-{
-	commandQueue->Signal(fence.Get(), ++fenceVal);
-	if (fence->GetCompletedValue() != fenceVal)
-	{
-		HANDLE lEvent = CreateEvent(nullptr, false, false, nullptr);
-		fence->SetEventOnCompletion(fenceVal, lEvent);
-		if (lEvent != 0)
-		{
-			WaitForSingleObject(lEvent, INFINITE);
-			CloseHandle(lEvent);
-		}
-	}
-}
-
-void SwapChain::WaitForGpu()
-{
-	uint32_t lFrameIndex = swapChain->GetCurrentBackBufferIndex();
-
-	// キューにあるSignalコマンドをスケジュール
-	if (FAILED(commandQueue->Signal(fence.Get(), fenceValues[lFrameIndex])))
-	{
-		printf("No Signal");
-		assert(0);
-	}
-
-	// フェンスの処理が完了するまで待つ。
-	if (FAILED(fence->SetEventOnCompletion(fenceValues[lFrameIndex], waitEvent)))
-	{
-		printf("Event could not be set");
-		assert(0);
-	}
-
-	WaitForSingleObjectEx(waitEvent, INFINITE, FALSE);
-
-	// 現在のフレームのフェンス値をインクリメントする。
-	fenceValues[lFrameIndex]++;
 }
 
 HRESULT SwapChain::Present(uint32_t SyncInterval, uint32_t Flags)

@@ -1,4 +1,8 @@
-﻿#include<Transform.h>
+#include<Transform.h>
+
+Transform::~Transform()
+{
+}
 
 void Transform::Initialize()
 {

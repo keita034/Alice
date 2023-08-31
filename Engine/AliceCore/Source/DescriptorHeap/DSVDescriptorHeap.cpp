@@ -1,16 +1,14 @@
-﻿#include "DSVDescriptorHeap.h"
-
+#include "DSVDescriptorHeap.h"
 #include<cassert>
-
 #include"BaseDescriptorHeap.h"
 
 class DSVDescriptorHeap : public BaseDescriptorHeap, public IDSVDescriptorHeap
 {
 private:
 
-	size_t maxDSV = 2048;
+	uint32_t maxDSV = 0;
 
-	size_t countDSV = 0;
+	uint32_t countDSV = 0;
 
 	D3D12_CPU_DESCRIPTOR_HANDLE	startCpuHandle;
 
@@ -22,7 +20,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize()override;
+	void Initialize(ID3D12Device* device_,uint32_t maxDsv_)override;
 
 	/// <summary>
 	/// デプスステンシルビューを生成
@@ -44,8 +42,11 @@ public:
 
 };
 
-void DSVDescriptorHeap::Initialize()
+void DSVDescriptorHeap::Initialize(ID3D12Device* device_,uint32_t maxDsv_)
 {
+	maxDSV = maxDsv_;
+	device = device_;
+
 	HRESULT lResult = 0;
 
 	// デスクリプタヒープの設定
@@ -54,10 +55,10 @@ void DSVDescriptorHeap::Initialize()
 	lDsvHeapDesc.NumDescriptors = static_cast<UINT>(maxDSV);
 
 	// 設定を元にSRV用デスクリプタヒープを生成
-	lResult = sDevice->CreateDescriptorHeap(&lDsvHeapDesc, IID_PPV_ARGS(descriptorHeap.ReleaseAndGetAddressOf()));
+	lResult = device->CreateDescriptorHeap(&lDsvHeapDesc, IID_PPV_ARGS(descriptorHeap.ReleaseAndGetAddressOf()));
 	assert(SUCCEEDED(lResult));
 
-	incrementSize = sDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
+	incrementSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
 
 	//SRVヒープの先頭ハンドルを取得
 	startCpuHandle = descriptorHeap->GetCPUDescriptorHandleForHeapStart();
@@ -74,7 +75,7 @@ UINT64 DSVDescriptorHeap::CreateDSV(const D3D12_DEPTH_STENCIL_VIEW_DESC& desc_, 
 
 	lHandle.ptr = startCpuHandle.ptr + (static_cast<UINT64>(countDSV) * incrementSize);
 
-	sDevice->CreateDepthStencilView(resource_, &desc_, lHandle);
+	device->CreateDepthStencilView(resource_, &desc_, lHandle);
 	countDSV++;
 
 	return lHandle.ptr;
@@ -90,16 +91,16 @@ UINT DSVDescriptorHeap::GetIncrementSize()
 	return incrementSize;
 }
 
-std::unique_ptr<IDSVDescriptorHeap> CreateUniqueDSVDescriptorHeap()
+std::unique_ptr<IDSVDescriptorHeap> CreateUniqueDSVDescriptorHeap(ID3D12Device* device_,uint32_t maxDsv_)
 {
 	std::unique_ptr<IDSVDescriptorHeap> lDSVDescriptorHeap = std::make_unique<DSVDescriptorHeap>();
-	lDSVDescriptorHeap->Initialize();
+	lDSVDescriptorHeap->Initialize(device_,maxDsv_);
 	return std::move(lDSVDescriptorHeap);
 }
 
-std::shared_ptr<IDSVDescriptorHeap> CreateSharedDSVDescriptorHeap()
+std::shared_ptr<IDSVDescriptorHeap> CreateSharedDSVDescriptorHeap(ID3D12Device* device_,uint32_t maxDsv_)
 {
 	std::shared_ptr<IDSVDescriptorHeap> lDSVDescriptorHeap = std::make_shared<DSVDescriptorHeap>();
-	lDSVDescriptorHeap->Initialize();
+	lDSVDescriptorHeap->Initialize(device_,maxDsv_);
 	return lDSVDescriptorHeap;
 }

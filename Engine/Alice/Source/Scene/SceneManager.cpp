@@ -1,5 +1,7 @@
-﻿#include<SceneManager.h>
+#include<SceneManager.h>
 #include<PostEffectManager.h>
+
+std::unique_ptr<SceneManager> SceneManager::sSceneManager;
 
 SceneManager::SceneManager()
 {
@@ -7,14 +9,18 @@ SceneManager::SceneManager()
 
 SceneManager::~SceneManager()
 {
-	scene->Finalize();
 }
 
 SceneManager* SceneManager::SGetInstance()
 {
-	static SceneManager lInstance;
+	if ( !sSceneManager )
+	{
+		SceneManager* lInstance = new SceneManager;
 
-	return &lInstance;
+		sSceneManager.reset(lInstance);
+	}
+
+	return sSceneManager.get();
 }
 
 void SceneManager::ChangeScene(const std::string& sceneName_)
@@ -66,4 +72,15 @@ void SceneManager::Draw()
 void SceneManager::SetSceneFactory(AbstractSceneFactory* factory_)
 {
 	sceneFactory = factory_;
+}
+
+void SceneManager::Finalize()
+{
+	if ( scene )
+	{
+		scene->Finalize();
+		scene.reset();
+	}
+
+	sSceneManager.release();
 }

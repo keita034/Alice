@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #pragma warning(push)
 #pragma warning(disable: 4061)
@@ -21,7 +21,7 @@
 /// <summary>
 /// デスクプリタヒープ(インターフェース)
 /// </summary>
-class IDescriptorHeap
+class ISRVDescriptorHeap
 {
 
 public:
@@ -35,7 +35,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	virtual void Initialize() =0 ;
+	virtual void Initialize(ID3D12Device* device_,uint32_t maxSRV_,uint32_t maxUAV,uint32_t maxCBV) =0 ;
 
 	/// <summary>
 	/// シェーダーリソースビュー生成
@@ -84,8 +84,8 @@ public:
 	/// <summary>
 	/// コンストラクタ・デストラクタ
 	/// </summary>
-	IDescriptorHeap() = default;
-	virtual~IDescriptorHeap() = default;
+	ISRVDescriptorHeap() = default;
+	virtual~ISRVDescriptorHeap() = default;
 };
 
 
@@ -93,11 +93,11 @@ public:
 /// デスクプリタヒープの生成(ユニーク)
 /// </summary>
 /// <returns>生成されたポインタ</returns>
-std::unique_ptr<IDescriptorHeap> CreateUniqueDescriptorHeap();
+std::unique_ptr<ISRVDescriptorHeap> CreateUniqueSRVDescriptorHeap(ID3D12Device* device_,uint32_t maxSRV_,uint32_t maxUAV,uint32_t maxCBV);
 
 /// <summary>
 /// デスクプリタヒープの生成(シェアード)
 /// </summary>
 /// <returns>生成されたポインタ</returns>
-std::shared_ptr<IDescriptorHeap> CreateSharedDescriptorHeap();
+std::shared_ptr<ISRVDescriptorHeap> CreateSharedSRVDescriptorHeap(ID3D12Device* device_,uint32_t maxSRV_,uint32_t maxUAV,uint32_t maxCBV);
 

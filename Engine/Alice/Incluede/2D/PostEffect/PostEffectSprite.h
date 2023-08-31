@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include<VertexBuffer.h>
 #include<IndexBuffer.h>
@@ -17,7 +17,7 @@ private:
 
 	ID3D12GraphicsCommandList* cmdList = nullptr;
 
-	IDescriptorHeap* srvHeap = nullptr;
+	ISRVDescriptorHeap* srvHeap = nullptr;
 
 	AliceMathF::Vector2 spriteSize;
 
@@ -26,7 +26,7 @@ public:
 	PostEffectSprite() = default;
 	~PostEffectSprite() = default;
 
-	void Initialize(ID3D12GraphicsCommandList* commandList_, IDescriptorHeap* descriptorHeap_);
+	void Initialize(ID3D12GraphicsCommandList* commandList_, ISRVDescriptorHeap* descriptorHeap_);
 
 	void SetSize(const AliceMathF::Vector2& size_);
 

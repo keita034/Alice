@@ -50,7 +50,7 @@ public:
 	void SetPlayer(Player* player_, AliceInput::IInput* input_);
 
 	PlayerGameCamera() = default;
-	virtual ~PlayerGameCamera();
+	~PlayerGameCamera();
 
 	AliceMathF::Vector2 GetAngle();
 

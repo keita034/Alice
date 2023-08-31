@@ -11,6 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Incluede\Adapter.h" />
+    <ClInclude Include="Incluede\Fence.h" />
+    <ClInclude Include="Incluede\CommandList.h" />
+    <ClInclude Include="Incluede\Device.h" />
     <ClInclude Include="Incluede\Buffer\BaseBuffer.h" />
     <ClInclude Include="Incluede\DescriptorHeap\BaseDescriptorHeap.h" />
     <ClInclude Include="Incluede\Buffer\ComputeVertexBuffer.h" />
@@ -29,8 +33,14 @@
     <ClInclude Include="Incluede\Shader.h" />
     <ClInclude Include="Incluede\WindowsApp.h" />
     <ClInclude Include="Incluede\SwapChain.h" />
+    <ClInclude Include="Incluede\MultiAdapters.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Adapter.cpp" />
+    <ClCompile Include="Source\MultiAdapters.cpp" />
+    <ClCompile Include="Source\Fence.cpp" />
+    <ClCompile Include="Source\CommandList.cpp" />
+    <ClCompile Include="Source\Device.cpp" />
     <ClCompile Include="Source\FPS.cpp" />
     <ClCompile Include="Source\RootSignature.cpp" />
     <ClCompile Include="Source\Shader.cpp" />

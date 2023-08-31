@@ -1,6 +1,6 @@
-﻿#include<PostEffectSprite.h>
+#include<PostEffectSprite.h>
 
-void PostEffectSprite::Initialize(ID3D12GraphicsCommandList* commandList_, IDescriptorHeap* descriptorHeap_)
+void PostEffectSprite::Initialize(ID3D12GraphicsCommandList* commandList_, ISRVDescriptorHeap* descriptorHeap_)
 {
 	cmdList = commandList_;
 	srvHeap = descriptorHeap_;

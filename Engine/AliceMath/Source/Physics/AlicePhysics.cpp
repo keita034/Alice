@@ -4,6 +4,11 @@
 
 AlicePhysics::~AlicePhysics()
 {
+
+}
+
+void AlicePhysics::Finalize()
+{
 	cooking->release();
 	PxCloseExtensions();
 	scene->release();
@@ -13,7 +18,7 @@ AlicePhysics::~AlicePhysics()
 	IAliceRigidBody::SetPhysics(nullptr);
 	IAliceRigidBody::SetScene(nullptr);
 
-	if (pvd)
+	if ( pvd )
 	{
 		pvd->disconnect();
 		physx::PxPvdTransport* transport = pvd->getTransport();

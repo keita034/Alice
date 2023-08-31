@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #pragma warning(push)
 #pragma warning(disable: 4365)
@@ -51,10 +51,6 @@ public:
 	/// バッファサイズ変更
 	/// </summary>
 	virtual void ResizeBuffers(uint32_t width_, uint32_t height_) = 0;
-
-	virtual void WaitPreviousFrame() = 0;
-
-	virtual void WaitForGpu() = 0;
 
 	virtual HRESULT Present(uint32_t SyncInterval_, uint32_t Flags_) = 0;
 

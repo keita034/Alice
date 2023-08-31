@@ -1,4 +1,4 @@
-﻿#include "DescriptorHeap.h"
+#include "DescriptorHeap.h"
 
 #include<assert.h>
 
@@ -7,7 +7,7 @@
 /// <summary>
 /// デスクプリタヒープ
 /// </summary>
-class DescriptorHeap : public BaseDescriptorHeap, public IDescriptorHeap
+class SRVDescriptorHeap : public BaseDescriptorHeap, public ISRVDescriptorHeap
 {
 private:
 	//デスクプリタレンジ
@@ -15,13 +15,13 @@ private:
 
 	char PADING1[4]{};
 
-	size_t maxSRV = 340000;
-	size_t maxUAV = 330000;
-	size_t maxCBV = 330000;
+	uint32_t maxSRV = 0;
+	uint32_t maxUAV = 0;
+	uint32_t maxCBV = 0;
 
-	size_t countSRV = 0;
-	size_t countUAV = 0;
-	size_t countCBV = 0;
+	uint32_t countSRV = 0;
+	uint32_t countUAV = 0;
+	uint32_t countCBV = 0;
 
 	uint32_t incrementSize = 0;
 
@@ -35,7 +35,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize();
+	void Initialize(ID3D12Device* device_,uint32_t maxSRV_,uint32_t maxUAV,uint32_t maxCBV);
 
 	/// <summary>
 	/// シェーダーリソースビュー生成
@@ -72,12 +72,17 @@ public:
 	/// </summary>
 	ID3D12DescriptorHeap* GetHeap() override;
 
-	DescriptorHeap() = default;
-	~DescriptorHeap() = default;
+	SRVDescriptorHeap() = default;
+	~SRVDescriptorHeap() = default;
 };
 
-void DescriptorHeap::Initialize()
+void SRVDescriptorHeap::Initialize(ID3D12Device* device_,uint32_t maxSRV_,uint32_t maxUAV_,uint32_t maxCBV_)
 {
+	device = device_;
+	maxSRV = maxSRV_;
+	maxUAV = maxUAV_;
+	maxCBV = maxCBV_;
+
 	// デスクリプタヒープの設定
 	D3D12_DESCRIPTOR_HEAP_DESC lSrvHeapDesc = {};
 	lSrvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
@@ -85,17 +90,17 @@ void DescriptorHeap::Initialize()
 	lSrvHeapDesc.NumDescriptors = static_cast<UINT>(maxSRV + maxUAV + maxCBV);
 
 	// 設定を元にSRV用デスクリプタヒープを生成
-	result = sDevice->CreateDescriptorHeap(&lSrvHeapDesc, IID_PPV_ARGS(descriptorHeap.ReleaseAndGetAddressOf()));
+	result = device->CreateDescriptorHeap(&lSrvHeapDesc, IID_PPV_ARGS(descriptorHeap.ReleaseAndGetAddressOf()));
 	assert(SUCCEEDED(result));
 
-	incrementSize = sDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	incrementSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
 	//SRVヒープの先頭ハンドルを取得
 	startCpuHandle = descriptorHeap->GetCPUDescriptorHandleForHeapStart();
 	startGpuHandle = descriptorHeap->GetGPUDescriptorHandleForHeapStart();
 }
 
-uint64_t DescriptorHeap::CreateSRV(const D3D12_SHADER_RESOURCE_VIEW_DESC& desc_, ID3D12Resource* resource_)
+uint64_t SRVDescriptorHeap::CreateSRV(const D3D12_SHADER_RESOURCE_VIEW_DESC& desc_, ID3D12Resource* resource_)
 {
 	if (countSRV > maxSRV)
 	{
@@ -111,13 +116,13 @@ uint64_t DescriptorHeap::CreateSRV(const D3D12_SHADER_RESOURCE_VIEW_DESC& desc_,
 	lGpuHandle.ptr = startGpuHandle.ptr + (static_cast<UINT64>(countSRV) * incrementSize);
 
 	// ハンドルの指す位置にシェーダーリソースビュー作成
-	sDevice->CreateShaderResourceView(resource_, &desc_, lCpuHandle);
+	device->CreateShaderResourceView(resource_, &desc_, lCpuHandle);
 	countSRV++;
 
 	return lGpuHandle.ptr;
 }
 
-DescriptorHeap::DescriptorHeapViewHandle DescriptorHeap::AddSRV()
+SRVDescriptorHeap::DescriptorHeapViewHandle SRVDescriptorHeap::AddSRV()
 {
 	if (countSRV > maxSRV)
 	{
@@ -135,7 +140,7 @@ DescriptorHeap::DescriptorHeapViewHandle DescriptorHeap::AddSRV()
 	return lHandle;
 }
 
-uint64_t DescriptorHeap::CreateUAV(const D3D12_UNORDERED_ACCESS_VIEW_DESC& desc_, ID3D12Resource* resource_)
+uint64_t SRVDescriptorHeap::CreateUAV(const D3D12_UNORDERED_ACCESS_VIEW_DESC& desc_, ID3D12Resource* resource_)
 {
 	if (countUAV > maxUAV)
 	{
@@ -151,14 +156,14 @@ uint64_t DescriptorHeap::CreateUAV(const D3D12_UNORDERED_ACCESS_VIEW_DESC& desc_
 	lGpuHandle.ptr = startGpuHandle.ptr + (static_cast<UINT64>(maxSRV + countUAV) * incrementSize);
 
 	// ハンドルの指す位置にシェーダーリソースビュー作成
-	sDevice->CreateUnorderedAccessView(resource_, nullptr, &desc_, lCpuHandle);
+	device->CreateUnorderedAccessView(resource_, nullptr, &desc_, lCpuHandle);
 
 	countUAV++;
 
 	return lGpuHandle.ptr;
 }
 
-DescriptorHeap::DescriptorHeapViewHandle DescriptorHeap::AddUAV()
+SRVDescriptorHeap::DescriptorHeapViewHandle SRVDescriptorHeap::AddUAV()
 {
 	if (countUAV > maxUAV)
 	{
@@ -176,7 +181,7 @@ DescriptorHeap::DescriptorHeapViewHandle DescriptorHeap::AddUAV()
 	return lHandle;
 }
 
-uint64_t DescriptorHeap::CreateCBV(const D3D12_CONSTANT_BUFFER_VIEW_DESC& desc_)
+uint64_t SRVDescriptorHeap::CreateCBV(const D3D12_CONSTANT_BUFFER_VIEW_DESC& desc_)
 {
 	if (countCBV > maxCBV)
 	{
@@ -192,14 +197,14 @@ uint64_t DescriptorHeap::CreateCBV(const D3D12_CONSTANT_BUFFER_VIEW_DESC& desc_)
 	lGpuHandle.ptr = startGpuHandle.ptr + (static_cast<UINT64>(maxSRV + maxUAV + countCBV) * incrementSize);
 
 	// ハンドルの指す位置にシェーダーリソースビュー作成
-	sDevice->CreateConstantBufferView(&desc_, lCpuHandle);
+	device->CreateConstantBufferView(&desc_, lCpuHandle);
 
 	countCBV++;
 
 	return lGpuHandle.ptr;
 }
 
-DescriptorHeap::DescriptorHeapViewHandle DescriptorHeap::AddCBV()
+SRVDescriptorHeap::DescriptorHeapViewHandle SRVDescriptorHeap::AddCBV()
 {
 	if (countCBV > maxCBV)
 	{
@@ -217,21 +222,21 @@ DescriptorHeap::DescriptorHeapViewHandle DescriptorHeap::AddCBV()
 	return lHandle;
 }
 
-ID3D12DescriptorHeap* DescriptorHeap::GetHeap()
+ID3D12DescriptorHeap* SRVDescriptorHeap::GetHeap()
 {
 	return descriptorHeap.Get();
 }
 
-std::unique_ptr<IDescriptorHeap> CreateUniqueDescriptorHeap()
+std::unique_ptr<ISRVDescriptorHeap> CreateUniqueSRVDescriptorHeap(ID3D12Device* device_,uint32_t maxSRV_,uint32_t maxUAV,uint32_t maxCBV)
 {
-	std::unique_ptr<IDescriptorHeap> lDescriptorHeap = std::make_unique<DescriptorHeap>();
-	lDescriptorHeap->Initialize();
+	std::unique_ptr<ISRVDescriptorHeap> lDescriptorHeap = std::make_unique<SRVDescriptorHeap>();
+	lDescriptorHeap->Initialize(device_,maxSRV_,maxUAV,maxCBV);
 	return std::move(lDescriptorHeap);
 }
 
-std::shared_ptr<IDescriptorHeap> CreateSharedDescriptorHeap()
+std::shared_ptr<ISRVDescriptorHeap> CreateSharedSRVDescriptorHeap(ID3D12Device* device_,uint32_t maxSRV_,uint32_t maxUAV,uint32_t maxCBV)
 {
-	std::shared_ptr<IDescriptorHeap> lDescriptorHeap = std::make_shared<DescriptorHeap>();
-	lDescriptorHeap->Initialize();
+	std::shared_ptr<ISRVDescriptorHeap> lDescriptorHeap = std::make_shared<SRVDescriptorHeap>();
+	lDescriptorHeap->Initialize(device_,maxSRV_,maxUAV,maxCBV);
 	return lDescriptorHeap;
 }

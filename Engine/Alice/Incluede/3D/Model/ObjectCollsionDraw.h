@@ -18,29 +18,9 @@
 
 #include<IAliceRigidBody.h>
 
-
-struct DrawShape
-{
-	std::unique_ptr<AliceModel>model;
-	uint32_t hanlde;
-
-	uint32_t PADING;
-
-	DrawShape() = default;
-	~DrawShape() = default;
-
-	//コピーコンストラクタ・代入演算子削除
-	DrawShape& operator=(const DrawShape&) = delete;
-	DrawShape(const DrawShape&) = delete;
-};
-
 class ObjectCollsionDraw
 {
 private:
-
-	DrawShape capsuleModel;
-
-	std::vector<std::unique_ptr<Transform>>transforms;
 
 public:
 

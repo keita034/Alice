@@ -1,4 +1,4 @@
-﻿#include<3DMesh.h>
+#include<3DMesh.h>
 
 
 std::unique_ptr<Mesh3D> Mesh3D::sMesh;
@@ -152,6 +152,18 @@ void Mesh3D::SSetWindowsApp(IWindowsApp* windowsApp_)
 void Mesh3D::SSetDirectX12Core(DirectX12Core* directX12Core_)
 {
 	sCmdList = directX12Core_->GetCommandList();
+}
+
+void Mesh3D::Destroy()
+{
+	free(triangleBuff->vertMap);
+	free(triangleBuff->indexMap);
+	free(lineBuff->vertMap);
+	free(lineBuff->indexMap);
+	free(boxBuff->vertMap);
+	free(boxBuff->indexMap);
+
+	sMesh.reset();
 }
 
 #pragma endregion

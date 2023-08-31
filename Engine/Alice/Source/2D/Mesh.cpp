@@ -1,4 +1,4 @@
-﻿#include<Mesh.h>
+#include<Mesh.h>
 
 std::unique_ptr<Mesh> Mesh::sMesh;
 IWindowsApp* Mesh::sWindowsApp = nullptr;
@@ -238,6 +238,8 @@ void Mesh::Destroy()
 	free(lineBuff->indexMap);
 	free(boxBuff->vertMap);
 	free(boxBuff->indexMap);
+
+	sMesh.reset();
 }
 
 void Mesh::SSetWindowsApp(IWindowsApp* windowsApp_)

@@ -35,6 +35,8 @@ public:
 	AlicePhysics() = default;
 	~AlicePhysics();
 
+	void Finalize();
+
 	void Initialize(AliceRigidBodyManager* aliceRigidBodyManager);
 
 	void SimulateTime(float time_);

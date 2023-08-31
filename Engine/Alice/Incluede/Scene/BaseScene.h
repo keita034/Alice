@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include<Input.h>
 #include<AudioManager.h>
 #include<WindowsApp.h>
@@ -25,6 +25,8 @@ protected:
 public:
 
 	virtual ~BaseScene() = default;
+
+
 
 	/// <summary>
 	/// 初期化

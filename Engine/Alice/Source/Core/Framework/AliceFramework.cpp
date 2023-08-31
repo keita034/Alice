@@ -8,6 +8,7 @@
 #include<Sprite.h>
 #include<SceneLoader.h>
 #include<IAliceRigidBody.h>
+#include<BaseBuffer.h>
 
 void AliceFramework::SDebugInitialize()
 {
@@ -22,16 +23,6 @@ void AliceFramework::Initialize()
 {
 	windowsApp = CreateUniqueWindowsApp(L"Blood");//ウィンドウ生成
 
-	//DirectX初期化処理ここから
-
-	directX12Core = std::make_unique<DirectX12Core>();//DirectX12Coreクラス読み込み
-	directX12Core->DirectXInitialize(static_cast<float>(windowsApp->GetWindowSize().width), static_cast<float>(windowsApp->GetWindowSize().height), windowsApp->GetHwndPtr(), windowsApp.get());//DirectX12初期化
-	directX12Core->SetBackScreenColor(0.1f, 0.25f, 0.5f, 0.0f);	//背景の色変更(R,G,B,A)
-
-	//DirectX初期化処理ここまで
-
-	//描画初期化処理ここから
-
 	Mesh::SSetWindowsApp(windowsApp.get());
 	Mesh3D::SSetWindowsApp(windowsApp.get());
 	PostEffectManager::SSetWindowsApp(windowsApp.get());
@@ -39,6 +30,13 @@ void AliceFramework::Initialize()
 	Sprite::SSetWindowsApp(windowsApp.get());
 	BasePostEffect::SSetWindowsApp(windowsApp.get());
 	BaseScene::SSetWindowsApp(windowsApp.get());
+
+	//DirectX初期化処理ここから
+
+	directX12Core = std::make_unique<DirectX12Core>();//DirectX12Coreクラス読み込み
+	directX12Core->DirectXInitialize(static_cast<float>(windowsApp->GetWindowSize().width), static_cast<float>(windowsApp->GetWindowSize().height), windowsApp->GetHwndPtr(), windowsApp.get());//DirectX12初期化
+	directX12Core->SetBackScreenColor(0.1f, 0.25f, 0.5f, 0.0f);	//背景の色変更(R,G,B,A)
+
 
 	Particle::SSetDirectX12Core(directX12Core.get());
 	BasePostEffect::SSetDirectX12Core(directX12Core.get());
@@ -48,6 +46,10 @@ void AliceFramework::Initialize()
 	Mesh3D::SSetDirectX12Core(directX12Core.get());
 	PipelineState::SSetDirectX12Core(directX12Core.get());
 	TextureManager::SSetDirectX12Core(directX12Core.get());
+	AliceModel::SCommonInitialize(directX12Core.get());
+	//DirectX初期化処理ここまで
+
+	//描画初期化処理ここから
 
 	mesh = Mesh::SGetInstance();
 	mesh3D = Mesh3D::SGetInstance();
@@ -57,31 +59,30 @@ void AliceFramework::Initialize()
 
 	Particle::SSetTextureManager(textureManager);
 
-	MaterialManager::SGetInstance()->Initialize(directX12Core->GetDevice());
-	//描画初期化処理ここまで
-
-	//その他初期化ここから
+	postEffectManager = PostEffectManager::SGetInstance();
+	postEffectManager->Initialize();
 
 	audioManager = CreateUniqueAudioManager();
 	BaseScene::SSetAudioManager(audioManager.get());
 
-	input = AliceInput::CreateUniqueInput(windowsApp->GetHwndPtr(), &windowsApp->GetWndclassex()->hInstance);
+	fps = CreateUniqueFPS();
+
+	input = AliceInput::CreateUniqueInput(windowsApp->GetHwndPtr(),&windowsApp->GetWndclassex()->hInstance);
 
 	BaseScene::SSetInput(input.get());
 	SceneData::SSetInput(input.get());
 
-	fps = CreateUniqueFPS();
+	materialManager = MaterialManager::SGetInstance();
+	materialManager->Initialize(directX12Core->GetDevice());
+	//描画初期化処理ここまで
 
-	AliceModel::SCommonInitialize(directX12Core.get());
+	//その他初期化ここから
+
 	AliceMotionData::SCommonInitialize();
 
 	imGuiManager = CreateUniqueImGuiManager(windowsApp.get(), directX12Core.get());
 	
 	sceneManager = SceneManager::SGetInstance();
-
-	postEffectManager = PostEffectManager::SGetInstance();
-
-	postEffectManager->Initialize();
 
 	aliceRigidBodyManager = std::make_unique<AliceRigidBodyManager>();
 	
@@ -98,14 +99,26 @@ void AliceFramework::Initialize()
 
 void AliceFramework::Finalize()
 {
+	BaseBuffer::Finalize();
+	AliceModel::Finalize();
+
+	sceneManager->Finalize();
 	imGuiManager->Finalize();
 	imGuiManager.release();
-
-
+	physics->Finalize();
+	objectCollsionDraw.reset();
+	textureManager->Finalize();
 	mesh->Destroy();
+	mesh3D->Destroy();
+	postEffectManager->Destroy();
+	materialManager->Finalize();
 	audioManager->Destroy();
 	windowsApp->Break();
-	objectCollsionDraw.reset();
+}
+
+AliceFramework::~AliceFramework()
+{
+
 }
 
 void AliceFramework::Update()
@@ -194,11 +207,8 @@ void AliceFramework::Run()
 		//更新処理
 		Update();
 
-		//if (windowsApp->RenderShould())
-		{
 			//描画処理
 			Draw();
-		}
 
 		PostUpdate();
 	}

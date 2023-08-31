@@ -1,6 +1,7 @@
 #include<DefaultMaterial.h>
 
 ID3D12Device* MaterialManager::sDevice = nullptr;
+std::unique_ptr<MaterialManager> MaterialManager::materialManager;
 
 void MaterialManager::Initialize(ID3D12Device* device_)
 {
@@ -12,8 +13,13 @@ void MaterialManager::Initialize(ID3D12Device* device_)
 
 MaterialManager* MaterialManager::SGetInstance()
 {
-	static MaterialManager material;
-	return &material;
+	if ( !materialManager )
+	{
+		MaterialManager* lInstance = new MaterialManager();
+		materialManager.reset(lInstance);
+	}
+
+	return materialManager.get();
 }
 
 Material* MaterialManager::GetMaterialData(const std::string& name_)
@@ -162,6 +168,14 @@ void MaterialManager::AddMaterial(Material* material, const std::string& name_)
 		lMaterial.reset(material);
 		materials[name_] = std::move(lMaterial);
 	}
+}
+
+void MaterialManager::Finalize()
+{
+	defaultTexture = nullptr;
+	sDevice = nullptr;
+	materials.clear();
+	materialManager.release();
 }
 
 Material* MaterialManager::SGetMaterial(const std::string& name_)

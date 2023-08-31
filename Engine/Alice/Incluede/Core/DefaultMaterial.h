@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include<Material.h>
 #include<TextureManager.h>
 
@@ -7,8 +7,9 @@ class MaterialManager
 private:
 
 	TextureData* defaultTexture;
-
 	std::unordered_map<std::string, std::unique_ptr<Material>>materials;
+	static std::unique_ptr<MaterialManager>materialManager;
+
 public:
 
 	/// <summary>
@@ -34,6 +35,8 @@ public:
 	/// </summary>
 	void AddMaterial(Material* material_, const std::string& name_);
 
+	void Finalize();
+
 	/// <summary>
 	/// マテリアル取得
 	/// </summary>
@@ -46,10 +49,10 @@ public:
 
 	static ID3D12Device* sDevice;
 
-private:
-
 	MaterialManager() = default;
 	~MaterialManager();
+
+private:
 
 	void PCreateDefaultTexture();
 	void PCreateDefaultTextureMaterial();

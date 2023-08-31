@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include<BaseScene.h>
 #include<AbstractSceneFactory.h>
 
@@ -8,6 +8,8 @@
 class SceneManager
 {
 private:
+
+	static std::unique_ptr<SceneManager> sSceneManager;
 
 	//今のシーン(実行中のシーン)
 	std::unique_ptr<BaseScene> scene;
@@ -37,10 +39,13 @@ public:
 
 	void SetSceneFactory(AbstractSceneFactory* factory_);
 
+	void Finalize();
+
+	~SceneManager();
+
 private:
 
 	SceneManager();
-	~SceneManager();
 
 	//コピーコンストラクタ・代入演算子削除
 	SceneManager(const SceneManager&) = delete;

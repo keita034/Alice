@@ -61,7 +61,7 @@ void ImGuiManager::Initialize(IWindowsApp* windowsApp_, DirectX12Core* directX12
 
 	ImGui_ImplWin32_Init(windowsApp_->GetHwnd());
 
-	IDescriptorHeap::DescriptorHeapViewHandle lHandl = directX12Core->GetSRVDescriptorHeap()->AddSRV();
+	ISRVDescriptorHeap::DescriptorHeapViewHandle lHandl = directX12Core->GetSRVDescriptorHeap()->AddSRV();
 
 	ImGui_ImplDX12_Init(
 		directX12Core->GetDevice(),

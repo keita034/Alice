@@ -114,5 +114,6 @@ void GameScene::Draw()
 
 void GameScene::Finalize()
 {
+	fieldObjData->Finalize();
 }
 

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #pragma warning(push)
 #pragma warning(disable: 4061)
@@ -28,7 +28,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	virtual void Initialize() = 0;
+	virtual void Initialize(ID3D12Device* device_,uint32_t maxRTV_) = 0;
 
 	/// <summary>
 	/// レンダーターゲットビュー生成
@@ -53,10 +53,10 @@ public:
 /// レンダーターゲットデスクプリタヒープの生成(ユニーク)
 /// </summary>
 /// <returns>生成されたポインタ</returns>
-std::unique_ptr<IRTVDescriptorHeap> CreateUniqueRTVDescriptorHeap();
+std::unique_ptr<IRTVDescriptorHeap> CreateUniqueRTVDescriptorHeap(ID3D12Device* device_,uint32_t maxRTV_);
 
 /// <summary>
 /// レンダーターゲットデスクプリタヒープの生成(シェアード)
 /// </summary>
 /// <returns>生成されたポインタ</returns>
-std::shared_ptr<IRTVDescriptorHeap> CreateSharedRTVDescriptorHeap();
+std::shared_ptr<IRTVDescriptorHeap> CreateSharedRTVDescriptorHeap(ID3D12Device* device_,uint32_t maxRTV_);

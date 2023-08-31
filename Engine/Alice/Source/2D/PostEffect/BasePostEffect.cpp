@@ -1,6 +1,6 @@
-﻿#include<BasePostEffect.h>
+#include<BasePostEffect.h>
 
-IDescriptorHeap* BasePostEffect::sSrvHeap = nullptr;
+ISRVDescriptorHeap* BasePostEffect::sSrvHeap = nullptr;
 IWindowsApp* BasePostEffect::sWindowsApp = nullptr;
 ID3D12GraphicsCommandList* BasePostEffect::sCmdList = nullptr;
 ID3D12Device* BasePostEffect::sDevice = nullptr;

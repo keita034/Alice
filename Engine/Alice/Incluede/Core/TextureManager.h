@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #pragma warning(push)
 #pragma warning(disable: 4365)
 #pragma warning(disable: 4514)
@@ -107,6 +107,8 @@ public:
 	static TextureData* SGetTextureData(uint32_t handle_);
 
 	static void SSetDirectX12Core(DirectX12Core* directX12Core_);
+
+	void Finalize();
 
 	~TextureManager() = default;
 

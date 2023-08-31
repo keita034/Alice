@@ -1,4 +1,5 @@
 #include "SceneLoader.h"
+#include "SceneLoader.h"
 
 #include <fstream>
 #include <cassert>
@@ -345,6 +346,24 @@ void SceneData::Draw()
 	for (std::unique_ptr<Object>& object : objects)
 	{
 		object->Draw();
+	}
+}
+
+void SceneData::Finalize()
+{
+	if (!objects.empty())
+	{
+		objects.clear();
+	}
+
+	if (camera)
+	{
+		camera.reset();
+	}
+
+	if (light)
+	{
+		light.reset();
 	}
 }
 

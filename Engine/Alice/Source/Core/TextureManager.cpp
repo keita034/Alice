@@ -1,4 +1,4 @@
-﻿#pragma warning(push)
+#pragma warning(push)
 #pragma warning(disable: 4062)
 #pragma warning(disable: 4365)
 #pragma warning(disable: 4514)
@@ -202,9 +202,15 @@ void TextureManager::SSetDirectX12Core(DirectX12Core* directX12Core_)
 	sDirectX12Core = directX12Core_;
 }
 
+void TextureManager::Finalize()
+{
+	sTextureDatas.clear();
+	sTextureManager.release();
+}
+
 Microsoft::WRL::ComPtr<ID3D12Resource> TextureManager::PCreateTexBuff(DirectX::TexMetadata& metadata_, DirectX::ScratchImage& scratchImg_)
 {
-	sDirectX12Core->BeginCommand();
+	sDirectX12Core->GraphicBeginCommand();
 
 	std::vector<D3D12_SUBRESOURCE_DATA> lTextureSubresources;
 
@@ -272,7 +278,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource> TextureManager::PCreateTexBuff(DirectX::T
 
 	sDirectX12Core->GetCommandList()->ResourceBarrier(1, &lBarrierTex);
 
-	sDirectX12Core->ExecuteCommand(false);
+	sDirectX12Core->GraphicExecuteCommand();
 
 	return lResult;
 }

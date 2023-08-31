@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #pragma warning(push)
 #pragma warning(disable: 4365)
@@ -13,7 +13,7 @@
 #include<RTVDescriptorHeap.h>
 #include<DescriptorHeap.h>
 #include<DSVDescriptorHeap.h>
-
+#include<MultiAdapters.h>
 enum class WindowMode
 {
 	//ウィンドウ
@@ -34,23 +34,11 @@ private:
 	HWND* handle;
 	IWindowsApp* windowsApp = nullptr;
 
-	Microsoft::WRL::ComPtr<ID3D12Device> device;
-	Microsoft::WRL::ComPtr<IDXGIFactory7> dxgiFactory;
-	std::vector<Microsoft::WRL::ComPtr<ID3D12CommandAllocator>> commandAllocators;
-	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList;
-	Microsoft::WRL::ComPtr<ID3D12CommandQueue> commandQueue;
+	std::unique_ptr <IMultiAdapters>multiAdapters;
+	
+	IAdapter* mainAdapters = nullptr;
 
-	//RTV用のデスクプリタヒープ
-	std::unique_ptr<IRTVDescriptorHeap> rtvHeap;
-
-	//SRV用のデスクプリタヒープ
-	std::unique_ptr<IDescriptorHeap> srvHeap;
-
-	//深度バッファ
 	std::unique_ptr<IDepthStencilBuffer> depthBuff;
-
-	//DSV用のデスクプリタヒープ
-	std::unique_ptr<IDSVDescriptorHeap> dsvHeap;
 
 	//スワップチェイン
 	std::unique_ptr<ISwapChain> swapChain;
@@ -78,7 +66,7 @@ private:
 	float width;
 
 	WindowMode windowMode;
-	HRESULT result;
+	HRESULT result = S_OK;
 
 	bool tearingSupport;
 	int8_t PADING[3];
@@ -109,6 +97,9 @@ public:
 
 	void BeginCommand();
 
+	void GraphicBeginCommand();
+	void GraphicExecuteCommand();
+
 	//背景の色変え(RGBA)
 	void SetBackScreenColor(float red_, float green_, float blue_, float alpha_);
 
@@ -125,7 +116,7 @@ public:
 	/// <summary>
 	/// SRV,CBV,URV用デスクプリタヒープ取得
 	/// </summary>
-	IDescriptorHeap* GetSRVDescriptorHeap()const;
+	ISRVDescriptorHeap* GetSRVDescriptorHeap()const;
 
 	/// <summary>
 	/// RTV用デスクプリタヒープ取得

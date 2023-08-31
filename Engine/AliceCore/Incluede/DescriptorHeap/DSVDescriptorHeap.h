@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #pragma warning(push)
 #pragma warning(disable: 4061)
@@ -29,7 +29,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	virtual void Initialize() = 0;
+	virtual void Initialize(ID3D12Device* device_,uint32_t maxDsv_) = 0;
 
 	/// <summary>
 	/// デプスステンシルビューを生成
@@ -58,10 +58,10 @@ public:
 /// 深度デスクプリタヒープの生成(ユニーク)
 /// </summary>
 /// <returns>生成されたポインタ</returns>
-std::unique_ptr<IDSVDescriptorHeap> CreateUniqueDSVDescriptorHeap();
+std::unique_ptr<IDSVDescriptorHeap> CreateUniqueDSVDescriptorHeap(ID3D12Device* device_,uint32_t maxDsv_);
 
 /// <summary>
 /// 深度デスクプリタヒープの生成(シェアード)
 /// </summary>
 /// <returns>生成されたポインタ</returns>
-std::shared_ptr<IDSVDescriptorHeap> CreateSharedDSVDescriptorHeap();
+std::shared_ptr<IDSVDescriptorHeap> CreateSharedDSVDescriptorHeap(ID3D12Device* device_,uint32_t maxDsv_);

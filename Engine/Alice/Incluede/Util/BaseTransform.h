@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include<AliceMathUtility.h>
 #include<Camera.h>
 #include<ConstantBuffer.h>
@@ -32,9 +32,13 @@ public:
 	AliceMathF::Matrix4 rigidBodyMatWorld;
 
 public:
-
 	// 親となるワールド変換へのポインタ
 	const BaseTransform* parent = nullptr;
+
+public:
+
+	BaseTransform() = default;
+	virtual ~BaseTransform() = default;
 };
 
 namespace AliceMathF

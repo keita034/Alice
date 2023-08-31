@@ -17,7 +17,7 @@ private:
 	//クリアーカラー
 	std::array<float, 4> clearColor = {};
 
-	IDescriptorHeap* srvHeap = nullptr;
+	ISRVDescriptorHeap* srvHeap = nullptr;
 
 	D3D12_GPU_DESCRIPTOR_HANDLE handle = {};
 
@@ -63,7 +63,7 @@ public:
 	/// <param name="rtvDescriptorHeap">レンダーターゲットテクスチャ用のデスクプリタヒープ</param>
 	/// <param name="descriptorHeap">デプステクスチャ用のデスクプリタヒープ</param>
 	/// <param name="commandList">コマンドリスト</param>
-	RenderTarget(IDescriptorHeap* srvDescriptorHeap_, ID3D12GraphicsCommandList* commandList_);
+	RenderTarget(ISRVDescriptorHeap* srvDescriptorHeap_, ID3D12GraphicsCommandList* commandList_);
 
 	/// <summary>
 	/// レンダーターゲットテクスチャを取得

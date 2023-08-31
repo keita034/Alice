@@ -4,13 +4,19 @@
 #include<PostEffectFactory.h>
 
 ID3D12GraphicsCommandList* PostEffectManager::sCmdList = nullptr;
-IDescriptorHeap* PostEffectManager::sSrvHeap = nullptr;
+ISRVDescriptorHeap* PostEffectManager::sSrvHeap = nullptr;
 IWindowsApp* PostEffectManager::sWindowsApp = nullptr;
+std::unique_ptr<PostEffectManager> PostEffectManager::postEffectManager;
 
 PostEffectManager* PostEffectManager::SGetInstance()
 {
-	static PostEffectManager lInstance;
-	return &lInstance;
+	if ( !postEffectManager )
+	{
+		PostEffectManager* lInstance = new PostEffectManager();
+		postEffectManager.reset(lInstance);
+	}
+
+	return postEffectManager.get();
 }
 
 void PostEffectManager::Initialize()
@@ -78,6 +84,12 @@ void PostEffectManager::AddPostEffect(const std::string& postEffectName_)
 void PostEffectManager::Finalize()
 {
 	postEffects.clear();
+}
+
+void PostEffectManager::Destroy()
+{
+	postEffects.clear();
+	postEffectManager.reset();
 }
 
 bool PostEffectManager::IsAalid()

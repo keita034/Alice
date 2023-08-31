@@ -568,6 +568,19 @@ void AliceModel::SetAlpha(float alpha_)
 	}
 }
 
+void AliceModel::Finalize()
+{
+	 sDevice = nullptr;
+	sCmdList = nullptr;
+
+	sLight = nullptr;
+
+	sFilePaths.clear();
+
+	sModelDatas.clear();
+
+}
+
 void AliceModel::PReadNodeHeirarchy(ModelMesh* mesh_,const AliceMotionData* pAnimation_,const Node* pNode_,const AliceMathF::Matrix4& mxParentTransform_)
 {
 	AliceMathF::Matrix4 lMatNodeTransformation = AliceMathF::MakeIdentity();

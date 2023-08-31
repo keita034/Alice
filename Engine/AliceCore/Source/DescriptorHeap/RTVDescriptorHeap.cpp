@@ -1,4 +1,4 @@
-﻿#include "RTVDescriptorHeap.h"
+#include "RTVDescriptorHeap.h"
 
 #include<cassert>
 
@@ -8,9 +8,9 @@ class RTVDescriptorHeap : public BaseDescriptorHeap, public IRTVDescriptorHeap
 {
 private:
 
-	size_t maxRTV = 2048;
+	uint32_t maxRTV = 0;
 
-	size_t countRTV = 0;
+	uint32_t countRTV = 0;
 
 	D3D12_CPU_DESCRIPTOR_HANDLE	startCpuHandle;
 
@@ -22,7 +22,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize() override;
+	void Initialize(ID3D12Device* device_,uint32_t maxRTV_) override;
 
 	/// <summary>
 	/// レンダーターゲットビュー生成
@@ -37,8 +37,11 @@ public:
 	uint32_t GetIncrementSize() override;
 };
 
-void RTVDescriptorHeap::Initialize()
+void RTVDescriptorHeap::Initialize(ID3D12Device* device_,uint32_t maxRTV_)
 {
+	device = device_;
+	maxRTV = maxRTV_;
+
 	HRESULT lResult = 0;
 
 	// デスクリプタヒープの設定
@@ -47,10 +50,10 @@ void RTVDescriptorHeap::Initialize()
 	lRTVHeapDesc.NumDescriptors = static_cast<UINT>(maxRTV);
 
 	// 設定を元にSRV用デスクリプタヒープを生成
-	lResult = sDevice->CreateDescriptorHeap(&lRTVHeapDesc, IID_PPV_ARGS(descriptorHeap.ReleaseAndGetAddressOf()));
+	lResult = device->CreateDescriptorHeap(&lRTVHeapDesc, IID_PPV_ARGS(descriptorHeap.ReleaseAndGetAddressOf()));
 	assert(SUCCEEDED(lResult));
 
-	incrementSize = sDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+	incrementSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 
 	//SRVヒープの先頭ハンドルを取得
 	startCpuHandle = descriptorHeap->GetCPUDescriptorHandleForHeapStart();
@@ -67,7 +70,7 @@ uint64_t RTVDescriptorHeap::CreateRTV(const D3D12_RENDER_TARGET_VIEW_DESC& desc_
 
 	lHandle.ptr = startCpuHandle.ptr + (static_cast<UINT64>(countRTV) * incrementSize);
 
-	sDevice->CreateRenderTargetView(resource_, &desc_, lHandle);
+	device->CreateRenderTargetView(resource_, &desc_, lHandle);
 	countRTV++;
 
 	return lHandle.ptr;
@@ -83,16 +86,16 @@ uint32_t RTVDescriptorHeap::GetIncrementSize()
 	return incrementSize;
 }
 
-std::unique_ptr<IRTVDescriptorHeap> CreateUniqueRTVDescriptorHeap()
+std::unique_ptr<IRTVDescriptorHeap> CreateUniqueRTVDescriptorHeap(ID3D12Device* device_,uint32_t maxRTV_)
 {
 	std::unique_ptr<IRTVDescriptorHeap> lRTVDescriptorHeap = std::make_unique<RTVDescriptorHeap>();
-	lRTVDescriptorHeap->Initialize();
+	lRTVDescriptorHeap->Initialize(device_,maxRTV_);
 	return std::move(lRTVDescriptorHeap);
 }
 
-std::shared_ptr<IRTVDescriptorHeap> CreateSharedRTVDescriptorHeap()
+std::shared_ptr<IRTVDescriptorHeap> CreateSharedRTVDescriptorHeap(ID3D12Device* device_,uint32_t maxRTV_)
 {
 	std::shared_ptr<IRTVDescriptorHeap> lRTVDescriptorHeap = std::make_shared<RTVDescriptorHeap>();
-	lRTVDescriptorHeap->Initialize();
+	lRTVDescriptorHeap->Initialize(device_,maxRTV_);
 	return lRTVDescriptorHeap;
 }

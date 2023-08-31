@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #pragma warning(push)
 #pragma warning(disable: 4365)
@@ -217,7 +217,7 @@ namespace AliceInput
 		/// <param name="span">振動の時間フレーム</param>
 		virtual void ShakeController(float power_, int32_t span_) = 0;
 
-		virtual ~IInput() = default;
+		virtual ~IInput();
 		IInput() = default;
 	};
 

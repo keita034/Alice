@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include"DescriptorHeap.h"
 #include"RTVDescriptorHeap.h"
@@ -30,7 +30,7 @@ protected:
 	//コマンドリスト
 	static ID3D12GraphicsCommandList* sCommandList;
 	//SRV用のディスクプリタヒープ
-	static IDescriptorHeap* sSRVHeap;
+	static ISRVDescriptorHeap* sSRVHeap;
 	//RTV用ディスクプリタヒープ
 	static IRTVDescriptorHeap* sRTVHeap;
 	//DSV用のディスクプリタヒープ
@@ -60,7 +60,7 @@ public:
 	/// <summary>
 	/// SRV用のディスクプリタヒープを設定
 	/// </summary>
-	static void SSetSRVDescriptorHeap(IDescriptorHeap* descriptorHeap_);
+	static void SSetSRVDescriptorHeap(ISRVDescriptorHeap* descriptorHeap_);
 
 	/// <summary>
 	/// RTV用のディスクプリタヒープを設定
@@ -71,4 +71,6 @@ public:
 	/// DSV用のディスクプリタヒープを設定
 	/// </summary>
 	static void SSetDSVDescriptorHeap(IDSVDescriptorHeap* dsvDescriptorHeap_);
+
+	static void Finalize();
 };

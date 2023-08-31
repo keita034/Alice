@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include<AliceMathUtility.h>
 #include<Camera.h>
@@ -116,6 +116,8 @@ public:
 	static void SSetWindowsApp(IWindowsApp* windowsApp_);
 
 	static void SSetDirectX12Core(DirectX12Core* directX12Core_);
+
+	void Destroy();
 
 private:
 

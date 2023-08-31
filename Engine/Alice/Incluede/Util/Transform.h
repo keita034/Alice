@@ -1,10 +1,13 @@
-﻿#pragma once
+#pragma once
 #include<BaseTransform.h>
 
 
 class Transform : public BaseTransform
 {
 public:
+
+	Transform() = default;
+	~Transform();
 
 	/// <summary>
 	/// 初期化

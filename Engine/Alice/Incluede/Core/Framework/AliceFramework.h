@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include<AudioManager.h>
 #include<ImGuiManager.h>
 #include<FPS.h>
@@ -18,42 +18,28 @@ class AliceFramework
 {
 protected:
 
-	std::unique_ptr<IWindowsApp> windowsApp;
-
-	std::unique_ptr<DirectX12Core> directX12Core;
 
 	Mesh* mesh = nullptr;
-
 	Mesh3D* mesh3D = nullptr;
-
 	TextureManager* textureManager = nullptr;
-
-	std::unique_ptr<IAudioManager> audioManager = nullptr;
-
-	std::unique_ptr<AliceInput::IInput> input;
-
-	std::unique_ptr<IFPS>fps;
-
-	std::unique_ptr<IImGuiManager> imGuiManager;
-
+	MaterialManager* materialManager = nullptr;
 	SceneManager* sceneManager = nullptr;
-
-	//シーンファクトリー
 	AbstractSceneFactory* sceneFactory = nullptr;
-
 	PostEffectManager* postEffectManager = nullptr;
 
+	std::unique_ptr<IAudioManager> audioManager;
+	std::unique_ptr<AliceInput::IInput> input;
+	std::unique_ptr<IFPS>fps;
+	std::unique_ptr<IImGuiManager> imGuiManager;
+	std::unique_ptr<IWindowsApp> windowsApp;
+	std::unique_ptr<DirectX12Core> directX12Core;
 	std::unique_ptr<AlicePhysics>physics;
-
 	std::unique_ptr<AliceRigidBodyManager>aliceRigidBodyManager;
-
 	std::unique_ptr<ObjectCollsionDraw>objectCollsionDraw;
-
-	//終了フラグ
 
 public:
 
-	virtual ~AliceFramework() = default;
+	virtual ~AliceFramework();
 	AliceFramework() = default;
 
 	static void SDebugInitialize();
