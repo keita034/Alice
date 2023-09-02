@@ -25,6 +25,7 @@ void Boss::Initialize()
 	fireWorkParticle->SetTex(TextureManager::SLoad("Resources/Default/Particle/effect1.png"));
 
 	damageSE = audioManager->LoadAudio("Resources/SE/Damage.mp3", 0.3f);
+	deathSE = audioManager->LoadAudio("Resources/SE/BossDeath.mp3");
 
 	animation = std::make_unique<BossAnimation>();
 	animation->Initialize();
@@ -177,6 +178,8 @@ void Boss::OnTrigger(uint32_t attribute_)
 			{
 				animation->InsertDeathAnimation();
 				animation->AnimationEndStop();
+				audioManager->PlayWave(deathSE);
+				audioManager->ChangeVolume(deathSE,deathSEVolume);
 			}
 		}
 	}
@@ -211,4 +214,9 @@ void Boss::AnimationEndStop()
 {
 	animation->AnimationEndStop();
 
+}
+
+void Boss::DeathSEChangeVolume(float volume_)
+{
+	audioManager->ChangeVolume(deathSE,deathSEVolume * volume_);
 }

@@ -62,8 +62,9 @@ public:
 	void AddAnimation(uint32_t handle_);
 
 	bool InsertAnimation(uint32_t handle_,bool complement_ = true);
+	bool CoercionInsertAnimation(uint32_t handle_,bool complement_ = true);
 
-	void SetThresh(float thresh_);
+	void SetThresh(float thresh_); 
 
 	float GetRatio();
 

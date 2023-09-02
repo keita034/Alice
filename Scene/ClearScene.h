@@ -34,6 +34,12 @@ private:
 	uint32_t clearHanlde = 0;
 	Transform transform;
 
+	uint32_t bgmHandle = 0;
+	uint32_t seHandle = 0;
+
+	float bgmVolume = 0.008f;
+	float seVolume = 0.02f;
+
 public:
 	ClearScene() = default;
 	~ClearScene() = default;

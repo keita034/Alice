@@ -36,6 +36,14 @@ private:
 
 	std::unique_ptr<ITransition>inTransition;
 	std::unique_ptr<ITransition>outTransition;
+
+
+	uint32_t bgmHandle = 0;
+	uint32_t seHandle = 0;
+
+	float bgmVolume = 0.008f;
+	float seVolume = 0.02f;
+
 public:
 
 	GameScene();

@@ -35,6 +35,8 @@ public:
 
 	bool Start()override;
 
+	float GetCoefficient();
+
 	FadeOutTransition() = default;
 	virtual ~FadeOutTransition() = default;
 private:

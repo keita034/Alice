@@ -24,8 +24,6 @@ class TitleScene : public BaseScene
 {
 private:
 
-	std::unique_ptr<GameCamera> camera_;
-
 	std::unique_ptr<Sprite2D>title;
 	uint32_t titleHanlde = 0;
 	Transform transform;
@@ -35,6 +33,12 @@ private:
 	Transform startATransform;
 
 	bool sceneChange = false;
+
+	uint32_t bgmHandle = 0;
+	uint32_t seHandle = 0;
+
+	float bgmVolume = 0.008f;
+	float seVolume = 0.02f;
 
 	std::unique_ptr<ITransition>inTransition;
 	std::unique_ptr<ITransition>outTransition;

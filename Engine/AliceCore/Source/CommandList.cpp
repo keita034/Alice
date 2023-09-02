@@ -1,7 +1,6 @@
 #include "CommandList.h"
 
 
-
 #pragma warning(push)
 #pragma warning(disable: 4061)
 #pragma warning(disable: 4062)
@@ -48,9 +47,9 @@ private:
 
 	const size_t FRAME_BUFFER_COUNT = 2;
 
-	HRESULT result;
+	HRESULT result = S_OK;
 
-	int32_t PADING;
+	int32_t PADING = 0;
 
 public:
 

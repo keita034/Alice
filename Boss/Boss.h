@@ -29,7 +29,10 @@ private:
 
 	const int32_t MAX_HP = 3;
 	
-	int32_t damageSE;
+	uint32_t damageSE = 0;
+	uint32_t deathSE = 0;
+	float deathSEVolume = 0.04f;
+
 	int32_t situation = 0;
 	int32_t hp = 0;
 
@@ -80,6 +83,9 @@ public:
 	void AnimationStop();
 
 	void AnimationEndStop();
+
+	void DeathSEChangeVolume(float volume_);
+
 
 private:
 

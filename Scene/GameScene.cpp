@@ -29,7 +29,7 @@ void GameScene::Initialize(const std::string& previewSceneName_)
 	fieldObjData = SceneLoader::SLoadFile("Resources/Field.json");
 
 	player = std::make_unique<Player>();
-	player->Initialize(sInput);
+	player->Initialize(sInput,sAudioManager);
 
 	gameCameraManager = std::make_unique<GameCameraManager>();
 	gameCameraManager->Initialize(player.get(), sInput);
@@ -46,12 +46,33 @@ void GameScene::Initialize(const std::string& previewSceneName_)
 
 	outTransition = std::make_unique<FadeOutTransition>();
 	outTransition->Initilize(static_cast<float>(sWinApp->GetWindowSize().height), static_cast<float>(sWinApp->GetWindowSize().width));
+
+	bgmHandle = sAudioManager->LoadAudio("Resources/BGM/BossBGM.mp3");
+	
+	sAudioManager->PlayWave(bgmHandle,true);
+	sAudioManager->ChangeVolume(bgmHandle,0);
 }
 
 void GameScene::Update()
 {
+	if ( inTransition->IsStart() && !inTransition->IsEnd())
+	{
+		float lVolume = 1.0f *( inTransition->GetCoefficient() * 1.05f );
+		lVolume = bgmVolume * AliceMathF::Clamp01(lVolume);
+		sAudioManager->ChangeVolume(bgmHandle,lVolume);
+	}
+
+	if ( outTransition->IsStart() )
+	{
+		float lVolume = 1.0f - ( outTransition->GetCoefficient() * 1.05f );
+		lVolume = bgmVolume * AliceMathF::Clamp01(lVolume);
+		sAudioManager->ChangeVolume(bgmHandle,lVolume);
+	}
+
 	if ( boss->IsEnd() )
 	{
+		boss->DeathSEChangeVolume(AliceMathF::Clamp01(1.0f - ( outTransition->GetCoefficient() * 1.05f )));
+
 		if ( !outTransition->IsStart() )
 		{
 			outTransition->Start();
@@ -61,12 +82,15 @@ void GameScene::Update()
 		if ( outTransition->IsEnd() )
 		{
 			sceneManager->ChangeScene("CLEAR");
+			sAudioManager->StopWave(seHandle);
+			sAudioManager->StopWave(bgmHandle);
 		}
-
 	}
 
 	if (player->IsEnd())
 	{
+		player->DeathSEChangeVolume(AliceMathF::Clamp01(1.0f - ( outTransition->GetCoefficient() * 1.05f )));
+
 		if (!outTransition->IsStart())
 		{
 			outTransition->Start();
@@ -76,10 +100,10 @@ void GameScene::Update()
 		if (outTransition->IsEnd())
 		{
 			sceneManager->ChangeScene("FAILURE");
+			sAudioManager->StopWave(seHandle);
+			sAudioManager->StopWave(bgmHandle);
 		}
-
 	}
-
 
 	gameCameraManager->BeginUpdate();
 

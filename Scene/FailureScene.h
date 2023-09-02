@@ -32,6 +32,12 @@ private:
 
 	bool sceneChange = false;
 
+	uint32_t bgmHandle = 0;
+	uint32_t seHandle = 0;
+
+	float bgmVolume = 0.008f;
+	float seVolume = 0.02f;
+
 public:
 	FailureScene() = default;
 	~FailureScene() = default;

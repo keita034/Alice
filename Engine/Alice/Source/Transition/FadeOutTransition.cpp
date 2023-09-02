@@ -1,4 +1,5 @@
 #include "FadeOutTransition.h"
+#include "FadeOutTransition.h"
 
 #include<Easing.h>
 
@@ -25,7 +26,9 @@ void FadeOutTransition::Update()
 
 		frame = AliceMathF::Clamp01(frame);
 
-		sprite->SetColor({ 1.0f,1.0f,1.0f, 1.0f * easing(frame) });
+		alpha = 1.0f * easing(frame);
+
+		sprite->SetColor({ 1.0f,1.0f,1.0f, alpha });
 
 		if (frame >= 1.0f)
 		{
@@ -59,4 +62,9 @@ bool FadeOutTransition::Start()
 	frame = 0.0f;
 
 	return true;
+}
+
+float FadeOutTransition::GetCoefficient()
+{
+	return alpha;
 }

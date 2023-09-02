@@ -58,6 +58,8 @@ public:
 
 	bool IsStart();
 
+	virtual float GetCoefficient() = 0;
+
 	virtual bool Start() = 0;
 
 	ITransition() = default;

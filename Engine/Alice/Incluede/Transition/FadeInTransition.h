@@ -34,6 +34,8 @@ public:
 
 	bool Start()override;
 
+	float GetCoefficient();
+
 	FadeInTransition() = default;
 	virtual ~FadeInTransition() = default;
 

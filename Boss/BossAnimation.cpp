@@ -43,7 +43,7 @@ void BossAnimation::InsertDownAttackAnimation()
 
 void BossAnimation::InsertDeathAnimation()
 {
-	blendTree->InsertAnimation(deathAnimationHandle,false);
+	blendTree->CoercionInsertAnimation(deathAnimationHandle,false);
 }
 
 bool BossAnimation::IsInsert()

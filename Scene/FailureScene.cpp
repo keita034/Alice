@@ -20,10 +20,29 @@ void FailureScene::Initialize(const std::string& previewSceneName_)
 	outTransition->Initilize(static_cast<float>(sWinApp->GetWindowSize().height), static_cast<float>(sWinApp->GetWindowSize().width));
 	outTransition->SetIncrement(0.008f);
 
+	bgmHandle = sAudioManager->LoadAudio("Resources/BGM/ResultBGB.mp3");
+	sAudioManager->PlayWave(bgmHandle,true);
+	sAudioManager->ChangeVolume(bgmHandle,0);
+
+	seHandle = sAudioManager->LoadAudio("Resources/SE/UISelect.mp3");
 }
 
 void FailureScene::Update()
 {
+
+	if ( inTransition->IsStart() && !inTransition->IsEnd() )
+	{
+		float lVolume = 1.0f * ( inTransition->GetCoefficient() * 1.05f );
+		lVolume = bgmVolume * AliceMathF::Clamp01(lVolume);
+		sAudioManager->ChangeVolume(bgmHandle,lVolume);
+	}
+
+	if ( outTransition->IsStart() )
+	{
+		float lVolume = 1.0f - ( outTransition->GetCoefficient() * 1.05f );
+		lVolume = bgmVolume * AliceMathF::Clamp01(lVolume);
+		sAudioManager->ChangeVolume(bgmHandle,lVolume);
+	}
 
 	if (sInput->TriggerButton(ControllerButton::A) || sInput->TriggerKey(Keys::A))
 	{
@@ -31,6 +50,8 @@ void FailureScene::Update()
 		{
 			sceneChange = true;
 			outTransition->Start();
+			sAudioManager->PlayWave(seHandle);
+			sAudioManager->ChangeVolume(seHandle,seVolume);
 		}
 	}
 

@@ -15,7 +15,7 @@ void AliceBlendTree::AddAnimation(uint32_t handle_)
 
 bool AliceBlendTree::InsertAnimation(uint32_t handle_, bool complement_)
 {
-	if (!isInsert|| animationEndStop && !isPlay)
+	if (!isInsert || animationEndStop && !isPlay)
 	{
 		insertAnimation->SetMotion(handle_);
 		frame = 0.0f;
@@ -29,6 +29,18 @@ bool AliceBlendTree::InsertAnimation(uint32_t handle_, bool complement_)
 
 	return false;
 
+}
+
+bool AliceBlendTree::CoercionInsertAnimation(uint32_t handle_, bool complement_)
+{
+	insertAnimation->SetMotion(handle_);
+	frame = 0.0f;
+	isInsert = true;
+	insertAnimationPhase = BEFORE;
+	insertAnimationOneThirdFrame = insertAnimation->GetAnimeMaxflame() / 3.0f;
+	complement = complement_;
+
+	return true;
 }
 
 void AliceBlendTree::SetThresh(float thresh_)

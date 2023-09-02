@@ -16,22 +16,34 @@ void TitleScene::Initialize(const std::string& previewSceneName_)
 	startATransform.translation = { sWinApp->GetWindowSize().width / 2,sWinApp->GetWindowSize().height / 2 + 200,0u };
 	startATransform.scale = { 0.5f,0.5f,1.0f };
 
-	//camera_ = std::make_unique<GameCamera>();
-	//camera_->Initialize();
-
 	inTransition = std::make_unique<FadeInTransition>();
 	inTransition->Initilize(static_cast<float>(sWinApp->GetWindowSize().height), static_cast<float>(sWinApp->GetWindowSize().width));
 	inTransition->SetIncrement(0.008f);
 
+	bgmHandle = sAudioManager->LoadAudio("Resources/BGM/TitelBGM.mp3");
+	seHandle = sAudioManager->LoadAudio("Resources/SE/UISelect.mp3");
+
 	if (previewSceneName_ != "")
 	{
 		inTransition->Start();
+		sAudioManager->PlayWave(bgmHandle,true);
+		sAudioManager->ChangeVolume(bgmHandle,0);
 	}
-
+	else
+	{
+		sAudioManager->PlayWave(bgmHandle,true);
+		sAudioManager->ChangeVolume(bgmHandle,bgmVolume);
+	}
 
 	outTransition = std::make_unique<FadeOutTransition>();
 	outTransition->Initilize(static_cast<float>(sWinApp->GetWindowSize().height), static_cast<float>(sWinApp->GetWindowSize().width));
 	outTransition->SetIncrement(0.008f);
+
+
+
+
+
+
 }
 
 void TitleScene::Update()
@@ -42,15 +54,33 @@ void TitleScene::Update()
 		{
 			sceneChange = true;
 			outTransition->Start();
+			sAudioManager->PlayWave(seHandle);
+			sAudioManager->ChangeVolume(seHandle,seVolume);
 		}
 	}
 
 	outTransition->Update();
 	inTransition->Update();
 
+	if ( inTransition->IsStart() && !inTransition->IsEnd() )
+	{
+		float lVolume = 1.0f * ( inTransition->GetCoefficient() * 1.05f );
+		lVolume = bgmVolume * AliceMathF::Clamp01(lVolume);
+		sAudioManager->ChangeVolume(bgmHandle,lVolume);
+	}
+
+	if ( outTransition->IsStart() )
+	{
+		float lVolume = 1.0f - ( outTransition->GetCoefficient() * 1.05f );
+		lVolume = bgmVolume * AliceMathF::Clamp01(lVolume);
+		sAudioManager->ChangeVolume(bgmHandle,lVolume);
+	}
+
 	if (outTransition->IsEnd())
 	{
 		sceneManager->ChangeScene("GAME");
+		sAudioManager->StopWave(seHandle);
+		sAudioManager->StopWave(bgmHandle);
 	}
 }
 

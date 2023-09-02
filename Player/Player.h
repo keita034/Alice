@@ -7,12 +7,14 @@
 #include<PlayerWeapon.h>
 #include<ActorSituation.h>
 #include<DeviceInput.h>
+#include<AudioManager.h>
 
 class Player : public GameObject
 {
 private:
 
 	AliceInput::IInput* input = nullptr;
+	IAudioManager* audioManager = nullptr;
 	Camera* camera = nullptr;
 
 	AliceMathF::Vector3 oldTrans;
@@ -30,7 +32,7 @@ private:
 	float speed = 170.0f;
 	float scale = 0.35f;
 	float rowlingDistance = 100.0f;
-	//float scale = 1.0f;
+	float deathSEVolume = 0.04f;
 
 	const int32_t MAX_HP = 30;
 	const int32_t MAX_STAMINA = 2000;
@@ -54,8 +56,11 @@ private:
 
 	int32_t damageInterval = 0;
 
+	uint32_t deathSE = 0;
+
 	bool isStationary = true;
 	bool fieldHit = false;
+
 
 public:
 
@@ -65,7 +70,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(AliceInput::IInput* input_);
+	void Initialize(AliceInput::IInput* input_,IAudioManager* audioManager_);
 
 	/// <summary>
 	/// 更新処理
@@ -117,6 +122,8 @@ public:
 	void AnimationStop();
 
 	void AnimationEndStop();
+
+	void DeathSEChangeVolume(float volume_);
 
 private:
 

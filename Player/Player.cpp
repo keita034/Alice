@@ -7,11 +7,13 @@
 #include<GameCollisionConflg.h>
 #include<CollisionAttribute.h>
 
-void Player::Initialize(AliceInput::IInput* input_)
+void Player::Initialize(AliceInput::IInput* input_,IAudioManager* audioManager_)
 {
 	assert(input_);
+	assert(audioManager_);
 
 	input = input_;
+	audioManager = audioManager_;
 	deviceInput = std::make_unique<DeviceInput>();
 	deviceInput->Initialize(input_);
 
@@ -45,6 +47,8 @@ void Player::Initialize(AliceInput::IInput* input_)
 
 	weapon = std::make_unique<PlayerWeapon>();
 	weapon->Initialize(&transform);
+
+	deathSE = audioManager->LoadAudio("Resources/SE/PlayerDeath.mp3");
 
 }
 
@@ -213,6 +217,8 @@ void Player::OnTrigger(uint32_t attribute_)
 				{
 					animation->InsertDeathAnimation();
 					animation->AnimationEndStop();
+					audioManager->PlayWave(deathSE);
+					audioManager->ChangeVolume(deathSE,deathSEVolume);
 				}
 				else
 				{
@@ -256,6 +262,11 @@ void Player::AnimationStop()
 void Player::AnimationEndStop()
 {
 	animation->AnimationEndStop();
+}
+
+void Player::DeathSEChangeVolume(float volume_)
+{
+	audioManager->ChangeVolume(deathSE,deathSEVolume * volume_);
 }
 
 void Player::PMove(BaseGameCamera* camera_)
