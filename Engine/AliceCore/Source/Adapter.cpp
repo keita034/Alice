@@ -19,13 +19,10 @@
 #include<cassert>
 #pragma warning(pop)
 
-#include<CommandList.h>
 #include<Fence.h>
-#include<Device.h>
 #include<DSVDescriptorHeap.h>
 #include<DescriptorHeap.h>
 #include<RTVDescriptorHeap.h>
-
 
 class Adapter : public IAdapter
 {
@@ -59,7 +56,9 @@ public:
 
 	void Initialize(IDXGIAdapter* adapter_,uint32_t maxDSV_,uint32_t maxRTV_,uint32_t maxSRV_,uint32_t maxCBV_,uint32_t maxUAV_)override;
 
-	ID3D12Device* GetDevice()override;
+	IDevice* GetDevice()override;
+
+	ICommandList* GetCommandList();
 
 
 	void GraphicCommandListExecute()override;
@@ -120,18 +119,23 @@ void Adapter::Initialize(IDXGIAdapter* adapter_,uint32_t maxDSV_,uint32_t maxRTV
 
 	device = CreateUniqueDevice(adapter_);
 
-	commandList = CreateUniqueCommandList(device->GetDevice());
+	commandList = CreateUniqueCommandList(device->Get());
 
-	fence = CreateUniqueFence(device->GetDevice());
+	fence = CreateUniqueFence(device->Get());
 
-	dsvDescriptorHeap = CreateUniqueDSVDescriptorHeap(device->GetDevice(),maxDSV);
-	srvDescriptorHeap = CreateUniqueSRVDescriptorHeap(device->GetDevice(),maxSRV,maxUAV,maxCBV);
-	rtvDescriptorHeap = CreateUniqueRTVDescriptorHeap(device->GetDevice(),maxRTV);
+	dsvDescriptorHeap = CreateUniqueDSVDescriptorHeap(device->Get(),maxDSV);
+	srvDescriptorHeap = CreateUniqueSRVDescriptorHeap(device->Get(),maxSRV,maxUAV,maxCBV);
+	rtvDescriptorHeap = CreateUniqueRTVDescriptorHeap(device->Get(),maxRTV);
 }
 
-ID3D12Device* Adapter::GetDevice()
+IDevice* Adapter::GetDevice()
 {
-	return device->GetDevice();
+	return device.get();
+}
+
+ICommandList* Adapter::GetCommandList()
+{
+	return commandList.get();
 }
 
 void Adapter::GraphicCommandListExecute()

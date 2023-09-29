@@ -1,26 +1,13 @@
 #include "Device.h"
 
-#pragma warning(push)
-#pragma warning(disable: 4061)
-#pragma warning(disable: 4062)
-#pragma warning(disable: 4265)
-#pragma warning(disable: 4365)
-#pragma warning(disable: 4514)
-#pragma warning(disable: 4625)
-#pragma warning(disable: 4626)
-#pragma warning(disable: 4668)
-#pragma warning(disable: 4710)
-#pragma warning(disable: 4820)
-#pragma warning(disable: 5039)
-#pragma warning(disable: 5204)
-#pragma warning(disable: 5220)
+ALICE_SUPPRESS_WARNINGS_BEGIN
 
 #include<wrl.h>
 #include<directx/d3d12.h>
 #include<dxgi1_6.h>
 #include<cassert>
 
-#pragma warning(pop)
+ALICE_SUPPRESS_WARNINGS_END
 
 class Device : public IDevice
 {
@@ -36,7 +23,7 @@ public:
 
 	void Initialize(IDXGIAdapter* adapter_) override;
 
-	ID3D12Device* GetDevice()override ;
+	ID3D12Device* Get()override ;
 
 	ID3D12Device** GetDeviceAddressOf()override ;
 };
@@ -67,7 +54,7 @@ void Device::Initialize(IDXGIAdapter* adapter_)
 	}
 }
 
-ID3D12Device* Device::GetDevice()
+ID3D12Device* Device::Get()
 {
     return device.Get();
 }

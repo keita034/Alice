@@ -14,8 +14,8 @@
 #include<AliceFileStream.h>
 #include<AliceFunctionUtility.h>
 
-ID3D12Device* AliceModel::sDevice;
-ID3D12GraphicsCommandList* AliceModel::sCmdList;
+IDevice* AliceModel::sDevice;
+ICommandList* AliceModel::sCmdList;
 Light* AliceModel::sLight;
 std::vector<std::string>AliceModel::sFilePaths;
 std::unordered_map<std::string,std::unique_ptr<AliceModelData>> AliceModel::sModelDatas;
@@ -746,38 +746,42 @@ const ReturnMotionNode* AliceModel::PFindNodeAnim(const AliceMotionData* pAnimat
 
 void AliceModel::PModelDraw(const Transform& transform_)
 {
+	ID3D12GraphicsCommandList* lCmdList = sCmdList->GetGraphicCommandList();
+
 	for ( size_t i = 0; i < modelData->meshes.size(); i++ )
 	{
 		// プリミティブ形状の設定コマンド
-		sCmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+		lCmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
 		// パイプラインステートとルートシグネチャの設定コマンド
-		sCmdList->SetPipelineState(modelMaterialData->pipelineState->GetPipelineState());
-		sCmdList->SetGraphicsRootSignature(modelMaterialData->rootSignature->GetRootSignature());
+		lCmdList->SetPipelineState(modelMaterialData->pipelineState->GetPipelineState());
+		lCmdList->SetGraphicsRootSignature(modelMaterialData->rootSignature->GetRootSignature());
 
 		if ( modelData->meshes[ i ]->node )
 		{
 			modelData->postureMatBuff->Update(&modelData->meshes[ i ]->node->globalTransform);
 		}
 
-		sCmdList->SetGraphicsRootConstantBufferView(3,modelData->postureMatBuff->GetAddress());
-		modelData->meshes[ i ]->Draw(sCmdList,transform_,sLight);
+		lCmdList->SetGraphicsRootConstantBufferView(3,modelData->postureMatBuff->GetAddress());
+		modelData->meshes[ i ]->Draw(lCmdList,transform_,sLight);
 	}
 }
 
 void AliceModel::PModelAnimationDraw(const Transform& transform_)
 {
+	ID3D12GraphicsCommandList* lCmdList = sCmdList->GetGraphicCommandList();
+
 	for ( size_t i = 0; i < modelData->meshes.size(); i++ )
 	{
 		// プリミティブ形状の設定コマンド
-		sCmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+		lCmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
 		// パイプラインステートとルートシグネチャの設定コマンド
-		sCmdList->SetPipelineState(modelMaterialData->pipelineState->GetPipelineState());
-		sCmdList->SetGraphicsRootSignature(modelMaterialData->rootSignature->GetRootSignature());
+		lCmdList->SetPipelineState(modelMaterialData->pipelineState->GetPipelineState());
+		lCmdList->SetGraphicsRootSignature(modelMaterialData->rootSignature->GetRootSignature());
 
 
-		modelData->meshes[ i ]->AnimDraw(sCmdList,transform_,sLight);
+		modelData->meshes[ i ]->AnimDraw(lCmdList,transform_,sLight);
 	}
 }
 

@@ -4,12 +4,14 @@ void GaussianXBlurPostEffect::Initialize()
 {
 	if (needsInit)
 	{
+		ID3D12GraphicsCommandList* lCmdList = sCmdList->GetGraphicCommandList();
+		ID3D12Device* lDevice = sDevice->Get();
 
 		width = static_cast<float>(sWindowsApp->GetWindowSize().width / 2);
 		height = static_cast<float>(sWindowsApp->GetWindowSize().height);
 
 		sprite = std::make_unique<PostEffectSprite>();
-		sprite->Initialize(sCmdList, sSrvHeap);
+		sprite->Initialize(lCmdList, sSrvHeap);
 
 		material = std::make_unique<Material>();
 
@@ -41,7 +43,7 @@ void GaussianXBlurPostEffect::Initialize()
 		material->rootSignature->Add(IRootSignature::RangeType::SRV, 0);//t0
 		material->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
 		material->rootSignature->AddStaticSampler(0);//s0
-		material->rootSignature->Create(sDevice);
+		material->rootSignature->Create(lDevice);
 
 		//生成
 		material->Initialize();
@@ -99,6 +101,8 @@ void GaussianXBlurPostEffect::SetWeight(const std::array<float, 8>& weight_)
 
 void GaussianXBlurPostEffect::Draw(RenderTarget* mainRenderTarget_)
 {
+	ID3D12GraphicsCommandList* lCmdList = sCmdList->GetGraphicCommandList();
+
 	renderTargetBuffers[0]->Transition(D3D12_RESOURCE_STATE_RENDER_TARGET);
 
 	D3D12_CPU_DESCRIPTOR_HANDLE lRtvHs[] =
@@ -106,46 +110,48 @@ void GaussianXBlurPostEffect::Draw(RenderTarget* mainRenderTarget_)
 		renderTargetBuffers[0]->GetHandle()
 	};
 
-	sCmdList->OMSetRenderTargets(1, lRtvHs, false, &depthStencilBuffers[0]->GetHandle());
+	lCmdList->OMSetRenderTargets(1, lRtvHs, false, &depthStencilBuffers[0]->GetHandle());
 
-	sCmdList->ClearRenderTargetView(renderTargetBuffers[0]->GetHandle(), clearColor.data(), 0, nullptr);
-	sCmdList->ClearDepthStencilView(depthStencilBuffers[0]->GetHandle(), D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+	lCmdList->ClearRenderTargetView(renderTargetBuffers[0]->GetHandle(), clearColor.data(), 0, nullptr);
+	lCmdList->ClearDepthStencilView(depthStencilBuffers[0]->GetHandle(), D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
 	CD3DX12_VIEWPORT lViewPort = CD3DX12_VIEWPORT(0.0f, 0.0f, width, height);
-	sCmdList->RSSetViewports(1, &lViewPort);
+	lCmdList->RSSetViewports(1, &lViewPort);
 
 	CD3DX12_RECT lRect = CD3DX12_RECT(0, 0, static_cast<LONG>(width), static_cast<LONG>(height));
-	sCmdList->RSSetScissorRects(1, &lRect);
+	lCmdList->RSSetScissorRects(1, &lRect);
 
 	sprite->SetSize({ 1.0f,1.0f });
 	sprite->Draw(material.get(), mainRenderTarget_->GetGpuHandle());
 
 	// 定数バッファビュー(CBV)の設定コマンド
-	sCmdList->SetGraphicsRootConstantBufferView(1, weightBuff->GetAddress());
+	lCmdList->SetGraphicsRootConstantBufferView(1, weightBuff->GetAddress());
 
 	// 描画コマンド
-	sCmdList->DrawIndexedInstanced(6, 1, 0, 0, 0);
+	lCmdList->DrawIndexedInstanced(6, 1, 0, 0, 0);
 
 	renderTargetBuffers[0]->Transition(D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 }
 
 void GaussianXBlurPostEffect::MainRenderTargetDraw(RenderTarget* mainRenderTarget_)
 {
+	ID3D12GraphicsCommandList* lCmdList = sCmdList->GetGraphicCommandList();
+
 	mainRenderTarget_->Transition(D3D12_RESOURCE_STATE_RENDER_TARGET);
 
 	mainRenderTarget_->SetRenderTarget();
 
 	CD3DX12_VIEWPORT lViewPort = CD3DX12_VIEWPORT(0.0f, 0.0f, width * 2, height);
-	sCmdList->RSSetViewports(1, &lViewPort);
+	lCmdList->RSSetViewports(1, &lViewPort);
 
 	CD3DX12_RECT lRect = CD3DX12_RECT(0, 0, static_cast<LONG>(width * 2), static_cast<LONG>(height));
-	sCmdList->RSSetScissorRects(1, &lRect);
+	lCmdList->RSSetScissorRects(1, &lRect);
 
 	sprite->SetSize({ 1.0f,1.0f });
 	sprite->Draw(MaterialManager::SGetMaterial("DefaultPostEffect"), handles[0]);
 
 	// 描画コマンド
-	sCmdList->DrawIndexedInstanced(6, 1, 0, 0, 0);
+	lCmdList->DrawIndexedInstanced(6, 1, 0, 0, 0);
 
 	mainRenderTarget_->Transition(D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 }

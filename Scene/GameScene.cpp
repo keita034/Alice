@@ -9,7 +9,6 @@
 
 #pragma warning(pop)
 
-#include<Collision.h>
 #include<SceneManager.h>
 
 #include<FadeOutTransition.h>
@@ -26,118 +25,64 @@ GameScene::~GameScene()
 
 void GameScene::Initialize(const std::string& previewSceneName_)
 {
-	fieldObjData = SceneLoader::SLoadFile("Resources/Field.json");
-
-	player = std::make_unique<Player>();
-	player->Initialize(sInput,sAudioManager);
-
-	gameCameraManager = std::make_unique<GameCameraManager>();
-	gameCameraManager->Initialize(player.get(), sInput);
-
-	boss = std::make_unique<Boss>();
-	boss->SetPlayer(player.get());
-	boss->SetAudioManager(sAudioManager);
-	boss->Initialize();
-
-	inTransition = std::make_unique<FadeInTransition>();
-	inTransition->Initilize(static_cast<float>(sWinApp->GetWindowSize().height), static_cast<float>(sWinApp->GetWindowSize().width));
-	inTransition->Start();
-	inTransition->SetIncrement(0.04f);
-
-	outTransition = std::make_unique<FadeOutTransition>();
-	outTransition->Initilize(static_cast<float>(sWinApp->GetWindowSize().height), static_cast<float>(sWinApp->GetWindowSize().width));
-
-	bgmHandle = sAudioManager->LoadAudio("Resources/BGM/BossBGM.mp3");
+	sphere = AlicePhysics::CreateSphereShape(0.5f);
 	
-	sAudioManager->PlayWave(bgmHandle,true);
-	sAudioManager->ChangeVolume(bgmHandle,0);
+	AlicePhysics::IRigidBodyCreationSettings sphereBodySettings;
+
+	sphereBodySettings.name = "sphere";
+	sphereBodySettings.shape = sphere;
+	sphereBodySettings.position = { 0.0f,20.0f,0.0f };
+	sphereBodySettings.motionType = AlicePhysics::MotionType::DYNAMIC;
+	sphereBodySettings.collisionAttribute = CollisionAttribute::BODY;
+	sphereBodySettings.collisionGroup = CollisionGroup::PLAYER;
+	sphereBodySettings.type = AlicePhysics::PhysicsRigidBodyType::DYNAMIC;
+	sphereBodySettings.restitution = 0.5f;
+	sphereBodySettings.allowSleeping = false;
+	sPhysicsSystem->CreateRigidBody(sphereBody,&sphereBodySettings);
+	sPhysicsSystem->AddRigidBody(sphereBody);
+	sphereBody->SetLinearVelocity({ 0.0f, -5.0f, 0.0f });
+	sphereBody->SetRigidBodyCollision(&testRigidBody);
+
+	box = AlicePhysics::CreateBoxShape({ 100.0f, 1.0f, 100.0f });
+
+	AlicePhysics::IRigidBodyCreationSettings boxBodySettings;
+
+	boxBodySettings.name = "box";
+	boxBodySettings.shape = box;
+	boxBodySettings.position = { 0.0f,-1.0f,0.0f };
+	boxBodySettings.motionType = AlicePhysics::MotionType::STATIC;
+	boxBodySettings.collisionAttribute = CollisionAttribute::BODY;
+	boxBodySettings.collisionGroup = CollisionGroup::ENEMY;
+	boxBodySettings.type = AlicePhysics::PhysicsRigidBodyType::STATIC;
+	boxBodySettings.isActive = false;
+	sPhysicsSystem->CreateRigidBody(boxBody,&boxBodySettings);
+	sPhysicsSystem->AddRigidBody(boxBody);
+
+	camera = std::make_unique<GameCamera>();
+	camera->SetEye(0.0f,2.0f,-15.0f);
+	camera->Initialize(UPDATE_PROJMATRIXFUNC_PERSPECTIVE);
+
+	light = std::make_unique<Light>();
+	light->Initialize();
+
 }
 
 void GameScene::Update()
 {
-	if ( inTransition->IsStart() && !inTransition->IsEnd())
+	if ( sInput->TriggerKey(Keys::ENTER) )
 	{
-		float lVolume = 1.0f *( inTransition->GetCoefficient() * 1.05f );
-		lVolume = bgmVolume * AliceMathF::Clamp01(lVolume);
-		sAudioManager->ChangeVolume(bgmHandle,lVolume);
+		sphereBody->SetLinearVelocity({ 0.0f, 10.0f, 0.0f });
 	}
-
-	if ( outTransition->IsStart() )
-	{
-		float lVolume = 1.0f - ( outTransition->GetCoefficient() * 1.05f );
-		lVolume = bgmVolume * AliceMathF::Clamp01(lVolume);
-		sAudioManager->ChangeVolume(bgmHandle,lVolume);
-	}
-
-	if ( boss->IsEnd() )
-	{
-		boss->DeathSEChangeVolume(AliceMathF::Clamp01(1.0f - ( outTransition->GetCoefficient() * 1.05f )));
-
-		if ( !outTransition->IsStart() )
-		{
-			outTransition->Start();
-			outTransition->SetIncrement(0.02f);
-		}
-
-		if ( outTransition->IsEnd() )
-		{
-			sceneManager->ChangeScene("CLEAR");
-			sAudioManager->StopWave(seHandle);
-			sAudioManager->StopWave(bgmHandle);
-		}
-	}
-
-	if (player->IsEnd())
-	{
-		player->DeathSEChangeVolume(AliceMathF::Clamp01(1.0f - ( outTransition->GetCoefficient() * 1.05f )));
-
-		if (!outTransition->IsStart())
-		{
-			outTransition->Start();
-			outTransition->SetIncrement(0.02f);
-		}
-
-		if (outTransition->IsEnd())
-		{
-			sceneManager->ChangeScene("FAILURE");
-			sAudioManager->StopWave(seHandle);
-			sAudioManager->StopWave(bgmHandle);
-		}
-	}
-
-	gameCameraManager->BeginUpdate();
-
-	player->Update(gameCameraManager->GetGameCamera(), gameCameraManager->GetCameraIndex());
-
-	boss->Update();
-
-	gameCameraManager->Update();
-
-	player->TransUpdate(gameCameraManager->GetCamera());
-	boss->TransUpdate(gameCameraManager->GetCamera());
-
-	fieldObjData->Update(gameCameraManager->GetCamera());
-
-	inTransition->Update();
-	outTransition->Update();
 }
 
 void GameScene::Draw()
 {
-	fieldObjData->Draw();
-
-	player->Draw();
-	boss->Draw();
-
-	player->UIDraw();
-	boss->UIDraw();
-
-	inTransition->Draw();
-	outTransition->Draw(true);
+	box->Draw(boxBody->GetCenterOfMassTransform(),{ 1.0f,1.0f,1.0f },{ 1.0f,1.0f,1.0f,1.0f },true);
+	sphere->Draw(sphereBody->GetCenterOfMassTransform(),{ 1.0f,1.0f,1.0f },{0.0f,0.0f,1.0f,1.0f},true);
 }
 
 void GameScene::Finalize()
 {
-	fieldObjData->Finalize();
+	
 }
 

@@ -15,25 +15,25 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Incluede\Mouse.h">
+    <ClInclude Include="Include\Mouse.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Controller.h">
+    <ClInclude Include="Include\Controller.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Input.h">
+    <ClInclude Include="Include\Input.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Keyboard.h">
+    <ClInclude Include="Include\Keyboard.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Keys.h">
+    <ClInclude Include="Include\Keys.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\ControllerButtons.h">
+    <ClInclude Include="Include\ControllerButtons.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\MouseButton.h">
+    <ClInclude Include="Include\MouseButton.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

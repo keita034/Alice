@@ -1,11 +1,13 @@
-﻿#pragma warning(push)
-#pragma warning(disable: 4365)
-#pragma warning(disable: 4619)
-#pragma warning(disable: 4668)
+#include<Defined.h>
+
+ALICE_SUPPRESS_WARNINGS_BEGIN
 
 #include<assimp/quaternion.h>
+#include<Jolt/Jolt.h>
+#include<Jolt/Math/Vec4.h>
+#include<Jolt/Core/Color.h>
 
-#pragma warning(pop)
+ALICE_SUPPRESS_WARNINGS_END
 
 #include "Vector4.h"
 #include"Vector3.h"
@@ -38,6 +40,14 @@ namespace AliceMathF
 		w = vec_.m128_f32[3];
 	}
 
+	Vector4::Vector4(const JPH::Vec4& vec_)
+	{
+		x = vec_.GetX();
+		y = vec_.GetY();
+		z = vec_.GetZ();
+		w = vec_.GetW();
+	}
+
 	float Vector4::length() const
 	{
 		float lLen = lengthSquared();
@@ -49,7 +59,7 @@ namespace AliceMathF
 		return Dot(*this);
 	}
 
-	Vector4 Vector4::Normalization() const
+	Vector4 Vector4::Normal() const
 	{
 		Vector4 lTmp(*this);
 
@@ -183,6 +193,25 @@ namespace AliceMathF
 		w /= s_;
 
 		return *this;
+	}
+
+	Vector4::operator JPH::Vec4() const
+	{
+		JPH::Vec4 lVec = { x, y, z, w };
+
+		return lVec;
+	}
+
+	Vector4::operator JPH::Color() const
+	{
+		uint8_t lRed = static_cast< uint8_t >( 255 * x );
+		uint8_t lBlue = static_cast< uint8_t >( 255 * y );
+		uint8_t lGreen = static_cast< uint8_t >( 255 * z );
+		uint8_t lAlpha = static_cast< uint8_t >(255 * w);
+
+		JPH::Color lCol = { lRed ,lBlue ,lGreen ,lAlpha };
+
+		return lCol;
 	}
 
 	const Vector4 operator+(const Vector4& v1_, const Vector4& v2_)

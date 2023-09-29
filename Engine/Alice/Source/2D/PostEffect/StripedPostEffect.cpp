@@ -10,6 +10,9 @@ void StripedPostEffect::Initialize()
 {
 	if (needsInit)
 	{
+		ID3D12GraphicsCommandList* lCmdList = sCmdList->GetGraphicCommandList();
+		ID3D12Device* lDevice = sDevice->Get();
+
 		needsInit = false;
 
 		type = "STRIPED";
@@ -18,7 +21,7 @@ void StripedPostEffect::Initialize()
 		height = static_cast<float>(sWindowsApp->GetWindowSize().height);
 
 		sprite = std::make_unique<PostEffectSprite>();
-		sprite->Initialize(sCmdList, sSrvHeap);
+		sprite->Initialize(lCmdList, sSrvHeap);
 
 		material = std::make_unique<Material>();
 
@@ -58,7 +61,7 @@ void StripedPostEffect::Initialize()
 		material->rootSignature->Add(IRootSignature::RangeType::SRV, 0);//t0
 		material->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
 		material->rootSignature->AddStaticSampler(0);//s0
-		material->rootSignature->Create(sDevice);
+		material->rootSignature->Create(lDevice);
 
 		//生成
 		material->Initialize();
@@ -127,7 +130,7 @@ void StripedPostEffect::Initialize()
 		material2->rootSignature->AddStaticSampler(0);//s0
 		material2->rootSignature->Add(IRootSignature::RangeType::SRV, 1);//t0
 		material2->rootSignature->AddStaticSampler(1);//s0
-		material2->rootSignature->Create(sDevice);
+		material2->rootSignature->Create(lDevice);
 
 		//生成
 		material2->Initialize();
@@ -162,13 +165,15 @@ const std::string& StripedPostEffect::GetType()
 
 void StripedPostEffect::Draw(RenderTarget* mainRenderTarget_)
 {
+	ID3D12GraphicsCommandList* lCmdList = sCmdList->GetGraphicCommandList();
+
 	for (size_t i = 0; i < 2; i++)
 	{
 		renderTargetBuffers[i]->Transition(D3D12_RESOURCE_STATE_RENDER_TARGET);
 	}
 
-	std::array<CD3DX12_VIEWPORT, 2> lViewPorts;
-	std::array<CD3DX12_RECT, 2> lRects;
+	std::array<CD3DX12_VIEWPORT,2> lViewPorts{};
+	std::array<CD3DX12_RECT,2> lRects{};
 
 	for (size_t i = 0; i < 2; i++)
 	{
@@ -177,8 +182,8 @@ void StripedPostEffect::Draw(RenderTarget* mainRenderTarget_)
 		lRects[i] = CD3DX12_RECT(0, 0, static_cast<LONG>(width), static_cast<LONG>(height));
 	}
 
-	sCmdList->RSSetViewports(2, lViewPorts.data());
-	sCmdList->RSSetScissorRects(2, lRects.data());
+	lCmdList->RSSetViewports(2, lViewPorts.data());
+	lCmdList->RSSetScissorRects(2, lRects.data());
 
 	D3D12_CPU_DESCRIPTOR_HANDLE lRtvHs[] =
 	{
@@ -186,25 +191,25 @@ void StripedPostEffect::Draw(RenderTarget* mainRenderTarget_)
 		renderTargetBuffers[1]->GetHandle(),
 	};
 
-	sCmdList->OMSetRenderTargets(2, lRtvHs, false, &depthStencilBuffers[0]->GetHandle());
+	lCmdList->OMSetRenderTargets(2, lRtvHs, false, &depthStencilBuffers[0]->GetHandle());
 
 
 	for (size_t i = 0; i < 2; i++)
 	{
-		sCmdList->ClearRenderTargetView(renderTargetBuffers[i]->GetHandle(), clearColor.data(), 0, nullptr);
+		lCmdList->ClearRenderTargetView(renderTargetBuffers[i]->GetHandle(), clearColor.data(), 0, nullptr);
 	}
 
-	sCmdList->ClearDepthStencilView(depthStencilBuffers[0]->GetHandle(), D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+	lCmdList->ClearDepthStencilView(depthStencilBuffers[0]->GetHandle(), D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
 
 	sprite->SetSize({ 1.0f,1.0f });
 
 	sprite->Draw(material.get(), mainRenderTarget_->GetGpuHandle());
 
-	sCmdList->SetGraphicsRootConstantBufferView(1, constantBuffer->GetAddress());
+	lCmdList->SetGraphicsRootConstantBufferView(1, constantBuffer->GetAddress());
 
 	// 描画コマンド
-	sCmdList->DrawIndexedInstanced(6, 1, 0, 0, 0);
+	lCmdList->DrawIndexedInstanced(6, 1, 0, 0, 0);
 
 	for (size_t i = 0; i < 2; i++)
 	{
@@ -214,21 +219,23 @@ void StripedPostEffect::Draw(RenderTarget* mainRenderTarget_)
 
 void StripedPostEffect::MainRenderTargetDraw(RenderTarget* mainRenderTarget_)
 {
+	ID3D12GraphicsCommandList* lCmdList = sCmdList->GetGraphicCommandList();
+
 	mainRenderTarget_->Transition(D3D12_RESOURCE_STATE_RENDER_TARGET);
 
 	mainRenderTarget_->SetRenderTarget();
 
 	CD3DX12_VIEWPORT lViewPort = CD3DX12_VIEWPORT(0.0f, 0.0f, width, height);
-	sCmdList->RSSetViewports(1, &lViewPort);
+	lCmdList->RSSetViewports(1, &lViewPort);
 
 	CD3DX12_RECT lRect = CD3DX12_RECT(0, 0, static_cast<LONG>(width), static_cast<LONG>(height));
-	sCmdList->RSSetScissorRects(1, &lRect);
+	lCmdList->RSSetScissorRects(1, &lRect);
 
 
 	sprite->Draw(material2.get(), handles[0]);
-	sCmdList->SetGraphicsRootDescriptorTable(1, handles[1]);
+	lCmdList->SetGraphicsRootDescriptorTable(1, handles[1]);
 	// 描画コマンド
-	sCmdList->DrawIndexedInstanced(6, 1, 0, 0, 0);
+	lCmdList->DrawIndexedInstanced(6, 1, 0, 0, 0);
 
 	mainRenderTarget_->Transition(D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 }

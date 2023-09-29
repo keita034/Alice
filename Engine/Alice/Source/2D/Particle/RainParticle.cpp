@@ -1,10 +1,10 @@
-﻿#include<RainParticle.h>
+#include<RainParticle.h>
 
-class RainParticle : public Particle, public IRainParticle
+class RainParticle : public Particle,public IRainParticle
 {
 private:
 
-	AliceMathF::Matrix4 mTrans, mRot, mScale;
+	AliceMathF::Matrix4 mTrans,mRot,mScale;
 
 	AliceMathF::Vector2 particleScale = { 2.0f,0.0 };
 
@@ -21,12 +21,12 @@ public:
 	///<summary>
 	///更新
 	///</summary>
-	virtual void Update(const AliceMathF::Vector3& centerPos_, const AliceMathF::Vector2& emitRadius_, const AliceMathF::Vector4& col_, uint32_t lifeTime_);
+	virtual void Update(const AliceMathF::Vector3& centerPos_,const AliceMathF::Vector2& emitRadius_,const AliceMathF::Vector4& col_,uint32_t lifeTime_);
 
 	///<summary>
 	///ビルボード描画
 	///</summary>
-	virtual void Draw(Camera* camera_, const Material* material_ = nullptr);
+	virtual void Draw(Camera* camera_,const Material* material_ = nullptr);
 
 private:
 
@@ -65,21 +65,21 @@ RainParticle::~RainParticle()
 void RainParticle::Initialize()
 {
 	//頂点バッファ生成
-	vertexBuffer = CreateUniqueVertexBuffer(VERTEX_COUNT, sizeof(VerPosColScaRot));
+	vertexBuffer = CreateUniqueVertexBuffer(VERTEX_COUNT,sizeof(VerPosColScaRot));
 
 	//定数バッファ生成
 	constBuffTransform = CreateUniqueConstantBuffer(sizeof(ParticleConstBuffData));
 }
 
-void RainParticle::Update(const AliceMathF::Vector3& centerPos_, const AliceMathF::Vector2& emitRadius_, const AliceMathF::Vector4& col_, uint32_t lifeTime_)
+void RainParticle::Update(const AliceMathF::Vector3& centerPos_,const AliceMathF::Vector2& emitRadius_,const AliceMathF::Vector4& col_,uint32_t lifeTime_)
 {
-	for (size_t i = 0; i < 100; i++)
+	for ( size_t i = 0; i < 100; i++ )
 	{
 		//基準の位置でランダムに分布
 		AliceMathF::Vector3 lPos{};
-		lPos.x = AliceMathF::GetRand(centerPos_.x - emitRadius_.x, centerPos_.x + emitRadius_.x);
+		lPos.x = AliceMathF::GetRand(centerPos_.x - emitRadius_.x,centerPos_.x + emitRadius_.x);
 		lPos.y = centerPos_.y;
-		lPos.z = AliceMathF::GetRand(centerPos_.y - emitRadius_.y, centerPos_.y + emitRadius_.y);
+		lPos.z = AliceMathF::GetRand(centerPos_.y - emitRadius_.y,centerPos_.y + emitRadius_.y);
 
 		//基準の速度でランダムに分布
 		AliceMathF::Vector3 lVel{};
@@ -90,12 +90,12 @@ void RainParticle::Update(const AliceMathF::Vector3& centerPos_, const AliceMath
 		//基準の加速度でランダムに分布
 
 		AliceMathF::Vector3 lAcc{};
-		lAcc.y = static_cast<float>(rand()) / RAND_MAX * 0.001f;
+		lAcc.y = static_cast< float >( rand() ) / RAND_MAX * 0.001f;
 
 		//生存時間
 		uint32_t lLife = lifeTime_ * rand() / RAND_MAX;
 
-		Add(lLife, lPos, lVel, lAcc, particleScale, particleRotation, col_, col_);
+		Add(lLife,lPos,lVel,lAcc,particleScale,particleRotation,col_,col_);
 	}
 
 	Update();
@@ -104,14 +104,14 @@ void RainParticle::Update(const AliceMathF::Vector3& centerPos_, const AliceMath
 void RainParticle::Update()
 {
 		//寿命が尽きたパーティクルを全削除
-	particleDatas.remove_if([](ParticleData& x)
+	particleDatas.remove_if([ ] (ParticleData& x)
 		{
 			return x.frame >= x.numFrame;
 		});
 
 	std::forward_list<ParticleData>::iterator lIterator = particleDatas.begin();
 	//全パーティクル更新
-	for (; lIterator != particleDatas.end(); lIterator++)
+	for ( ; lIterator != particleDatas.end(); lIterator++ )
 	{
 		//経過フレーム数をカウント
 		lIterator->frame++;
@@ -120,28 +120,28 @@ void RainParticle::Update()
 		//速度による移動
 		lIterator->position = lIterator->position + lIterator->velocity;
 		//進行度を0～1の範囲に換算
-		float lFrame = static_cast<float>(lIterator->frame) / static_cast<float>(lIterator->numFrame);
+		float lFrame = static_cast< float >( lIterator->frame ) / static_cast< float >( lIterator->numFrame );
 
 		//スケールの線形補間
-		lIterator->scale = AliceMathF::Lerp(lIterator->sScale, lIterator->eScale, lFrame);
+		lIterator->scale = AliceMathF::Lerp(lIterator->sScale,lIterator->eScale,lFrame);
 
 		//回転角の線形補間
-		lIterator->rotation = AliceMathF::Lerp(lIterator->sRotation, lIterator->eRotation, lFrame);
+		lIterator->rotation = AliceMathF::Lerp(lIterator->sRotation,lIterator->eRotation,lFrame);
 
 		//カラーの線形補間
-		lIterator->color = AliceMathF::Lerp(lIterator->sColor, lIterator->eColor, lFrame);
+		lIterator->color = AliceMathF::Lerp(lIterator->sColor,lIterator->eColor,lFrame);
 	}
 
 	//頂点バッファへデータ転送
 	VerPosColScaRot* lVertMap = nullptr;
-	result = vertexBuffer->GetResource()->Map(0, nullptr, (void**)&lVertMap);
+	result = vertexBuffer->GetResource()->Map(0,nullptr,( void** ) &lVertMap);
 	assert(SUCCEEDED(result));
 	uint16_t lCount = 0;
 
 	lIterator = particleDatas.begin();
-	for (;lIterator != particleDatas.end();lIterator++)
+	for ( ; lIterator != particleDatas.end(); lIterator++ )
 	{
-		if (lCount == VERTEX_COUNT)
+		if ( lCount == VERTEX_COUNT )
 		{
 			break;
 		}
@@ -156,7 +156,7 @@ void RainParticle::Update()
 		lCount++;
 	}
 
-	vertexBuffer->GetResource()->Unmap(0, nullptr);
+	vertexBuffer->GetResource()->Unmap(0,nullptr);
 }
 
 void RainParticle::Add(
@@ -169,7 +169,7 @@ void RainParticle::Add(
 	const AliceMathF::Vector4& sColor_,
 	const AliceMathF::Vector4& eColor_)
 {
-	if (std::distance(particleDatas.begin(), particleDatas.end()) < VERTEX_COUNT)
+	if ( std::distance(particleDatas.begin(),particleDatas.end()) < VERTEX_COUNT )
 	{
 		//リストに要素を追加
 		particleDatas.emplace_front();
@@ -192,55 +192,56 @@ void RainParticle::Add(
 	}
 }
 
-void RainParticle::Draw(Camera* camera_, const Material* material_)
+void RainParticle::Draw(Camera* camera_,const Material* material_)
 {
 	D3D12_VERTEX_BUFFER_VIEW lVbView = vertexBuffer->GetView();
+	ID3D12GraphicsCommandList* lCmdList = sCmdList->GetGraphicCommandList();
 
 	assert(camera_);
 
-	if (!material_)
+	if ( !material_ )
 	{
 		particleMaterial = MaterialManager::SGetMaterial("DefaultRainParticle");
 	}
 
 	AliceMathF::Matrix4 lMat = camera_->GetViewMatrix();
-	lMat.m[3][0] = 0;
-	lMat.m[3][1] = 0;
-	lMat.m[3][2] = 0;
-	lMat.m[3][3] = 1;
+	lMat.m[ 3 ][ 0 ] = 0;
+	lMat.m[ 3 ][ 1 ] = 0;
+	lMat.m[ 3 ][ 2 ] = 0;
+	lMat.m[ 3 ][ 3 ] = 1;
 
 	constMapTransform.matBillboard = lMat;
 	constMapTransform.mat = camera_->GetViewMatrixInv() * camera_->GetProjectionMatrix();
 	constBuffTransform->Update(&constMapTransform);
 
 	// パイプラインステートとルートシグネチャの設定コマンド
-	sCmdList->SetPipelineState(particleMaterial->pipelineState->GetPipelineState());
-	sCmdList->SetGraphicsRootSignature(particleMaterial->rootSignature->GetRootSignature());
+	lCmdList->SetPipelineState(particleMaterial->pipelineState->GetPipelineState());
+	lCmdList->SetGraphicsRootSignature(particleMaterial->rootSignature->GetRootSignature());
 
 	// プリミティブ形状の設定コマンド
-	sCmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_POINTLIST); // 三角形リスト
+	lCmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_POINTLIST); // 三角形リスト
 
 	// 頂点バッファビューの設定コマンド
-	sCmdList->IASetVertexBuffers(0, 1, &lVbView);
+	lCmdList->IASetVertexBuffers(0,1,&lVbView);
 
 	// 定数バッファビュー(CBV)の設定コマンド
-	sCmdList->SetGraphicsRootConstantBufferView(0, constBuffTransform->GetAddress());
+	lCmdList->SetGraphicsRootConstantBufferView(0,constBuffTransform->GetAddress());
 
 	// SRVヒープの設定コマンド
-	ID3D12DescriptorHeap* lDescriptorHeaps[] = { textureData->srvHeap };
-	sCmdList->SetDescriptorHeaps(1, lDescriptorHeaps);
+	ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { textureData->srvHeap };
+	lCmdList->SetDescriptorHeaps(1,lDescriptorHeaps);
 
 	// SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
-	sCmdList->SetGraphicsRootDescriptorTable(1, textureData->gpuHandle);
+	lCmdList->SetGraphicsRootDescriptorTable(1,textureData->gpuHandle);
 
 	// 描画コマンド
-	if (std::distance(particleDatas.begin(), particleDatas.end()) < VERTEX_COUNT)
+	if ( std::distance(particleDatas.begin(),particleDatas.end()) < VERTEX_COUNT )
 	{
-		sCmdList->DrawInstanced(static_cast<UINT> (std::distance(particleDatas.begin(), particleDatas.end())), 1, 0, 0);
+		lCmdList->DrawInstanced(static_cast< UINT > ( std::distance(particleDatas.begin(),particleDatas.end()) ),1,0,0);
 	}
 	else
 	{
-		sCmdList->DrawInstanced(VERTEX_COUNT, 1, 0, 0);
+		lCmdList->DrawInstanced(VERTEX_COUNT,1,0,0);
 	}
 }
 

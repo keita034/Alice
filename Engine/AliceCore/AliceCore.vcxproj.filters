@@ -27,73 +27,76 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Incluede\DescriptorHeap\DSVDescriptorHeap.h">
+    <ClInclude Include="Include\DescriptorHeap\DSVDescriptorHeap.h">
       <Filter>ヘッダー ファイル\DescriptorHeap</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\DescriptorHeap\RTVDescriptorHeap.h">
+    <ClInclude Include="Include\DescriptorHeap\RTVDescriptorHeap.h">
       <Filter>ヘッダー ファイル\DescriptorHeap</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\DescriptorHeap\DescriptorHeap.h">
+    <ClInclude Include="Include\DescriptorHeap\DescriptorHeap.h">
       <Filter>ヘッダー ファイル\DescriptorHeap</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Buffer\VertexBuffer.h">
+    <ClInclude Include="Include\Buffer\VertexBuffer.h">
       <Filter>ヘッダー ファイル\Buffer</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Buffer\StructuredBuffer.h">
+    <ClInclude Include="Include\Buffer\StructuredBuffer.h">
       <Filter>ヘッダー ファイル\Buffer</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Buffer\BaseBuffer.h">
+    <ClInclude Include="Include\Buffer\BaseBuffer.h">
       <Filter>ヘッダー ファイル\Buffer</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Buffer\RWStructuredBuffer.h">
+    <ClInclude Include="Include\Buffer\RWStructuredBuffer.h">
       <Filter>ヘッダー ファイル\Buffer</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Buffer\RenderTargetBuffer.h">
+    <ClInclude Include="Include\Buffer\RenderTargetBuffer.h">
       <Filter>ヘッダー ファイル\Buffer</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Buffer\ComputeVertexBuffer.h">
+    <ClInclude Include="Include\Buffer\ComputeVertexBuffer.h">
       <Filter>ヘッダー ファイル\Buffer</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Buffer\ConstantBuffer.h">
+    <ClInclude Include="Include\Buffer\ConstantBuffer.h">
       <Filter>ヘッダー ファイル\Buffer</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Buffer\DepthStencilBuffer.h">
+    <ClInclude Include="Include\Buffer\DepthStencilBuffer.h">
       <Filter>ヘッダー ファイル\Buffer</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Buffer\IndexBuffer.h">
+    <ClInclude Include="Include\Buffer\IndexBuffer.h">
       <Filter>ヘッダー ファイル\Buffer</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\DescriptorHeap\BaseDescriptorHeap.h">
+    <ClInclude Include="Include\DescriptorHeap\BaseDescriptorHeap.h">
       <Filter>ヘッダー ファイル\DescriptorHeap</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\WindowsApp.h">
+    <ClInclude Include="Include\WindowsApp.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\SwapChain.h">
+    <ClInclude Include="Include\SwapChain.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Shader.h">
+    <ClInclude Include="Include\Shader.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\RootSignature.h">
+    <ClInclude Include="Include\RootSignature.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\FPS.h">
+    <ClInclude Include="Include\FPS.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Device.h">
+    <ClInclude Include="Include\Device.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\CommandList.h">
+    <ClInclude Include="Include\CommandList.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Fence.h">
+    <ClInclude Include="Include\Fence.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Adapter.h">
+    <ClInclude Include="Include\Adapter.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\MultiAdapters.h">
+    <ClInclude Include="Include\MultiAdapters.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\PipelineState.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -165,6 +168,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\MultiAdapters.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PipelineState.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

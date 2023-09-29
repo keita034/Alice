@@ -1,12 +1,12 @@
 #include "BaseBuffer.h"
 
-ID3D12Device* BaseBuffer::sDevice = nullptr;
+IDevice* BaseBuffer::sDevice = nullptr;
 ISRVDescriptorHeap* BaseBuffer::sSRVHeap = nullptr;
 IRTVDescriptorHeap* BaseBuffer::sRTVHeap = nullptr;
 IDSVDescriptorHeap* BaseBuffer::sDSVHeap = nullptr;
-ID3D12GraphicsCommandList* BaseBuffer::sCommandList = nullptr;
+ICommandList* BaseBuffer::sCommandList = nullptr;
 
-void BaseBuffer::SSetDevice(ID3D12Device* dev)
+void BaseBuffer::SSetDevice(IDevice* dev)
 {
 	if (!sDevice)
 	{
@@ -14,7 +14,7 @@ void BaseBuffer::SSetDevice(ID3D12Device* dev)
 	}
 }
 
-void BaseBuffer::SSetGraphicsCommandList(ID3D12GraphicsCommandList* commandList_)
+void BaseBuffer::SSetGraphicsCommandList(ICommandList* commandList_)
 {
 	if (!sCommandList)
 	{

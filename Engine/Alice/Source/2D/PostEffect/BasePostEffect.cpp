@@ -2,8 +2,8 @@
 
 ISRVDescriptorHeap* BasePostEffect::sSrvHeap = nullptr;
 IWindowsApp* BasePostEffect::sWindowsApp = nullptr;
-ID3D12GraphicsCommandList* BasePostEffect::sCmdList = nullptr;
-ID3D12Device* BasePostEffect::sDevice = nullptr;
+ICommandList* BasePostEffect::sCmdList = nullptr;
+IDevice* BasePostEffect::sDevice = nullptr;
 
 BasePostEffect::~BasePostEffect()
 {

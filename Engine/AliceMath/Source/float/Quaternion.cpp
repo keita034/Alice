@@ -1,16 +1,14 @@
-#pragma warning(push)
-#pragma warning(disable: 4365)
-#pragma warning(disable: 4514)
-#pragma warning(disable: 4619)
-#pragma warning(disable: 4668)
-#pragma warning(disable: 4820)
+#include "Quaternion.h"
+
+ALICE_SUPPRESS_WARNINGS_BEGIN
 
 #include<assimp/quaternion.h>
 #include<foundation/PxQuat.h>
+#include<Jolt/Jolt.h>
+#include<Jolt/Math/Quat.h>
 
-#pragma warning(pop)
+ALICE_SUPPRESS_WARNINGS_END
 
-#include "Quaternion.h"
 #include"AliceMathUtility.h"
 
 float AngleNormalize(float x)
@@ -67,6 +65,14 @@ namespace AliceMathF
 		y = q_.y;
 		z = q_.z;
 		w = q_.w;
+	}
+
+	Quaternion::Quaternion(const JPH::Quat& q_)
+	{
+		x = static_cast< float >( q_.GetX() );
+		y = static_cast< float >( q_.GetY() );
+		z = static_cast< float >( q_.GetZ() );
+		w = static_cast< float >( q_.GetW() );
 	}
 
 	Quaternion::Quaternion(const Matrix4& m_)
@@ -146,7 +152,7 @@ namespace AliceMathF
 		return sqrtf(Dot(*this));
 	}
 
-	Quaternion Quaternion::Normalize()const
+	Quaternion Quaternion::Normal()const
 	{
 		float lLen = Norm();
 
@@ -158,6 +164,16 @@ namespace AliceMathF
 			return lTmp;
 		}
 
+		return *this;
+	}
+
+	Quaternion& Quaternion::Normal()
+	{
+		float lLen = Norm();
+		if ( lLen != 0 )
+		{
+			return *this /= lLen;
+		}
 		return *this;
 	}
 
@@ -409,6 +425,11 @@ namespace AliceMathF
 	Quaternion::operator physx::PxQuat() const
 	{
 		return physx::PxQuat(x, y, z, w);
+	}
+
+	Quaternion::operator JPH::Quat() const
+	{
+		return JPH::Quat(x,y,z,w);
 	}
 
 	const Quaternion operator+(const Quaternion& q1_, const Quaternion& q2_)

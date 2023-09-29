@@ -1,4 +1,4 @@
-﻿#include<IcosahedronParticle.h>
+#include<IcosahedronParticle.h>
 
 #include<Particle.h>
 #include<DefaultMaterial.h>
@@ -164,6 +164,7 @@ void IcosahedronParticle::Add(
 void IcosahedronParticle::Draw(Camera* camera_, const Material* material_)
 {
 	D3D12_VERTEX_BUFFER_VIEW lVbView = vertexBuffer->GetView();
+	ID3D12GraphicsCommandList* lCmdList = sCmdList->GetGraphicCommandList();
 
 	assert(camera_);
 
@@ -183,33 +184,33 @@ void IcosahedronParticle::Draw(Camera* camera_, const Material* material_)
 	constBuffTransform->Update(&constMapTransform);
 
 	// パイプラインステートとルートシグネチャの設定コマンド
-	sCmdList->SetPipelineState(particleMaterial->pipelineState->GetPipelineState());
-	sCmdList->SetGraphicsRootSignature(particleMaterial->rootSignature->GetRootSignature());
+	lCmdList->SetPipelineState(particleMaterial->pipelineState->GetPipelineState());
+	lCmdList->SetGraphicsRootSignature(particleMaterial->rootSignature->GetRootSignature());
 
 	// プリミティブ形状の設定コマンド
-	sCmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_POINTLIST); // 三角形リスト
+	lCmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_POINTLIST); // 三角形リスト
 
 	// 頂点バッファビューの設定コマンド
-	sCmdList->IASetVertexBuffers(0, 1, &lVbView);
+	lCmdList->IASetVertexBuffers(0, 1, &lVbView);
 
 	// 定数バッファビュー(CBV)の設定コマンド
-	sCmdList->SetGraphicsRootConstantBufferView(0, constBuffTransform->GetAddress());
+	lCmdList->SetGraphicsRootConstantBufferView(0, constBuffTransform->GetAddress());
 
 	// SRVヒープの設定コマンド
 	ID3D12DescriptorHeap* lDescriptorHeaps[] = { textureData->srvHeap };
-	sCmdList->SetDescriptorHeaps(1, lDescriptorHeaps);
+	lCmdList->SetDescriptorHeaps(1, lDescriptorHeaps);
 
 	// SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
-	sCmdList->SetGraphicsRootDescriptorTable(1, textureData->gpuHandle);
+	lCmdList->SetGraphicsRootDescriptorTable(1, textureData->gpuHandle);
 
 	// 描画コマンド
 	if (std::distance(particleDatas.begin(), particleDatas.end()) < VERTEX_COUNT)
 	{
-		sCmdList->DrawInstanced(static_cast<UINT> (std::distance(particleDatas.begin(), particleDatas.end())), 1, 0, 0);
+		lCmdList->DrawInstanced(static_cast<UINT> (std::distance(particleDatas.begin(), particleDatas.end())), 1, 0, 0);
 	}
 	else
 	{
-		sCmdList->DrawInstanced(VERTEX_COUNT, 1, 0, 0);
+		lCmdList->DrawInstanced(VERTEX_COUNT, 1, 0, 0);
 	}
 }
 

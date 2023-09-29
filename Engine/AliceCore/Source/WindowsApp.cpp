@@ -215,7 +215,7 @@ void WindowsApp::CreatWindow(const std::wstring& title_, uint32_t width_, uint32
 
 #ifdef _DEBUG
 
-	system("AliceCore/Debug/CommandPromptUTF-8.bat");
+	system("chcp 65001");
 
 #endif _DEBUG
 

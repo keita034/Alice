@@ -1,4 +1,4 @@
-﻿#include "ConstantBuffer.h"
+#include "ConstantBuffer.h"
 
 #include"BaseBuffer.h"
 
@@ -80,7 +80,8 @@ void ConstantBuffer::Create(size_t bufferSize_)
 		CD3DX12_RESOURCE_DESC lResDesc = CD3DX12_RESOURCE_DESC::Buffer((bufferSize + 0xff) & ~0xff);
 
 		// リソースを生成
-		HRESULT lResult = sDevice->CreateCommittedResource(
+		ID3D12Device* lDevice = sDevice->Get();
+		HRESULT lResult = lDevice->CreateCommittedResource(
 			&lHeapProp,
 			D3D12_HEAP_FLAG_NONE,
 			&lResDesc,

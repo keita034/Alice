@@ -1,16 +1,16 @@
-#pragma warning(push)
-#pragma warning(disable: 4365)
-#pragma warning(disable: 4514)
-#pragma warning(disable: 4619)
-#pragma warning(disable: 4668)
-#pragma warning(disable: 4820)
+#include "Vector3.h"
+
+ALICE_SUPPRESS_WARNINGS_BEGIN
 
 #include<assimp/vector3.h>
 #include<foundation/PxVec3.h>
+#include<Jolt/Jolt.h>
+#include<Jolt/Math/Vec3.h>
+#include<Jolt/Math/DVec3.h>
 
-#pragma warning(pop)
+ALICE_SUPPRESS_WARNINGS_END
 
-#include "Vector3.h"
+
 #include"AliceMathF.h"
 
 namespace AliceMathF
@@ -48,6 +48,20 @@ namespace AliceMathF
 		x = vec_.x;
 		y = vec_.y;
 		z = vec_.z;
+	}
+
+	Vector3::Vector3(const JPH::Vec3& vec_)
+	{
+		x = static_cast<float>(vec_.GetX());
+		y = static_cast<float>(vec_.GetY());
+		z = static_cast<float>(vec_.GetZ());
+	}
+
+	Vector3::Vector3(const JPH::RVec3& vec_)
+	{
+		x = static_cast<float>(vec_.GetX());
+		y = static_cast<float>(vec_.GetY());
+		z = static_cast<float>(vec_.GetZ());
 	}
 
 	float Vector3::Length() const
@@ -184,7 +198,23 @@ namespace AliceMathF
 
 	Vector3::operator physx::PxVec3() const
 	{
-		return physx::PxVec3(x,y,z);
+		physx::PxVec3 lVec = { x,y,z };
+
+		return lVec;
+	}
+
+	Vector3::operator JPH::Vec3() const
+	{
+		JPH::Vec3 lVec = { x,y,z };
+
+		return lVec;
+	}
+
+	Vector3::operator JPH::RVec3() const
+	{
+		JPH::RVec3 lVec = { x,y,z };
+
+		return lVec;
 	}
 
 	const Vector3 operator+(const Vector3& v1_, const Vector3& v2_)

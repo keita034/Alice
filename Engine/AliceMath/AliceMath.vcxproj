@@ -44,14 +44,14 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)Engine\Alice\lib\include;$(SolutionDir)Engine\AliceCore\Incluede;$(SolutionDir)Engine\AliceCore\Incluede\Buffer;$(SolutionDir)Engine\AliceCore\Incluede\DescriptorHeap</IncludePath>
-    <OutDir>$(SolutionDir)Lib\$(Configuration)\</OutDir>
+    <IncludePath>$(SolutionDir)Engine\Alice\lib\Include;$(SolutionDir)Engine\AliceCore\Include;$(SolutionDir)Engine\AliceCore\Include\Buffer;$(SolutionDir)Engine\AliceCore\Include\DescriptorHeap;$(SolutionDir)Engine\AliceUtility\Include</IncludePath>
+    <OutDir>$(SolutionDir)..\Generated\Lib\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
     <LibraryPath>$(SolutionDir)Engine\Alice\lib\lib\debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)Engine\Alice\lib\include;$(SolutionDir)Engine\AliceCore\Incluede;$(SolutionDir)Engine\AliceCore\Incluede\Buffer;$(SolutionDir)Engine\AliceCore\Incluede\DescriptorHeap</IncludePath>
-    <OutDir>$(SolutionDir)Lib\$(Configuration)\</OutDir>
+    <IncludePath>$(SolutionDir)Engine\Alice\lib\Include;$(SolutionDir)Engine\AliceCore\Include;$(SolutionDir)Engine\AliceCore\Include\Buffer;$(SolutionDir)Engine\AliceCore\Include\DescriptorHeap;$(SolutionDir)Engine\AliceUtility\Include</IncludePath>
+    <OutDir>$(SolutionDir)..\Generated\Lib\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
     <LibraryPath>$(SolutionDir)Engine\Alice\lib\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
@@ -62,14 +62,15 @@
     <ClCompile>
       <WarningLevel>EnableAllWarnings</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_LIB;_SILENCE_CXX20_CISO646_REMOVED_WARNING;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;PX_PHYSX_STATIC_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_LIB;PX_PHYSX_STATIC_LIB;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;AlicePhysicsJolt;_SILENCE_ALL_CXX20_DEPRECATION_WARNINGS;JPH_DEBUG_RENDERER;JPH_USE_AVX2;JPH_DOUBLE_PRECISION;JPH_PROFILE_ENABLED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Incluede;$(ProjectDir)Incluede\Collision\2D;$(ProjectDir)Incluede\Collision\3D;$(ProjectDir)Incluede\Collision;$(ProjectDir)Incluede\Float;$(ProjectDir)Incluede\Float\Matrix;$(ProjectDir)Incluede\Float\Vector;$(ProjectDir)Incluede\Double;$(ProjectDir)Incluede\Double\Matrix;$(ProjectDir)Incluede\Double\Vector;$(ProjectDir)Incluede\Physics;$(SolutionDir)Alice;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(ProjectDir)Include\Float;$(ProjectDir)Include\Float\Matrix;$(ProjectDir)Include\Float\Vector;$(ProjectDir)Include\Double;$(ProjectDir)Include\Double\Matrix;$(ProjectDir)Include\Double\Vector;$(SolutionDir)Alice;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>5045</DisableSpecificWarnings>
       <AdditionalOptions>/utf-8 </AdditionalOptions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -91,12 +92,13 @@
       <PreprocessorDefinitions>NDEBUG;_LIB;_SILENCE_CXX20_CISO646_REMOVED_WARNING;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;PX_PHYSX_STATIC_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Incluede;$(ProjectDir)Incluede\Collision\2D;$(ProjectDir)Incluede\Collision\3D;$(ProjectDir)Incluede\Collision;$(ProjectDir)Incluede\Float;$(ProjectDir)Incluede\Float\Matrix;$(ProjectDir)Incluede\Float\Vector;$(ProjectDir)Incluede\Double;$(ProjectDir)Incluede\Double\Matrix;$(ProjectDir)Incluede\Double\Vector;$(ProjectDir)Incluede\Physics;$(SolutionDir)Alice;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(ProjectDir)Include\Float;$(ProjectDir)Include\Float\Matrix;$(ProjectDir)Include\Float\Vector;$(ProjectDir)Include\Double;$(ProjectDir)Include\Double\Matrix;$(ProjectDir)Include\Double\Vector;$(SolutionDir)Alice;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>5045;4710;4711</DisableSpecificWarnings>
       <AdditionalOptions>/utf-8 </AdditionalOptions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -112,78 +114,36 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Incluede\Collision\CollisionAttribute.h" />
-    <ClInclude Include="Incluede\Physics\AliceRigidBodyManager.h" />
-    <ClInclude Include="Incluede\Physics\FilterShader.h" />
-    <ClInclude Include="Incluede\Physics\IAliceRigidBody.h" />
-    <ClInclude Include="Incluede\Physics\AlicePhysics.h" />
-    <ClInclude Include="Incluede\Float\Easing.h" />
-    <ClInclude Include="Incluede\Collision\2D\Base2DCollider.h" />
-    <ClInclude Include="Incluede\Collision\2D\BoxCollider2D.h" />
-    <ClInclude Include="Incluede\Collision\2D\CapsuleCllider2D.h" />
-    <ClInclude Include="Incluede\Collision\2D\Collider2DObject.h" />
-    <ClInclude Include="Incluede\Collision\3D\ColliderObject.h" />
-    <ClInclude Include="Incluede\Collision\3D\CapsuleCollider.h" />
-    <ClInclude Include="Incluede\Collision\3D\AABBCollider.h" />
-    <ClInclude Include="Incluede\Collision\3D\BaseCollider.h" />
-    <ClInclude Include="Incluede\AliceMathUtility.h" />
-    <ClInclude Include="Incluede\Collision\Collision.h" />
-    <ClInclude Include="Incluede\Collision\2D\Collision2DManager.h" />
-    <ClInclude Include="Incluede\Collision\3D\CollisionPrimitive.h" />
-    <ClInclude Include="Incluede\Collision\CollisionShapeType.h" />
-    <ClInclude Include="Incluede\Double\AliceMath.h" />
-    <ClInclude Include="Incluede\Float\AliceMathF.h" />
-    <ClInclude Include="Incluede\Float\Matrix\Matrix.h" />
-    <ClInclude Include="Incluede\Float\Matrix\Matrix3.h" />
-    <ClInclude Include="Incluede\Float\Matrix\Matrix4.h" />
-    <ClInclude Include="Incluede\Float\Quaternion.h" />
-    <ClInclude Include="Incluede\Float\Vector\Vector.h" />
-    <ClInclude Include="Incluede\Float\Vector\Vector2.h" />
-    <ClInclude Include="Incluede\Float\Vector\Vector3.h" />
-    <ClInclude Include="Incluede\Float\Vector\Vector4.h" />
-    <ClInclude Include="Incluede\Float\Matrix\Matrix2.h" />
-    <ClInclude Include="Incluede\Float\Matrix\Matrix2x3.h" />
-    <ClInclude Include="Incluede\Float\Matrix\Matrix2x4.h" />
-    <ClInclude Include="Incluede\Float\Matrix\Matrix3x4.h" />
-    <ClInclude Include="Incluede\Float\Matrix\Matrix3x2.h" />
-    <ClInclude Include="Incluede\Float\Matrix\Matrix4x2.h" />
-    <ClInclude Include="Incluede\Float\Matrix\Matrix4x3.h" />
-    <ClInclude Include="Incluede\Float\Matrix\MatrixT.h" />
-    <ClInclude Include="Incluede\Float\Vector\VectorT.h" />
-    <ClInclude Include="Incluede\Collision\3D\OBBCollider.h" />
-    <ClInclude Include="Incluede\Collision\3D\PlaneCollider.h" />
-    <ClInclude Include="Incluede\Collision\3D\RayCastCollider.h" />
-    <ClInclude Include="Incluede\Collision\3D\RayCollider.h" />
-    <ClInclude Include="Incluede\Collision\3D\SphereCollider.h" />
-    <ClInclude Include="Incluede\Collision\3D\MeshCollider.h" />
-    <ClInclude Include="Incluede\Structure.h" />
-    <ClInclude Include="Incluede\Collision\3D\TriangleCollider.h" />
-    <ClInclude Include="Incluede\Float\Segment2D.h" />
-    <ClInclude Include="Incluede\Float\Line2D.h" />
+    <ClInclude Include="Include\Float\Easing.h" />
+    <ClInclude Include="Include\AliceMathUtility.h" />
+    <ClInclude Include="Include\Double\AliceMath.h" />
+    <ClInclude Include="Include\Float\AliceMathF.h" />
+    <ClInclude Include="Include\Float\Matrix\Matrix.h" />
+    <ClInclude Include="Include\Float\Matrix\Matrix3.h" />
+    <ClInclude Include="Include\Float\Matrix\Matrix4.h" />
+    <ClInclude Include="Include\Float\Quaternion.h" />
+    <ClInclude Include="Include\Float\Vector\Vector.h" />
+    <ClInclude Include="Include\Float\Vector\Vector2.h" />
+    <ClInclude Include="Include\Float\Vector\Vector3.h" />
+    <ClInclude Include="Include\Float\Vector\Vector4.h" />
+    <ClInclude Include="Include\Float\Matrix\Matrix2.h" />
+    <ClInclude Include="Include\Float\Matrix\Matrix2x3.h" />
+    <ClInclude Include="Include\Float\Matrix\Matrix2x4.h" />
+    <ClInclude Include="Include\Float\Matrix\Matrix3x4.h" />
+    <ClInclude Include="Include\Float\Matrix\Matrix3x2.h" />
+    <ClInclude Include="Include\Float\Matrix\Matrix4x2.h" />
+    <ClInclude Include="Include\Float\Matrix\Matrix4x3.h" />
+    <ClInclude Include="Include\Float\Matrix\MatrixT.h" />
+    <ClInclude Include="Include\Float\Vector\VectorT.h" />
+    <ClInclude Include="Include\Structure.h" />
+    <ClInclude Include="Include\Float\Segment2D.h" />
+    <ClInclude Include="Include\Float\Line2D.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Physics\RigidBody\AliceRigidBodyManager.cpp" />
-    <ClCompile Include="Source\Physics\FilterShader.cpp" />
-    <ClCompile Include="Source\Physics\RigidBody\IAliceRigidBody.cpp" />
-    <ClCompile Include="Source\Physics\AlicePhysics.cpp" />
     <ClCompile Include="Source\float\Easing.cpp" />
     <ClCompile Include="Source\float\Line2D.cpp" />
     <ClCompile Include="Source\float\Segment2D.cpp" />
-    <ClCompile Include="Source\Collision\2D\Base2DCollider.cpp" />
-    <ClCompile Include="Source\Collision\2D\Collider2DObject.cpp" />
-    <ClCompile Include="Source\Collision\2D\Collision2DManager.cpp" />
-    <ClCompile Include="Source\Collision\2D\BoxCollider2D.cpp" />
-    <ClCompile Include="Source\Collision\2D\CapsuleCllider2D.cpp" />
-    <ClCompile Include="Source\Collision\3D\ColliderObject.cpp" />
-    <ClCompile Include="Source\Collision\3D\CapsuleCollider.cpp" />
-    <ClCompile Include="Source\Collision\3D\MeshCollider.cpp" />
     <ClCompile Include="Source\AliceMathUtility.cpp" />
-    <ClCompile Include="Source\Collision\3D\AABBCollider.cpp" />
-    <ClCompile Include="Source\Collision\3D\BaseCollider.cpp" />
-    <ClCompile Include="Source\Collision\3D\OBBCollider.cpp" />
-    <ClCompile Include="Source\Collision\3D\PlaneCollider.cpp" />
-    <ClCompile Include="Source\Collision\3D\RayCastCollider.cpp" />
-    <ClCompile Include="Source\Collision\3D\RayCollider.cpp" />
     <ClCompile Include="Source\float\AliceMathF.cpp" />
     <ClCompile Include="Source\float\Matrix\MatrixT.cpp" />
     <ClCompile Include="Source\float\Matrix\Matrix2.cpp" />
@@ -193,7 +153,6 @@
     <ClCompile Include="Source\float\Matrix\Matrix3x2.cpp" />
     <ClCompile Include="Source\float\Matrix\Matrix4x2.cpp" />
     <ClCompile Include="Source\float\Matrix\Matrix4x3.cpp" />
-    <ClCompile Include="Source\Collision\Collision.cpp" />
     <ClCompile Include="Source\double\AliceMath.cpp" />
     <ClCompile Include="Source\float\Matrix\Matrix.cpp" />
     <ClCompile Include="Source\float\Matrix\Matrix3.cpp" />
@@ -204,8 +163,11 @@
     <ClCompile Include="Source\float\Vector\Vector3.cpp" />
     <ClCompile Include="Source\float\Vector\Vector4.cpp" />
     <ClCompile Include="Source\float\Vector\VectorT.cpp" />
-    <ClCompile Include="Source\Collision\3D\SphereCollider.cpp" />
-    <ClCompile Include="Source\Collision\3D\TriangleCollider.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AliceUtility\AliceUtility.vcxproj">
+      <Project>{95e30581-d29f-44fd-8802-198f6b21e809}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

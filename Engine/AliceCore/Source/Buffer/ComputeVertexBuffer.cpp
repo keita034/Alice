@@ -1,4 +1,4 @@
-﻿#include "ComputeVertexBuffer.h"
+#include "ComputeVertexBuffer.h"
 #include"BaseBuffer.h"
 
 /// <summary>
@@ -73,7 +73,8 @@ void ComputeVertexBuffer::Create(size_t length_, size_t singleSize_, const void*
 		D3D12_RESOURCE_DESC lResDesc = CD3DX12_RESOURCE_DESC::Buffer(singleSize_ * length_);
 		lResDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS;
 		// リソースを生成
-		HRESULT lResult = sDevice->CreateCommittedResource(
+		ID3D12Device* lDevice = sDevice->Get();
+		HRESULT lResult = lDevice->CreateCommittedResource(
 			&lHeapProp,
 			D3D12_HEAP_FLAG_NONE,
 			&lResDesc,
@@ -159,7 +160,8 @@ ID3D12Resource* ComputeVertexBuffer::GetResource()
 void ComputeVertexBuffer::Transition(const D3D12_RESOURCE_STATES& beforeState_, const D3D12_RESOURCE_STATES& afterState_)
 {
 	auto lBarrier = CD3DX12_RESOURCE_BARRIER::Transition(resource.Get(), beforeState_, afterState_);
-	sCommandList->ResourceBarrier(1, &lBarrier);
+	ID3D12GraphicsCommandList* lCmdList = sCommandList->GetGraphicCommandList();
+	lCmdList->ResourceBarrier(1, &lBarrier);
 }
 
 const D3D12_GPU_DESCRIPTOR_HANDLE& ComputeVertexBuffer::GetAddress()

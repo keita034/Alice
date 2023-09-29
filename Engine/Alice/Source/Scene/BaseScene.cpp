@@ -1,4 +1,4 @@
-﻿#include "BaseScene.h"
+#include "BaseScene.h"
 #include "BaseScene.h"
 #include<BaseScene.h>
 
@@ -6,6 +6,7 @@
 AliceInput::IInput* BaseScene::sInput = nullptr;
 IAudioManager* BaseScene::sAudioManager = nullptr;
 IWindowsApp* BaseScene::sWinApp = nullptr;
+AlicePhysics::AlicePhysicsSystem* BaseScene::sPhysicsSystem = nullptr;
 
 void BaseScene::SetSceneManager(SceneManager* manager_)
 {
@@ -35,4 +36,9 @@ void BaseScene::SSetAudioManager(IAudioManager* audioManager_)
 void BaseScene::SSetWindowsApp(IWindowsApp* windowsApp_)
 {
 	sWinApp = windowsApp_;
+}
+
+void BaseScene::SSetPhysicsSystem(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
+{
+	sPhysicsSystem = physicsSystem_;
 }

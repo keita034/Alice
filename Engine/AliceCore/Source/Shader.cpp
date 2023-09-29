@@ -1,40 +1,16 @@
 #include "Shader.h"
 
-#pragma warning(push)
-#pragma warning(disable: 4061)
-#pragma warning(disable: 4062)
-#pragma warning(disable: 4265)
-#pragma warning(disable: 4365)
-#pragma warning(disable: 4514)
-#pragma warning(disable: 4625)
-#pragma warning(disable: 4626)
-#pragma warning(disable: 4668)
-#pragma warning(disable: 4710)
-#pragma warning(disable: 4820)
-#pragma warning(disable: 5039)
-#pragma warning(disable: 5204)
-#pragma warning(disable: 5220)
+ALICE_SUPPRESS_WARNINGS_BEGIN
 
 #include<wrl.h>
 #include<directx/d3dx12.h>
 #include<d3dcompiler.h>
 #include<cassert>
-#include<filesystem>
 
-#pragma warning(pop)
 
-std::wstring StringToWstring(const std::string& string)
-{
-	auto const dest_size = ::MultiByteToWideChar(CP_ACP, 0U, string.data(), -1, nullptr, 0U);
-	std::vector<wchar_t> dest(static_cast<const uint64_t>(dest_size), L'\0');
-	if (::MultiByteToWideChar(CP_ACP, 0U, string.data(), -1, dest.data(), static_cast<int32_t>(dest.size())) == 0)
-	{
-		throw std::system_error{ static_cast<int32_t>(::GetLastError()), std::system_category() };
-	}
-	dest.resize(std::char_traits<wchar_t>::length(dest.data()));
-	dest.shrink_to_fit();
-	return std::wstring(dest.begin(), dest.end());
-}
+ALICE_SUPPRESS_WARNINGS_END
+
+#include<StringUtility.h>
 
 class Shader : public IShader
 {
@@ -83,7 +59,7 @@ void Shader::Create(const std::string& fileName_, const std::string& entryPoint_
 	Microsoft::WRL::ComPtr<ID3DBlob> lErrorBlob;
 
 	std::wstring lWFileName;
-	lWFileName = StringToWstring(fileName_);
+	lWFileName = AliceUtility::String::StringToWstring(fileName_);
 
 #ifdef _DEBUG
 		// シェーダの読み込みとコンパイル
@@ -95,22 +71,6 @@ void Shader::Create(const std::string& fileName_, const std::string& entryPoint_
 		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
 		0,
 		&blob, &lErrorBlob);
-
-#else
-	// シェーダの読み込みとコンパイル
-	lResult = D3DCompileFromFile(
-		lWFileName.c_str(), // シェーダファイル名
-		nullptr,
-		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
-		entryPoint_.c_str(), target_.c_str(), // エントリーポイント名、シェーダーモデル指定
-		D3DCOMPILE_OPTIMIZATION_LEVEL3, // リリース用設定
-		0,
-		&blob, &lErrorBlob);
-
-#endif // DEBUG
-
-
-
 
 	// エラーなら
 	if (FAILED(lResult))
@@ -126,6 +86,19 @@ void Shader::Create(const std::string& fileName_, const std::string& entryPoint_
 		OutputDebugStringA(lError.c_str());
 		assert(0);
 	};
+
+#else
+	// シェーダの読み込みとコンパイル
+	lResult = D3DCompileFromFile(
+		lWFileName.c_str(), // シェーダファイル名
+		nullptr,
+		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
+		entryPoint_.c_str(), target_.c_str(), // エントリーポイント名、シェーダーモデル指定
+		D3DCOMPILE_OPTIMIZATION_LEVEL3, // リリース用設定
+		0,
+		&blob, &lErrorBlob);
+
+#endif // DEBUG
 
 	shaderBytecode.pShaderBytecode = blob->GetBufferPointer();
 	shaderBytecode.BytecodeLength = blob->GetBufferSize();

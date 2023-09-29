@@ -4,11 +4,8 @@
 #include <fstream>
 #include <cassert>
 
-#include<CollisionAttribute.h>
-
 const std::string SceneLoader::sBaseDirectorypath = "Resources/";
 AliceInput::IInput* SceneData::input = nullptr;
-ObjectCollsionDraw* GameObject::objectCollsionDraw = nullptr;
 std::unique_ptr<SceneData> SceneLoader::SLoadFile(const std::string& filepath_)
 {
 	std::ifstream lFile;
@@ -263,11 +260,6 @@ void SceneData::Object::Initialize(uint32_t handle_, const AliceMathF::Vector3& 
 	if ( meshCollision )
 	{
 
-		CreateMaterial();
-		CreateShape(points,triangles,CollisionAttribute::FIELD,( CollisionAttribute::BOSS | CollisionAttribute::PLAYER | CollisionAttribute::ENEMY ));
-		SetInitializePos(pos_);
-		SetInitializeRot(rot_);
-		CreateRigidBody(RigidBodyType::STATIC);
 	}
 }
 

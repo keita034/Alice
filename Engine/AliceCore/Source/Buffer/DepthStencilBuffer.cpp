@@ -1,4 +1,4 @@
-﻿#include "DepthStencilBuffer.h"
+#include "DepthStencilBuffer.h"
 
 #include"BaseBuffer.h"
 
@@ -69,7 +69,8 @@ bool DepthStencilBuffer::Resize(uint32_t width_, uint32_t height_)
 	CD3DX12_HEAP_PROPERTIES lHeapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
 
 	//深度バッファ作成
-	HRESULT hr = sDevice->CreateCommittedResource(
+	ID3D12Device* lDevice = sDevice->Get();
+	HRESULT hr = lDevice->CreateCommittedResource(
 		&lHeapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&lResDesc,
@@ -84,7 +85,7 @@ bool DepthStencilBuffer::Resize(uint32_t width_, uint32_t height_)
 	lDsvResDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
 
 	//DSV制作
-	sDevice->CreateDepthStencilView(resource.Get(), &lDsvResDesc, handle);
+	lDevice->CreateDepthStencilView(resource.Get(), &lDsvResDesc, handle);
 
 	if (FAILED(hr))
 	{
@@ -121,7 +122,8 @@ bool DepthStencilBuffer::Create(uint32_t width_, uint32_t height_, DXGI_FORMAT f
 	CD3DX12_HEAP_PROPERTIES lHeapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
 
 	//深度バッファ作成
-	HRESULT hr = sDevice->CreateCommittedResource(
+	ID3D12Device* lDevice = sDevice->Get();
+	HRESULT hr = lDevice->CreateCommittedResource(
 		&lHeapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&lResDesc,

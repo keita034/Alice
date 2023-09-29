@@ -174,6 +174,8 @@ void AliceToonModel::SetRampTexture(const std::string& rampFilePath_)
 
 void AliceToonModel::PToonModelDraw(const Transform& transform_)
 {
+	ID3D12GraphicsCommandList* lCmdList = sCmdList->GetGraphicCommandList();
+
 	for ( size_t i = 0; i < modelData->meshes.size(); i++ )
 	{
 		if ( modelData->meshes[ i ]->node )
@@ -182,42 +184,44 @@ void AliceToonModel::PToonModelDraw(const Transform& transform_)
 		}
 
 		// プリミティブ形状の設定コマンド
-		sCmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+		lCmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
 		// パイプラインステートとルートシグネチャの設定コマンド
-		sCmdList->SetPipelineState(outLineMaterialData->pipelineState->GetPipelineState());
-		sCmdList->SetGraphicsRootSignature(outLineMaterialData->rootSignature->GetRootSignature());
+		lCmdList->SetPipelineState(outLineMaterialData->pipelineState->GetPipelineState());
+		lCmdList->SetGraphicsRootSignature(outLineMaterialData->rootSignature->GetRootSignature());
 
-		sCmdList->SetGraphicsRootConstantBufferView(1,modelData->postureMatBuff->GetAddress());
+		lCmdList->SetGraphicsRootConstantBufferView(1,modelData->postureMatBuff->GetAddress());
 
-		modelData->meshes[ i ]->OutLineDraw(sCmdList,transform_);
+		modelData->meshes[ i ]->OutLineDraw(lCmdList,transform_);
 
 		// パイプラインステートとルートシグネチャの設定コマンド
-		sCmdList->SetPipelineState(modelMaterialData->pipelineState->GetPipelineState());
-		sCmdList->SetGraphicsRootSignature(modelMaterialData->rootSignature->GetRootSignature());
+		lCmdList->SetPipelineState(modelMaterialData->pipelineState->GetPipelineState());
+		lCmdList->SetGraphicsRootSignature(modelMaterialData->rootSignature->GetRootSignature());
 
-		sCmdList->SetGraphicsRootConstantBufferView(3,modelData->postureMatBuff->GetAddress());
-		modelData->meshes[ i ]->ToonDraw(sCmdList,transform_,modelData->rampTex->gpuHandle,sLight);
+		lCmdList->SetGraphicsRootConstantBufferView(3,modelData->postureMatBuff->GetAddress());
+		modelData->meshes[ i ]->ToonDraw(lCmdList,transform_,modelData->rampTex->gpuHandle,sLight);
 	}
 }
 
 void AliceToonModel::PToonModelAnimationDraw(const Transform& transform_)
 {
+	ID3D12GraphicsCommandList* lCmdList = sCmdList->GetGraphicCommandList();
+
 	for ( size_t i = 0; i < modelData->meshes.size(); i++ )
 	{
 		// プリミティブ形状の設定コマンド
-		sCmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+		lCmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
 		// パイプラインステートとルートシグネチャの設定コマンド
-		sCmdList->SetPipelineState(outLineMaterialData->pipelineState->GetPipelineState());
-		sCmdList->SetGraphicsRootSignature(outLineMaterialData->rootSignature->GetRootSignature());
+		lCmdList->SetPipelineState(outLineMaterialData->pipelineState->GetPipelineState());
+		lCmdList->SetGraphicsRootSignature(outLineMaterialData->rootSignature->GetRootSignature());
 
-		modelData->meshes[ i ]->AnimOutLineDraw(sCmdList,transform_);
+		modelData->meshes[ i ]->AnimOutLineDraw(lCmdList,transform_);
 
 		// パイプラインステートとルートシグネチャの設定コマンド
-		sCmdList->SetPipelineState(modelMaterialData->pipelineState->GetPipelineState());
-		sCmdList->SetGraphicsRootSignature(modelMaterialData->rootSignature->GetRootSignature());
+		lCmdList->SetPipelineState(modelMaterialData->pipelineState->GetPipelineState());
+		lCmdList->SetGraphicsRootSignature(modelMaterialData->rootSignature->GetRootSignature());
 
-		modelData->meshes[ i ]->AnimToonDraw(sCmdList,transform_,modelData->rampTex->gpuHandle,sLight);
+		modelData->meshes[ i ]->AnimToonDraw(lCmdList,transform_,modelData->rampTex->gpuHandle,sLight);
 	}
 }

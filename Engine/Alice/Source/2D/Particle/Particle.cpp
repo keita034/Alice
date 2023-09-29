@@ -1,8 +1,8 @@
-﻿#include <Particle.h>
+#include <Particle.h>
 
 TextureManager* Particle::sTextureManager = nullptr;
-ID3D12GraphicsCommandList* Particle::sCmdList = nullptr;
-ID3D12Device* Particle::sDevice = nullptr;
+ICommandList* Particle::sCmdList = nullptr;
+IDevice* Particle::sDevice = nullptr;
 
 Particle::Particle()
 {

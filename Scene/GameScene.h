@@ -19,30 +19,23 @@
 #include<Transform.h>
 #include<ImGuiManager.h>
 #include<FadeInTransition.h>
-
-#include<GameCameraManager.h>
-#include<Player.h>
-#include<Boss.h>
+#include<IRigidBody.h>
+#include<SphereShape.h>
+#include<BoxShape.h>
+#include"TestRigidBody.h"
 
 class GameScene : public BaseScene
 {
 private:
 
-	std::unique_ptr<SceneData>fieldObjData;
+	std::unique_ptr<GameCamera> camera;
+	std::unique_ptr<Light>light;
 
-	std::unique_ptr<GameCameraManager>gameCameraManager;
-	std::unique_ptr<Player>player;
-	std::unique_ptr<Boss>boss;
-
-	std::unique_ptr<ITransition>inTransition;
-	std::unique_ptr<ITransition>outTransition;
-
-
-	uint32_t bgmHandle = 0;
-	uint32_t seHandle = 0;
-
-	float bgmVolume = 0.008f;
-	float seVolume = 0.02f;
+	TestRigidBody testRigidBody;
+	AlicePhysics::IRigidBody* sphereBody;
+	AlicePhysics::IShape* sphere;
+	AlicePhysics::IRigidBody* boxBody;
+	AlicePhysics::IShape* box;
 
 public:
 

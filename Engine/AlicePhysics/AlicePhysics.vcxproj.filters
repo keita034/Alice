@@ -1,0 +1,228 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ソース ファイル\PhysX">
+      <UniqueIdentifier>{b8e89319-70a7-4843-b35b-df399c9be7e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\PhysX">
+      <UniqueIdentifier>{00b0ca91-a4cc-447e-a4ab-aab1d0710e67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\Geometry">
+      <UniqueIdentifier>{98221dff-f6a2-496e-9bce-23020afb5db8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\Line">
+      <UniqueIdentifier>{9f36b1bf-5e9d-44c9-bca9-4da1e8e34d46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\Triangle">
+      <UniqueIdentifier>{cad4f5d8-6b54-4664-9d6f-9490dd41f1bb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Include\AlicePhysicsSystem.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Physics\BasePhysics.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\IRigidBody.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Physics\Jolt\JoltPhysics.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Physics\Jolt\JoltRigidBody.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\IShape.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\IRigidBodyCreationSettings.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Physics\Jolt\JoltContactListener.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Physics\Jolt\JoltCollisionFiltering.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\CollisionAttribute.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\CollisionFilterConfigTable.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\PhysicsShapeType.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\RigidBodyUserData.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Physics\Jolt\JoltGroupFilter.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Shape\Box\BoxShape.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Shape\Sphere\SphereShape.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Shape\Box\JoltBoxShape.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Shape\Sphere\JoltSphereShape.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\RigidBodyManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\RigidBodyCollision.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Shape\Capsule\CapsuleShape.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Shape\Capsule\JoltCapsuleShape.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Shape\Mesh\MeshShape.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Shape\Mesh\JoltMeshShape.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\AlicePhysicsDebugRenderer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\DebugRenderer\JoltDebugRenderer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\DebugRenderer\JoltBatch.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\DebugRenderer\JoltDebugRenderPrimitive.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\AlicePhysicsSystem.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BasePhysics.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IRigidBody.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Physics\Jolt\JoltPhysics.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Physics\Jolt\JoltRigidBody.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IShape.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IRigidBodyCreationSettings.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Physics\Jolt\JoltContactListener.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Physics\Jolt\JoltCollisionFiltering.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CollisionFilterConfigTable.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RigidBodyUserData.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Physics\Jolt\JoltGroupFilter.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Shape\Box\BoxShape.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Shape\Sphere\SphereShape.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Shape\Box\JoltBoxShape.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Shape\Sphere\JoltSphereShape.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RigidBodyManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RigidBodyCollision.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Shape\Capsule\CapsuleShape.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Shape\Capsule\JoltCapsuleShape.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Shape\Mesh\MeshShape.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Shape\Mesh\JoltMeshShape.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\AlicePhysicsDebugRenderer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DebugRenderer\JoltDebugRenderer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DebugRenderer\JoltBatch.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DebugRenderer\JoltDebugRenderPrimitive.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
+    <None Include="..\..\Resources\Shaders\AlicePhysics\Geometry\JoltDebugRendererGeometry.hlsli">
+      <Filter>リソース ファイル\Geometry</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\AlicePhysics\Geometry\JoltDebugRendererGeometryPS.hlsl">
+      <Filter>リソース ファイル\Geometry</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\AlicePhysics\Geometry\JoltDebugRendererGeometryVS.hlsl">
+      <Filter>リソース ファイル\Geometry</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\AlicePhysics\Line\JoltDebugRendererLine.hlsli">
+      <Filter>リソース ファイル\Line</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\AlicePhysics\Line\JoltDebugRendererLineVS.hlsl">
+      <Filter>リソース ファイル\Line</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\AlicePhysics\Line\JoltDebugRendererLinePS.hlsl">
+      <Filter>リソース ファイル\Line</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\AlicePhysics\Triangle\JoltDebugRendererTriangle.hlsli">
+      <Filter>リソース ファイル\Triangle</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\AlicePhysics\Triangle\JoltDebugRendererTriangleVS.hlsl">
+      <Filter>リソース ファイル\Triangle</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\AlicePhysics\Triangle\JoltDebugRendererTrianglePS.hlsl">
+      <Filter>リソース ファイル\Triangle</Filter>
+    </None>
+  </ItemGroup>
+</Project>

@@ -81,148 +81,76 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Incluede\AliceMathUtility.h">
+    <ClInclude Include="Include\AliceMathUtility.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Float\Matrix\Matrix.h">
+    <ClInclude Include="Include\Float\Matrix\Matrix.h">
       <Filter>ヘッダー ファイル\Float\Matrix</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Float\Vector\Vector.h">
+    <ClInclude Include="Include\Float\Vector\Vector.h">
       <Filter>ヘッダー ファイル\Float\Vector</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Float\Vector\Vector2.h">
+    <ClInclude Include="Include\Float\Vector\Vector2.h">
       <Filter>ヘッダー ファイル\Float\Vector</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Float\Vector\Vector3.h">
+    <ClInclude Include="Include\Float\Vector\Vector3.h">
       <Filter>ヘッダー ファイル\Float\Vector</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Float\Vector\Vector4.h">
+    <ClInclude Include="Include\Float\Vector\Vector4.h">
       <Filter>ヘッダー ファイル\Float\Vector</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Float\AliceMathF.h">
+    <ClInclude Include="Include\Float\AliceMathF.h">
       <Filter>ヘッダー ファイル\Float</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Float\Quaternion.h">
+    <ClInclude Include="Include\Float\Quaternion.h">
       <Filter>ヘッダー ファイル\Float</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Double\AliceMath.h">
+    <ClInclude Include="Include\Double\AliceMath.h">
       <Filter>ヘッダー ファイル\Double</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Float\Matrix\Matrix4.h">
+    <ClInclude Include="Include\Float\Matrix\Matrix4.h">
       <Filter>ヘッダー ファイル\Float\Matrix\Matrix4</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Float\Matrix\Matrix4x3.h">
+    <ClInclude Include="Include\Float\Matrix\Matrix4x3.h">
       <Filter>ヘッダー ファイル\Float\Matrix\Matrix4</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Float\Matrix\Matrix4x2.h">
+    <ClInclude Include="Include\Float\Matrix\Matrix4x2.h">
       <Filter>ヘッダー ファイル\Float\Matrix\Matrix4</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Float\Matrix\Matrix3.h">
+    <ClInclude Include="Include\Float\Matrix\Matrix3.h">
       <Filter>ヘッダー ファイル\Float\Matrix\Matrix3</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Float\Matrix\Matrix3x4.h">
+    <ClInclude Include="Include\Float\Matrix\Matrix3x4.h">
       <Filter>ヘッダー ファイル\Float\Matrix\Matrix3</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Float\Matrix\Matrix3x2.h">
+    <ClInclude Include="Include\Float\Matrix\Matrix3x2.h">
       <Filter>ヘッダー ファイル\Float\Matrix\Matrix3</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Float\Matrix\Matrix2.h">
+    <ClInclude Include="Include\Float\Matrix\Matrix2.h">
       <Filter>ヘッダー ファイル\Float\Matrix\Matrix2</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Float\Matrix\Matrix2x4.h">
+    <ClInclude Include="Include\Float\Matrix\Matrix2x4.h">
       <Filter>ヘッダー ファイル\Float\Matrix\Matrix2</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Float\Matrix\Matrix2x3.h">
+    <ClInclude Include="Include\Float\Matrix\Matrix2x3.h">
       <Filter>ヘッダー ファイル\Float\Matrix\Matrix2</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Float\Matrix\MatrixT.h">
+    <ClInclude Include="Include\Float\Matrix\MatrixT.h">
       <Filter>ヘッダー ファイル\Float\Matrix</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Float\Vector\VectorT.h">
+    <ClInclude Include="Include\Float\Vector\VectorT.h">
       <Filter>ヘッダー ファイル\Float\Vector</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Structure.h">
+    <ClInclude Include="Include\Structure.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Collision\3D\AABBCollider.h">
-      <Filter>ヘッダー ファイル\Collision\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Collision\3D\CapsuleCollider.h">
-      <Filter>ヘッダー ファイル\Collision\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Collision\Collision.h">
-      <Filter>ヘッダー ファイル\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Collision\3D\CollisionPrimitive.h">
-      <Filter>ヘッダー ファイル\Collision\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Collision\3D\MeshCollider.h">
-      <Filter>ヘッダー ファイル\Collision\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Collision\3D\OBBCollider.h">
-      <Filter>ヘッダー ファイル\Collision\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Collision\3D\PlaneCollider.h">
-      <Filter>ヘッダー ファイル\Collision\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Collision\3D\SphereCollider.h">
-      <Filter>ヘッダー ファイル\Collision\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Collision\3D\RayCollider.h">
-      <Filter>ヘッダー ファイル\Collision\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Collision\3D\RayCastCollider.h">
-      <Filter>ヘッダー ファイル\Collision\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Collision\3D\TriangleCollider.h">
-      <Filter>ヘッダー ファイル\Collision\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Collision\2D\Base2DCollider.h">
-      <Filter>ヘッダー ファイル\Collision\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Collision\2D\CapsuleCllider2D.h">
-      <Filter>ヘッダー ファイル\Collision\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Collision\2D\BoxCollider2D.h">
-      <Filter>ヘッダー ファイル\Collision\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Collision\3D\ColliderObject.h">
-      <Filter>ヘッダー ファイル\Collision\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Collision\3D\BaseCollider.h">
-      <Filter>ヘッダー ファイル\Collision\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Collision\2D\Collision2DManager.h">
+    <ClInclude Include="Include\Float\Segment2D.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Collision\2D\Collider2DObject.h">
+    <ClInclude Include="Include\Float\Line2D.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Collision\CollisionShapeType.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Float\Segment2D.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Float\Line2D.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Float\Easing.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Physics\AlicePhysics.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Physics\IAliceRigidBody.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Physics\AliceRigidBodyManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Physics\FilterShader.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Collision\CollisionAttribute.h">
+    <ClInclude Include="Include\Float\Easing.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -244,9 +172,6 @@
     </ClCompile>
     <ClCompile Include="Source\double\AliceMath.cpp">
       <Filter>ソース ファイル\Double</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Collision\Collision.cpp">
-      <Filter>ソース ファイル\Collision</Filter>
     </ClCompile>
     <ClCompile Include="Source\float\Matrix\Matrix4.cpp">
       <Filter>ソース ファイル\Float\Matrix\Matrix4</Filter>
@@ -290,54 +215,6 @@
     <ClCompile Include="Source\float\Quaternion.cpp">
       <Filter>ソース ファイル\Float</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Collision\3D\AABBCollider.cpp">
-      <Filter>ソース ファイル\Collision\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Collision\3D\CapsuleCollider.cpp">
-      <Filter>ソース ファイル\Collision\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Collision\3D\MeshCollider.cpp">
-      <Filter>ソース ファイル\Collision\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Collision\3D\OBBCollider.cpp">
-      <Filter>ソース ファイル\Collision\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Collision\3D\PlaneCollider.cpp">
-      <Filter>ソース ファイル\Collision\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Collision\3D\RayCastCollider.cpp">
-      <Filter>ソース ファイル\Collision\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Collision\3D\RayCollider.cpp">
-      <Filter>ソース ファイル\Collision\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Collision\3D\SphereCollider.cpp">
-      <Filter>ソース ファイル\Collision\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Collision\3D\TriangleCollider.cpp">
-      <Filter>ソース ファイル\Collision\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Collision\2D\CapsuleCllider2D.cpp">
-      <Filter>ソース ファイル\Collision\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Collision\2D\BoxCollider2D.cpp">
-      <Filter>ソース ファイル\Collision\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Collision\2D\Collider2DObject.cpp">
-      <Filter>ソース ファイル\Collision\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Collision\2D\Collision2DManager.cpp">
-      <Filter>ソース ファイル\Collision\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Collision\2D\Base2DCollider.cpp">
-      <Filter>ソース ファイル\Collision\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Collision\3D\ColliderObject.cpp">
-      <Filter>ソース ファイル\Collision\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Collision\3D\BaseCollider.cpp">
-      <Filter>ソース ファイル\Collision\3D</Filter>
-    </ClCompile>
     <ClCompile Include="Source\float\Segment2D.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -345,18 +222,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\float\Easing.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Physics\AlicePhysics.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Physics\RigidBody\IAliceRigidBody.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Physics\RigidBody\AliceRigidBodyManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Physics\FilterShader.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

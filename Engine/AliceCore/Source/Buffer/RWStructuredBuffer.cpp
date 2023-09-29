@@ -1,4 +1,4 @@
-﻿#include"RWStructuredBuffer.h"
+#include"RWStructuredBuffer.h"
 
 #include"BaseBuffer.h"
 
@@ -98,7 +98,8 @@ void RWStructuredBuffer::CreateSRV(size_t length_, size_t singleSize_, const voi
 	lHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
 	lHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
 	lHeapProp.VisibleNodeMask = 1;
-	HRESULT lResult = sDevice->CreateCommittedResource(
+	ID3D12Device* lDevice = sDevice->Get();
+	HRESULT lResult = lDevice->CreateCommittedResource(
 		&lHeapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&lResDesc,
@@ -153,7 +154,8 @@ void RWStructuredBuffer::CreateUAV(size_t length_, size_t singleSize_, const voi
 	lHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
 	lHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
 	lHeapProp.VisibleNodeMask = 1;
-	HRESULT lResult = sDevice->CreateCommittedResource(
+	ID3D12Device* lDevice = sDevice->Get();
+	HRESULT lResult = lDevice->CreateCommittedResource(
 		&lHeapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&lResDesc,
@@ -201,7 +203,8 @@ void RWStructuredBuffer::CreateUAV(CD3DX12_RESOURCE_DESC* texresDesc)
 	lHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
 	lHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
 	lHeapProp.VisibleNodeMask = 1;
-	HRESULT lResult = sDevice->CreateCommittedResource(
+	ID3D12Device* lDevice = sDevice->Get();
+	HRESULT lResult = lDevice->CreateCommittedResource(
 		&lHeapProp,
 		D3D12_HEAP_FLAG_NONE,
 		texresDesc,

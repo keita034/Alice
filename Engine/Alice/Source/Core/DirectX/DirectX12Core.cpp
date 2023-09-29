@@ -36,8 +36,10 @@ HRESULT DirectX12Core::PCreateSwapChain()
 	lFsDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_PROGRESSIVE;
 
 	Microsoft::WRL::ComPtr<IDXGISwapChain1> lTmpSwapChain;
+	ID3D12Device* lDevice = mainAdapters->GetDevice()->Get();
+
 	result = multiAdapters->GetFactory()->CreateSwapChainForHwnd(mainAdapters->GetGraphicCommandQueue(),*handle,&swapChainDesc,&lFsDesc,nullptr,lTmpSwapChain.ReleaseAndGetAddressOf());
-	swapChain = CreateUniqueSwapChain(mainAdapters->GetDevice(),lTmpSwapChain,mainAdapters->GetGraphicCommandQueue());
+	swapChain = CreateUniqueSwapChain(lDevice,lTmpSwapChain,mainAdapters->GetGraphicCommandQueue());
 
 	return result;
 }
@@ -178,7 +180,7 @@ void DirectX12Core::DirectXInitialize(float width_,float height_,HWND* hwnd_,IWi
 #endif
 
 	BaseBuffer::SSetDevice(mainAdapters->GetDevice());
-	BaseBuffer::SSetGraphicsCommandList(mainAdapters->GetGraphicCommandList());
+	BaseBuffer::SSetGraphicsCommandList(mainAdapters->GetCommandList());
 	BaseBuffer::SSetSRVDescriptorHeap(mainAdapters->GetSRVDescriptorHeap());
 	BaseBuffer::SSetDSVDescriptorHeap(mainAdapters->GetDSVDescriptorHeap());
 	BaseBuffer::SSetRTVDescriptorHeap(mainAdapters->GetRTVDescriptorHeap());
@@ -224,7 +226,9 @@ void DirectX12Core::PEnableDebugLayer()
 void DirectX12Core::PEnableInfoQueue()
 {
 	Microsoft::WRL::ComPtr<ID3D12InfoQueue> lInfoQueue;
-	result = mainAdapters->GetDevice()->QueryInterface(IID_PPV_ARGS(&lInfoQueue));
+	ID3D12Device* lDevice = mainAdapters->GetDevice()->Get();
+
+	result = lDevice->QueryInterface(IID_PPV_ARGS(&lInfoQueue));
 	if ( SUCCEEDED(result) )
 	{
 		lInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION,true);
@@ -354,14 +358,14 @@ void DirectX12Core::SetBackScreenColor(float red_,float green_,float blue_,float
 
 #pragma region ゲッター
 
-ID3D12Device* DirectX12Core::GetDevice()const
+IDevice* DirectX12Core::GetDevice()const
 {
 	return mainAdapters->GetDevice();
 }
 
-ID3D12GraphicsCommandList* DirectX12Core::GetCommandList()const
+ICommandList* DirectX12Core::GetCommandList()const
 {
-	return mainAdapters->GetGraphicCommandList();
+	return mainAdapters->GetCommandList();
 }
 
 ISRVDescriptorHeap* DirectX12Core::GetSRVDescriptorHeap()const
