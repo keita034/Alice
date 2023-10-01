@@ -4,6 +4,9 @@
 #include<Camera.h>
 #include<AliceMathUtility.h>
 #include<Sprite2D.h>
+#include<IRigidBody.h>
+#include <AlicePhysicsSystem.h>
+
 class UI
 {
 public:
@@ -26,37 +29,39 @@ private:
 	UI& operator=(const UI& obj) = delete;
 };
 
-class GameObject
+class GameObject :public AlicePhysics::RigidBodyCollision
 {
 protected:
 
+	//名前
 	std::string name;
-
 	//ワールド変換データ
 	Transform transform;
 	//モデル
 	std::unique_ptr<AliceModel>model;
-
 	//モデルハンドル
 	uint32_t modelHandle;
+	//リジットボディ
+	AlicePhysics::IRigidBody* rigidBody;
+	//形
+	std::shared_ptr<AlicePhysics::IShape>shape;
 
-	int32_t debugIndex = -1;
 public:
 
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	virtual void Initialize() = 0;
+	virtual void Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_) = 0;
 
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	virtual void Initialize(uint32_t handle_,const AliceMathF::Vector3& pos_, const AliceMathF::Vector3& rot_ = {0.0f,0.0f,0.0f}, const AliceMathF::Vector3& scl_ = { 1.0f,1.0f,1.0 },const Transform* parent_ = nullptr) = 0;
+	virtual void Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_,uint32_t handle_,const AliceMathF::Vector3& pos_, const AliceMathF::Vector3& rot_ = {0.0f,0.0f,0.0f}, const AliceMathF::Vector3& scl_ = { 1.0f,1.0f,1.0 },const Transform* parent_ = nullptr) = 0;
 
 	/// <summary>
 	/// 終了
 	/// </summary>
-	virtual void Finalize() = 0;
+	virtual void Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_) = 0;
 
 	/// <summary>
 	/// 毎フレーム更新
@@ -78,11 +83,20 @@ public:
 
 	void SetName(const std::string& objectName_);
 
-	//すり抜ける当たり判定
-	virtual void OnTrigger(uint32_t attribute_);
+	/// <summary>
+	/// 当たった瞬間に呼ばれる
+	/// </summary>
+	virtual void OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_)override = 0;
 
-	//すり抜けない当たり判定
-	virtual void OnContact(uint32_t attribute_);
+	/// <summary>
+	/// 当たってる時に呼ばれる
+	/// </summary>
+	virtual void OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_)override = 0;
+
+	/// <summary>
+	/// 離れた瞬間に呼ばれる
+	/// </summary>
+	virtual void OnCollisionExit() override = 0;
 
 	virtual ~GameObject() = default;
 	GameObject() = default;

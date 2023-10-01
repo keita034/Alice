@@ -13,7 +13,8 @@
 #pragma warning(pop)
 
 #include "TextureManager.h"
-#include"AliceFunctionUtility.h"
+#include<StringUtility.h>
+#include<FileUtility.h>
 
 std::unique_ptr<TextureManager> TextureManager::sTextureManager = nullptr;
 DirectX12Core* TextureManager::sDirectX12Core = nullptr;
@@ -22,39 +23,35 @@ std::unordered_map<std::string, std::unique_ptr<TextureData>> TextureManager::sT
 
 void TextureManager::PLoadFile(const std::string& path_,  DirectX::TexMetadata& metadata_,  DirectX::ScratchImage& scratchImg_)
 {
-	wchar_t lWfilepath[256];
+	std::wstring lWfilepath = AliceUtility::String::StringToWstring(path_);
 	HRESULT lResult = 0;
 
 	switch (PGetFileType(path_))
 	{
 	case WIC:
-		MultiByteToWideChar(CP_ACP, 0, path_.c_str(), -1, lWfilepath, _countof(lWfilepath));
 		// WICテクスチャのロード
 		lResult = LoadFromWICFile(
-			lWfilepath,
+			lWfilepath.c_str(),
 			DirectX::WIC_FLAGS_NONE,
 			&metadata_, scratchImg_);
 		assert(SUCCEEDED(lResult));
 		break;
 
 	case TGA:
-		MultiByteToWideChar(CP_ACP, 0, path_.c_str(), -1, lWfilepath, _countof(lWfilepath));
 		// TGAテクスチャのロード
 		lResult = LoadFromTGAFile(
-			lWfilepath,
+			lWfilepath.c_str(),
 			&metadata_, scratchImg_);
 		assert(SUCCEEDED(lResult));
 		break;
 
 	case PSD:
 	{
-		std::string texPath = AliceFunctionUtility::ReplaceExtension(path_, "tga");
-
-		MultiByteToWideChar(CP_ACP, 0, texPath.c_str(), -1, lWfilepath, _countof(lWfilepath));
+		std::string texPath = AliceUtility::Fille::ReplaceExtension(path_, "tga");
 
 		// TGAテクスチャのロード
 		lResult = LoadFromTGAFile(
-			lWfilepath,
+			lWfilepath.c_str(),
 			&metadata_, scratchImg_);
 		assert(SUCCEEDED(lResult));
 		break;
@@ -106,7 +103,7 @@ std::unique_ptr<TextureData> TextureManager::PFromTextureData(const std::string&
 
 TextureManager::ImgFileType TextureManager::PGetFileType(const std::string& path_)
 {
-	std::string lExtend = AliceFunctionUtility::FileExtension(path_);
+	std::string lExtend = AliceUtility::Fille::FileExtension(path_);
 	if (lExtend == "png" ||
 		lExtend == "bmp" ||
 		lExtend == "gif" ||

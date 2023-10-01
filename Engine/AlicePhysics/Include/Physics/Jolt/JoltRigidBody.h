@@ -39,38 +39,31 @@ namespace AlicePhysics
 		std::unique_ptr<RigidBodyUserData> rigidBodyUserData;
 
 		RigidBodyCollision* rigidBodyCollision = nullptr;
+		JPH::BodyInterface* bodyInterface = nullptr;
 	public:
-
-		void* GetBody() override;
 
 		JoltRigidBody() = default;
 		~JoltRigidBody() = default;
 
-		virtual void OnCollisionEnter()override;
-
-		virtual void OnCollisionStay()override;
-
-		virtual void OnCollisionExit()override;
-
+		void OnCollisionEnter(RigidBodyUserData* BodyData_)override;
+		void OnCollisionStay(RigidBodyUserData* BodyData_)override;
+		void OnCollisionExit()override;
 		void SetLinearVelocity(const AliceMathF::Vector3& inLinearVelocity_)override;
-
-		virtual AliceMathF::Vector3 GetPosition()override;
-
-		virtual AliceMathF::Quaternion GetRotation()override;
-
-		virtual float GetFriction()override;
-
-		virtual float GetRestitution()override;
-
-		virtual AliceMathF::Vector3 GetLinearVelocity()override;
-
-		virtual AliceMathF::Vector3 GetAngularVelocity()override;
-
-		virtual void SetRigidBodyCollision(RigidBodyCollision* rigidBodyCollision_)override;
-
+		void SetRigidBodyCollision(RigidBodyCollision* rigidBodyCollision_)override;
+		void SetPositionAndRotationInternal(const AliceMathF::Vector3& position_,const AliceMathF::Quaternion& rotation_)override;
+		void SetPosition(const AliceMathF::Vector3& position_)override;
+		void SetRotation(const AliceMathF::Quaternion& rotation_)override;
+		void SetMatrix(const AliceMathF::Matrix4& mat_)override;
+		void* GetBody() override;
+		bool IsActive()override;
+		float GetFriction()override;
+		float GetRestitution()override;
+		AliceMathF::Vector3 GetLinearVelocity()override;
+		AliceMathF::Vector3 GetAngularVelocity()override;
+		AliceMathF::Vector3 GetPosition()override;
+		AliceMathF::Quaternion GetRotation()override;
 		AliceMathF::Matrix4 GetCenterOfMassTransform()override;
 
-		virtual bool IsActive()override;
 	};
 }
 

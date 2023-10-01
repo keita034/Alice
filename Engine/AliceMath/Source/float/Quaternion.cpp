@@ -1,4 +1,5 @@
 #include "Quaternion.h"
+#include "Quaternion.h"
 
 ALICE_SUPPRESS_WARNINGS_BEGIN
 
@@ -73,6 +74,11 @@ namespace AliceMathF
 		y = static_cast< float >( q_.GetY() );
 		z = static_cast< float >( q_.GetZ() );
 		w = static_cast< float >( q_.GetW() );
+	}
+
+	Quaternion::Quaternion(const Vector3& v_)
+	{
+	  *this = JPH::Quat::sEulerAngles(v_);
 	}
 
 	Quaternion::Quaternion(const Matrix4& m_)

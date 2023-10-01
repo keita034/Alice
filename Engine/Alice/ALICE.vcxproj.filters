@@ -180,9 +180,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Include\Util\AliceFunctionUtility.h">
-      <Filter>ヘッダー ファイル\Util</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Core\TextureManager.h">
       <Filter>ヘッダー ファイル\Core</Filter>
     </ClInclude>
@@ -709,9 +706,6 @@
     </ClCompile>
     <ClCompile Include="Source\Core\Framework\AliceFramework.cpp">
       <Filter>ソース ファイル\Core\Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Util\AliceFunctionUtility.cpp">
-      <Filter>ソース ファイル\Util</Filter>
     </ClCompile>
     <ClCompile Include="Source\2D\PostEffect\VignettePostEffect.cpp">
       <Filter>ソース ファイル\2D\PostEffect</Filter>

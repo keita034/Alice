@@ -2,11 +2,13 @@
 
 #include<AliceAssert.h>
 
+#include <Jolt/Physics/Collision/PhysicsMaterialSimple.h>
+
 AlicePhysics::JoltDebugRenderer* AlicePhysics::JoltMeshShape::renderer = nullptr;
 
 void* AlicePhysics::JoltMeshShape::GetGetShape()
 {
-	return static_cast< void* >( shape.get() );
+	return static_cast< void* >( shape);
 }
 
 void AlicePhysics::JoltMeshShape::Initialize(const std::vector<AliceMathF::Vector3>& vertices_,const std::vector<uint32_t>& triangles_)
@@ -27,19 +29,27 @@ void AlicePhysics::JoltMeshShape::Initialize(const std::vector<AliceMathF::Vecto
 	}
 	AliceAssert(lTriangles.size() == triangles_.size() / 3,"インデックの数が違います");
 
-	JPH::MeshShapeSettings lSetting(lVertices,lTriangles);
-	JPH::Shape::ShapeResult lShapeResult;
-	shape = std::make_unique<JPH::MeshShape>(lSetting,lShapeResult);
+	JPH::PhysicsMaterialList materials;
+
+	materials.push_back(new JPH::PhysicsMaterialSimple("DefaultMaterial ",JPH::Color::sGrey));
+
+	JPH::MeshShapeSettings lSetting(lVertices,lTriangles,materials);
+	shape = new JPH::MeshShape(lSetting,lShapeResult);
 
 	type = MESH;
+
+	constantBuffers.push_back(CreateUniqueConstantBuffer(sizeof(AlicePhysics::JoltDebugRenderer::ConstBufferData)));
 
 }
 
 void AlicePhysics::JoltMeshShape::Draw(const AliceMathF::Matrix4& transform_,const AliceMathF::Vector3& scale_,const AliceMathF::Vector4& inColor,bool wireframe_)
 {
+
 	if ( renderer )
 	{
+		renderer->SetConstant(&constantBuffers);
 		shape->Draw(renderer,transform_,scale_,inColor,false,wireframe_);
+		renderer->SetConstant(nullptr);
 	}
 }
 

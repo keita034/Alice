@@ -22,6 +22,22 @@ class FailureScene : public BaseScene
 {
 private:
 
+	std::unique_ptr<Sprite2D>failure;
+	uint32_t failureHanlde = 0;
+	Transform transform;
+
+
+	std::unique_ptr<ITransition>inTransition;
+	std::unique_ptr<ITransition>outTransition;
+
+	bool sceneChange = false;
+
+	uint32_t bgmHandle = 0;
+	uint32_t seHandle = 0;
+
+	float bgmVolume = 0.008f;
+	float seVolume = 0.02f;
+
 public:
 	FailureScene() = default;
 	~FailureScene() = default;

@@ -1,3 +1,4 @@
+
 #include "JoltDebugRenderPrimitive.h"
 
 void AlicePhysics::JoltDebugRenderPrimitive::CreateVertexBuffer(size_t numVtx_, size_t vtxSize_, const void* data_)
@@ -53,12 +54,12 @@ void AlicePhysics::JoltDebugRenderPrimitive::Draw()
 		lGraphicsCommandList->IASetIndexBuffer(&libView);
 
 		// 描画コマンド
-		lGraphicsCommandList->DrawIndexedInstanced(static_cast< UINT >( indexDrawCount ),1,0,0,0);
+		lGraphicsCommandList->DrawIndexedInstanced(static_cast<UINT>(indexDrawCount), 1, 0, 0, 0);
 	}
 	else
 	{
 		// 描画コマンド
-		lGraphicsCommandList->DrawInstanced(static_cast<UINT>(vertexDrawCount),1,0,0);
+		lGraphicsCommandList->DrawInstanced(static_cast<UINT>(vertexDrawCount), 1, 0, 0);
 	}
 
 }
@@ -85,14 +86,45 @@ void AlicePhysics::JoltDebugRenderPrimitive::GeometryDraw()
 		lGraphicsCommandList->SetGraphicsRootConstantBufferView(0, constantBuffer->GetAddress());
 
 		// 描画コマンド
-		lGraphicsCommandList->DrawIndexedInstanced(static_cast< UINT >( indexDrawCount ),1,0,0,0);
+		lGraphicsCommandList->DrawIndexedInstanced(static_cast<UINT>(indexDrawCount), 1, 0, 0, 0);
 	}
 	else
 	{
 		lGraphicsCommandList->SetGraphicsRootConstantBufferView(0, constantBuffer->GetAddress());
 
 		// 描画コマンド
-		lGraphicsCommandList->DrawInstanced(static_cast< UINT >( vertexDrawCount ),1,0,0);
+		lGraphicsCommandList->DrawInstanced(static_cast<UINT>(vertexDrawCount), 1, 0, 0);
+	}
+
+}
+
+void AlicePhysics::JoltDebugRenderPrimitive::GeometryOFFDraw()
+{
+	ID3D12GraphicsCommandList* lGraphicsCommandList = commandList->GetGraphicCommandList();
+
+	// プリミティブ形状の設定コマンド
+	lGraphicsCommandList->IASetPrimitiveTopology(type); //三角形リスト
+
+	D3D12_VERTEX_BUFFER_VIEW lVbView = vertexBuffer->GetView();
+
+	// 頂点バッファビューの設定コマンド
+	lGraphicsCommandList->IASetVertexBuffers(0, 1, &lVbView);
+
+	if (indexBuffer)
+	{
+		D3D12_INDEX_BUFFER_VIEW libView = indexBuffer->GetView();
+
+		// 頂点バッファビューの設定コマンド
+		lGraphicsCommandList->IASetIndexBuffer(&libView);
+
+		// 描画コマンド
+		lGraphicsCommandList->DrawIndexedInstanced(static_cast<UINT>(indexDrawCount), 1, 0, 0, 0);
+	}
+	else
+	{
+
+		// 描画コマンド
+		lGraphicsCommandList->DrawInstanced(static_cast<UINT>(vertexDrawCount), 1, 0, 0);
 	}
 }
 

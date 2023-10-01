@@ -17,7 +17,8 @@ namespace AlicePhysics
 	class JoltCapsuleShape final :public CapsuleShape
 	{
 	private:
-		std::unique_ptr<JPH::CapsuleShape>shape;
+		JPH::CapsuleShape* shape;
+		std::vector<std::unique_ptr<IConstantBuffer>>constantBuffers;
 		static JoltDebugRenderer* renderer;
 	public:
 

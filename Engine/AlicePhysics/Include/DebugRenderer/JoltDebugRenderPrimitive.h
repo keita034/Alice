@@ -28,7 +28,6 @@ namespace AlicePhysics
 		std::unique_ptr<IIndexBuffer>indexBuffer;
 		std::unique_ptr<IConstantBuffer>constantBuffer;
 
-
 		size_t indexDrawCount = 0;
 		size_t vertexDrawCount = 0;
 
@@ -46,6 +45,7 @@ namespace AlicePhysics
 		void ConstantUpdate(void* data_);
 		void Draw();
 		void GeometryDraw();
+		void GeometryOFFDraw();
 	};
 
 }

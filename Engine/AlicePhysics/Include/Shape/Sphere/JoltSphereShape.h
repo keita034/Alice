@@ -18,7 +18,8 @@ namespace AlicePhysics
 	class JoltSphereShape final :public SphereShape
 	{
 	private:
-		std::unique_ptr<JPH::SphereShape>shape;
+		JPH::SphereShape*shape;
+		std::vector<std::unique_ptr<IConstantBuffer>>constantBuffers;
 		static JoltDebugRenderer* renderer;
 	public:
 

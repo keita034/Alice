@@ -14,11 +14,13 @@ ALICE_SUPPRESS_WARNINGS_END
 
 namespace AlicePhysics
 {
-	class JoltMeshShape final :public MeshShape
+	class JoltMeshShape : public MeshShape
 	{
 	private:
-		std::unique_ptr<JPH::MeshShape>shape;
+		JPH::MeshShape* shape;
+		JPH::Shape::ShapeResult lShapeResult;
 		static JoltDebugRenderer* renderer;
+		std::vector<std::unique_ptr<IConstantBuffer>>constantBuffers;
 	public:
 
 		JoltMeshShape() = default;

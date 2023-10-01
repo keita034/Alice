@@ -1,4 +1,6 @@
 #pragma once
+#include<RigidBodyUserData.h>
+
 namespace AlicePhysics
 {
 	class RigidBodyCollision
@@ -8,12 +10,12 @@ namespace AlicePhysics
 		/// <summary>
 		/// 当たった瞬間に呼ばれる
 		/// </summary>
-		virtual void OnCollisionEnter() = 0;
+		virtual void OnCollisionEnter(RigidBodyUserData* BodyData_) = 0;
 
 		/// <summary>
 		/// 当たってる時に呼ばれる
 		/// </summary>
-		virtual void OnCollisionStay() = 0;
+		virtual void OnCollisionStay(RigidBodyUserData* BodyData_) = 0;
 
 		/// <summary>
 		/// 離れた瞬間に呼ばれる

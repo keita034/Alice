@@ -17,8 +17,9 @@ namespace AlicePhysics
 	class JoltBoxShape final :public BoxShape
 	{
 	private:
-		std::unique_ptr<JPH::BoxShape>shape;
+		JPH::BoxShape*shape;
 		static JoltDebugRenderer* renderer;
+		std::vector<std::unique_ptr<IConstantBuffer>>constantBuffers;
 	public:
 
 		JoltBoxShape() = default;

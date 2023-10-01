@@ -12,7 +12,7 @@
 
 #include<AliceModel.h>
 #include<AliceFileStream.h>
-#include<AliceFunctionUtility.h>
+#include<FileUtility.h>
 
 IDevice* AliceModel::sDevice;
 ICommandList* AliceModel::sCmdList;
@@ -43,7 +43,7 @@ uint32_t AliceModel::SCreateModel(const std::string& fileDirectoryPath_)
 
 			std::string lFilePath;
 
-			lFiles = AliceFunctionUtility::getFileNames(lDirectoryPath);
+			lFiles = AliceUtility::Fille::GetFileNames(lDirectoryPath);
 
 			//ディレクトリからFBXファイルを探す
 			for ( std::string file : lFiles )
@@ -54,7 +54,7 @@ uint32_t AliceModel::SCreateModel(const std::string& fileDirectoryPath_)
 				}
 			}
 
-			std::string lFileExtension = AliceFunctionUtility::FileExtension(lFilePath);
+			std::string lFileExtension = AliceUtility::Fille::FileExtension(lFilePath);
 
 			if ( lFileExtension == "alpb" )
 			{
@@ -270,7 +270,7 @@ uint32_t AliceModel::SCreateToonModel(const std::string& fileDirectoryPath_,cons
 
 			std::string lFilePath;
 
-			lFiles = AliceFunctionUtility::getFileNames(lDirectoryPath);
+			lFiles = AliceUtility::Fille::GetFileNames(lDirectoryPath);
 
 			//ディレクトリからFBXファイルを探す
 			for ( std::string file : lFiles )
@@ -286,7 +286,7 @@ uint32_t AliceModel::SCreateToonModel(const std::string& fileDirectoryPath_,cons
 				assert(0);
 			}
 
-			std::string lFileExtension = AliceFunctionUtility::FileExtension(lFilePath);
+			std::string lFileExtension = AliceUtility::Fille::FileExtension(lFilePath);
 
 			if ( lFileExtension == "alpb" )
 			{
@@ -694,20 +694,18 @@ void AliceModel::PReadNodeHeirarchy(ModelMesh* mesh_,AliceBlendTree* blendTree_,
 	if ( lPtrNodeAnim )
 	{
 		//スケーリング
-		AliceMathF::Vector3 lScaling = { 1.0f,1.0f,1.0f };
+		AliceMathF::Vector3 lScaling = {1.0f,1.0f,1.0f};
 		AliceMathF::Matrix4 lMatScaling;
-		dust_.scaling = lScaling;
 		lMatScaling.MakeScaling(lScaling);
 
 		//回転角
 		AliceMathF::Quaternion lRotation = lPtrNodeAnim->rotationKeys;
 		AliceMathF::Matrix4 lMatRotation = lRotation.Rotate();
-		dust_.rotation = lRotation;
+
 		//移動
 		AliceMathF::Vector3 lTranslation = lPtrNodeAnim->positionKeys;
 		AliceMathF::Matrix4 lMatTranslation;
 		lMatTranslation.MakeTranslation(lTranslation);
-		dust_.translation = lTranslation;
 
 		lMatNodeTransformation = lMatScaling * lMatRotation * lMatTranslation;
 	}

@@ -2,6 +2,8 @@
 #include<AliceMathF.h>
 
 #include<RigidBodyCollision.h>
+#include<RigidBodyUserData.h>
+#include<IRigidBodyCreationSettings.h>
 
 namespace AlicePhysics
 {
@@ -13,17 +15,17 @@ namespace AlicePhysics
 		/// <summary>
 		/// 当たった瞬間に呼ばれる
 		/// </summary>
-		virtual void OnCollisionEnter();
+		virtual void OnCollisionEnter(RigidBodyUserData* BodyData_) = 0;
 
 		/// <summary>
 		/// 当たってる時に呼ばれる
 		/// </summary>
-		virtual void OnCollisionStay();
+		virtual void OnCollisionStay(RigidBodyUserData* BodyData_) = 0;
 
 		/// <summary>
 		/// 離れた瞬間に呼ばれる
 		/// </summary>
-		virtual void OnCollisionExit();
+		virtual void OnCollisionExit() = 0;
 
 		/// <summary>
 		/// 空間線速度を設定
@@ -49,7 +51,6 @@ namespace AlicePhysics
 		/// <summary>
 		/// 反発係数を取得
 		/// </summary>
-		/// <returns></returns>
 		virtual float GetRestitution() = 0;
 
 		/// <summary>
@@ -62,18 +63,39 @@ namespace AlicePhysics
 		/// </summary>
 		virtual AliceMathF::Vector3 GetAngularVelocity() = 0;
 
+		/// <summary>
+		/// スケールを抜いた中心のワールド行列
+		/// </summary>
 		virtual AliceMathF::Matrix4 GetCenterOfMassTransform() = 0;
 
 		/// <summary>
 		/// このボディが現在アクティブか
 		/// </summary>
-		/// <returns></returns>
 		virtual bool IsActive() = 0;
 
 		/// <summary>
 		/// 当たり判定用の関数追加
 		/// </summary>
 		virtual void SetRigidBodyCollision(RigidBodyCollision* rigidBodyCollision_) = 0;
+
+		/// <summary>
+		/// 座標と回転角を設定
+		/// </summary>
+		/// <param name="position_">座標</param>
+		/// <param name="rotation_">回転角</param>
+		virtual void SetPositionAndRotationInternal(const AliceMathF::Vector3& position_,const AliceMathF::Quaternion& rotation_) = 0;
+
+		/// <summary>
+		/// 座標を設定
+		/// </summary>
+		virtual void SetPosition(const AliceMathF::Vector3& position_) = 0;
+
+		/// <summary>
+		/// 回転角を設定
+		/// </summary>
+		virtual void SetRotation(const AliceMathF::Quaternion& rotation_) = 0;
+
+		virtual void SetMatrix(const AliceMathF::Matrix4& mat_) = 0;
 
 		IRigidBody() = default;
 		virtual ~IRigidBody() = default;

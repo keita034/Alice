@@ -1,5 +1,6 @@
 #pragma once
 
+
 #include<JoltBatch.h>
 #include<PipelineState.h>
 #include<RootSignature.h>
@@ -16,6 +17,7 @@ namespace AlicePhysics
 
 		ICommandList* commandList = nullptr;
 		IDevice* device = nullptr;
+		std::vector<std::unique_ptr<IConstantBuffer>>* constantBufferPtr = nullptr;
 
 		const size_t MAX_LINES = 10240;
 		const size_t MAX_TRIANGLES = 10240;
@@ -49,6 +51,8 @@ namespace AlicePhysics
 		AliceMathF::Vector3 lightV;
 		AliceMathF::Vector4 lightColor;
 
+		size_t index =0 ;
+
 		struct Point
 		{
 			AliceMathF::Vector3 position;
@@ -71,6 +75,17 @@ namespace AlicePhysics
 		std::vector<Line> lines;
 		std::vector<TriangleElement> triangles;
 
+		struct ConstBufferLightData
+		{
+			AliceMathF::Vector3 vector;
+			AliceMathF::Vector4 color;
+		};
+
+		ConstBufferLightData lightData;
+		std::unique_ptr<IConstantBuffer> lightConstantBuffer;
+
+	public:
+
 		struct ConstBufferData
 		{
 			//ワールド行列
@@ -82,15 +97,6 @@ namespace AlicePhysics
 			//影があるか
 			float isShadow = 0.0f;
 		};
-
-		struct ConstBufferLightData
-		{
-			AliceMathF::Vector3 vector;
-			AliceMathF::Vector4 color;
-		};
-
-		ConstBufferLightData lightData;
-		std::unique_ptr<IConstantBuffer> lightConstantBuffer;
 
 	public:
 
@@ -112,7 +118,7 @@ namespace AlicePhysics
 		void SetLight(AliceMathF::Vector3* lightV_,AliceMathF::Vector4* lightColor_);
 		void SetDevice(IDevice* device_);
 		void SetCommandList(ICommandList* commandList_);
-
+		void SetConstant(std::vector<std::unique_ptr<IConstantBuffer>>* buff_);
 
 	private:
 

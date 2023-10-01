@@ -43,6 +43,7 @@ namespace AliceMathF
 		Quaternion(const DirectX::XMVECTOR& v_);
 
 		Quaternion(const JPH::Quat& q_);
+		Quaternion(const Vector3& v_);
 
 
 		//ベクトルからベクトルの角度

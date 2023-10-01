@@ -1,4 +1,4 @@
-﻿#include<AliceMotionData.h>
+#include<AliceMotionData.h>
 
 #pragma warning(push)
 #pragma warning(disable: 4365)
@@ -11,7 +11,7 @@
 
 #pragma warning(pop)
 
-#include<AliceFunctionUtility.h>
+#include<FileUtility.h>
 #include<AliceFileStream.h>
 
 
@@ -105,7 +105,7 @@ uint32_t AliceMotionData::SCreateMotion(const std::string& fileDirectoryPath_)
 	{
 		std::vector<std::string> lFiles;
 
-		lFiles = AliceFunctionUtility::getFileNames(fileDirectoryPath_);
+		lFiles = AliceUtility::Fille::GetFileNames(fileDirectoryPath_);
 
 		//ディレクトリからFBXファイルを探す
 		for ( std::string file : lFiles )
@@ -132,7 +132,7 @@ uint32_t AliceMotionData::SCreateMotion(const std::string& fileDirectoryPath_)
 		lMotionData = std::make_unique<MotionData>();
 
 		{
-			std::string lFileExtension = AliceFunctionUtility::FileExtension(lFilePath);
+			std::string lFileExtension = AliceUtility::Fille::FileExtension(lFilePath);
 
 			if (lFileExtension == "almb")
 			{

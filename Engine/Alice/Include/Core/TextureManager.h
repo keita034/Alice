@@ -10,12 +10,10 @@
 
 #include<memory>
 #include<DirectXTex.h>
-#include<memory>
 
 #pragma warning(pop)
 #include<AliceMathUtility.h>
 
-#include<AliceFunctionUtility.h>
 #include<DirectX12Core.h>
 
 class TextureData

@@ -433,7 +433,7 @@ namespace AliceMathF
 		lMat.SetColumn4(0,{ m[ 0  ][ 0 ], m[ 0  ][ 1 ], m[ 0  ][ 2 ], m[ 0  ][ 3 ] });
 		lMat.SetColumn4(1,{ m[ 1  ][ 0 ], m[ 1  ][ 1 ], m[ 1  ][ 2 ], m[ 1  ][ 3 ] });
 		lMat.SetColumn4(2,{ m[ 2  ][ 0 ], m[ 2  ][ 1 ], m[ 2  ][ 2 ], m[ 2  ][ 3 ] });
-		lMat.SetTranslation({ m[ 3  ][ 0 ], m[ 3  ][ 1 ], m[ 3  ][ 2 ], m[ 3 ][ 3 ] });
+		lMat.SetTranslation({ m[ 3  ][ 0 ], m[ 3  ][ 1 ], m[ 3  ][ 2 ]});
 
 		return lMat;
 	}

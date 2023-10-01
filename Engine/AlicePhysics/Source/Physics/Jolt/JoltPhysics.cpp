@@ -1,7 +1,8 @@
-#include "JoltPhysics.h"
+#include<JoltPhysics.h>
 #include<JoltRigidBody.h>
 #include<JoltCollisionFiltering.h>
 #include<AliceAssert.h>
+#include<AliceMathUtility.h>
 
 void AlicePhysics::JoltPhysics::Initialize()
 {
@@ -12,7 +13,7 @@ void AlicePhysics::JoltPhysics::Initialize()
 	JPH::RegisterTypes();
 
 	tempAllocator = std::make_unique<JPH::TempAllocatorImpl>(50 * 1024 * 1024);
-	jobSystem = std::make_unique<JPH::JobSystemThreadPool>(JPH::cMaxPhysicsJobs, JPH::cMaxPhysicsBarriers, std::thread::hardware_concurrency() - 1);
+	jobSystem = std::make_unique<JPH::JobSystemThreadPool>(JPH::cMaxPhysicsJobs,JPH::cMaxPhysicsBarriers,std::thread::hardware_concurrency() - 1);
 	physicsSystem = std::make_unique<JPH::PhysicsSystem>();
 	joltObjectLayerPairFilter.SetCollisionFilterConfigTable(&collisionFilterConfigTable);
 
@@ -29,16 +30,19 @@ void AlicePhysics::JoltPhysics::Initialize()
 	physicsSystem->SetContactListener(&contactListener);
 	physicsSystem->SetGravity(gravity);
 
+#ifdef _DEBUG
 	debugRenderer = std::make_unique<JoltDebugRenderer>();
 	debugRenderer->SetDevice(device);
 	debugRenderer->SetCommandList(commandList);
 	debugRenderer->Initialize();
+#endif // _DEBUG
+
 }
 
 void AlicePhysics::JoltPhysics::Update(float deltaTime_,float baseDeltaTime_)
 {
 	int32_t lCollisionSteps = 1;
-	const int32_t lIntegrationSubSteps =1;
+	const int32_t lIntegrationSubSteps = 1;
 
 	if ( deltaTime_ > baseDeltaTime_ )
 	{
@@ -46,14 +50,14 @@ void AlicePhysics::JoltPhysics::Update(float deltaTime_,float baseDeltaTime_)
 	}
 
 	// ステップを進める
-	physicsSystem->Update(deltaTime_, lCollisionSteps,lIntegrationSubSteps, tempAllocator.get(), jobSystem.get());
+	physicsSystem->Update(deltaTime_,lCollisionSteps,lIntegrationSubSteps,tempAllocator.get(),jobSystem.get());
 }
 
 void AlicePhysics::JoltPhysics::SetGravity(const AliceMathF::Vector3& gravity_)
 {
 	gravity = gravity_;
 
-	if (physicsSystem)
+	if ( physicsSystem )
 	{
 		physicsSystem->SetGravity(gravity_);
 	}
@@ -62,7 +66,7 @@ void AlicePhysics::JoltPhysics::SetGravity(const AliceMathF::Vector3& gravity_)
 void AlicePhysics::JoltPhysics::AddRigidBody(IRigidBody* rigidBody_)
 {
 	JPH::BodyInterface& lBodyInterface = physicsSystem->GetBodyInterface();
-	JoltRigidBody::BodyData* lData= static_cast<JoltRigidBody::BodyData*>(rigidBody_->GetBody());
+	JoltRigidBody::BodyData* lData = static_cast< JoltRigidBody::BodyData* >( rigidBody_->GetBody() );
 	lData->isAdd = true;
 
 	//追加
@@ -72,7 +76,7 @@ void AlicePhysics::JoltPhysics::AddRigidBody(IRigidBody* rigidBody_)
 void AlicePhysics::JoltPhysics::RemoveRigidBody(IRigidBody* rigidBody_)
 {
 	JPH::BodyInterface& lBodyInterface = physicsSystem->GetBodyInterface();
-	JoltRigidBody::BodyData* lData = static_cast<JoltRigidBody::BodyData*>(rigidBody_->GetBody());
+	JoltRigidBody::BodyData* lData = static_cast< JoltRigidBody::BodyData* >( rigidBody_->GetBody() );
 
 	// システムから取り除いて削減する
 	if ( lData->isAdd )
@@ -86,7 +90,7 @@ void AlicePhysics::JoltPhysics::RemoveRigidBody(IRigidBody* rigidBody_)
 
 }
 
-void AlicePhysics::JoltPhysics::CreateRigidBody(IRigidBody*& rigidBody_, const IRigidBodyCreationSettings* settings_)
+void AlicePhysics::JoltPhysics::CreateRigidBody(IRigidBody*& rigidBody_,const IRigidBodyCreationSettings* settings_)
 {
 	std::unique_ptr<IRigidBody>lIRigidBody;
 	JPH::BodyInterface& lBodyInterface = physicsSystem->GetBodyInterface();
@@ -94,7 +98,14 @@ void AlicePhysics::JoltPhysics::CreateRigidBody(IRigidBody*& rigidBody_, const I
 	JoltRigidBody* lRigidBody = new JoltRigidBody();
 
 	JPH::Shape* lShape;
-	PGetShape(lShape, settings_->shape);
+	PGetShape(lShape,settings_->shape);
+
+	if ( settings_->parent )
+	{
+		JoltRigidBody* lParent = static_cast< JoltRigidBody* >( settings_->parent );
+		CollisionGroup lCollisionGroup = lParent->rigidBodyUserData->GetGroup();
+		groupFilter->EnableCollisionGroups(static_cast< uint32_t >( lCollisionGroup ),static_cast< uint32_t >( settings_->collisionGroup ),true);
+	}
 
 	std::unique_ptr<RigidBodyUserData>& userData = lRigidBody->rigidBodyUserData;
 
@@ -107,25 +118,29 @@ void AlicePhysics::JoltPhysics::CreateRigidBody(IRigidBody*& rigidBody_, const I
 
 	lSetting.mPosition = settings_->position;
 	lSetting.mRotation = settings_->rotation;
-	lSetting.mMotionType = static_cast<JPH::EMotionType>(settings_->motionType);
-	lSetting.mObjectLayer = ConstructObjectLayer(settings_->type,static_cast<uint8_t>(settings_->collisionAttribute));
+	lSetting.mMotionType = static_cast< JPH::EMotionType >( settings_->motionType );
+	lSetting.mObjectLayer = ConstructObjectLayer(settings_->type,static_cast< uint8_t >( settings_->collisionAttribute ));
 	lSetting.mLinearDamping = settings_->linearDamping;
 	lSetting.mAngularDamping = settings_->angularDamping;
 	lSetting.mMassPropertiesOverride.mMass = settings_->mass;
 	lSetting.mOverrideMassProperties = settings_->mass > 0.0f ? JPH::EOverrideMassProperties::CalculateInertia : JPH::EOverrideMassProperties::CalculateMassAndInertia;
 	lSetting.mRestitution = settings_->restitution;
 	lSetting.mFriction = settings_->friction;
-	lSetting.mCollisionGroup.SetGroupID(static_cast<uint32_t>(settings_->collisionGroup));
+	lSetting.mCollisionGroup.SetGroupID(static_cast< uint32_t >( settings_->collisionGroup ));
 	lSetting.mCollisionGroup.SetGroupFilter(groupFilter);
-	lSetting.mUserData = reinterpret_cast<uint64_t>( userData->GetRigidBodyUserData());
+	lSetting.mUserData = reinterpret_cast< uint64_t >( userData->GetRigidBodyUserData() );
 	lSetting.mAllowSleeping = settings_->allowSleeping;
 	lSetting.mMotionQuality = settings_->linearCast ? JPH::EMotionQuality::LinearCast : JPH::EMotionQuality::Discrete;
+	lSetting.mIsSensor = settings_->trigger;
 	lSetting.SetShape(lShape);
+
 	//生成
 	lRigidBody->body = lBodyInterface.CreateBody(lSetting);
 
 	lRigidBody->bodyData.id = lRigidBody->body->GetID();
 	lRigidBody->bodyData.isActive = settings_->isActive;
+	lRigidBody->bodyInterface = &physicsSystem->GetBodyInterface();
+	lRigidBody->id = lRigidBody->bodyData.id;
 
 	rigidBody_ = lRigidBody;
 
@@ -148,7 +163,10 @@ void AlicePhysics::JoltPhysics::Finalize()
 
 void AlicePhysics::JoltPhysics::Draw()
 {
+#ifdef _DEBUG
 	debugRenderer->Draw();
+#endif // _DEBUG
+
 }
 
 void AlicePhysics::JoltPhysics::SetDevice(IDevice* device_)
@@ -163,41 +181,56 @@ void AlicePhysics::JoltPhysics::SetCommandList(ICommandList* commandList_)
 
 void AlicePhysics::JoltPhysics::SetViewProjection(AliceMathF::Matrix4* viewMat_,AliceMathF::Matrix4* projectionMat_)
 {
+#ifdef _DEBUG
 	debugRenderer->SetViewProjection(viewMat_,projectionMat_);
+#endif // _DEBUG
+
 }
 
 void AlicePhysics::JoltPhysics::SetLight(AliceMathF::Vector3* lightV_,AliceMathF::Vector4* lightColor_)
 {
+#ifdef _DEBUG
 	debugRenderer->SetLight(lightV_,lightColor_);
+#endif // _DEBUG
+
 }
 
-void AlicePhysics::JoltPhysics::PGetShape(JPH::Shape*& joltShape_, IShape* shape_)
+void AlicePhysics::JoltPhysics::PGetShape(JPH::Shape*& joltShape_,IShape* shape_)
 {
 	AliceAssertNull(shape_,"シェイプが設定されてません\n");
 
 	JPH::ShapeSettings::ShapeResult lShapeResult;
 
-	switch (shape_->GetShapeType())
+	switch ( shape_->GetShapeType() )
 	{
 	case SPHERE:
 	{
 		JPH::SphereShape* lSphere = static_cast< JPH::SphereShape* >( shape_->GetGetShape() );
 		joltShape_ = lSphere;
 	}
-		break;
+	break;
 
 	case BOX:
 	{
 		JPH::BoxShape* lBox = static_cast< JPH::BoxShape* >( shape_->GetGetShape() );
 		joltShape_ = lBox;
 	}
-		break;
+	break;
 	case CAPSULE:
-		break;
+	{
+		JPH::CapsuleShape* lCapsule = static_cast< JPH::CapsuleShape* >( shape_->GetGetShape() );
+		joltShape_ = lCapsule;
+	}
+	break;
 	case MESH:
-		break;
+	{
+		JPH::MeshShape* lMesh = static_cast< JPH::MeshShape* >( shape_->GetGetShape() );
+		joltShape_ = lMesh;
+	}
+	break;
 	case PHYSICSSHAPETYPE_COUNT:
 	default:
+		AliceAssert(0,"形以外入れないで");
 		break;
 	}
 }

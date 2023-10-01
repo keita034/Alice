@@ -89,7 +89,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_LIB;_SILENCE_CXX20_CISO646_REMOVED_WARNING;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;PX_PHYSX_STATIC_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_LIB;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;PX_PHYSX_STATIC_LIB;AlicePhysicsJolt;_SILENCE_ALL_CXX20_DEPRECATION_WARNINGS;JPH_USE_AVX2;JPH_DOUBLE_PRECISION;JPH_PROFILE_ENABLED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)Include;$(ProjectDir)Include\Float;$(ProjectDir)Include\Float\Matrix;$(ProjectDir)Include\Float\Vector;$(ProjectDir)Include\Double;$(ProjectDir)Include\Double\Matrix;$(ProjectDir)Include\Double\Vector;$(SolutionDir)Alice;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -109,7 +109,8 @@
     </Link>
     <Lib />
     <Lib>
-      <AdditionalDependencies>assimp-vc143-mt.lib;DirectX-Guids.lib;DirectX-Headers.lib;DirectXTex.lib;draco.lib;imgui.lib;kubazip.lib;minizip.lib;PhysX_static_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXCommon_static_64.lib;PhysXCooking_static_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_static_64.lib;PhysXPvdSDK_static_64.lib;PhysXVehicle_static_64.lib;poly2tri.lib;pugixml.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
       <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
     </Lib>
   </ItemDefinitionGroup>

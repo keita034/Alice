@@ -15,13 +15,3 @@ void GameObject::SetName(const std::string& objectName_)
 {
 	name = objectName_;
 }
-
-void GameObject::OnTrigger(uint32_t attribute_)
-{
-	static_cast< void >( attribute_ );
-}
-
-void GameObject::OnContact(uint32_t attribute_)
-{
-	static_cast< void >( attribute_ );
-}

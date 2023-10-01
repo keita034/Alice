@@ -36,7 +36,7 @@ public:
 		/// <summary>
 		/// 初期化
 		/// </summary>
-		virtual void Initialize(
+		virtual void Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_,
 			uint32_t handle_, 
 			const AliceMathF::Vector3& pos_, 
 			const AliceMathF::Vector3& rot_ = { 0.0f,0.0f,0.0f }, 
@@ -46,7 +46,7 @@ public:
 		/// <summary>
 		/// 終了
 		/// </summary>
-		virtual void Finalize()override;
+		virtual void Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)override;
 
 		/// <summary>
 		/// 毎フレーム更新
@@ -59,17 +59,21 @@ public:
 		virtual void Draw()override;
 
 		Object() = default;
-		virtual ~Object() = default;
+		virtual ~Object();
 
 		void SetIsMeshCollision(bool flag);
 		void SetIsValid(bool flag);
 
 	private:
 
-		virtual void Initialize()override;
+		virtual void Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)override;
 
 		Object(const Object&) = delete;
 		Object& operator = (const Object&) = delete;
+
+		void OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_) override;
+		void OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_) override;
+		void OnCollisionExit() override;
 	};
 
 	// オブジェクト配列
@@ -81,11 +85,11 @@ public:
 
 	std::string sceneDataFilepath;
 
-	void Update(Camera* camera_ = nullptr);
+	void Update(AlicePhysics::AlicePhysicsSystem* physicsSystem_,Camera* camera_ = nullptr);
 
 	void Draw();
 
-	void Finalize();
+	void Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_);
 
 	SceneData() = default;
 	~SceneData() = default;
@@ -114,12 +118,12 @@ public:
 	/// レベルデータファイルの読み込み
 	/// </summary>
 	/// <param name="fileName">ファイル名</param>
-	static std::unique_ptr<SceneData> SLoadFile(const std::string& filepath_);
+	static std::unique_ptr<SceneData> SLoadFile(AlicePhysics::AlicePhysicsSystem* physicsSystem_,const std::string& filepath_);
 
-	static void SLoadFile(SceneData* sceneData_);
+	static void SLoadFile(AlicePhysics::AlicePhysicsSystem* physicsSystem_,SceneData* sceneData_);
 
 private:
 
-	static void SObjectScan(SceneData* sceneData_,const nlohmann::json& jsonObj_, SceneData::Object* parent_ = nullptr);
+	static void SObjectScan(AlicePhysics::AlicePhysicsSystem* physicsSystem_,SceneData* sceneData_,const nlohmann::json& jsonObj_, SceneData::Object* parent_ = nullptr);
 };
 

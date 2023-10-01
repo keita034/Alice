@@ -13,6 +13,8 @@ ALICE_SUPPRESS_WARNINGS_BEGIN
 #include <Jolt/Physics/PhysicsSystem.h>
 #include <Jolt/Physics/Collision/Shape/BoxShape.h>
 #include <Jolt/Physics/Collision/Shape/SphereShape.h>
+#include <Jolt/Physics/Collision/Shape/MeshShape.h>
+#include <Jolt/Physics/Collision/Shape/CapsuleShape.h>
 #include <Jolt/Physics/Body/BodyCreationSettings.h>
 #include <Jolt/Physics/Body/BodyActivationListener.h>
 
@@ -27,6 +29,7 @@ ALICE_SUPPRESS_WARNINGS_END
 #include<JoltContactListener.h>
 #include<IShape.h>
 #include<RigidBodyManager.h>
+
 #include<JoltDebugRenderer.h>
 
 namespace AlicePhysics

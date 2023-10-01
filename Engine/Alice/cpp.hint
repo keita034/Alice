@@ -3,3 +3,4 @@
 // 詳細については次を参照してください https://go.microsoft.com/fwlink/?linkid=865984
 #define ENABLE_VIRTUAL_TERMINAL_PROCESSING
 #define STD_OUTPUT_HANDLE ((DWORD)-11)
+#define JPH_DOUBLE_PRECISION

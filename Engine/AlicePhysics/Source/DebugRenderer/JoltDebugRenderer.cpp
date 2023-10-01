@@ -1,3 +1,4 @@
+
 #include "JoltDebugRenderer.h"
 #include <RootSignature.h>
 #include<AliceAssert.h>
@@ -47,6 +48,7 @@ void AlicePhysics::JoltDebugRenderer::Initialize()
 	JoltMeshShape::SetRenderer(this);
 	JoltCapsuleShape::SetRenderer(this);
 	JoltSphereShape::SetRenderer(this);
+
 }
 
 AlicePhysics::JoltDebugRenderer::JoltDebugRenderer()
@@ -108,14 +110,16 @@ void AlicePhysics::JoltDebugRenderer::DrawGeometry(JPH::RMat44Arg inModelMatrix,
 {
 	ID3D12GraphicsCommandList* lCommandList = commandList->GetGraphicCommandList();
 
-	static_cast< void >( inLODScaleSq );
 	static_cast< void >( inWorldSpaceBounds );
+
+	AliceMathF::Matrix4 lMat = inModelMatrix;
+	AliceMathF::Matrix4 lMat2 = lMat * viewMat * projectionMat;
 
 	ConstBufferData lConstBufferData;
 	lConstBufferData.isShadow = inCastShadow == ECastShadow::On ? 1.0f : 0.0f;
-	lConstBufferData.world = inModelMatrix;
-	lConstBufferData.matWorld = lConstBufferData.world * viewMat * projectionMat;
 	lConstBufferData.color = inModelColor.ToVec4();
+	lConstBufferData.world = lMat;
+	lConstBufferData.matWorld = lMat2;
 
 	if ( inDrawMode == EDrawMode::Wireframe )
 	{
@@ -148,13 +152,31 @@ void AlicePhysics::JoltDebugRenderer::DrawGeometry(JPH::RMat44Arg inModelMatrix,
 
 	for ( LOD& lod : inGeometry->mLODs )
 	{
-		JoltBatch* lPrimitive = static_cast< JoltBatch* > ( lod.mTriangleBatch.GetPtr() );
+		if ( lod.mDistance > inLODScaleSq )
+		{
+			JoltBatch* lPrimitive = static_cast< JoltBatch* > ( lod.mTriangleBatch.GetPtr() );
 
-		lPrimitive->ConstantUpdate(&lConstBufferData);
+			lCommandList->SetGraphicsRootConstantBufferView(1,lightConstantBuffer->GetAddress());
 
-		lCommandList->SetGraphicsRootConstantBufferView(1,lightConstantBuffer->GetAddress());
+			if ( constantBufferPtr )
+			{
+				std::vector<std::unique_ptr<IConstantBuffer>>&lConstantBuffers = *constantBufferPtr;
 
-		lPrimitive->GeometryDraw();
+				lConstantBuffers[index]->Update(&lConstBufferData);
+				lCommandList->SetGraphicsRootConstantBufferView(0,lConstantBuffers[ index ]->GetAddress());
+				lPrimitive->GeometryOFFDraw();
+			}
+			else
+			{
+				lPrimitive->ConstantUpdate(&lConstBufferData);
+
+				lPrimitive->GeometryDraw();
+			}
+
+			index++;
+
+			break;
+		}
 	}
 }
 
@@ -210,6 +232,12 @@ void AlicePhysics::JoltDebugRenderer::SetDevice(IDevice* device_)
 void AlicePhysics::JoltDebugRenderer::SetCommandList(ICommandList* commandList_)
 {
 	commandList = commandList_;
+}
+
+void AlicePhysics::JoltDebugRenderer::SetConstant(std::vector<std::unique_ptr<IConstantBuffer>>* buff_)
+{
+	constantBufferPtr = buff_;
+	index = 0;
 }
 
 void AlicePhysics::JoltDebugRenderer::LineDraw(ID3D12GraphicsCommandList* commandList_)
