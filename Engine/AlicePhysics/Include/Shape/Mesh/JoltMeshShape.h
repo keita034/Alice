@@ -19,8 +19,11 @@ namespace AlicePhysics
 	private:
 		JPH::MeshShape* shape;
 		JPH::Shape::ShapeResult lShapeResult;
+#ifdef _DEBUG
 		static JoltDebugRenderer* renderer;
 		std::vector<std::unique_ptr<IConstantBuffer>>constantBuffers;
+#endif // _DEBUG
+
 	public:
 
 		JoltMeshShape() = default;
@@ -38,7 +41,10 @@ namespace AlicePhysics
 
 		void Draw(const AliceMathF::Matrix4& transform_,const AliceMathF::Vector3& scale_,const AliceMathF::Vector4& inColor,bool wireframe_) override;
 
+#ifdef _DEBUG
 		static void SetRenderer(JoltDebugRenderer* renderer_);
+#endif // _DEBUG
+
 	};
 }
 

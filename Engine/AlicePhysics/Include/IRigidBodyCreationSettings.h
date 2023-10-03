@@ -9,7 +9,7 @@ ALICE_SUPPRESS_WARNINGS_END
 
 #include<AliceMathF.h>
 #include<CollisionAttribute.h>
-#include<PhysicsShapeType.h>
+#include<PhysicsRigidBodyType.h>
 #include<IShape.h>
 
 namespace AlicePhysics

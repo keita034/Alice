@@ -13,12 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="ソース ファイル\PhysX">
-      <UniqueIdentifier>{b8e89319-70a7-4843-b35b-df399c9be7e3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\PhysX">
-      <UniqueIdentifier>{00b0ca91-a4cc-447e-a4ab-aab1d0710e67}</UniqueIdentifier>
-    </Filter>
     <Filter Include="リソース ファイル\Geometry">
       <UniqueIdentifier>{98221dff-f6a2-496e-9bce-23020afb5db8}</UniqueIdentifier>
     </Filter>
@@ -28,6 +22,36 @@
     <Filter Include="リソース ファイル\Triangle">
       <UniqueIdentifier>{cad4f5d8-6b54-4664-9d6f-9490dd41f1bb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Jolt">
+      <UniqueIdentifier>{79c71a2f-2ca0-4325-b8cf-d9a9263bb61c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Jolt">
+      <UniqueIdentifier>{682f8fea-3948-459e-b8ac-28b0883e6769}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\RigidBody">
+      <UniqueIdentifier>{8f838178-a71c-455c-9345-226063eba839}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Shape">
+      <UniqueIdentifier>{53764e2d-1a3a-4a78-8f80-38c46e8d6174}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\RigidBody">
+      <UniqueIdentifier>{0c212a1e-55c7-42a9-a635-274b79ea6bb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Shape">
+      <UniqueIdentifier>{40cf3746-4f8d-402b-ab8f-a3f8d706a56e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Jolt\Shape">
+      <UniqueIdentifier>{a19a6608-7b40-4a84-bf1f-dc4f10cba564}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Jolt\RigidBody">
+      <UniqueIdentifier>{736f571c-f0f6-4cd5-a170-ee78249b2c7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Jolt\Shape">
+      <UniqueIdentifier>{e279ae45-e43c-477a-9204-0f0518c8bf75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Jolt\RigidBody">
+      <UniqueIdentifier>{42863571-f406-4a6f-af66-4f11cb4abb6d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\AlicePhysicsSystem.h">
@@ -36,83 +60,80 @@
     <ClInclude Include="Include\Physics\BasePhysics.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Include\IRigidBody.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Physics\Jolt\JoltPhysics.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Physics\Jolt\JoltRigidBody.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\IShape.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\IRigidBodyCreationSettings.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Physics\Jolt\JoltContactListener.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Physics\Jolt\JoltCollisionFiltering.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Include\CollisionAttribute.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Include\CollisionFilterConfigTable.h">
+    <ClInclude Include="Include\PhysicsRigidBodyType.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Include\PhysicsShapeType.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Include\Physics\Jolt\JoltPhysics.h">
+      <Filter>ヘッダー ファイル\Jolt</Filter>
     </ClInclude>
-    <ClInclude Include="Include\RigidBodyUserData.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Include\IRigidBody.h">
+      <Filter>ヘッダー ファイル\RigidBody</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Physics\Jolt\JoltGroupFilter.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Shape\Box\BoxShape.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Shape\Sphere\SphereShape.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Shape\Box\JoltBoxShape.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Shape\Sphere\JoltSphereShape.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\RigidBodyManager.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Include\IRigidBodyCreationSettings.h">
+      <Filter>ヘッダー ファイル\RigidBody</Filter>
     </ClInclude>
     <ClInclude Include="Include\RigidBodyCollision.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\RigidBody</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\RigidBodyManager.h">
+      <Filter>ヘッダー ファイル\RigidBody</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\RigidBodyUserData.h">
+      <Filter>ヘッダー ファイル\RigidBody</Filter>
     </ClInclude>
     <ClInclude Include="Include\Shape\Capsule\CapsuleShape.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Shape</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Shape\Capsule\JoltCapsuleShape.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Include\Shape\Box\BoxShape.h">
+      <Filter>ヘッダー ファイル\Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\IShape.h">
+      <Filter>ヘッダー ファイル\Shape</Filter>
     </ClInclude>
     <ClInclude Include="Include\Shape\Mesh\MeshShape.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Shape</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Shape\Mesh\JoltMeshShape.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Include\Shape\Sphere\SphereShape.h">
+      <Filter>ヘッダー ファイル\Shape</Filter>
     </ClInclude>
-    <ClInclude Include="Include\AlicePhysicsDebugRenderer.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\DebugRenderer\JoltDebugRenderer.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Include\CollisionFilterConfigTable.h">
+      <Filter>ヘッダー ファイル\RigidBody</Filter>
     </ClInclude>
     <ClInclude Include="Include\DebugRenderer\JoltBatch.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Jolt\RigidBody</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Shape\Box\JoltBoxShape.h">
+      <Filter>ヘッダー ファイル\Jolt\Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Shape\Capsule\JoltCapsuleShape.h">
+      <Filter>ヘッダー ファイル\Jolt\Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Physics\Jolt\JoltRigidBody.h">
+      <Filter>ヘッダー ファイル\Jolt\RigidBody</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Shape\Sphere\JoltSphereShape.h">
+      <Filter>ヘッダー ファイル\Jolt\Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Shape\Mesh\JoltMeshShape.h">
+      <Filter>ヘッダー ファイル\Jolt\Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Physics\Jolt\JoltCollisionFiltering.h">
+      <Filter>ヘッダー ファイル\Jolt\RigidBody</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\DebugRenderer\JoltDebugRenderer.h">
+      <Filter>ヘッダー ファイル\Jolt\RigidBody</Filter>
     </ClInclude>
     <ClInclude Include="Include\DebugRenderer\JoltDebugRenderPrimitive.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Jolt\RigidBody</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Physics\Jolt\JoltContactListener.h">
+      <Filter>ヘッダー ファイル\Jolt</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Physics\Jolt\JoltGroupFilter.h">
+      <Filter>ヘッダー ファイル\Jolt\RigidBody</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -122,77 +143,74 @@
     <ClCompile Include="Source\BasePhysics.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Source\IRigidBody.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Source\Physics\Jolt\JoltContactListener.cpp">
+      <Filter>ソース ファイル\Jolt</Filter>
     </ClCompile>
     <ClCompile Include="Source\Physics\Jolt\JoltPhysics.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Physics\Jolt\JoltRigidBody.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\IShape.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\IRigidBodyCreationSettings.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Physics\Jolt\JoltContactListener.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Physics\Jolt\JoltCollisionFiltering.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\CollisionFilterConfigTable.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RigidBodyUserData.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Physics\Jolt\JoltGroupFilter.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Shape\Box\BoxShape.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Shape\Sphere\SphereShape.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Shape\Box\JoltBoxShape.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Shape\Sphere\JoltSphereShape.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RigidBodyManager.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Jolt</Filter>
     </ClCompile>
     <ClCompile Include="Source\RigidBodyCollision.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\RigidBody</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Shape\Capsule\CapsuleShape.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Source\RigidBodyManager.cpp">
+      <Filter>ソース ファイル\RigidBody</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Shape\Capsule\JoltCapsuleShape.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Source\RigidBodyUserData.cpp">
+      <Filter>ソース ファイル\RigidBody</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IRigidBody.cpp">
+      <Filter>ソース ファイル\RigidBody</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IRigidBodyCreationSettings.cpp">
+      <Filter>ソース ファイル\RigidBody</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IShape.cpp">
+      <Filter>ソース ファイル\Shape</Filter>
     </ClCompile>
     <ClCompile Include="Source\Shape\Mesh\MeshShape.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Shape\Sphere\SphereShape.cpp">
+      <Filter>ソース ファイル\Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Shape\Capsule\CapsuleShape.cpp">
+      <Filter>ソース ファイル\Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Shape\Box\BoxShape.cpp">
+      <Filter>ソース ファイル\Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CollisionFilterConfigTable.cpp">
+      <Filter>ソース ファイル\RigidBody</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Shape\Box\JoltBoxShape.cpp">
+      <Filter>ソース ファイル\Jolt\Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Shape\Capsule\JoltCapsuleShape.cpp">
+      <Filter>ソース ファイル\Jolt\Shape</Filter>
     </ClCompile>
     <ClCompile Include="Source\Shape\Mesh\JoltMeshShape.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Jolt\Shape</Filter>
     </ClCompile>
-    <ClCompile Include="Source\AlicePhysicsDebugRenderer.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Source\Shape\Sphere\JoltSphereShape.cpp">
+      <Filter>ソース ファイル\Jolt\Shape</Filter>
     </ClCompile>
-    <ClCompile Include="Source\DebugRenderer\JoltDebugRenderer.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Source\Physics\Jolt\JoltCollisionFiltering.cpp">
+      <Filter>ソース ファイル\Jolt\RigidBody</Filter>
     </ClCompile>
     <ClCompile Include="Source\DebugRenderer\JoltBatch.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Jolt\RigidBody</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DebugRenderer\JoltDebugRenderer.cpp">
+      <Filter>ソース ファイル\Jolt\RigidBody</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Physics\Jolt\JoltGroupFilter.cpp">
+      <Filter>ソース ファイル\Jolt\RigidBody</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Physics\Jolt\JoltRigidBody.cpp">
+      <Filter>ソース ファイル\Jolt\RigidBody</Filter>
     </ClCompile>
     <ClCompile Include="Source\DebugRenderer\JoltDebugRenderPrimitive.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Jolt\RigidBody</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

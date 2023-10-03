@@ -183,6 +183,9 @@ void AlicePhysics::JoltPhysics::SetViewProjection(AliceMathF::Matrix4* viewMat_,
 {
 #ifdef _DEBUG
 	debugRenderer->SetViewProjection(viewMat_,projectionMat_);
+#else
+	static_cast< void >( viewMat_ );
+	static_cast< void >( projectionMat_ );
 #endif // _DEBUG
 
 }
@@ -191,6 +194,9 @@ void AlicePhysics::JoltPhysics::SetLight(AliceMathF::Vector3* lightV_,AliceMathF
 {
 #ifdef _DEBUG
 	debugRenderer->SetLight(lightV_,lightColor_);
+#else
+	static_cast< void >( lightV_ );
+	static_cast< void >( lightColor_ );
 #endif // _DEBUG
 
 }

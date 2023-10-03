@@ -24,8 +24,7 @@ namespace physx
 namespace JPH
 {
 	class DMat44;
-	using DMat44Arg = const DMat44&;
-	using RMat44Arg = DMat44Arg;
+	class Mat44;
 }
 
 namespace AliceMathF
@@ -51,6 +50,7 @@ namespace AliceMathF
 		Matrix4(const Vector3* scale_, Vector3* rotat_, const Vector3* trans_);
 		Matrix4(const aiMatrix4x4& mat_);
 		Matrix4(const JPH::DMat44& mat_);
+		Matrix4(const JPH::Mat44& mat_);
 		Matrix4(const physx::PxMat44& mat_);
 		Matrix4(const DirectX::XMMATRIX& matrix4_);
 		Matrix4(const Matrix4&);
@@ -112,6 +112,7 @@ namespace AliceMathF
 		operator DirectX::XMMATRIX() const;
 		operator physx::PxMat44() const;
 		operator JPH::DMat44() const;
+		operator JPH::Mat44() const;
 
 
 		/// <summary>

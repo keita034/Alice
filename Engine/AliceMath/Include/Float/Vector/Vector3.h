@@ -22,7 +22,12 @@ namespace JPH
 {
 	class Vec3;
 	class DVec3;
+
+#ifdef JPH_DOUBLE_PRECISION
 	using RVec3 = DVec3;
+#else
+	using RVec3 = Vec3;
+#endif
 }
 
 namespace AliceMathF
@@ -47,7 +52,13 @@ namespace AliceMathF
 		Vector3(aiVector3D& aiVector_);
 		Vector3(const Vector2& vec_, float z_);
 		Vector3(physx::PxVec3 vec_);
+
+#ifdef JPH_DOUBLE_PRECISION
 		Vector3(const JPH::Vec3& vec_);//成分を指定して生成
+#else
+		Vector3(const JPH::DVec3& vec_);//成分を指定して生成
+#endif
+
 		Vector3(const JPH::RVec3& vec_);//成分を指定して生成
 
 		float Length()const;//ノルムを求める
@@ -71,7 +82,14 @@ namespace AliceMathF
 		bool operator!=(const Vector3& v_) const;
 
 		operator physx::PxVec3() const;
+
+#ifdef JPH_DOUBLE_PRECISION
 		operator JPH::Vec3()const;
+#else
+		operator JPH::DVec3()const;
+#endif
+
+
 		operator JPH::RVec3()const;
 	};
 

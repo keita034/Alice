@@ -50,12 +50,22 @@ namespace AliceMathF
 		z = vec_.z;
 	}
 
+#ifdef JPH_DOUBLE_PRECISION
 	Vector3::Vector3(const JPH::Vec3& vec_)
 	{
-		x = static_cast<float>(vec_.GetX());
-		y = static_cast<float>(vec_.GetY());
-		z = static_cast<float>(vec_.GetZ());
+		x = static_cast< float >( vec_.GetX() );
+		y = static_cast< float >( vec_.GetY() );
+		z = static_cast< float >( vec_.GetZ() );
 	}
+#else
+	Vector3::Vector3(const JPH::DVec3& vec_)
+	{
+		x = static_cast< float >( vec_.GetX() );
+		y = static_cast< float >( vec_.GetY() );
+		z = static_cast< float >( vec_.GetZ() );
+	}
+
+#endif
 
 	Vector3::Vector3(const JPH::RVec3& vec_)
 	{
@@ -203,12 +213,22 @@ namespace AliceMathF
 		return lVec;
 	}
 
+
+#ifdef JPH_DOUBLE_PRECISION
 	Vector3::operator JPH::Vec3() const
 	{
 		JPH::Vec3 lVec = { x,y,z };
 
 		return lVec;
 	}
+#else
+	Vector3::operator JPH::DVec3() const
+	{
+		JPH::DVec3 lVec = { x,y,z };
+
+		return lVec;
+	}
+#endif
 
 	Vector3::operator JPH::RVec3() const
 	{

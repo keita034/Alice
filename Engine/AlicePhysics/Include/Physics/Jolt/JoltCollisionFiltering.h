@@ -8,7 +8,7 @@ ALICE_SUPPRESS_WARNINGS_BEGIN
 
 ALICE_SUPPRESS_WARNINGS_END
 
-#include<PhysicsShapeType.h>
+#include<PhysicsRigidBodyType.h>
 #include<CollisionFilterConfigTable.h>
 
 namespace AlicePhysics

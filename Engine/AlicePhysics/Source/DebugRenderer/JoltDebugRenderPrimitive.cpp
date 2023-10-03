@@ -1,6 +1,9 @@
 
 #include "JoltDebugRenderPrimitive.h"
 
+#ifdef _DEBUG
+
+
 void AlicePhysics::JoltDebugRenderPrimitive::CreateVertexBuffer(size_t numVtx_, size_t vtxSize_, const void* data_)
 {
 	vertexBuffer = CreateUniqueVertexBuffer(numVtx_, vtxSize_, data_);
@@ -131,3 +134,4 @@ void AlicePhysics::JoltDebugRenderPrimitive::GeometryOFFDraw()
 
 AlicePhysics::JoltDebugRenderPrimitive::JoltDebugRenderPrimitive(ICommandList* commandList_, D3D_PRIMITIVE_TOPOLOGY type_)
 	: commandList(commandList_), type(type_) { }
+#endif // _DEBUG

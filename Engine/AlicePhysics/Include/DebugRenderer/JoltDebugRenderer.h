@@ -1,13 +1,18 @@
 #pragma once
 
 
-#include<JoltBatch.h>
+
 #include<PipelineState.h>
 #include<RootSignature.h>
 #include<AliceMathUtility.h>
 #include<Device.h>
 #include<CommandList.h>
 
+#ifdef _DEBUG
+
+
+
+#include<JoltBatch.h>
 namespace AlicePhysics
 {
 
@@ -134,3 +139,4 @@ namespace AlicePhysics
 	};
 }
 
+#endif // _DEBUG

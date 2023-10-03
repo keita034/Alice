@@ -4,8 +4,11 @@
 
 ALICE_SUPPRESS_WARNINGS_BEGIN
 
+#ifdef _DEBUG
 #include <Jolt/Jolt.h>
 #include <Jolt/Renderer/DebugRenderer.h>
+#endif // _DEBUG
+
 
 ALICE_SUPPRESS_WARNINGS_END
 
@@ -14,6 +17,7 @@ ALICE_SUPPRESS_WARNINGS_END
 #include<ConstantBuffer.h>
 #include<CommandList.h>
 
+#ifdef _DEBUG
 namespace AlicePhysics
 {
 	class JoltDebugRenderPrimitive : public JPH::RefTarget<JoltDebugRenderPrimitive>
@@ -49,3 +53,5 @@ namespace AlicePhysics
 	};
 
 }
+#endif // _DEBUG
+

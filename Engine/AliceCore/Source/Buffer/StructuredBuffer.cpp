@@ -81,10 +81,7 @@ void StructuredBuffer::Create(size_t length_, size_t singleSize_, const void* da
 		D3D12_RESOURCE_DESC lResDesc = CD3DX12_RESOURCE_DESC::Buffer(bufferSingleSize * length_, D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS);
 
 		D3D12_HEAP_PROPERTIES lHeapProp{};
-		lHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
-		lHeapProp.CreationNodeMask = 1;
-		lHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
-		lHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
+		lHeapProp.Type = D3D12_HEAP_TYPE:: D3D12_HEAP_TYPE_UPLOAD;
 		lHeapProp.VisibleNodeMask = 1;
 		ID3D12Device* lDevice = sDevice->Get();
 		lDevice->CreateCommittedResource(

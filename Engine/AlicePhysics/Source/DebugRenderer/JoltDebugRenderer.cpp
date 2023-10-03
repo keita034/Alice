@@ -8,6 +8,9 @@
 #include<JoltCapsuleShape.h>
 #include<JoltSphereShape.h>
 
+#ifdef _DEBUG
+
+
 void AlicePhysics::JoltDebugRenderer::Initialize()
 {
 	DebugRenderer::Initialize();
@@ -463,3 +466,4 @@ void AlicePhysics::JoltDebugRenderer::PCreateGeometryOFFPipelineState(IShader* p
 
 	geometryOFFPipelineState->Create();
 }
+#endif // _DEBUG

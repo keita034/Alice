@@ -1,6 +1,6 @@
 #pragma once
 #include<AliceMathF.h>
-#include<PhysicsShapeType.h>
+#include<PhysicsRigidBodyType.h>
 
 namespace AlicePhysics
 {

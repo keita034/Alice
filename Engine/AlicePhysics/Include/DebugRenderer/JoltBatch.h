@@ -4,6 +4,8 @@
 
 namespace AlicePhysics
 {
+#ifdef _DEBUG
+
 	class JoltBatch : public JPH::RefTargetVirtual,public JoltDebugRenderPrimitive
 	{
 	public:
@@ -17,5 +19,5 @@ namespace AlicePhysics
 			if ( --mRefCount == 0 ) delete this;
 		}
 	};
-
+#endif // _DEBUG
 }

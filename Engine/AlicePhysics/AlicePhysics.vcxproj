@@ -21,12 +21,11 @@
   <ItemGroup>
     <ClInclude Include="Include\DebugRenderer\JoltBatch.h" />
     <ClInclude Include="Include\DebugRenderer\JoltDebugRenderPrimitive.h" />
-    <ClInclude Include="Include\AlicePhysicsDebugRenderer.h" />
     <ClInclude Include="Include\Shape\Capsule\CapsuleShape.h" />
     <ClInclude Include="Include\Shape\Box\BoxShape.h" />
     <ClInclude Include="Include\CollisionFilterConfigTable.h" />
     <ClInclude Include="Include\CollisionAttribute.h" />
-    <ClInclude Include="Include\PhysicsShapeType.h" />
+    <ClInclude Include="Include\PhysicsRigidBodyType.h" />
     <ClInclude Include="Include\Physics\Jolt\JoltContactListener.h" />
     <ClInclude Include="Include\AlicePhysicsSystem.h" />
     <ClInclude Include="Include\Physics\BasePhysics.h" />
@@ -51,7 +50,6 @@
   <ItemGroup>
     <ClCompile Include="Source\DebugRenderer\JoltBatch.cpp" />
     <ClCompile Include="Source\DebugRenderer\JoltDebugRenderPrimitive.cpp" />
-    <ClCompile Include="Source\AlicePhysicsDebugRenderer.cpp" />
     <ClCompile Include="Source\DebugRenderer\JoltDebugRenderer.cpp" />
     <ClCompile Include="Source\Shape\Mesh\JoltMeshShape.cpp" />
     <ClCompile Include="Source\Shape\Mesh\MeshShape.cpp" />
@@ -245,11 +243,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_LIB;AlicePhysicsJolt;_SILENCE_ALL_CXX20_DEPRECATION_WARNINGS;JPH_USE_AVX2;JPH_DOUBLE_PRECISION;JPH_PROFILE_ENABLED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_LIB;_SILENCE_ALL_CXX20_DEPRECATION_WARNINGS;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;PX_PHYSX_STATIC_LIB;JPH_USE_AVX2;AlicePhysicsJolt;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -258,6 +256,7 @@
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>

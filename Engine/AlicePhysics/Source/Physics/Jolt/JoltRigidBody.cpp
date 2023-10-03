@@ -9,6 +9,7 @@ ALICE_SUPPRESS_WARNINGS_BEGIN
 #include <Jolt/Math/Float2.h>
 #include <Jolt/Geometry/IndexedTriangle.h>
 #include <Jolt/Geometry/AABox.h>
+
 ALICE_SUPPRESS_WARNINGS_END
 
 void* AlicePhysics::JoltRigidBody::GetBody()

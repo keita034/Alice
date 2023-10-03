@@ -175,6 +175,29 @@ namespace AliceMathF
 		m[ 3 ][ 3 ] = 1.0f;
 	}
 
+	Matrix4::Matrix4(const JPH::Mat44& mat_)
+	{
+		m[0][0] = static_cast<float>(mat_.GetColumn4(0).GetX());
+		m[0][1] = static_cast<float>(mat_.GetColumn4(0).GetY());
+		m[0][2] = static_cast<float>(mat_.GetColumn4(0).GetZ());
+		m[0][3] = static_cast<float>(mat_.GetColumn4(0).GetW());
+
+		m[1][0] = static_cast<float>(mat_.GetColumn4(1).GetX());
+		m[1][1] = static_cast<float>(mat_.GetColumn4(1).GetY());
+		m[1][2] = static_cast<float>(mat_.GetColumn4(1).GetZ());
+		m[1][3] = static_cast<float>(mat_.GetColumn4(1).GetW());
+
+		m[2][0] = static_cast<float>(mat_.GetColumn4(2).GetX());
+		m[2][1] = static_cast<float>(mat_.GetColumn4(2).GetY());
+		m[2][2] = static_cast<float>(mat_.GetColumn4(2).GetZ());
+		m[2][3] = static_cast<float>(mat_.GetColumn4(2).GetW());
+
+		m[3][0] = static_cast<float>(mat_.GetTranslation().GetX());
+		m[3][1] = static_cast<float>(mat_.GetTranslation().GetY());
+		m[3][2] = static_cast<float>(mat_.GetTranslation().GetZ());
+		m[3][3] = 1.0f;
+	}
+
 	Matrix4::Matrix4(const physx::PxMat44& mat_)
 	{
 		m[ 0 ][ 0 ] = mat_.column0.x;
@@ -434,6 +457,18 @@ namespace AliceMathF
 		lMat.SetColumn4(1,{ m[ 1  ][ 0 ], m[ 1  ][ 1 ], m[ 1  ][ 2 ], m[ 1  ][ 3 ] });
 		lMat.SetColumn4(2,{ m[ 2  ][ 0 ], m[ 2  ][ 1 ], m[ 2  ][ 2 ], m[ 2  ][ 3 ] });
 		lMat.SetTranslation({ m[ 3  ][ 0 ], m[ 3  ][ 1 ], m[ 3  ][ 2 ]});
+
+		return lMat;
+	}
+
+	Matrix4::operator JPH::Mat44() const
+	{
+		JPH::Mat44 lMat{};
+
+		lMat.SetColumn4(0, { m[0][0], m[0][1], m[0][2], m[0][3] });
+		lMat.SetColumn4(1, { m[1][0], m[1][1], m[1][2], m[1][3] });
+		lMat.SetColumn4(2, { m[2][0], m[2][1], m[2][2], m[2][3] });
+		lMat.SetTranslation({ m[3][0], m[3][1], m[3][2] });
 
 		return lMat;
 	}

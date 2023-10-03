@@ -243,9 +243,6 @@
     <ClInclude Include="Include\2D\PostEffect\VignettePostEffect.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Core\DirectX\ComputePipelineState.h">
-      <Filter>ヘッダー ファイル\Core\DirectX</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Scene\AbstractSceneFactory.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
@@ -364,6 +361,12 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Include\Core\DirectX\DefaultMaterial.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseGPUParticle.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicGPUParticle.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -701,9 +704,6 @@
     <ClCompile Include="Source\Core\ImGuiManager.cpp">
       <Filter>ソース ファイル\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\DirectX\ComputePipelineState.cpp">
-      <Filter>ソース ファイル\Core\DirectX</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\Framework\AliceFramework.cpp">
       <Filter>ソース ファイル\Core\Framework</Filter>
     </ClCompile>
@@ -825,6 +825,12 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\DirectX\Material.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseGPUParticle.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicGPUParticle.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

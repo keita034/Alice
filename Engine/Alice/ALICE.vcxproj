@@ -98,7 +98,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;NOMINMAX;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;PX_PHYSX_STATIC_LIB;AlicePhysicsJolt;_SILENCE_ALL_CXX20_DEPRECATION_WARNINGS;JPH_USE_AVX2;JPH_DOUBLE_PRECISION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;NOMINMAX;_SILENCE_ALL_CXX20_DEPRECATION_WARNINGS;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;JPH_USE_AVX2;PX_PHYSX_STATIC_LIB;AlicePhysicsJolt;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Include\2D;$(ProjectDir)Include\2D\PostEffect;$(ProjectDir)Include\2D\Particle;$(ProjectDir)Include\2D\Sprite;$(ProjectDir)Include\3D;$(ProjectDir)Include\3D\Model;$(ProjectDir)Include\AliceMath;$(ProjectDir)Include\AliceMath\Collision;$(ProjectDir)Include\AliceMath\float;$(ProjectDir)Include\AliceMath\double;$(ProjectDir)Include\Audio;$(ProjectDir)Include\Camera;$(ProjectDir)Include\Core;$(ProjectDir)Include\Core\DirectX;$(ProjectDir)Include\Core\Buffer;$(ProjectDir)Include\Core\Framework;$(ProjectDir)Include\Input;$(ProjectDir)Include\Scene;$(ProjectDir)Include\Light;$(ProjectDir)Include\Util;$(ProjectDir)Include\Transition;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -129,6 +129,8 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BaseGPUParticle.h" />
+    <ClInclude Include="BasicGPUParticle.h" />
     <ClInclude Include="Include\2D\Particle\FireWorkParticle.h" />
     <ClInclude Include="Include\3D\Model\AliceBlendTree.h" />
     <ClInclude Include="Include\2D\PostEffect\DistortionPostEffect.h" />
@@ -176,7 +178,6 @@
     <ClInclude Include="Include\Util\Transform.h" />
     <ClInclude Include="Include\Camera\Camera.h" />
     <ClInclude Include="Include\Camera\CinemaCamera.h" />
-    <ClInclude Include="Include\Core\DirectX\ComputePipelineState.h" />
     <ClInclude Include="Include\Core\TextureManager.h" />
     <ClInclude Include="Include\Light\Light.h" />
     <ClInclude Include="Include\Util\AliceUtility.h" />
@@ -224,6 +225,8 @@
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BaseGPUParticle.cpp" />
+    <ClCompile Include="BasicGPUParticle.cpp" />
     <ClCompile Include="Source\Core\DirectX\DefaultMaterial.cpp" />
     <ClCompile Include="Source\Core\DirectX\Material.cpp" />
     <ClCompile Include="Source\2D\Particle\FireWorkParticle.cpp" />
@@ -275,7 +278,6 @@
     <ClCompile Include="Source\Util\Transform.cpp" />
     <ClCompile Include="Source\Camera\Camera.cpp" />
     <ClCompile Include="Source\Camera\CinemaCamera.cpp" />
-    <ClCompile Include="Source\Core\DirectX\ComputePipelineState.cpp" />
     <ClCompile Include="Source\Core\TextureManager.cpp" />
     <ClCompile Include="Source\Light\Light.cpp" />
     <ClCompile Include="Source\Util\AliceUtility.cpp" />

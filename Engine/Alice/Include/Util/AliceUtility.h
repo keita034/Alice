@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include<AliceMathUtility.h>
 #include<Structure.h>
 #include<Shader.h>
@@ -73,7 +73,7 @@ struct ComputeRelation
 	~ComputeRelation();
 
 	//パイプラインステート
-	std::shared_ptr<ComputePipelineState> computePipelineState;
+	std::shared_ptr<IComputePipelineState> computePipelineState;
 	//ルートシグネチャ
 	std::unique_ptr<IRootSignature> rootSignature;
 

@@ -90,7 +90,10 @@ namespace AlicePhysics
 		AliceMathF::Vector3 gravity = { 0.0f, -9.8f, 0.0f };
 
 		std::unique_ptr<RigidBodyManager> rigidBodyManager;
+#ifdef _DEBUG
 		std::unique_ptr<JoltDebugRenderer>debugRenderer;
+
+#endif // _DEBUG
 
 	public:
 
