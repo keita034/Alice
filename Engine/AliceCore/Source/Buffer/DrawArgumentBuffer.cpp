@@ -140,8 +140,8 @@ void DrawArgumentBuffer::Transition(D3D12_RESOURCE_STATES statesAfter_)
 {
 	ID3D12GraphicsCommandList* lCommandList = sCommandList->GetGraphicCommandList();
 
-	lCommandList->ResourceBarrier(1,&CD3DX12_RESOURCE_BARRIER::Transition(resource.Get(),
-		states,statesAfter_));
+	CD3DX12_RESOURCE_BARRIER lBarrier = CD3DX12_RESOURCE_BARRIER::Transition(resource.Get(),states,statesAfter_);
+	lCommandList->ResourceBarrier(1,&lBarrier);
 
 	states = statesAfter_;
 }
@@ -197,11 +197,6 @@ ID3D12Resource* DrawArgumentBuffer::GetResource()
 D3D12_RESOURCE_STATES DrawArgumentBuffer::GetStates()
 {
 	return states;
-}
-
-void DrawArgumentBuffer::SetHeapType(D3D12_HEAP_TYPE heapType_)
-{
-	heapType = heapType_;
 }
 
 std::unique_ptr<IDrawArgumentBuffer> CreateUniqueDrawArgumentBuffer(size_t length_,size_t singleSize_,D3D12_HEAP_TYPE heapType_,const void* data_)

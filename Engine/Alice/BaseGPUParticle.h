@@ -120,11 +120,6 @@ public:
 	virtual void Draw() = 0;
 
 	/// <summary>
-	/// パイプライン、ルートシグネチャを設定
-	/// </summary>
-	void SetPipelineSignature(IComputePipelineState* pipelineState_,IRootSignature* rootSignature_);
-
-	/// <summary>
 	/// アダプターを設定
 	/// </summary>
 	void SetAdapter(IAdapter* adapter);

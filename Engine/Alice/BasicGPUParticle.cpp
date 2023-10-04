@@ -60,7 +60,7 @@ void BasicGPUParticle::Update(float deltaTime_)
 		lCommandList->SetComputeRootDescriptorTable(2,freeListBuffer->GetAddress());
 		lCommandList->SetComputeRootDescriptorTable(3,drawListBuffer->GetAddress());
 
-		lCommandList->Dispatch(emitCount,1,1);
+		lCommandList->Dispatch(static_cast<UINT>(emitCount),1,1);
 	}
 
 	//更新
@@ -80,7 +80,7 @@ void BasicGPUParticle::Update(float deltaTime_)
 		lCommandList->SetComputeRootDescriptorTable(2,freeListBuffer->GetAddress());
 		lCommandList->SetComputeRootDescriptorTable(3,drawListBuffer->GetAddress());
 
-		lCommandList->Dispatch(particleMaxCount,1,1);
+		lCommandList->Dispatch(static_cast< UINT >( particleMaxCount),1,1);
 
 	}
 
@@ -126,7 +126,7 @@ void BasicGPUParticle::Draw()
 	lCommandList->SetGraphicsRootDescriptorTable(4,particlePoolBuffer->GetAddress());
 	lCommandList->SetGraphicsRootDescriptorTable(5,drawListBuffer->GetAddress());
 
-	lCommandList->ExecuteIndirect(particleCommandSignature.Get(),positions.size(),drawArgumentBuffer->GetResource(),0,nullptr,0);
+	lCommandList->ExecuteIndirect(particleCommandSignature.Get(),static_cast< UINT >( positions.size()),drawArgumentBuffer->GetResource(),0,nullptr,0);
 }
 
 void BasicGPUParticle::PUpdateConstantBuffer(float deltaTime_)

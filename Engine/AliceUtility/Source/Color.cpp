@@ -1,5 +1,5 @@
 #include "Color.h"
-#include"AliceAssert.h"
+#include<AliceAssert.h>
 
 ALICE_UTILITY_NAMESPACE_BEGIN
 
@@ -7,12 +7,25 @@ Color::Color(uint32_t color_) : color(color_)
 {
 }
 
-Color::Color(uint8_t red_,uint8_t green_,uint8_t blue_,uint8_t alpha_) : red(red_),green(green_),blue(blue_),alpha(alpha_) {}
+Color::Color(uint8_t red_,uint8_t green_,uint8_t blue_,uint8_t alpha_)
+{
+	colorElement.red = red_;
+	colorElement.green = green_;
+	colorElement.blue = blue_;
+	colorElement.alpha = alpha_;
+}
 
-Color::Color(const Color& color_,uint8_t alpha_) : red(color_.red),green(color_.green),blue(color_.blue),alpha(color_.alpha) {}
+Color::Color(const Color& color_,uint8_t alpha_)
+{
+	colorElement.red = color_.colorElement.red;
+	colorElement.green = color_.colorElement.green;
+	colorElement.blue = color_.colorElement.blue;
+	colorElement.alpha = alpha_;
+}
 
 bool Color::operator==(const Color& color_) const
 {
+	
 	return color == color_.color;
 }
 
@@ -26,16 +39,16 @@ uint32_t Color::GetUInt32() const
 	return color;
 }
 
-uint8_t Color::operator()(uint32_t index_) const
+uint8_t Color::operator()(size_t index_) const
 {
-	AliceAssertArray(inIdx, 4);
-	return ( &red )[ index_ ];
+	AliceAssertArray(index_,4llu,"カラーの配列外アクセス違反");
+	return ( &colorElement.red )[ index_ ];
 }
 
-uint8_t& Color::operator()(uint32_t index_)
+uint8_t& Color::operator()(size_t index_)
 {
-	AliceAssertArray(inIdx,4);
-	return ( &red )[ index_ ];
+	AliceAssertArray(index_,4llu,"カラーの配列外アクセス違反");
+	return ( &colorElement.red )[ index_ ];
 }
 
 const Color Color::sBlack(0,0,0);

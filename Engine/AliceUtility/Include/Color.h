@@ -12,14 +12,18 @@ public:
 	{
 		uint32_t color;
 
-		struct
+		struct ColorElement
 		{
 			uint8_t red;
 			uint8_t green;
 			uint8_t blue;
 			uint8_t alpha;
 		};
+
+		ColorElement colorElement;
 	};
+
+
 
 public:
 
@@ -34,9 +38,9 @@ public:
 
 	uint32_t GetUInt32() const;
 
-	uint8_t operator () (uint32_t index_) const;
+	uint8_t operator () (size_t index_) const;
 
-	uint8_t& operator () (uint32_t index_);
+	uint8_t& operator () (size_t index_);
 
 	const static  Color sBlack;
 	const static  Color sDarkRed;
