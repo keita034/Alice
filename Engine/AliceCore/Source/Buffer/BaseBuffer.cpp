@@ -46,6 +46,31 @@ void BaseBuffer::SSetDSVDescriptorHeap(IDSVDescriptorHeap* dsvDescriptorHeap_)
 	}
 }
 
+IDevice* BaseBuffer::SGetDevice()
+{
+	return sDevice;
+}
+
+ICommandList* BaseBuffer::SGetGraphicsCommandList()
+{
+	return sCommandList;
+}
+
+ISRVDescriptorHeap* BaseBuffer::SGetSRVDescriptorHeap()
+{
+	return sSRVHeap;
+}
+
+IRTVDescriptorHeap* BaseBuffer::SGetRTVDescriptorHeap()
+{
+	return sRTVHeap;
+}
+
+IDSVDescriptorHeap* BaseBuffer::SGetDSVDescriptorHeap()
+{
+	return sDSVHeap;
+}
+
 void BaseBuffer::Finalize()
 {
 	sDSVHeap = nullptr;

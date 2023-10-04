@@ -1,20 +1,104 @@
 #pragma once
 #include<Adapter.h>
-#include<RWStructuredBuffer.h>
+
 #include<ComputePipelineState.h>
+#include<PipelineState.h>
 #include<RootSignature.h>
+
+#include<RWStructuredBuffer.h>
+#include<StructuredBuffer.h>
+#include<ConstantBuffer.h>
+#include<DrawArgumentBuffer.h>
+
+#include<AliceMathUtility.h>
+#include<Color.h>
+
+ALICE_SUPPRESS_WARNINGS_BEGIN
+#include<string>
+#include<unordered_map>
+ALICE_SUPPRESS_WARNINGS_END
 
 class BaseGPUParticle
 {
-private:
+protected:
+
+	struct ViewProjection
+	{
+		AliceMathF::Matrix4 view;
+		AliceMathF::Matrix4 projection;
+	};
+
+	struct TimeConstants
+	{
+		float deltaTime = 0.0f;
+		float totalTime = 0.0f;
+	};
+
+
+	struct ParticleData
+	{
+		AliceMathF::Vector3 position;
+		float time;
+		AliceMathF::Vector3 velocity;
+		float size;
+		float alive;
+		AliceUtility::Color color;
+		int32_t constantsIndex;
+		float padding;
+	};
+
+	struct ParticleConstants
+	{
+		AliceMathF::Vector4 startColor;
+		AliceMathF::Vector4 endColor;
+		AliceMathF::Vector3 velocity;
+		float LifeTime = 0.0f;
+		AliceMathF::Vector3 acceleration;
+		float pad;
+		int32_t emitCount = 0;
+		int32_t maxParticles = 0;
+		int32_t gridSize = 0;
+	};
+
+	struct PipelineRootSignature
+	{
+		IComputePipelineState* pipelineState = nullptr;
+		IRootSignature* rootSignature = nullptr;
+	};
+
+protected:
 
 	ICommandList* commandList = nullptr;
 	IDevice* device = nullptr;
-	IComputePipelineState* pipelineState = nullptr;
+
+	Microsoft::WRL::ComPtr<ID3D12CommandSignature> particleCommandSignature = nullptr;
+
+	std::unique_ptr<IRWStructuredBuffer>particlePoolBuffer;
+	std::unique_ptr<IRWStructuredBuffer>drawListBuffer;
+	std::unique_ptr<IRWStructuredBuffer>freeListBuffer;
+
+	std::unique_ptr<IStructuredBuffer>particleConstantsBuffer;
+	std::unique_ptr<IConstantBuffer>viewProjectionBuffer;
+	std::unique_ptr<IConstantBuffer>timeConstantsBuffer;
+	std::unique_ptr<IDrawArgumentBuffer>drawArgumentBuffer;
+
+	std::unordered_map<std::string,std::unique_ptr<PipelineRootSignature>> pipelineSet;
+
+	std::vector<ParticleConstants>particleConstants;
+
+	PipelineState* pipelineState = nullptr;
 	IRootSignature* rootSignature = nullptr;
 
-	std::unique_ptr<IRWStructuredBuffer>inputBuffer;
-	std::unique_ptr<IRWStructuredBuffer>drawBuffer;
+	ViewProjection viewProjection;
+	TimeConstants time;
+
+	size_t particleMaxCount;
+	size_t particleConstantMaxCount;
+	size_t emitCount = 0;
+	size_t particleEmitterMaxCount;
+
+	float timeBetweenEmit;
+	float emitTimeCounter;
 
 public:
 
@@ -26,14 +110,14 @@ public:
 	/// <summary>
 	/// 更新
 	/// </summary>
-	virtual void Update() = 0;
+	virtual void Update(float deltaTime_) = 0;
 
 	/// <summary>
 	/// 終了
 	/// </summary>
 	virtual void Finalize() = 0;
 
-	virtual void Dispatch(uint32_t x_,uint32_t y_,uint32_t z_) = 0;
+	virtual void Draw() = 0;
 
 	/// <summary>
 	/// パイプライン、ルートシグネチャを設定
@@ -48,5 +132,8 @@ public:
 	BaseGPUParticle() = default;
 	~BaseGPUParticle() = default;
 
+private:
+
+	virtual void PUpdateConstantBuffer(float deltaTime_) = 0;
 };
 

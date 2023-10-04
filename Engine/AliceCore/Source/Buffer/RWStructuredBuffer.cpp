@@ -18,6 +18,8 @@ private:
 	D3D12_GPU_DESCRIPTOR_HANDLE structuredBufferHandle;
 
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvResDesc{};
+
+	D3D12_HEAP_TYPE heapType;
 public:
 
 	/// <summary>
@@ -75,6 +77,12 @@ public:
 	/// <param name="data_"></param>
 	void Update(void* data_)override;
 
+	/// <summary>
+	/// ヒープタイプを設定
+	/// </summary>
+	/// <param name="flag_"></param>
+	void SetHeapType(HEAP_TYPE heapType_)override;
+
 	~RWStructuredBuffer() = default;
 	RWStructuredBuffer() = default;
 
@@ -92,7 +100,7 @@ void RWStructuredBuffer::CreateSRV(size_t length_, size_t singleSize_, const voi
 	D3D12_RESOURCE_DESC lResDesc = CD3DX12_RESOURCE_DESC::Buffer(singleSize_ * length_);
 	lResDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS;
 
-	D3D12_HEAP_PROPERTIES lHeapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+	D3D12_HEAP_PROPERTIES lHeapProp = CD3DX12_HEAP_PROPERTIES(heapType);
 
 	ID3D12Device* lDevice = sDevice->Get();
 	HRESULT lResult = lDevice->CreateCommittedResource(
@@ -144,7 +152,7 @@ void RWStructuredBuffer::CreateUAV(size_t length_, size_t singleSize_, const voi
 	D3D12_RESOURCE_DESC lResDesc = CD3DX12_RESOURCE_DESC::Buffer(singleSize_ * length_);
 	lResDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS;
 
-	D3D12_HEAP_PROPERTIES lHeapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+	D3D12_HEAP_PROPERTIES lHeapProp = CD3DX12_HEAP_PROPERTIES(heapType);
 
 	ID3D12Device* lDevice = sDevice->Get();
 	HRESULT lResult = lDevice->CreateCommittedResource(
@@ -189,7 +197,7 @@ void RWStructuredBuffer::CreateUAV(CD3DX12_RESOURCE_DESC* texresDesc)
 {
 	texresDesc->Flags = D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS;
 
-	D3D12_HEAP_PROPERTIES lHeapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+	D3D12_HEAP_PROPERTIES lHeapProp = CD3DX12_HEAP_PROPERTIES(heapType);
 
 	ID3D12Device* lDevice = sDevice->Get();
 	HRESULT lResult = lDevice->CreateCommittedResource(
@@ -234,6 +242,11 @@ void RWStructuredBuffer::Update(void* data_)
 	resource->Unmap(0, nullptr);
 }
 
+void RWStructuredBuffer::SetHeapType(HEAP_TYPE heapType_)
+{
+	heapType = static_cast< D3D12_HEAP_TYPE >(heapType_);
+}
+
 bool RWStructuredBuffer::IsValid()
 {
 	return isValid;
@@ -259,30 +272,34 @@ ID3D12Resource* RWStructuredBuffer::GetResource()
 	return resource.Get();
 }
 
-std::unique_ptr<IRWStructuredBuffer> CreateUniqueSRVRWStructuredBuffer(size_t length_, size_t singleSize_, const void* data_)
+std::unique_ptr<IRWStructuredBuffer> CreateUniqueSRVRWStructuredBuffer(size_t length_, size_t singleSize_,HEAP_TYPE heapType_, const void* data_)
 {
 	std::unique_ptr<IRWStructuredBuffer> lRWStructuredBuffer = std::make_unique<RWStructuredBuffer>();
+	lRWStructuredBuffer->SetHeapType(heapType_);
 	lRWStructuredBuffer->CreateSRV(length_, singleSize_, data_);
 	return std::move(lRWStructuredBuffer);
 }
 
-std::shared_ptr<IRWStructuredBuffer> CreateSharedSRVRWStructuredBuffer(size_t length_, size_t singleSize_, const void* data_)
+std::shared_ptr<IRWStructuredBuffer> CreateSharedSRVRWStructuredBuffer(size_t length_, size_t singleSize_,HEAP_TYPE heapType_, const void* data_)
 {
 	std::shared_ptr<IRWStructuredBuffer> lRWStructuredBuffer = std::make_shared<RWStructuredBuffer>();
+	lRWStructuredBuffer->SetHeapType(heapType_);
 	lRWStructuredBuffer->CreateSRV(length_, singleSize_, data_);
 	return lRWStructuredBuffer;
 }
 
-std::unique_ptr<IRWStructuredBuffer> CreateUniqueUAVRWStructuredBuffer(size_t length_, size_t singleSize_, const void* data_)
+std::unique_ptr<IRWStructuredBuffer> CreateUniqueUAVRWStructuredBuffer(size_t length_, size_t singleSize_,HEAP_TYPE heapType_, const void* data_)
 {
 	std::unique_ptr<IRWStructuredBuffer> lRWStructuredBuffer = std::make_unique<RWStructuredBuffer>();
+	lRWStructuredBuffer->SetHeapType(heapType_);
 	lRWStructuredBuffer->CreateUAV(length_, singleSize_, data_);
 	return std::move(lRWStructuredBuffer);
 }
 
-std::shared_ptr<IRWStructuredBuffer> CreateSharedUAVRWStructuredBuffer(size_t length_, size_t singleSize_, const void* data_)
+std::shared_ptr<IRWStructuredBuffer> CreateSharedUAVRWStructuredBuffer(size_t length_, size_t singleSize_,HEAP_TYPE heapType_, const void* data_)
 {
 	std::shared_ptr<IRWStructuredBuffer> lRWStructuredBuffer = std::make_shared<RWStructuredBuffer>();
+	lRWStructuredBuffer->SetHeapType(heapType_);
 	lRWStructuredBuffer->CreateUAV(length_, singleSize_, data_);
 	return lRWStructuredBuffer;
 }

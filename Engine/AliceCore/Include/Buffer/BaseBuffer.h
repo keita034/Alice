@@ -63,5 +63,30 @@ public:
 	/// </summary>
 	static void SSetDSVDescriptorHeap(IDSVDescriptorHeap* dsvDescriptorHeap_);
 
+	/// <summary>
+	/// デバイスを取得
+	/// </summary>
+	static IDevice* SGetDevice();
+
+	/// <summary>
+	/// コマンドリストを取得
+	/// </summary>
+	static ICommandList* SGetGraphicsCommandList();
+
+	/// <summary>
+	/// SRV用のディスクプリタヒープを取得
+	/// </summary>
+	static ISRVDescriptorHeap* SGetSRVDescriptorHeap();
+
+	/// <summary>
+	/// RTV用のディスクプリタヒープを取得
+	/// </summary>
+	static IRTVDescriptorHeap* SGetRTVDescriptorHeap();
+
+	/// <summary>
+	/// DSV用のディスクプリタヒープを取得
+	/// </summary>
+	static IDSVDescriptorHeap* SGetDSVDescriptorHeap();
+
 	static void Finalize();
 };

@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\Buffer\DrawArgumentBuffer.h" />
     <ClInclude Include="Include\ComputePipelineState.h" />
     <ClInclude Include="Include\Adapter.h" />
     <ClInclude Include="Include\Fence.h" />
@@ -38,6 +39,7 @@
     <ClInclude Include="Include\PipelineState.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Buffer\DrawArgumentBuffer.cpp" />
     <ClCompile Include="Source\ComputePipelineState.cpp" />
     <ClCompile Include="Source\PipelineState.cpp" />
     <ClCompile Include="Source\Adapter.cpp" />

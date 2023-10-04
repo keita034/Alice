@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\Color.h" />
     <ClInclude Include="Include\AliceAssert.h" />
     <ClInclude Include="Include\Bit.h" />
     <ClInclude Include="Include\Defined.h" />
@@ -26,6 +27,7 @@
     <ClInclude Include="Include\StringUtility.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Color.cpp" />
     <ClCompile Include="Source\AliceAssert.cpp" />
     <ClCompile Include="Source\Bit.cpp" />
     <ClCompile Include="Source\Defined.cpp" />
