@@ -27,19 +27,25 @@ namespace AlicePhysics
 			JPH::BodyID id;
 			bool isActive;
 			bool isAdd;
+
+		private:
+			int8_t PADING[ 2 ];
 		};
 
 	private:
 
 		JPH::Body* body;
+		RigidBodyCollision* rigidBodyCollision = nullptr;
+		JPH::BodyInterface* bodyInterface = nullptr;
+
+		std::unique_ptr<RigidBodyUserData> rigidBodyUserData;
+
+		BodyData bodyData;
+
 		JPH::BodyID id;
 		bool isActive;
 
-		BodyData bodyData;
-		std::unique_ptr<RigidBodyUserData> rigidBodyUserData;
-
-		RigidBodyCollision* rigidBodyCollision = nullptr;
-		JPH::BodyInterface* bodyInterface = nullptr;
+		int8_t PADING[ 3 ];
 	public:
 
 		JoltRigidBody() = default;
@@ -63,6 +69,11 @@ namespace AlicePhysics
 		AliceMathF::Vector3 GetPosition()override;
 		AliceMathF::Quaternion GetRotation()override;
 		AliceMathF::Matrix4 GetCenterOfMassTransform()override;
+
+	private:
+		//コピーコンストラクタ・代入演算子削除
+		JoltRigidBody& operator=(const JoltRigidBody&) = delete;
+		JoltRigidBody(const JoltRigidBody&) = delete;
 
 	};
 }

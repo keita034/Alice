@@ -79,6 +79,10 @@ namespace AlicePhysics
 
 		void SetDevice(IDevice* device_);
 		void SetCommandList(ICommandList* commandList_);
+
+		//コピーコンストラクタ・代入演算子削除
+		AlicePhysicsSystem& operator=(const AlicePhysicsSystem&) = delete;
+		AlicePhysicsSystem(const AlicePhysicsSystem&) = delete;
 	};
 }
 

@@ -18,6 +18,12 @@ namespace AlicePhysics
 		virtual void Release() override {
 			if ( --mRefCount == 0 ) delete this;
 		}
+
+	private:
+
+		//コピーコンストラクタ・代入演算子削除
+		JoltBatch& operator=(const JoltBatch&) = delete;
+		JoltBatch(const JoltBatch&) = delete;
 	};
 #endif // _DEBUG
 }

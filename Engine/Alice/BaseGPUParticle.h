@@ -125,10 +125,14 @@ public:
 	void SetAdapter(IAdapter* adapter);
 
 	BaseGPUParticle() = default;
-	~BaseGPUParticle() = default;
+	virtual ~BaseGPUParticle() = default;
 
 private:
 
 	virtual void PUpdateConstantBuffer(float deltaTime_) = 0;
+
+	//コピーコンストラクタ・代入演算子削除
+	BaseGPUParticle& operator=(const BaseGPUParticle&) = delete;
+	BaseGPUParticle(const BaseGPUParticle&) = delete;
 };
 

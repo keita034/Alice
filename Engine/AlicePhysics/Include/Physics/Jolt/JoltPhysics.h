@@ -59,6 +59,12 @@ namespace AlicePhysics
 		// 物理ジョブを複数のスレッドで実行するジョブ・システム(変更予定)
 		std::unique_ptr<JPH::JobSystemThreadPool> jobSystem;
 
+		std::unique_ptr<RigidBodyManager> rigidBodyManager;
+#ifdef _DEBUG
+		std::unique_ptr<JoltDebugRenderer>debugRenderer;
+
+#endif // _DEBUG
+
 		JoltObjectToBroadphaseLayer objectToBroadphaseLayer;
 
 		JoltObjectVsBroadPhaseLayerFilter objectVsBroadPhaseLayerFilter;
@@ -89,11 +95,7 @@ namespace AlicePhysics
 		//重力
 		AliceMathF::Vector3 gravity = { 0.0f, -9.8f, 0.0f };
 
-		std::unique_ptr<RigidBodyManager> rigidBodyManager;
-#ifdef _DEBUG
-		std::unique_ptr<JoltDebugRenderer>debugRenderer;
-
-#endif // _DEBUG
+		int8_t PADING[ 4 ];
 
 	public:
 
@@ -127,6 +129,10 @@ namespace AlicePhysics
 	private:
 
 		void PGetShape(JPH::Shape*& joltShape_,IShape* shape_);
+
+		//コピーコンストラクタ・代入演算子削除
+		JoltPhysics& operator=(const JoltPhysics&) = delete;
+		JoltPhysics(const JoltPhysics&) = delete;
 	};
 }
 

@@ -20,11 +20,13 @@ namespace AlicePhysics
 	{
 	private:
 
-		std::string name;
-		CollisionAttribute attribute;
-		CollisionGroup group;
 		void* userData = nullptr;
 		IRigidBody* rigidBody = nullptr;
+		CollisionAttribute attribute;
+		CollisionGroup group;
+		int8_t PADING[ 6 ];
+		std::string name;
+
 
 	public:
 

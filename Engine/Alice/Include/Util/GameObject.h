@@ -6,6 +6,7 @@
 #include<Sprite2D.h>
 #include<IRigidBody.h>
 #include <AlicePhysicsSystem.h>
+#include<PadingType.h>
 
 class UI
 {
@@ -21,7 +22,9 @@ public:
 	~UI() = default;
 
 private:
-	int32_t PADING;
+	Byte4 PADING;
+
+private:
 
 	// コピーコンストラクタを禁止
 	UI(const UI& obj) = delete;
@@ -33,18 +36,21 @@ class GameObject :public AlicePhysics::RigidBodyCollision
 {
 protected:
 
+	//リジットボディ
+	AlicePhysics::IRigidBody* rigidBody;
 	//名前
 	std::string name;
 	//ワールド変換データ
 	Transform transform;
 	//モデル
 	std::unique_ptr<AliceModel>model;
-	//モデルハンドル
-	uint32_t modelHandle;
-	//リジットボディ
-	AlicePhysics::IRigidBody* rigidBody;
 	//形
 	std::shared_ptr<AlicePhysics::IShape>shape;
+	//モデルハンドル
+	uint32_t modelHandle;
+
+private:
+	Byte4 PADING;
 
 public:
 

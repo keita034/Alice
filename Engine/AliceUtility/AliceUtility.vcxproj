@@ -24,6 +24,7 @@
     <ClInclude Include="Include\Bit.h" />
     <ClInclude Include="Include\Defined.h" />
     <ClInclude Include="Include\FileUtility.h" />
+    <ClInclude Include="Include\PadingType.h" />
     <ClInclude Include="Include\StringUtility.h" />
   </ItemGroup>
   <ItemGroup>

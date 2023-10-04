@@ -22,11 +22,12 @@ namespace AlicePhysics
 {
 	class JoltDebugRenderPrimitive : public JPH::RefTarget<JoltDebugRenderPrimitive>
 	{
+	private:
+		int8_t PADING[ 4 ];
+
 	protected:
 
 		ICommandList* commandList = nullptr;
-
-		D3D_PRIMITIVE_TOPOLOGY type;
 
 		std::unique_ptr<IVertexBuffer>vertexBuffer;
 		std::unique_ptr<IIndexBuffer>indexBuffer;
@@ -35,7 +36,10 @@ namespace AlicePhysics
 		size_t indexDrawCount = 0;
 		size_t vertexDrawCount = 0;
 
+		D3D_PRIMITIVE_TOPOLOGY type;
 
+	private:
+		int8_t PADING2[ 4 ];
 
 	public:
 		JoltDebugRenderPrimitive(ICommandList* commandList_,D3D_PRIMITIVE_TOPOLOGY type_);
@@ -50,6 +54,11 @@ namespace AlicePhysics
 		void Draw();
 		void GeometryDraw();
 		void GeometryOFFDraw();
+
+	private:
+		//コピーコンストラクタ・代入演算子削除
+		JoltDebugRenderPrimitive& operator=(const JoltDebugRenderPrimitive&) = delete;
+		JoltDebugRenderPrimitive(const JoltDebugRenderPrimitive&) = delete;
 	};
 
 }

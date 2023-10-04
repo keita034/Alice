@@ -10,6 +10,10 @@ namespace AlicePhysics
 		//タイプ
 		PhysicsShapeType type;
 
+	private:
+
+		int8_t PADING[ 7 ];
+
 	public:
 
 		MeshShape() = default;

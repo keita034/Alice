@@ -7,14 +7,18 @@ namespace AlicePhysics
 	class CapsuleShape :public IShape
 	{
 	protected:
-		//タイプ
-		PhysicsShapeType type;
 
 		//中心から先の円までの長さ
 		float halfHeightOfCylinder;
 
 		//半径
 		float radius;
+
+		//タイプ
+		PhysicsShapeType type;
+
+	private:
+		int8_t PADING[ 7 ];
 
 	public:
 

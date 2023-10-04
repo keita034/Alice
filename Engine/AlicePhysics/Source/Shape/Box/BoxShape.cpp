@@ -17,19 +17,19 @@ AlicePhysics::BoxShape* AlicePhysics::CreateBoxShape(const AliceMathF::Vector3& 
 	BoxShape* lShape = nullptr;
 
 	//バレット
-#if AlicePhysicsBullet
+#if defined(AlicePhysicsBullet) 
 
 
 #endif
 
 	//フィジックス
-#if AlicePhysicsPhysX
+#if  defined(AlicePhysicsPhysX)
 
 
 #endif
 
 	//ジョルト
-#if AlicePhysicsJolt
+#if defined(AlicePhysicsJolt)
 
 	lShape = new JoltBoxShape();
 	lShape->Initialize(halfExtent_);

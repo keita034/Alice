@@ -6,11 +6,13 @@ namespace AlicePhysics
 	class SphereShape :public IShape
 	{
 	protected:
-		//タイプ
-		PhysicsShapeType type;
-
 		//半径
 		float radius;
+		//タイプ
+		PhysicsShapeType type;
+	private:
+
+		int8_t PADING[ 3 ];
 
 	public:
 

@@ -20,6 +20,9 @@ private:
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvResDesc{};
 
 	D3D12_HEAP_TYPE heapType;
+
+	int8_t PADING[ 4 ];
+
 public:
 
 	/// <summary>

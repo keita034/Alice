@@ -21,18 +21,6 @@ AlicePhysics::CapsuleShape* AlicePhysics::CreateCapsuleShape(float halfHeightOfC
 {
 	CapsuleShape* lShape = nullptr;
 
-	//バレット
-#if AlicePhysicsBullet
-
-
-#endif
-
-	//フィジックス
-#if AlicePhysicsPhysX
-
-
-#endif
-
 	//ジョルト
 #if AlicePhysicsJolt
 

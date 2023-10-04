@@ -63,7 +63,7 @@ private:
 
 	//深度フラグ
 	bool depthFlag = true;
-	int8_t PADING[3]{};
+	int8_t PADING[7]{};
 
 public:
 

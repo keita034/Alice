@@ -102,8 +102,8 @@ JPH::DebugRenderer::Batch  AlicePhysics::JoltDebugRenderer::CreateTriangleBatch(
 
 	JoltBatch* lPrimitive = new JoltBatch(commandList,D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	lPrimitive->CreateVertexBuffer(inVertexCount,sizeof(Vertex),inVertices);
-	lPrimitive->CreateIndexBuffer(inIndexCount,inIndices);
+	lPrimitive->CreateVertexBuffer(static_cast< size_t > ( inVertexCount ),sizeof(Vertex),inVertices);
+	lPrimitive->CreateIndexBuffer(static_cast< size_t > ( inIndexCount ),inIndices);
 	lPrimitive->CreateConstantBuffer(sizeof(ConstBufferData));
 
 	return lPrimitive;

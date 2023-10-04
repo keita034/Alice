@@ -27,6 +27,10 @@ public:
 private:
 
 	void PUpdateConstantBuffer(float deltaTime_)override;
+
+	//コピーコンストラクタ・代入演算子削除
+	BasicGPUParticle& operator=(const BasicGPUParticle&) = delete;
+	BasicGPUParticle(const BasicGPUParticle&) = delete;
 };
 
 	

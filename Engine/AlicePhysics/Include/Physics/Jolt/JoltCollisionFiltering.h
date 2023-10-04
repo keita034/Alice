@@ -47,6 +47,10 @@ namespace AlicePhysics
 
 	private:
 		JoltObjectToBroadphaseLayer(JoltObjectToBroadphaseLayer&&) = delete;
+
+		//コピーコンストラクタ・代入演算子削除
+		JoltObjectToBroadphaseLayer& operator=(const JoltObjectToBroadphaseLayer&) = delete;
+		JoltObjectToBroadphaseLayer(const JoltObjectToBroadphaseLayer&) = delete;
 	};
 
 	//オブジェクトがブロードフェイズのレイヤーと衝突できるかどうかをテストするクラス
@@ -61,6 +65,10 @@ namespace AlicePhysics
 
 	private:
 		JoltObjectVsBroadPhaseLayerFilter(JoltObjectVsBroadPhaseLayerFilter&&) = delete;
+
+		//コピーコンストラクタ・代入演算子削除
+		JoltObjectVsBroadPhaseLayerFilter& operator=(const JoltObjectVsBroadPhaseLayerFilter&) = delete;
+		JoltObjectVsBroadPhaseLayerFilter(const JoltObjectVsBroadPhaseLayerFilter&) = delete;
 	};
 
 	class JoltObjectLayerPairFilter final : public JPH::ObjectLayerPairFilter
@@ -79,6 +87,10 @@ namespace AlicePhysics
 
 	private:
 		JoltObjectLayerPairFilter(JoltObjectLayerPairFilter&&) = delete;
+
+		//コピーコンストラクタ・代入演算子削除
+		JoltObjectLayerPairFilter& operator=(const JoltObjectLayerPairFilter&) = delete;
+		JoltObjectLayerPairFilter(const JoltObjectLayerPairFilter&) = delete;
 	};
 }
 

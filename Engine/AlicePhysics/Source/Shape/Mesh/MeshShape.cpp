@@ -12,19 +12,19 @@ AlicePhysics::MeshShape* AlicePhysics::CreateMeshShape(const std::vector<AliceMa
 	MeshShape* lShape = nullptr;
 
 	//バレット
-#if AlicePhysicsBullet
+#if defined(AlicePhysicsBullet) 
 
 
 #endif
 
 	//フィジックス
-#if AlicePhysicsPhysX
+#if  defined(AlicePhysicsPhysX)
 
 
 #endif
 
 	//ジョルト
-#if AlicePhysicsJolt
+#if defined(AlicePhysicsJolt)
 
 	lShape = new JoltMeshShape();
 	lShape->Initialize(vertices_,triangles_);

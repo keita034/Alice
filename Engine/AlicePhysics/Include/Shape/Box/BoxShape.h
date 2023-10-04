@@ -6,11 +6,14 @@ namespace AlicePhysics
 	class BoxShape :public IShape
 	{
 	protected:
-		//タイプ
-		PhysicsShapeType type;
 
 		//辺の半分の長さ
 		AliceMathF::Vector3 halfExtent;
+		//タイプ
+		PhysicsShapeType type;
+
+	private:
+		int8_t PADING[ 3 ];
 	public:
 
 		BoxShape() = default;

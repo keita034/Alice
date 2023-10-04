@@ -17,6 +17,10 @@ struct GroupMask
 	std::string name;
 	//マスク
 	uint32_t mask;
+
+private:
+
+	int8_t PADING[ 4 ];
 };
 
 class CollisionFilterConfigTable

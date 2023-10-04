@@ -34,8 +34,6 @@ namespace AlicePhysics
 		IShape* shape;
 		//名前
 		std::string name;
-		// モーションタイプ
-		MotionType motionType;
 		//位置
 		AliceMathF::Vector3 position;
 		//回転
@@ -70,6 +68,12 @@ namespace AlicePhysics
 		bool allowSleeping = true;
 		//リニアキャストを使用した衝突検出
 		bool linearCast = false;
+		// モーションタイプ
+		MotionType motionType;
+
+	private:
+		int8_t PADING[ 4 ];
+
 	};
 }
 

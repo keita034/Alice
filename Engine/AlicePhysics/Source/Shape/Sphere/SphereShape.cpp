@@ -15,20 +15,20 @@ AlicePhysics::SphereShape* AlicePhysics::CreateSphereShape(float radius_)
 {
 	SphereShape* lShape = nullptr;
 
-//バレット
-#if AlicePhysicsBullet
+	//バレット
+#if defined(AlicePhysicsBullet) 
 
 
 #endif
 
 	//フィジックス
-#if AlicePhysicsPhysX
+#if  defined(AlicePhysicsPhysX)
 
 
 #endif
 
 	//ジョルト
-#if AlicePhysicsJolt
+#if defined(AlicePhysicsJolt)
 
 	lShape = new JoltSphereShape();
 	lShape->Initialize(radius_);

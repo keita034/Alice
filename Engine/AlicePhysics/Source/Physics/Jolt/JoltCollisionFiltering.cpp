@@ -64,7 +64,7 @@ uint32_t AlicePhysics::JoltObjectToBroadphaseLayer::GetNumBroadPhaseLayers() con
 JPH::BroadPhaseLayer AlicePhysics::JoltObjectToBroadphaseLayer::GetBroadPhaseLayer(JPH::ObjectLayer inLayer) const
 {
     //uint16からuint8にビット演算で変換
-    return JPH::BroadPhaseLayer(inLayer >> 8);
+	return JPH::BroadPhaseLayer(static_cast< JPH::BroadPhaseLayer::Type >( inLayer >> 8 ));
 }
 
 #if defined(JPH_EXTERNAL_PROFILE) || defined(JPH_PROFILE_ENABLED)

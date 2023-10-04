@@ -20,6 +20,33 @@ namespace AlicePhysics
 	{
 	private:
 
+		struct Point
+		{
+			AliceMathF::Vector3 position;
+			AliceMathF::Vector4 color;
+		};
+
+		struct Line
+		{
+			Point from;
+			Point to;
+		};
+
+		struct TriangleElement
+		{
+			Point v1;
+			Point v2;
+			Point v3;
+		};
+
+		struct ConstBufferLightData
+		{
+			AliceMathF::Vector3 vector;
+			AliceMathF::Vector4 color;
+		};
+
+	private:
+
 		ICommandList* commandList = nullptr;
 		IDevice* device = nullptr;
 		std::vector<std::unique_ptr<IConstantBuffer>>* constantBufferPtr = nullptr;
@@ -49,45 +76,22 @@ namespace AlicePhysics
 
 		std::unique_ptr<JoltDebugRenderPrimitive> linePrimitive;
 		std::unique_ptr<JoltDebugRenderPrimitive> trianglePrimitive;
+
+		std::unique_ptr<IConstantBuffer> lightConstantBuffer;
+
+		std::vector<Line> lines;
+		std::vector<TriangleElement> triangles;
+
 		Batch emptyBatch;
+
+		size_t index =0 ;
 
 		AliceMathF::Matrix4 viewMat;
 		AliceMathF::Matrix4 projectionMat;
 		AliceMathF::Vector3 lightV;
 		AliceMathF::Vector4 lightColor;
 
-		size_t index =0 ;
-
-		struct Point
-		{
-			AliceMathF::Vector3 position;
-			AliceMathF::Vector4 color;
-		};
-
-		struct Line
-		{
-			Point from;
-			Point to;
-		};
-
-		struct TriangleElement
-		{
-			Point v1;
-			Point v2;
-			Point v3;
-		};
-
-		std::vector<Line> lines;
-		std::vector<TriangleElement> triangles;
-
-		struct ConstBufferLightData
-		{
-			AliceMathF::Vector3 vector;
-			AliceMathF::Vector4 color;
-		};
-
 		ConstBufferLightData lightData;
-		std::unique_ptr<IConstantBuffer> lightConstantBuffer;
 
 	public:
 
@@ -136,6 +140,10 @@ namespace AlicePhysics
 		void PCreateGeometryFFPipelineState(IShader* ps_,IShader* vs_);
 		void PCreateGeometryFBPipelineState(IShader* ps_,IShader* vs_);
 		void PCreateGeometryOFFPipelineState(IShader* ps_,IShader* vs_);
+
+		//コピーコンストラクタ・代入演算子削除
+		JoltDebugRenderer& operator=(const JoltDebugRenderer&) = delete;
+		JoltDebugRenderer(const JoltDebugRenderer&) = delete;
 	};
 }
 
