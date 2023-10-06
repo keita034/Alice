@@ -11,19 +11,19 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Include\ControllerButtons.h" />
-    <ClInclude Include="Include\Controller.h" />
+    <ClInclude Include="Include\Controller\ControllerButtons.h" />
+    <ClInclude Include="Include\Controller\Controller.h" />
     <ClInclude Include="Include\Input.h" />
-    <ClInclude Include="Include\Keyboard.h" />
-    <ClInclude Include="Include\Mouse.h" />
-    <ClInclude Include="Include\Keys.h" />
-    <ClInclude Include="Include\MouseButton.h" />
+    <ClInclude Include="Include\Keyboard\Keyboard.h" />
+    <ClInclude Include="Include\Mouse\Mouse.h" />
+    <ClInclude Include="Include\Keyboard\Keys.h" />
+    <ClInclude Include="Include\Mouse\MouseButton.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Controller.cpp" />
+    <ClCompile Include="Source\Controller\Controller.cpp" />
     <ClCompile Include="Source\Input.cpp" />
-    <ClCompile Include="Source\Keyboard.cpp" />
-    <ClCompile Include="Source\Mouse.cpp" />
+    <ClCompile Include="Source\Keyboard\Keyboard.cpp" />
+    <ClCompile Include="Source\Mouse\Mouse.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AliceMath\AliceMath.vcxproj">
@@ -67,12 +67,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)Engine\AliceMath\Include;$(SolutionDir)Engine\AliceMath\Include\Double;$(SolutionDir)Engine\AliceMath\Include\Double\Matrix;$(SolutionDir)Engine\AliceMath\Include\Double\Vector;$(SolutionDir)Engine\AliceMath\Include\Float;$(SolutionDir)Engine\AliceMath\Include\Float\Matrix;$(SolutionDir)Engine\AliceMath\Include\Float\Vector;$(SolutionDir)Engine\AliceUtility\Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Engine\AliceMath\Include;$(SolutionDir)Engine\AliceMath\Include\Double;$(SolutionDir)Engine\AliceMath\Include\Double\Matrix;$(SolutionDir)Engine\AliceMath\Include\Double\Vector;$(SolutionDir)Engine\AliceMath\Include\Float;$(SolutionDir)Engine\AliceMath\Include\Float\Matrix;$(SolutionDir)Engine\AliceMath\Include\Float\Vector;$(SolutionDir)Engine\AliceUtility\Include\Enum;$(SolutionDir)Engine\AliceUtility\Include\Others;$(SolutionDir)Engine\AliceUtility\Include\Utility;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)..\Generated\Lib\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)Engine\AliceMath\Include;$(SolutionDir)Engine\AliceMath\Include\Double;$(SolutionDir)Engine\AliceMath\Include\Double\Matrix;$(SolutionDir)Engine\AliceMath\Include\Double\Vector;$(SolutionDir)Engine\AliceMath\Include\Float;$(SolutionDir)Engine\AliceMath\Include\Float\Matrix;$(SolutionDir)Engine\AliceMath\Include\Float\Vector;$(SolutionDir)Engine\AliceUtility\Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Engine\AliceMath\Include;$(SolutionDir)Engine\AliceMath\Include\Double;$(SolutionDir)Engine\AliceMath\Include\Double\Matrix;$(SolutionDir)Engine\AliceMath\Include\Double\Vector;$(SolutionDir)Engine\AliceMath\Include\Float;$(SolutionDir)Engine\AliceMath\Include\Float\Matrix;$(SolutionDir)Engine\AliceMath\Include\Float\Vector;$(SolutionDir)Engine\AliceUtility\Include\Enum;$(SolutionDir)Engine\AliceUtility\Include\Others;$(SolutionDir)Engine\AliceUtility\Include\Utility;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)..\Generated\Lib\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>
@@ -85,7 +85,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\Include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\Include;$(ProjectDir)\Include\Controller;$(ProjectDir)\Include\Keyboard;$(ProjectDir)\Include\Mouse</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4711</DisableSpecificWarnings>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -112,7 +112,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\Include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\Include;$(ProjectDir)\Include\Controller;$(ProjectDir)\Include\Keyboard;$(ProjectDir)\Include\Mouse</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4711</DisableSpecificWarnings>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>

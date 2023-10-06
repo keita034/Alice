@@ -11,22 +11,22 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Include\BlendMode.h" />
-    <ClInclude Include="Include\Color.h" />
-    <ClInclude Include="Include\AliceAssert.h" />
-    <ClInclude Include="Include\Bit.h" />
-    <ClInclude Include="Include\Defined.h" />
-    <ClInclude Include="Include\FileUtility.h" />
-    <ClInclude Include="Include\PadingType.h" />
-    <ClInclude Include="Include\StringUtility.h" />
+    <ClInclude Include="Include\Enum\BlendMode.h" />
+    <ClInclude Include="Include\Others\Color.h" />
+    <ClInclude Include="Include\Others\AliceAssert.h" />
+    <ClInclude Include="Include\Others\Bit.h" />
+    <ClInclude Include="Include\Others\Defined.h" />
+    <ClInclude Include="Include\Utility\FileUtility.h" />
+    <ClInclude Include="Include\Others\PadingType.h" />
+    <ClInclude Include="Include\Utility\StringUtility.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Color.cpp" />
-    <ClCompile Include="Source\AliceAssert.cpp" />
-    <ClCompile Include="Source\Bit.cpp" />
-    <ClCompile Include="Source\Defined.cpp" />
-    <ClCompile Include="Source\FileUtility.cpp" />
-    <ClCompile Include="Source\StringUtility.cpp" />
+    <ClCompile Include="Source\Others\Color.cpp" />
+    <ClCompile Include="Source\Others\AliceAssert.cpp" />
+    <ClCompile Include="Source\Others\Bit.cpp" />
+    <ClCompile Include="Source\Others\Defined.cpp" />
+    <ClCompile Include="Source\Utility\FileUtility.cpp" />
+    <ClCompile Include="Source\Utility\StringUtility.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -78,7 +78,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Include\Enum;$(ProjectDir)Include\Others;$(ProjectDir)Include\Utility</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
@@ -101,7 +101,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>$(ProjectDir)Include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Include\Enum;$(ProjectDir)Include\Others;$(ProjectDir)Include\Utility</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>

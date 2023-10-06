@@ -17,23 +17,23 @@
     <ClInclude Include="Include\Shape\Box\BoxShape.h" />
     <ClInclude Include="Include\CollisionFilterConfigTable.h" />
     <ClInclude Include="Include\CollisionAttribute.h" />
-    <ClInclude Include="Include\PhysicsRigidBodyType.h" />
+    <ClInclude Include="Include\RigidBody\PhysicsRigidBodyType.h" />
     <ClInclude Include="Include\Physics\Jolt\JoltContactListener.h" />
     <ClInclude Include="Include\AlicePhysicsSystem.h" />
     <ClInclude Include="Include\Physics\BasePhysics.h" />
-    <ClInclude Include="Include\IRigidBody.h" />
+    <ClInclude Include="Include\RigidBody\IRigidBody.h" />
     <ClInclude Include="Include\Physics\Jolt\JoltPhysics.h" />
     <ClInclude Include="Include\IShape.h" />
     <ClInclude Include="Include\Physics\Jolt\JoltRigidBody.h" />
-    <ClInclude Include="Include\IRigidBodyCreationSettings.h" />
+    <ClInclude Include="Include\RigidBody\IRigidBodyCreationSettings.h" />
     <ClInclude Include="Include\Physics\Jolt\JoltCollisionFiltering.h" />
-    <ClInclude Include="Include\RigidBodyUserData.h" />
+    <ClInclude Include="Include\RigidBody\RigidBodyUserData.h" />
     <ClInclude Include="Include\Physics\Jolt\JoltGroupFilter.h" />
     <ClInclude Include="Include\Shape\Box\JoltBoxShape.h" />
     <ClInclude Include="Include\Shape\Sphere\SphereShape.h" />
     <ClInclude Include="Include\Shape\Sphere\JoltSphereShape.h" />
-    <ClInclude Include="Include\RigidBodyManager.h" />
-    <ClInclude Include="Include\RigidBodyCollision.h" />
+    <ClInclude Include="Include\RigidBody\RigidBodyManager.h" />
+    <ClInclude Include="Include\RigidBody\RigidBodyCollision.h" />
     <ClInclude Include="Include\Shape\Capsule\JoltCapsuleShape.h" />
     <ClInclude Include="Include\Shape\Mesh\JoltMeshShape.h" />
     <ClInclude Include="Include\Shape\Mesh\MeshShape.h" />
@@ -47,22 +47,22 @@
     <ClCompile Include="Source\Shape\Mesh\MeshShape.cpp" />
     <ClCompile Include="Source\Shape\Capsule\CapsuleShape.cpp" />
     <ClCompile Include="Source\Shape\Capsule\JoltCapsuleShape.cpp" />
-    <ClCompile Include="Source\RigidBodyCollision.cpp" />
-    <ClCompile Include="Source\RigidBodyManager.cpp" />
+    <ClCompile Include="Source\RigidBody\RigidBodyCollision.cpp" />
+    <ClCompile Include="Source\RigidBody\RigidBodyManager.cpp" />
     <ClCompile Include="Source\Shape\Sphere\JoltSphereShape.cpp" />
     <ClCompile Include="Source\Shape\Box\BoxShape.cpp" />
     <ClCompile Include="Source\Shape\Box\JoltBoxShape.cpp" />
     <ClCompile Include="Source\Physics\Jolt\JoltGroupFilter.cpp" />
     <ClCompile Include="Source\CollisionFilterConfigTable.cpp" />
-    <ClCompile Include="Source\RigidBodyUserData.cpp" />
+    <ClCompile Include="Source\RigidBody\RigidBodyUserData.cpp" />
     <ClCompile Include="Source\Physics\Jolt\JoltContactListener.cpp" />
     <ClCompile Include="Source\Physics\Jolt\JoltCollisionFiltering.cpp" />
-    <ClCompile Include="Source\IRigidBodyCreationSettings.cpp" />
+    <ClCompile Include="Source\RigidBody\IRigidBodyCreationSettings.cpp" />
     <ClCompile Include="Source\AlicePhysicsSystem.cpp" />
     <ClCompile Include="Source\IShape.cpp" />
     <ClCompile Include="Source\Physics\Jolt\JoltRigidBody.cpp" />
     <ClCompile Include="Source\Physics\Jolt\JoltPhysics.cpp" />
-    <ClCompile Include="Source\IRigidBody.cpp" />
+    <ClCompile Include="Source\RigidBody\IRigidBody.cpp" />
     <ClCompile Include="Source\BasePhysics.cpp" />
     <ClCompile Include="Source\Shape\Sphere\SphereShape.cpp" />
   </ItemGroup>
@@ -145,11 +145,11 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LibraryPath>$(SolutionDir)Engine\Alice\lib\lib\debug;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)..\Generated\Lib\$(Configuration)\</OutDir>
-    <IncludePath>$(SolutionDir)Engine\Alice\lib\Include;$(SolutionDir)Engine\AliceCore\Include;$(SolutionDir)Engine\AliceCore\Include\Buffer;$(SolutionDir)Engine\AliceCore\Include\DescriptorHeap;$(SolutionDir)Engine\AliceUtility\Include;$(SolutionDir)Engine\AliceMath;$(SolutionDir)Engine\AliceMath\Include;$(SolutionDir)Engine\AliceMath\Include\Double;$(SolutionDir)Engine\AliceMath\Include\Float;$(SolutionDir)Engine\AliceMath\Include\Float\Matrix;$(SolutionDir)Engine\AliceMath\Include\Float\Vector;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Engine\Alice\lib\Include;$(SolutionDir)Engine\AliceCore\Include;$(SolutionDir)Engine\AliceCore\Include\Buffer;$(SolutionDir)Engine\AliceCore\Include\DescriptorHeap;$(SolutionDir)Engine\AliceCore\Include\GPU;$(SolutionDir)Engine\AliceCore\Include\Pipeline;$(SolutionDir)Engine\AliceUtility\Include;$(SolutionDir)Engine\AliceUtility\Include\Enum;$(SolutionDir)Engine\AliceUtility\Include\Others;$(SolutionDir)Engine\AliceUtility\Include\Utility;$(SolutionDir)Engine\AliceMath;$(SolutionDir)Engine\AliceMath\Include;$(SolutionDir)Engine\AliceMath\Include\Double;$(SolutionDir)Engine\AliceMath\Include\Float;$(SolutionDir)Engine\AliceMath\Include\Float\Matrix;$(SolutionDir)Engine\AliceMath\Include\Float\Vector;$(IncludePath)</IncludePath>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)Engine\Alice\lib\Include;$(SolutionDir)Engine\AliceCore\Include;$(SolutionDir)Engine\AliceCore\Include\Buffer;$(SolutionDir)Engine\AliceCore\Include\DescriptorHeap;$(SolutionDir)Engine\AliceUtility\Include;$(SolutionDir)Engine\AliceMath;$(SolutionDir)Engine\AliceMath\Include;$(SolutionDir)Engine\AliceMath\Include\Double;$(SolutionDir)Engine\AliceMath\Include\Float;$(SolutionDir)Engine\AliceMath\Include\Float\Matrix;$(SolutionDir)Engine\AliceMath\Include\Float\Vector;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Engine\Alice\lib\Include;$(SolutionDir)Engine\AliceCore\Include;$(SolutionDir)Engine\AliceCore\Include\Buffer;$(SolutionDir)Engine\AliceCore\Include\DescriptorHeap;$(SolutionDir)Engine\AliceCore\Include\GPU;$(SolutionDir)Engine\AliceCore\Include\Pipeline;$(SolutionDir)Engine\AliceUtility\Include;$(SolutionDir)Engine\AliceUtility\Include\Enum;$(SolutionDir)Engine\AliceUtility\Include\Others;$(SolutionDir)Engine\AliceUtility\Include\Utility;$(SolutionDir)Engine\AliceMath;$(SolutionDir)Engine\AliceMath\Include;$(SolutionDir)Engine\AliceMath\Include\Double;$(SolutionDir)Engine\AliceMath\Include\Float;$(SolutionDir)Engine\AliceMath\Include\Float\Matrix;$(SolutionDir)Engine\AliceMath\Include\Float\Vector;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)..\Generated\Lib\$(Configuration)\</OutDir>
     <LibraryPath>$(SolutionDir)Engine\Alice\lib\lib;$(LibraryPath)</LibraryPath>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
@@ -166,7 +166,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(ProjectDir)Include\Physics;$(ProjectDir)Include\Physics\PhysX;$(ProjectDir)Include\Physics\Jolt;$(ProjectDir)Include\Physics\Bullet;$(ProjectDir)Include\Shape;$(ProjectDir)Include\Shape\Box;$(ProjectDir)Include\Shape\Sphere;$(ProjectDir)Include\Shape\Capsule;$(ProjectDir)Include\Shape\Mesh;$(ProjectDir)Include\DebugRenderer</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(ProjectDir)Include\Physics;$(ProjectDir)Include\Physics\PhysX;$(ProjectDir)Include\Physics\Jolt;$(ProjectDir)Include\Physics\Bullet;$(ProjectDir)Include\Shape;$(ProjectDir)Include\Shape\Box;$(ProjectDir)Include\Shape\Sphere;$(ProjectDir)Include\Shape\Capsule;$(ProjectDir)Include\Shape\Mesh;$(ProjectDir)Include\DebugRenderer;$(ProjectDir)Include\RigidBody</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>5045</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -190,7 +190,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(ProjectDir)Include\Physics;$(ProjectDir)Include\Physics\PhysX;$(ProjectDir)Include\Physics\Jolt;$(ProjectDir)Include\Physics\Bullet;$(ProjectDir)Include\Shape;$(ProjectDir)Include\Shape\Box;$(ProjectDir)Include\Shape\Sphere;$(ProjectDir)Include\Shape\Capsule;$(ProjectDir)Include\Shape\Mesh;$(ProjectDir)Include\DebugRenderer</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(ProjectDir)Include\Physics;$(ProjectDir)Include\Physics\PhysX;$(ProjectDir)Include\Physics\Jolt;$(ProjectDir)Include\Physics\Bullet;$(ProjectDir)Include\Shape;$(ProjectDir)Include\Shape\Box;$(ProjectDir)Include\Shape\Sphere;$(ProjectDir)Include\Shape\Capsule;$(ProjectDir)Include\Shape\Mesh;$(ProjectDir)Include\DebugRenderer;$(ProjectDir)Include\RigidBody</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>

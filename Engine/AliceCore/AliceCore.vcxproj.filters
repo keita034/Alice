@@ -81,50 +81,50 @@
     <ClInclude Include="Include\WindowsApp.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Shader.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Include\FPS.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Include\PipelineState.h">
+    <ClInclude Include="Include\Pipeline\PipelineState.h">
       <Filter>ヘッダー ファイル\Pipeline</Filter>
     </ClInclude>
-    <ClInclude Include="Include\RootSignature.h">
+    <ClInclude Include="Include\Pipeline\RootSignature.h">
       <Filter>ヘッダー ファイル\Pipeline</Filter>
     </ClInclude>
-    <ClInclude Include="Include\ComputePipelineState.h">
+    <ClInclude Include="Include\Pipeline\ComputePipelineState.h">
       <Filter>ヘッダー ファイル\Pipeline</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Device.h">
+    <ClInclude Include="Include\GPU\Device.h">
       <Filter>ヘッダー ファイル\GPU</Filter>
     </ClInclude>
-    <ClInclude Include="Include\CommandList.h">
+    <ClInclude Include="Include\GPU\CommandList.h">
       <Filter>ヘッダー ファイル\GPU</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Adapter.h">
+    <ClInclude Include="Include\GPU\Adapter.h">
       <Filter>ヘッダー ファイル\GPU</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Fence.h">
+    <ClInclude Include="Include\GPU\Fence.h">
       <Filter>ヘッダー ファイル\GPU</Filter>
     </ClInclude>
-    <ClInclude Include="Include\MultiAdapters.h">
+    <ClInclude Include="Include\GPU\MultiAdapters.h">
       <Filter>ヘッダー ファイル\GPU</Filter>
     </ClInclude>
-    <ClInclude Include="Include\SwapChain.h">
+    <ClInclude Include="Include\GPU\SwapChain.h">
       <Filter>ヘッダー ファイル\GPU</Filter>
     </ClInclude>
     <ClInclude Include="Include\Buffer\DrawArgumentBuffer.h">
       <Filter>ヘッダー ファイル\Buffer</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Material.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\DefaultMaterial.h">
+    <ClInclude Include="Include\Pipeline\DefaultMaterial.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Include\TextureData.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Pipeline\Material.h">
+      <Filter>ヘッダー ファイル\Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Pipeline\Shader.h">
+      <Filter>ヘッダー ファイル\Pipeline</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -170,50 +170,50 @@
     <ClCompile Include="Source\WindowsApp.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Shader.cpp">
+    <ClCompile Include="Source\Pipeline\Shader.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\FPS.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Source\PipelineState.cpp">
+    <ClCompile Include="Source\Pipeline\PipelineState.cpp">
       <Filter>ソース ファイル\Pipeline</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RootSignature.cpp">
+    <ClCompile Include="Source\Pipeline\RootSignature.cpp">
       <Filter>ソース ファイル\Pipeline</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ComputePipelineState.cpp">
+    <ClCompile Include="Source\Pipeline\ComputePipelineState.cpp">
       <Filter>ソース ファイル\Pipeline</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Fence.cpp">
+    <ClCompile Include="Source\GPU\Fence.cpp">
       <Filter>ソース ファイル\GPU</Filter>
     </ClCompile>
-    <ClCompile Include="Source\MultiAdapters.cpp">
+    <ClCompile Include="Source\GPU\MultiAdapters.cpp">
       <Filter>ソース ファイル\GPU</Filter>
     </ClCompile>
     <ClCompile Include="Source\Buffer\DrawArgumentBuffer.cpp">
       <Filter>ソース ファイル\Buffer</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Adapter.cpp">
+    <ClCompile Include="Source\GPU\Adapter.cpp">
       <Filter>ソース ファイル\GPU</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Device.cpp">
+    <ClCompile Include="Source\GPU\Device.cpp">
       <Filter>ソース ファイル\GPU</Filter>
     </ClCompile>
-    <ClCompile Include="Source\CommandList.cpp">
+    <ClCompile Include="Source\GPU\CommandList.cpp">
       <Filter>ソース ファイル\GPU</Filter>
     </ClCompile>
-    <ClCompile Include="Source\SwapChain.cpp">
+    <ClCompile Include="Source\GPU\SwapChain.cpp">
       <Filter>ソース ファイル\GPU</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Material.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\DefaultMaterial.cpp">
+    <ClCompile Include="Source\Pipeline\DefaultMaterial.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\TextureData.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Pipeline\Material.cpp">
+      <Filter>ソース ファイル\Pipeline</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

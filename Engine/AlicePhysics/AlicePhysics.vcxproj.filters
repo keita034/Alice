@@ -60,25 +60,22 @@
     <ClInclude Include="Include\Physics\BasePhysics.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Include\PhysicsRigidBodyType.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Physics\Jolt\JoltPhysics.h">
       <Filter>ヘッダー ファイル\Jolt</Filter>
     </ClInclude>
-    <ClInclude Include="Include\IRigidBody.h">
+    <ClInclude Include="Include\RigidBody\IRigidBody.h">
       <Filter>ヘッダー ファイル\RigidBody</Filter>
     </ClInclude>
-    <ClInclude Include="Include\IRigidBodyCreationSettings.h">
+    <ClInclude Include="Include\RigidBody\IRigidBodyCreationSettings.h">
       <Filter>ヘッダー ファイル\RigidBody</Filter>
     </ClInclude>
-    <ClInclude Include="Include\RigidBodyCollision.h">
+    <ClInclude Include="Include\RigidBody\RigidBodyCollision.h">
       <Filter>ヘッダー ファイル\RigidBody</Filter>
     </ClInclude>
-    <ClInclude Include="Include\RigidBodyManager.h">
+    <ClInclude Include="Include\RigidBody\RigidBodyManager.h">
       <Filter>ヘッダー ファイル\RigidBody</Filter>
     </ClInclude>
-    <ClInclude Include="Include\RigidBodyUserData.h">
+    <ClInclude Include="Include\RigidBody\RigidBodyUserData.h">
       <Filter>ヘッダー ファイル\RigidBody</Filter>
     </ClInclude>
     <ClInclude Include="Include\Shape\Capsule\CapsuleShape.h">
@@ -135,6 +132,9 @@
     <ClInclude Include="Include\CollisionAttribute.h">
       <Filter>ヘッダー ファイル\RigidBody</Filter>
     </ClInclude>
+    <ClInclude Include="Include\RigidBody\PhysicsRigidBodyType.h">
+      <Filter>ヘッダー ファイル\RigidBody</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\AlicePhysicsSystem.cpp">
@@ -149,19 +149,19 @@
     <ClCompile Include="Source\Physics\Jolt\JoltPhysics.cpp">
       <Filter>ソース ファイル\Jolt</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RigidBodyCollision.cpp">
+    <ClCompile Include="Source\RigidBody\RigidBodyCollision.cpp">
       <Filter>ソース ファイル\RigidBody</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RigidBodyManager.cpp">
+    <ClCompile Include="Source\RigidBody\RigidBodyManager.cpp">
       <Filter>ソース ファイル\RigidBody</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RigidBodyUserData.cpp">
+    <ClCompile Include="Source\RigidBody\RigidBodyUserData.cpp">
       <Filter>ソース ファイル\RigidBody</Filter>
     </ClCompile>
-    <ClCompile Include="Source\IRigidBody.cpp">
+    <ClCompile Include="Source\RigidBody\IRigidBody.cpp">
       <Filter>ソース ファイル\RigidBody</Filter>
     </ClCompile>
-    <ClCompile Include="Source\IRigidBodyCreationSettings.cpp">
+    <ClCompile Include="Source\RigidBody\IRigidBodyCreationSettings.cpp">
       <Filter>ソース ファイル\RigidBody</Filter>
     </ClCompile>
     <ClCompile Include="Source\IShape.cpp">

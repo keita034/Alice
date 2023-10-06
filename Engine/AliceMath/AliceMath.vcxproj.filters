@@ -126,14 +126,14 @@
     <ClInclude Include="Include\Structure.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Float\Segment2D.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Include\Float\Easing.h">
+      <Filter>ヘッダー ファイル\Float</Filter>
     </ClInclude>
     <ClInclude Include="Include\Float\Line2D.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Float</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Float\Easing.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Include\Float\Segment2D.h">
+      <Filter>ヘッダー ファイル\Float</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -198,13 +198,13 @@
       <Filter>ソース ファイル\Float</Filter>
     </ClCompile>
     <ClCompile Include="Source\float\Segment2D.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Float</Filter>
     </ClCompile>
     <ClCompile Include="Source\float\Line2D.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Float</Filter>
     </ClCompile>
     <ClCompile Include="Source\float\Easing.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Float</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
