@@ -301,7 +301,3 @@ D3D12_GPU_DESCRIPTOR_HANDLE TextureManager::PCreateShaderResourceView(ID3D12Reso
 
 	return lResult;
 }
-
-TextureData::~TextureData()
-{
-}

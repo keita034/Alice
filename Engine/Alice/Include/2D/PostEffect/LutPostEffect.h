@@ -1,7 +1,8 @@
-﻿#pragma once
+#pragma once
 #include<BasePostEffect.h>
 #include<ConstantBuffer.h>
 #include<AliceUtility.h>
+#include<TextureManager.h>
 
 class LutPostEffect final :public BasePostEffect
 {

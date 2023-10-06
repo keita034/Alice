@@ -3,7 +3,9 @@
 #include<VertexBuffer.h>
 #include<IndexBuffer.h>
 #include<Material.h>
-
+#include<AliceMathUtility.h>
+#include<DescriptorHeap.h>
+#include<AliceUtility.h>
 
 class PostEffectSprite
 {

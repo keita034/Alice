@@ -129,8 +129,8 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="BaseGPUParticle.h" />
-    <ClInclude Include="BasicGPUParticle.h" />
+    <ClInclude Include="Include\2D\Particle\BaseGPUParticle.h" />
+    <ClInclude Include="Include\2D\Particle\BasicGPUParticle.h" />
     <ClInclude Include="Include\2D\Particle\FireWorkParticle.h" />
     <ClInclude Include="Include\3D\Model\AliceBlendTree.h" />
     <ClInclude Include="Include\2D\PostEffect\DistortionPostEffect.h" />
@@ -190,8 +190,6 @@
     <ClInclude Include="Include\2D\PostEffect\SandStormPostEffect.h" />
     <ClInclude Include="Include\2D\PostEffect\MonochromePostEffect.h" />
     <ClInclude Include="Include\2D\PostEffect\MosaicPostEffect.h" />
-    <ClInclude Include="Include\Core\DirectX\Material.h" />
-    <ClInclude Include="Include\Core\DirectX\DefaultMaterial.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Resources\Shaders\2D\Mesh\Mesh.hlsli" />
@@ -222,13 +220,12 @@
     <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModel.hlsli" />
     <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelOutLine.hlsli" />
     <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ZeldaToonModel.hlsli" />
+    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleEmit.hlsli" />
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BaseGPUParticle.cpp" />
-    <ClCompile Include="BasicGPUParticle.cpp" />
-    <ClCompile Include="Source\Core\DirectX\DefaultMaterial.cpp" />
-    <ClCompile Include="Source\Core\DirectX\Material.cpp" />
+    <ClCompile Include="Source\2D\Particle\BaseGPUParticle.cpp" />
+    <ClCompile Include="Source\2D\Particle\BasicGPUParticle.cpp" />
     <ClCompile Include="Source\2D\Particle\FireWorkParticle.cpp" />
     <ClCompile Include="Source\Transition\FadeInTransition.cpp" />
     <ClCompile Include="Source\Transition\FadeOutTransition.cpp" />
@@ -632,6 +629,11 @@
     <ProjectReference Include="..\AliceUtility\AliceUtility.vcxproj">
       <Project>{95e30581-d29f-44fd-8802-198f6b21e809}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleEmitCS.hlsl">
+      <FileType>Document</FileType>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

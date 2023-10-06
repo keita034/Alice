@@ -1,12 +1,18 @@
 #pragma once
+#include<Defined.h>
+
+ALICE_SUPPRESS_WARNINGS_BEGIN
+
+#include<unordered_map>
+
+ALICE_SUPPRESS_WARNINGS_END
+
+#include<BlendMode.h>
 #include<Material.h>
-#include<TextureManager.h>
 
 class MaterialManager
 {
 private:
-
-	TextureData* defaultTexture;
 	std::unordered_map<std::string, std::unique_ptr<Material>>materials;
 	static std::unique_ptr<MaterialManager>materialManager;
 
@@ -43,10 +49,6 @@ public:
 	/// <param name="name_">名前</param>
 	static Material* SGetMaterial(const std::string& name_);
 
-	TextureData* GetDefaultTextureData();
-
-	static TextureData* SGetDefaultTexture();
-
 	static ID3D12Device* sDevice;
 
 	MaterialManager() = default;
@@ -54,7 +56,6 @@ public:
 
 private:
 
-	void PCreateDefaultTexture();
 	void PCreateDefaultTextureMaterial();
 	void PCreateDefaultLambertMaterial();
 	void PCreateDefaultPhongMaterial();

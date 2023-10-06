@@ -3,6 +3,7 @@
 #include<StructuredBuffer.h>
 #include<AliceMotionData.h>
 #include<AliceBlendTree.h>
+#include<TextureManager.h>
 
 class AliceModelData
 {

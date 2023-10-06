@@ -106,7 +106,7 @@ void AliceFileStream::SPReadMeshsData(std::stringstream& data_,std::string& str_
 			//メッシュにテクスチャがなかった場合は白色のテクスチャを貼る
 			if ( lMesh->textures.empty() )
 			{
-				lMesh->textures.push_back(MaterialManager::SGetDefaultTexture());
+				//lMesh->textures.push_back(MaterialManager::SGetDefaultTexture());
 			}
 
 			model_->meshes.push_back(std::move(lMesh));
@@ -828,7 +828,6 @@ bool AliceFileStream::SPReadMeshBinaryData(AliceModelData* model_,FILE* fp_)
 			else
 			{
 				//メッシュにテクスチャがなかった場合は白色のテクスチャを貼る
-				lMesh->textures.push_back(MaterialManager::SGetDefaultTexture());
 			}
 		}
 

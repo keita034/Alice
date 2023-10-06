@@ -6,6 +6,8 @@
 #include<Camera.h>
 #include<Material.h>
 #include<WindowsApp.h>
+#include<TextureManager.h>
+#include<BlendMode.h>
 
 enum BillboardFlag
 {

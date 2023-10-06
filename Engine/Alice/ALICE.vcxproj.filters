@@ -357,17 +357,11 @@
     <ClInclude Include="Include\Transition\FadeInTransition.h">
       <Filter>ヘッダー ファイル\Transition</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Core\DirectX\Material.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Include\2D\Particle\BasicGPUParticle.h">
+      <Filter>ヘッダー ファイル\2D\Particle</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Core\DirectX\DefaultMaterial.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseGPUParticle.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="BasicGPUParticle.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Include\2D\Particle\BaseGPUParticle.h">
+      <Filter>ヘッダー ファイル\2D\Particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -651,6 +645,12 @@
     <None Include="..\..\Resources\Shaders\2D\PostEffect\GaussianBlur\GaussianYBlurVS.hlsl">
       <Filter>リソース ファイル\シェーダー\2D\PostEffect\GaussianBlur</Filter>
     </None>
+    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleEmit.hlsli">
+      <Filter>リソース ファイル\シェーダー\2D\Particle</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleEmitCS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\Particle</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Core\TextureManager.cpp">
@@ -821,17 +821,11 @@
     <ClCompile Include="Source\3D\Model\AliceBlendTree.cpp">
       <Filter>ソース ファイル\3D</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\DirectX\DefaultMaterial.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Source\2D\Particle\BasicGPUParticle.cpp">
+      <Filter>ソース ファイル\2D\Particle</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\DirectX\Material.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseGPUParticle.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="BasicGPUParticle.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Source\2D\Particle\BaseGPUParticle.cpp">
+      <Filter>ソース ファイル\2D\Particle</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

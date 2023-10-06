@@ -5,6 +5,8 @@
 #include<RenderTarget.h>
 #include<PostEffectSprite.h>
 #include<WindowsApp.h>
+#include<CommandList.h>
+#include<DirectX12Core.h>
 
 class BasePostEffect 
 {

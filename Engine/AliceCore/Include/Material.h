@@ -1,26 +1,27 @@
-﻿#pragma once
-#include<AliceMathUtility.h>
-#include<DirectX12Core.h>
-#include<AliceUtility.h>
+#pragma once
+#include<Defined.h>
+
+ALICE_SUPPRESS_WARNINGS_BEGIN
+
+#include<vector>
+
+ALICE_SUPPRESS_WARNINGS_END
+
 #include<Shader.h>
 #include<PipelineState.h>
 #include<RootSignature.h>
-#include<TextureManager.h>
+
 
 class Material
 {
 public:
-
 	std::string name;
-
-	//テクスチャデータ
-	TextureData* textureData;
 
 	//頂点レイアウト
 	std::vector<D3D12_INPUT_ELEMENT_DESC> inputLayouts;
 
 	//ブレンドステート
-	D3D12_BLEND_DESC blenddesc = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
+	D3D12_BLEND_DESC blenddesc;
 
 	//パイプラインステート
 	std::unique_ptr<PipelineState> pipelineState;

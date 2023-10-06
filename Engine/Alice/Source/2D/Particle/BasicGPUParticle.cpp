@@ -56,9 +56,10 @@ void BasicGPUParticle::Update(float deltaTime_)
 
 		lCommandList->SetComputeRootConstantBufferView(0,timeConstantsBuffer->GetAddress());
 
-		lCommandList->SetComputeRootDescriptorTable(1,particlePoolBuffer->GetAddress());
-		lCommandList->SetComputeRootDescriptorTable(2,freeListBuffer->GetAddress());
-		lCommandList->SetComputeRootDescriptorTable(3,drawListBuffer->GetAddress());
+		lCommandList->SetComputeRootDescriptorTable(1,particleConstantsBuffer->GetAddress());
+		lCommandList->SetComputeRootDescriptorTable(2,particlePoolBuffer->GetAddress());
+		lCommandList->SetComputeRootDescriptorTable(3,freeListBuffer->GetAddress());
+		lCommandList->SetComputeRootDescriptorTable(4,drawListBuffer->GetAddress());
 
 		lCommandList->Dispatch(static_cast<UINT>(emitCount),1,1);
 	}

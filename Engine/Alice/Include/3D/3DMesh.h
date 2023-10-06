@@ -6,6 +6,8 @@
 #include<AliceUtility.h>
 #include<WindowsApp.h>
 #include<DefaultMaterial.h>
+#include<DirectX12Core.h>
+#include<CommandList.h>
 
 class Mesh3D
 {

@@ -11,6 +11,7 @@
 #include<AbstractSceneFactory.h>
 #include<PostEffectManager.h>
 #include<AlicePhysicsSystem.h>
+#include<TextureManager.h>
 
 class AliceFramework
 {

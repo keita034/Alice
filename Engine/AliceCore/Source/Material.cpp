@@ -1,4 +1,6 @@
-﻿#include<Material.h>
+#include<Material.h>
+
+#include<cassert>
 
 void Material::Initialize()
 {

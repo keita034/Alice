@@ -1,12 +1,17 @@
 #include<DefaultMaterial.h>
 
+ALICE_SUPPRESS_WARNINGS_BEGIN
+
+#include<directx/d3dx12.h>
+
+ALICE_SUPPRESS_WARNINGS_END
+
 ID3D12Device* MaterialManager::sDevice = nullptr;
 std::unique_ptr<MaterialManager> MaterialManager::materialManager;
 
 void MaterialManager::Initialize(ID3D12Device* device_)
 {
 	sDevice = device_;
-	PCreateDefaultTexture();
 	PCreateDefaultFbxMaterial();
 	PCreateDefaultFbxAnimationMaterial();
 }
@@ -172,7 +177,6 @@ void MaterialManager::AddMaterial(Material* material, const std::string& name_)
 
 void MaterialManager::Finalize()
 {
-	defaultTexture = nullptr;
 	sDevice = nullptr;
 	materials.clear();
 	materialManager.release();
@@ -183,32 +187,13 @@ Material* MaterialManager::SGetMaterial(const std::string& name_)
 	return MaterialManager::SGetInstance()->GetMaterialData(name_);
 }
 
-TextureData* MaterialManager::GetDefaultTextureData()
-{
-	return defaultTexture;
-}
-
-TextureData* MaterialManager::SGetDefaultTexture()
-{
-	return MaterialManager::SGetInstance()->GetDefaultTextureData();
-}
-
 MaterialManager::~MaterialManager()
 {
-}
-
-void MaterialManager::PCreateDefaultTexture()
-{
-	uint32_t lHandle = TextureManager::SLoad("Resources/Default/white1x1.png");
-	defaultTexture = TextureManager::SGetTextureData(lHandle);
 }
 
 void MaterialManager::PCreateDefaultTextureMaterial()
 {
 	std::unique_ptr<Material> lDefaultTextureMaterial = std::make_unique<Material>();
-
-	//テクスチャデータ設定
-	lDefaultTextureMaterial->textureData = defaultTexture;
 
 	//頂点シェーダの読み込み
 	lDefaultTextureMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/ModelBasic/ModelBasicVS.hlsl");
@@ -256,9 +241,6 @@ void MaterialManager::PCreateDefaultLambertMaterial()
 {
 	std::unique_ptr<Material>lDefaultLambertMaterial = std::make_unique<Material>();
 
-	//テクスチャデータ設定
-	lDefaultLambertMaterial->textureData = defaultTexture;
-
 	//頂点シェーダの読み込み
 	lDefaultLambertMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/Lambert/LambertVS.hlsl");
 
@@ -299,9 +281,6 @@ void MaterialManager::PCreateDefaultLambertMaterial()
 void MaterialManager::PCreateDefaultPhongMaterial()
 {
 	std::unique_ptr<Material>lDefaultPhongMaterial = std::make_unique<Material>();
-
-	//テクスチャデータ設定
-	lDefaultPhongMaterial->textureData = defaultTexture;
 
 	//頂点シェーダの読み込み
 	lDefaultPhongMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/Phong/PhongVS.hlsl");
@@ -405,9 +384,6 @@ void MaterialManager::PCreateDefaultFbxMaterial()
 {
 	std::unique_ptr<Material>lDefaultModelMaterial = std::make_unique<Material>();
 
-	//テクスチャデータ設定
-	lDefaultModelMaterial->textureData = defaultTexture;
-
 	//頂点シェーダの読み込み
 	lDefaultModelMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/DefaultModel/ModelVS.hlsl");
 
@@ -452,9 +428,6 @@ void MaterialManager::PCreateDefaultFbxAnimationMaterial()
 {
 	std::unique_ptr<Material>lDefaultModelMaterial = std::make_unique<Material>();
 
-//テクスチャデータ設定
-	lDefaultModelMaterial->textureData = defaultTexture;
-
 	//頂点シェーダの読み込み
 	lDefaultModelMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/DefaultModel/ModelAnimationVS.hlsl");
 
@@ -495,9 +468,6 @@ void MaterialManager::PCreateDefaultFbxAnimationMaterial()
 void MaterialManager::PCreateDefaultParticleMaterial()
 {
 	std::unique_ptr<Material>lDefaultParticleMaterial = std::make_unique<Material>();
-
-	//テクスチャデータ設定
-	lDefaultParticleMaterial->textureData = defaultTexture;
 
 	//頂点シェーダの読み込み
 	lDefaultParticleMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/2D/Particle/ParticleVS.hlsl");
@@ -596,9 +566,6 @@ void MaterialManager::PCreateDefaultRainParticleMaterial()
 {
 	std::unique_ptr<Material>lDefaultRainParticleMaterial = std::make_unique<Material>();
 
-	//テクスチャデータ設定
-	lDefaultRainParticleMaterial->textureData = defaultTexture;
-
 	//頂点シェーダの読み込み
 	lDefaultRainParticleMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/2D/Particle/RainParticleVS.hlsl");
 
@@ -683,9 +650,6 @@ void MaterialManager::PCreateDefaultIcosahedronParticleMaterial()
 {
 	std::unique_ptr<Material>lDefaultParticleMaterial = std::make_unique<Material>();
 
-	//テクスチャデータ設定
-	lDefaultParticleMaterial->textureData = defaultTexture;
-
 	//頂点シェーダの読み込み
 	lDefaultParticleMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/2D/Particle/ParticleVS.hlsl");
 
@@ -735,9 +699,6 @@ void MaterialManager::PCreateDefaultToonModelMaterial()
 {
 	std::unique_ptr<Material>lDefaultModelMaterial = std::make_unique<Material>();
 
-	//テクスチャデータ設定
-	lDefaultModelMaterial->textureData = defaultTexture;
-
 	//頂点シェーダの読み込み
 	lDefaultModelMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ToonModelVS.hlsl");
 
@@ -780,9 +741,6 @@ void MaterialManager::PCreateDefaultToonModelMaterial()
 void MaterialManager::PCreateDefaultToonModelAnimationMaterial()
 {
 	std::unique_ptr<Material>lDefaultModelMaterial = std::make_unique<Material>();
-
-//テクスチャデータ設定
-	lDefaultModelMaterial->textureData = defaultTexture;
 
 	//頂点シェーダの読み込み
 	lDefaultModelMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ToonModelAnimationVS.hlsl");
@@ -827,9 +785,6 @@ void MaterialManager::PCreateDefaultToonModelOutLineAnimationMaterial()
 {
 	std::unique_ptr<Material>lDefaultModelMaterial = std::make_unique<Material>();
 
-	//テクスチャデータ設定
-	lDefaultModelMaterial->textureData = defaultTexture;
-
 	//頂点シェーダの読み込み
 	lDefaultModelMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ToonModelAnimationOutLineVS.hlsl");
 
@@ -867,9 +822,6 @@ void MaterialManager::PCreateDefaultToonModelOutLineMaterial()
 {
 	std::unique_ptr<Material>lDefaultModelMaterial = std::make_unique<Material>();
 
-	//テクスチャデータ設定
-	lDefaultModelMaterial->textureData = defaultTexture;
-
 	//頂点シェーダの読み込み
 	lDefaultModelMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ToonModelOutLineVS.hlsl");
 
@@ -906,9 +858,6 @@ void MaterialManager::PCreateDefaultToonModelOutLineMaterial()
 void MaterialManager::PCreateDefaultZeldaToonModelMaterial()
 {
 	std::unique_ptr<Material>lDefaultModelMaterial = std::make_unique<Material>();
-
-	//テクスチャデータ設定
-	lDefaultModelMaterial->textureData = defaultTexture;
 
 	//頂点シェーダの読み込み
 	lDefaultModelMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ZeldaToonModelVS.hlsl");
@@ -953,9 +902,6 @@ void MaterialManager::PCreateDefaultZeldaToonModelMaterial()
 void MaterialManager::PCreateDefaultZeldaToonModelAnimationMaterial()
 {
 	std::unique_ptr<Material>lDefaultModelMaterial = std::make_unique<Material>();
-
-//テクスチャデータ設定
-	lDefaultModelMaterial->textureData = defaultTexture;
 
 	//頂点シェーダの読み込み
 	lDefaultModelMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ZeldaToonModelAnimationVS.hlsl");
@@ -1107,6 +1053,7 @@ std::unique_ptr<Material> MaterialManager::PCreateDefaultSprite3DBlend(BlendMode
 
 D3D12_BLEND_DESC MaterialManager::PCreateBlend(BlendMode mode_)
 {
+
 	D3D12_BLEND_DESC lBlendDesc = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
 
 	switch (mode_)

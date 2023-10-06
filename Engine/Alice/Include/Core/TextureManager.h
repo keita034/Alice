@@ -15,38 +15,8 @@
 #include<AliceMathUtility.h>
 
 #include<DirectX12Core.h>
+#include<TextureData.h>
 
-class TextureData
-{
-public:
-
-	//テクスチャバッファ
-	Microsoft::WRL::ComPtr<ID3D12Resource> texBuff;
-
-	//デスクプリタヒープ
-	ID3D12DescriptorHeap* srvHeap;
-
-	//GPUデスクプリタハンドル
-	D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle{};
-
-	std::string path;
-
-	//カラー
-	AliceMathF::Vector4 color = { 1.0f,1.0f,1.0f,1.0f };
-
-	//横幅
-	size_t width = 0;
-	//縦幅
-	size_t height = 0;
-
-	uint32_t textureHandle;
-
-private:
-	int32_t PADING;
-public:
-
-	~TextureData();
-};
 
 class TextureManager
 {

@@ -22,14 +22,8 @@
     <Filter Include="ヘッダー ファイル\Float\Vector">
       <UniqueIdentifier>{21a9c2ff-c1cf-4f8d-80e7-97347ddff7ba}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\Collision">
-      <UniqueIdentifier>{882fb807-13e1-4b54-9568-50ae25ffc991}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Float">
       <UniqueIdentifier>{4ddfedab-423a-440a-b503-b4cd0e6b0959}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Collision">
-      <UniqueIdentifier>{579e5711-9292-4969-acf0-d97f3ad2825e}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\Float\Matrix">
       <UniqueIdentifier>{311522ad-4d10-4c0d-8c5c-647e844c4f5d}</UniqueIdentifier>
@@ -66,18 +60,6 @@
     </Filter>
     <Filter Include="ヘッダー ファイル\Float\Matrix\Matrix2">
       <UniqueIdentifier>{e14bf0d1-1e06-404b-855d-a05b9557c90c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Collision\3D">
-      <UniqueIdentifier>{f5eeb1fb-c1ca-461e-bd9d-a4d8faa6d4f3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Collision\2D">
-      <UniqueIdentifier>{ea646d1f-edca-4dd8-bd51-e4cdfcae6d46}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Collision\2D">
-      <UniqueIdentifier>{51f8a9e3-2137-4a32-be70-dc9ea3e931d2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Collision\3D">
-      <UniqueIdentifier>{c55d5d64-b6da-451c-93cc-4848acb44fc8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

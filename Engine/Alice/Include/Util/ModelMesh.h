@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include<AliceUtility.h>
 #include<VertexBuffer.h>
 #include<IndexBuffer.h>
@@ -12,6 +12,7 @@
 #include<ComputeVertexBuffer.h>
 #include<Transform.h>
 #include<Light.h>
+#include<TextureManager.h>
 
 class ModelMesh
 {
