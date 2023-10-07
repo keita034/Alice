@@ -220,7 +220,8 @@
     <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModel.hlsli" />
     <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelOutLine.hlsli" />
     <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ZeldaToonModel.hlsli" />
-    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleEmit.hlsli" />
+    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticle.hlsli" />
+    <None Include="..\..\Resources\Shaders\HLSLMath.hlsli" />
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
@@ -632,6 +633,23 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleEmitCS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleDrawArgumentUpdateCS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleGS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticlePS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleUpdateCS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleVS.hlsl">
       <FileType>Document</FileType>
     </None>
   </ItemGroup>

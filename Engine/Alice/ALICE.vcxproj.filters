@@ -645,12 +645,16 @@
     <None Include="..\..\Resources\Shaders\2D\PostEffect\GaussianBlur\GaussianYBlurVS.hlsl">
       <Filter>リソース ファイル\シェーダー\2D\PostEffect\GaussianBlur</Filter>
     </None>
-    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleEmit.hlsli">
-      <Filter>リソース ファイル\シェーダー\2D\Particle</Filter>
-    </None>
     <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleEmitCS.hlsl">
       <Filter>リソース ファイル\シェーダー\2D\Particle</Filter>
     </None>
+    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticle.hlsli" />
+    <None Include="..\..\Resources\Shaders\HLSLMath.hlsli" />
+    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleVS.hlsl" />
+    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleUpdateCS.hlsl" />
+    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticlePS.hlsl" />
+    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleGS.hlsl" />
+    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleDrawArgumentUpdateCS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Core\TextureManager.cpp">

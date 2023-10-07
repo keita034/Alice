@@ -11,7 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\Pipeline\BasePipelineState.h" />
+    <ClInclude Include="Include\Pipeline\ComputeMaterial.h" />
     <ClInclude Include="Include\Buffer\DrawArgumentBuffer.h" />
+    <ClInclude Include="Include\Pipeline\BaseMaterial.h" />
     <ClInclude Include="Include\Pipeline\ComputePipelineState.h" />
     <ClInclude Include="Include\GPU\Adapter.h" />
     <ClInclude Include="Include\Pipeline\DefaultMaterial.h" />
@@ -42,6 +45,8 @@
     <ClInclude Include="Include\TextureData.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Pipeline\BasePipelineState.cpp" />
+    <ClCompile Include="Source\Pipeline\ComputeMaterial.cpp" />
     <ClCompile Include="Source\Buffer\DrawArgumentBuffer.cpp" />
     <ClCompile Include="Source\Pipeline\ComputePipelineState.cpp" />
     <ClCompile Include="Source\Pipeline\DefaultMaterial.cpp" />
@@ -114,12 +119,12 @@
     <OutDir>$(SolutionDir)..\Generated\Lib\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
     <LibraryPath>$(SolutionDir)Engine\Alice\lib\lib\debug;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)Engine\Alice\lib\Include;$(SolutionDir)Engine\AliceUtility\Include;$(SolutionDir)Engine\AliceUtility\Include\Others;$(SolutionDir)Engine\AliceUtility\Include\Utility;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Engine\Alice\lib\Include;$(SolutionDir)Engine\AliceUtility\Include;$(SolutionDir)Engine\AliceUtility\Include\Enum;$(SolutionDir)Engine\AliceUtility\Include\Others;$(SolutionDir)Engine\AliceUtility\Include\Utility;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)..\Generated\Lib\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)Engine\Alice\lib\Include;$(SolutionDir)Engine\AliceUtility\Include;$(SolutionDir)Engine\AliceUtility\Include\Others;$(SolutionDir)Engine\AliceUtility\Include\Utility;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Engine\Alice\lib\Include;$(SolutionDir)Engine\AliceUtility\Include;$(SolutionDir)Engine\AliceUtility\Include\Enum;$(SolutionDir)Engine\AliceUtility\Include\Others;$(SolutionDir)Engine\AliceUtility\Include\Utility;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Engine\Alice\lib\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

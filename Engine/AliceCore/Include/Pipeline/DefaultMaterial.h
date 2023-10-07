@@ -9,11 +9,13 @@ ALICE_SUPPRESS_WARNINGS_END
 
 #include<BlendMode.h>
 #include<Material.h>
+#include<ComputeMaterial.h>
 
 class MaterialManager
 {
 private:
-	std::unordered_map<std::string, std::unique_ptr<Material>>materials;
+	std::unordered_map<std::string,std::unique_ptr<Material>>materials;
+	std::unordered_map<std::string, std::unique_ptr<ComputeMaterial>>computeMaterials;
 	static std::unique_ptr<MaterialManager>materialManager;
 
 public:
@@ -31,10 +33,14 @@ public:
 	/// <param name="name_">名前</param>
 	Material* GetMaterialData(const std::string& name_);
 
+	ComputeMaterial* GetComputeMaterialData(const std::string& name_);
+
 	/// <summary>
 	/// マテリアル追加
 	/// </summary>
-	void AddMaterial(std::unique_ptr <Material>& material_, const std::string& name_);
+	void AddMaterial(std::unique_ptr <Material>& material_,const std::string& name_);
+
+	void AddMaterial(std::unique_ptr <ComputeMaterial>& material_, const std::string& name_);
 
 	/// <summary>
 	/// マテリアル追加
@@ -74,6 +80,11 @@ private:
 	void PCreateDefaultToonModelOutLineAnimationMaterial();
 	void PCreateDefaultZeldaToonModelMaterial();
 	void PCreateDefaultZeldaToonModelAnimationMaterial();
+	void PCreateDefaultBasicGPUParticleDrawMaterial();
+
+	void PCreateBasicGPUParticleEmitComputeMaterial();
+	void PCreateBasicGPUParticleUpdateComputeMaterial();
+	void PCreateBasicGPUParticleDrawArgumentUpdateComputeMaterial();
 
 	std::unique_ptr<Material> PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE type_, BlendMode mode_, IShader* vex_, IShader* pix_);
 	std::unique_ptr<Material> PCreateDefaultSprite2DBlend(BlendMode mode_, IShader* vex_, IShader* pix_);

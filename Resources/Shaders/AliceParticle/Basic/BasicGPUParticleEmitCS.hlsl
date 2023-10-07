@@ -1,4 +1,5 @@
-#include<BasicGPUParticleEmit.hlsli>
+#include<BasicGPUParticle.hlsli>
+#include<../../HLSLMath.hlsli>
 
 cbuffer objectData : register(b0)
 {
@@ -36,13 +37,17 @@ void main( uint3 DTid : SV_DispatchThreadID )
 	// ParticlePoolで更新する
     Particle emitParticle = ParticlePool.Load(emitIndex);
 
+    float3 rnd = RandVec3((int) TotalTime, RAND_MAX, 0);
+    
 	//色と位置はグリッドの位置とサイズに依存する。
-    emitParticle.Position = particleData.startPosition;
-    emitParticle.Velocity = float3(0, 0.0f, 0.0f);
+    emitParticle.Position = rnd / RAND_MAX * particleData.startPosition - particleData.startPosition / 2.0f;
+    emitParticle.Velocity = rnd / RAND_MAX * particleData.velocity - particleData.velocity / 2.0f;
     emitParticle.Color = particleData.startColor;
+    emitParticle.accel = rnd / RAND_MAX * particleData.accel;
     emitParticle.Age = 0.0f;
     emitParticle.Size = 0.5f;
     emitParticle.Alive = 1.0f;
+    emitParticle.index = emitIndex % particleDataCount;
 
 	//Put it back
     ParticlePool[emitIndex] = emitParticle;

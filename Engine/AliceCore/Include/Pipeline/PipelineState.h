@@ -9,7 +9,7 @@ ALICE_SUPPRESS_WARNINGS_BEGIN
 ALICE_SUPPRESS_WARNINGS_END
 
 #include<Shader.h>
-#include<Device.h>
+#include<BasePipelineState.h>
 
 struct RenderTargetFormat
 {
@@ -24,10 +24,9 @@ struct RenderTargetFormat
 /// <summary>
 /// パイプラインステート
 /// </summary>
-class PipelineState
+class PipelineState : public BasePipelineState
 {
 private:
-	static IDevice* sDevice;
 	//パイプラインステート
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelineState;
 	//ルートシグネチャ
@@ -152,7 +151,5 @@ public:
 	/// パイプラインステートを取得
 	/// </summary>
 	ID3D12PipelineState* GetPipelineState()const;
-
-	static void SSetDevice(IDevice* device_);
 };
 

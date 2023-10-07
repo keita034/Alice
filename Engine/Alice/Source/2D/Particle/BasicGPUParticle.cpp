@@ -99,7 +99,7 @@ void BasicGPUParticle::Update(float deltaTime_)
 		lCommandList->SetComputeRootDescriptorTable(0,drawListBuffer->GetAddress());
 		lCommandList->SetComputeRootDescriptorTable(1,drawArgumentBuffer->GetAddress());
 
-		lCommandList->Dispatch(1,1,1);
+		lCommandList->Dispatch(static_cast< UINT >( positions.size() ),1,1);
 
 	}
 }

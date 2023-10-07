@@ -10,9 +10,9 @@ ALICE_SUPPRESS_WARNINGS_END
 #include<Shader.h>
 #include<PipelineState.h>
 #include<RootSignature.h>
+#include<BaseMaterial.h>
 
-
-class Material
+class Material : public BaseMaterial
 {
 public:
 	std::string name;

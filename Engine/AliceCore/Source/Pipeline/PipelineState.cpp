@@ -2,8 +2,6 @@
 
 #include<AliceAssert.h>
 
-IDevice* PipelineState::sDevice = nullptr;
-
 bool PipelineState::Create()
 {
 	HRESULT lResult;
@@ -114,11 +112,6 @@ void PipelineState::SetRenderTargetFormat(const RenderTargetFormat& format_)
 ID3D12PipelineState* PipelineState::GetPipelineState()const
 {
 	return pipelineState.Get();
-}
-
-void PipelineState::SSetDevice(IDevice* device_)
-{
-	sDevice = device_;
 }
 
 void PipelineState::SetInputLayout(D3D12_INPUT_ELEMENT_DESC* desc_, size_t length_)

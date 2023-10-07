@@ -114,9 +114,6 @@
     <ClInclude Include="Include\Buffer\DrawArgumentBuffer.h">
       <Filter>ヘッダー ファイル\Buffer</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Pipeline\DefaultMaterial.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Include\TextureData.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -124,6 +121,18 @@
       <Filter>ヘッダー ファイル\Pipeline</Filter>
     </ClInclude>
     <ClInclude Include="Include\Pipeline\Shader.h">
+      <Filter>ヘッダー ファイル\Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Pipeline\BasePipelineState.h">
+      <Filter>ヘッダー ファイル\Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Pipeline\BaseMaterial.h">
+      <Filter>ヘッダー ファイル\Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Pipeline\ComputeMaterial.h">
+      <Filter>ヘッダー ファイル\Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Pipeline\DefaultMaterial.h">
       <Filter>ヘッダー ファイル\Pipeline</Filter>
     </ClInclude>
   </ItemGroup>
@@ -214,6 +223,12 @@
     </ClCompile>
     <ClCompile Include="Source\Pipeline\Material.cpp">
       <Filter>ソース ファイル\Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Pipeline\ComputeMaterial.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Pipeline\BasePipelineState.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

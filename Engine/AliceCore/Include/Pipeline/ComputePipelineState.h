@@ -7,6 +7,8 @@ ALICE_SUPPRESS_WARNINGS_BEGIN
 
 ALICE_SUPPRESS_WARNINGS_END
 
+#include<BasePipelineState.h>
+
 struct ID3D12Device;
 struct ID3D12PipelineState;
 struct D3D12_SHADER_BYTECODE;
@@ -24,7 +26,7 @@ enum COMPUTE_PIPELINE_STATE_FLAGS
 /// <summary>
 /// 計算シェーダ用パイプラインステート
 /// </summary>
-class IComputePipelineState
+class IComputePipelineState : public BasePipelineState
 {
 public:
 
@@ -64,8 +66,7 @@ public:
 	/// <summary>
 	/// 生成
 	/// </summary>
-	/// <param name="device">デバイス</param>
-	virtual void Create(ID3D12Device* device_) = 0;
+	virtual void Create() = 0;
 
 	/// <summary>
 	/// パイプラインステートを取得

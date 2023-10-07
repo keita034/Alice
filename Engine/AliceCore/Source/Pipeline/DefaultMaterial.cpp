@@ -29,149 +29,217 @@ MaterialManager* MaterialManager::SGetInstance()
 
 Material* MaterialManager::GetMaterialData(const std::string& name_)
 {
-	//一回読み込んだことがあるファイルはそのまま返す
-	auto itr = find_if(materials.begin(), materials.end(), [&](std::pair<const std::string, std::unique_ptr<Material, std::default_delete<Material>>>& p)
-		{
-			return p.second->name == name_;
-		});
-
-	if (itr != materials.end())
+	if ( name_.find("Compute") != std::string::npos )
 	{
-		return itr._Ptr->_Myval.second.get();
+		return nullptr;
 	}
-
-	if (itr == materials.end())
+	else
 	{
-		if (name_ == "DefaultTexture")
+		//一回読み込んだことがあるファイルはそのまま返す
+		auto itr = find_if(materials.begin(),materials.end(),[ & ] (std::pair<const std::string,std::unique_ptr<Material,std::default_delete<Material>>>& p)
+			{
+					return p.second->name == name_;
+			});
+
+		if ( itr != materials.end() )
 		{
-			PCreateDefaultTextureMaterial();
-		}
-		else if (name_ == "DefaultLambert")
-		{
-			PCreateDefaultLambertMaterial();
-		}
-		else if (name_ == "DefaultPhong")
-		{
-			PCreateDefaultPhongMaterial();
-		}
-		else if (
-			name_ == "Sprite2DNoblend" ||
-			name_ == "Sprite2DAlpha" ||
-			name_ == "Sprite2DAdd" ||
-			name_ == "Sprite2DSub" ||
-			name_ == "Sprite2DMula" ||
-			name_ == "Sprite2DInvsrc")
-		{
-			PCreateDefaultSprite2DMaterial();
-		}
-		else if (
-			name_ == "Sprite3DNoblend" ||
-			name_ == "Sprite3DAlpha" ||
-			name_ == "Sprite3DAdd" ||
-			name_ == "Sprite3DSub" ||
-			name_ == "Sprite3DMula" ||
-			name_ == "Sprite3DInvsrc")
-		{
-			PCreateDefaultSprite3DMaterial();
-		}
-		else if (name_ == "DefaultParticle")
-		{
-			PCreateDefaultParticleMaterial();
-		}
-		else if (name_ == "DefaultParticle")
-		{
-			PCreateDefaultParticleMaterial();
-		}
-		else if (
-			name_ == "MashTriangleNoblend" ||
-			name_ == "MashTriangleAlpha" ||
-			name_ == "MashTriangleAdd" ||
-			name_ == "MashTriangleSub" ||
-			name_ == "MashTriangleMula" ||
-			name_ == "MashTriangleInvsrc" ||
-			name_ == "MashLineNoblend" ||
-			name_ == "MashLineAlpha" ||
-			name_ == "MashLineAdd" ||
-			name_ == "MashLineSub" ||
-			name_ == "MashLineMula" ||
-			name_ == "MashLineInvsrc")
-		{
-			PCreateDefaultMeshMaterial();
-		}
-		else if (name_ == "DefaultRainParticle")
-		{
-			PCreateDefaultRainParticleMaterial();
-		}
-		else if (name_ == "DefaultPostEffect")
-		{
-			PCreateDefaultPostEffectMaterial();
-		}
-		else if (name_ == "IcosahedronParticle")
-		{
-			PCreateDefaultIcosahedronParticleMaterial();
-		}
-		else if (name_ == "DefaultToonModel")
-		{
-			PCreateDefaultToonModelMaterial();
-		}
-		else if (name_ == "DefaultToonModelAnimation")
-		{
-			PCreateDefaultToonModelAnimationMaterial();
-		}
-		else if (name_ == "DefaultToonModelOutLine")
-		{
-			PCreateDefaultToonModelOutLineMaterial();
-		}
-		else if (name_ == "DefaultToonModelAnimationOutLine")
-		{
-			PCreateDefaultToonModelOutLineAnimationMaterial();
-		}
-		else if (name_ == "DefaultZeldaToonModel")
-		{
-			PCreateDefaultZeldaToonModelMaterial();
-		}
-		else if (name_ == "DefaultZeldaToonModelAnimation")
-		{
-			PCreateDefaultZeldaToonModelAnimationMaterial();
+			return itr._Ptr->_Myval.second.get();
 		}
 
-		return materials[name_].get();
+		if ( itr == materials.end() )
+		{
+			if ( name_ == "DefaultTexture" )
+			{
+				PCreateDefaultTextureMaterial();
+			}
+			else if ( name_ == "DefaultLambert" )
+			{
+				PCreateDefaultLambertMaterial();
+			}
+			else if ( name_ == "DefaultPhong" )
+			{
+				PCreateDefaultPhongMaterial();
+			}
+			else if (
+				name_ == "Sprite2DNoblend" ||
+				name_ == "Sprite2DAlpha" ||
+				name_ == "Sprite2DAdd" ||
+				name_ == "Sprite2DSub" ||
+				name_ == "Sprite2DMula" ||
+				name_ == "Sprite2DInvsrc" )
+			{
+				PCreateDefaultSprite2DMaterial();
+			}
+			else if (
+				name_ == "Sprite3DNoblend" ||
+				name_ == "Sprite3DAlpha" ||
+				name_ == "Sprite3DAdd" ||
+				name_ == "Sprite3DSub" ||
+				name_ == "Sprite3DMula" ||
+				name_ == "Sprite3DInvsrc" )
+			{
+				PCreateDefaultSprite3DMaterial();
+			}
+			else if ( name_ == "DefaultParticle" )
+			{
+				PCreateDefaultParticleMaterial();
+			}
+			else if ( name_ == "DefaultParticle" )
+			{
+				PCreateDefaultParticleMaterial();
+			}
+			else if (
+				name_ == "MashTriangleNoblend" ||
+				name_ == "MashTriangleAlpha" ||
+				name_ == "MashTriangleAdd" ||
+				name_ == "MashTriangleSub" ||
+				name_ == "MashTriangleMula" ||
+				name_ == "MashTriangleInvsrc" ||
+				name_ == "MashLineNoblend" ||
+				name_ == "MashLineAlpha" ||
+				name_ == "MashLineAdd" ||
+				name_ == "MashLineSub" ||
+				name_ == "MashLineMula" ||
+				name_ == "MashLineInvsrc" )
+			{
+				PCreateDefaultMeshMaterial();
+			}
+			else if ( name_ == "DefaultRainParticle" )
+			{
+				PCreateDefaultRainParticleMaterial();
+			}
+			else if ( name_ == "DefaultPostEffect" )
+			{
+				PCreateDefaultPostEffectMaterial();
+			}
+			else if ( name_ == "IcosahedronParticle" )
+			{
+				PCreateDefaultIcosahedronParticleMaterial();
+			}
+			else if ( name_ == "DefaultToonModel" )
+			{
+				PCreateDefaultToonModelMaterial();
+			}
+			else if ( name_ == "DefaultToonModelAnimation" )
+			{
+				PCreateDefaultToonModelAnimationMaterial();
+			}
+			else if ( name_ == "DefaultToonModelOutLine" )
+			{
+				PCreateDefaultToonModelOutLineMaterial();
+			}
+			else if ( name_ == "DefaultToonModelAnimationOutLine" )
+			{
+				PCreateDefaultToonModelOutLineAnimationMaterial();
+			}
+			else if ( name_ == "DefaultZeldaToonModel" )
+			{
+				PCreateDefaultZeldaToonModelMaterial();
+			}
+			else if ( name_ == "DefaultZeldaToonModelAnimation" )
+			{
+				PCreateDefaultZeldaToonModelAnimationMaterial();
+			}
+			else if ( name_ == "DefaultBasicGPUParticleDraw" )
+			{
+				PCreateDefaultBasicGPUParticleDrawMaterial();
+			}
+
+			return materials[ name_ ].get();
+		}
+
+		return nullptr;
 	}
-
-	return nullptr;
 }
 
-void MaterialManager::AddMaterial(std::unique_ptr <Material>& material_, const std::string& name_)
+ComputeMaterial* MaterialManager::GetComputeMaterialData(const std::string& name_)
+{
+	if ( name_.find("Compute") == std::string::npos )
+	{
+		return nullptr;
+	}
+	else
+	{
+		//一回読み込んだことがあるファイルはそのまま返す
+		auto itr = find_if(computeMaterials.begin(),computeMaterials.end(),[ & ] (std::pair<const std::string,std::unique_ptr<ComputeMaterial,std::default_delete<ComputeMaterial>>>& p)
+			{
+					return p.second->name == name_;
+			});
+
+		if ( itr != computeMaterials.end() )
+		{
+			return itr._Ptr->_Myval.second.get();
+		}
+
+		if ( itr == computeMaterials.end() )
+		{
+			if ( name_ == "ComputeBasicGPUParticleEmit" )
+			{
+				PCreateBasicGPUParticleEmitComputeMaterial();
+			}
+			else if( name_ == "ComputeBasicGPUParticleUpdate" )
+			{
+				PCreateBasicGPUParticleUpdateComputeMaterial();
+			}
+			else if ( name_ == "ComputeBasicGPUParticleDrawArgumentUpdate" )
+			{
+				PCreateBasicGPUParticleDrawArgumentUpdateComputeMaterial();
+			}
+
+			return computeMaterials[ name_ ].get();
+		}
+
+		return nullptr;
+	}
+}
+
+void MaterialManager::AddMaterial(std::unique_ptr <Material>& material_,const std::string& name_)
 {
 	material_->name = name_;
 
 	//一回読み込んだことがあるファイルはそのまま返す
-	auto lMaterialItr = find_if(materials.begin(), materials.end(), [&](std::pair<const std::string, std::unique_ptr<Material, std::default_delete<Material>>>& material)
+	auto lMaterialItr = find_if(materials.begin(),materials.end(),[ & ] (std::pair<const std::string,std::unique_ptr<Material,std::default_delete<Material>>>& material)
 		{
 			return material.second->name == name_;
 		});
 
-	if (lMaterialItr == materials.end())
+	if ( lMaterialItr == materials.end() )
 	{
-		materials[name_] = std::move(material_);
+		materials[ name_ ] = std::move(material_);
 	}
 }
 
-void MaterialManager::AddMaterial(Material* material, const std::string& name_)
+void MaterialManager::AddMaterial(std::unique_ptr <ComputeMaterial>& material_,const std::string& name_)
+{
+	material_->name = name_;
+
+	//一回読み込んだことがあるファイルはそのまま返す
+	auto lMaterialItr = find_if(computeMaterials.begin(),computeMaterials.end(),[ & ] (std::pair<const std::string,std::unique_ptr<ComputeMaterial,std::default_delete<ComputeMaterial>>>& material)
+		{
+			return material.second->name == name_;
+		});
+
+	if ( lMaterialItr == computeMaterials.end() )
+	{
+		computeMaterials[ name_ ] = std::move(material_);
+	}
+}
+
+void MaterialManager::AddMaterial(Material* material,const std::string& name_)
 {
 	material->name = name_;
 
 	//一回読み込んだことがあるファイルはそのまま返す
-	auto lMaterialItr = find_if(materials.begin(), materials.end(), [&](std::pair<const std::string, std::unique_ptr<Material, std::default_delete<Material>>>& material)
+	auto lMaterialItr = find_if(materials.begin(),materials.end(),[ & ] (std::pair<const std::string,std::unique_ptr<Material,std::default_delete<Material>>>& material)
 		{
 			return material.second->name == name_;
 		});
 
-	if (lMaterialItr == materials.end())
+	if ( lMaterialItr == materials.end() )
 	{
 		std::unique_ptr<Material> lMaterial;
 		lMaterial.reset(material);
-		materials[name_] = std::move(lMaterial);
+		materials[ name_ ] = std::move(lMaterial);
 	}
 }
 
@@ -179,6 +247,7 @@ void MaterialManager::Finalize()
 {
 	sDevice = nullptr;
 	materials.clear();
+	computeMaterials.clear();
 	materialManager.release();
 }
 
@@ -191,6 +260,8 @@ MaterialManager::~MaterialManager()
 {
 }
 
+#pragma region グラフィックス
+
 void MaterialManager::PCreateDefaultTextureMaterial()
 {
 	std::unique_ptr<Material> lDefaultTextureMaterial = std::make_unique<Material>();
@@ -199,10 +270,10 @@ void MaterialManager::PCreateDefaultTextureMaterial()
 	lDefaultTextureMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/ModelBasic/ModelBasicVS.hlsl");
 
 	//ジオメトリシェーダの読み込み
-	lDefaultTextureMaterial->geometryShader = CreateUniqueShader("Resources/Shaders/3D/Model/ModelBasic/PolygonEffectGS.hlsl", "main", "gs_5_0", IShader::ShaderType::GS);
+	lDefaultTextureMaterial->geometryShader = CreateUniqueShader("Resources/Shaders/3D/Model/ModelBasic/PolygonEffectGS.hlsl","main","gs_5_0",IShader::ShaderType::GS);
 
 	//ピクセルシェーダの読み込み
-	lDefaultTextureMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/ModelBasic/ModelBasicPS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
+	lDefaultTextureMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/ModelBasic/ModelBasicPS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	lDefaultTextureMaterial->inputLayouts = {
@@ -216,25 +287,25 @@ void MaterialManager::PCreateDefaultTextureMaterial()
 
 	//ルートシグネチャ設定
 	lDefaultTextureMaterial->rootSignature = CreateUniqueRootSignature();
-	lDefaultTextureMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
-	lDefaultTextureMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 1);//b1
-	lDefaultTextureMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 2);//b2
-	lDefaultTextureMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 3);//b3
-	lDefaultTextureMaterial->rootSignature->Add(IRootSignature::RangeType::SRV, 0);//t0
+	lDefaultTextureMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
+	lDefaultTextureMaterial->rootSignature->Add(IRootSignature::RootType::CBV,1);//b1
+	lDefaultTextureMaterial->rootSignature->Add(IRootSignature::RootType::CBV,2);//b2
+	lDefaultTextureMaterial->rootSignature->Add(IRootSignature::RootType::CBV,3);//b3
+	lDefaultTextureMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 	lDefaultTextureMaterial->rootSignature->AddStaticSampler(0);//s0
 	lDefaultTextureMaterial->rootSignature->Create(sDevice);
 
 	//ブレンド設定
-	lDefaultTextureMaterial->blenddesc.RenderTarget[0].BlendEnable = true;// ブレンドを有効
-	lDefaultTextureMaterial->blenddesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;// ソースのアルファ値
-	lDefaultTextureMaterial->blenddesc.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;// 1.0f-ソースのアルファ値
+	lDefaultTextureMaterial->blenddesc.RenderTarget[ 0 ].BlendEnable = true;// ブレンドを有効
+	lDefaultTextureMaterial->blenddesc.RenderTarget[ 0 ].SrcBlend = D3D12_BLEND_SRC_ALPHA;// ソースのアルファ値
+	lDefaultTextureMaterial->blenddesc.RenderTarget[ 0 ].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;// 1.0f-ソースのアルファ値
 
 	lDefaultTextureMaterial->cullMode = D3D12_CULL_MODE_NONE;
 
 	//生成
 	lDefaultTextureMaterial->Initialize();
 
-	AddMaterial(lDefaultTextureMaterial, "DefaultTexture");
+	AddMaterial(lDefaultTextureMaterial,"DefaultTexture");
 }
 
 void MaterialManager::PCreateDefaultLambertMaterial()
@@ -245,7 +316,7 @@ void MaterialManager::PCreateDefaultLambertMaterial()
 	lDefaultLambertMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/Lambert/LambertVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	lDefaultLambertMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/Lambert/LambertPS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
+	lDefaultLambertMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/Lambert/LambertPS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	lDefaultLambertMaterial->inputLayouts = {
@@ -259,23 +330,23 @@ void MaterialManager::PCreateDefaultLambertMaterial()
 
 	//ルートシグネチャ設定
 	lDefaultLambertMaterial->rootSignature = CreateUniqueRootSignature();
-	lDefaultLambertMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
-	lDefaultLambertMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 1);//b1
-	lDefaultLambertMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 2);//b2
-	lDefaultLambertMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 3);//b3
-	lDefaultLambertMaterial->rootSignature->Add(IRootSignature::RangeType::SRV, 0);//t0
+	lDefaultLambertMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
+	lDefaultLambertMaterial->rootSignature->Add(IRootSignature::RootType::CBV,1);//b1
+	lDefaultLambertMaterial->rootSignature->Add(IRootSignature::RootType::CBV,2);//b2
+	lDefaultLambertMaterial->rootSignature->Add(IRootSignature::RootType::CBV,3);//b3
+	lDefaultLambertMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 	lDefaultLambertMaterial->rootSignature->AddStaticSampler(0);//s0
 	lDefaultLambertMaterial->rootSignature->Create(sDevice);
 
 	//ブレンド設定
-	lDefaultLambertMaterial->blenddesc.RenderTarget[0].BlendEnable = true;// ブレンドを有効
-	lDefaultLambertMaterial->blenddesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;// ソースのアルファ値
-	lDefaultLambertMaterial->blenddesc.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;// 1.0f-ソースのアルファ値
+	lDefaultLambertMaterial->blenddesc.RenderTarget[ 0 ].BlendEnable = true;// ブレンドを有効
+	lDefaultLambertMaterial->blenddesc.RenderTarget[ 0 ].SrcBlend = D3D12_BLEND_SRC_ALPHA;// ソースのアルファ値
+	lDefaultLambertMaterial->blenddesc.RenderTarget[ 0 ].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;// 1.0f-ソースのアルファ値
 
 	//生成
 	lDefaultLambertMaterial->Initialize();
 
-	AddMaterial(lDefaultLambertMaterial, "DefaultLambert");
+	AddMaterial(lDefaultLambertMaterial,"DefaultLambert");
 }
 
 void MaterialManager::PCreateDefaultPhongMaterial()
@@ -286,7 +357,7 @@ void MaterialManager::PCreateDefaultPhongMaterial()
 	lDefaultPhongMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/Phong/PhongVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	lDefaultPhongMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/Phong/PhongPS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
+	lDefaultPhongMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/Phong/PhongPS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	lDefaultPhongMaterial->inputLayouts = {
@@ -301,11 +372,11 @@ void MaterialManager::PCreateDefaultPhongMaterial()
 
 	//ルートシグネチャ設定
 	lDefaultPhongMaterial->rootSignature = CreateUniqueRootSignature();
-	lDefaultPhongMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
-	lDefaultPhongMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 1);//b1
-	lDefaultPhongMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 2);//b2
-	lDefaultPhongMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 3);//b3
-	lDefaultPhongMaterial->rootSignature->Add(IRootSignature::RangeType::SRV, 0);//t0
+	lDefaultPhongMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
+	lDefaultPhongMaterial->rootSignature->Add(IRootSignature::RootType::CBV,1);//b1
+	lDefaultPhongMaterial->rootSignature->Add(IRootSignature::RootType::CBV,2);//b2
+	lDefaultPhongMaterial->rootSignature->Add(IRootSignature::RootType::CBV,3);//b3
+	lDefaultPhongMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 	lDefaultPhongMaterial->rootSignature->AddStaticSampler(0);//s0
 	lDefaultPhongMaterial->rootSignature->Create(sDevice);
 
@@ -318,7 +389,7 @@ void MaterialManager::PCreateDefaultPhongMaterial()
 	//生成
 	lDefaultPhongMaterial->Initialize();
 
-	AddMaterial(lDefaultPhongMaterial, "DefaultPhong");
+	AddMaterial(lDefaultPhongMaterial,"DefaultPhong");
 
 }
 
@@ -328,27 +399,27 @@ void MaterialManager::PCreateDefaultSprite2DMaterial()
 	std::unique_ptr<IShader>lVertexShader = CreateUniqueShader("Resources/Shaders/2D/Sprite/SpriteVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	std::unique_ptr<IShader>lPixelShader = CreateUniqueShader("Resources/Shaders/2D/Sprite/SpritePS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
+	std::unique_ptr<IShader>lPixelShader = CreateUniqueShader("Resources/Shaders/2D/Sprite/SpritePS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
 
 	std::unique_ptr<Material>lMaterial;
 
-	lMaterial = PCreateDefaultSprite2DBlend(BlendMode::AX_BLENDMODE_NOBLEND, lVertexShader.get(), lPixelShader.get());
-	AddMaterial(lMaterial, "Sprite2DNoblend");
+	lMaterial = PCreateDefaultSprite2DBlend(BlendMode::AX_BLENDMODE_NOBLEND,lVertexShader.get(),lPixelShader.get());
+	AddMaterial(lMaterial,"Sprite2DNoblend");
 
-	lMaterial = PCreateDefaultSprite2DBlend(BlendMode::AX_BLENDMODE_ALPHA, lVertexShader.get(), lPixelShader.get());
-	AddMaterial(lMaterial, "Sprite2DAlpha");
+	lMaterial = PCreateDefaultSprite2DBlend(BlendMode::AX_BLENDMODE_ALPHA,lVertexShader.get(),lPixelShader.get());
+	AddMaterial(lMaterial,"Sprite2DAlpha");
 
-	lMaterial = PCreateDefaultSprite2DBlend(BlendMode::AX_BLENDMODE_ADD, lVertexShader.get(), lPixelShader.get());
-	AddMaterial(lMaterial, "Sprite2DAdd");
+	lMaterial = PCreateDefaultSprite2DBlend(BlendMode::AX_BLENDMODE_ADD,lVertexShader.get(),lPixelShader.get());
+	AddMaterial(lMaterial,"Sprite2DAdd");
 
-	lMaterial = PCreateDefaultSprite2DBlend(BlendMode::AX_BLENDMODE_SUB, lVertexShader.get(), lPixelShader.get());
-	AddMaterial(lMaterial, "Sprite2DSub");
+	lMaterial = PCreateDefaultSprite2DBlend(BlendMode::AX_BLENDMODE_SUB,lVertexShader.get(),lPixelShader.get());
+	AddMaterial(lMaterial,"Sprite2DSub");
 
-	lMaterial = PCreateDefaultSprite2DBlend(BlendMode::AX_BLENDMODE_MULA, lVertexShader.get(), lPixelShader.get());
-	AddMaterial(lMaterial, "Sprite2DMula");
+	lMaterial = PCreateDefaultSprite2DBlend(BlendMode::AX_BLENDMODE_MULA,lVertexShader.get(),lPixelShader.get());
+	AddMaterial(lMaterial,"Sprite2DMula");
 
-	lMaterial = PCreateDefaultSprite2DBlend(BlendMode::AX_BLENDMODE_INVSRC, lVertexShader.get(), lPixelShader.get());
-	AddMaterial(lMaterial, "Sprite2DInvsrc");
+	lMaterial = PCreateDefaultSprite2DBlend(BlendMode::AX_BLENDMODE_INVSRC,lVertexShader.get(),lPixelShader.get());
+	AddMaterial(lMaterial,"Sprite2DInvsrc");
 }
 
 void MaterialManager::PCreateDefaultSprite3DMaterial()
@@ -357,27 +428,27 @@ void MaterialManager::PCreateDefaultSprite3DMaterial()
 	std::unique_ptr<IShader>lVertexShader = CreateUniqueShader("Resources/Shaders/2D/Sprite/SpriteVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	std::unique_ptr<IShader>lPixelShader = CreateUniqueShader("Resources/Shaders/2D/Sprite/SpritePS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
+	std::unique_ptr<IShader>lPixelShader = CreateUniqueShader("Resources/Shaders/2D/Sprite/SpritePS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
 
 	std::unique_ptr<Material>lMaterial;
 
-	lMaterial = PCreateDefaultSprite3DBlend(BlendMode::AX_BLENDMODE_NOBLEND, lVertexShader.get(), lPixelShader.get());
-	AddMaterial(lMaterial, "Sprite3DNoblend");
+	lMaterial = PCreateDefaultSprite3DBlend(BlendMode::AX_BLENDMODE_NOBLEND,lVertexShader.get(),lPixelShader.get());
+	AddMaterial(lMaterial,"Sprite3DNoblend");
 
-	lMaterial = PCreateDefaultSprite3DBlend(BlendMode::AX_BLENDMODE_ALPHA, lVertexShader.get(), lPixelShader.get());
-	AddMaterial(lMaterial, "Sprite3DAlpha");
+	lMaterial = PCreateDefaultSprite3DBlend(BlendMode::AX_BLENDMODE_ALPHA,lVertexShader.get(),lPixelShader.get());
+	AddMaterial(lMaterial,"Sprite3DAlpha");
 
-	lMaterial = PCreateDefaultSprite3DBlend(BlendMode::AX_BLENDMODE_ADD, lVertexShader.get(), lPixelShader.get());
-	AddMaterial(lMaterial, "Sprite3DAdd");
+	lMaterial = PCreateDefaultSprite3DBlend(BlendMode::AX_BLENDMODE_ADD,lVertexShader.get(),lPixelShader.get());
+	AddMaterial(lMaterial,"Sprite3DAdd");
 
-	lMaterial = PCreateDefaultSprite3DBlend(BlendMode::AX_BLENDMODE_SUB, lVertexShader.get(), lPixelShader.get());
-	AddMaterial(lMaterial, "Sprite3DSub");
+	lMaterial = PCreateDefaultSprite3DBlend(BlendMode::AX_BLENDMODE_SUB,lVertexShader.get(),lPixelShader.get());
+	AddMaterial(lMaterial,"Sprite3DSub");
 
-	lMaterial = PCreateDefaultSprite3DBlend(BlendMode::AX_BLENDMODE_MULA, lVertexShader.get(), lPixelShader.get());
-	AddMaterial(lMaterial, "Sprite3DMula");
+	lMaterial = PCreateDefaultSprite3DBlend(BlendMode::AX_BLENDMODE_MULA,lVertexShader.get(),lPixelShader.get());
+	AddMaterial(lMaterial,"Sprite3DMula");
 
-	lMaterial = PCreateDefaultSprite3DBlend(BlendMode::AX_BLENDMODE_INVSRC, lVertexShader.get(), lPixelShader.get());
-	AddMaterial(lMaterial, "Sprite3DInvsrc");
+	lMaterial = PCreateDefaultSprite3DBlend(BlendMode::AX_BLENDMODE_INVSRC,lVertexShader.get(),lPixelShader.get());
+	AddMaterial(lMaterial,"Sprite3DInvsrc");
 }
 
 void MaterialManager::PCreateDefaultFbxMaterial()
@@ -388,7 +459,7 @@ void MaterialManager::PCreateDefaultFbxMaterial()
 	lDefaultModelMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/DefaultModel/ModelVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	lDefaultModelMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/DefaultModel/ModelPS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
+	lDefaultModelMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/DefaultModel/ModelPS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	lDefaultModelMaterial->inputLayouts = {
@@ -403,11 +474,11 @@ void MaterialManager::PCreateDefaultFbxMaterial()
 
 	//ルートシグネチャ設定
 	lDefaultModelMaterial->rootSignature = CreateUniqueRootSignature();
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 1);//b1
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 2);//b2
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 3);//b3
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RangeType::SRV, 0);//t0
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,1);//b1
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,2);//b2
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,3);//b3
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 	lDefaultModelMaterial->rootSignature->AddStaticSampler(0);//s0
 	lDefaultModelMaterial->rootSignature->Create(sDevice);
 
@@ -421,7 +492,7 @@ void MaterialManager::PCreateDefaultFbxMaterial()
 	lDefaultModelMaterial->Initialize();
 
 
-	AddMaterial(lDefaultModelMaterial, "DefaultFbx");
+	AddMaterial(lDefaultModelMaterial,"DefaultFbx");
 }
 
 void MaterialManager::PCreateDefaultFbxAnimationMaterial()
@@ -432,7 +503,7 @@ void MaterialManager::PCreateDefaultFbxAnimationMaterial()
 	lDefaultModelMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/DefaultModel/ModelAnimationVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	lDefaultModelMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/DefaultModel/ModelPS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
+	lDefaultModelMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/DefaultModel/ModelPS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	lDefaultModelMaterial->inputLayouts = {
@@ -447,11 +518,11 @@ void MaterialManager::PCreateDefaultFbxAnimationMaterial()
 
 	//ルートシグネチャ設定
 	lDefaultModelMaterial->rootSignature = CreateUniqueRootSignature();
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 1);//b1
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 2);//b2
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 3);//b3
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RangeType::SRV, 0);//t0
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,1);//b1
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,2);//b2
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,3);//b3
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 	lDefaultModelMaterial->rootSignature->AddStaticSampler(0);//s0
 	lDefaultModelMaterial->rootSignature->Create(sDevice);
 
@@ -462,7 +533,7 @@ void MaterialManager::PCreateDefaultFbxAnimationMaterial()
 	//生成
 	lDefaultModelMaterial->Initialize();
 
-	AddMaterial(lDefaultModelMaterial, "DefaultFbxAnimation");
+	AddMaterial(lDefaultModelMaterial,"DefaultFbxAnimation");
 }
 
 void MaterialManager::PCreateDefaultParticleMaterial()
@@ -473,9 +544,9 @@ void MaterialManager::PCreateDefaultParticleMaterial()
 	lDefaultParticleMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/2D/Particle/ParticleVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	lDefaultParticleMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/2D/Particle/ParticlePS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
+	lDefaultParticleMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/2D/Particle/ParticlePS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
 
-	lDefaultParticleMaterial->geometryShader = CreateUniqueShader("Resources/Shaders/2D/Particle/ParticleGS.hlsl", "main", "gs_5_0", IShader::ShaderType::GS);
+	lDefaultParticleMaterial->geometryShader = CreateUniqueShader("Resources/Shaders/2D/Particle/ParticleGS.hlsl","main","gs_5_0",IShader::ShaderType::GS);
 
 	//頂点レイアウト設定
 	lDefaultParticleMaterial->inputLayouts = {
@@ -492,15 +563,15 @@ void MaterialManager::PCreateDefaultParticleMaterial()
 
 	//ルートシグネチャ設定
 	lDefaultParticleMaterial->rootSignature = CreateUniqueRootSignature();
-	lDefaultParticleMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
-	lDefaultParticleMaterial->rootSignature->Add(IRootSignature::RangeType::SRV, 0);//t0
+	lDefaultParticleMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
+	lDefaultParticleMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 	lDefaultParticleMaterial->rootSignature->AddStaticSampler(0);//s0
 	lDefaultParticleMaterial->rootSignature->Create(sDevice);
 
 	//ブレンド設定
-	lDefaultParticleMaterial->blenddesc.RenderTarget[0].BlendEnable = true;// ブレンドを有効
-	lDefaultParticleMaterial->blenddesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;// ソースのアルファ値
-	lDefaultParticleMaterial->blenddesc.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;// 1.0f-ソースのアルファ値
+	lDefaultParticleMaterial->blenddesc.RenderTarget[ 0 ].BlendEnable = true;// ブレンドを有効
+	lDefaultParticleMaterial->blenddesc.RenderTarget[ 0 ].SrcBlend = D3D12_BLEND_SRC_ALPHA;// ソースのアルファ値
+	lDefaultParticleMaterial->blenddesc.RenderTarget[ 0 ].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;// 1.0f-ソースのアルファ値
 
 	lDefaultParticleMaterial->primitiveType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT;
 
@@ -509,7 +580,7 @@ void MaterialManager::PCreateDefaultParticleMaterial()
 	//生成
 	lDefaultParticleMaterial->Initialize();
 
-	AddMaterial(lDefaultParticleMaterial, "DefaultParticle");
+	AddMaterial(lDefaultParticleMaterial,"DefaultParticle");
 }
 
 void MaterialManager::PCreateDefaultMeshMaterial()
@@ -518,47 +589,47 @@ void MaterialManager::PCreateDefaultMeshMaterial()
 	std::unique_ptr<IShader>lVertexShader = CreateUniqueShader("Resources/Shaders/2D/Mesh/MeshVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	std::unique_ptr<IShader>lPixelShader = CreateUniqueShader("Resources/Shaders/2D/Mesh/MeshPS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
+	std::unique_ptr<IShader>lPixelShader = CreateUniqueShader("Resources/Shaders/2D/Mesh/MeshPS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
 
 	std::unique_ptr<Material>lMaterial;
 
 	//三角形形状用パイプラインセット
-	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, BlendMode::AX_BLENDMODE_NOBLEND, lVertexShader.get(), lPixelShader.get());
-	AddMaterial(lMaterial, "MashTriangleNoblend");
+	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE,BlendMode::AX_BLENDMODE_NOBLEND,lVertexShader.get(),lPixelShader.get());
+	AddMaterial(lMaterial,"MashTriangleNoblend");
 
-	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, BlendMode::AX_BLENDMODE_ALPHA, lVertexShader.get(), lPixelShader.get());
-	AddMaterial(lMaterial, "MashTriangleAlpha");
+	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE,BlendMode::AX_BLENDMODE_ALPHA,lVertexShader.get(),lPixelShader.get());
+	AddMaterial(lMaterial,"MashTriangleAlpha");
 
-	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, BlendMode::AX_BLENDMODE_ADD, lVertexShader.get(), lPixelShader.get());
-	AddMaterial(lMaterial, "MashTriangleAdd");
+	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE,BlendMode::AX_BLENDMODE_ADD,lVertexShader.get(),lPixelShader.get());
+	AddMaterial(lMaterial,"MashTriangleAdd");
 
-	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, BlendMode::AX_BLENDMODE_SUB, lVertexShader.get(), lPixelShader.get());
-	AddMaterial(lMaterial, "MashTriangleSub");
+	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE,BlendMode::AX_BLENDMODE_SUB,lVertexShader.get(),lPixelShader.get());
+	AddMaterial(lMaterial,"MashTriangleSub");
 
-	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, BlendMode::AX_BLENDMODE_MULA, lVertexShader.get(), lPixelShader.get());
-	AddMaterial(lMaterial, "MashTriangleMula");
+	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE,BlendMode::AX_BLENDMODE_MULA,lVertexShader.get(),lPixelShader.get());
+	AddMaterial(lMaterial,"MashTriangleMula");
 
-	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, BlendMode::AX_BLENDMODE_INVSRC, lVertexShader.get(), lPixelShader.get());
-	AddMaterial(lMaterial, "MashTriangleInvsrc");
+	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE,BlendMode::AX_BLENDMODE_INVSRC,lVertexShader.get(),lPixelShader.get());
+	AddMaterial(lMaterial,"MashTriangleInvsrc");
 
 	//ライン形状用パイプラインセット
-	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE, BlendMode::AX_BLENDMODE_NOBLEND, lVertexShader.get(), lPixelShader.get());
-	AddMaterial(lMaterial, "MashLineNoblend");
+	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE,BlendMode::AX_BLENDMODE_NOBLEND,lVertexShader.get(),lPixelShader.get());
+	AddMaterial(lMaterial,"MashLineNoblend");
 
-	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE, BlendMode::AX_BLENDMODE_ALPHA, lVertexShader.get(), lPixelShader.get());
-	AddMaterial(lMaterial, "MashLineAlpha");
+	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE,BlendMode::AX_BLENDMODE_ALPHA,lVertexShader.get(),lPixelShader.get());
+	AddMaterial(lMaterial,"MashLineAlpha");
 
-	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE, BlendMode::AX_BLENDMODE_ADD, lVertexShader.get(), lPixelShader.get());
-	AddMaterial(lMaterial, "MashLineAdd");
+	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE,BlendMode::AX_BLENDMODE_ADD,lVertexShader.get(),lPixelShader.get());
+	AddMaterial(lMaterial,"MashLineAdd");
 
-	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE, BlendMode::AX_BLENDMODE_SUB, lVertexShader.get(), lPixelShader.get());
-	AddMaterial(lMaterial, "MashLineSub");
+	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE,BlendMode::AX_BLENDMODE_SUB,lVertexShader.get(),lPixelShader.get());
+	AddMaterial(lMaterial,"MashLineSub");
 
-	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE, BlendMode::AX_BLENDMODE_MULA, lVertexShader.get(), lPixelShader.get());
-	AddMaterial(lMaterial, "MashLineMula");
+	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE,BlendMode::AX_BLENDMODE_MULA,lVertexShader.get(),lPixelShader.get());
+	AddMaterial(lMaterial,"MashLineMula");
 
-	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE, BlendMode::AX_BLENDMODE_INVSRC, lVertexShader.get(), lPixelShader.get());
-	AddMaterial(lMaterial, "MashLineInvsrc");
+	lMaterial = PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE,BlendMode::AX_BLENDMODE_INVSRC,lVertexShader.get(),lPixelShader.get());
+	AddMaterial(lMaterial,"MashLineInvsrc");
 
 }
 
@@ -570,9 +641,9 @@ void MaterialManager::PCreateDefaultRainParticleMaterial()
 	lDefaultRainParticleMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/2D/Particle/RainParticleVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	lDefaultRainParticleMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/2D/Particle/RainParticlePS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
+	lDefaultRainParticleMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/2D/Particle/RainParticlePS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
 
-	lDefaultRainParticleMaterial->geometryShader = CreateUniqueShader("Resources/Shaders/2D/Particle/RainParticleGS.hlsl", "main", "gs_5_0", IShader::ShaderType::GS);
+	lDefaultRainParticleMaterial->geometryShader = CreateUniqueShader("Resources/Shaders/2D/Particle/RainParticleGS.hlsl","main","gs_5_0",IShader::ShaderType::GS);
 
 	//頂点レイアウト設定
 	lDefaultRainParticleMaterial->inputLayouts = {
@@ -589,13 +660,13 @@ void MaterialManager::PCreateDefaultRainParticleMaterial()
 
 	//ルートシグネチャ設定
 	lDefaultRainParticleMaterial->rootSignature = CreateUniqueRootSignature();
-	lDefaultRainParticleMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
+	lDefaultRainParticleMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
 	lDefaultRainParticleMaterial->rootSignature->Create(sDevice);
 
 	//ブレンド設定
-	lDefaultRainParticleMaterial->blenddesc.RenderTarget[0].BlendEnable = true;// ブレンドを有効
-	lDefaultRainParticleMaterial->blenddesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;// ソースのアルファ値
-	lDefaultRainParticleMaterial->blenddesc.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;// 1.0f-ソースのアルファ値
+	lDefaultRainParticleMaterial->blenddesc.RenderTarget[ 0 ].BlendEnable = true;// ブレンドを有効
+	lDefaultRainParticleMaterial->blenddesc.RenderTarget[ 0 ].SrcBlend = D3D12_BLEND_SRC_ALPHA;// ソースのアルファ値
+	lDefaultRainParticleMaterial->blenddesc.RenderTarget[ 0 ].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;// 1.0f-ソースのアルファ値
 
 	lDefaultRainParticleMaterial->primitiveType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT;
 
@@ -604,7 +675,7 @@ void MaterialManager::PCreateDefaultRainParticleMaterial()
 	//生成
 	lDefaultRainParticleMaterial->Initialize();
 
-	AddMaterial(lDefaultRainParticleMaterial, "DefaultRainParticle");
+	AddMaterial(lDefaultRainParticleMaterial,"DefaultRainParticle");
 }
 
 void MaterialManager::PCreateDefaultPostEffectMaterial()
@@ -615,7 +686,7 @@ void MaterialManager::PCreateDefaultPostEffectMaterial()
 	lDefaultPostEffectMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/PostEffectTest/PostEffectTestVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	lDefaultPostEffectMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/PostEffectTest/PostEffectTestPS.hlsl", "main", "ps_5_0");
+	lDefaultPostEffectMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/PostEffectTest/PostEffectTestPS.hlsl","main","ps_5_0");
 
 	//頂点レイアウト設定
 	lDefaultPostEffectMaterial->inputLayouts =
@@ -630,20 +701,20 @@ void MaterialManager::PCreateDefaultPostEffectMaterial()
 
 	lDefaultPostEffectMaterial->depthFlag = false;
 
-	lDefaultPostEffectMaterial->blenddesc.RenderTarget[0].BlendEnable = true;// ブレンドを有効
-	lDefaultPostEffectMaterial->blenddesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;// ソースのアルファ値
-	lDefaultPostEffectMaterial->blenddesc.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;// 1.0f-ソースのアルファ値
+	lDefaultPostEffectMaterial->blenddesc.RenderTarget[ 0 ].BlendEnable = true;// ブレンドを有効
+	lDefaultPostEffectMaterial->blenddesc.RenderTarget[ 0 ].SrcBlend = D3D12_BLEND_SRC_ALPHA;// ソースのアルファ値
+	lDefaultPostEffectMaterial->blenddesc.RenderTarget[ 0 ].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;// 1.0f-ソースのアルファ値
 
 	//ルートシグネチャ設定
 	lDefaultPostEffectMaterial->rootSignature = CreateUniqueRootSignature();
-	lDefaultPostEffectMaterial->rootSignature->Add(IRootSignature::RangeType::SRV, 0);//t0
+	lDefaultPostEffectMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 	lDefaultPostEffectMaterial->rootSignature->AddStaticSampler(0);//s0
 	lDefaultPostEffectMaterial->rootSignature->Create(sDevice);
 
 	//生成
 	lDefaultPostEffectMaterial->Initialize();
 
-	AddMaterial(lDefaultPostEffectMaterial, "DefaultPostEffect");
+	AddMaterial(lDefaultPostEffectMaterial,"DefaultPostEffect");
 }
 
 void MaterialManager::PCreateDefaultIcosahedronParticleMaterial()
@@ -654,9 +725,9 @@ void MaterialManager::PCreateDefaultIcosahedronParticleMaterial()
 	lDefaultParticleMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/2D/Particle/ParticleVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	lDefaultParticleMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/2D/Particle/ParticlePS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
+	lDefaultParticleMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/2D/Particle/ParticlePS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
 
-	lDefaultParticleMaterial->geometryShader = CreateUniqueShader("Resources/Shaders/2D/Particle/IcosahedronGS.hlsl", "main", "gs_5_0", IShader::ShaderType::GS);
+	lDefaultParticleMaterial->geometryShader = CreateUniqueShader("Resources/Shaders/2D/Particle/IcosahedronGS.hlsl","main","gs_5_0",IShader::ShaderType::GS);
 
 	//頂点レイアウト設定
 	lDefaultParticleMaterial->inputLayouts = {
@@ -673,15 +744,15 @@ void MaterialManager::PCreateDefaultIcosahedronParticleMaterial()
 
 	//ルートシグネチャ設定
 	lDefaultParticleMaterial->rootSignature = CreateUniqueRootSignature();
-	lDefaultParticleMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
-	lDefaultParticleMaterial->rootSignature->Add(IRootSignature::RangeType::SRV, 0);//t0
+	lDefaultParticleMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
+	lDefaultParticleMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 	lDefaultParticleMaterial->rootSignature->AddStaticSampler(0);//s0
 	lDefaultParticleMaterial->rootSignature->Create(sDevice);
 
 	//ブレンド設定
-	lDefaultParticleMaterial->blenddesc.RenderTarget[0].BlendEnable = true;// ブレンドを有効
-	lDefaultParticleMaterial->blenddesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;// ソースのアルファ値
-	lDefaultParticleMaterial->blenddesc.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;// 1.0f-ソースのアルファ値
+	lDefaultParticleMaterial->blenddesc.RenderTarget[ 0 ].BlendEnable = true;// ブレンドを有効
+	lDefaultParticleMaterial->blenddesc.RenderTarget[ 0 ].SrcBlend = D3D12_BLEND_SRC_ALPHA;// ソースのアルファ値
+	lDefaultParticleMaterial->blenddesc.RenderTarget[ 0 ].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;// 1.0f-ソースのアルファ値
 
 	lDefaultParticleMaterial->primitiveType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT;
 
@@ -692,7 +763,7 @@ void MaterialManager::PCreateDefaultIcosahedronParticleMaterial()
 	//生成
 	lDefaultParticleMaterial->Initialize();
 
-	AddMaterial(lDefaultParticleMaterial, "IcosahedronParticle");
+	AddMaterial(lDefaultParticleMaterial,"IcosahedronParticle");
 }
 
 void MaterialManager::PCreateDefaultToonModelMaterial()
@@ -703,7 +774,7 @@ void MaterialManager::PCreateDefaultToonModelMaterial()
 	lDefaultModelMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ToonModelVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	lDefaultModelMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ToonModelPS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
+	lDefaultModelMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ToonModelPS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	lDefaultModelMaterial->inputLayouts = {
@@ -718,13 +789,13 @@ void MaterialManager::PCreateDefaultToonModelMaterial()
 
 	//ルートシグネチャ設定
 	lDefaultModelMaterial->rootSignature = CreateUniqueRootSignature();
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 1);//b1
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 2);//b2
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 3);//b3
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RangeType::SRV, 0);//t0
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,1);//b1
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,2);//b2
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,3);//b3
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 	lDefaultModelMaterial->rootSignature->AddStaticSampler(0);//s0
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RangeType::SRV, 1);//t1
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,1);//t1
 	lDefaultModelMaterial->rootSignature->AddStaticSampler(1);//s1
 	lDefaultModelMaterial->rootSignature->Create(sDevice);
 
@@ -735,7 +806,7 @@ void MaterialManager::PCreateDefaultToonModelMaterial()
 	//生成
 	lDefaultModelMaterial->Initialize();
 
-	AddMaterial(lDefaultModelMaterial, "DefaultToonModel");
+	AddMaterial(lDefaultModelMaterial,"DefaultToonModel");
 }
 
 void MaterialManager::PCreateDefaultToonModelAnimationMaterial()
@@ -746,7 +817,7 @@ void MaterialManager::PCreateDefaultToonModelAnimationMaterial()
 	lDefaultModelMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ToonModelAnimationVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	lDefaultModelMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ToonModelPS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
+	lDefaultModelMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ToonModelPS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	lDefaultModelMaterial->inputLayouts = {
@@ -761,13 +832,13 @@ void MaterialManager::PCreateDefaultToonModelAnimationMaterial()
 
 	//ルートシグネチャ設定
 	lDefaultModelMaterial->rootSignature = CreateUniqueRootSignature();
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 1);//b1
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 2);//b2
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 3);//b3
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RangeType::SRV, 0);//t0
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,1);//b1
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,2);//b2
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,3);//b3
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 	lDefaultModelMaterial->rootSignature->AddStaticSampler(0);//s0
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RangeType::SRV, 1);//t1
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,1);//t1
 	lDefaultModelMaterial->rootSignature->AddStaticSampler(1);//s1
 	lDefaultModelMaterial->rootSignature->Create(sDevice);
 
@@ -778,7 +849,7 @@ void MaterialManager::PCreateDefaultToonModelAnimationMaterial()
 	//生成
 	lDefaultModelMaterial->Initialize();
 
-	AddMaterial(lDefaultModelMaterial, "DefaultToonModelAnimation");
+	AddMaterial(lDefaultModelMaterial,"DefaultToonModelAnimation");
 }
 
 void MaterialManager::PCreateDefaultToonModelOutLineAnimationMaterial()
@@ -789,7 +860,7 @@ void MaterialManager::PCreateDefaultToonModelOutLineAnimationMaterial()
 	lDefaultModelMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ToonModelAnimationOutLineVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	lDefaultModelMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ToonModelOutLinePS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
+	lDefaultModelMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ToonModelOutLinePS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	lDefaultModelMaterial->inputLayouts = {
@@ -804,8 +875,8 @@ void MaterialManager::PCreateDefaultToonModelOutLineAnimationMaterial()
 
 	//ルートシグネチャ設定
 	lDefaultModelMaterial->rootSignature = CreateUniqueRootSignature();
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 1);//b1
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,1);//b1
 	lDefaultModelMaterial->rootSignature->Create(sDevice);
 
 
@@ -815,7 +886,7 @@ void MaterialManager::PCreateDefaultToonModelOutLineAnimationMaterial()
 	//生成
 	lDefaultModelMaterial->Initialize();
 
-	AddMaterial(lDefaultModelMaterial, "DefaultToonModelAnimationOutLine");
+	AddMaterial(lDefaultModelMaterial,"DefaultToonModelAnimationOutLine");
 }
 
 void MaterialManager::PCreateDefaultToonModelOutLineMaterial()
@@ -826,7 +897,7 @@ void MaterialManager::PCreateDefaultToonModelOutLineMaterial()
 	lDefaultModelMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ToonModelOutLineVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	lDefaultModelMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ToonModelOutLinePS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
+	lDefaultModelMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ToonModelOutLinePS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	lDefaultModelMaterial->inputLayouts = {
@@ -841,8 +912,8 @@ void MaterialManager::PCreateDefaultToonModelOutLineMaterial()
 
 	//ルートシグネチャ設定
 	lDefaultModelMaterial->rootSignature = CreateUniqueRootSignature();
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 1);//b1
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,1);//b1
 	lDefaultModelMaterial->rootSignature->Create(sDevice);
 
 
@@ -852,7 +923,7 @@ void MaterialManager::PCreateDefaultToonModelOutLineMaterial()
 	//生成
 	lDefaultModelMaterial->Initialize();
 
-	AddMaterial(lDefaultModelMaterial, "DefaultToonModelOutLine");
+	AddMaterial(lDefaultModelMaterial,"DefaultToonModelOutLine");
 }
 
 void MaterialManager::PCreateDefaultZeldaToonModelMaterial()
@@ -863,7 +934,7 @@ void MaterialManager::PCreateDefaultZeldaToonModelMaterial()
 	lDefaultModelMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ZeldaToonModelVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	lDefaultModelMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ZeldaToonModelPS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
+	lDefaultModelMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ZeldaToonModelPS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	lDefaultModelMaterial->inputLayouts = {
@@ -878,11 +949,11 @@ void MaterialManager::PCreateDefaultZeldaToonModelMaterial()
 
 	//ルートシグネチャ設定
 	lDefaultModelMaterial->rootSignature = CreateUniqueRootSignature();
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 1);//b1
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 2);//b2
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 3);//b3
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RangeType::SRV, 0);//t0
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,1);//b1
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,2);//b2
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,3);//b3
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 	lDefaultModelMaterial->rootSignature->AddStaticSampler(0);//s0
 	lDefaultModelMaterial->rootSignature->Create(sDevice);
 
@@ -896,7 +967,7 @@ void MaterialManager::PCreateDefaultZeldaToonModelMaterial()
 	lDefaultModelMaterial->Initialize();
 
 
-	AddMaterial(lDefaultModelMaterial, "DefaultZeldaToonModel");
+	AddMaterial(lDefaultModelMaterial,"DefaultZeldaToonModel");
 }
 
 void MaterialManager::PCreateDefaultZeldaToonModelAnimationMaterial()
@@ -907,7 +978,7 @@ void MaterialManager::PCreateDefaultZeldaToonModelAnimationMaterial()
 	lDefaultModelMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ZeldaToonModelAnimationVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	lDefaultModelMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ZeldaToonModelPS.hlsl", "main", "ps_5_0", IShader::ShaderType::PS);
+	lDefaultModelMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ZeldaToonModelPS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	lDefaultModelMaterial->inputLayouts = {
@@ -922,11 +993,11 @@ void MaterialManager::PCreateDefaultZeldaToonModelAnimationMaterial()
 
 	//ルートシグネチャ設定
 	lDefaultModelMaterial->rootSignature = CreateUniqueRootSignature();
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 1);//b1
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 2);//b2
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 3);//b3
-	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RangeType::SRV, 0);//t0
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,1);//b1
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,2);//b2
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,3);//b3
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 	lDefaultModelMaterial->rootSignature->AddStaticSampler(0);//s0
 	lDefaultModelMaterial->rootSignature->Create(sDevice);
 
@@ -937,10 +1008,41 @@ void MaterialManager::PCreateDefaultZeldaToonModelAnimationMaterial()
 	//生成
 	lDefaultModelMaterial->Initialize();
 
-	AddMaterial(lDefaultModelMaterial, "DefaultZeldaToonModelAnimation");
+	AddMaterial(lDefaultModelMaterial,"DefaultZeldaToonModelAnimation");
 }
 
-std::unique_ptr<Material> MaterialManager::PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE type_, BlendMode mode_, IShader* vex_, IShader* pix_)
+void MaterialManager::PCreateDefaultBasicGPUParticleDrawMaterial()
+{
+	std::unique_ptr<Material>lDefaultModelMaterial = std::make_unique<Material>();
+
+	//頂点シェーダの読み込み
+	lDefaultModelMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/AliceParticle/Basic/BasicGPUParticleVS.hlsl");
+
+	//ピクセルシェーダの読み込み
+	lDefaultModelMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/AliceParticle/Basic/BasicGPUParticlePS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
+
+	//ジオメトリシェーダの読み込み
+	lDefaultModelMaterial->geometryShader = CreateUniqueShader("Resources/Shaders/AliceParticle/Basic/BasicGPUParticleGS.hlsl","main","gs_5_0",IShader::ShaderType::GS);
+
+	//ルートシグネチャ設定
+	lDefaultModelMaterial->rootSignature = CreateUniqueRootSignature();
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,1);//b1
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,0);//u0
+	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,1);//u1
+	lDefaultModelMaterial->rootSignature->Create(sDevice);
+
+
+	lDefaultModelMaterial->blenddesc = PCreateBlend(BlendMode::AX_BLENDMODE_ALPHA);
+
+	lDefaultModelMaterial->cullMode = D3D12_CULL_MODE_BACK;
+	//生成
+	lDefaultModelMaterial->Initialize();
+
+	AddMaterial(lDefaultModelMaterial,"DefaultBasicGPUParticleDraw");
+}
+
+std::unique_ptr<Material> MaterialManager::PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE type_,BlendMode mode_,IShader* vex_,IShader* pix_)
 {
 	std::unique_ptr<Material> lMaterial = std::make_unique<Material>();
 
@@ -966,7 +1068,7 @@ std::unique_ptr<Material> MaterialManager::PCreateDefaultMeshBlend(D3D12_PRIMITI
 
 	//ルートシグネチャ設定
 	lMaterial->rootSignature = CreateUniqueRootSignature();
-	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
+	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
 	lMaterial->rootSignature->Create(sDevice);
 	//生成
 	lMaterial->Initialize();
@@ -974,7 +1076,7 @@ std::unique_ptr<Material> MaterialManager::PCreateDefaultMeshBlend(D3D12_PRIMITI
 	return std::move(lMaterial);
 }
 
-std::unique_ptr<Material> MaterialManager::PCreateDefaultSprite2DBlend(BlendMode mode_, IShader* vex_, IShader* pix_)
+std::unique_ptr<Material> MaterialManager::PCreateDefaultSprite2DBlend(BlendMode mode_,IShader* vex_,IShader* pix_)
 {
 	std::unique_ptr<Material> lMaterial = std::make_unique<Material>();
 
@@ -1001,8 +1103,8 @@ std::unique_ptr<Material> MaterialManager::PCreateDefaultSprite2DBlend(BlendMode
 
 	//ルートシグネチャ設定
 	lMaterial->rootSignature = CreateUniqueRootSignature();
-	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
-	lMaterial->rootSignature->Add(IRootSignature::RangeType::SRV, 0);//t0
+	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
+	lMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 	lMaterial->rootSignature->AddStaticSampler(0);//s0
 	lMaterial->rootSignature->Create(sDevice);
 
@@ -1012,7 +1114,7 @@ std::unique_ptr<Material> MaterialManager::PCreateDefaultSprite2DBlend(BlendMode
 	return std::move(lMaterial);
 }
 
-std::unique_ptr<Material> MaterialManager::PCreateDefaultSprite3DBlend(BlendMode mode_, IShader* vex_, IShader* pix_)
+std::unique_ptr<Material> MaterialManager::PCreateDefaultSprite3DBlend(BlendMode mode_,IShader* vex_,IShader* pix_)
 {
 	std::unique_ptr<Material> lMaterial = std::make_unique<Material>();
 
@@ -1040,8 +1142,8 @@ std::unique_ptr<Material> MaterialManager::PCreateDefaultSprite3DBlend(BlendMode
 
 	//ルートシグネチャ設定
 	lMaterial->rootSignature = CreateUniqueRootSignature();
-	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV, 0);//b0
-	lMaterial->rootSignature->Add(IRootSignature::RangeType::SRV, 0);//t0
+	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
+	lMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 	lMaterial->rootSignature->AddStaticSampler(0);//s0
 	lMaterial->rootSignature->Create(sDevice);
 
@@ -1056,42 +1158,42 @@ D3D12_BLEND_DESC MaterialManager::PCreateBlend(BlendMode mode_)
 
 	D3D12_BLEND_DESC lBlendDesc = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
 
-	switch (mode_)
+	switch ( mode_ )
 	{
 	case BlendMode::AX_BLENDMODE_NOBLEND:
 
 		break;
 	case BlendMode::AX_BLENDMODE_ALPHA:
-		lBlendDesc.RenderTarget[0].BlendEnable = true;// ブレンドを有効
-		lBlendDesc.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;//加算
-		lBlendDesc.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_ONE;//ソースの値を100%使う
-		lBlendDesc.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;//テストの値を0%使う
+		lBlendDesc.RenderTarget[ 0 ].BlendEnable = true;// ブレンドを有効
+		lBlendDesc.RenderTarget[ 0 ].BlendOpAlpha = D3D12_BLEND_OP_ADD;//加算
+		lBlendDesc.RenderTarget[ 0 ].SrcBlendAlpha = D3D12_BLEND_ONE;//ソースの値を100%使う
+		lBlendDesc.RenderTarget[ 0 ].DestBlendAlpha = D3D12_BLEND_ZERO;//テストの値を0%使う
 		// 半透明合成
-		lBlendDesc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;// 加算
-		lBlendDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;// ソースのアルファ値
-		lBlendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;;// 1.0f-ソースのアルファ値
+		lBlendDesc.RenderTarget[ 0 ].BlendOp = D3D12_BLEND_OP_ADD;// 加算
+		lBlendDesc.RenderTarget[ 0 ].SrcBlend = D3D12_BLEND_SRC_ALPHA;// ソースのアルファ値
+		lBlendDesc.RenderTarget[ 0 ].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;;// 1.0f-ソースのアルファ値
 
 		break;
 	case BlendMode::AX_BLENDMODE_ADD:
-		lBlendDesc.RenderTarget[0].BlendEnable = true;// ブレンドを有効
-		lBlendDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;// ソースの値を100% 使う
-		lBlendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_ONE;// デストの値を100% 使う
+		lBlendDesc.RenderTarget[ 0 ].BlendEnable = true;// ブレンドを有効
+		lBlendDesc.RenderTarget[ 0 ].SrcBlend = D3D12_BLEND_SRC_ALPHA;// ソースの値を100% 使う
+		lBlendDesc.RenderTarget[ 0 ].DestBlend = D3D12_BLEND_ONE;// デストの値を100% 使う
 		break;
 	case BlendMode::AX_BLENDMODE_SUB:
-		lBlendDesc.RenderTarget[0].BlendEnable = true;// ブレンドを有効
-		lBlendDesc.RenderTarget[0].BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;// デストからソースを減算
-		lBlendDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;// ソースの値を100% 使う
-		lBlendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_ONE;// デストの値を100% 使う
+		lBlendDesc.RenderTarget[ 0 ].BlendEnable = true;// ブレンドを有効
+		lBlendDesc.RenderTarget[ 0 ].BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;// デストからソースを減算
+		lBlendDesc.RenderTarget[ 0 ].SrcBlend = D3D12_BLEND_SRC_ALPHA;// ソースの値を100% 使う
+		lBlendDesc.RenderTarget[ 0 ].DestBlend = D3D12_BLEND_ONE;// デストの値を100% 使う
 		break;
 	case BlendMode::AX_BLENDMODE_MULA:
-		lBlendDesc.RenderTarget[0].BlendEnable = true;// ブレンドを有効
-		lBlendDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_ZERO;
-		lBlendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_SRC_COLOR;
+		lBlendDesc.RenderTarget[ 0 ].BlendEnable = true;// ブレンドを有効
+		lBlendDesc.RenderTarget[ 0 ].SrcBlend = D3D12_BLEND_ZERO;
+		lBlendDesc.RenderTarget[ 0 ].DestBlend = D3D12_BLEND_SRC_COLOR;
 		break;
 	case BlendMode::AX_BLENDMODE_INVSRC:
-		lBlendDesc.RenderTarget[0].BlendEnable = true;// ブレンドを有効
-		lBlendDesc.RenderTarget[0].SrcBlend = D3D12_BLEND_INV_DEST_COLOR;// 1.0f-デストカラーの値
-		lBlendDesc.RenderTarget[0].DestBlend = D3D12_BLEND_ZERO;// 使わない
+		lBlendDesc.RenderTarget[ 0 ].BlendEnable = true;// ブレンドを有効
+		lBlendDesc.RenderTarget[ 0 ].SrcBlend = D3D12_BLEND_INV_DEST_COLOR;// 1.0f-デストカラーの値
+		lBlendDesc.RenderTarget[ 0 ].DestBlend = D3D12_BLEND_ZERO;// 使わない
 		break;
 	case BlendMode::AX_BLENDMODE_MAX:
 		break;
@@ -1103,3 +1205,82 @@ D3D12_BLEND_DESC MaterialManager::PCreateBlend(BlendMode mode_)
 
 	return lBlendDesc;
 }
+
+#pragma endregion 
+
+void MaterialManager::PCreateBasicGPUParticleEmitComputeMaterial()
+{
+	std::unique_ptr<ComputeMaterial> lBasicGPUParticleEmitComputeMaterial = std::make_unique<ComputeMaterial>();
+
+	//頂点シェーダの読み込み
+	lBasicGPUParticleEmitComputeMaterial->computeShader = CreateUniqueShader("Resources/Shaders/AliceParticle/Basic/BasicGPUParticleEmitCS.hlsl","main","cs_5_0",IShader::ShaderType::CS);
+
+	//ルートシグネチャ設定
+	lBasicGPUParticleEmitComputeMaterial->rootSignature = CreateUniqueRootSignature();
+
+	lBasicGPUParticleEmitComputeMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
+	lBasicGPUParticleEmitComputeMaterial->rootSignature->Add(IRootSignature::RootType::CBV,1);//b1
+	lBasicGPUParticleEmitComputeMaterial->rootSignature->Add(IRootSignature::RootType::CBV,2);//b2
+
+	lBasicGPUParticleEmitComputeMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,0);//u0
+	lBasicGPUParticleEmitComputeMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,1);//u1
+	lBasicGPUParticleEmitComputeMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,2);//u2
+	lBasicGPUParticleEmitComputeMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,3);//u3
+
+	lBasicGPUParticleEmitComputeMaterial->rootSignature->Create(sDevice);
+
+	//生成
+	lBasicGPUParticleEmitComputeMaterial->Initialize();
+
+	AddMaterial(lBasicGPUParticleEmitComputeMaterial,"ComputeBasicGPUParticleEmit");
+}
+
+void MaterialManager::PCreateBasicGPUParticleUpdateComputeMaterial()
+{
+	std::unique_ptr<ComputeMaterial> lBasicGPUParticleEmitComputeMaterial = std::make_unique<ComputeMaterial>();
+
+	//頂点シェーダの読み込み
+	lBasicGPUParticleEmitComputeMaterial->computeShader = CreateUniqueShader("Resources/Shaders/AliceParticle/Basic/BasicGPUParticleUpdateCS.hlsl","main","cs_5_0",IShader::ShaderType::CS);
+
+	//ルートシグネチャ設定
+	lBasicGPUParticleEmitComputeMaterial->rootSignature = CreateUniqueRootSignature();
+
+	lBasicGPUParticleEmitComputeMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
+	lBasicGPUParticleEmitComputeMaterial->rootSignature->Add(IRootSignature::RootType::CBV,1);//b1
+	lBasicGPUParticleEmitComputeMaterial->rootSignature->Add(IRootSignature::RootType::CBV,2);//b2
+
+	lBasicGPUParticleEmitComputeMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,0);//u0
+	lBasicGPUParticleEmitComputeMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,1);//u1
+	lBasicGPUParticleEmitComputeMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,2);//u2
+	lBasicGPUParticleEmitComputeMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,3);//u3
+
+	lBasicGPUParticleEmitComputeMaterial->rootSignature->Create(sDevice);
+
+	//生成
+	lBasicGPUParticleEmitComputeMaterial->Initialize();
+
+	AddMaterial(lBasicGPUParticleEmitComputeMaterial,"ComputeBasicGPUParticleUpdate");
+}
+
+void MaterialManager::PCreateBasicGPUParticleDrawArgumentUpdateComputeMaterial()
+{
+	std::unique_ptr<ComputeMaterial> lBasicGPUParticleEmitComputeMaterial = std::make_unique<ComputeMaterial>();
+
+	//シェーダの読み込み
+	lBasicGPUParticleEmitComputeMaterial->computeShader = CreateUniqueShader("Resources/Shaders/AliceParticle/Basic/BasicGPUParticleDrawArgumentUpdateCS.hlsl","main","cs_5_0",IShader::ShaderType::CS);
+
+	//ルートシグネチャ設定
+	lBasicGPUParticleEmitComputeMaterial->rootSignature = CreateUniqueRootSignature();
+
+	lBasicGPUParticleEmitComputeMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,0);//u0
+	lBasicGPUParticleEmitComputeMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,1);//u1
+
+	lBasicGPUParticleEmitComputeMaterial->rootSignature->Create(sDevice);
+
+	//生成
+	lBasicGPUParticleEmitComputeMaterial->Initialize();
+
+	AddMaterial(lBasicGPUParticleEmitComputeMaterial,"ComputeBasicGPUParticleDrawArgumentUpdate");
+}
+
+
