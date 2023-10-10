@@ -1,6 +1,6 @@
 #include "ComputeMaterial.h"
 
-void ComputeMaterial::Initialize()
+void ComputeMaterial::Initialize(IDevice* device_)
 {
 	pipelineState = CreateUniqueComputePipelineState();
 
@@ -20,7 +20,7 @@ void ComputeMaterial::Initialize()
 	pipelineState->SetRootSignature(rootSignature.get());
 
 	//生成
-	pipelineState->Create();
+	pipelineState->Create(device_);
 }
 
 ComputeMaterial::~ComputeMaterial()

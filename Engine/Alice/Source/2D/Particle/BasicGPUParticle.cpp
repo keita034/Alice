@@ -1,78 +1,74 @@
 #include "BasicGPUParticle.h"
 #include<BaseBuffer.h>
+#include<DescriptorHeap.h>
 
 void BasicGPUParticle::Initialize()
 {
-	freeListBuffer = CreateUniqueUAVRWStructuredBuffer(particleMaxCount,sizeof(uint32_t),HEAP_TYPE::DEFAULT);
-	particlePoolBuffer = CreateUniqueUAVRWStructuredBuffer(particleMaxCount,sizeof(ParticleData),HEAP_TYPE::DEFAULT);
-	drawListBuffer = CreateUniqueUAVRWStructuredBuffer(particleMaxCount,sizeof(uint32_t),HEAP_TYPE::DEFAULT);
+	freeListBuffer = CreateUniqueUAVRWStructuredBuffer(particleMaxCount,sizeof(uint32_t),AdaptersIndex::SUB,HEAP_TYPE::DEFAULT);
+	particlePoolBuffer = CreateUniqueUAVRWStructuredBuffer(particleMaxCount,sizeof(ParticleData),AdaptersIndex::SUB,HEAP_TYPE::DEFAULT);
+	drawListBuffer = CreateUniqueUAVRWStructuredBuffer(particleMaxCount,sizeof(uint32_t),AdaptersIndex::SUB,HEAP_TYPE::DEFAULT);
 
-	viewProjectionBuffer = CreateUniqueConstantBuffer(sizeof(ViewProjection));
-	timeConstantsBuffer = CreateUniqueConstantBuffer(sizeof(TimeConstants));
+	particleConstantsBuffer = CreateUniqueConstantBuffer(sizeof(ParticleConstants),AdaptersIndex::SUB);
+	viewProjectionBuffer = CreateUniqueConstantBuffer(sizeof(ViewProjection),AdaptersIndex::SUB);
+	timeConstantsBuffer = CreateUniqueConstantBuffer(sizeof(TimeConstants),AdaptersIndex::SUB);
+	emitDataBuffer = CreateUniqueConstantBuffer(sizeof(EmitData),AdaptersIndex::SUB);
 
-	drawArgumentBuffer = CreateUniqueDrawArgumentBuffer(particleEmitterMaxCount,sizeof(IndirectCommand));
-	drawArgumentBuffer->Transition(D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+	drawArgumentBuffer = CreateUniqueDrawArgumentBuffer(particleEmitterMaxCount,sizeof(D3D12_DRAW_ARGUMENTS),AdaptersIndex::SUB);
 
-
-	D3D12_INDIRECT_ARGUMENT_DESC arg[ 2 ];
-	memset(arg,0,sizeof(arg));
-	arg[ 0 ].Type = D3D12_INDIRECT_ARGUMENT_TYPE_CONSTANT;
-	arg[ 0 ].Constant.RootParameterIndex = 0;
-	arg[ 0 ].Constant.DestOffsetIn32BitValues = 0;
-	arg[ 0 ].Constant.Num32BitValuesToSet = sizeof(AliceMathF::Matrix4) / sizeof(float); // 16
-	arg[ 1 ].Type = D3D12_INDIRECT_ARGUMENT_TYPE_DRAW_INDEXED;
+	D3D12_INDIRECT_ARGUMENT_DESC arg[ 1 ];
+	arg[ 0 ].Type = D3D12_INDIRECT_ARGUMENT_TYPE_DRAW_INDEXED;
 
 	D3D12_COMMAND_SIGNATURE_DESC  desc;
 	memset(&desc,0,sizeof(desc));
-	desc.ByteStride = sizeof(IndirectCommand);
+	desc.ByteStride = 20;
 	desc.pArgumentDescs = arg;
-	desc.NumArgumentDescs = 2;
+	desc.NumArgumentDescs = 1;
 
-	IRootSignature* lRootSignature = pipelineSet[ "BasicGPUParticleDraw" ]->rootSignature;
-
-	device->Get()->CreateCommandSignature(&desc,lRootSignature->GetRootSignature(),IID_PPV_ARGS(&particleCommandSignature));
+	device->Get()->CreateCommandSignature(&desc,nullptr,IID_PPV_ARGS(&particleCommandSignature));
 
 }
 
 void BasicGPUParticle::Update(float deltaTime_)
 {
-	ID3D12GraphicsCommandList* lCommandList = commandList->GetComputeCommandList();
+	ID3D12GraphicsCommandList* lCommandList = computeCmmandList->GetComputeCommandList();
 
 	emitTimeCounter += deltaTime_;
 
 	PUpdateConstantBuffer(deltaTime_);
 
+	particleConstantsBuffer->Update(&particleConstants);
+
 	//生成
 	if ( emitTimeCounter > timeBetweenEmit )
 	{
-		IComputePipelineState* lPipelineState = pipelineSet[ "BasicGPUParticleEmit" ]->pipelineState;
-		IRootSignature* lRootSignature = pipelineSet[ "BasicGPUParticleEmit" ]->rootSignature;
+		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeBasicGPUParticleEmit");
 
-		lCommandList->SetPipelineState(lPipelineState->GetPipelineState());
-		lCommandList->SetComputeRootSignature(lRootSignature->GetRootSignature());
+		lCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
+		lCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
 
-		ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap()->GetHeap() };
+		ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::SUB)->GetHeap() };
 		lCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
 
-		lCommandList->SetComputeRootConstantBufferView(0,timeConstantsBuffer->GetAddress());
+		lCommandList->SetComputeRootConstantBufferView(0,viewProjectionBuffer->GetAddress());//b0
+		lCommandList->SetComputeRootConstantBufferView(1,timeConstantsBuffer->GetAddress());//b1
+		lCommandList->SetComputeRootConstantBufferView(2,emitDataBuffer->GetAddress());//b2
+		lCommandList->SetComputeRootConstantBufferView(3,particleConstantsBuffer->GetAddress());//b3
 
-		lCommandList->SetComputeRootDescriptorTable(1,particleConstantsBuffer->GetAddress());
-		lCommandList->SetComputeRootDescriptorTable(2,particlePoolBuffer->GetAddress());
-		lCommandList->SetComputeRootDescriptorTable(3,freeListBuffer->GetAddress());
-		lCommandList->SetComputeRootDescriptorTable(4,drawListBuffer->GetAddress());
+		lCommandList->SetComputeRootDescriptorTable(4,particlePoolBuffer->GetAddress());//u1
+		lCommandList->SetComputeRootDescriptorTable(5,freeListBuffer->GetAddress());//u2
+		lCommandList->SetComputeRootDescriptorTable(6,drawListBuffer->GetAddress());//u3
 
 		lCommandList->Dispatch(static_cast<UINT>(emitCount),1,1);
 	}
 
 	//更新
 	{
-		IComputePipelineState* lPipelineState = pipelineSet[ "BasicGPUParticleUpdate" ]->pipelineState;
-		IRootSignature* lRootSignature = pipelineSet[ "BasicGPUParticleUpdate" ]->rootSignature;
+		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeBasicGPUParticleUpdate");
 
-		lCommandList->SetPipelineState(lPipelineState->GetPipelineState());
-		lCommandList->SetComputeRootSignature(lRootSignature->GetRootSignature());
+		lCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
+		lCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
 
-		ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap()->GetHeap() };
+		ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::SUB)->GetHeap() };
 		lCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
 
 		lCommandList->SetComputeRootConstantBufferView(0,timeConstantsBuffer->GetAddress());
@@ -87,19 +83,18 @@ void BasicGPUParticle::Update(float deltaTime_)
 
 	//ドローアギュメント更新
 	{
-		IComputePipelineState* lPipelineState = pipelineSet[ "BasicGPUParticleDrawArgumentUpdate" ]->pipelineState;
-		IRootSignature* lRootSignature = pipelineSet[ "BasicGPUParticleDrawArgumentUpdate"]->rootSignature;
+		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeBasicGPUParticleDrawArgumentUpdate");
 
-		lCommandList->SetPipelineState(lPipelineState->GetPipelineState());
-		lCommandList->SetComputeRootSignature(lRootSignature->GetRootSignature());
+		lCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
+		lCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
 
-		ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap()->GetHeap() };
+		ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::SUB)->GetHeap() };
 		lCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
 
 		lCommandList->SetComputeRootDescriptorTable(0,drawListBuffer->GetAddress());
 		lCommandList->SetComputeRootDescriptorTable(1,drawArgumentBuffer->GetAddress());
 
-		lCommandList->Dispatch(static_cast< UINT >( positions.size() ),1,1);
+		lCommandList->Dispatch(1,1,1);
 
 	}
 }
@@ -108,17 +103,23 @@ void BasicGPUParticle::Finalize()
 {
 }
 
-void BasicGPUParticle::Draw()
+void BasicGPUParticle::Draw(Camera* camera_)
 {
+	{
+		ViewProjection lViewProjection;
+
+		lViewProjection.view = camera_->GetViewMatrixInv();
+		lViewProjection.projection = camera_->GetProjectionMatrix();
+
+		viewProjectionBuffer->Update(&lViewProjection);
+	}
+
 	ID3D12GraphicsCommandList* lCommandList = commandList->GetComputeCommandList();
 
-	IComputePipelineState* lPipelineState = pipelineSet[ "BasicGPUParticleDraw" ]->pipelineState;
-	IRootSignature* lRootSignature = pipelineSet[ "BasicGPUParticleDraw" ]->rootSignature;
+	Material* lMaterial = MaterialManager::SGetMaterial("BasicGPUParticleDraw");
 
-	drawArgumentBuffer->Transition(D3D12_RESOURCE_STATE_INDIRECT_ARGUMENT);
-
-	lCommandList->SetPipelineState(lPipelineState->GetPipelineState());
-	lCommandList->SetGraphicsRootSignature(lRootSignature->GetRootSignature());
+	lCommandList->SetPipelineState(lMaterial->pipelineState->GetPipelineState());
+	lCommandList->SetGraphicsRootSignature(lMaterial->rootSignature->GetRootSignature());
 
 	lCommandList->SetGraphicsRootConstantBufferView(1,timeConstantsBuffer->GetAddress());
 	lCommandList->SetGraphicsRootConstantBufferView(2,viewProjectionBuffer->GetAddress());
@@ -127,7 +128,25 @@ void BasicGPUParticle::Draw()
 	lCommandList->SetGraphicsRootDescriptorTable(4,particlePoolBuffer->GetAddress());
 	lCommandList->SetGraphicsRootDescriptorTable(5,drawListBuffer->GetAddress());
 
-	lCommandList->ExecuteIndirect(particleCommandSignature.Get(),static_cast< UINT >( positions.size()),drawArgumentBuffer->GetResource(),0,nullptr,0);
+	lCommandList->ExecuteIndirect(particleCommandSignature.Get(),1,drawArgumentBuffer->GetResource(),0,nullptr,0);
+}
+
+void BasicGPUParticle::ADD(const AliceMathF::Vector3& pos_,const BasicGPUParticleSetting& setting_)
+{
+	static_cast< void >(pos_);
+
+	ParticleConstant lParticleConstant;
+	lParticleConstant.startColor = setting_.startColor;
+	lParticleConstant.endColor = setting_.endColor;
+	lParticleConstant.velocity = setting_.velocity;
+	lParticleConstant.lifeTime = setting_.LifeTime;
+	lParticleConstant.accel = setting_.acceleration;
+	lParticleConstant.emitCount = emitCount = setting_.emitCount;
+
+	particleConstants.constants[ emitData.particleDataCount ] = lParticleConstant;
+
+	emitData.particleDataCount += 1;
+	emitData.maxParticles = setting_.maxParticles;
 }
 
 void BasicGPUParticle::PUpdateConstantBuffer(float deltaTime_)
@@ -136,6 +155,4 @@ void BasicGPUParticle::PUpdateConstantBuffer(float deltaTime_)
 	time.totalTime += deltaTime_;
 
 	timeConstantsBuffer->Update(&time);
-
-	viewProjectionBuffer->Update(&viewProjectionBuffer);
 }

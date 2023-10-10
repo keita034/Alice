@@ -12,6 +12,9 @@
 
 #include<AliceMathUtility.h>
 #include<Color.h>
+#include<Camera.h>
+#include<DefaultMaterial.h>
+#include<PadingType.h>
 
 ALICE_SUPPRESS_WARNINGS_BEGIN
 #include<string>
@@ -34,36 +37,42 @@ protected:
 		float totalTime = 0.0f;
 	};
 
+	struct EmitData
+	{
+		uint32_t maxParticles = 0;
+		uint32_t particleDataCount = 0;
+	};
+
 
 	struct ParticleData
 	{
+		AliceMathF::Vector4 color;
 		AliceMathF::Vector3 position;
-		float time;
+		float age;
 		AliceMathF::Vector3 velocity;
 		float size;
 		float alive;
-		AliceUtility::Color color;
-		int32_t constantsIndex;
-		float padding;
+		AliceMathF::Vector3 accel;
+		uint32_t index;
+	};
+
+	struct ParticleConstant
+	{
+		AliceMathF::Vector3 startPosition;
+		int32_t emitCount;
+		AliceMathF::Vector3 velocity;
+		float lifeTime;
+		AliceMathF::Vector3 accel;
+		float pad;
+		AliceMathF::Vector2 scale;
+		AliceMathF::Vector2 rotation;
+		AliceMathF::Vector4 startColor;
+		AliceMathF::Vector4 endColor;
 	};
 
 	struct ParticleConstants
 	{
-		AliceMathF::Vector4 startColor;
-		AliceMathF::Vector4 endColor;
-		AliceMathF::Vector3 velocity;
-		float LifeTime = 0.0f;
-		AliceMathF::Vector3 acceleration;
-		float pad;
-		int32_t emitCount = 0;
-		int32_t maxParticles = 0;
-		int32_t gridSize = 0;
-	};
-
-	struct PipelineRootSignature
-	{
-		IComputePipelineState* pipelineState = nullptr;
-		IRootSignature* rootSignature = nullptr;
+		std::array<ParticleConstant,10> constants;
 	};
 
 protected:
@@ -71,34 +80,37 @@ protected:
 	ICommandList* commandList = nullptr;
 	IDevice* device = nullptr;
 
+	ICommandList* computeCmmandList = nullptr;
+	IDevice* computeDevice = nullptr;
+
 	Microsoft::WRL::ComPtr<ID3D12CommandSignature> particleCommandSignature = nullptr;
 
 	std::unique_ptr<IRWStructuredBuffer>particlePoolBuffer;
 	std::unique_ptr<IRWStructuredBuffer>drawListBuffer;
 	std::unique_ptr<IRWStructuredBuffer>freeListBuffer;
 
-	std::unique_ptr<IStructuredBuffer>particleConstantsBuffer;
+	std::unique_ptr<IConstantBuffer>particleConstantsBuffer;
 	std::unique_ptr<IConstantBuffer>viewProjectionBuffer;
 	std::unique_ptr<IConstantBuffer>timeConstantsBuffer;
+	std::unique_ptr<IConstantBuffer>emitDataBuffer;
+
 	std::unique_ptr<IDrawArgumentBuffer>drawArgumentBuffer;
 
-	std::unordered_map<std::string,std::unique_ptr<PipelineRootSignature>> pipelineSet;
-
-	std::vector<ParticleConstants>particleConstants;
-
-	PipelineState* pipelineState = nullptr;
-	IRootSignature* rootSignature = nullptr;
+	ParticleConstants particleConstants;
 
 	ViewProjection viewProjection;
 	TimeConstants time;
+	EmitData emitData;
 
-	size_t particleMaxCount;
-	size_t particleConstantMaxCount;
-	size_t emitCount = 0;
-	size_t particleEmitterMaxCount;
+	size_t particleMaxCount = 100000;
+	size_t particleConstantMaxCount = 10;
+	size_t particleEmitterMaxCount = 100;
+	int32_t emitCount = 100;
 
 	float timeBetweenEmit;
 	float emitTimeCounter;
+
+	Byte4 PADING;
 
 public:
 
@@ -117,12 +129,12 @@ public:
 	/// </summary>
 	virtual void Finalize() = 0;
 
-	virtual void Draw() = 0;
+	virtual void Draw(Camera* camera_) = 0;
 
 	/// <summary>
 	/// アダプターを設定
 	/// </summary>
-	void SetAdapter(IAdapter* adapter);
+	void SetAdapter(IAdapter* graphicAdapter_,IAdapter* computeAdapter_);
 
 	BaseGPUParticle() = default;
 	virtual ~BaseGPUParticle() = default;

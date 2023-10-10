@@ -14,9 +14,8 @@ cbuffer timeData : register(b1)
 
 cbuffer emitData : register(b2)
 {
-    uint emitCount;
     uint maxParticles;
-    float particleDataCount;
+    uint particleDataCount;
 }
 
 RWStructuredBuffer<ParticleData> particleDatas : register(u0);

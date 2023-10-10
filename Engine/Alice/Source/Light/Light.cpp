@@ -1,7 +1,7 @@
 #include<Light.h>
 #include<DirectX12Core.h>
 
-ID3D12Device* Light::sDevice = nullptr;
+ID3D12Device* Light::sMainDevice = nullptr;
 AliceMathF::Vector3* Light::lightdirPtr = nullptr;
 AliceMathF::Vector4* Light::lightcolorPtr = nullptr;
 
@@ -63,7 +63,7 @@ void Light::SetConstBufferView(ID3D12GraphicsCommandList* cmdList_, uint32_t roo
 
 void Light::SSetDevice(ID3D12Device* device_)
 {
-	sDevice = device_;
+	sMainDevice = device_;
 }
 
 AliceMathF::Vector3* Light::SGetLightDirPtr()

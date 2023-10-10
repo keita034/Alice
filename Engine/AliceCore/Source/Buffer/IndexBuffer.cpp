@@ -73,6 +73,9 @@ void IndexBuffer::Create(size_t length_, const uint32_t* data)
 	{
 		bufferlength = length_;
 
+		IAdapter* lAdapter = sMultiAdapters->GetAdapter(AdaptersIndex::MAIN);
+		ID3D12Device* lDevice = lAdapter->GetDevice()->Get();
+
 		// ヒーププロパティ
 		CD3DX12_HEAP_PROPERTIES lHeapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
 
@@ -80,7 +83,6 @@ void IndexBuffer::Create(size_t length_, const uint32_t* data)
 		CD3DX12_RESOURCE_DESC lResDesc = CD3DX12_RESOURCE_DESC::Buffer(length_ * sizeof(uint32_t));	// リソースの設定
 
 		// リソースを生成
-		ID3D12Device* lDevice = sDevice->Get();
 		HRESULT lResult = lDevice->CreateCommittedResource(
 			&lHeapProp,
 			D3D12_HEAP_FLAG_NONE,

@@ -40,7 +40,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize();
+	void Initialize(IDevice* device_);
 
 	ComputeMaterial() = default;
 	~ComputeMaterial();

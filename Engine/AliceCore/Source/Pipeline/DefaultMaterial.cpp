@@ -6,12 +6,14 @@ ALICE_SUPPRESS_WARNINGS_BEGIN
 
 ALICE_SUPPRESS_WARNINGS_END
 
-ID3D12Device* MaterialManager::sDevice = nullptr;
+IDevice* MaterialManager::sSubDevice = nullptr;
+IDevice* MaterialManager::sMainDevice = nullptr;
 std::unique_ptr<MaterialManager> MaterialManager::materialManager;
 
-void MaterialManager::Initialize(ID3D12Device* device_)
+void MaterialManager::Initialize(IDevice* mainDevice_,IDevice* subDevice_)
 {
-	sDevice = device_;
+	sMainDevice = mainDevice_;
+	sSubDevice = subDevice_;
 	PCreateDefaultFbxMaterial();
 	PCreateDefaultFbxAnimationMaterial();
 }
@@ -140,7 +142,7 @@ Material* MaterialManager::GetMaterialData(const std::string& name_)
 			{
 				PCreateDefaultZeldaToonModelAnimationMaterial();
 			}
-			else if ( name_ == "DefaultBasicGPUParticleDraw" )
+			else if ( name_ == "BasicGPUParticleDraw" )
 			{
 				PCreateDefaultBasicGPUParticleDrawMaterial();
 			}
@@ -245,7 +247,7 @@ void MaterialManager::AddMaterial(Material* material,const std::string& name_)
 
 void MaterialManager::Finalize()
 {
-	sDevice = nullptr;
+	sMainDevice = nullptr;
 	materials.clear();
 	computeMaterials.clear();
 	materialManager.release();
@@ -254,6 +256,11 @@ void MaterialManager::Finalize()
 Material* MaterialManager::SGetMaterial(const std::string& name_)
 {
 	return MaterialManager::SGetInstance()->GetMaterialData(name_);
+}
+
+ComputeMaterial* MaterialManager::SGetComputeMaterial(const std::string& name_)
+{
+	return MaterialManager::SGetInstance()->GetComputeMaterialData(name_);
 }
 
 MaterialManager::~MaterialManager()
@@ -293,7 +300,7 @@ void MaterialManager::PCreateDefaultTextureMaterial()
 	lDefaultTextureMaterial->rootSignature->Add(IRootSignature::RootType::CBV,3);//b3
 	lDefaultTextureMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 	lDefaultTextureMaterial->rootSignature->AddStaticSampler(0);//s0
-	lDefaultTextureMaterial->rootSignature->Create(sDevice);
+	lDefaultTextureMaterial->rootSignature->Create(sMainDevice->Get());
 
 	//ブレンド設定
 	lDefaultTextureMaterial->blenddesc.RenderTarget[ 0 ].BlendEnable = true;// ブレンドを有効
@@ -336,7 +343,7 @@ void MaterialManager::PCreateDefaultLambertMaterial()
 	lDefaultLambertMaterial->rootSignature->Add(IRootSignature::RootType::CBV,3);//b3
 	lDefaultLambertMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 	lDefaultLambertMaterial->rootSignature->AddStaticSampler(0);//s0
-	lDefaultLambertMaterial->rootSignature->Create(sDevice);
+	lDefaultLambertMaterial->rootSignature->Create(sMainDevice->Get());
 
 	//ブレンド設定
 	lDefaultLambertMaterial->blenddesc.RenderTarget[ 0 ].BlendEnable = true;// ブレンドを有効
@@ -378,7 +385,7 @@ void MaterialManager::PCreateDefaultPhongMaterial()
 	lDefaultPhongMaterial->rootSignature->Add(IRootSignature::RootType::CBV,3);//b3
 	lDefaultPhongMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 	lDefaultPhongMaterial->rootSignature->AddStaticSampler(0);//s0
-	lDefaultPhongMaterial->rootSignature->Create(sDevice);
+	lDefaultPhongMaterial->rootSignature->Create(sMainDevice->Get());
 
 
 	lDefaultPhongMaterial->blenddesc = PCreateBlend(BlendMode::AX_BLENDMODE_ALPHA);
@@ -480,7 +487,7 @@ void MaterialManager::PCreateDefaultFbxMaterial()
 	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,3);//b3
 	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 	lDefaultModelMaterial->rootSignature->AddStaticSampler(0);//s0
-	lDefaultModelMaterial->rootSignature->Create(sDevice);
+	lDefaultModelMaterial->rootSignature->Create(sMainDevice->Get());
 
 
 	lDefaultModelMaterial->blenddesc = PCreateBlend(BlendMode::AX_BLENDMODE_ALPHA);
@@ -524,7 +531,7 @@ void MaterialManager::PCreateDefaultFbxAnimationMaterial()
 	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,3);//b3
 	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 	lDefaultModelMaterial->rootSignature->AddStaticSampler(0);//s0
-	lDefaultModelMaterial->rootSignature->Create(sDevice);
+	lDefaultModelMaterial->rootSignature->Create(sMainDevice->Get());
 
 
 	lDefaultModelMaterial->blenddesc = PCreateBlend(BlendMode::AX_BLENDMODE_ALPHA);
@@ -566,7 +573,7 @@ void MaterialManager::PCreateDefaultParticleMaterial()
 	lDefaultParticleMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
 	lDefaultParticleMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 	lDefaultParticleMaterial->rootSignature->AddStaticSampler(0);//s0
-	lDefaultParticleMaterial->rootSignature->Create(sDevice);
+	lDefaultParticleMaterial->rootSignature->Create(sMainDevice->Get());
 
 	//ブレンド設定
 	lDefaultParticleMaterial->blenddesc.RenderTarget[ 0 ].BlendEnable = true;// ブレンドを有効
@@ -661,7 +668,7 @@ void MaterialManager::PCreateDefaultRainParticleMaterial()
 	//ルートシグネチャ設定
 	lDefaultRainParticleMaterial->rootSignature = CreateUniqueRootSignature();
 	lDefaultRainParticleMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
-	lDefaultRainParticleMaterial->rootSignature->Create(sDevice);
+	lDefaultRainParticleMaterial->rootSignature->Create(sMainDevice->Get());
 
 	//ブレンド設定
 	lDefaultRainParticleMaterial->blenddesc.RenderTarget[ 0 ].BlendEnable = true;// ブレンドを有効
@@ -709,7 +716,7 @@ void MaterialManager::PCreateDefaultPostEffectMaterial()
 	lDefaultPostEffectMaterial->rootSignature = CreateUniqueRootSignature();
 	lDefaultPostEffectMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 	lDefaultPostEffectMaterial->rootSignature->AddStaticSampler(0);//s0
-	lDefaultPostEffectMaterial->rootSignature->Create(sDevice);
+	lDefaultPostEffectMaterial->rootSignature->Create(sMainDevice->Get());
 
 	//生成
 	lDefaultPostEffectMaterial->Initialize();
@@ -747,7 +754,7 @@ void MaterialManager::PCreateDefaultIcosahedronParticleMaterial()
 	lDefaultParticleMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
 	lDefaultParticleMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 	lDefaultParticleMaterial->rootSignature->AddStaticSampler(0);//s0
-	lDefaultParticleMaterial->rootSignature->Create(sDevice);
+	lDefaultParticleMaterial->rootSignature->Create(sMainDevice->Get());
 
 	//ブレンド設定
 	lDefaultParticleMaterial->blenddesc.RenderTarget[ 0 ].BlendEnable = true;// ブレンドを有効
@@ -797,7 +804,7 @@ void MaterialManager::PCreateDefaultToonModelMaterial()
 	lDefaultModelMaterial->rootSignature->AddStaticSampler(0);//s0
 	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,1);//t1
 	lDefaultModelMaterial->rootSignature->AddStaticSampler(1);//s1
-	lDefaultModelMaterial->rootSignature->Create(sDevice);
+	lDefaultModelMaterial->rootSignature->Create(sMainDevice->Get());
 
 
 	lDefaultModelMaterial->blenddesc = PCreateBlend(BlendMode::AX_BLENDMODE_ALPHA);
@@ -840,7 +847,7 @@ void MaterialManager::PCreateDefaultToonModelAnimationMaterial()
 	lDefaultModelMaterial->rootSignature->AddStaticSampler(0);//s0
 	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,1);//t1
 	lDefaultModelMaterial->rootSignature->AddStaticSampler(1);//s1
-	lDefaultModelMaterial->rootSignature->Create(sDevice);
+	lDefaultModelMaterial->rootSignature->Create(sMainDevice->Get());
 
 
 	lDefaultModelMaterial->blenddesc = PCreateBlend(BlendMode::AX_BLENDMODE_ALPHA);
@@ -877,7 +884,7 @@ void MaterialManager::PCreateDefaultToonModelOutLineAnimationMaterial()
 	lDefaultModelMaterial->rootSignature = CreateUniqueRootSignature();
 	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
 	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,1);//b1
-	lDefaultModelMaterial->rootSignature->Create(sDevice);
+	lDefaultModelMaterial->rootSignature->Create(sMainDevice->Get());
 
 
 	lDefaultModelMaterial->blenddesc = PCreateBlend(BlendMode::AX_BLENDMODE_ALPHA);
@@ -914,7 +921,7 @@ void MaterialManager::PCreateDefaultToonModelOutLineMaterial()
 	lDefaultModelMaterial->rootSignature = CreateUniqueRootSignature();
 	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
 	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,1);//b1
-	lDefaultModelMaterial->rootSignature->Create(sDevice);
+	lDefaultModelMaterial->rootSignature->Create(sMainDevice->Get());
 
 
 	lDefaultModelMaterial->blenddesc = PCreateBlend(BlendMode::AX_BLENDMODE_ALPHA);
@@ -955,7 +962,7 @@ void MaterialManager::PCreateDefaultZeldaToonModelMaterial()
 	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,3);//b3
 	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 	lDefaultModelMaterial->rootSignature->AddStaticSampler(0);//s0
-	lDefaultModelMaterial->rootSignature->Create(sDevice);
+	lDefaultModelMaterial->rootSignature->Create(sMainDevice->Get());
 
 
 	lDefaultModelMaterial->blenddesc = PCreateBlend(BlendMode::AX_BLENDMODE_ALPHA);
@@ -999,7 +1006,7 @@ void MaterialManager::PCreateDefaultZeldaToonModelAnimationMaterial()
 	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,3);//b3
 	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 	lDefaultModelMaterial->rootSignature->AddStaticSampler(0);//s0
-	lDefaultModelMaterial->rootSignature->Create(sDevice);
+	lDefaultModelMaterial->rootSignature->Create(sMainDevice->Get());
 
 
 	lDefaultModelMaterial->blenddesc = PCreateBlend(BlendMode::AX_BLENDMODE_ALPHA);
@@ -1030,8 +1037,9 @@ void MaterialManager::PCreateDefaultBasicGPUParticleDrawMaterial()
 	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RootType::CBV,1);//b1
 	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,0);//u0
 	lDefaultModelMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,1);//u1
-	lDefaultModelMaterial->rootSignature->Create(sDevice);
+	lDefaultModelMaterial->rootSignature->Create(sMainDevice->Get());
 
+	lDefaultModelMaterial->primitiveType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT;
 
 	lDefaultModelMaterial->blenddesc = PCreateBlend(BlendMode::AX_BLENDMODE_ALPHA);
 
@@ -1039,7 +1047,7 @@ void MaterialManager::PCreateDefaultBasicGPUParticleDrawMaterial()
 	//生成
 	lDefaultModelMaterial->Initialize();
 
-	AddMaterial(lDefaultModelMaterial,"DefaultBasicGPUParticleDraw");
+	AddMaterial(lDefaultModelMaterial,"BasicGPUParticleDraw");
 }
 
 std::unique_ptr<Material> MaterialManager::PCreateDefaultMeshBlend(D3D12_PRIMITIVE_TOPOLOGY_TYPE type_,BlendMode mode_,IShader* vex_,IShader* pix_)
@@ -1069,7 +1077,7 @@ std::unique_ptr<Material> MaterialManager::PCreateDefaultMeshBlend(D3D12_PRIMITI
 	//ルートシグネチャ設定
 	lMaterial->rootSignature = CreateUniqueRootSignature();
 	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
-	lMaterial->rootSignature->Create(sDevice);
+	lMaterial->rootSignature->Create(sMainDevice->Get());
 	//生成
 	lMaterial->Initialize();
 
@@ -1106,7 +1114,7 @@ std::unique_ptr<Material> MaterialManager::PCreateDefaultSprite2DBlend(BlendMode
 	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 	lMaterial->rootSignature->AddStaticSampler(0);//s0
-	lMaterial->rootSignature->Create(sDevice);
+	lMaterial->rootSignature->Create(sMainDevice->Get());
 
 	//生成
 	lMaterial->Initialize();
@@ -1145,7 +1153,7 @@ std::unique_ptr<Material> MaterialManager::PCreateDefaultSprite3DBlend(BlendMode
 	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 	lMaterial->rootSignature->AddStaticSampler(0);//s0
-	lMaterial->rootSignature->Create(sDevice);
+	lMaterial->rootSignature->Create(sMainDevice->Get());
 
 	//生成
 	lMaterial->Initialize();
@@ -1221,16 +1229,16 @@ void MaterialManager::PCreateBasicGPUParticleEmitComputeMaterial()
 	lBasicGPUParticleEmitComputeMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
 	lBasicGPUParticleEmitComputeMaterial->rootSignature->Add(IRootSignature::RootType::CBV,1);//b1
 	lBasicGPUParticleEmitComputeMaterial->rootSignature->Add(IRootSignature::RootType::CBV,2);//b2
+	lBasicGPUParticleEmitComputeMaterial->rootSignature->Add(IRootSignature::RootType::CBV,3);//u3
 
-	lBasicGPUParticleEmitComputeMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,0);//u0
 	lBasicGPUParticleEmitComputeMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,1);//u1
 	lBasicGPUParticleEmitComputeMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,2);//u2
 	lBasicGPUParticleEmitComputeMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,3);//u3
 
-	lBasicGPUParticleEmitComputeMaterial->rootSignature->Create(sDevice);
+	lBasicGPUParticleEmitComputeMaterial->rootSignature->Create(sSubDevice->Get());
 
 	//生成
-	lBasicGPUParticleEmitComputeMaterial->Initialize();
+	lBasicGPUParticleEmitComputeMaterial->Initialize(sSubDevice);
 
 	AddMaterial(lBasicGPUParticleEmitComputeMaterial,"ComputeBasicGPUParticleEmit");
 }
@@ -1254,10 +1262,10 @@ void MaterialManager::PCreateBasicGPUParticleUpdateComputeMaterial()
 	lBasicGPUParticleEmitComputeMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,2);//u2
 	lBasicGPUParticleEmitComputeMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,3);//u3
 
-	lBasicGPUParticleEmitComputeMaterial->rootSignature->Create(sDevice);
+	lBasicGPUParticleEmitComputeMaterial->rootSignature->Create(sSubDevice->Get());
 
 	//生成
-	lBasicGPUParticleEmitComputeMaterial->Initialize();
+	lBasicGPUParticleEmitComputeMaterial->Initialize(sSubDevice);
 
 	AddMaterial(lBasicGPUParticleEmitComputeMaterial,"ComputeBasicGPUParticleUpdate");
 }
@@ -1275,10 +1283,10 @@ void MaterialManager::PCreateBasicGPUParticleDrawArgumentUpdateComputeMaterial()
 	lBasicGPUParticleEmitComputeMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,0);//u0
 	lBasicGPUParticleEmitComputeMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,1);//u1
 
-	lBasicGPUParticleEmitComputeMaterial->rootSignature->Create(sDevice);
+	lBasicGPUParticleEmitComputeMaterial->rootSignature->Create(sSubDevice->Get());
 
 	//生成
-	lBasicGPUParticleEmitComputeMaterial->Initialize();
+	lBasicGPUParticleEmitComputeMaterial->Initialize(sSubDevice);
 
 	AddMaterial(lBasicGPUParticleEmitComputeMaterial,"ComputeBasicGPUParticleDrawArgumentUpdate");
 }

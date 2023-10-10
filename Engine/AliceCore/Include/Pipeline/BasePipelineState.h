@@ -12,5 +12,5 @@ public:
 
 protected:
 
-	static IDevice* sDevice;
+	static IDevice* sMainDevice;
 };

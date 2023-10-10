@@ -18,7 +18,7 @@ protected:
 	std::unique_ptr<PostEffectSprite> sprite;
 
 	static ICommandList* sCmdList;
-	static IDevice* sDevice;
+	static IDevice* sMainDevice;
 	static ISRVDescriptorHeap* sSrvHeap;
 	static IWindowsApp* sWindowsApp;
 

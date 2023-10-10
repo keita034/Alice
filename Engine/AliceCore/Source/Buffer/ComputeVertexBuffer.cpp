@@ -1,6 +1,6 @@
 #include "ComputeVertexBuffer.h"
 #include"BaseBuffer.h"
-
+#include<DescriptorHeap.h>
 /// <summary>
 /// コンピュートシェーダー用頂点バッファ
 /// </summary>
@@ -61,6 +61,10 @@ void ComputeVertexBuffer::Create(size_t length_, size_t singleSize_, const void*
 {
 	if (!isValid)
 	{
+		IAdapter* lAdapter = sMultiAdapters->GetAdapter(AdaptersIndex::MAIN);
+		ID3D12Device* lDevice = lAdapter->GetDevice()->Get();
+		ISRVDescriptorHeap* lSRVHeap = lAdapter->GetSRVDescriptorHeap();
+
 		// ヒーププロパティ
 		D3D12_HEAP_PROPERTIES lHeapProp{};
 		lHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
@@ -73,7 +77,6 @@ void ComputeVertexBuffer::Create(size_t length_, size_t singleSize_, const void*
 		D3D12_RESOURCE_DESC lResDesc = CD3DX12_RESOURCE_DESC::Buffer(singleSize_ * length_);
 		lResDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS;
 		// リソースを生成
-		ID3D12Device* lDevice = sDevice->Get();
 		HRESULT lResult = lDevice->CreateCommittedResource(
 			&lHeapProp,
 			D3D12_HEAP_FLAG_NONE,
@@ -113,7 +116,7 @@ void ComputeVertexBuffer::Create(size_t length_, size_t singleSize_, const void*
 		lUavDesc.Buffer.NumElements = static_cast<UINT>(length_);
 		lUavDesc.Buffer.StructureByteStride = static_cast<UINT>(singleSize_);
 
-		handl.ptr = sSRVHeap->CreateUAV(lUavDesc, resource.Get());
+		handl.ptr = lSRVHeap->CreateUAV(lUavDesc, resource.Get());
 
 		isValid = true;
 
@@ -160,7 +163,8 @@ ID3D12Resource* ComputeVertexBuffer::GetResource()
 void ComputeVertexBuffer::Transition(const D3D12_RESOURCE_STATES& beforeState_, const D3D12_RESOURCE_STATES& afterState_)
 {
 	auto lBarrier = CD3DX12_RESOURCE_BARRIER::Transition(resource.Get(), beforeState_, afterState_);
-	ID3D12GraphicsCommandList* lCmdList = sCommandList->GetGraphicCommandList();
+	IAdapter* lAdapter = sMultiAdapters->GetAdapter(AdaptersIndex::MAIN);
+	ID3D12GraphicsCommandList* lCmdList = lAdapter->GetGraphicCommandList();
 	lCmdList->ResourceBarrier(1, &lBarrier);
 }
 

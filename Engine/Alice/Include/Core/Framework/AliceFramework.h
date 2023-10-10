@@ -12,6 +12,7 @@
 #include<PostEffectManager.h>
 #include<AlicePhysicsSystem.h>
 #include<TextureManager.h>
+#include<GPUParticleEmitter.h>
 
 class AliceFramework
 {
@@ -33,7 +34,7 @@ protected:
 	std::unique_ptr<IWindowsApp> windowsApp;
 	std::unique_ptr<DirectX12Core> directX12Core;
 	std::unique_ptr<AlicePhysics::AlicePhysicsSystem>physicsSystem;
-
+	std::unique_ptr<GPUParticleEmitter>gpuParticleEmitter;
 public:
 
 	virtual ~AliceFramework();

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #pragma warning(push)
 #pragma warning(disable: 4061)
@@ -14,6 +14,8 @@
 
 #pragma warning(pop)
 
+#include<MultiAdapters.h>
+
 /// <summary>
 /// 定数バッファ(インターフェース)
 /// </summary>
@@ -24,7 +26,7 @@ public:
 	/// 定数バッファを生成
 	/// </summary>
 	/// <param name="size">データサイズ</param>
-	virtual void Create(size_t bufferSize_) = 0;
+	virtual void Create(size_t bufferSize_,AdaptersIndex index_) = 0;
 
 	/// <summary>
 	/// バッファ生成に成功したかを返す
@@ -76,11 +78,11 @@ private:
 /// </summary>
 /// <param name="size">データサイズ</param>
 /// <returns>生成されたポインタ</returns>
-std::unique_ptr<IConstantBuffer> CreateUniqueConstantBuffer(size_t bufferSize_);
+std::unique_ptr<IConstantBuffer> CreateUniqueConstantBuffer(size_t bufferSize_,AdaptersIndex index_ = AdaptersIndex::MAIN);
 
 /// <summary>
 /// 定数バッファの生成(シェアード)
 /// </summary>
 /// <param name="size">データサイズ</param>
 /// <returns>生成されたポインタ</returns>
-std::shared_ptr<IConstantBuffer> CreateSharedConstantBuffer(size_t bufferSize_);
+std::shared_ptr<IConstantBuffer> CreateSharedConstantBuffer(size_t bufferSize_,AdaptersIndex index_ = AdaptersIndex::MAIN);

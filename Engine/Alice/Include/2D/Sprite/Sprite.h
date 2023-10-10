@@ -22,7 +22,7 @@ class Sprite
 {
 protected:
 	static IWindowsApp* sWindowsApp;
-	static IDevice* sDevice;
+	static IDevice* sMainDevice;
 	static ICommandList* sCmdList;
 
 	//頂点バッファ

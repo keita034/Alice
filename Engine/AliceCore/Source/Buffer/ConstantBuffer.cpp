@@ -1,6 +1,7 @@
 #include "ConstantBuffer.h"
 
 #include"BaseBuffer.h"
+#include<DescriptorHeap.h>
 
 /// <summary>
 /// 定数バッファ
@@ -24,7 +25,7 @@ public:
 	/// <summary>
 	/// 定数バッファを生成
 	/// </summary>
-	void Create(size_t bufferSize_) override;
+	void Create(size_t bufferSize_,AdaptersIndex index_) override;
 
    /// <summary>
    /// バッファ生成に成功したかを返す
@@ -67,11 +68,15 @@ private:
 
 };
 
-void ConstantBuffer::Create(size_t bufferSize_)
+void ConstantBuffer::Create(size_t bufferSize_,AdaptersIndex index_)
 {
 	if (!isValid)
 	{
 		bufferSize = bufferSize_;
+
+		IAdapter* lAdapter = sMultiAdapters->GetAdapter(index_);
+		ID3D12Device* lDevice = lAdapter->GetDevice()->Get();
+		ISRVDescriptorHeap* lSRVHeap = lAdapter->GetSRVDescriptorHeap();
 
 		// ヒーププロパティ
 		CD3DX12_HEAP_PROPERTIES lHeapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
@@ -80,7 +85,7 @@ void ConstantBuffer::Create(size_t bufferSize_)
 		CD3DX12_RESOURCE_DESC lResDesc = CD3DX12_RESOURCE_DESC::Buffer((bufferSize + 0xff) & ~0xff);
 
 		// リソースを生成
-		ID3D12Device* lDevice = sDevice->Get();
+
 		HRESULT lResult = lDevice->CreateCommittedResource(
 			&lHeapProp,
 			D3D12_HEAP_FLAG_NONE,
@@ -107,7 +112,7 @@ void ConstantBuffer::Create(size_t bufferSize_)
 		constantBufferView.BufferLocation = resource->GetGPUVirtualAddress();
 		constantBufferView.SizeInBytes = static_cast<UINT>(lResDesc.Width);
 
-		sSRVHeap->CreateCBV(constantBufferView);
+		lSRVHeap->CreateCBV(constantBufferView);
 
 		isValid = true;
 	}
@@ -149,16 +154,16 @@ void* ConstantBuffer::GetPtr()
 	return bufferMappedPtr;
 }
 
-std::unique_ptr<IConstantBuffer> CreateUniqueConstantBuffer(size_t bufferSize_)
+std::unique_ptr<IConstantBuffer> CreateUniqueConstantBuffer(size_t bufferSize_,AdaptersIndex index_)
 {
 	std::unique_ptr<IConstantBuffer> lConstantBuffer = std::make_unique<ConstantBuffer>();
-	lConstantBuffer->Create(bufferSize_);
+	lConstantBuffer->Create(bufferSize_,index_);
 	return std::move(lConstantBuffer);
 }
 
-std::shared_ptr<IConstantBuffer> CreateSharedConstantBuffer(size_t bufferSize_)
+std::shared_ptr<IConstantBuffer> CreateSharedConstantBuffer(size_t bufferSize_,AdaptersIndex index_)
 {
 	std::shared_ptr<IConstantBuffer> lConstantBuffer = std::make_shared<ConstantBuffer>();
-	lConstantBuffer->Create(bufferSize_);
+	lConstantBuffer->Create(bufferSize_,index_);
 	return lConstantBuffer;
 }

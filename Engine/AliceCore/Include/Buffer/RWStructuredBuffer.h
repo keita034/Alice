@@ -19,6 +19,8 @@ struct D3D12_GPU_DESCRIPTOR_HANDLE;
 struct D3D12_SHADER_RESOURCE_VIEW_DESC;
 struct ID3D12Resource;
 
+#include<MultiAdapters.h>
+
 enum HEAP_TYPE
 {
 	DEFAULT = 1,
@@ -41,7 +43,7 @@ public:
 	/// <param name="length_">要素数</param>
 	/// <param name="singleSize_">要素1つ分のデータサイズ</param>
 	/// <param name="data_">データ</param>
-	virtual void CreateSRV(size_t length_, size_t singleSize_, const void* data_) = 0;
+	virtual void CreateSRV(size_t length_, size_t singleSize_,AdaptersIndex index_, const void* data_) = 0;
 
 	/// <summary>
 	/// アンオーダーアクセスビューを生成
@@ -49,12 +51,12 @@ public:
 	/// <param name="length_">個数</param>
 	/// <param name="singleSize__">要素1つ分のデータサイズ</param>
 	/// <param name="data_">データ</param>
-	virtual void CreateUAV(size_t length_, size_t singleSize_, const void* data_) = 0;
+	virtual void CreateUAV(size_t length_, size_t singleSize_,AdaptersIndex index_, const void* data_) = 0;
 
 	/// <summary>
 	/// アンオーダーアクセスビューを生成
 	/// </summary>
-	virtual void CreateUAV(CD3DX12_RESOURCE_DESC* texresDesc_) = 0;
+	virtual void CreateUAV(CD3DX12_RESOURCE_DESC* texresDesc_,AdaptersIndex index_) = 0;
 
 	/// <summary>
 	/// バッファ生成に成功したかを返す
@@ -113,7 +115,7 @@ private:
 /// <param name="heapType_">ヒープタイプ</param>
 /// <param name="data_">データ</param>
 /// <returns>生成されたポインタ</returns>
-std::unique_ptr<IRWStructuredBuffer> CreateUniqueSRVRWStructuredBuffer(size_t length_, size_t singleSize_,HEAP_TYPE heapType_ = UPLOAD, const void* data_ = nullptr);
+std::unique_ptr<IRWStructuredBuffer> CreateUniqueSRVRWStructuredBuffer(size_t length_, size_t singleSize_,AdaptersIndex index_ = AdaptersIndex::MAIN,HEAP_TYPE heapType_ = UPLOAD, const void* data_ = nullptr);
 
 /// <summary>
 /// シェーダーリソースビューを生成(シェアード)
@@ -123,7 +125,7 @@ std::unique_ptr<IRWStructuredBuffer> CreateUniqueSRVRWStructuredBuffer(size_t le
 /// <param name="heapType_">ヒープタイプ</param>
 /// <param name="data_">データ</param>
 /// <returns>生成されたポインタ</returns>
-std::shared_ptr<IRWStructuredBuffer> CreateSharedSRVRWStructuredBuffer(size_t length_, size_t singleSize_,HEAP_TYPE heapType_ = UPLOAD, const void* data_ = nullptr);
+std::shared_ptr<IRWStructuredBuffer> CreateSharedSRVRWStructuredBuffer(size_t length_, size_t singleSize_,AdaptersIndex index_ = AdaptersIndex::MAIN,HEAP_TYPE heapType_ = UPLOAD, const void* data_ = nullptr);
 
 /// <summary>
 /// アンオーダーアクセスビューを生成(ユニーク)
@@ -133,7 +135,7 @@ std::shared_ptr<IRWStructuredBuffer> CreateSharedSRVRWStructuredBuffer(size_t le
 /// <param name="heapType_">ヒープタイプ</param>
 /// <param name="data_">データ</param>
 /// <returns>生成されたポインタ</returns>
-std::unique_ptr<IRWStructuredBuffer> CreateUniqueUAVRWStructuredBuffer(size_t length_, size_t singleSize_,HEAP_TYPE heapType_ = UPLOAD, const void* data_ = nullptr);
+std::unique_ptr<IRWStructuredBuffer> CreateUniqueUAVRWStructuredBuffer(size_t length_, size_t singleSize_,AdaptersIndex index_ = AdaptersIndex::MAIN,HEAP_TYPE heapType_ = UPLOAD, const void* data_ = nullptr);
 
 /// <summary>
 /// アンオーダーアクセスビューを生成(シェアード)
@@ -143,4 +145,4 @@ std::unique_ptr<IRWStructuredBuffer> CreateUniqueUAVRWStructuredBuffer(size_t le
 /// <param name="heapType_">ヒープタイプ</param>
 /// <param name="data_">データ</param>
 /// <returns>生成されたポインタ</returns>
-std::shared_ptr<IRWStructuredBuffer> CreateSharedUAVRWStructuredBuffer(size_t length_, size_t singleSize_,HEAP_TYPE heapType_ = UPLOAD, const void* data_ = nullptr);
+std::shared_ptr<IRWStructuredBuffer> CreateSharedUAVRWStructuredBuffer(size_t length_, size_t singleSize_,AdaptersIndex index_ = AdaptersIndex::MAIN,HEAP_TYPE heapType_ = UPLOAD, const void* data_ = nullptr);

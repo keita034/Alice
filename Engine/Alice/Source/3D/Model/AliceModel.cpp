@@ -14,7 +14,7 @@
 #include<AliceFileStream.h>
 #include<FileUtility.h>
 
-IDevice* AliceModel::sDevice;
+IDevice* AliceModel::sMainDevice;
 ICommandList* AliceModel::sCmdList;
 Light* AliceModel::sLight;
 std::vector<std::string>AliceModel::sFilePaths;
@@ -360,7 +360,7 @@ uint32_t AliceModel::SCreateToonModel(const std::string& fileDirectoryPath_,cons
 
 void AliceModel::SCommonInitialize(DirectX12Core* directX12Core_)
 {
-	sDevice = directX12Core_->GetDevice();
+	sMainDevice = directX12Core_->GetDevice();
 	sCmdList = directX12Core_->GetCommandList();
 
 	sFilePaths.resize(sMAX_MODEL);
@@ -570,7 +570,7 @@ void AliceModel::SetAlpha(float alpha_)
 
 void AliceModel::Finalize()
 {
-	 sDevice = nullptr;
+	 sMainDevice = nullptr;
 	sCmdList = nullptr;
 
 	sLight = nullptr;

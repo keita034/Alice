@@ -67,6 +67,9 @@ private:
 
 void VertexBuffer::Create(size_t length_, size_t singleSize_, const void* data_)
 {
+	IAdapter* lAdapter = sMultiAdapters->GetAdapter(AdaptersIndex::MAIN);
+	ID3D12Device* lDevice = lAdapter->GetDevice()->Get();
+
 	// ヒーププロパティ
 	CD3DX12_HEAP_PROPERTIES lHeapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
 
@@ -74,7 +77,6 @@ void VertexBuffer::Create(size_t length_, size_t singleSize_, const void* data_)
 	CD3DX12_RESOURCE_DESC lResDesc = CD3DX12_RESOURCE_DESC::Buffer(length_ * singleSize_);
 
 	// リソースを生成
-	ID3D12Device* lDevice = sDevice->Get();
 	HRESULT lResult = lDevice->CreateCommittedResource(
 		&lHeapProp,
 		D3D12_HEAP_FLAG_NONE,

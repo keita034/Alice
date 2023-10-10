@@ -1,8 +1,8 @@
 #include "BasePipelineState.h"
 
-IDevice* BasePipelineState::sDevice = nullptr;
+IDevice* BasePipelineState::sMainDevice = nullptr;
 
 void BasePipelineState::SSetDevice(IDevice* device_)
 {
-	sDevice = device_;
+	sMainDevice = device_;
 }

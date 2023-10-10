@@ -7,7 +7,7 @@ void RenderTarget::Initialize(uint32_t width_, uint32_t height_, D3D12_RESOURCE_
 	clearColor = {{ clear_.x,clear_.y,clear_.z,clear_.w }};
 	
 	//レンダーターゲットの生成
-	renderTargetBuffer = CreateUniqueRenderTargetBuffer(width_, height_, resourceStates_, 0, 1, rtFormat_, clearColor);
+	renderTargetBuffer = CreateUniqueRenderTargetBuffer(width_, height_, resourceStates_, 1, 1, rtFormat_, clearColor);
 
 	//デプスステンシルの生成
 	depthStencilBuffer = CreateUniqueDepthStencilBuffer(width_, height_, dsFormat_);

@@ -74,7 +74,7 @@
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -103,7 +103,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Include\2D;$(ProjectDir)Include\2D\PostEffect;$(ProjectDir)Include\2D\Particle;$(ProjectDir)Include\2D\Sprite;$(ProjectDir)Include\3D;$(ProjectDir)Include\3D\Model;$(ProjectDir)Include\AliceMath;$(ProjectDir)Include\AliceMath\Collision;$(ProjectDir)Include\AliceMath\float;$(ProjectDir)Include\AliceMath\double;$(ProjectDir)Include\Audio;$(ProjectDir)Include\Camera;$(ProjectDir)Include\Core;$(ProjectDir)Include\Core\DirectX;$(ProjectDir)Include\Core\Buffer;$(ProjectDir)Include\Core\Framework;$(ProjectDir)Include\Input;$(ProjectDir)Include\Scene;$(ProjectDir)Include\Light;$(ProjectDir)Include\Util;$(ProjectDir)Include\Transition;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <DisableSpecificWarnings>5045;4061;;4710;4711</DisableSpecificWarnings>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -129,6 +129,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Include\2D\Particle\GPUParticleEmitter.h" />
     <ClInclude Include="Include\2D\Particle\BaseGPUParticle.h" />
     <ClInclude Include="Include\2D\Particle\BasicGPUParticle.h" />
     <ClInclude Include="Include\2D\Particle\FireWorkParticle.h" />
@@ -225,6 +226,7 @@
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\2D\Particle\GPUParticleEmitter.cpp" />
     <ClCompile Include="Source\2D\Particle\BaseGPUParticle.cpp" />
     <ClCompile Include="Source\2D\Particle\BasicGPUParticle.cpp" />
     <ClCompile Include="Source\2D\Particle\FireWorkParticle.cpp" />

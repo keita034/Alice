@@ -54,6 +54,9 @@
     <ClInclude Include="Include\Enum\BlendMode.h">
       <Filter>ヘッダー ファイル\Enum</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Enum\AdaptersIndex.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Utility\FileUtility.cpp">

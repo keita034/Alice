@@ -68,7 +68,7 @@ public:
 	/// <summary>
 	/// 生成
 	/// </summary>
-	void Create()override;
+	void Create(IDevice* device_)override;
 
 	/// <summary>
 	/// パイプラインステートを取得
@@ -103,7 +103,7 @@ void ComputePipelineState::SetFlag(COMPUTE_PIPELINE_STATE_FLAGS flag_)
 	pipelineFlag = static_cast< D3D12_PIPELINE_STATE_FLAGS > ( flag_ );
 }
 
-void ComputePipelineState::Create()
+void ComputePipelineState::Create(IDevice* device_)
 {
 	D3D12_COMPUTE_PIPELINE_STATE_DESC lPipelineDesc{};
 	lPipelineDesc.CS = shaderByte;
@@ -112,7 +112,7 @@ void ComputePipelineState::Create()
 	lPipelineDesc.CachedPSO = cachedPipeline;
 	lPipelineDesc.Flags = pipelineFlag;
 
-	HRESULT lResult = sDevice->Get()->CreateComputePipelineState(&lPipelineDesc,IID_PPV_ARGS(pipelineState.GetAddressOf()));
+	HRESULT lResult = device_->Get()->CreateComputePipelineState(&lPipelineDesc,IID_PPV_ARGS(pipelineState.GetAddressOf()));
 
 	if (FAILED(lResult))
 	{

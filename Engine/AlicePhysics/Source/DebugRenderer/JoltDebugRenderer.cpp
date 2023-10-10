@@ -32,7 +32,7 @@ void AlicePhysics::JoltDebugRenderer::Initialize()
 	trianglePrimitive = std::make_unique<JoltDebugRenderPrimitive>(commandList,D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	trianglePrimitive->CreateVertexBuffer(3 * MAX_TRIANGLES,sizeof(Point));
 
-	lightConstantBuffer = CreateUniqueConstantBuffer(sizeof(lightData));
+	lightConstantBuffer = CreateUniqueConstantBuffer(sizeof(ConstBufferLightData),AdaptersIndex::MAIN);
 
 	PCreateLinePipelineState();
 	PCreateTrianglePipelineState();

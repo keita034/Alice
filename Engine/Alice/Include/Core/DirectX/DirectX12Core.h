@@ -130,6 +130,11 @@ public:
 	IDSVDescriptorHeap* GetDSVDescriptorHeap()const;
 
 	/// <summary>
+	/// マルチアダプターを取得
+	/// </summary>
+	IMultiAdapters* GetMultiAdapters()const;
+
+	/// <summary>
 	/// リソースの状態を変える
 	/// </summary>
 	/// <param name="resource">リソース</param>

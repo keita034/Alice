@@ -68,7 +68,7 @@ bool PipelineState::Create()
 	lPipelineDesc.pRootSignature = rootSignature;
 
 	// パイプランステートの生成
-	lResult = sDevice->Get()->CreateGraphicsPipelineState(&lPipelineDesc,IID_PPV_ARGS(pipelineState.ReleaseAndGetAddressOf()));
+	lResult = sMainDevice->Get()->CreateGraphicsPipelineState(&lPipelineDesc,IID_PPV_ARGS(pipelineState.ReleaseAndGetAddressOf()));
 	AliceAssert(SUCCEEDED(lResult),"パイプラインの生成に失敗しました。");
 
 	if (lResult != S_OK)

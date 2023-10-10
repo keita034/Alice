@@ -1,5 +1,7 @@
 #include "DrawArgumentBuffer.h"
 
+#include<DescriptorHeap.h>
+#include<PadingType.h>
 
 class DrawArgumentBuffer : public BaseBuffer , public IDrawArgumentBuffer
 {
@@ -19,6 +21,9 @@ private:
 	D3D12_RESOURCE_STATES states;
 	//ヒープタイプ
 	D3D12_HEAP_TYPE heapType;
+	//アダプターの種類
+	AdaptersIndex index;
+	Byte4 PADING;
 
 public:
 
@@ -28,7 +33,7 @@ public:
 	/// <param name="length_">要素数</param>
 	/// <param name="singleSize_">単体のサイズ</param>
 	/// <param name="data_">配列の先頭アドレス</param>
-	void Create(size_t length_,size_t singleSize_,const void* data_) override;
+	void Create(size_t length_,size_t singleSize_,AdaptersIndex index_,const void* data_) override;
 
 	/// <summary>
 	/// バッファ生成に成功したかを返す
@@ -86,16 +91,26 @@ private:
 	DrawArgumentBuffer& operator = (const DrawArgumentBuffer&) = delete;
 };
 
-void DrawArgumentBuffer::Create(size_t length_,size_t singleSize_,const void* data_)
+void DrawArgumentBuffer::Create(size_t length_,size_t singleSize_,AdaptersIndex index_,const void* data_)
 {
 	bufferlength = length_;
 	bufferSingleSize = singleSize_;
+	index = index_;
+
+	IAdapter* lAdapter = sMultiAdapters->GetAdapter(index_);
+	ID3D12Device* lDevice = lAdapter->GetDevice()->Get();
+	ISRVDescriptorHeap* lSRVHeap = lAdapter->GetSRVDescriptorHeap();
+
 	D3D12_RESOURCE_DESC lResDesc = CD3DX12_RESOURCE_DESC::Buffer(singleSize_ * length_);
 	lResDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS;
 
-	D3D12_HEAP_PROPERTIES lHeapProp = CD3DX12_HEAP_PROPERTIES(heapType);
+	D3D12_HEAP_PROPERTIES lHeapProp{};
+	lHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
+	lHeapProp.CreationNodeMask = 1;
+	lHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
+	lHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
+	lHeapProp.VisibleNodeMask = 1;
 
-	ID3D12Device* lDevice = sDevice->Get();
 	HRESULT lResult = lDevice->CreateCommittedResource(
 		&lHeapProp,
 		D3D12_HEAP_FLAG_NONE,
@@ -131,14 +146,15 @@ void DrawArgumentBuffer::Create(size_t length_,size_t singleSize_,const void* da
 	lUavResDesc.Buffer.NumElements = static_cast< UINT >( length_ );
 	lUavResDesc.Buffer.StructureByteStride = static_cast< UINT >( singleSize_ );
 
-	structuredBufferHandle.ptr = sSRVHeap->CreateUAV(lUavResDesc,resource.Get());
+	structuredBufferHandle.ptr = lSRVHeap->CreateUAV(lUavResDesc,resource.Get());
 
 	isValid = true;
 }
 
 void DrawArgumentBuffer::Transition(D3D12_RESOURCE_STATES statesAfter_)
 {
-	ID3D12GraphicsCommandList* lCommandList = sCommandList->GetGraphicCommandList();
+	IAdapter* lAdapter = sMultiAdapters->GetAdapter(index);
+	ID3D12GraphicsCommandList* lCommandList = lAdapter->GetGraphicCommandList();
 
 	CD3DX12_RESOURCE_BARRIER lBarrier = CD3DX12_RESOURCE_BARRIER::Transition(resource.Get(),states,statesAfter_);
 	lCommandList->ResourceBarrier(1,&lBarrier);
@@ -199,18 +215,18 @@ D3D12_RESOURCE_STATES DrawArgumentBuffer::GetStates()
 	return states;
 }
 
-std::unique_ptr<IDrawArgumentBuffer> CreateUniqueDrawArgumentBuffer(size_t length_,size_t singleSize_,D3D12_HEAP_TYPE heapType_,const void* data_)
+std::unique_ptr<IDrawArgumentBuffer> CreateUniqueDrawArgumentBuffer(size_t length_,size_t singleSize_,AdaptersIndex index,D3D12_HEAP_TYPE heapType_,const void* data_)
 {
 	std::unique_ptr<IDrawArgumentBuffer> lDrawArgumentBuffer = std::make_unique<DrawArgumentBuffer>();
 	lDrawArgumentBuffer->SetHeapType(heapType_);
-	lDrawArgumentBuffer->Create(length_,singleSize_,data_);
+	lDrawArgumentBuffer->Create(length_,singleSize_,index,data_);
 	return std::move(lDrawArgumentBuffer);
 }
 
-std::shared_ptr<IDrawArgumentBuffer> CreateSharedDrawArgumentBuffer(size_t length_,size_t singleSize_,D3D12_HEAP_TYPE heapType_,const void* data_)
+std::shared_ptr<IDrawArgumentBuffer> CreateSharedDrawArgumentBuffer(size_t length_,size_t singleSize_,AdaptersIndex index,D3D12_HEAP_TYPE heapType_,const void* data_)
 {
 	std::shared_ptr<IDrawArgumentBuffer> lDrawArgumentBuffer = std::make_shared<DrawArgumentBuffer>();
 	lDrawArgumentBuffer->SetHeapType(heapType_);
-	lDrawArgumentBuffer->Create(length_,singleSize_,data_);
+	lDrawArgumentBuffer->Create(length_,singleSize_,index,data_);
 	return lDrawArgumentBuffer;
 }

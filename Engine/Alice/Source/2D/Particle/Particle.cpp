@@ -2,7 +2,7 @@
 
 TextureManager* Particle::sTextureManager = nullptr;
 ICommandList* Particle::sCmdList = nullptr;
-IDevice* Particle::sDevice = nullptr;
+IDevice* Particle::sMainDevice = nullptr;
 
 Particle::Particle()
 {
@@ -24,6 +24,6 @@ void Particle::SSetTextureManager(TextureManager* textureManager_)
 
 void Particle::SSetDirectX12Core(DirectX12Core* directX12Core_)
 {
-	sDevice = directX12Core_->GetDevice();
+	sMainDevice = directX12Core_->GetDevice();
 	sCmdList = directX12Core_->GetCommandList();
 }

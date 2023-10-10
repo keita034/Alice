@@ -23,7 +23,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(ID3D12Device* device_);
+	void Initialize(IDevice* mainDevice_,IDevice* subDevice_);
 
 	static MaterialManager* SGetInstance();
 
@@ -55,7 +55,13 @@ public:
 	/// <param name="name_">名前</param>
 	static Material* SGetMaterial(const std::string& name_);
 
-	static ID3D12Device* sDevice;
+	/// マテリアル取得
+	/// </summary>
+	/// <param name="name_">名前</param>
+	static ComputeMaterial* SGetComputeMaterial(const std::string& name_);
+
+	static IDevice* sMainDevice;
+	static IDevice* sSubDevice;
 
 	MaterialManager() = default;
 	~MaterialManager();

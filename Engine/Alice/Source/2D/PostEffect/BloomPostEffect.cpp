@@ -11,7 +11,7 @@ void BloomPostEffect::Initialize()
 	if (needsInit)
 	{
 		ID3D12GraphicsCommandList* lCmdList = sCmdList->GetGraphicCommandList();
-		ID3D12Device* lDevice = sDevice->Get();
+		ID3D12Device* lDevice = sMainDevice->Get();
 
 		needsInit = false;
 

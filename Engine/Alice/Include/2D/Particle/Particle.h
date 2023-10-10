@@ -22,7 +22,7 @@
 class Particle
 {
 protected:
-	static IDevice* sDevice;
+	static IDevice* sMainDevice;
 	static ICommandList* sCmdList;
 	static TextureManager* sTextureManager;
 

@@ -17,6 +17,7 @@ protected:
 	static IWindowsApp* sWindowsApp;
 	static AliceMathF::Matrix4* viewMatrixPtr;
 	static AliceMathF::Matrix4* projectionMatrixPtr;
+	static Camera* cameraPtr;
 
 public:
 
@@ -119,6 +120,7 @@ public:
 
 	static AliceMathF::Matrix4* GetViewMatrixPtr();
 	static AliceMathF::Matrix4* GetProjectionMatrixPtr();
+	static Camera* GetCameraPtr();
 };
 
 #pragma warning(push)

@@ -16,7 +16,7 @@ void DistortionPostEffect::Initialize()
 		height = static_cast<float>(sWindowsApp->GetWindowSize().height);
 
 		ID3D12GraphicsCommandList* lCmdList = sCmdList->GetGraphicCommandList();
-		ID3D12Device* lDevice = sDevice->Get();
+		ID3D12Device* lDevice = sMainDevice->Get();
 
 		sprite = std::make_unique<PostEffectSprite>();
 		sprite->Initialize(lCmdList, sSrvHeap);

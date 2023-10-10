@@ -59,7 +59,7 @@ class AliceModel
 {
 protected:
 
-	static IDevice* sDevice;
+	static IDevice* sMainDevice;
 	static ICommandList* sCmdList;
 
 	//ライト

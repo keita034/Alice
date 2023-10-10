@@ -14,7 +14,7 @@ void OilPaintingPostEffect::Initialize()
 	if (needsInit)
 	{
 		ID3D12GraphicsCommandList* lCmdList = sCmdList->GetGraphicCommandList();
-		ID3D12Device* lDevice = sDevice->Get();
+		ID3D12Device* lDevice = sMainDevice->Get();
 
 		width = static_cast<float>(sWindowsApp->GetWindowSize().width);
 		height = static_cast<float>(sWindowsApp->GetWindowSize().height);
@@ -85,7 +85,6 @@ void OilPaintingPostEffect::Initialize()
 		needsInit = false;
 
 		constantBuffer = CreateUniqueConstantBuffer(sizeof(RadTxeSize));
-		constantBuffer->Create(sizeof(RadTxeSize));
 		constBuffMap.radius = 3;
 		constBuffMap.radiusF = 3.0f;
 		constBuffMap.TexSize.x = 1.0f / static_cast<float>(width);

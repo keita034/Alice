@@ -15,11 +15,15 @@ cbuffer timeData : register(b1)
 
 cbuffer emitData : register(b2)
 {
-    uint emitCount;
-    float particleDataCount;
+    uint maxParticles;
+    uint particleDataCount;
 }
 
-RWStructuredBuffer<ParticleData> particleDatas : register(u0);
+cbuffer ParticleDatas : register(b3)
+{
+    ParticleData particleDatas[10];
+}
+
 RWStructuredBuffer<Particle> ParticlePool : register(u1);
 ConsumeStructuredBuffer<uint> freeList : register(u2);
 RWStructuredBuffer<uint> DrawList : register(u3);
@@ -27,7 +31,7 @@ RWStructuredBuffer<uint> DrawList : register(u3);
 [numthreads(1, 1, 1)]
 void main( uint3 DTid : SV_DispatchThreadID )
 {
-    if (DTid.x >= (uint) emitCount)
+    if (DTid.x >= (uint) maxParticles)
         return;
 
     uint emitIndex = freeList.Consume();

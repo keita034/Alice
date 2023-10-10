@@ -2,7 +2,7 @@
 #include<DirectX12Core.h>
 
 IWindowsApp* Sprite::sWindowsApp = nullptr;
-IDevice* Sprite::sDevice = nullptr;
+IDevice* Sprite::sMainDevice = nullptr;
 ICommandList* Sprite::sCmdList = nullptr;
 
 void Sprite::PSpriteDraw(const Transform& transform_, const Material* material_)
@@ -103,6 +103,6 @@ void Sprite::SSetWindowsApp(IWindowsApp* windowsApp_)
 
 void Sprite::SSetDirectX12Core(DirectX12Core* directX12Core_)
 {
-	sDevice = directX12Core_->GetDevice();
+	sMainDevice = directX12Core_->GetDevice();
 	sCmdList = directX12Core_->GetCommandList();
 }

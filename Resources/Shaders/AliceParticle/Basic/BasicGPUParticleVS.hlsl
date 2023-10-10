@@ -1,7 +1,7 @@
 #include<BasicGPUParticle.hlsli>
 
-StructuredBuffer<Particle> ParticlePool : register(t0);
-StructuredBuffer<uint> DrawList : register(t1);
+RWStructuredBuffer<Particle> ParticlePool : register(u0);
+RWStructuredBuffer<uint> DrawList : register(u1);
 
 VS_OUTPUT main(uint id : SV_VertexID)
 {

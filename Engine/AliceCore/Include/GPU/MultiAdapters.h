@@ -18,14 +18,8 @@
 #pragma warning(pop)
 
 
-
+#include<AdaptersIndex.h>
 #include<Adapter.h>
-
-enum class AdaptersIndex
-{
-	MAIN,
-	SUB
-};
 
 /// <summary>
 /// マルチアダプター

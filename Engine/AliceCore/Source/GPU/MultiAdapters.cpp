@@ -14,7 +14,7 @@ private:
 	};
 
 	AdapterSetting mainAdapterSetting = { 1024,1024,300000,300000,400000 };
-	AdapterSetting subAdapterSetting = { 1,1,300000,300000,400000 };
+	AdapterSetting subAdapterSetting = { 1024,1024,300000,300000,400000 };
 
 	Microsoft::WRL::ComPtr<IDXGIFactory7> dxgiFactory;
 

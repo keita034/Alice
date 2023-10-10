@@ -16,7 +16,7 @@ struct LightConstBuffData
 class Light
 {
 private:
-	static ID3D12Device* sDevice;
+	static ID3D12Device* sMainDevice;
 
 	static AliceMathF::Vector3* lightdirPtr;
 	static AliceMathF::Vector4* lightcolorPtr;

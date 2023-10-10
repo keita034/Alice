@@ -11,7 +11,7 @@ void VignettePostEffect::Initialize()
 	if (needsInit)
 	{
 		ID3D12GraphicsCommandList* lCmdList = sCmdList->GetGraphicCommandList();
-		ID3D12Device* lDevice = sDevice->Get();
+		ID3D12Device* lDevice = sMainDevice->Get();
 
 		width = static_cast<float>(sWindowsApp->GetWindowSize().width);
 		height = static_cast<float>(sWindowsApp->GetWindowSize().height);

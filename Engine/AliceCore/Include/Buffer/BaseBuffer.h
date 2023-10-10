@@ -1,9 +1,6 @@
 #pragma once
 
-#include<DescriptorHeap.h>
-#include<RTVDescriptorHeap.h>
-#include<DSVDescriptorHeap.h>
-#include<Device.h>
+#include<MultiAdapters.h>
 #include<CommandList.h>
 #include<Defined.h>
 
@@ -17,15 +14,7 @@ class BaseBuffer
 protected:
 
 	//デバイス
-	static IDevice* sDevice;
-	//コマンドリスト
-	static ICommandList* sCommandList;
-	//SRV用のディスクプリタヒープ
-	static ISRVDescriptorHeap* sSRVHeap;
-	//RTV用ディスクプリタヒープ
-	static IRTVDescriptorHeap* sRTVHeap;
-	//DSV用のディスクプリタヒープ
-	static IDSVDescriptorHeap* sDSVHeap;
+	static IMultiAdapters* sMultiAdapters;
 
 	//リソース
 	Microsoft::WRL::ComPtr<ID3D12Resource> resource;
@@ -41,52 +30,32 @@ public:
 	/// <summary>
 	/// デバイスを設定
 	/// </summary>
-	static void SSetDevice(IDevice* device_);
-
-	/// <summary>
-	/// コマンドリストを設定
-	/// </summary>
-	static void SSetGraphicsCommandList(ICommandList* commandList_);
-
-	/// <summary>
-	/// SRV用のディスクプリタヒープを設定
-	/// </summary>
-	static void SSetSRVDescriptorHeap(ISRVDescriptorHeap* descriptorHeap_);
-
-	/// <summary>
-	/// RTV用のディスクプリタヒープを設定
-	/// </summary>
-	static void SSetRTVDescriptorHeap(IRTVDescriptorHeap* rtvDescriptorHeap_);
-
-	/// <summary>
-	/// DSV用のディスクプリタヒープを設定
-	/// </summary>
-	static void SSetDSVDescriptorHeap(IDSVDescriptorHeap* dsvDescriptorHeap_);
+	static void SSetMultiAdapters(IMultiAdapters* multiAdapters_);
 
 	/// <summary>
 	/// デバイスを取得
 	/// </summary>
-	static IDevice* SGetDevice();
+	static IDevice* SGetDevice(AdaptersIndex index_);
 
 	/// <summary>
 	/// コマンドリストを取得
 	/// </summary>
-	static ICommandList* SGetGraphicsCommandList();
+	static ICommandList* SGetGraphicsCommandList(AdaptersIndex index_);
 
 	/// <summary>
 	/// SRV用のディスクプリタヒープを取得
 	/// </summary>
-	static ISRVDescriptorHeap* SGetSRVDescriptorHeap();
+	static ISRVDescriptorHeap* SGetSRVDescriptorHeap(AdaptersIndex index_);
 
 	/// <summary>
 	/// RTV用のディスクプリタヒープを取得
 	/// </summary>
-	static IRTVDescriptorHeap* SGetRTVDescriptorHeap();
+	static IRTVDescriptorHeap* SGetRTVDescriptorHeap(AdaptersIndex index_);
 
 	/// <summary>
 	/// DSV用のディスクプリタヒープを取得
 	/// </summary>
-	static IDSVDescriptorHeap* SGetDSVDescriptorHeap();
+	static IDSVDescriptorHeap* SGetDSVDescriptorHeap(AdaptersIndex index_);
 
 	static void Finalize();
 };

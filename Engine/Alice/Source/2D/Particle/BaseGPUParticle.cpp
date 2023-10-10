@@ -1,7 +1,11 @@
 #include "BaseGPUParticle.h"
 
-void BaseGPUParticle::SetAdapter(IAdapter* adapter_)
+void BaseGPUParticle::SetAdapter(IAdapter* graphicAdapter_, IAdapter* computeAdapter_)
 {
-	commandList = adapter_->GetCommandList();
-	device = adapter_->GetDevice();
+	commandList = graphicAdapter_->GetCommandList();
+	device = graphicAdapter_->GetDevice();
+
+	 computeCmmandList = computeAdapter_->GetCommandList();
+	 computeDevice = computeAdapter_->GetDevice();
+
 }

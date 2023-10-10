@@ -22,7 +22,7 @@ public:
 	/// <param name="length_">要素数</param>
 	/// <param name="singleSize_">単体のサイズ</param>
 	/// <param name="data_">配列の先頭アドレス</param>
-	virtual void Create(size_t length_,size_t singleSize_,const void* data_) = 0;
+	virtual void Create(size_t length_,size_t singleSize_,AdaptersIndex index,const void* data_) = 0;
 
 	/// <summary>
 	/// バッファ生成に成功したかを返す
@@ -89,7 +89,7 @@ private:
 /// <param name="heapType_">ヒープタイプ</param>
 /// <param name="data_">データ</param>
 /// <returns>生成されたポインタ</returns>
-std::unique_ptr<IDrawArgumentBuffer> CreateUniqueDrawArgumentBuffer(size_t length_,size_t singleSize_,D3D12_HEAP_TYPE heapType_ = D3D12_HEAP_TYPE::D3D12_HEAP_TYPE_UPLOAD,const void* data_ = nullptr);
+std::unique_ptr<IDrawArgumentBuffer> CreateUniqueDrawArgumentBuffer(size_t length_,size_t singleSize_,AdaptersIndex index,D3D12_HEAP_TYPE heapType_ = D3D12_HEAP_TYPE::D3D12_HEAP_TYPE_UPLOAD,const void* data_ = nullptr);
 
 /// <summary>
 /// ドローアーギュメントバッファを生成(シェアード)
@@ -99,4 +99,4 @@ std::unique_ptr<IDrawArgumentBuffer> CreateUniqueDrawArgumentBuffer(size_t lengt
 /// <param name="heapType_">ヒープタイプ</param>
 /// <param name="data_">データ</param>
 /// <returns>生成されたポインタ</returns>
-std::shared_ptr<IDrawArgumentBuffer> CreateSharedDrawArgumentBuffer(size_t length_,size_t singleSize_,D3D12_HEAP_TYPE heapType_ = D3D12_HEAP_TYPE::D3D12_HEAP_TYPE_UPLOAD,const void* data_ = nullptr);
+std::shared_ptr<IDrawArgumentBuffer> CreateSharedDrawArgumentBuffer(size_t length_,size_t singleSize_,AdaptersIndex index,D3D12_HEAP_TYPE heapType_ = D3D12_HEAP_TYPE::D3D12_HEAP_TYPE_UPLOAD,const void* data_ = nullptr);

@@ -35,7 +35,6 @@ struct ParticleData
 
 struct IndirectCommand
 {
-    matrix worldMatrix;
     uint vertexCountPerInstance;
     uint instanceCount;
     uint startVertexLocation;

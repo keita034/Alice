@@ -66,7 +66,7 @@ public:
 	/// <summary>
 	/// 生成
 	/// </summary>
-	virtual void Create() = 0;
+	virtual void Create(IDevice* device_) = 0;
 
 	/// <summary>
 	/// パイプラインステートを取得

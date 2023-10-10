@@ -18,7 +18,7 @@ void AlicePhysics::JoltDebugRenderPrimitive::CreateIndexBuffer(size_t numIdx_, c
 
 void AlicePhysics::JoltDebugRenderPrimitive::CreateConstantBuffer(size_t vtxSize_, void* data_)
 {
-	constantBuffer = CreateUniqueConstantBuffer(vtxSize_);
+	constantBuffer = CreateUniqueConstantBuffer(vtxSize_,AdaptersIndex::MAIN);
 	constantBuffer->Update(data_);
 }
 

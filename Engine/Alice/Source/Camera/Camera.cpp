@@ -3,6 +3,7 @@
 IWindowsApp* Camera::sWindowsApp = nullptr;
 AliceMathF::Matrix4* Camera::projectionMatrixPtr = nullptr;
 AliceMathF::Matrix4* Camera::viewMatrixPtr = nullptr;
+ Camera* Camera::cameraPtr = nullptr;
 
 void GameCamera::Initialize(UpdateProjMatrixFunc matFunc_)
 {
@@ -72,6 +73,7 @@ void GameCamera::Initialize(UpdateProjMatrixFunc matFunc_)
 
 	projectionMatrixPtr = &projectionMatrix;
 	viewMatrixPtr = &viewMatrixInv;
+	cameraPtr = this;
 }
 
 void GameCamera::Update()
@@ -248,6 +250,7 @@ const AliceMathF::Matrix4& GameCamera::GetViewMatrixInv()
 {
 	//更新
 	Update();
+	cameraPtr = this;
 	viewMatrixPtr = &viewMatrixInv;
 	return viewMatrixInv;
 }
@@ -256,6 +259,7 @@ const AliceMathF::Matrix4& GameCamera::GetProjectionMatrix()
 {
 	//更新
 	Update();
+	cameraPtr = this;
 	projectionMatrixPtr = &projectionMatrix;
 	return projectionMatrix;
 }
@@ -354,4 +358,9 @@ AliceMathF::Matrix4* Camera::GetViewMatrixPtr()
 AliceMathF::Matrix4* Camera::GetProjectionMatrixPtr()
 {
 	return projectionMatrixPtr;
+}
+
+Camera* Camera::GetCameraPtr()
+{
+	return cameraPtr;
 }
