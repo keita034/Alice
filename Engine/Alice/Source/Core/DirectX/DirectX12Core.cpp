@@ -172,6 +172,7 @@ void DirectX12Core::DirectXInitialize(float width_,float height_,HWND* hwnd_,IWi
 
 	multiAdapters = CreateUniqueMultiAdapters();
 	mainAdapters = multiAdapters->GetMainAdapter();
+	subAdapters = multiAdapters->GetSubAdapter();
 
 #ifdef _DEBUG
 	PEnableInfoQueue();

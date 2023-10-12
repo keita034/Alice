@@ -27,6 +27,15 @@ class ICommandList
 {
 public:
 
+	enum class CommandListIndex
+	{
+		GRAPHIC,
+		COPY,
+		COMPUTE,
+	};
+
+public:
+
 	ICommandList() = default;
 	virtual ~ICommandList() = default;
 
@@ -59,6 +68,9 @@ public:
 
 	virtual void CommandListExecute() = 0;
 	virtual void BeginCommand(size_t bbIndex_) = 0;
+
+	virtual void CommandListExecute(CommandListIndex index_) = 0;
+	virtual void Close(CommandListIndex index_) = 0;
 
 };
 

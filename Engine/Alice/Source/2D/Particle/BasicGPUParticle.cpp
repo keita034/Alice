@@ -5,7 +5,7 @@
 void BasicGPUParticle::Initialize()
 {
 	freeListBuffer = CreateUniqueUAVRWStructuredBuffer(particleMaxCount,sizeof(uint32_t),AdaptersIndex::SUB,HEAP_TYPE::DEFAULT);
-	particlePoolBuffer = CreateUniqueUAVRWStructuredBuffer(particleMaxCount,sizeof(ParticleData),AdaptersIndex::SUB,HEAP_TYPE::DEFAULT);
+	particlePoolBuffer = CreateUniqueCrossAdapterBuffer(particleMaxCount,sizeof(ParticleData),AdaptersIndex::MAIN,AdaptersIndex::SUB);
 	drawListBuffer = CreateUniqueUAVRWStructuredBuffer(particleMaxCount,sizeof(uint32_t),AdaptersIndex::SUB,HEAP_TYPE::DEFAULT);
 
 	particleConstantsBuffer = CreateUniqueConstantBuffer(sizeof(ParticleConstants),AdaptersIndex::SUB);
@@ -26,11 +26,12 @@ void BasicGPUParticle::Initialize()
 
 	device->Get()->CreateCommandSignature(&desc,nullptr,IID_PPV_ARGS(&particleCommandSignature));
 
+	particlePoolBuffer->ResourceCopy();
 }
 
 void BasicGPUParticle::Update(float deltaTime_)
 {
-	ID3D12GraphicsCommandList* lCommandList = computeCmmandList->GetComputeCommandList();
+	ID3D12GraphicsCommandList* lCommandList = computeCmmandList->GetGraphicCommandList();
 
 	emitTimeCounter += deltaTime_;
 
@@ -54,12 +55,14 @@ void BasicGPUParticle::Update(float deltaTime_)
 		lCommandList->SetComputeRootConstantBufferView(2,emitDataBuffer->GetAddress());//b2
 		lCommandList->SetComputeRootConstantBufferView(3,particleConstantsBuffer->GetAddress());//b3
 
-		lCommandList->SetComputeRootDescriptorTable(4,particlePoolBuffer->GetAddress());//u1
+		lCommandList->SetComputeRootDescriptorTable(4,particlePoolBuffer->GetAddress(ICrossAdapterBuffer::ResourceIndex::SAUCE));//u1
 		lCommandList->SetComputeRootDescriptorTable(5,freeListBuffer->GetAddress());//u2
 		lCommandList->SetComputeRootDescriptorTable(6,drawListBuffer->GetAddress());//u3
 
 		lCommandList->Dispatch(static_cast<UINT>(emitCount),1,1);
 	}
+
+
 
 	//更新
 	{
@@ -73,7 +76,7 @@ void BasicGPUParticle::Update(float deltaTime_)
 
 		lCommandList->SetComputeRootConstantBufferView(0,timeConstantsBuffer->GetAddress());
 
-		lCommandList->SetComputeRootDescriptorTable(1,particlePoolBuffer->GetAddress());
+		lCommandList->SetComputeRootDescriptorTable(1,particlePoolBuffer->GetAddress(ICrossAdapterBuffer::ResourceIndex::SAUCE));
 		lCommandList->SetComputeRootDescriptorTable(2,freeListBuffer->GetAddress());
 		lCommandList->SetComputeRootDescriptorTable(3,drawListBuffer->GetAddress());
 
@@ -125,7 +128,7 @@ void BasicGPUParticle::Draw(Camera* camera_)
 	lCommandList->SetGraphicsRootConstantBufferView(2,viewProjectionBuffer->GetAddress());
 	lCommandList->SetGraphicsRootConstantBufferView(3,timeConstantsBuffer->GetAddress());
 
-	lCommandList->SetGraphicsRootDescriptorTable(4,particlePoolBuffer->GetAddress());
+	lCommandList->SetGraphicsRootDescriptorTable(4,particlePoolBuffer->GetAddress(ICrossAdapterBuffer::ResourceIndex::SAUCE));
 	lCommandList->SetGraphicsRootDescriptorTable(5,drawListBuffer->GetAddress());
 
 	lCommandList->ExecuteIndirect(particleCommandSignature.Get(),1,drawArgumentBuffer->GetResource(),0,nullptr,0);

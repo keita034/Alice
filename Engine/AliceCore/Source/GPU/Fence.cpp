@@ -1,19 +1,8 @@
 #include "Fence.h"
 
-#pragma warning(push)
-#pragma warning(disable: 4061)
-#pragma warning(disable: 4062)
-#pragma warning(disable: 4265)
-#pragma warning(disable: 4365)
-#pragma warning(disable: 4514)
-#pragma warning(disable: 4625)
-#pragma warning(disable: 4626)
-#pragma warning(disable: 4668)
-#pragma warning(disable: 4710)
-#pragma warning(disable: 4820)
-#pragma warning(disable: 5039)
-#pragma warning(disable: 5204)
-#pragma warning(disable: 5220)
+#include<Defined.h>
+
+ALICE_SUPPRESS_WARNINGS_BEGIN
 
 #include<wrl.h>
 #include<vector>
@@ -21,7 +10,7 @@
 #include<dxgi1_6.h>
 #include<cassert>
 
-#pragma warning(pop)
+ALICE_SUPPRESS_WARNINGS_END
 
 class Fence : public IFence
 {
@@ -36,9 +25,17 @@ public:
 	Fence() = default;
 	~Fence() = default;
 
-	void Initialize(ID3D12Device* device_);
+	void Initialize(ID3D12Device* device_) override;
 
-	void WaitPreviousFrame(ID3D12CommandQueue* queue_);
+	void Signal(ID3D12CommandQueue* queue_,uint64_t value_)override;
+
+	void Signal(ID3D12CommandQueue* queue_)override;
+	void Wait()override;
+	void Wait(ID3D12CommandQueue* queue_,IFence* fence,uint64_t Value)override;
+
+	uint64_t GetFenceValANDIncrement()override;
+	uint64_t GetFenceVal()override;
+	ID3D12Fence* Get() override;
 };
 
 void Fence::Initialize(ID3D12Device* device_)
@@ -51,9 +48,18 @@ void Fence::Initialize(ID3D12Device* device_)
 	}
 }
 
-void Fence::WaitPreviousFrame(ID3D12CommandQueue* queue_)
+void Fence::Signal(ID3D12CommandQueue* queue_,uint64_t value_)
+{
+	queue_->Signal(fence.Get(),value_);
+}
+
+void Fence::Signal(ID3D12CommandQueue* queue_)
 {
 	queue_->Signal(fence.Get(),++fenceVal);
+}
+
+void Fence::Wait()
+{
 	if ( fence->GetCompletedValue() != fenceVal )
 	{
 		HANDLE lEvent = CreateEvent(nullptr,false,false,nullptr);
@@ -64,6 +70,26 @@ void Fence::WaitPreviousFrame(ID3D12CommandQueue* queue_)
 			CloseHandle(lEvent);
 		}
 	}
+}
+
+void Fence::Wait(ID3D12CommandQueue* queue_,IFence* fence_,uint64_t Value)
+{
+	queue_->Wait(fence_->Get(),Value);
+}
+
+uint64_t Fence::GetFenceValANDIncrement()
+{
+	return ++fenceVal;
+}
+
+uint64_t Fence::GetFenceVal()
+{
+	return fenceVal;
+}
+
+ID3D12Fence* Fence::Get()
+{
+	return fence.Get();
 }
 
 std::unique_ptr<IFence> CreateUniqueFence(ID3D12Device* device_)

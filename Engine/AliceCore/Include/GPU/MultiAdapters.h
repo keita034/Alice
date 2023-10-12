@@ -1,25 +1,18 @@
 #pragma once
 
-#pragma warning(push)
-#pragma warning(disable: 4061)
-#pragma warning(disable: 4062)
-#pragma warning(disable: 4365)
-#pragma warning(disable: 4514)
-#pragma warning(disable: 4365)
-#pragma warning(disable: 4668)
-#pragma warning(disable: 4820)
-#pragma warning(disable: 5039)
+#include<Defined.h>
 
-#include<vector>
-#include<directx/d3d12.h>
-#include<directx/d3dx12.h>
+ALICE_SUPPRESS_WARNINGS_BEGIN
+
 #include<memory>
-#include<dxgi1_6.h>
-#pragma warning(pop)
 
+ALICE_SUPPRESS_WARNINGS_END
 
 #include<AdaptersIndex.h>
 #include<Adapter.h>
+#include<CrossAdapterFence.h>
+
+struct IDXGIFactory7;
 
 /// <summary>
 /// マルチアダプター
@@ -35,7 +28,10 @@ public:
 	virtual IDXGIFactory7* GetFactory() = 0;
 
 	virtual IAdapter* GetMainAdapter() = 0;
+
 	virtual IAdapter* GetSubAdapter() = 0;
+
+	virtual ICrossAdapterFence* GetCrossAdapterFence() = 0;
 
 	virtual void ExecuteCommand() = 0;
 

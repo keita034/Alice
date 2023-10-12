@@ -16,6 +16,7 @@
 
 struct ID3D12Device;
 struct ID3D12CommandQueue;
+struct ID3D12Fence;
 
 /// <summary>
 /// フェンス
@@ -36,8 +37,30 @@ public:
 	/// <summary>
 	/// コマンドの処理が完了するまで待つ
 	/// </summary>
+	virtual void Wait() = 0;
+
+	/// <summary>
+	/// コマンドの処理が完了するまで待つ
+	/// </summary>
+	virtual void Wait(ID3D12CommandQueue* queue_,IFence* fence,uint64_t Value) = 0;
+
+	/// <summary>
+	/// シグナルを送る
+	/// </summary>
 	/// <param name="queue_">キュー</param>
-	virtual void WaitPreviousFrame(ID3D12CommandQueue* queue_) = 0;
+	virtual void Signal(ID3D12CommandQueue* queue_) = 0;
+
+	/// <summary>
+	/// フェンスを取得
+	/// </summary>
+	virtual ID3D12Fence* Get() = 0;
+
+	virtual uint64_t GetFenceVal() =0;
+
+	virtual uint64_t GetFenceValANDIncrement() = 0;
+
+	virtual void Signal(ID3D12CommandQueue* queue_,uint64_t value_) = 0;
+
 };
 
 /// <summary>

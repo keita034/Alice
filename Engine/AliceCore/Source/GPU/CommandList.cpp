@@ -47,9 +47,7 @@ private:
 
 	const size_t FRAME_BUFFER_COUNT = 2;
 
-	HRESULT result = S_OK;
-
-	int32_t PADING = 0;
+	int64_t bbIndex = 0;
 
 public:
 
@@ -86,6 +84,8 @@ public:
 
 	void CommandListExecute() override;
 	void BeginCommand(size_t bbIndex_) override;
+	virtual void CommandListExecute(CommandListIndex index_)override;
+	virtual void Close(CommandListIndex index_)override;
 
 private:
 
@@ -96,6 +96,8 @@ private:
 
 void CommandList::Initialize(ID3D12Device* device_)
 {
+
+	HRESULT result;
 	D3D12_COMMAND_LIST_TYPE lListType = D3D12_COMMAND_LIST_TYPE_DIRECT;
 	//グラフィックス用
 	{
@@ -203,6 +205,8 @@ void CommandList::Initialize(ID3D12Device* device_)
 
 void CommandList::GraphicCommandListExecute()
 {
+	HRESULT result;
+
 	result = graphic.list->Close();
 	assert(SUCCEEDED(result));
 	//コマンドリストの実行
@@ -212,6 +216,8 @@ void CommandList::GraphicCommandListExecute()
 
 void CommandList::GraphicCommandListReset(size_t bbIndex_)
 {
+	HRESULT result;
+
 	//キューをクリア
 	result = graphic.allocators[ bbIndex_ ]->Reset();
 	assert(SUCCEEDED(result));
@@ -252,6 +258,8 @@ ID3D12CommandQueue* CommandList::GetGraphicCommandQueue()
 
 void CommandList::CopyCommandListExecute()
 {
+	HRESULT result;
+
 	result = copy.list->Close();
 	assert(SUCCEEDED(result));
 	//コマンドリストの実行
@@ -261,6 +269,8 @@ void CommandList::CopyCommandListExecute()
 
 void CommandList::CopyCommandListReset(size_t bbIndex_)
 {
+	HRESULT result;
+
 	//キューをクリア
 	result = copy.allocators[ bbIndex_ ]->Reset();
 	assert(SUCCEEDED(result));
@@ -300,6 +310,8 @@ ID3D12GraphicsCommandList* CommandList::GetComputeCommandList()
 
 void CommandList::ComputeCommandListExecute()
 {
+	HRESULT result;
+
 	result = compute.list->Close();
 	assert(SUCCEEDED(result));
 	//コマンドリストの実行
@@ -309,6 +321,8 @@ void CommandList::ComputeCommandListExecute()
 
 void CommandList::ComputeCommandListReset(size_t bbIndex_)
 {
+	HRESULT result;
+
 	//キューをクリア
 	result = compute.allocators[ bbIndex_ ]->Reset();
 	assert(SUCCEEDED(result));
@@ -347,6 +361,68 @@ void CommandList::BeginCommand(size_t bbIndex_)
 	GraphicCommandListReset(bbIndex_);
 	CopyCommandListReset(bbIndex_);
 	ComputeCommandListReset(bbIndex_);
+}
+
+void CommandList::CommandListExecute(CommandListIndex index_)
+{
+	HRESULT result;
+
+
+	switch ( index_ )
+	{
+	case ICommandList::CommandListIndex::GRAPHIC:
+	{
+		result = graphic.list->Close();
+		assert(SUCCEEDED(result));
+
+		ID3D12CommandList* lCommandListts[ ] = { graphic.list.Get() };
+		graphic.queue->ExecuteCommandLists(1,lCommandListts);
+	}
+		break;
+	case ICommandList::CommandListIndex::COPY:
+	{
+		result = copy.list->Close();
+		assert(SUCCEEDED(result));
+
+		ID3D12CommandList* lCommandListts[ ] = { copy.list.Get() };
+		copy.queue->ExecuteCommandLists(1,lCommandListts);
+	}
+		break;
+	case ICommandList::CommandListIndex::COMPUTE:
+	{
+		result = compute.list->Close();
+		assert(SUCCEEDED(result));
+
+		ID3D12CommandList* lCommandListts[ ] = { compute.list.Get() };
+		compute.queue->ExecuteCommandLists(1,lCommandListts);
+	}
+		break;
+	default:
+		break;
+	}
+}
+
+void CommandList::Close(CommandListIndex index_)
+{
+	HRESULT result;
+
+	switch ( index_ )
+	{
+	case ICommandList::CommandListIndex::GRAPHIC:
+		result = graphic.list->Close();
+		assert(SUCCEEDED(result));
+		break;
+	case ICommandList::CommandListIndex::COPY:
+		result = copy.list->Close();
+		assert(SUCCEEDED(result));
+		break;
+	case ICommandList::CommandListIndex::COMPUTE:
+		result = compute.list->Close();
+		assert(SUCCEEDED(result));
+		break;
+	default:
+		break;
+	}
 }
 
 

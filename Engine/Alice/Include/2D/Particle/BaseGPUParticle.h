@@ -15,6 +15,7 @@
 #include<Camera.h>
 #include<DefaultMaterial.h>
 #include<PadingType.h>
+#include<CrossAdapterBuffer.h>
 
 ALICE_SUPPRESS_WARNINGS_BEGIN
 #include<string>
@@ -85,7 +86,7 @@ protected:
 
 	Microsoft::WRL::ComPtr<ID3D12CommandSignature> particleCommandSignature = nullptr;
 
-	std::unique_ptr<IRWStructuredBuffer>particlePoolBuffer;
+	std::unique_ptr<ICrossAdapterBuffer>particlePoolBuffer;
 	std::unique_ptr<IRWStructuredBuffer>drawListBuffer;
 	std::unique_ptr<IRWStructuredBuffer>freeListBuffer;
 

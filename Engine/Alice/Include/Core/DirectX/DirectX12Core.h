@@ -14,6 +14,7 @@
 #include<DescriptorHeap.h>
 #include<DSVDescriptorHeap.h>
 #include<MultiAdapters.h>
+#include<CrossAdapterFence.h>
 
 enum class WindowMode
 {
@@ -38,6 +39,7 @@ private:
 	std::unique_ptr <IMultiAdapters>multiAdapters;
 	
 	IAdapter* mainAdapters = nullptr;
+	IAdapter* subAdapters = nullptr;
 
 	std::unique_ptr<IDepthStencilBuffer> depthBuff;
 

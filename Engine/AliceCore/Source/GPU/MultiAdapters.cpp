@@ -1,5 +1,22 @@
 #include "MultiAdapters.h"
 
+#pragma warning(push)
+#pragma warning(disable: 4061)
+#pragma warning(disable: 4062)
+#pragma warning(disable: 4365)
+#pragma warning(disable: 4514)
+#pragma warning(disable: 4365)
+#pragma warning(disable: 4668)
+#pragma warning(disable: 4820)
+#pragma warning(disable: 5039)
+
+#include<vector>
+#include<directx/d3d12.h>
+#include<directx/d3dx12.h>
+#include<memory>
+#include<dxgi1_6.h>
+#pragma warning(pop)
+
 class MultiAdapters : public IMultiAdapters
 {
 private:
@@ -20,25 +37,29 @@ private:
 
 	std::vector<std::unique_ptr< IAdapter>>adapters;
 
+	std::unique_ptr<ICrossAdapterFence>crossAdapterFence;
+
 public:
 
 	void Initialize()override;
 
 	IAdapter* GetAdapter(AdaptersIndex index_)override;
-
 	IDXGIFactory7* GetFactory()override;
-
 	IAdapter* GetMainAdapter()override;
 	IAdapter* GetSubAdapter()override;
+	ICrossAdapterFence* GetCrossAdapterFence()override;
 
 	void ExecuteCommand()override;
-
 	void BeginCommand(size_t bbIndex_)override;
-
 	void WaitPreviousFrame()override;
 
 	MultiAdapters() = default;
 	~MultiAdapters() = default;
+
+private:
+
+	MultiAdapters(const MultiAdapters&) = delete;
+	MultiAdapters& operator = (const MultiAdapters&) = delete;
 };
 
 void MultiAdapters::Initialize()
@@ -88,6 +109,8 @@ void MultiAdapters::Initialize()
 
 		}
 	}
+
+	crossAdapterFence = CreateUniqueCrossAdapterFence(GetAdapter(AdaptersIndex::SUB));
 }
 
 IAdapter* MultiAdapters::GetAdapter(AdaptersIndex index_)
@@ -108,6 +131,11 @@ IAdapter* MultiAdapters::GetMainAdapter()
 IAdapter* MultiAdapters::GetSubAdapter()
 {
 	return GetAdapter(AdaptersIndex::SUB);
+}
+
+ICrossAdapterFence* MultiAdapters::GetCrossAdapterFence()
+{
+	return crossAdapterFence.get();
 }
 
 void MultiAdapters::ExecuteCommand()

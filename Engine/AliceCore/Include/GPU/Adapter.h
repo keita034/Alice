@@ -29,6 +29,7 @@ struct ID3D12CommandAllocator;
 
 #include<Device.h>
 #include<CommandList.h>
+#include<Fence.h>
 
 /// <summary>
 /// アダプター
@@ -44,6 +45,7 @@ public:
 
 	virtual IDevice* GetDevice() = 0;
 	virtual ICommandList* GetCommandList() = 0;
+	virtual IFence* GetFence() =0;
 
 	virtual void GraphicCommandListExecute() = 0;
 	virtual void GraphicCommandListReset(size_t bbIndex_) = 0;

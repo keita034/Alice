@@ -19,7 +19,6 @@
 #include<cassert>
 #pragma warning(pop)
 
-#include<Fence.h>
 #include<DSVDescriptorHeap.h>
 #include<DescriptorHeap.h>
 #include<RTVDescriptorHeap.h>
@@ -58,7 +57,9 @@ public:
 
 	IDevice* GetDevice()override;
 
-	ICommandList* GetCommandList();
+	ICommandList* GetCommandList()override;
+
+	IFence* GetFence()override;
 
 
 	void GraphicCommandListExecute()override;
@@ -136,6 +137,11 @@ IDevice* Adapter::GetDevice()
 ICommandList* Adapter::GetCommandList()
 {
 	return commandList.get();
+}
+
+IFence* Adapter::GetFence()
+{
+	return fence.get();
 }
 
 void Adapter::GraphicCommandListExecute()
@@ -235,17 +241,20 @@ ID3D12CommandQueue* Adapter::GetComputeCommandQueue()
 
 void Adapter::ComputeWaitPreviousFrame()
 {
-	fence->WaitPreviousFrame(commandList->GetComputeCommandQueue());
+	fence->Signal(commandList->GetComputeCommandQueue());
+	fence->Wait();
 }
 
 void Adapter::CopyWaitPreviousFrame()
 {
-	fence->WaitPreviousFrame(commandList->GetCopyCommandQueue());
+	fence->Signal(commandList->GetCopyCommandQueue());
+	fence->Wait();
 }
 
 void Adapter::GraphicWaitPreviousFrame()
 {
-	fence->WaitPreviousFrame(commandList->GetGraphicCommandQueue());
+	fence->Signal(commandList->GetGraphicCommandQueue());
+	fence->Wait();
 }
 
 IDSVDescriptorHeap* Adapter::GetDSVDescriptorHeap()
@@ -276,7 +285,9 @@ void Adapter::BeginCommand(size_t bbIndex_)
 void Adapter::WaitPreviousFrame()
 {
 	ComputeWaitPreviousFrame();
+
 	CopyWaitPreviousFrame();
+
 	GraphicWaitPreviousFrame();
 }
 

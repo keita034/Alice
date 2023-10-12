@@ -11,7 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CrossAdapterBuffer.h" />
+    <ClInclude Include="Include\GPU\CrossAdapterFence.h" />
+    <ClInclude Include="Include\Buffer\CrossAdapterBuffer.h" />
     <ClInclude Include="Include\Pipeline\BasePipelineState.h" />
     <ClInclude Include="Include\Pipeline\ComputeMaterial.h" />
     <ClInclude Include="Include\Buffer\DrawArgumentBuffer.h" />
@@ -46,7 +47,8 @@
     <ClInclude Include="Include\TextureData.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CrossAdapterBuffer.cpp" />
+    <ClCompile Include="Source\GPU\CrossAdapterFence.cpp" />
+    <ClCompile Include="Source\Buffer\CrossAdapterBuffer.cpp" />
     <ClCompile Include="Source\Pipeline\BasePipelineState.cpp" />
     <ClCompile Include="Source\Pipeline\ComputeMaterial.cpp" />
     <ClCompile Include="Source\Buffer\DrawArgumentBuffer.cpp" />

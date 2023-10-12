@@ -3,6 +3,7 @@
 #include<MultiAdapters.h>
 #include<CommandList.h>
 #include<Defined.h>
+#include<PadingType.h>
 
 ALICE_SUPPRESS_WARNINGS_BEGIN
 
@@ -23,7 +24,7 @@ protected:
 	bool isValid = false;
 
 private:
-	int8_t PADING[7]{};
+	Byte7 PADING;
 
 public:
 
