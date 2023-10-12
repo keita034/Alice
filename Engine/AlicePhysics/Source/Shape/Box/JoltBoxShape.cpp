@@ -1,6 +1,6 @@
 #include "JoltBoxShape.h"
 
-#ifdef _DEBUG
+#if _DEBUG && defined(JPH_DEBUG_RENDERER)
 AlicePhysics::JoltDebugRenderer* AlicePhysics::JoltBoxShape::renderer =nullptr;
 #endif // _DEBUG
 
@@ -15,7 +15,7 @@ void AlicePhysics::JoltBoxShape::Initialize(const AliceMathF::Vector3& halfExten
     shape = new JPH::BoxShape(halfExtent_);
     type = BOX;
     halfExtent = halfExtent_;
-#ifdef _DEBUG
+#if _DEBUG && defined(JPH_DEBUG_RENDERER)
 	constantBuffers.push_back(CreateUniqueConstantBuffer(sizeof(AlicePhysics::JoltDebugRenderer::ConstBufferData)));
 #endif // _DEBUG
 
@@ -23,7 +23,7 @@ void AlicePhysics::JoltBoxShape::Initialize(const AliceMathF::Vector3& halfExten
 
 void AlicePhysics::JoltBoxShape::Draw(const AliceMathF::Matrix4& transform_,const AliceMathF::Vector3& scale_,const AliceMathF::Vector4& inColor,bool wireframe_)
 {
-#ifdef _DEBUG
+#if _DEBUG && defined(JPH_DEBUG_RENDERER)
 	if ( renderer )
 	{
 		renderer->SetConstant(&constantBuffers);
@@ -41,7 +41,7 @@ void AlicePhysics::JoltBoxShape::Draw(const AliceMathF::Matrix4& transform_,cons
 
 }
 
-#ifdef _DEBUG
+#if _DEBUG && defined(JPH_DEBUG_RENDERER)
 void AlicePhysics::JoltBoxShape::SetRenderer(JoltDebugRenderer* renderer_)
 {
 	renderer = renderer_;

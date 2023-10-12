@@ -56,7 +56,7 @@ void AlicePhysics::AlicePhysicsSystem::Finalize()
 
 void AlicePhysics::AlicePhysicsSystem::Draw()
 {
-#ifdef _DEBUG
+#if _DEBUG && defined(JPH_DEBUG_RENDERER)
 
 	physics->Draw();
 

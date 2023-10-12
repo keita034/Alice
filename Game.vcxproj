@@ -65,7 +65,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;NOMINMAX;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;PX_PHYSX_STATIC_LIB;AlicePhysicsJolt;_SILENCE_ALL_CXX20_DEPRECATION_WARNINGS;JPH_DEBUG_RENDERER;JPH_USE_AVX2;JPH_DOUBLE_PRECISION;JPH_PROFILE_ENABLED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;NOMINMAX;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;PX_PHYSX_STATIC_LIB;AlicePhysicsJolt;_SILENCE_ALL_CXX20_DEPRECATION_WARNINGS;JPH_PROFILE_ENABLED;JPH_DEBUG_RENDERER;JPH_USE_AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Scene;$(ProjectDir)GameCore;$(ProjectDir)Player;$(ProjectDir)Boss;$(ProjectDir)Util;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
