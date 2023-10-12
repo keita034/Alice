@@ -34,7 +34,7 @@ START /wait vcpkg.exe install physx:x64-windows-static
 echo PhysX終了
 
 START /wait vcpkg.exe install joltphysics:x64-windows-static
-echo PhysX終了
+echo JoltPhysics終了
 
 echo libファイル生成終了
 

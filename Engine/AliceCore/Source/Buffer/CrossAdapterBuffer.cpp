@@ -26,7 +26,7 @@ private:
 	//GPUハンドル
 	std::array <D3D12_GPU_DESCRIPTOR_HANDLE,2> structuredBufferHandles;
 	size_t bufferSize;
-	std::array<Microsoft::WRL::ComPtr<ID3D12Heap>,2> heaps;
+	Microsoft::WRL::ComPtr<ID3D12Heap> heap;
 
 public:
 
@@ -65,11 +65,11 @@ void CrossAdapterBuffer::Create(size_t length_,size_t singleSize_,AdaptersIndex 
 		lHeapDesc.Properties.VisibleNodeMask = 0;
 		lHeapDesc.Properties.CreationNodeMask = 0;
 
-		lSauceDevice->CreateHeap(&lHeapDesc,IID_PPV_ARGS(&heaps[ ResourceIndex::SAUCE ]));
+		lSauceDevice->CreateHeap(&lHeapDesc,IID_PPV_ARGS(&heap));
 
 		//リソース生成
 		//コピー元
-		lSauceDevice->CreatePlacedResource(heaps[ ResourceIndex::SAUCE ].Get(),0,&lSauceResDesc,D3D12_RESOURCE_STATES::D3D12_RESOURCE_STATE_COPY_SOURCE,nullptr,IID_PPV_ARGS(&resources[ ResourceIndex::SAUCE ]));
+		lSauceDevice->CreatePlacedResource(heap.Get(),0,&lSauceResDesc,D3D12_RESOURCE_STATES::D3D12_RESOURCE_STATE_COPY_SOURCE,nullptr,IID_PPV_ARGS(&resources[ ResourceIndex::SAUCE ]));
 	}
 
 
