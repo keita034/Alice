@@ -180,203 +180,191 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Incluede\Util\AliceFunctionUtility.h">
+    <ClInclude Include="Include\Core\TextureManager.h">
+      <Filter>ヘッダー ファイル\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Util\AliceUtility.h">
       <Filter>ヘッダー ファイル\Util</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Core\TextureManager.h">
-      <Filter>ヘッダー ファイル\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Util\AliceUtility.h">
-      <Filter>ヘッダー ファイル\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Core\Material.h">
-      <Filter>ヘッダー ファイル\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Core\DefaultMaterial.h">
-      <Filter>ヘッダー ファイル\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\2D\Sprite\Sprite2D.h">
+    <ClInclude Include="Include\2D\Sprite\Sprite2D.h">
       <Filter>ヘッダー ファイル\2D\Sprite</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\2D\Sprite\Sprite3D.h">
+    <ClInclude Include="Include\2D\Sprite\Sprite3D.h">
       <Filter>ヘッダー ファイル\2D\Sprite</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\2D\Sprite\Sprite.h">
+    <ClInclude Include="Include\2D\Sprite\Sprite.h">
       <Filter>ヘッダー ファイル\2D\Sprite</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Util\Transform.h">
+    <ClInclude Include="Include\Util\Transform.h">
       <Filter>ヘッダー ファイル\3D</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Camera\Camera.h">
+    <ClInclude Include="Include\Camera\Camera.h">
       <Filter>ヘッダー ファイル\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\2D\Particle\Particle.h">
+    <ClInclude Include="Include\2D\Particle\Particle.h">
       <Filter>ヘッダー ファイル\2D\Particle</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\2D\Mesh.h">
+    <ClInclude Include="Include\2D\Mesh.h">
       <Filter>ヘッダー ファイル\2D</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Light\Light.h">
+    <ClInclude Include="Include\Light\Light.h">
       <Filter>ヘッダー ファイル\Light</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Util\ModelMesh.h">
+    <ClInclude Include="Include\Util\ModelMesh.h">
       <Filter>ヘッダー ファイル\3D\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\2D\Particle\RainParticle.h">
+    <ClInclude Include="Include\2D\Particle\RainParticle.h">
       <Filter>ヘッダー ファイル\2D\Particle</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\2D\Particle\ParticleEmitter.h">
+    <ClInclude Include="Include\2D\Particle\ParticleEmitter.h">
       <Filter>ヘッダー ファイル\2D\Particle</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\3D\3DMesh.h">
+    <ClInclude Include="Include\3D\3DMesh.h">
       <Filter>ヘッダー ファイル\3D</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Camera\CinemaCamera.h">
+    <ClInclude Include="Include\Camera\CinemaCamera.h">
       <Filter>ヘッダー ファイル\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\2D\PostEffect\PostEffectManager.h">
+    <ClInclude Include="Include\2D\PostEffect\PostEffectManager.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Core\ImGuiManager.h">
+    <ClInclude Include="Include\Core\ImGuiManager.h">
       <Filter>ヘッダー ファイル\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\2D\PostEffect\AbstractPostEffectFactory.h">
+    <ClInclude Include="Include\2D\PostEffect\AbstractPostEffectFactory.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\2D\PostEffect\BasePostEffect.h">
+    <ClInclude Include="Include\2D\PostEffect\BasePostEffect.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\2D\PostEffect\LutPostEffect.h">
+    <ClInclude Include="Include\2D\PostEffect\LutPostEffect.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\2D\PostEffect\VignettePostEffect.h">
+    <ClInclude Include="Include\2D\PostEffect\VignettePostEffect.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Core\DirectX\ComputePipelineState.h">
-      <Filter>ヘッダー ファイル\Core\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Core\DirectX\PipelineState.h">
-      <Filter>ヘッダー ファイル\Core\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Scene\AbstractSceneFactory.h">
+    <ClInclude Include="Include\Scene\AbstractSceneFactory.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Scene\SceneManager.h">
+    <ClInclude Include="Include\Scene\SceneManager.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Scene\BaseScene.h">
+    <ClInclude Include="Include\Scene\BaseScene.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Core\Framework\AliceFramework.h">
+    <ClInclude Include="Include\Core\Framework\AliceFramework.h">
       <Filter>ヘッダー ファイル\Core\Framework</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\2D\PostEffect\GaussianBlurPostEffect.h">
+    <ClInclude Include="Include\2D\PostEffect\GaussianBlurPostEffect.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Core\DirectX\RenderTarget.h">
+    <ClInclude Include="Include\Core\DirectX\RenderTarget.h">
       <Filter>ヘッダー ファイル\Core\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\2D\PostEffect\PostEffectSprite.h">
+    <ClInclude Include="Include\2D\PostEffect\PostEffectSprite.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\2D\PostEffect\GaussianYBlurPostEffect.h">
+    <ClInclude Include="Include\2D\PostEffect\GaussianYBlurPostEffect.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\2D\PostEffect\GaussianXBlurPostEffect.h">
+    <ClInclude Include="Include\2D\PostEffect\GaussianXBlurPostEffect.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\3D\Model\AliceMotionData.h">
+    <ClInclude Include="Include\3D\Model\AliceMotionData.h">
       <Filter>ヘッダー ファイル\3D\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\3D\Model\AliceModel.h">
+    <ClInclude Include="Include\3D\Model\AliceModel.h">
       <Filter>ヘッダー ファイル\3D\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\3D\Model\AliceFileStream.h">
+    <ClInclude Include="Include\3D\Model\AliceFileStream.h">
       <Filter>ヘッダー ファイル\3D\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\2D\Particle\BasicParticle.h">
+    <ClInclude Include="Include\2D\Particle\BasicParticle.h">
       <Filter>ヘッダー ファイル\2D\Particle</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\2D\PostEffect\PostEffectFactory.h">
+    <ClInclude Include="Include\2D\PostEffect\PostEffectFactory.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Core\DirectX\DirectX12Core.h">
+    <ClInclude Include="Include\Core\DirectX\DirectX12Core.h">
       <Filter>ヘッダー ファイル\Core\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\3D\Model\ModelCollider.h">
-      <Filter>ヘッダー ファイル\3D\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Util\GameObject.h">
+    <ClInclude Include="Include\Util\GameObject.h">
       <Filter>ヘッダー ファイル\Util</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Util\Transform2D.h">
+    <ClInclude Include="Include\Util\Transform2D.h">
       <Filter>ヘッダー ファイル\Util</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Util\Game2DObject.h">
+    <ClInclude Include="Include\Util\Game2DObject.h">
       <Filter>ヘッダー ファイル\Util</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Util\BaseTransform.h">
+    <ClInclude Include="Include\Util\BaseTransform.h">
       <Filter>ヘッダー ファイル\Util</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\2D\Particle\IcosahedronParticle.h">
+    <ClInclude Include="Include\2D\Particle\IcosahedronParticle.h">
       <Filter>ヘッダー ファイル\2D\Particle</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\2D\PostEffect\StripedPostEffect.h">
+    <ClInclude Include="Include\2D\PostEffect\StripedPostEffect.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\3D\Model\AliceToonModel.h">
+    <ClInclude Include="Include\3D\Model\AliceToonModel.h">
       <Filter>ヘッダー ファイル\3D\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\2D\PostEffect\ChromaticAberrationPostEffect.h">
+    <ClInclude Include="Include\2D\PostEffect\ChromaticAberrationPostEffect.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\2D\PostEffect\OilPaintingPostEffect.h">
+    <ClInclude Include="Include\2D\PostEffect\OilPaintingPostEffect.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Core\SceneLoader.h">
+    <ClInclude Include="Include\Core\SceneLoader.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\2D\Particle\ParticleData.h">
+    <ClInclude Include="Include\2D\Particle\ParticleData.h">
       <Filter>ヘッダー ファイル\2D\Particle</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\2D\PostEffect\BloomPostEffect.h">
+    <ClInclude Include="Include\2D\PostEffect\BloomPostEffect.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\2D\PostEffect\SandStormPostEffect.h">
+    <ClInclude Include="Include\2D\PostEffect\SandStormPostEffect.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\2D\PostEffect\MonochromePostEffect.h">
+    <ClInclude Include="Include\2D\PostEffect\MonochromePostEffect.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\2D\PostEffect\CRTPostEffect.h">
+    <ClInclude Include="Include\2D\PostEffect\CRTPostEffect.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\2D\PostEffect\MosaicPostEffect.h">
+    <ClInclude Include="Include\2D\PostEffect\MosaicPostEffect.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\2D\PostEffect\DistortionPostEffect.h">
+    <ClInclude Include="Include\2D\PostEffect\DistortionPostEffect.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\2D\PostEffect\FrostedGlassPostEffect.h">
+    <ClInclude Include="Include\2D\PostEffect\FrostedGlassPostEffect.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\2D\Particle\FireWorkParticle.h">
+    <ClInclude Include="Include\2D\Particle\FireWorkParticle.h">
       <Filter>ヘッダー ファイル\2D\Particle</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\3D\Model\AliceBlendTree.h">
+    <ClInclude Include="Include\3D\Model\AliceBlendTree.h">
       <Filter>ヘッダー ファイル\3D</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\3D\Model\ObjectCollsionDraw.h">
-      <Filter>ヘッダー ファイル\Util</Filter>
-    </ClInclude>
-    <ClInclude Include="Incluede\Transition\ITransition.h">
+    <ClInclude Include="Include\Transition\ITransition.h">
       <Filter>ヘッダー ファイル\Transition</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Transition\FadeOutTransition.h">
+    <ClInclude Include="Include\Transition\FadeOutTransition.h">
       <Filter>ヘッダー ファイル\Transition</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Transition\FadeInTransition.h">
+    <ClInclude Include="Include\Transition\FadeInTransition.h">
       <Filter>ヘッダー ファイル\Transition</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\2D\Particle\BasicGPUParticle.h">
+      <Filter>ヘッダー ファイル\2D\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\2D\Particle\BaseGPUParticle.h">
+      <Filter>ヘッダー ファイル\2D\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\2D\Particle\GPUParticleEmitter.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -660,15 +648,19 @@
     <None Include="..\..\Resources\Shaders\2D\PostEffect\GaussianBlur\GaussianYBlurVS.hlsl">
       <Filter>リソース ファイル\シェーダー\2D\PostEffect\GaussianBlur</Filter>
     </None>
+    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleEmitCS.hlsl">
+      <Filter>リソース ファイル\シェーダー\2D\Particle</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticle.hlsli" />
+    <None Include="..\..\Resources\Shaders\HLSLMath.hlsli" />
+    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleVS.hlsl" />
+    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleUpdateCS.hlsl" />
+    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticlePS.hlsl" />
+    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleGS.hlsl" />
+    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleDrawArgumentUpdateCS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Core\TextureManager.cpp">
-      <Filter>ソース ファイル\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\DefaultMaterial.cpp">
-      <Filter>ソース ファイル\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\Material.cpp">
       <Filter>ソース ファイル\Core</Filter>
     </ClCompile>
     <ClCompile Include="Source\2D\Sprite\Sprite3D.cpp">
@@ -719,17 +711,8 @@
     <ClCompile Include="Source\Core\ImGuiManager.cpp">
       <Filter>ソース ファイル\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Core\DirectX\ComputePipelineState.cpp">
-      <Filter>ソース ファイル\Core\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\DirectX\PipelineState.cpp">
-      <Filter>ソース ファイル\Core\DirectX</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\Framework\AliceFramework.cpp">
       <Filter>ソース ファイル\Core\Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Util\AliceFunctionUtility.cpp">
-      <Filter>ソース ファイル\Util</Filter>
     </ClCompile>
     <ClCompile Include="Source\2D\PostEffect\VignettePostEffect.cpp">
       <Filter>ソース ファイル\2D\PostEffect</Filter>
@@ -778,9 +761,6 @@
     </ClCompile>
     <ClCompile Include="Source\Core\DirectX\DirectX12Core.cpp">
       <Filter>ソース ファイル\Core\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\3D\Model\ModelCollider.cpp">
-      <Filter>ソース ファイル\3D\Model</Filter>
     </ClCompile>
     <ClCompile Include="Source\Util\GameObject.cpp">
       <Filter>ソース ファイル\Util</Filter>
@@ -848,8 +828,14 @@
     <ClCompile Include="Source\3D\Model\AliceBlendTree.cpp">
       <Filter>ソース ファイル\3D</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Util\ObjectCollsionDraw.cpp">
-      <Filter>ソース ファイル\Util</Filter>
+    <ClCompile Include="Source\2D\Particle\BasicGPUParticle.cpp">
+      <Filter>ソース ファイル\2D\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\2D\Particle\BaseGPUParticle.cpp">
+      <Filter>ソース ファイル\2D\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\2D\Particle\GPUParticleEmitter.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

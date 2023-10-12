@@ -1,15 +1,12 @@
 #include "SceneLoader.h"
-#include "SceneLoader.h"
+#include<MeshShape.h>
 
 #include <fstream>
 #include <cassert>
 
-#include<CollisionAttribute.h>
-
 const std::string SceneLoader::sBaseDirectorypath = "Resources/";
 AliceInput::IInput* SceneData::input = nullptr;
-ObjectCollsionDraw* GameObject::objectCollsionDraw = nullptr;
-std::unique_ptr<SceneData> SceneLoader::SLoadFile(const std::string& filepath_)
+std::unique_ptr<SceneData> SceneLoader::SLoadFile(AlicePhysics::AlicePhysicsSystem* physicsSystem_,const std::string& filepath_)
 {
 	std::ifstream lFile;
 
@@ -38,13 +35,13 @@ std::unique_ptr<SceneData> SceneLoader::SLoadFile(const std::string& filepath_)
 
 	for (nlohmann::json& jsonObject : lDeserialized["objects"])
 	{
-		SObjectScan(lSceneData.get(), jsonObject);
+		SObjectScan(physicsSystem_,lSceneData.get(), jsonObject);
 	}
 
 	return std::move(lSceneData);
 }
 
-void SceneLoader::SLoadFile(SceneData* sceneData_)
+void SceneLoader::SLoadFile(AlicePhysics::AlicePhysicsSystem* physicsSystem_,SceneData* sceneData_)
 {
 	std::ifstream lFile;
 
@@ -69,11 +66,11 @@ void SceneLoader::SLoadFile(SceneData* sceneData_)
 
 	for (nlohmann::json& jsonObject : lDeserialized["objects"])
 	{
-		SObjectScan(sceneData_, jsonObject);
+		SObjectScan(physicsSystem_,sceneData_, jsonObject);
 	}
 }
 
-void SceneLoader::SObjectScan(SceneData* sceneData_, const nlohmann::json& jsonObj_, SceneData::Object* parent_)
+void SceneLoader::SObjectScan(AlicePhysics::AlicePhysicsSystem* physicsSystem_,SceneData* sceneData_, const nlohmann::json& jsonObj_, SceneData::Object* parent_)
 {
 	std::string lType = jsonObj_["type"].get<std::string>();
 
@@ -135,11 +132,11 @@ void SceneLoader::SObjectScan(SceneData* sceneData_, const nlohmann::json& jsonO
 		//オブジェクト生成
 		if (parent_)
 		{
-			lObject->Initialize(lHandle, lTranslation, lRotation, lScaling, parent_->GetTransformPtr());
+			lObject->Initialize(physicsSystem_,lHandle, lTranslation, lRotation, lScaling, parent_->GetTransformPtr());
 		}
 		else
 		{
-			lObject->Initialize(lHandle, lTranslation, lRotation, lScaling);
+			lObject->Initialize(physicsSystem_,lHandle, lTranslation, lRotation, lScaling);
 		}
 
 		lObject->SetName(lObjectName);
@@ -149,7 +146,7 @@ void SceneLoader::SObjectScan(SceneData* sceneData_, const nlohmann::json& jsonO
 		{
 			for (const nlohmann::json& json : jsonObj_["children"])
 			{
-				SObjectScan(sceneData_, json, lObject.get());
+				SObjectScan(physicsSystem_,sceneData_, json, lObject.get());
 			}
 		}
 	}
@@ -232,7 +229,7 @@ void SceneLoader::SObjectScan(SceneData* sceneData_, const nlohmann::json& jsonO
 	}
 }
 
-void SceneData::Object::Initialize(uint32_t handle_, const AliceMathF::Vector3& pos_, const AliceMathF::Vector3& rot_, const AliceMathF::Vector3& scl_, const Transform* parent_)
+void SceneData::Object::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_,uint32_t handle_, const AliceMathF::Vector3& pos_, const AliceMathF::Vector3& rot_, const AliceMathF::Vector3& scl_, const Transform* parent_)
 {
 	model = std::make_unique<AliceModel>();
 	model->SetModel(handle_);
@@ -259,20 +256,32 @@ void SceneData::Object::Initialize(uint32_t handle_, const AliceMathF::Vector3& 
 		triangles.push_back(ind);
 	}
 
-
 	if ( meshCollision )
 	{
+		shape.reset(AlicePhysics::CreateMeshShape(points,triangles));
 
-		CreateMaterial();
-		CreateShape(points,triangles,CollisionAttribute::FIELD,( CollisionAttribute::BOSS | CollisionAttribute::PLAYER | CollisionAttribute::ENEMY ));
-		SetInitializePos(pos_);
-		SetInitializeRot(rot_);
-		CreateRigidBody(RigidBodyType::STATIC);
+		AlicePhysics::IRigidBodyCreationSettings lSetting;
+		lSetting.name = "Field";
+		lSetting.type = AlicePhysics::PhysicsRigidBodyType::STATIC;
+		lSetting.motionType = AlicePhysics::MotionType::STATIC;
+		lSetting.allowSleeping = false;
+		lSetting.collisionGroup = CollisionGroup::FIELD;
+		lSetting.collisionAttribute = CollisionAttribute::DEFAULT;
+		lSetting.rotation = AliceMathF::Quaternion(transform.rotation);
+		lSetting.position = transform.translation;
+		lSetting.shape = shape.get();
+		lSetting.isActive = false;
+		physicsSystem_->CreateRigidBody(rigidBody,&lSetting);
+		physicsSystem_->AddRigidBody(rigidBody);
 	}
 }
 
-void SceneData::Object::Finalize()
+void SceneData::Object::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 {
+	if ( rigidBody )
+	{
+		physicsSystem_->RemoveRigidBody(rigidBody);
+	}
 }
 
 void SceneData::Object::Update()
@@ -284,14 +293,34 @@ void SceneData::Object::Draw()
 {
 	if ( isValid )
 	{
-
 		model->Draw(transform);
 	}
+}
+
+void SceneData::Object::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
+{
+	static_cast< void >( physicsSystem_ );
+}
+
+void SceneData::Object::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_)
+{
+	static_cast< void >( BodyData_ );
 
 }
 
-void SceneData::Object::Initialize()
+void SceneData::Object::OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_)
 {
+	static_cast< void >( BodyData_ );
+
+}
+
+void SceneData::Object::OnCollisionExit()
+{
+}
+
+SceneData::Object::~Object()
+{
+
 }
 
 void SceneData::Object::SetIsMeshCollision(bool flag)
@@ -304,15 +333,13 @@ void SceneData::Object::SetIsValid(bool flag)
 	isValid = flag;
 }
 
-void SceneData::Update(Camera* camera_)
+void SceneData::Update(AlicePhysics::AlicePhysicsSystem* physicsSystem_,Camera* camera_)
 {
 	if (input->TriggerKey(Keys::F5))
 	{
-		light.reset();
-		camera.reset();
-		objects.clear();
+		Finalize(physicsSystem_);
 
-		SceneLoader::SLoadFile(this);
+		SceneLoader::SLoadFile(physicsSystem_,this);
 	}
 
 	if (light)
@@ -349,10 +376,15 @@ void SceneData::Draw()
 	}
 }
 
-void SceneData::Finalize()
+void SceneData::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 {
 	if (!objects.empty())
 	{
+		for ( std::unique_ptr<Object>& object : objects )
+		{
+			object->Finalize(physicsSystem_);
+		}
+
 		objects.clear();
 	}
 

@@ -36,8 +36,10 @@ HRESULT DirectX12Core::PCreateSwapChain()
 	lFsDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_PROGRESSIVE;
 
 	Microsoft::WRL::ComPtr<IDXGISwapChain1> lTmpSwapChain;
+	ID3D12Device* lDevice = mainAdapters->GetDevice()->Get();
+
 	result = multiAdapters->GetFactory()->CreateSwapChainForHwnd(mainAdapters->GetGraphicCommandQueue(),*handle,&swapChainDesc,&lFsDesc,nullptr,lTmpSwapChain.ReleaseAndGetAddressOf());
-	swapChain = CreateUniqueSwapChain(mainAdapters->GetDevice(),lTmpSwapChain,mainAdapters->GetGraphicCommandQueue());
+	swapChain = CreateUniqueSwapChain(lDevice,lTmpSwapChain,mainAdapters->GetGraphicCommandQueue());
 
 	return result;
 }
@@ -129,8 +131,6 @@ void DirectX12Core::RenderSizeChanged(uint32_t width_,uint32_t height_)
 
 HRESULT DirectX12Core::PInitializeDXGIDevice()
 {
-
-
 	return result;
 }
 
@@ -172,16 +172,13 @@ void DirectX12Core::DirectXInitialize(float width_,float height_,HWND* hwnd_,IWi
 
 	multiAdapters = CreateUniqueMultiAdapters();
 	mainAdapters = multiAdapters->GetMainAdapter();
+	subAdapters = multiAdapters->GetSubAdapter();
 
 #ifdef _DEBUG
 	PEnableInfoQueue();
 #endif
 
-	BaseBuffer::SSetDevice(mainAdapters->GetDevice());
-	BaseBuffer::SSetGraphicsCommandList(mainAdapters->GetGraphicCommandList());
-	BaseBuffer::SSetSRVDescriptorHeap(mainAdapters->GetSRVDescriptorHeap());
-	BaseBuffer::SSetDSVDescriptorHeap(mainAdapters->GetDSVDescriptorHeap());
-	BaseBuffer::SSetRTVDescriptorHeap(mainAdapters->GetRTVDescriptorHeap());
+	BaseBuffer::SSetMultiAdapters(multiAdapters.get());
 
 	if ( FAILED(PCreateSwapChain()) )
 	{
@@ -223,34 +220,71 @@ void DirectX12Core::PEnableDebugLayer()
 
 void DirectX12Core::PEnableInfoQueue()
 {
-	Microsoft::WRL::ComPtr<ID3D12InfoQueue> lInfoQueue;
-	result = mainAdapters->GetDevice()->QueryInterface(IID_PPV_ARGS(&lInfoQueue));
-	if ( SUCCEEDED(result) )
 	{
-		lInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION,true);
-		lInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR,true);
-		lInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING,true);
+		Microsoft::WRL::ComPtr<ID3D12InfoQueue> lInfoQueue;
+		ID3D12Device* lDevice = mainAdapters->GetDevice()->Get();
+
+		result = lDevice->QueryInterface(IID_PPV_ARGS(&lInfoQueue));
+		if (SUCCEEDED(result))
+		{
+			lInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);
+			lInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);
+			lInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, true);
+		}
+
+		//抑制するエラー
+		D3D12_MESSAGE_ID lDenyIds[] =
+		{
+			/*
+			*windows11でのDXGIデバッグレイヤーとDX12デバッグレイヤー
+			*相互作用バグによるエラーメッセージ
+			*/
+			D3D12_MESSAGE_ID_RESOURCE_BARRIER_MISMATCHING_COMMAND_LIST_TYPE
+
+		};
+			//抑制する表示レベル
+		D3D12_MESSAGE_SEVERITY lSeverities[] = { D3D12_MESSAGE_SEVERITY_INFO };
+		D3D12_INFO_QUEUE_FILTER lFilter{};
+		lFilter.DenyList.NumIDs = _countof(lDenyIds);
+		lFilter.DenyList.pIDList = lDenyIds;
+		lFilter.DenyList.NumSeverities = _countof(lSeverities);
+		lFilter.DenyList.pSeverityList = lSeverities;
+		//指定したエラーの表示を抑制する
+		lInfoQueue->PushStorageFilter(&lFilter);
 	}
 
-	//抑制するエラー
-	D3D12_MESSAGE_ID lDenyIds[ ] =
 	{
-		/*
-		*windows11でのDXGIデバッグレイヤーとDX12デバッグレイヤー
-		*相互作用バグによるエラーメッセージ
-		*/
-		D3D12_MESSAGE_ID_RESOURCE_BARRIER_MISMATCHING_COMMAND_LIST_TYPE
+		Microsoft::WRL::ComPtr<ID3D12InfoQueue> lInfoQueue;
+		ID3D12Device* lDevice = multiAdapters->GetSubAdapter()->GetDevice()->Get();
 
-	};
-		//抑制する表示レベル
-	D3D12_MESSAGE_SEVERITY lSeverities[ ] = { D3D12_MESSAGE_SEVERITY_INFO };
-	D3D12_INFO_QUEUE_FILTER lFilter{};
-	lFilter.DenyList.NumIDs = _countof(lDenyIds);
-	lFilter.DenyList.pIDList = lDenyIds;
-	lFilter.DenyList.NumSeverities = _countof(lSeverities);
-	lFilter.DenyList.pSeverityList = lSeverities;
-	//指定したエラーの表示を抑制する
-	lInfoQueue->PushStorageFilter(&lFilter);
+		result = lDevice->QueryInterface(IID_PPV_ARGS(&lInfoQueue));
+		if (SUCCEEDED(result))
+		{
+			lInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);
+			lInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);
+			lInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, true);
+		}
+
+		//抑制するエラー
+		D3D12_MESSAGE_ID lDenyIds[] =
+		{
+			/*
+			*windows11でのDXGIデバッグレイヤーとDX12デバッグレイヤー
+			*相互作用バグによるエラーメッセージ
+			*/
+			D3D12_MESSAGE_ID_RESOURCE_BARRIER_MISMATCHING_COMMAND_LIST_TYPE
+
+		};
+			//抑制する表示レベル
+		D3D12_MESSAGE_SEVERITY lSeverities[] = { D3D12_MESSAGE_SEVERITY_INFO };
+		D3D12_INFO_QUEUE_FILTER lFilter{};
+		lFilter.DenyList.NumIDs = _countof(lDenyIds);
+		lFilter.DenyList.pIDList = lDenyIds;
+		lFilter.DenyList.NumSeverities = _countof(lSeverities);
+		lFilter.DenyList.pSeverityList = lSeverities;
+		//指定したエラーの表示を抑制する
+		lInfoQueue->PushStorageFilter(&lFilter);
+	}
 }
 
 void DirectX12Core::PCheckTearingSupport()
@@ -354,14 +388,14 @@ void DirectX12Core::SetBackScreenColor(float red_,float green_,float blue_,float
 
 #pragma region ゲッター
 
-ID3D12Device* DirectX12Core::GetDevice()const
+IDevice* DirectX12Core::GetDevice()const
 {
 	return mainAdapters->GetDevice();
 }
 
-ID3D12GraphicsCommandList* DirectX12Core::GetCommandList()const
+ICommandList* DirectX12Core::GetCommandList()const
 {
-	return mainAdapters->GetGraphicCommandList();
+	return mainAdapters->GetCommandList();
 }
 
 ISRVDescriptorHeap* DirectX12Core::GetSRVDescriptorHeap()const
@@ -377,5 +411,9 @@ IRTVDescriptorHeap* DirectX12Core::GetRTVDescriptorHeap()const
 IDSVDescriptorHeap* DirectX12Core::GetDSVDescriptorHeap()const
 {
 	return mainAdapters->GetDSVDescriptorHeap();
+}
+IMultiAdapters* DirectX12Core::GetMultiAdapters() const
+{
+	return multiAdapters.get();
 }
 #pragma endregion

@@ -13,41 +13,59 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="ソース ファイル\Controller">
+      <UniqueIdentifier>{a19304d2-5057-49c0-8f19-50debfaada4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Keyboard">
+      <UniqueIdentifier>{cf0694ed-8ca8-4f5c-81f4-1a5b4ea47b16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Mouse">
+      <UniqueIdentifier>{b0daefe1-71d1-4d34-86e3-c10384808ae2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Controller">
+      <UniqueIdentifier>{c6fc456c-f260-4be1-acc6-ce6e6709609d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Keyboard">
+      <UniqueIdentifier>{adc0eae8-0e96-409d-90c5-bc18a519e65e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Mouse">
+      <UniqueIdentifier>{d4c7397f-8dcd-441f-9771-20565c852e6f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Incluede\Mouse.h">
+    <ClInclude Include="Include\Input.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Controller.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Include\Controller\ControllerButtons.h">
+      <Filter>ヘッダー ファイル\Controller</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Input.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Include\Controller\Controller.h">
+      <Filter>ヘッダー ファイル\Controller</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Keyboard.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Include\Keyboard\Keyboard.h">
+      <Filter>ヘッダー ファイル\Keyboard</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\Keys.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Include\Keyboard\Keys.h">
+      <Filter>ヘッダー ファイル\Keyboard</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\ControllerButtons.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Include\Mouse\MouseButton.h">
+      <Filter>ヘッダー ファイル\Mouse</Filter>
     </ClInclude>
-    <ClInclude Include="Incluede\MouseButton.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Include\Mouse\Mouse.h">
+      <Filter>ヘッダー ファイル\Mouse</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Mouse.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Source\Controller\Controller.cpp">
+      <Filter>ソース ファイル\Controller</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Controller.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Source\Keyboard\Keyboard.cpp">
+      <Filter>ソース ファイル\Keyboard</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mouse\Mouse.cpp">
+      <Filter>ソース ファイル\Mouse</Filter>
     </ClCompile>
     <ClCompile Include="Source\Input.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Keyboard.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

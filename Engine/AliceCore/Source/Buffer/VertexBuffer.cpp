@@ -1,6 +1,7 @@
-﻿#include "VertexBuffer.h"
+#include "VertexBuffer.h"
 
-#include"BaseBuffer.h"
+#include<BaseBuffer.h>
+#include<StringUtility.h>
 
 /// <summary>
 /// 頂点バッファ
@@ -41,6 +42,19 @@ public:
 	/// </summary>
 	void Update(void* data_)override;
 
+	/// <summary>
+	/// データの更新
+	/// </summary>
+	/// <param name="data">データ</param>
+	/// <param name="length_">データの数</param>
+	void Update(void* data_,size_t length_)override;
+
+	/// <summary>
+	/// 名前を設定
+	/// </summary>
+	/// <param name="name_">名前</param>
+	void SetName(const std::string& name_)override;
+
 	~VertexBuffer() = default;
 	VertexBuffer() = default;
 
@@ -53,6 +67,9 @@ private:
 
 void VertexBuffer::Create(size_t length_, size_t singleSize_, const void* data_)
 {
+	IAdapter* lAdapter = sMultiAdapters->GetAdapter(AdaptersIndex::MAIN);
+	ID3D12Device* lDevice = lAdapter->GetDevice()->Get();
+
 	// ヒーププロパティ
 	CD3DX12_HEAP_PROPERTIES lHeapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
 
@@ -60,7 +77,7 @@ void VertexBuffer::Create(size_t length_, size_t singleSize_, const void* data_)
 	CD3DX12_RESOURCE_DESC lResDesc = CD3DX12_RESOURCE_DESC::Buffer(length_ * singleSize_);
 
 	// リソースを生成
-	HRESULT lResult = sDevice->CreateCommittedResource(
+	HRESULT lResult = lDevice->CreateCommittedResource(
 		&lHeapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&lResDesc,
@@ -93,6 +110,7 @@ void VertexBuffer::Create(size_t length_, size_t singleSize_, const void* data_)
 		memcpy(bufferMappedPtr, data_, length_ * singleSize_);
 	}
 
+	resource->SetName(L"VertexBuffer");
 	isValid = true;
 }
 
@@ -105,6 +123,17 @@ void VertexBuffer::Update(void* data_)
 
 	// 頂点データをマッピング先に設定
 	memcpy(bufferMappedPtr, data_, vertexBufferView.SizeInBytes);
+}
+
+void VertexBuffer::Update(void* data_,size_t length_)
+{
+	if ( data_ == nullptr )
+	{
+		return;
+	}
+
+	// 頂点データをマッピング先に設定
+	memcpy(bufferMappedPtr,data_,vertexBufferView.StrideInBytes * length_);
 }
 
 const D3D12_VERTEX_BUFFER_VIEW& VertexBuffer::GetView()
@@ -120,6 +149,11 @@ bool VertexBuffer::IsValid()
 ID3D12Resource* VertexBuffer::GetResource()
 {
 	return resource.Get();
+}
+
+void VertexBuffer::SetName(const std::string& name_)
+{
+	resource->SetName(AliceUtility::String::StringToWstring(name_).c_str());
 }
 
 std::unique_ptr<IVertexBuffer> CreateUniqueVertexBuffer(size_t length_, size_t singleSize_, const void* data_)

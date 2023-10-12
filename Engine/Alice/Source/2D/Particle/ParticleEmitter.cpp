@@ -1,5 +1,6 @@
-﻿#include<ParticleEmitter.h>
+#include<ParticleEmitter.h>
 #include<BasicParticle.h>
+#include<TextureManager.h>
 
 class ParticleEmitter : public IParticleEmitter
 {

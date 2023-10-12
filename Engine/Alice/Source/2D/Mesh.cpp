@@ -2,7 +2,7 @@
 
 std::unique_ptr<Mesh> Mesh::sMesh;
 IWindowsApp* Mesh::sWindowsApp = nullptr;
-ID3D12GraphicsCommandList* Mesh::sCmdList = nullptr;
+ICommandList* Mesh::sCmdList = nullptr;
 
 #pragma region パブリック
 
@@ -10,6 +10,7 @@ ID3D12GraphicsCommandList* Mesh::sCmdList = nullptr;
 void Mesh::DrawLine(float x1_, float y1_, float x2_, float y2_, const AliceMathF::Vector4& color_)
 {
 	D3D12_VERTEX_BUFFER_VIEW lVbView = lineBuff->vertexBuffer->GetView();
+	ID3D12GraphicsCommandList* lCmdList = sCmdList->GetGraphicCommandList();
 
 	assert(lineCount < lineMaxCount);
 
@@ -29,53 +30,53 @@ void Mesh::DrawLine(float x1_, float y1_, float x2_, float y2_, const AliceMathF
 	{
 	case 0:
 		// パイプラインステートの設定
-		sCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashLineNoblend")->pipelineState->GetPipelineState());
+		lCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashLineNoblend")->pipelineState->GetPipelineState());
 		// ルートシグネチャの設定
-		sCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashLineNoblend")->rootSignature->GetRootSignature());
+		lCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashLineNoblend")->rootSignature->GetRootSignature());
 		break;
 	case 1:
 		// パイプラインステートの設定
-		sCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashLineAlpha")->pipelineState->GetPipelineState());
+		lCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashLineAlpha")->pipelineState->GetPipelineState());
 		// ルートシグネチャの設定
-		sCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashLineAlpha")->rootSignature->GetRootSignature());
+		lCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashLineAlpha")->rootSignature->GetRootSignature());
 		break;
 	case 2:
 		// パイプラインステートの設定
-		sCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashLineAdd")->pipelineState->GetPipelineState());
+		lCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashLineAdd")->pipelineState->GetPipelineState());
 		// ルートシグネチャの設定
-		sCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashLineAdd")->rootSignature->GetRootSignature());
+		lCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashLineAdd")->rootSignature->GetRootSignature());
 		break;
 	case 3:
 		// パイプラインステートの設定
-		sCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashLineSub")->pipelineState->GetPipelineState());
+		lCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashLineSub")->pipelineState->GetPipelineState());
 		// ルートシグネチャの設定
-		sCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashLineSub")->rootSignature->GetRootSignature());
+		lCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashLineSub")->rootSignature->GetRootSignature());
 		break;
 	case 4:
 		// パイプラインステートの設定
-		sCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashLineMula")->pipelineState->GetPipelineState());
+		lCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashLineMula")->pipelineState->GetPipelineState());
 		// ルートシグネチャの設定
-		sCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashLineMula")->rootSignature->GetRootSignature());
+		lCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashLineMula")->rootSignature->GetRootSignature());
 		break;
 	case 5:
 		// パイプラインステートの設定
-		sCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashLineInvsrc")->pipelineState->GetPipelineState());
+		lCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashLineInvsrc")->pipelineState->GetPipelineState());
 		// ルートシグネチャの設定
-		sCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashLineInvsrc")->rootSignature->GetRootSignature());
+		lCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashLineInvsrc")->rootSignature->GetRootSignature());
 		break;
 	}
 
 	// プリミティブ形状の設定コマンド
-	sCmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST); //三角形リスト
+	lCmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST); //三角形リスト
 
 	// 頂点バッファビューの設定コマンド
-	sCmdList->IASetVertexBuffers(0, 1, &lVbView);
+	lCmdList->IASetVertexBuffers(0, 1, &lVbView);
 
 	//定数バッファビュー
-	sCmdList->SetGraphicsRootConstantBufferView(0, constBuffTransform->GetAddress());
+	lCmdList->SetGraphicsRootConstantBufferView(0, constBuffTransform->GetAddress());
 
 	// 描画コマンド
-	sCmdList->DrawInstanced(lineVertexCount, 1, lIndxcount, 0);
+	lCmdList->DrawInstanced(lineVertexCount, 1, lIndxcount, 0);
 
 	lineCount++;
 }
@@ -256,6 +257,7 @@ void Mesh::SSetDirectX12Core(DirectX12Core* directX12Core_)
 void Mesh::PDrawTriangleFill(float x1_, float y1_, float x2_, float y2_, float x3_, float y3_, const AliceMathF::Vector4& color_)
 {
 	D3D12_VERTEX_BUFFER_VIEW lVbView = triangleBuff->vertexBuffer->GetView();
+	ID3D12GraphicsCommandList* lCmdList = sCmdList->GetGraphicCommandList();
 
 	assert(triangleCount < triangleMaxCount);
 
@@ -276,52 +278,52 @@ void Mesh::PDrawTriangleFill(float x1_, float y1_, float x2_, float y2_, float x
 	{
 	case 0:
 		// パイプラインステートの設定
-		sCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashTriangleNoblend")->pipelineState->GetPipelineState());
+		lCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashTriangleNoblend")->pipelineState->GetPipelineState());
 		// ルートシグネチャの設定
-		sCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashTriangleNoblend")->rootSignature->GetRootSignature());
+		lCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashTriangleNoblend")->rootSignature->GetRootSignature());
 		break;
 	case 1:
 		// パイプラインステートの設定
-		sCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashTriangleAlpha")->pipelineState->GetPipelineState());
+		lCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashTriangleAlpha")->pipelineState->GetPipelineState());
 		// ルートシグネチャの設定
-		sCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashTriangleAlpha")->rootSignature->GetRootSignature());
+		lCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashTriangleAlpha")->rootSignature->GetRootSignature());
 		break;
 	case 2:
 		// パイプラインステートの設定
-		sCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashTriangleAdd")->pipelineState->GetPipelineState());
+		lCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashTriangleAdd")->pipelineState->GetPipelineState());
 		// ルートシグネチャの設定
-		sCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashTriangleAdd")->rootSignature->GetRootSignature());
+		lCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashTriangleAdd")->rootSignature->GetRootSignature());
 		break;
 	case 3:
 		// パイプラインステートの設定
-		sCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashTriangleSub")->pipelineState->GetPipelineState());
+		lCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashTriangleSub")->pipelineState->GetPipelineState());
 		// ルートシグネチャの設定
-		sCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashTriangleSub")->rootSignature->GetRootSignature());
+		lCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashTriangleSub")->rootSignature->GetRootSignature());
 		break;
 	case 4:
 		// パイプラインステートの設定
-		sCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashTriangleMula")->pipelineState->GetPipelineState());
+		lCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashTriangleMula")->pipelineState->GetPipelineState());
 		// ルートシグネチャの設定
-		sCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashTriangleMula")->rootSignature->GetRootSignature());
+		lCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashTriangleMula")->rootSignature->GetRootSignature());
 		break;
 	case 5:
 		// パイプラインステートの設定
-		sCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashTriangleInvsrc")->pipelineState->GetPipelineState());
+		lCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashTriangleInvsrc")->pipelineState->GetPipelineState());
 		// ルートシグネチャの設定
-		sCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashTriangleInvsrc")->rootSignature->GetRootSignature());
+		lCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashTriangleInvsrc")->rootSignature->GetRootSignature());
 		break;
 	}
 	// プリミティブ形状の設定コマンド
-	sCmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); //三角形リスト
+	lCmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); //三角形リスト
 
 	// 頂点バッファビューの設定コマンド
-	sCmdList->IASetVertexBuffers(0, 1, &lVbView);
+	lCmdList->IASetVertexBuffers(0, 1, &lVbView);
 
 	//定数バッファビュー
-	sCmdList->SetGraphicsRootConstantBufferView(0, constBuffTransform->GetAddress());
+	lCmdList->SetGraphicsRootConstantBufferView(0, constBuffTransform->GetAddress());
 
 	// 描画コマンド
-	sCmdList->DrawInstanced(triangleVertexCount, 1, lVertexCount, 0);
+	lCmdList->DrawInstanced(triangleVertexCount, 1, lVertexCount, 0);
 
 	// 使用カウント上昇
 	triangleCount++;
@@ -332,6 +334,7 @@ void Mesh::PDrawBoxFill(float x_, float y_, float radiusX_, float radiusY_, floa
 {
 	D3D12_VERTEX_BUFFER_VIEW lVbView = boxBuff->vertexBuffer->GetView();
 	D3D12_INDEX_BUFFER_VIEW lIbView = boxBuff->indexBuffer->GetView();
+	ID3D12GraphicsCommandList* lCmdList = sCmdList->GetGraphicCommandList();
 
 	assert(boxCount < boxMaxCount);
 
@@ -379,56 +382,56 @@ void Mesh::PDrawBoxFill(float x_, float y_, float radiusX_, float radiusY_, floa
 	{
 	case 0:
 		// パイプラインステートの設定
-		sCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashTriangleNoblend")->pipelineState->GetPipelineState());
+		lCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashTriangleNoblend")->pipelineState->GetPipelineState());
 		// ルートシグネチャの設定
-		sCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashTriangleNoblend")->rootSignature->GetRootSignature());
+		lCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashTriangleNoblend")->rootSignature->GetRootSignature());
 		break;
 	case 1:
 		// パイプラインステートの設定
-		sCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashTriangleAlpha")->pipelineState->GetPipelineState());
+		lCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashTriangleAlpha")->pipelineState->GetPipelineState());
 		// ルートシグネチャの設定
-		sCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashTriangleAlpha")->rootSignature->GetRootSignature());
+		lCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashTriangleAlpha")->rootSignature->GetRootSignature());
 		break;
 	case 2:
 		// パイプラインステートの設定
-		sCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashTriangleAdd")->pipelineState->GetPipelineState());
+		lCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashTriangleAdd")->pipelineState->GetPipelineState());
 		// ルートシグネチャの設定
-		sCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashTriangleAdd")->rootSignature->GetRootSignature());
+		lCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashTriangleAdd")->rootSignature->GetRootSignature());
 		break;
 	case 3:
 		// パイプラインステートの設定
-		sCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashTriangleSub")->pipelineState->GetPipelineState());
+		lCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashTriangleSub")->pipelineState->GetPipelineState());
 		// ルートシグネチャの設定
-		sCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashTriangleSub")->rootSignature->GetRootSignature());
+		lCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashTriangleSub")->rootSignature->GetRootSignature());
 		break;
 	case 4:
 		// パイプラインステートの設定
-		sCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashTriangleMula")->pipelineState->GetPipelineState());
+		lCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashTriangleMula")->pipelineState->GetPipelineState());
 		// ルートシグネチャの設定
-		sCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashTriangleMula")->rootSignature->GetRootSignature());
+		lCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashTriangleMula")->rootSignature->GetRootSignature());
 		break;
 	case 5:
 		// パイプラインステートの設定
-		sCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashTriangleInvsrc")->pipelineState->GetPipelineState());
+		lCmdList->SetPipelineState(MaterialManager::SGetMaterial("MashTriangleInvsrc")->pipelineState->GetPipelineState());
 		// ルートシグネチャの設定
-		sCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashTriangleInvsrc")->rootSignature->GetRootSignature());
+		lCmdList->SetGraphicsRootSignature(MaterialManager::SGetMaterial("MashTriangleInvsrc")->rootSignature->GetRootSignature());
 		break;
 	}
 
 	//プリミティブ形状の設定コマンド
-	sCmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); //三角形リスト
+	lCmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); //三角形リスト
 
 	//頂点バッファの設定
-	sCmdList->IASetVertexBuffers(0, 1, &lVbView);
+	lCmdList->IASetVertexBuffers(0, 1, &lVbView);
 
 	//インデックスバッファの設定
-	sCmdList->IASetIndexBuffer(&lIbView);
+	lCmdList->IASetIndexBuffer(&lIbView);
 
 	//定数バッファビュー
-	sCmdList->SetGraphicsRootConstantBufferView(0, constBuffTransform->GetAddress());
+	lCmdList->SetGraphicsRootConstantBufferView(0, constBuffTransform->GetAddress());
 
 	//描画コマンド
-	sCmdList->DrawIndexedInstanced(boxIndexCount, 1, static_cast<UINT>(lIndxCount), static_cast<INT>(lVertexCount), 0);
+	lCmdList->DrawIndexedInstanced(boxIndexCount, 1, static_cast<UINT>(lIndxCount), static_cast<INT>(lVertexCount), 0);
 
 	//使用カウント上昇
 	boxCount++;

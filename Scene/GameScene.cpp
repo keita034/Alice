@@ -9,7 +9,6 @@
 
 #pragma warning(pop)
 
-#include<Collision.h>
 #include<SceneManager.h>
 
 #include<FadeOutTransition.h>
@@ -26,10 +25,10 @@ GameScene::~GameScene()
 
 void GameScene::Initialize(const std::string& previewSceneName_)
 {
-	fieldObjData = SceneLoader::SLoadFile("Resources/Field.json");
+	fieldObjData = SceneLoader::SLoadFile(sPhysicsSystem,"Resources/Field.json");
 
 	player = std::make_unique<Player>();
-	player->Initialize(sInput,sAudioManager);
+	player->Initialize(sInput,sAudioManager,sPhysicsSystem);
 
 	gameCameraManager = std::make_unique<GameCameraManager>();
 	gameCameraManager->Initialize(player.get(), sInput);
@@ -37,7 +36,7 @@ void GameScene::Initialize(const std::string& previewSceneName_)
 	boss = std::make_unique<Boss>();
 	boss->SetPlayer(player.get());
 	boss->SetAudioManager(sAudioManager);
-	boss->Initialize();
+	boss->Initialize(sPhysicsSystem);
 
 	inTransition = std::make_unique<FadeInTransition>();
 	inTransition->Initilize(static_cast<float>(sWinApp->GetWindowSize().height), static_cast<float>(sWinApp->GetWindowSize().width));
@@ -116,7 +115,7 @@ void GameScene::Update()
 	player->TransUpdate(gameCameraManager->GetCamera());
 	boss->TransUpdate(gameCameraManager->GetCamera());
 
-	fieldObjData->Update(gameCameraManager->GetCamera());
+	fieldObjData->Update(sPhysicsSystem,gameCameraManager->GetCamera());
 
 	inTransition->Update();
 	outTransition->Update();
@@ -138,6 +137,8 @@ void GameScene::Draw()
 
 void GameScene::Finalize()
 {
-	fieldObjData->Finalize();
+	player->Finalize(sPhysicsSystem);
+	boss->Finalize(sPhysicsSystem);
+	fieldObjData->Finalize(sPhysicsSystem);
 }
 

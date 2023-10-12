@@ -1,7 +1,9 @@
 #include<Light.h>
 #include<DirectX12Core.h>
 
-ID3D12Device* Light::sDevice = nullptr;
+ID3D12Device* Light::sMainDevice = nullptr;
+AliceMathF::Vector3* Light::lightdirPtr = nullptr;
+AliceMathF::Vector4* Light::lightcolorPtr = nullptr;
 
 void Light::Initialize()
 {
@@ -10,6 +12,15 @@ void Light::Initialize()
 
 	//定数バッファへデータ転送
 	TransferConstBuffer();
+
+	if ( !lightdirPtr )
+	{
+		lightdirPtr = &lightdir;
+	}
+	if ( !lightcolorPtr )
+	{
+		lightcolorPtr = &lightcolor;
+	}
 }
 
 void Light::TransferConstBuffer(){
@@ -23,12 +34,14 @@ void Light::SetLightDir(const AliceMathF::Vector3& lightdir_)
 {
 	//正規化してセット
 	lightdir = lightdir_.Normal();
+	lightdirPtr = &lightdir;
 	dirty = true;
 }
 
 void Light::SetLightColor(const AliceMathF::Vector4& lightcolor_)
 {
 	lightcolor = lightcolor_;
+	lightcolorPtr = &lightcolor;
 	dirty = true;
 }
 
@@ -50,7 +63,17 @@ void Light::SetConstBufferView(ID3D12GraphicsCommandList* cmdList_, uint32_t roo
 
 void Light::SSetDevice(ID3D12Device* device_)
 {
-	sDevice = device_;
+	sMainDevice = device_;
+}
+
+AliceMathF::Vector3* Light::SGetLightDirPtr()
+{
+	return lightdirPtr;
+}
+
+AliceMathF::Vector4* Light::SGetLightColorPtr()
+{
+	return lightcolorPtr;
 }
 
 std::unique_ptr<Light> CreateUniqueLight()

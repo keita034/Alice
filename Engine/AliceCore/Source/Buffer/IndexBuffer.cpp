@@ -1,6 +1,8 @@
-﻿#include "IndexBuffer.h"
+#include "IndexBuffer.h"
 
 #include"BaseBuffer.h"
+#include<StringUtility.h>
+
 
 /// <summary>
 /// インデックスバッファ
@@ -43,6 +45,19 @@ public:
 	/// <param name="data">データ</param>
 	void Update(void* data_)override;
 
+	/// <summary>
+	/// データの更新
+	/// </summary>
+	/// <param name="data">データ</param>
+	/// <param name="length">データの長さ</param>
+	void Update(void* data_,size_t length_)override;
+
+	/// <summary>
+	/// 名前を設定
+	/// </summary>
+	/// <param name="name_">名前</param>
+	void SetName(const std::string& name_)override;
+
 	IndexBuffer() = default;
 	~IndexBuffer() = default;
 
@@ -58,6 +73,9 @@ void IndexBuffer::Create(size_t length_, const uint32_t* data)
 	{
 		bufferlength = length_;
 
+		IAdapter* lAdapter = sMultiAdapters->GetAdapter(AdaptersIndex::MAIN);
+		ID3D12Device* lDevice = lAdapter->GetDevice()->Get();
+
 		// ヒーププロパティ
 		CD3DX12_HEAP_PROPERTIES lHeapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
 
@@ -65,7 +83,7 @@ void IndexBuffer::Create(size_t length_, const uint32_t* data)
 		CD3DX12_RESOURCE_DESC lResDesc = CD3DX12_RESOURCE_DESC::Buffer(length_ * sizeof(uint32_t));	// リソースの設定
 
 		// リソースを生成
-		HRESULT lResult = sDevice->CreateCommittedResource(
+		HRESULT lResult = lDevice->CreateCommittedResource(
 			&lHeapProp,
 			D3D12_HEAP_FLAG_NONE,
 			&lResDesc,
@@ -77,6 +95,8 @@ void IndexBuffer::Create(size_t length_, const uint32_t* data)
 			printf("Failed to create index buffer resource");
 			return;
 		}
+
+		resource->SetName(L"IndexBuffer");
 
 		// インデックスバッファビューの設定
 		bufferView = {};
@@ -118,6 +138,17 @@ const D3D12_INDEX_BUFFER_VIEW& IndexBuffer::GetView()
 void IndexBuffer::Update(void* data)
 {
 	memcpy(bufferMappedPtr, data, bufferlength * sizeof(uint32_t));
+}
+
+
+void IndexBuffer::Update(void* data_,size_t length_)
+{
+	memcpy(bufferMappedPtr,data_,length_ * sizeof(uint32_t));
+}
+
+void IndexBuffer::SetName(const std::string& name_)
+{
+	resource->SetName(AliceUtility::String::StringToWstring(name_).c_str());
 }
 
 std::unique_ptr<IIndexBuffer> CreateUniqueIndexBuffer(size_t length_, const uint32_t* data_)

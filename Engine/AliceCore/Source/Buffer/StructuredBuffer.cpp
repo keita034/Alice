@@ -1,6 +1,7 @@
-﻿#include "StructuredBuffer.h"
+#include "StructuredBuffer.h"
 
 #include"BaseBuffer.h"
+#include<DescriptorHeap.h>
 
 /// <summary>
 /// 読み取り専用構造化バッファ
@@ -78,15 +79,16 @@ void StructuredBuffer::Create(size_t length_, size_t singleSize_, const void* da
 		bufferlength = length_;
 		bufferSingleSize = singleSize_;
 
+		IAdapter* lAdapter = sMultiAdapters->GetAdapter(AdaptersIndex::MAIN);
+		ID3D12Device* lDevice = lAdapter->GetDevice()->Get();
+		ISRVDescriptorHeap* lSRVHeap = lAdapter->GetSRVDescriptorHeap();
+
 		D3D12_RESOURCE_DESC lResDesc = CD3DX12_RESOURCE_DESC::Buffer(bufferSingleSize * length_, D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS);
 
 		D3D12_HEAP_PROPERTIES lHeapProp{};
-		lHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
-		lHeapProp.CreationNodeMask = 1;
-		lHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
-		lHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
+		lHeapProp.Type = D3D12_HEAP_TYPE:: D3D12_HEAP_TYPE_UPLOAD;
 		lHeapProp.VisibleNodeMask = 1;
-		sDevice->CreateCommittedResource(
+		lDevice->CreateCommittedResource(
 			&lHeapProp,
 			D3D12_HEAP_FLAG_NONE,
 			&lResDesc,
@@ -110,7 +112,7 @@ void StructuredBuffer::Create(size_t length_, size_t singleSize_, const void* da
 		srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
 		srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 
-		structuredBufferHandle.ptr = sSRVHeap->CreateSRV(srvDesc, resource.Get());
+		structuredBufferHandle.ptr = lSRVHeap->CreateSRV(srvDesc, resource.Get());
 	}
 
 	isValid = true;

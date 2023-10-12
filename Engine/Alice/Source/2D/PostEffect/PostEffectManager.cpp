@@ -3,7 +3,7 @@
 #include<DefaultMaterial.h>
 #include<PostEffectFactory.h>
 
-ID3D12GraphicsCommandList* PostEffectManager::sCmdList = nullptr;
+ICommandList* PostEffectManager::sCmdList = nullptr;
 ISRVDescriptorHeap* PostEffectManager::sSrvHeap = nullptr;
 IWindowsApp* PostEffectManager::sWindowsApp = nullptr;
 std::unique_ptr<PostEffectManager> PostEffectManager::postEffectManager;
@@ -24,7 +24,9 @@ void PostEffectManager::Initialize()
 	width = static_cast<float>(sWindowsApp->GetWindowSize().width);
 	height = static_cast<float>(sWindowsApp->GetWindowSize().height);
 
-	mainRenderTarget = std::make_unique<RenderTarget>(sSrvHeap, sCmdList);
+	ID3D12GraphicsCommandList* lCmdList = sCmdList->GetGraphicCommandList();
+
+	mainRenderTarget = std::make_unique<RenderTarget>(sSrvHeap,lCmdList);
 
 	mainRenderTarget->Initialize(sWindowsApp->GetWindowSize().width, sWindowsApp->GetWindowSize().height, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
@@ -56,15 +58,17 @@ void PostEffectManager::Update()
 
 void PostEffectManager::PreDrawScen()
 {
+	ID3D12GraphicsCommandList* lCmdList = sCmdList->GetGraphicCommandList();
+
 	mainRenderTarget->Transition(D3D12_RESOURCE_STATE_RENDER_TARGET);
 
 	mainRenderTarget->SetRenderTarget();
 
 	CD3DX12_VIEWPORT lViewPort = CD3DX12_VIEWPORT(0.0f, 0.0f, width, height);
-	sCmdList->RSSetViewports(1, &lViewPort);
+	lCmdList->RSSetViewports(1, &lViewPort);
 
 	CD3DX12_RECT lRect = CD3DX12_RECT(0, 0, static_cast<LONG>(width), static_cast<LONG>(height));
-	sCmdList->RSSetScissorRects(1, &lRect);
+	lCmdList->RSSetScissorRects(1, &lRect);
 
 	mainRenderTarget->ClearRenderTarget();
 }
@@ -146,19 +150,20 @@ void PostEffectManager::Draw()
 
 	D3D12_VERTEX_BUFFER_VIEW lVbView = vertexBuffer->GetView();
 	D3D12_INDEX_BUFFER_VIEW lIView = indexBuffer->GetView();
+	ID3D12GraphicsCommandList* lCmdList = sCmdList->GetGraphicCommandList();
 
 	// パイプラインステートとルートシグネチャの設定コマンド
-	sCmdList->SetPipelineState(postEffectMaterial->pipelineState->GetPipelineState());
-	sCmdList->SetGraphicsRootSignature(postEffectMaterial->rootSignature->GetRootSignature());
+	lCmdList->SetPipelineState(postEffectMaterial->pipelineState->GetPipelineState());
+	lCmdList->SetGraphicsRootSignature(postEffectMaterial->rootSignature->GetRootSignature());
 
 	// プリミティブ形状の設定コマンド
-	sCmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+	lCmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
 	// 頂点バッファビューの設定コマンド
-	sCmdList->IASetVertexBuffers(0, 1, &lVbView);
+	lCmdList->IASetVertexBuffers(0, 1, &lVbView);
 
 	//インデックスバッファビューの設定コマンド
-	sCmdList->IASetIndexBuffer(&lIView);
+	lCmdList->IASetIndexBuffer(&lIView);
 
 	// SRVヒープの設定コマンド
 	ID3D12DescriptorHeap* lDescriptorHeaps[] =
@@ -166,13 +171,13 @@ void PostEffectManager::Draw()
 		sSrvHeap->GetHeap(),
 	};
 
-	sCmdList->SetDescriptorHeaps(_countof(lDescriptorHeaps), lDescriptorHeaps);
+	lCmdList->SetDescriptorHeaps(_countof(lDescriptorHeaps), lDescriptorHeaps);
 
 	//// SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
-	sCmdList->SetGraphicsRootDescriptorTable(0, mainRenderTarget->GetGpuHandle());
+	lCmdList->SetGraphicsRootDescriptorTable(0, mainRenderTarget->GetGpuHandle());
 
 	// 描画コマンド
-	sCmdList->DrawIndexedInstanced(6, 1, 0, 0, 0);
+	lCmdList->DrawIndexedInstanced(6, 1, 0, 0, 0);
 }
 
 

@@ -12,10 +12,10 @@
 
 #include<AliceModel.h>
 #include<AliceFileStream.h>
-#include<AliceFunctionUtility.h>
+#include<FileUtility.h>
 
-ID3D12Device* AliceModel::sDevice;
-ID3D12GraphicsCommandList* AliceModel::sCmdList;
+IDevice* AliceModel::sMainDevice;
+ICommandList* AliceModel::sCmdList;
 Light* AliceModel::sLight;
 std::vector<std::string>AliceModel::sFilePaths;
 std::unordered_map<std::string,std::unique_ptr<AliceModelData>> AliceModel::sModelDatas;
@@ -43,7 +43,7 @@ uint32_t AliceModel::SCreateModel(const std::string& fileDirectoryPath_)
 
 			std::string lFilePath;
 
-			lFiles = AliceFunctionUtility::getFileNames(lDirectoryPath);
+			lFiles = AliceUtility::Fille::GetFileNames(lDirectoryPath);
 
 			//ディレクトリからFBXファイルを探す
 			for ( std::string file : lFiles )
@@ -54,7 +54,7 @@ uint32_t AliceModel::SCreateModel(const std::string& fileDirectoryPath_)
 				}
 			}
 
-			std::string lFileExtension = AliceFunctionUtility::FileExtension(lFilePath);
+			std::string lFileExtension = AliceUtility::Fille::FileExtension(lFilePath);
 
 			if ( lFileExtension == "alpb" )
 			{
@@ -270,7 +270,7 @@ uint32_t AliceModel::SCreateToonModel(const std::string& fileDirectoryPath_,cons
 
 			std::string lFilePath;
 
-			lFiles = AliceFunctionUtility::getFileNames(lDirectoryPath);
+			lFiles = AliceUtility::Fille::GetFileNames(lDirectoryPath);
 
 			//ディレクトリからFBXファイルを探す
 			for ( std::string file : lFiles )
@@ -286,7 +286,7 @@ uint32_t AliceModel::SCreateToonModel(const std::string& fileDirectoryPath_,cons
 				assert(0);
 			}
 
-			std::string lFileExtension = AliceFunctionUtility::FileExtension(lFilePath);
+			std::string lFileExtension = AliceUtility::Fille::FileExtension(lFilePath);
 
 			if ( lFileExtension == "alpb" )
 			{
@@ -360,7 +360,7 @@ uint32_t AliceModel::SCreateToonModel(const std::string& fileDirectoryPath_,cons
 
 void AliceModel::SCommonInitialize(DirectX12Core* directX12Core_)
 {
-	sDevice = directX12Core_->GetDevice();
+	sMainDevice = directX12Core_->GetDevice();
 	sCmdList = directX12Core_->GetCommandList();
 
 	sFilePaths.resize(sMAX_MODEL);
@@ -570,7 +570,7 @@ void AliceModel::SetAlpha(float alpha_)
 
 void AliceModel::Finalize()
 {
-	 sDevice = nullptr;
+	 sMainDevice = nullptr;
 	sCmdList = nullptr;
 
 	sLight = nullptr;
@@ -694,20 +694,18 @@ void AliceModel::PReadNodeHeirarchy(ModelMesh* mesh_,AliceBlendTree* blendTree_,
 	if ( lPtrNodeAnim )
 	{
 		//スケーリング
-		AliceMathF::Vector3 lScaling = { 1.0f,1.0f,1.0f };
+		AliceMathF::Vector3 lScaling = {1.0f,1.0f,1.0f};
 		AliceMathF::Matrix4 lMatScaling;
-		dust_.scaling = lScaling;
 		lMatScaling.MakeScaling(lScaling);
 
 		//回転角
 		AliceMathF::Quaternion lRotation = lPtrNodeAnim->rotationKeys;
 		AliceMathF::Matrix4 lMatRotation = lRotation.Rotate();
-		dust_.rotation = lRotation;
+
 		//移動
 		AliceMathF::Vector3 lTranslation = lPtrNodeAnim->positionKeys;
 		AliceMathF::Matrix4 lMatTranslation;
 		lMatTranslation.MakeTranslation(lTranslation);
-		dust_.translation = lTranslation;
 
 		lMatNodeTransformation = lMatScaling * lMatRotation * lMatTranslation;
 	}
@@ -746,38 +744,42 @@ const ReturnMotionNode* AliceModel::PFindNodeAnim(const AliceMotionData* pAnimat
 
 void AliceModel::PModelDraw(const Transform& transform_)
 {
+	ID3D12GraphicsCommandList* lCmdList = sCmdList->GetGraphicCommandList();
+
 	for ( size_t i = 0; i < modelData->meshes.size(); i++ )
 	{
 		// プリミティブ形状の設定コマンド
-		sCmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+		lCmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
 		// パイプラインステートとルートシグネチャの設定コマンド
-		sCmdList->SetPipelineState(modelMaterialData->pipelineState->GetPipelineState());
-		sCmdList->SetGraphicsRootSignature(modelMaterialData->rootSignature->GetRootSignature());
+		lCmdList->SetPipelineState(modelMaterialData->pipelineState->GetPipelineState());
+		lCmdList->SetGraphicsRootSignature(modelMaterialData->rootSignature->GetRootSignature());
 
 		if ( modelData->meshes[ i ]->node )
 		{
 			modelData->postureMatBuff->Update(&modelData->meshes[ i ]->node->globalTransform);
 		}
 
-		sCmdList->SetGraphicsRootConstantBufferView(3,modelData->postureMatBuff->GetAddress());
-		modelData->meshes[ i ]->Draw(sCmdList,transform_,sLight);
+		lCmdList->SetGraphicsRootConstantBufferView(3,modelData->postureMatBuff->GetAddress());
+		modelData->meshes[ i ]->Draw(lCmdList,transform_,sLight);
 	}
 }
 
 void AliceModel::PModelAnimationDraw(const Transform& transform_)
 {
+	ID3D12GraphicsCommandList* lCmdList = sCmdList->GetGraphicCommandList();
+
 	for ( size_t i = 0; i < modelData->meshes.size(); i++ )
 	{
 		// プリミティブ形状の設定コマンド
-		sCmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+		lCmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
 		// パイプラインステートとルートシグネチャの設定コマンド
-		sCmdList->SetPipelineState(modelMaterialData->pipelineState->GetPipelineState());
-		sCmdList->SetGraphicsRootSignature(modelMaterialData->rootSignature->GetRootSignature());
+		lCmdList->SetPipelineState(modelMaterialData->pipelineState->GetPipelineState());
+		lCmdList->SetGraphicsRootSignature(modelMaterialData->rootSignature->GetRootSignature());
 
 
-		modelData->meshes[ i ]->AnimDraw(sCmdList,transform_,sLight);
+		modelData->meshes[ i ]->AnimDraw(lCmdList,transform_,sLight);
 	}
 }
 

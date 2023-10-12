@@ -1,8 +1,9 @@
 #include "Boss.h"
 
 #include<CollisionAttribute.h>
+#include<CapsuleShape.h>
 
-void Boss::Initialize()
+void Boss::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 {
 	modelHandle = AliceModel::SCreateModel("Resources/Model/Boss");
 	model = std::make_unique<AliceModel>();
@@ -11,20 +12,30 @@ void Boss::Initialize()
 	transform.translation = { 0.0f,0.0f,10.0f };
 	transform.Initialize();
 
-	rigidBodyoffset = { 0.0f, 15.0f + 35.0f, 0.0f };
+	rigidBodyoffset = { 4.0f, 15.0f + 35.0f, 0.0f };
 
-	CreateMaterial(0.6f, 0.6f, 0.0f);
-	CreateShape(15.0f, 35.0f, CollisionAttribute::BOSS, (CollisionAttribute::PLAYER | CollisionAttribute::PLAYERWEAPON));
 	AliceMathF::Vector3 pos = transform.translation + rigidBodyoffset;
-	SetInitializePos(pos);
-	SetInitializeRot(AliceMathF::Quaternion({ 0,0,1 }, AliceMathF::DEG_TO_RAD * 90.0f));
-	CreateRigidBody(RigidBodyType::DYNAMIC);
+	shape.reset(AlicePhysics::CreateCapsuleShape(35.0f,15.0f));
+
+	AlicePhysics::IRigidBodyCreationSettings lSetting;
+	lSetting.name = "Boss";
+	lSetting.type = AlicePhysics::PhysicsRigidBodyType::DYNAMIC;
+	lSetting.motionType = AlicePhysics::MotionType::DYNAMIC;
+	lSetting.allowSleeping = false;
+	lSetting.collisionGroup = CollisionGroup::BOSS;
+	lSetting.collisionAttribute = CollisionAttribute::BODY;
+	lSetting.position = pos;
+	lSetting.shape = shape.get();
+	lSetting.userData = static_cast< void* >( &situation );
+	physicsSystem_->CreateRigidBody(rigidBody,&lSetting);
+	physicsSystem_->AddRigidBody(rigidBody);
+	rigidBody->SetRigidBodyCollision(this);
 
 	fireWorkParticle = std::make_unique<FireWorkParticle>();
 	fireWorkParticle->Initialize();
 	fireWorkParticle->SetTex(TextureManager::SLoad("Resources/Default/Particle/effect1.png"));
 
-	damageSE = audioManager->LoadAudio("Resources/SE/Damage.mp3", 0.3f);
+	damageSE = audioManager->LoadAudio("Resources/SE/Damage.mp3",0.3f);
 	deathSE = audioManager->LoadAudio("Resources/SE/BossDeath.mp3");
 
 	animation = std::make_unique<BossAnimation>();
@@ -33,10 +44,10 @@ void Boss::Initialize()
 	actionManager = std::make_unique<BossActionManager>();
 	actionManager->Initialize(animation.get());
 
-	hands[static_cast<size_t>(BossHandIndex::LEFT)] = std::make_unique<BossHand>();
-	hands[static_cast<size_t>(BossHandIndex::RIGHT)] = std::make_unique<BossHand>();
-	hands[static_cast<size_t>(BossHandIndex::LEFT)]->Initialize(&transform);
-	hands[static_cast<size_t>(BossHandIndex::RIGHT)]->Initialize(&transform);
+	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ] = std::make_unique<BossHand>();
+	hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ] = std::make_unique<BossHand>();
+	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->Initialize(&transform,physicsSystem_);
+	hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->Initialize(&transform,physicsSystem_);
 
 	bossUI = std::make_unique<BossUI>();
 	bossUI->Initialize();
@@ -53,7 +64,7 @@ void Boss::Update()
 		actionManager->Update(player->GetPosition(),transform.translation);
 	}
 
-	bossUI->SetHp(hp, MAX_HP);
+	bossUI->SetHp(hp,MAX_HP);
 
 	if ( hp > 0 )
 	{
@@ -72,20 +83,13 @@ void Boss::Update()
 		//移動
 
 		AliceMathF::Vector3 lMove = actionManager->GetDistanceTraveled();
-		dynamicBody->setLinearVelocity(lMove);
+		rigidBody->SetLinearVelocity(lMove);
 
 		{
-			physx::PxTransform lTransform;
-			lTransform = dynamicBody->getGlobalPose();
+			rigidBody->SetRotation(AliceMathF::Quaternion());
 
-			if ( lTransform.q != pxTransform.q )
-			{
-				lTransform.q = pxTransform.q;
-				dynamicBody->setGlobalPose(lTransform);
-				transform.translation = GetGlobalPos() + -rigidBodyoffset;
-
-				actionManager->SetBossPos(GetGlobalPos());
-			}
+			transform.translation = rigidBody->GetPosition() + -rigidBodyoffset;
+			actionManager->SetBossPos(rigidBody->GetPosition());
 		}
 
 		if ( AliceMathF::Vector3(0,0,0) != lMove )
@@ -98,31 +102,30 @@ void Boss::Update()
 		}
 	}
 
-	if (situation & ActorSituation::DAMAGE && !player->IsAttack())
+	if ( situation & ActorSituation::DAMAGE && !player->IsAttack() )
 	{
 		situation &= ~ActorSituation::DAMAGE;
 	}
 
 	animation->Update();
-	hands[static_cast<size_t>(BossHandIndex::RIGHT)]->Update("mixamorig:RightHand", animation->GetAnimation(), model.get());
-	hands[static_cast<size_t>(BossHandIndex::LEFT)]->Update("mixamorig:LeftHand", animation->GetAnimation(), model.get());
+	hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->Update("mixamorig:RightHandThumb1",animation->GetAnimation(),model.get());
+	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->Update("mixamorig:LeftHandThumb1",animation->GetAnimation(),model.get());
 	fireWorkParticle->Update();
 	bossUI->Update();
 
 	{
-		uint32_t lBitTmp = userData.attribute & 0xfff;
-		userData.attribute &= ~lBitTmp;
-		userData.attribute |= situation;
-		hands[static_cast<size_t>(BossHandIndex::RIGHT)]->SetSituation(situation);
-		hands[static_cast<size_t>(BossHandIndex::LEFT)]->SetSituation(situation);
+		hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->SetSituation(situation);
+		hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->SetSituation(situation);
 	}
 
 }
 
 void Boss::Draw()
 {
-	model->Draw(transform, animation->GetAnimation());
-
+	model->Draw(transform,animation->GetAnimation());
+	shape->Draw(rigidBody->GetCenterOfMassTransform(),{ 1.0f,1.0f ,1.0f },{ 1.0f ,0.0f ,0.0f ,1.0f },true);
+	hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->Draw();
+	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->Draw();
 	fireWorkParticle->Draw(camera);
 }
 
@@ -131,32 +134,37 @@ void Boss::UIDraw()
 	bossUI->Draw();
 }
 
-void Boss::Finalize()
+void Boss::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 {
+	hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->Finalize(physicsSystem_);
+	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->Finalize(physicsSystem_);
+
+	physicsSystem_->RemoveRigidBody(rigidBody);
 }
 
 void Boss::Reset()
 {
 	hp = MAX_HP;
-	bossUI->SetHp(hp, MAX_HP);
+	bossUI->SetHp(hp,MAX_HP);
 }
 
 void Boss::TransUpdate(Camera* camera_)
 {
 
-	transform.LookAtMatrixAxisFix(direction, { 0,1,0 }, camera_);
+	transform.LookAtMatrixAxisFix(direction,{ 0,1,0 },camera_);
 	//transform.TransUpdate( camera_);
-	hands[static_cast<size_t>(BossHandIndex::RIGHT)]->TransUpdate(camera_);
-	hands[static_cast<size_t>(BossHandIndex::LEFT)]->TransUpdate(camera_);
+	hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->TransUpdate(camera_);
+	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->TransUpdate(camera_);
 
 	camera = camera_;
 }
 
-void Boss::OnTrigger(uint32_t attribute_)
+void Boss::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_)
 {
-	if (attribute_ >> 16 & CollisionAttribute::PLAYERWEAPON &&
+	if ( BodyData_->GetGroup() == CollisionGroup::PLAYER &&
+		BodyData_->GetAttribute() == CollisionAttribute::WEAPON &&
 		player->IsAttack() &&
-		!(situation & ActorSituation::DAMAGE))
+		!( situation & ActorSituation::DAMAGE ) )
 	{
 		if ( hp > 0 )
 		{
@@ -183,6 +191,10 @@ void Boss::OnTrigger(uint32_t attribute_)
 			}
 		}
 	}
+}
+
+void Boss::OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_)
+{
 }
 
 void Boss::SetPlayer(Player* player_)
@@ -219,4 +231,8 @@ void Boss::AnimationEndStop()
 void Boss::DeathSEChangeVolume(float volume_)
 {
 	audioManager->ChangeVolume(deathSE,deathSEVolume * volume_);
+}
+
+void Boss::OnCollisionExit()
+{
 }

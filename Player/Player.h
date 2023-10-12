@@ -8,6 +8,7 @@
 #include<ActorSituation.h>
 #include<DeviceInput.h>
 #include<AudioManager.h>
+#include<AlicePhysicsSystem.h>
 
 class Player : public GameObject
 {
@@ -23,6 +24,7 @@ private:
 	AliceMathF::Vector3 rowlingWay;
 	AliceMathF::Vector3 rowlingStartPos;
 	AliceMathF::Vector3 rowlingEndPos;
+	AliceMathF::Vector3 rigidBodyoffset;
 
 	std::unique_ptr<PlayerUI>ui;
 	std::unique_ptr<PlayerAnimation>animation;
@@ -70,7 +72,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(AliceInput::IInput* input_,IAudioManager* audioManager_);
+	void Initialize(AliceInput::IInput* input_,IAudioManager* audioManager_,AlicePhysics::AlicePhysicsSystem* physicsSystem_);
 
 	/// <summary>
 	/// 更新処理
@@ -85,7 +87,7 @@ public:
 	/// <summary>
 	/// 後始末
 	/// </summary>
-	void Finalize()override;
+	void Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)override;
 
 	/// <summary>
 	/// 座標取得
@@ -107,9 +109,20 @@ public:
 	/// </summary>
 	void Reset();
 
-	virtual void OnContact(uint32_t attribute_)override;
+	/// <summary>
+	/// 当たった瞬間に呼ばれる
+	/// </summary>
+	virtual void OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_)override;
 
-	virtual void OnTrigger(uint32_t attribute_)override;
+	/// <summary>
+	/// 当たってる時に呼ばれる
+	/// </summary>
+	virtual void OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_)override;
+
+	/// <summary>
+	/// 離れた瞬間に呼ばれる
+	/// </summary>
+	virtual void OnCollisionExit() override;
 
 	bool IsAttack();
 
@@ -148,9 +161,9 @@ private:
 
 	void PHealing();
 
-	void Initialize()override {};
+	void Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)override {};
 	void Update()override {};
-	void Initialize(uint32_t handle_, const AliceMathF::Vector3& pos_, const AliceMathF::Vector3& rot_ , const AliceMathF::Vector3& scl_, const Transform* parent_)override{};
+	void Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_,uint32_t handle_, const AliceMathF::Vector3& pos_, const AliceMathF::Vector3& rot_ , const AliceMathF::Vector3& scl_, const Transform* parent_)override{};
 	//コピーコンストラクタ・代入演算子削除
 	Player& operator=(const Player&) = delete;
 	Player(const Player&) = delete;

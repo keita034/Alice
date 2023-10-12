@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
@@ -11,39 +11,59 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Incluede\Adapter.h" />
-    <ClInclude Include="Incluede\Fence.h" />
-    <ClInclude Include="Incluede\CommandList.h" />
-    <ClInclude Include="Incluede\Device.h" />
-    <ClInclude Include="Incluede\Buffer\BaseBuffer.h" />
-    <ClInclude Include="Incluede\DescriptorHeap\BaseDescriptorHeap.h" />
-    <ClInclude Include="Incluede\Buffer\ComputeVertexBuffer.h" />
-    <ClInclude Include="Incluede\Buffer\ConstantBuffer.h" />
-    <ClInclude Include="Incluede\Buffer\DepthStencilBuffer.h" />
-    <ClInclude Include="Incluede\DescriptorHeap\DescriptorHeap.h" />
-    <ClInclude Include="Incluede\DescriptorHeap\DSVDescriptorHeap.h" />
-    <ClInclude Include="Incluede\Buffer\IndexBuffer.h" />
-    <ClInclude Include="Incluede\Buffer\RenderTargetBuffer.h" />
-    <ClInclude Include="Incluede\DescriptorHeap\RTVDescriptorHeap.h" />
-    <ClInclude Include="Incluede\Buffer\RWStructuredBuffer.h" />
-    <ClInclude Include="Incluede\Buffer\StructuredBuffer.h" />
-    <ClInclude Include="Incluede\Buffer\VertexBuffer.h" />
-    <ClInclude Include="Incluede\FPS.h" />
-    <ClInclude Include="Incluede\RootSignature.h" />
-    <ClInclude Include="Incluede\Shader.h" />
-    <ClInclude Include="Incluede\WindowsApp.h" />
-    <ClInclude Include="Incluede\SwapChain.h" />
-    <ClInclude Include="Incluede\MultiAdapters.h" />
+    <ClInclude Include="Include\GPU\CrossAdapterFence.h" />
+    <ClInclude Include="Include\Buffer\CrossAdapterBuffer.h" />
+    <ClInclude Include="Include\Pipeline\BasePipelineState.h" />
+    <ClInclude Include="Include\Pipeline\ComputeMaterial.h" />
+    <ClInclude Include="Include\Buffer\DrawArgumentBuffer.h" />
+    <ClInclude Include="Include\Pipeline\BaseMaterial.h" />
+    <ClInclude Include="Include\Pipeline\ComputePipelineState.h" />
+    <ClInclude Include="Include\GPU\Adapter.h" />
+    <ClInclude Include="Include\Pipeline\DefaultMaterial.h" />
+    <ClInclude Include="Include\GPU\Fence.h" />
+    <ClInclude Include="Include\GPU\CommandList.h" />
+    <ClInclude Include="Include\GPU\Device.h" />
+    <ClInclude Include="Include\Buffer\BaseBuffer.h" />
+    <ClInclude Include="Include\DescriptorHeap\BaseDescriptorHeap.h" />
+    <ClInclude Include="Include\Buffer\ComputeVertexBuffer.h" />
+    <ClInclude Include="Include\Buffer\ConstantBuffer.h" />
+    <ClInclude Include="Include\Buffer\DepthStencilBuffer.h" />
+    <ClInclude Include="Include\DescriptorHeap\DescriptorHeap.h" />
+    <ClInclude Include="Include\DescriptorHeap\DSVDescriptorHeap.h" />
+    <ClInclude Include="Include\Buffer\IndexBuffer.h" />
+    <ClInclude Include="Include\Buffer\RenderTargetBuffer.h" />
+    <ClInclude Include="Include\DescriptorHeap\RTVDescriptorHeap.h" />
+    <ClInclude Include="Include\Buffer\RWStructuredBuffer.h" />
+    <ClInclude Include="Include\Buffer\StructuredBuffer.h" />
+    <ClInclude Include="Include\Buffer\VertexBuffer.h" />
+    <ClInclude Include="Include\FPS.h" />
+    <ClInclude Include="Include\Pipeline\Material.h" />
+    <ClInclude Include="Include\Pipeline\RootSignature.h" />
+    <ClInclude Include="Include\Pipeline\Shader.h" />
+    <ClInclude Include="Include\WindowsApp.h" />
+    <ClInclude Include="Include\GPU\SwapChain.h" />
+    <ClInclude Include="Include\GPU\MultiAdapters.h" />
+    <ClInclude Include="Include\Pipeline\PipelineState.h" />
+    <ClInclude Include="Include\TextureData.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Adapter.cpp" />
-    <ClCompile Include="Source\MultiAdapters.cpp" />
-    <ClCompile Include="Source\Fence.cpp" />
-    <ClCompile Include="Source\CommandList.cpp" />
-    <ClCompile Include="Source\Device.cpp" />
+    <ClCompile Include="Source\GPU\CrossAdapterFence.cpp" />
+    <ClCompile Include="Source\Buffer\CrossAdapterBuffer.cpp" />
+    <ClCompile Include="Source\Pipeline\BasePipelineState.cpp" />
+    <ClCompile Include="Source\Pipeline\ComputeMaterial.cpp" />
+    <ClCompile Include="Source\Buffer\DrawArgumentBuffer.cpp" />
+    <ClCompile Include="Source\Pipeline\ComputePipelineState.cpp" />
+    <ClCompile Include="Source\Pipeline\DefaultMaterial.cpp" />
+    <ClCompile Include="Source\Pipeline\Material.cpp" />
+    <ClCompile Include="Source\Pipeline\PipelineState.cpp" />
+    <ClCompile Include="Source\GPU\Adapter.cpp" />
+    <ClCompile Include="Source\GPU\MultiAdapters.cpp" />
+    <ClCompile Include="Source\GPU\Fence.cpp" />
+    <ClCompile Include="Source\GPU\CommandList.cpp" />
+    <ClCompile Include="Source\GPU\Device.cpp" />
     <ClCompile Include="Source\FPS.cpp" />
-    <ClCompile Include="Source\RootSignature.cpp" />
-    <ClCompile Include="Source\Shader.cpp" />
+    <ClCompile Include="Source\Pipeline\RootSignature.cpp" />
+    <ClCompile Include="Source\Pipeline\Shader.cpp" />
     <ClCompile Include="Source\Buffer\BaseBuffer.cpp" />
     <ClCompile Include="Source\DescriptorHeap\BaseDescriptorHeap.cpp" />
     <ClCompile Include="Source\Buffer\ComputeVertexBuffer.cpp" />
@@ -58,7 +78,13 @@
     <ClCompile Include="Source\Buffer\StructuredBuffer.cpp" />
     <ClCompile Include="Source\Buffer\VertexBuffer.cpp" />
     <ClCompile Include="Source\WindowsApp.cpp" />
-    <ClCompile Include="Source\SwapChain.cpp" />
+    <ClCompile Include="Source\GPU\SwapChain.cpp" />
+    <ClCompile Include="Source\TextureData.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AliceUtility\AliceUtility.vcxproj">
+      <Project>{95e30581-d29f-44fd-8802-198f6b21e809}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -94,15 +120,15 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)Lib\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)..\Generated\Lib\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
     <LibraryPath>$(SolutionDir)Engine\Alice\lib\lib\debug;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)Engine\Alice\lib\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Engine\Alice\lib\Include;$(SolutionDir)Engine\AliceUtility\Include;$(SolutionDir)Engine\AliceUtility\Include\Enum;$(SolutionDir)Engine\AliceUtility\Include\Others;$(SolutionDir)Engine\AliceUtility\Include\Utility;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)Lib\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)..\Generated\Lib\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)Engine\Alice\lib\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Engine\Alice\lib\Include;$(SolutionDir)Engine\AliceUtility\Include;$(SolutionDir)Engine\AliceUtility\Include\Enum;$(SolutionDir)Engine\AliceUtility\Include\Others;$(SolutionDir)Engine\AliceUtility\Include\Utility;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Engine\Alice\lib\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -115,11 +141,12 @@
       <PreprocessorDefinitions>_DEBUG;_LIB;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\Incluede;$(ProjectDir)\Incluede\Buffer;$(ProjectDir)\Incluede\DescriptorHeap;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Include;$(ProjectDir)Include\Buffer;$(ProjectDir)Include\DescriptorHeap;$(ProjectDir)Include\GPU;$(ProjectDir)Include\Pipeline;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>5045</DisableSpecificWarnings>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -127,7 +154,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>assimp-vc143-mtd.lib;DirectX-Guids.lib;DirectX-Headers.lib;DirectXTex.lib;draco.lib;imguid.lib;kubazip.lib;minizip.lib;PhysX_static_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXCommon_static_64.lib;PhysXCooking_static_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_static_64.lib;PhysXPvdSDK_static_64.lib;PhysXVehicle_static_64.lib;poly2tri.lib;pugixml.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d12.lib</AdditionalDependencies>
       <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
     </Lib>
   </ItemDefinitionGroup>
@@ -140,12 +167,13 @@
       <PreprocessorDefinitions>NDEBUG;_LIB;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\Incluede;$(ProjectDir)\Incluede\Buffer;$(ProjectDir)\Incluede\DescriptorHeap;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Include;$(ProjectDir)Include\Buffer;$(ProjectDir)Include\DescriptorHeap;$(ProjectDir)Include\GPU;$(ProjectDir)Include\Pipeline;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <DisableSpecificWarnings>5045;4710;4711</DisableSpecificWarnings>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -155,7 +183,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>assimp-vc143-mt.lib;DirectX-Guids.lib;DirectX-Headers.lib;DirectXTex.lib;draco.lib;imgui.lib;kubazip.lib;minizip.lib;PhysX_static_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXCommon_static_64.lib;PhysXCooking_static_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_static_64.lib;PhysXPvdSDK_static_64.lib;PhysXVehicle_static_64.lib;poly2tri.lib;pugixml.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d12.lib</AdditionalDependencies>
       <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
     </Lib>
   </ItemDefinitionGroup>

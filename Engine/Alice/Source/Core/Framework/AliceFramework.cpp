@@ -3,11 +3,9 @@
 #include<AliceModel.h>
 #include<AliceMotionData.h>
 #include<DefaultMaterial.h>
-#include<Collision2DManager.h>
 #include<Particle.h>
 #include<Sprite.h>
 #include<SceneLoader.h>
-#include<IAliceRigidBody.h>
 #include<BaseBuffer.h>
 
 void AliceFramework::SDebugInitialize()
@@ -37,16 +35,16 @@ void AliceFramework::Initialize()
 	directX12Core->DirectXInitialize(static_cast<float>(windowsApp->GetWindowSize().width), static_cast<float>(windowsApp->GetWindowSize().height), windowsApp->GetHwndPtr(), windowsApp.get());//DirectX12初期化
 	directX12Core->SetBackScreenColor(0.1f, 0.25f, 0.5f, 0.0f);	//背景の色変更(R,G,B,A)
 
-
 	Particle::SSetDirectX12Core(directX12Core.get());
 	BasePostEffect::SSetDirectX12Core(directX12Core.get());
 	PostEffectManager::SSetDirectX12Core(directX12Core.get());
 	Sprite::SSetDirectX12Core(directX12Core.get());
 	Mesh::SSetDirectX12Core(directX12Core.get());
 	Mesh3D::SSetDirectX12Core(directX12Core.get());
-	PipelineState::SSetDirectX12Core(directX12Core.get());
 	TextureManager::SSetDirectX12Core(directX12Core.get());
 	AliceModel::SCommonInitialize(directX12Core.get());
+
+	PipelineState::SSetDevice(directX12Core->GetDevice());
 	//DirectX初期化処理ここまで
 
 	//描画初期化処理ここから
@@ -62,6 +60,17 @@ void AliceFramework::Initialize()
 	postEffectManager = PostEffectManager::SGetInstance();
 	postEffectManager->Initialize();
 
+	materialManager = MaterialManager::SGetInstance();
+
+	IDevice* lMainDevice = directX12Core->GetMultiAdapters()->GetMainAdapter()->GetDevice();
+	IDevice* lSubDevice = directX12Core->GetMultiAdapters()->GetSubAdapter()->GetDevice();
+
+	materialManager->Initialize(lMainDevice,lSubDevice);
+
+	//描画初期化処理ここまで
+
+	//その他初期化ここから
+
 	audioManager = CreateUniqueAudioManager();
 	BaseScene::SSetAudioManager(audioManager.get());
 
@@ -72,29 +81,22 @@ void AliceFramework::Initialize()
 	BaseScene::SSetInput(input.get());
 	SceneData::SSetInput(input.get());
 
-	materialManager = MaterialManager::SGetInstance();
-	materialManager->Initialize(directX12Core->GetDevice());
-	//描画初期化処理ここまで
-
-	//その他初期化ここから
-
 	AliceMotionData::SCommonInitialize();
 
 	imGuiManager = CreateUniqueImGuiManager(windowsApp.get(), directX12Core.get());
-	
+
+	physicsSystem = std::make_unique<AlicePhysics::AlicePhysicsSystem>();
+	physicsSystem->SetDevice(directX12Core->GetDevice());
+	physicsSystem->SetCommandList(directX12Core->GetCommandList());
+	physicsSystem->Initialize();
+
+	BaseScene::SSetPhysicsSystem(physicsSystem.get());
+
+	gpuParticleEmitter = std::make_unique<GPUParticleEmitter>();
+	gpuParticleEmitter->SetMultiAdapters(directX12Core->GetMultiAdapters());
+	gpuParticleEmitter->Initialize();
+
 	sceneManager = SceneManager::SGetInstance();
-
-	aliceRigidBodyManager = std::make_unique<AliceRigidBodyManager>();
-	
-	IAliceRigidBody::SetManager(aliceRigidBodyManager.get());
-
-	physics = std::make_unique<AlicePhysics>();
-	physics->Initialize(aliceRigidBodyManager.get());
-
-	objectCollsionDraw = std::make_unique<ObjectCollsionDraw>();
-
-	GameObject::SetObjectCollsionDraw(objectCollsionDraw.get());
-	
 }
 
 void AliceFramework::Finalize()
@@ -103,10 +105,9 @@ void AliceFramework::Finalize()
 	AliceModel::Finalize();
 
 	sceneManager->Finalize();
+	physicsSystem->Finalize();
 	imGuiManager->Finalize();
 	imGuiManager.release();
-	physics->Finalize();
-	objectCollsionDraw.reset();
 	textureManager->Finalize();
 	mesh->Destroy();
 	mesh3D->Destroy();
@@ -123,7 +124,6 @@ AliceFramework::~AliceFramework()
 
 void AliceFramework::Update()
 {
-	physics->SimulateTime(fps->GetDeltaTime());
 
 	fps->FpsControlBegin();
 	//準備処理
@@ -135,13 +135,35 @@ void AliceFramework::Update()
 
 	imGuiManager->Bigin();
 
-	Collision2DManager::SGetInstance()->CheckAllCollisions();
-
 	sceneManager->Update();
+
+	directX12Core->BeginCommand();
+	if ( input->TriggerKey(Keys::SPACE) )
+	{
+		BasicGPUParticleSetting lSetting;
+		lSetting.acceleration = { 0.0f, 0.001f ,0.0f };
+		lSetting.endColor = { 0.0f,0.0f,1.0f,1.0f };
+		lSetting.emitCount = 50;
+		lSetting.maxParticles = 10000;
+		lSetting.startColor = { 1.0f,0.0f,0.0f,1.0f };
+		lSetting.velocity = { 0.1f,0.1f,0.1f };
+		lSetting.LifeTime = 50;
+		gpuParticleEmitter->BasicGPUParticleEmit({0,0,0},lSetting);
+	}
+
+	gpuParticleEmitter->Update(fps->GetDeltaTime());
+
+	directX12Core->ExecuteCommand(false);
+
+	physicsSystem->SetViewProjection(Camera::GetViewMatrixPtr(),Camera::GetProjectionMatrixPtr());
+	physicsSystem->SetLight(Light::SGetLightDirPtr(),Light::SGetLightColorPtr());
+
+	physicsSystem->Update(fps->GetDeltaTime(),fps->GetFrameRate());
 
 	postEffectManager->PostInitialize();
 
 	imGuiManager->End();
+
 
 }
 
@@ -161,6 +183,10 @@ void AliceFramework::Draw()
 
 		sceneManager->Draw();
 
+		gpuParticleEmitter->Draw(Camera::GetCameraPtr());
+
+		physicsSystem->Draw();
+
 		postEffectManager->PostDrawScen();
 
 		postEffectManager->Update();
@@ -179,6 +205,8 @@ void AliceFramework::Draw()
 		directX12Core->BeginDraw();//描画準備
 
 		sceneManager->Draw();
+
+		physicsSystem->Draw();
 
 		imGuiManager->Draw();
 

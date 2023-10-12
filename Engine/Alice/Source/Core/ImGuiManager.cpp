@@ -62,9 +62,10 @@ void ImGuiManager::Initialize(IWindowsApp* windowsApp_, DirectX12Core* directX12
 	ImGui_ImplWin32_Init(windowsApp_->GetHwnd());
 
 	ISRVDescriptorHeap::DescriptorHeapViewHandle lHandl = directX12Core->GetSRVDescriptorHeap()->AddSRV();
+	ID3D12Device* lDevice = directX12Core_->GetDevice()->Get();
 
 	ImGui_ImplDX12_Init(
-		directX12Core->GetDevice(),
+		lDevice,
 		static_cast<int32_t>(directX12Core->GetBackBufferCount()),
 		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, directX12Core->GetSRVDescriptorHeap()->GetHeap(),
 		lHandl.cpuHandle,
@@ -99,7 +100,7 @@ void ImGuiManager::End()
 
 void ImGuiManager::Draw()
 {
-	ID3D12GraphicsCommandList* lCommandlist = directX12Core->GetCommandList();
+	ID3D12GraphicsCommandList* lCommandlist = directX12Core->GetCommandList()->GetGraphicCommandList();
 
 	//デスクリプタヒープの配列をセットするコマンド
 	ID3D12DescriptorHeap* lDescriptorHeaps[] = { directX12Core->GetSRVDescriptorHeap()->GetHeap()};

@@ -1,13 +1,12 @@
 #include "Player.h"
 
-#include<OBBCollider.h>
-
 #include<GameCameraManager.h>
 #include<PlayerGameCamera.h>
 #include<GameCollisionConflg.h>
 #include<CollisionAttribute.h>
+#include<CapsuleShape.h>
 
-void Player::Initialize(AliceInput::IInput* input_,IAudioManager* audioManager_)
+void Player::Initialize(AliceInput::IInput* input_,IAudioManager* audioManager_, AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 {
 	assert(input_);
 	assert(audioManager_);
@@ -36,17 +35,26 @@ void Player::Initialize(AliceInput::IInput* input_,IAudioManager* audioManager_)
 
 	Reset();
 
-	rigidBodyoffset = { 0.0f, 8.0f + 6.0f, 0.0f };
-
-	CreateMaterial(0.6f,0.6f,0.0f);
-	CreateShape(6.0f,8.0f,CollisionAttribute::PLAYER,( CollisionAttribute::BOSS | CollisionAttribute::ENEMY | CollisionAttribute::FIELD | CollisionAttribute::BOSSHAND ));
+	rigidBodyoffset = { 1.5f, 12.0f + 5.0f, 0.0f };
 	AliceMathF::Vector3 pos = transform.translation + rigidBodyoffset;
-	SetInitializePos(pos);
-	SetInitializeRot(AliceMathF::Quaternion({ 0,0,1 },AliceMathF::DEG_TO_RAD * 90.0f));
-	CreateRigidBody(RigidBodyType::DYNAMIC);
+	shape.reset(AlicePhysics::CreateCapsuleShape(12.0f, 5.0f));
+
+	AlicePhysics::IRigidBodyCreationSettings lSetting;
+	lSetting.name = "Player";
+	lSetting.type = AlicePhysics::PhysicsRigidBodyType::DYNAMIC;
+	lSetting.motionType = AlicePhysics::MotionType::DYNAMIC;
+	lSetting.allowSleeping = false;
+	lSetting.collisionGroup = CollisionGroup::PLAYER;
+	lSetting.collisionAttribute = CollisionAttribute::BODY;
+	lSetting.position = pos;
+	lSetting.shape = shape.get();
+	lSetting.userData = static_cast<void*>(&situation);
+	physicsSystem_->CreateRigidBody(rigidBody, &lSetting);
+	physicsSystem_->AddRigidBody(rigidBody);
+	rigidBody->SetRigidBodyCollision(this);
 
 	weapon = std::make_unique<PlayerWeapon>();
-	weapon->Initialize(&transform);
+	weapon->Initialize(&transform,physicsSystem_,rigidBody);
 
 	deathSE = audioManager->LoadAudio("Resources/SE/PlayerDeath.mp3");
 
@@ -61,15 +69,10 @@ void Player::Update(BaseGameCamera* camera_,GameCameraManager::CameraIndex index
 	{
 		fieldHit = false;
 
-		physx::PxTransform lTransform;
-		lTransform = dynamicBody->getGlobalPose();
+		AliceMathF::Vector3 pos = rigidBody->GetPosition() + rigidBodyoffset;
+		rigidBody->SetRotation(AliceMathF::Quaternion());
 
-		if ( lTransform.q != pxTransform.q )
-		{
-			lTransform.q = pxTransform.q;
-			dynamicBody->setGlobalPose(lTransform);
-			transform.translation = GetGlobalPos() + -rigidBodyoffset;
-		}
+		transform.translation = rigidBody->GetPosition() + -rigidBodyoffset;
 
 	}
 
@@ -129,22 +132,19 @@ void Player::Update(BaseGameCamera* camera_,GameCameraManager::CameraIndex index
 	ui->Update();
 	animation->Update();
 	weapon->Update("mixamorig:RightHand",animation->GetAnimation(),model.get());
-
-	{
-		uint32_t lBitTmp = userData.attribute & 0xfff;
-		userData.attribute &= ~lBitTmp;
-		userData.attribute |= situation;
-	}
 }
 
 void Player::Draw()
 {
 	model->Draw(transform,animation->GetAnimation());
+	shape->Draw(rigidBody->GetCenterOfMassTransform(), { 1.0f,1.0f ,1.0f }, { 1.0f ,1.0f ,1.0f ,1.0f }, true);
 	weapon->Draw();
 }
 
-void Player::Finalize()
+void Player::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 {
+	weapon->Finalize(physicsSystem_);
+	physicsSystem_->RemoveRigidBody(rigidBody);
 }
 
 const AliceMathF::Vector3& Player::GetPosition() const
@@ -184,26 +184,20 @@ void Player::Reset()
 	PRotate();
 }
 
-void Player::OnContact(uint32_t attribute_)
+void Player::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_)
 {
-	if ( attribute_ >> 16 & CollisionAttribute::FIELD )
+	if (BodyData_->GetGroup() == CollisionGroup::BOSS && BodyData_->GetAttribute() == CollisionAttribute::HAND)
 	{
-		fieldHit = true;
-	}
-}
+		uint32_t lSituation = *static_cast<uint32_t*>(BodyData_->GetUserData());
 
-void Player::OnTrigger(uint32_t attribute_)
-{
-	if ( attribute_ >> 16 & CollisionAttribute::BOSSHAND )
-	{
-		if ( ( attribute_ & 0xfff ) == ActorSituation::ATTACK &&
-			!( situation & ActorSituation::DAMAGE ) )
+		if ((lSituation & 0xfff) == ActorSituation::ATTACK &&
+			!(lSituation & ActorSituation::DAMAGE))
 		{
-			if ( hp > 0 )
+			if (hp > 0)
 			{
-				for ( int32_t i = 0; i < 10; i++ )
+				for (int32_t i = 0; i < 10; i++)
 				{
-					if ( hp == 0 )
+					if (hp == 0)
 					{
 						break;
 					}
@@ -213,16 +207,16 @@ void Player::OnTrigger(uint32_t attribute_)
 
 				situation |= ActorSituation::DAMAGE;
 
-				if ( hp <= 0 )
+				if (hp <= 0)
 				{
 					animation->InsertDeathAnimation();
 					animation->AnimationEndStop();
 					audioManager->PlayWave(deathSE);
-					audioManager->ChangeVolume(deathSE,deathSEVolume);
+					audioManager->ChangeVolume(deathSE, deathSEVolume);
 				}
 				else
 				{
-					if ( !( situation & ActorSituation::WALKING ) )
+					if (!(situation & ActorSituation::WALKING))
 					{
 						animation->InsertHitAnimation();
 
@@ -233,6 +227,18 @@ void Player::OnTrigger(uint32_t attribute_)
 	}
 }
 
+void Player::OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_)
+{
+	if (BodyData_->GetGroup() == CollisionGroup::FIELD)
+	{
+		fieldHit = true;
+	}
+}
+
+
+void Player::OnCollisionExit()
+{
+}
 
 bool Player::IsAttack()
 {
@@ -306,8 +312,6 @@ void Player::PMove(BaseGameCamera* camera_)
 
 	animation->WalkAnimationUpdate(lStickPower);
 
-	printf("%f\n",lStickPower);
-
 	if ( lStickPower >= 0.01f )
 	{
 		situation |= ActorSituation::WALKING;
@@ -334,9 +338,9 @@ void Player::PMove(BaseGameCamera* camera_)
 		lMove.x * SinParam + lMove.z * CosParam
 	};
 
-	dynamicBody->setLinearVelocity(lMove);
+	rigidBody->SetLinearVelocity(lMove);
 	//dynamicBody->setAngularVelocity({ 0,0,0 });
-	transform.translation = GetGlobalPos() + -rigidBodyoffset;
+	transform.translation = rigidBody->GetPosition() + -rigidBodyoffset;
 }
 
 void Player::PRowling(BaseGameCamera* camera_)
@@ -386,11 +390,7 @@ void Player::PRowling(BaseGameCamera* camera_)
 	{
 		situation &= ~ActorSituation::ROWLING;
 
-		physx::PxTransform lTransform;
-
-		lTransform.q = pxTransform.q;
-		lTransform.p = transform.translation + rigidBodyoffset;
-		dynamicBody->setGlobalPose(lTransform);
+		rigidBody->SetRotation(AliceMathF::Quaternion());
 		animation->SetAddFrame();
 	}
 }

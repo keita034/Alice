@@ -1,5 +1,5 @@
 #include<AliceFileStream.h>
-#include<AliceFunctionUtility.h>
+#include<FileUtility.h>
 #include<DefaultMaterial.h>
 
 std::string AliceFileStream::sBbuff;
@@ -14,7 +14,7 @@ float AliceFileStream::sNodeNum;
 
 bool AliceFileStream::SLoadAlicePolygonData(const std::string& path_,AliceModelData* model_)
 {
-	sDirectoryPath = AliceFunctionUtility::GetDirectoryPath(path_);
+	sDirectoryPath = AliceUtility::Fille::GetDirectoryPath(path_);
 
 	//モデルデータ
 	std::stringstream lModelData;
@@ -106,7 +106,7 @@ void AliceFileStream::SPReadMeshsData(std::stringstream& data_,std::string& str_
 			//メッシュにテクスチャがなかった場合は白色のテクスチャを貼る
 			if ( lMesh->textures.empty() )
 			{
-				lMesh->textures.push_back(MaterialManager::SGetDefaultTexture());
+				//lMesh->textures.push_back(MaterialManager::SGetDefaultTexture());
 			}
 
 			model_->meshes.push_back(std::move(lMesh));
@@ -564,7 +564,7 @@ void AliceFileStream::SPReadBoneData(const std::string& strBone_,Bone& bone_)
 
 bool AliceFileStream::SLoadAlicePolygonBinaryData(const std::string& path_,AliceModelData* model_)
 {
-	sDirectoryPath = AliceFunctionUtility::GetDirectoryPath(path_);
+	sDirectoryPath = AliceUtility::Fille::GetDirectoryPath(path_);
 
 	//ファイルを開く
 	FILE* lFilePtr = NULL;
@@ -828,7 +828,6 @@ bool AliceFileStream::SPReadMeshBinaryData(AliceModelData* model_,FILE* fp_)
 			else
 			{
 				//メッシュにテクスチャがなかった場合は白色のテクスチャを貼る
-				lMesh->textures.push_back(MaterialManager::SGetDefaultTexture());
 			}
 		}
 
@@ -942,7 +941,7 @@ bool AliceFileStream::SPReadMeshBinaryData(AliceModelData* model_,FILE* fp_)
 
 bool AliceFileStream::SLoadAliceMotionData(const std::string& path_,MotionData* motion_)
 {
-	sDirectoryPath = AliceFunctionUtility::GetDirectoryPath(path_);
+	sDirectoryPath = AliceUtility::Fille::GetDirectoryPath(path_);
 
 	//モデルデータ
 	std::stringstream lMotionData;
@@ -1191,7 +1190,7 @@ void AliceFileStream::SPReadMotionNodeData(std::stringstream& data_,std::string&
 
 bool AliceFileStream::SLoadAliceMotionBinaryData(const std::string& path_,MotionData* motion_)
 {
-	sDirectoryPath = AliceFunctionUtility::GetDirectoryPath(path_);
+	sDirectoryPath = AliceUtility::Fille::GetDirectoryPath(path_);
 
 	//ファイルを開く
 	FILE* lFilePtr = nullptr;

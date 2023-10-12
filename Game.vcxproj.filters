@@ -13,23 +13,29 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="ソース ファイル\Player">
-      <UniqueIdentifier>{d09dc7ad-bab7-4670-910f-f31618115c2c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Player">
-      <UniqueIdentifier>{7026fb3f-2708-4d79-a5a6-4fb1c0443a72}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Boss">
-      <UniqueIdentifier>{7058061c-8f91-450c-beec-e78b73d010c7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Boss">
-      <UniqueIdentifier>{482842ce-7d4e-4a54-9e35-a7478527d7a4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Scene">
       <UniqueIdentifier>{270e019d-934b-4406-b30d-5ed260913e0d}</UniqueIdentifier>
     </Filter>
     <Filter Include="ヘッダー ファイル\Scene">
       <UniqueIdentifier>{ab1ca205-dc49-4517-9906-2be599aa716b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Player">
+      <UniqueIdentifier>{a56c7093-b0f4-4382-9521-624e0d18b5c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Player">
+      <UniqueIdentifier>{6e4aa51e-3e76-414e-abf4-2854ab76dee3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Boss">
+      <UniqueIdentifier>{755049ae-0638-4ecb-be47-a8f3b994cb84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Boss">
+      <UniqueIdentifier>{30ce9ccf-c12f-42a0-83d6-5f8c9223b9fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Util">
+      <UniqueIdentifier>{13f6bdd8-62b6-464d-aedf-517a3b5c28ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Util">
+      <UniqueIdentifier>{bcd167eb-145a-47f4-9fff-783eadd50bc6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -37,33 +43,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Util\GameCameraManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Player\Player.cpp">
-      <Filter>ソース ファイル\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Player\PlayerGameCamera.cpp">
-      <Filter>ソース ファイル\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Player\PlayerAnimation.cpp">
-      <Filter>ソース ファイル\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Player\PlayerUI.cpp">
-      <Filter>ソース ファイル\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Boss\Boss.cpp">
-      <Filter>ソース ファイル\Boss</Filter>
-    </ClCompile>
-    <ClCompile Include="Boss\BaseGameCamera.cpp">
-      <Filter>ソース ファイル\Boss</Filter>
-    </ClCompile>
-    <ClCompile Include="Util\DeviceInput.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Player\PlayerWeapon.cpp">
-      <Filter>ソース ファイル\Player</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\GameScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
@@ -76,63 +55,57 @@
     <ClCompile Include="Scene\SceneFactrory.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Boss\BossChaseMove.cpp">
+    <ClCompile Include="Scene\FailureScene.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\Player.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\PlayerAnimation.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\PlayerGameCamera.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\PlayerUI.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\PlayerWeapon.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss\BaseGameCamera.cpp">
+      <Filter>ソース ファイル\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss\Boss.cpp">
       <Filter>ソース ファイル\Boss</Filter>
     </ClCompile>
     <ClCompile Include="Boss\BossActionManager.cpp">
       <Filter>ソース ファイル\Boss</Filter>
     </ClCompile>
-    <ClCompile Include="Boss\BossBaseAction.cpp">
-      <Filter>ソース ファイル\Boss</Filter>
-    </ClCompile>
     <ClCompile Include="Boss\BossAnimation.cpp">
       <Filter>ソース ファイル\Boss</Filter>
     </ClCompile>
+    <ClCompile Include="Boss\BossBaseAction.cpp">
+      <Filter>ソース ファイル\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss\BossChaseMove.cpp">
+      <Filter>ソース ファイル\Boss</Filter>
+    </ClCompile>
     <ClCompile Include="Boss\BossHand.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Boss</Filter>
     </ClCompile>
     <ClCompile Include="Boss\BossUI.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Boss</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\FailureScene.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Util\DeviceInput.cpp">
+      <Filter>ソース ファイル\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\GameCameraManager.cpp">
+      <Filter>ソース ファイル\Util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCore\GameMain.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Util\GameCameraManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="GameCore\GameCollisionConflg.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Player\Player.h">
-      <Filter>ヘッダー ファイル\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Player\PlayerGameCamera.h">
-      <Filter>ヘッダー ファイル\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Player\PlayerAnimation.h">
-      <Filter>ヘッダー ファイル\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Player\PlayerUI.h">
-      <Filter>ヘッダー ファイル\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Boss\Boss.h">
-      <Filter>ヘッダー ファイル\Boss</Filter>
-    </ClInclude>
-    <ClInclude Include="Boss\BaseGameCamera.h">
-      <Filter>ヘッダー ファイル\Boss</Filter>
-    </ClInclude>
-    <ClInclude Include="Util\ActorSituation.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Player\PlayerWeapon.h">
-      <Filter>ヘッダー ファイル\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Util\DeviceInput.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Scene\GameScene.h">
@@ -147,26 +120,56 @@
     <ClInclude Include="Scene\TitleScene.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Boss\BossChaseMove.h">
+    <ClInclude Include="Scene\FailureScene.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\Player.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\PlayerAnimation.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\PlayerGameCamera.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\PlayerUI.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\PlayerWeapon.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss\Boss.h">
       <Filter>ヘッダー ファイル\Boss</Filter>
     </ClInclude>
     <ClInclude Include="Boss\BossActionManager.h">
       <Filter>ヘッダー ファイル\Boss</Filter>
     </ClInclude>
-    <ClInclude Include="Boss\BossBaseAction.h">
-      <Filter>ヘッダー ファイル\Boss</Filter>
-    </ClInclude>
     <ClInclude Include="Boss\BossAnimation.h">
       <Filter>ヘッダー ファイル\Boss</Filter>
     </ClInclude>
+    <ClInclude Include="Boss\BossBaseAction.h">
+      <Filter>ヘッダー ファイル\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss\BossChaseMove.h">
+      <Filter>ヘッダー ファイル\Boss</Filter>
+    </ClInclude>
     <ClInclude Include="Boss\BossHand.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Boss</Filter>
     </ClInclude>
     <ClInclude Include="Boss\BossUI.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Boss</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\FailureScene.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Boss\BaseGameCamera.h">
+      <Filter>ヘッダー ファイル\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\ActorSituation.h">
+      <Filter>ヘッダー ファイル\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\DeviceInput.h">
+      <Filter>ヘッダー ファイル\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\GameCameraManager.h">
+      <Filter>ヘッダー ファイル\Util</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

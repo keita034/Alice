@@ -13,7 +13,8 @@
 #pragma warning(pop)
 
 #include "TextureManager.h"
-#include"AliceFunctionUtility.h"
+#include<StringUtility.h>
+#include<FileUtility.h>
 
 std::unique_ptr<TextureManager> TextureManager::sTextureManager = nullptr;
 DirectX12Core* TextureManager::sDirectX12Core = nullptr;
@@ -22,39 +23,35 @@ std::unordered_map<std::string, std::unique_ptr<TextureData>> TextureManager::sT
 
 void TextureManager::PLoadFile(const std::string& path_,  DirectX::TexMetadata& metadata_,  DirectX::ScratchImage& scratchImg_)
 {
-	wchar_t lWfilepath[256];
+	std::wstring lWfilepath = AliceUtility::String::StringToWstring(path_);
 	HRESULT lResult = 0;
 
 	switch (PGetFileType(path_))
 	{
 	case WIC:
-		MultiByteToWideChar(CP_ACP, 0, path_.c_str(), -1, lWfilepath, _countof(lWfilepath));
 		// WICテクスチャのロード
 		lResult = LoadFromWICFile(
-			lWfilepath,
+			lWfilepath.c_str(),
 			DirectX::WIC_FLAGS_NONE,
 			&metadata_, scratchImg_);
 		assert(SUCCEEDED(lResult));
 		break;
 
 	case TGA:
-		MultiByteToWideChar(CP_ACP, 0, path_.c_str(), -1, lWfilepath, _countof(lWfilepath));
 		// TGAテクスチャのロード
 		lResult = LoadFromTGAFile(
-			lWfilepath,
+			lWfilepath.c_str(),
 			&metadata_, scratchImg_);
 		assert(SUCCEEDED(lResult));
 		break;
 
 	case PSD:
 	{
-		std::string texPath = AliceFunctionUtility::ReplaceExtension(path_, "tga");
-
-		MultiByteToWideChar(CP_ACP, 0, texPath.c_str(), -1, lWfilepath, _countof(lWfilepath));
+		std::string texPath = AliceUtility::Fille::ReplaceExtension(path_, "tga");
 
 		// TGAテクスチャのロード
 		lResult = LoadFromTGAFile(
-			lWfilepath,
+			lWfilepath.c_str(),
 			&metadata_, scratchImg_);
 		assert(SUCCEEDED(lResult));
 		break;
@@ -106,7 +103,7 @@ std::unique_ptr<TextureData> TextureManager::PFromTextureData(const std::string&
 
 TextureManager::ImgFileType TextureManager::PGetFileType(const std::string& path_)
 {
-	std::string lExtend = AliceFunctionUtility::FileExtension(path_);
+	std::string lExtend = AliceUtility::Fille::FileExtension(path_);
 	if (lExtend == "png" ||
 		lExtend == "bmp" ||
 		lExtend == "gif" ||
@@ -210,13 +207,16 @@ void TextureManager::Finalize()
 
 Microsoft::WRL::ComPtr<ID3D12Resource> TextureManager::PCreateTexBuff(DirectX::TexMetadata& metadata_, DirectX::ScratchImage& scratchImg_)
 {
+	ID3D12Device* lDevice = sDirectX12Core->GetDevice()->Get();
+	ID3D12GraphicsCommandList* lCommandList = sDirectX12Core->GetCommandList()->GetGraphicCommandList();
+
 	sDirectX12Core->GraphicBeginCommand();
 
 	std::vector<D3D12_SUBRESOURCE_DATA> lTextureSubresources;
 
 	for (size_t i = 0; i < metadata_.mipLevels; i++)
 	{
-		D3D12_SUBRESOURCE_DATA lSubresouce;
+		D3D12_SUBRESOURCE_DATA lSubresouce{};
 
 		lSubresouce.pData = scratchImg_.GetImages()[i].pixels;
 		lSubresouce.RowPitch = static_cast<LONG_PTR>(scratchImg_.GetImages()[i].rowPitch);
@@ -237,7 +237,8 @@ Microsoft::WRL::ComPtr<ID3D12Resource> TextureManager::PCreateTexBuff(DirectX::T
 
 
 	//テクスチャバッファにデータ転送
-	sDirectX12Core->GetDevice()->CreateCommittedResource(
+
+	lDevice->CreateCommittedResource(
 		&textureHeapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&lTextureResourceDesc,
@@ -254,7 +255,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource> TextureManager::PCreateTexBuff(DirectX::T
 	Microsoft::WRL::ComPtr<ID3D12Resource> lStagingBuffer;
 	auto lHeapProps = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
 	auto lResDesc = CD3DX12_RESOURCE_DESC::Buffer(lTotalBytes);
-	HRESULT lHresult = sDirectX12Core->GetDevice()->CreateCommittedResource(
+	HRESULT lHresult = lDevice->CreateCommittedResource(
 		&lHeapProps,
 		D3D12_HEAP_FLAG_NONE,
 		&lResDesc,
@@ -267,7 +268,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource> TextureManager::PCreateTexBuff(DirectX::T
 		assert(0);
 	}
 
-	UpdateSubresources(sDirectX12Core->GetCommandList(), lResult.Get(), lStagingBuffer.Get(), 0, 0, static_cast<uint32_t>(lTextureSubresources.size()), lTextureSubresources.data());
+	UpdateSubresources(lCommandList, lResult.Get(), lStagingBuffer.Get(), 0, 0, static_cast<uint32_t>(lTextureSubresources.size()), lTextureSubresources.data());
 
 	// コピー後にはテクスチャとしてのステートへ.
 	auto lBarrierTex = CD3DX12_RESOURCE_BARRIER::Transition(
@@ -276,7 +277,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource> TextureManager::PCreateTexBuff(DirectX::T
 		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE
 	);
 
-	sDirectX12Core->GetCommandList()->ResourceBarrier(1, &lBarrierTex);
+	lCommandList->ResourceBarrier(1, &lBarrierTex);
 
 	sDirectX12Core->GraphicExecuteCommand();
 
@@ -285,6 +286,8 @@ Microsoft::WRL::ComPtr<ID3D12Resource> TextureManager::PCreateTexBuff(DirectX::T
 
 D3D12_GPU_DESCRIPTOR_HANDLE TextureManager::PCreateShaderResourceView(ID3D12Resource* texBuff, const DirectX::TexMetadata& metadata_)
 {
+	ISRVDescriptorHeap* lSRVDescriptorHeap = sDirectX12Core->GetSRVDescriptorHeap();
+
 	// シェーダリソースビュー設定
 	D3D12_SHADER_RESOURCE_VIEW_DESC lSrvDesc{};
 	lSrvDesc.Format = metadata_.format;
@@ -294,11 +297,7 @@ D3D12_GPU_DESCRIPTOR_HANDLE TextureManager::PCreateShaderResourceView(ID3D12Reso
 
 	D3D12_GPU_DESCRIPTOR_HANDLE lResult{};
 
-	lResult.ptr = sDirectX12Core->GetSRVDescriptorHeap()->CreateSRV(lSrvDesc, texBuff);
+	lResult.ptr = lSRVDescriptorHeap->CreateSRV(lSrvDesc, texBuff);
 
 	return lResult;
-}
-
-TextureData::~TextureData()
-{
 }

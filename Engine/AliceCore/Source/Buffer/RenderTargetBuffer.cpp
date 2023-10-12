@@ -1,8 +1,10 @@
-﻿#include "RenderTargetBuffer.h"
+#include "RenderTargetBuffer.h"
 
 #include<cassert>
 
 #include"BaseBuffer.h"
+#include<RTVDescriptorHeap.h>
+
 
 /// <summary>
 /// レンダーターゲットバッファ
@@ -65,6 +67,10 @@ bool RenderTargetBuffer::Create(uint32_t width_, uint32_t height_, D3D12_RESOURC
 	height = height_;
 	states = resourceStates_;
 
+	IAdapter* lAdapter = sMultiAdapters->GetAdapter(AdaptersIndex::MAIN);
+	ID3D12Device* lDevice = lAdapter->GetDevice()->Get();
+	IRTVDescriptorHeap* lRTVHeap = lAdapter->GetRTVDescriptorHeap();
+
 	CD3DX12_RESOURCE_DESC lResDesc = CD3DX12_RESOURCE_DESC::Tex2D(
 		format_,
 		width, height,
@@ -76,7 +82,7 @@ bool RenderTargetBuffer::Create(uint32_t width_, uint32_t height_, D3D12_RESOURC
 	//リソースを作成。
 	CD3DX12_HEAP_PROPERTIES lHeapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
 
-	HRESULT lResult = sDevice->CreateCommittedResource(
+	HRESULT lResult = lDevice->CreateCommittedResource(
 		&lHeapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&lResDesc,
@@ -98,13 +104,16 @@ bool RenderTargetBuffer::Create(uint32_t width_, uint32_t height_, D3D12_RESOURC
 	lRtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	lRtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
 
-	handle.ptr = sRTVHeap->CreateRTV(lRtvDesc, resource.Get());
+	handle.ptr = lRTVHeap->CreateRTV(lRtvDesc, resource.Get());
 
 	return true;
 }
 
 bool RenderTargetBuffer::Create(IDXGISwapChain4* swapChain_, uint32_t index_)
 {
+	IAdapter* lAdapter = sMultiAdapters->GetAdapter(AdaptersIndex::MAIN);
+	IRTVDescriptorHeap* lRTVHeap = lAdapter->GetRTVDescriptorHeap();
+
 	//バッファを取得
 	swapChain_->GetBuffer(index_, IID_PPV_ARGS(resource.ReleaseAndGetAddressOf()));
 
@@ -114,7 +123,7 @@ bool RenderTargetBuffer::Create(IDXGISwapChain4* swapChain_, uint32_t index_)
 	lRtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	lRtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
 
-	handle.ptr = sRTVHeap->CreateRTV(lRtvDesc, resource.Get());
+	handle.ptr = lRTVHeap->CreateRTV(lRtvDesc, resource.Get());
 
 	width = static_cast<uint32_t>(resource->GetDesc().Height);
 	height = static_cast<uint32_t>(resource->GetDesc().Width);
@@ -136,8 +145,11 @@ void RenderTargetBuffer::Transition(D3D12_RESOURCE_STATES resourceStates_)
 {
 	if (states != resourceStates_)
 	{
+		IAdapter* lAdapter = sMultiAdapters->GetAdapter(AdaptersIndex::MAIN);
 		CD3DX12_RESOURCE_BARRIER lBarrier = CD3DX12_RESOURCE_BARRIER::Transition(resource.Get(), states, resourceStates_);
-		sCommandList->ResourceBarrier(1, &lBarrier);
+		ID3D12GraphicsCommandList* lCmdList = lAdapter->GetGraphicCommandList();
+
+		lCmdList->ResourceBarrier(1, &lBarrier);
 		states = resourceStates_;
 	}
 	else
@@ -162,7 +174,9 @@ void RenderTargetBuffer::Resize(IDXGISwapChain4* swapChain_, uint32_t index_)
 	lRtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	lRtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
 
-	sDevice->CreateRenderTargetView(resource.Get(), &lRtvDesc, handle);
+	IAdapter* lAdapter = sMultiAdapters->GetAdapter(AdaptersIndex::MAIN);
+	ID3D12Device* lDevice = lAdapter->GetDevice()->Get();
+	lDevice->CreateRenderTargetView(resource.Get(), &lRtvDesc, handle);
 
 	width = static_cast<uint32_t>(resource->GetDesc().Height);
 	height = static_cast<uint32_t>(resource->GetDesc().Width);

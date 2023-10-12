@@ -1,40 +1,41 @@
-﻿#include<Sprite.h>
+#include<Sprite.h>
 #include<DirectX12Core.h>
 
 IWindowsApp* Sprite::sWindowsApp = nullptr;
-ID3D12Device* Sprite::sDevice = nullptr;
-ID3D12GraphicsCommandList* Sprite::sCmdList = nullptr;
+IDevice* Sprite::sMainDevice = nullptr;
+ICommandList* Sprite::sCmdList = nullptr;
 
 void Sprite::PSpriteDraw(const Transform& transform_, const Material* material_)
 {
 	D3D12_VERTEX_BUFFER_VIEW lVbView = vertexBuffer->GetView();
 	D3D12_INDEX_BUFFER_VIEW lIbView = indexBuffer->GetView();
+	ID3D12GraphicsCommandList* lCmdList = sCmdList->GetGraphicCommandList();
 
 	// パイプラインステートとルートシグネチャの設定コマンド
-	sCmdList->SetPipelineState(material_->pipelineState->GetPipelineState());
-	sCmdList->SetGraphicsRootSignature(material_->rootSignature->GetRootSignature());
+	lCmdList->SetPipelineState(material_->pipelineState->GetPipelineState());
+	lCmdList->SetGraphicsRootSignature(material_->rootSignature->GetRootSignature());
 
 	// プリミティブ形状の設定コマンド
-	sCmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+	lCmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
 
 	// 頂点バッファビューの設定コマンド
-	sCmdList->IASetVertexBuffers(0, 1, &lVbView);
+	lCmdList->IASetVertexBuffers(0, 1, &lVbView);
 
 	//インデックスバッファビューの設定コマンド
-	sCmdList->IASetIndexBuffer(&lIbView);
+	lCmdList->IASetIndexBuffer(&lIbView);
 
 	// 定数バッファビュー(CBV)の設定コマンド
-	sCmdList->SetGraphicsRootConstantBufferView(0, transform_.GetAddress());
+	lCmdList->SetGraphicsRootConstantBufferView(0, transform_.GetAddress());
 
 	// SRVヒープの設定コマンド
 	ID3D12DescriptorHeap* lDescriptorHeaps[] = { texture->srvHeap };
-	sCmdList->SetDescriptorHeaps(1, lDescriptorHeaps);
+	lCmdList->SetDescriptorHeaps(1, lDescriptorHeaps);
 
 	//// SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
-	sCmdList->SetGraphicsRootDescriptorTable(1, texture->gpuHandle);
+	lCmdList->SetGraphicsRootDescriptorTable(1, texture->gpuHandle);
 
 	// 描画コマンド
-	sCmdList->DrawIndexedInstanced(6, 1, 0, 0, 0);
+	lCmdList->DrawIndexedInstanced(6, 1, 0, 0, 0);
 }
 
 void Sprite::PCreatVertexIndexBuffer()
@@ -102,6 +103,6 @@ void Sprite::SSetWindowsApp(IWindowsApp* windowsApp_)
 
 void Sprite::SSetDirectX12Core(DirectX12Core* directX12Core_)
 {
-	sDevice = directX12Core_->GetDevice();
+	sMainDevice = directX12Core_->GetDevice();
 	sCmdList = directX12Core_->GetCommandList();
 }

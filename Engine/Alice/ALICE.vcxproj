@@ -46,17 +46,17 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)Engine\Alice\lib\include;$(SolutionDir)Engine\AliceCore\Incluede;$(SolutionDir)Engine\AliceCore\Incluede\Buffer;$(SolutionDir)Engine\AliceCore\Incluede\DescriptorHeap;$(SolutionDir)Engine\AliceMath\Incluede;$(SolutionDir)Engine\AliceMath\Incluede\Collision;$(SolutionDir)Engine\AliceMath\Incluede\Collision\2D;$(SolutionDir)Engine\AliceMath\Incluede\Collision\3D;$(SolutionDir)Engine\AliceMath\Incluede\Double;$(SolutionDir)Engine\AliceMath\Incluede\Double\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Double\Vector;$(SolutionDir)Engine\AliceMath\Incluede\Float;$(SolutionDir)Engine\AliceMath\Incluede\Float\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Float\Vector;$(SolutionDir)Engine\AliceMath\Incluede\Physics;$(SolutionDir)Engine\AliceInput\Incluede;$(SolutionDir)Engine\AliceAudio\Incluede</IncludePath>
+    <IncludePath>$(SolutionDir)Engine\Alice\lib\Include;$(SolutionDir)Engine\AliceCore\Include;$(SolutionDir)Engine\AliceCore\Include\Buffer;$(SolutionDir)Engine\AliceCore\Include\DescriptorHeap;$(SolutionDir)Engine\AliceCore\Include\GPU;$(SolutionDir)Engine\AliceCore\Include\Pipeline;$(SolutionDir)Engine\AliceMath\Include;$(SolutionDir)Engine\AliceMath\Include\Double;$(SolutionDir)Engine\AliceMath\Include\Double\Matrix;$(SolutionDir)Engine\AliceMath\Include\Double\Vector;$(SolutionDir)Engine\AliceMath\Include\Float;$(SolutionDir)Engine\AliceMath\Include\Float\Matrix;$(SolutionDir)Engine\AliceMath\Include\Float\Vector;$(SolutionDir)Engine\AliceInput\Include;$(SolutionDir)Engine\AliceInput\Include\Controller;$(SolutionDir)Engine\AliceInput\Include\Keyboard;$(SolutionDir)Engine\AliceInput\Include\Mouse;$(SolutionDir)Engine\AliceAudio\Include;$(SolutionDir)Engine\AliceUtility\Include;$(SolutionDir)Engine\AliceUtility\Include\Enum;$(SolutionDir)Engine\AliceUtility\Include\Others;$(SolutionDir)Engine\AliceUtility\Include\Utility;$(SolutionDir)Engine\AlicePhysics;$(SolutionDir)Engine\AlicePhysics\Include;$(SolutionDir)Engine\AlicePhysics\Include\Physics;$(SolutionDir)Engine\AlicePhysics\Include\Physics\Jolt;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Box;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Sphere;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Capsule;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Mesh;$(SolutionDir)Engine\AlicePhysics\Include\DebugRenderer;$(SolutionDir)Engine\AlicePhysics\Include\RigidBody</IncludePath>
     <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</ExternalIncludePath>
     <LibraryPath>$(SolutionDir)Engine\Alice\lib\lib\debug;$(LibraryPath)</LibraryPath>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
-    <OutDir>$(SolutionDir)Lib\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)..\Generated\Lib\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)Engine\Alice\lib\include;$(SolutionDir)Engine\AliceCore\Incluede;$(SolutionDir)Engine\AliceCore\Incluede\Buffer;$(SolutionDir)Engine\AliceCore\Incluede\DescriptorHeap;$(SolutionDir)Engine\AliceMath\Incluede;$(SolutionDir)Engine\AliceMath\Incluede\Collision;$(SolutionDir)Engine\AliceMath\Incluede\Collision\2D;$(SolutionDir)Engine\AliceMath\Incluede\Collision\3D;$(SolutionDir)Engine\AliceMath\Incluede\Double;$(SolutionDir)Engine\AliceMath\Incluede\Double\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Double\Vector;$(SolutionDir)Engine\AliceMath\Incluede\Float;$(SolutionDir)Engine\AliceMath\Incluede\Float\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Float\Vector;$(SolutionDir)Engine\AliceMath\Incluede\Physics;$(SolutionDir)Engine\AliceInput\Incluede;$(SolutionDir)Engine\AliceAudio\Incluede</IncludePath>
+    <IncludePath>$(SolutionDir)Engine\Alice\lib\Include;$(SolutionDir)Engine\AliceCore\Include;$(SolutionDir)Engine\AliceCore\Include\Buffer;$(SolutionDir)Engine\AliceCore\Include\DescriptorHeap;$(SolutionDir)Engine\AliceCore\Include\GPU;$(SolutionDir)Engine\AliceCore\Include\Pipeline;$(SolutionDir)Engine\AliceMath\Include;$(SolutionDir)Engine\AliceMath\Include\Double;$(SolutionDir)Engine\AliceMath\Include\Double\Matrix;$(SolutionDir)Engine\AliceMath\Include\Double\Vector;$(SolutionDir)Engine\AliceMath\Include\Float;$(SolutionDir)Engine\AliceMath\Include\Float\Matrix;$(SolutionDir)Engine\AliceMath\Include\Float\Vector;$(SolutionDir)Engine\AliceInput\Include;$(SolutionDir)Engine\AliceInput\Include\Controller;$(SolutionDir)Engine\AliceInput\Include\Keyboard;$(SolutionDir)Engine\AliceInput\Include\Mouse;$(SolutionDir)Engine\AliceAudio\Include;$(SolutionDir)Engine\AliceUtility\Include;$(SolutionDir)Engine\AliceUtility\Include\Enum;$(SolutionDir)Engine\AliceUtility\Include\Others;$(SolutionDir)Engine\AliceUtility\Include\Utility;$(SolutionDir)Engine\AlicePhysics;$(SolutionDir)Engine\AlicePhysics\Include;$(SolutionDir)Engine\AlicePhysics\Include\Physics;$(SolutionDir)Engine\AlicePhysics\Include\Physics\Jolt;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Box;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Sphere;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Capsule;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Mesh;$(SolutionDir)Engine\AlicePhysics\Include\DebugRenderer;$(SolutionDir)Engine\AlicePhysics\Include\RigidBody</IncludePath>
     <LibraryPath>$(SolutionDir)Engine\Alice\lib\lib;$(LibraryPath)</LibraryPath>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
-    <OutDir>$(SolutionDir)Lib\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)..\Generated\Lib\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <VcpkgUseStatic>true</VcpkgUseStatic>
@@ -67,13 +67,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_LIB;NOMINMAX;_SILENCE_CXX20_CISO646_REMOVED_WARNING;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;PX_PHYSX_STATIC_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Incluede\2D;$(ProjectDir)Incluede\2D\PostEffect;$(ProjectDir)Incluede\2D\Particle;$(ProjectDir)Incluede\2D\Sprite;$(ProjectDir)Incluede\3D;$(ProjectDir)Incluede\3D\Model;$(ProjectDir)Incluede\AliceMath;$(ProjectDir)Incluede\AliceMath\Collision;$(ProjectDir)Incluede\AliceMath\float;$(ProjectDir)Incluede\AliceMath\double;$(ProjectDir)Incluede\Audio;$(ProjectDir)Incluede\Camera;$(ProjectDir)Incluede\Core;$(ProjectDir)Incluede\Core\DirectX;$(ProjectDir)Incluede\Core\Buffer;$(ProjectDir)Incluede\Core\Framework;$(ProjectDir)Incluede\Input;$(ProjectDir)Incluede\Scene;$(ProjectDir)Incluede\Light;$(ProjectDir)Incluede\Util;$(ProjectDir)Incluede\Transition;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Include\2D;$(ProjectDir)Include\2D\PostEffect;$(ProjectDir)Include\2D\Particle;$(ProjectDir)Include\2D\Sprite;$(ProjectDir)Include\3D;$(ProjectDir)Include\3D\Model;$(ProjectDir)Include\AliceMath;$(ProjectDir)Include\AliceMath\Collision;$(ProjectDir)Include\AliceMath\float;$(ProjectDir)Include\AliceMath\double;$(ProjectDir)Include\Audio;$(ProjectDir)Include\Camera;$(ProjectDir)Include\Core;$(ProjectDir)Include\Core\DirectX;$(ProjectDir)Include\Core\Buffer;$(ProjectDir)Include\Core\Framework;$(ProjectDir)Include\Input;$(ProjectDir)Include\Scene;$(ProjectDir)Include\Light;$(ProjectDir)Include\Util;$(ProjectDir)Include\Transition;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <DisableSpecificWarnings>5045;4061</DisableSpecificWarnings>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -97,9 +98,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;NOMINMAX;_SILENCE_CXX20_CISO646_REMOVED_WARNING;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;PX_PHYSX_STATIC_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;NOMINMAX;_SILENCE_ALL_CXX20_DEPRECATION_WARNINGS;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;JPH_USE_AVX2;PX_PHYSX_STATIC_LIB;AlicePhysicsJolt;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Incluede\2D;$(ProjectDir)Incluede\2D\PostEffect;$(ProjectDir)Incluede\2D\Particle;$(ProjectDir)Incluede\2D\Sprite;$(ProjectDir)Incluede\3D;$(ProjectDir)Incluede\3D\Model;$(ProjectDir)Incluede\AliceMath;$(ProjectDir)Incluede\AliceMath\Collision;$(ProjectDir)Incluede\AliceMath\float;$(ProjectDir)Incluede\AliceMath\double;$(ProjectDir)Incluede\Audio;$(ProjectDir)Incluede\Camera;$(ProjectDir)Incluede\Core;$(ProjectDir)Incluede\Core\DirectX;$(ProjectDir)Incluede\Core\Buffer;$(ProjectDir)Incluede\Core\Framework;$(ProjectDir)Incluede\Input;$(ProjectDir)Incluede\Scene;$(ProjectDir)Incluede\Light;$(ProjectDir)Incluede\Util;$(ProjectDir)Incluede\Transition;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Include\2D;$(ProjectDir)Include\2D\PostEffect;$(ProjectDir)Include\2D\Particle;$(ProjectDir)Include\2D\Sprite;$(ProjectDir)Include\3D;$(ProjectDir)Include\3D\Model;$(ProjectDir)Include\AliceMath;$(ProjectDir)Include\AliceMath\Collision;$(ProjectDir)Include\AliceMath\float;$(ProjectDir)Include\AliceMath\double;$(ProjectDir)Include\Audio;$(ProjectDir)Include\Camera;$(ProjectDir)Include\Core;$(ProjectDir)Include\Core\DirectX;$(ProjectDir)Include\Core\Buffer;$(ProjectDir)Include\Core\Framework;$(ProjectDir)Include\Input;$(ProjectDir)Include\Scene;$(ProjectDir)Include\Light;$(ProjectDir)Include\Util;$(ProjectDir)Include\Transition;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -122,77 +123,74 @@
       <ObjectFileOutput>$(SolutionDir)..\Generated\Obj\%(Filename).cso</ObjectFileOutput>
     </FxCompile>
     <Lib>
-      <AdditionalDependencies>assimp-vc143-mt.lib;DirectX-Guids.lib;DirectX-Headers.lib;DirectXTex.lib;draco.lib;imgui.lib;kubazip.lib;minizip.lib;PhysX_static_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXCommon_static_64.lib;PhysXCooking_static_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_static_64.lib;PhysXPvdSDK_static_64.lib;PhysXVehicle_static_64.lib;poly2tri.lib;pugixml.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
       <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Incluede\2D\Particle\FireWorkParticle.h" />
-    <ClInclude Include="Incluede\3D\Model\AliceBlendTree.h" />
-    <ClInclude Include="Incluede\2D\PostEffect\DistortionPostEffect.h" />
-    <ClInclude Include="Incluede\2D\PostEffect\FrostedGlassPostEffect.h" />
-    <ClInclude Include="Incluede\2D\PostEffect\CRTPostEffect.h" />
-    <ClInclude Include="Incluede\2D\PostEffect\BloomPostEffect.h" />
-    <ClInclude Include="Incluede\2D\Particle\ParticleData.h" />
-    <ClInclude Include="Incluede\2D\PostEffect\ChromaticAberrationPostEffect.h" />
-    <ClInclude Include="Incluede\2D\Particle\IcosahedronParticle.h" />
-    <ClInclude Include="Incluede\3D\Model\AliceToonModel.h" />
-    <ClInclude Include="Incluede\Transition\FadeInTransition.h" />
-    <ClInclude Include="Incluede\Transition\FadeOutTransition.h" />
-    <ClInclude Include="Incluede\Transition\ITransition.h" />
-    <ClInclude Include="Incluede\Util\BaseTransform.h" />
-    <ClInclude Include="Incluede\Util\Game2DObject.h" />
-    <ClInclude Include="Incluede\Util\GameObject.h" />
-    <ClInclude Include="Incluede\2D\Particle\BasicParticle.h" />
-    <ClInclude Include="Incluede\2D\PostEffect\PostEffectFactory.h" />
-    <ClInclude Include="Incluede\3D\Model\AliceFileStream.h" />
-    <ClInclude Include="Incluede\3D\Model\AliceModel.h" />
-    <ClInclude Include="Incluede\3D\Model\AliceMotionData.h" />
-    <ClInclude Include="Incluede\2D\PostEffect\GaussianXBlurPostEffect.h" />
-    <ClInclude Include="Incluede\2D\PostEffect\GaussianYBlurPostEffect.h" />
-    <ClInclude Include="Incluede\2D\PostEffect\GaussianBlurPostEffect.h" />
-    <ClInclude Include="Incluede\2D\PostEffect\AbstractPostEffectFactory.h" />
-    <ClInclude Include="Incluede\2D\PostEffect\BasePostEffect.h" />
-    <ClInclude Include="Incluede\2D\PostEffect\LutPostEffect.h" />
-    <ClInclude Include="Incluede\2D\PostEffect\PostEffectSprite.h" />
-    <ClInclude Include="Incluede\3D\Model\ModelCollider.h" />
-    <ClInclude Include="Incluede\Core\DirectX\DirectX12Core.h" />
-    <ClInclude Include="Incluede\Core\DirectX\RenderTarget.h" />
-    <ClInclude Include="Incluede\Scene\AbstractSceneFactory.h" />
-    <ClInclude Include="Incluede\Scene\BaseScene.h" />
-    <ClInclude Include="Incluede\Core\Framework\AliceFramework.h" />
-    <ClInclude Include="Incluede\Core\ImGuiManager.h" />
-    <ClInclude Include="Incluede\2D\Mesh.h" />
-    <ClInclude Include="Incluede\2D\Particle\Particle.h" />
-    <ClInclude Include="Incluede\2D\Particle\ParticleEmitter.h" />
-    <ClInclude Include="Incluede\2D\Particle\RainParticle.h" />
-    <ClInclude Include="Incluede\2D\PostEffect\PostEffectManager.h" />
-    <ClInclude Include="Incluede\2D\Sprite\Sprite.h" />
-    <ClInclude Include="Incluede\2D\Sprite\Sprite2D.h" />
-    <ClInclude Include="Incluede\2D\Sprite\Sprite3D.h" />
-    <ClInclude Include="Incluede\3D\3DMesh.h" />
-    <ClInclude Include="Incluede\Util\ModelMesh.h" />
-    <ClInclude Include="Incluede\Util\Transform.h" />
-    <ClInclude Include="Incluede\Camera\Camera.h" />
-    <ClInclude Include="Incluede\Camera\CinemaCamera.h" />
-    <ClInclude Include="Incluede\Core\DirectX\ComputePipelineState.h" />
-    <ClInclude Include="Incluede\Core\DefaultMaterial.h" />
-    <ClInclude Include="Incluede\Core\Material.h" />
-    <ClInclude Include="Incluede\Core\DirectX\PipelineState.h" />
-    <ClInclude Include="Incluede\Core\TextureManager.h" />
-    <ClInclude Include="Incluede\Light\Light.h" />
-    <ClInclude Include="Incluede\Util\AliceFunctionUtility.h" />
-    <ClInclude Include="Incluede\Util\AliceUtility.h" />
-    <ClInclude Include="Incluede\Scene\SceneManager.h" />
-    <ClInclude Include="Incluede\2D\PostEffect\VignettePostEffect.h" />
-    <ClInclude Include="Incluede\Util\Transform2D.h" />
-    <ClInclude Include="Incluede\2D\PostEffect\StripedPostEffect.h" />
-    <ClInclude Include="Incluede\2D\PostEffect\OilPaintingPostEffect.h" />
-    <ClInclude Include="Incluede\Core\SceneLoader.h" />
-    <ClInclude Include="Incluede\2D\PostEffect\SandStormPostEffect.h" />
-    <ClInclude Include="Incluede\2D\PostEffect\MonochromePostEffect.h" />
-    <ClInclude Include="Incluede\2D\PostEffect\MosaicPostEffect.h" />
-    <ClInclude Include="Incluede\3D\Model\ObjectCollsionDraw.h" />
+    <ClInclude Include="Include\2D\Particle\GPUParticleEmitter.h" />
+    <ClInclude Include="Include\2D\Particle\BaseGPUParticle.h" />
+    <ClInclude Include="Include\2D\Particle\BasicGPUParticle.h" />
+    <ClInclude Include="Include\2D\Particle\FireWorkParticle.h" />
+    <ClInclude Include="Include\3D\Model\AliceBlendTree.h" />
+    <ClInclude Include="Include\2D\PostEffect\DistortionPostEffect.h" />
+    <ClInclude Include="Include\2D\PostEffect\FrostedGlassPostEffect.h" />
+    <ClInclude Include="Include\2D\PostEffect\CRTPostEffect.h" />
+    <ClInclude Include="Include\2D\PostEffect\BloomPostEffect.h" />
+    <ClInclude Include="Include\2D\Particle\ParticleData.h" />
+    <ClInclude Include="Include\2D\PostEffect\ChromaticAberrationPostEffect.h" />
+    <ClInclude Include="Include\2D\Particle\IcosahedronParticle.h" />
+    <ClInclude Include="Include\3D\Model\AliceToonModel.h" />
+    <ClInclude Include="Include\Transition\FadeInTransition.h" />
+    <ClInclude Include="Include\Transition\FadeOutTransition.h" />
+    <ClInclude Include="Include\Transition\ITransition.h" />
+    <ClInclude Include="Include\Util\BaseTransform.h" />
+    <ClInclude Include="Include\Util\Game2DObject.h" />
+    <ClInclude Include="Include\Util\GameObject.h" />
+    <ClInclude Include="Include\2D\Particle\BasicParticle.h" />
+    <ClInclude Include="Include\2D\PostEffect\PostEffectFactory.h" />
+    <ClInclude Include="Include\3D\Model\AliceFileStream.h" />
+    <ClInclude Include="Include\3D\Model\AliceModel.h" />
+    <ClInclude Include="Include\3D\Model\AliceMotionData.h" />
+    <ClInclude Include="Include\2D\PostEffect\GaussianXBlurPostEffect.h" />
+    <ClInclude Include="Include\2D\PostEffect\GaussianYBlurPostEffect.h" />
+    <ClInclude Include="Include\2D\PostEffect\GaussianBlurPostEffect.h" />
+    <ClInclude Include="Include\2D\PostEffect\AbstractPostEffectFactory.h" />
+    <ClInclude Include="Include\2D\PostEffect\BasePostEffect.h" />
+    <ClInclude Include="Include\2D\PostEffect\LutPostEffect.h" />
+    <ClInclude Include="Include\2D\PostEffect\PostEffectSprite.h" />
+    <ClInclude Include="Include\Core\DirectX\DirectX12Core.h" />
+    <ClInclude Include="Include\Core\DirectX\RenderTarget.h" />
+    <ClInclude Include="Include\Scene\AbstractSceneFactory.h" />
+    <ClInclude Include="Include\Scene\BaseScene.h" />
+    <ClInclude Include="Include\Core\Framework\AliceFramework.h" />
+    <ClInclude Include="Include\Core\ImGuiManager.h" />
+    <ClInclude Include="Include\2D\Mesh.h" />
+    <ClInclude Include="Include\2D\Particle\Particle.h" />
+    <ClInclude Include="Include\2D\Particle\ParticleEmitter.h" />
+    <ClInclude Include="Include\2D\Particle\RainParticle.h" />
+    <ClInclude Include="Include\2D\PostEffect\PostEffectManager.h" />
+    <ClInclude Include="Include\2D\Sprite\Sprite.h" />
+    <ClInclude Include="Include\2D\Sprite\Sprite2D.h" />
+    <ClInclude Include="Include\2D\Sprite\Sprite3D.h" />
+    <ClInclude Include="Include\3D\3DMesh.h" />
+    <ClInclude Include="Include\Util\ModelMesh.h" />
+    <ClInclude Include="Include\Util\Transform.h" />
+    <ClInclude Include="Include\Camera\Camera.h" />
+    <ClInclude Include="Include\Camera\CinemaCamera.h" />
+    <ClInclude Include="Include\Core\TextureManager.h" />
+    <ClInclude Include="Include\Light\Light.h" />
+    <ClInclude Include="Include\Util\AliceUtility.h" />
+    <ClInclude Include="Include\Scene\SceneManager.h" />
+    <ClInclude Include="Include\2D\PostEffect\VignettePostEffect.h" />
+    <ClInclude Include="Include\Util\Transform2D.h" />
+    <ClInclude Include="Include\2D\PostEffect\StripedPostEffect.h" />
+    <ClInclude Include="Include\2D\PostEffect\OilPaintingPostEffect.h" />
+    <ClInclude Include="Include\Core\SceneLoader.h" />
+    <ClInclude Include="Include\2D\PostEffect\SandStormPostEffect.h" />
+    <ClInclude Include="Include\2D\PostEffect\MonochromePostEffect.h" />
+    <ClInclude Include="Include\2D\PostEffect\MosaicPostEffect.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Resources\Shaders\2D\Mesh\Mesh.hlsli" />
@@ -223,14 +221,18 @@
     <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModel.hlsli" />
     <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelOutLine.hlsli" />
     <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ZeldaToonModel.hlsli" />
+    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticle.hlsli" />
+    <None Include="..\..\Resources\Shaders\HLSLMath.hlsli" />
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\2D\Particle\GPUParticleEmitter.cpp" />
+    <ClCompile Include="Source\2D\Particle\BaseGPUParticle.cpp" />
+    <ClCompile Include="Source\2D\Particle\BasicGPUParticle.cpp" />
     <ClCompile Include="Source\2D\Particle\FireWorkParticle.cpp" />
     <ClCompile Include="Source\Transition\FadeInTransition.cpp" />
     <ClCompile Include="Source\Transition\FadeOutTransition.cpp" />
     <ClCompile Include="Source\Transition\ITransition.cpp" />
-    <ClCompile Include="Source\Util\ObjectCollsionDraw.cpp" />
     <ClCompile Include="Source\3D\Model\AliceBlendTree.cpp" />
     <ClCompile Include="Source\2D\PostEffect\DistortionPostEffect.cpp" />
     <ClCompile Include="Source\2D\PostEffect\FrostedGlassPostEffect.cpp" />
@@ -257,7 +259,6 @@
     <ClCompile Include="Source\2D\PostEffect\BasePostEffect.cpp" />
     <ClCompile Include="Source\2D\PostEffect\LutPostEffect.cpp" />
     <ClCompile Include="Source\2D\PostEffect\PostEffectSprite.cpp" />
-    <ClCompile Include="Source\3D\Model\ModelCollider.cpp" />
     <ClCompile Include="Source\Core\DirectX\DirectX12Core.cpp" />
     <ClCompile Include="Source\Core\DirectX\RenderTarget.cpp" />
     <ClCompile Include="Source\2D\Particle\BasicParticle.cpp" />
@@ -277,13 +278,8 @@
     <ClCompile Include="Source\Util\Transform.cpp" />
     <ClCompile Include="Source\Camera\Camera.cpp" />
     <ClCompile Include="Source\Camera\CinemaCamera.cpp" />
-    <ClCompile Include="Source\Core\DirectX\ComputePipelineState.cpp" />
-    <ClCompile Include="Source\Core\DefaultMaterial.cpp" />
-    <ClCompile Include="Source\Core\Material.cpp" />
-    <ClCompile Include="Source\Core\DirectX\PipelineState.cpp" />
     <ClCompile Include="Source\Core\TextureManager.cpp" />
     <ClCompile Include="Source\Light\Light.cpp" />
-    <ClCompile Include="Source\Util\AliceFunctionUtility.cpp" />
     <ClCompile Include="Source\Util\AliceUtility.cpp" />
     <ClCompile Include="Source\Scene\SceneManager.cpp" />
     <ClCompile Include="Source\2D\PostEffect\VignettePostEffect.cpp" />
@@ -630,6 +626,34 @@
     <ProjectReference Include="..\AliceMath\AliceMath.vcxproj">
       <Project>{e19a2bfb-b038-4bef-a6c7-364d5488e9ba}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\AlicePhysics\AlicePhysics.vcxproj">
+      <Project>{819c2e88-08ba-49e9-bfb5-d31544bda6c9}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\AliceUtility\AliceUtility.vcxproj">
+      <Project>{95e30581-d29f-44fd-8802-198f6b21e809}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleEmitCS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleDrawArgumentUpdateCS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleGS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticlePS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleUpdateCS.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleVS.hlsl">
+      <FileType>Document</FileType>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

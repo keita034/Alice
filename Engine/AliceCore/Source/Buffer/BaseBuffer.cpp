@@ -1,56 +1,46 @@
 #include "BaseBuffer.h"
 
-ID3D12Device* BaseBuffer::sDevice = nullptr;
-ISRVDescriptorHeap* BaseBuffer::sSRVHeap = nullptr;
-IRTVDescriptorHeap* BaseBuffer::sRTVHeap = nullptr;
-IDSVDescriptorHeap* BaseBuffer::sDSVHeap = nullptr;
-ID3D12GraphicsCommandList* BaseBuffer::sCommandList = nullptr;
+IMultiAdapters* BaseBuffer::sMultiAdapters = nullptr;
 
-void BaseBuffer::SSetDevice(ID3D12Device* dev)
+void BaseBuffer::SSetMultiAdapters(IMultiAdapters* multiAdapters_)
 {
-	if (!sDevice)
+	if (!sMultiAdapters)
 	{
-		sDevice = dev;
+		sMultiAdapters = multiAdapters_;
 	}
 }
 
-void BaseBuffer::SSetGraphicsCommandList(ID3D12GraphicsCommandList* commandList_)
+IDevice* BaseBuffer::SGetDevice(AdaptersIndex index_)
 {
-	if (!sCommandList)
-	{
-		sCommandList = commandList_;
-	}
+	IAdapter* lAdapter = sMultiAdapters->GetAdapter(index_);
+	return lAdapter->GetDevice();
 }
 
-void BaseBuffer::SSetSRVDescriptorHeap(ISRVDescriptorHeap* descriptorHeap_)
+ICommandList* BaseBuffer::SGetGraphicsCommandList(AdaptersIndex index_)
 {
-	if (!sSRVHeap)
-	{
-		sSRVHeap = descriptorHeap_;
-	}
+	IAdapter* lAdapter = sMultiAdapters->GetAdapter(index_);
+	return lAdapter->GetCommandList();
 }
 
-void BaseBuffer::SSetRTVDescriptorHeap(IRTVDescriptorHeap* rtvDescriptorHeap_)
+ISRVDescriptorHeap* BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex index_)
 {
-	if (!sRTVHeap)
-	{
-		sRTVHeap = rtvDescriptorHeap_;
-	}
+	IAdapter* lAdapter = sMultiAdapters->GetAdapter(index_);
+	return lAdapter->GetSRVDescriptorHeap();
 }
 
-void BaseBuffer::SSetDSVDescriptorHeap(IDSVDescriptorHeap* dsvDescriptorHeap_)
+IRTVDescriptorHeap* BaseBuffer::SGetRTVDescriptorHeap(AdaptersIndex index_)
 {
-	if (!sDSVHeap)
-	{
-		sDSVHeap = dsvDescriptorHeap_;
-	}
+	IAdapter* lAdapter = sMultiAdapters->GetAdapter(index_);
+	return lAdapter->GetRTVDescriptorHeap();
+}
+
+IDSVDescriptorHeap* BaseBuffer::SGetDSVDescriptorHeap(AdaptersIndex index_)
+{
+	IAdapter* lAdapter = sMultiAdapters->GetAdapter(index_);
+	return lAdapter->GetDSVDescriptorHeap();
 }
 
 void BaseBuffer::Finalize()
 {
-	sDSVHeap = nullptr;
-	sRTVHeap = nullptr;
-	sSRVHeap = nullptr;
-	sCommandList = nullptr;
-	sDevice = nullptr;
+	sMultiAdapters = nullptr;
 }

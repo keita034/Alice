@@ -44,13 +44,13 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)Engine\Alice\lib\include;$(SolutionDir)Engine\AliceCore\Incluede;$(SolutionDir)Engine\AliceCore\Incluede\Buffer;$(SolutionDir)Engine\AliceCore\Incluede\DescriptorHeap;$(SolutionDir)Engine\AliceMath\Incluede;$(SolutionDir)Engine\AliceMath\Incluede\Collision;$(SolutionDir)Engine\AliceMath\Incluede\Collision\3D;$(SolutionDir)Engine\AliceMath\Incluede\Collision\2D;$(SolutionDir)Engine\AliceMath\Incluede\Double;$(SolutionDir)Engine\AliceMath\Incluede\Double\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Double\Vector;$(SolutionDir)Engine\AliceMath\Incluede\Float;$(SolutionDir)Engine\AliceMath\Incluede\Float\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Float\Vector;$(SolutionDir)Engine\AliceMath\Incluede\Physics;$(SolutionDir)Engine\Alice\Incluede;$(SolutionDir)Engine\Alice\Incluede\2D;$(SolutionDir)Engine\Alice\Incluede\2D\Particle;$(SolutionDir)Engine\Alice\Incluede\2D\PostEffect;$(SolutionDir)Engine\Alice\Incluede\2D\Sprite;$(SolutionDir)Engine\Alice\Incluede\3D;$(SolutionDir)Engine\Alice\Incluede\3D\Model;$(SolutionDir)Engine\Alice\Incluede\Camera;$(SolutionDir)Engine\Alice\Incluede\Core;$(SolutionDir)Engine\Alice\Incluede\Core\Buffer;$(SolutionDir)Engine\Alice\Incluede\Core\DirectX;$(SolutionDir)Engine\Alice\Incluede\Core\Framework;$(SolutionDir)Engine\Alice\Incluede\Input;$(SolutionDir)Engine\Alice\Incluede\Light;$(SolutionDir)Engine\Alice\Incluede\Scene;$(SolutionDir)Engine\Alice\Incluede\Util;$(SolutionDir)Engine\AliceInput\Incluede;$(SolutionDir)Engine\AliceAudio\Incluede;$(SolutionDir)Engine\Alice\Incluede\Transition;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Engine\Alice\lib\Include;$(SolutionDir)Engine\AliceCore\Include;$(SolutionDir)Engine\AliceCore\Include\Buffer;$(SolutionDir)Engine\AliceCore\Include\DescriptorHeap;$(SolutionDir)Engine\AliceCore\Include\GPU;$(SolutionDir)Engine\AliceCore\Include\Pipeline;$(SolutionDir)Engine\AliceUtility\Include;$(SolutionDir)Engine\AliceUtility\Include\Enum;$(SolutionDir)Engine\AliceUtility\Include\Others;$(SolutionDir)Engine\AliceUtility\Include\Utility;$(SolutionDir)Engine\AliceMath\Include;$(SolutionDir)Engine\AliceMath\Include\Double;$(SolutionDir)Engine\AliceMath\Include\Double\Matrix;$(SolutionDir)Engine\AliceMath\Include\Double\Vector;$(SolutionDir)Engine\AliceMath\Include\Float;$(SolutionDir)Engine\AliceMath\Include\Float\Matrix;$(SolutionDir)Engine\AliceMath\Include\Float\Vector;$(SolutionDir)Engine\AliceInput\Include;$(SolutionDir)Engine\AliceInput\Include\Controller;$(SolutionDir)Engine\AliceInput\Include\Keyboard;$(SolutionDir)Engine\AliceInput\Include\Mouse;$(SolutionDir)Engine\AliceAudio\Include;$(SolutionDir)Engine\Alice\Include;$(SolutionDir)Engine\Alice\Include\2D;$(SolutionDir)Engine\Alice\Include\2D\Particle;$(SolutionDir)Engine\Alice\Include\2D\PostEffect;$(SolutionDir)Engine\Alice\Include\2D\Sprite;$(SolutionDir)Engine\Alice\Include\3D;$(SolutionDir)Engine\Alice\Include\3D\Model;$(SolutionDir)Engine\Alice\Include\Camera;$(SolutionDir)Engine\Alice\Include\Core;$(SolutionDir)Engine\Alice\Include\Core\Buffer;$(SolutionDir)Engine\Alice\Include\Core\DirectX;$(SolutionDir)Engine\Alice\Include\Core\Framework;$(SolutionDir)Engine\Alice\Include\Input;$(SolutionDir)Engine\Alice\Include\Light;$(SolutionDir)Engine\Alice\Include\Scene;$(SolutionDir)Engine\Alice\Include\Util;$(SolutionDir)Engine\Alice\Include\Transition;$(SolutionDir)Engine\AlicePhysics;$(SolutionDir)Engine\AlicePhysics\Include;$(SolutionDir)Engine\AlicePhysics\Include\RigidBody;$(SolutionDir)Engine\AlicePhysics\Include\Physics;$(SolutionDir)Engine\AlicePhysics\Include\Physics\Jolt;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Box;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Sphere;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Capsule;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Mesh;$(SolutionDir)Engine\AlicePhysics\Include\DebugRenderer</IncludePath>
     <OutDir>$(SolutionDir)..\Generated\Outputs\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
     <LibraryPath>$(SolutionDir)Engine\Alice\lib\lib\debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)Engine\Alice\lib\include;$(SolutionDir)Engine\AliceCore\Incluede;$(SolutionDir)Engine\AliceCore\Incluede\Buffer;$(SolutionDir)Engine\AliceCore\Incluede\DescriptorHeap;$(SolutionDir)Engine\AliceMath\Incluede;$(SolutionDir)Engine\AliceMath\Incluede\Collision;$(SolutionDir)Engine\AliceMath\Incluede\Collision\3D;$(SolutionDir)Engine\AliceMath\Incluede\Collision\2D;$(SolutionDir)Engine\AliceMath\Incluede\Double;$(SolutionDir)Engine\AliceMath\Incluede\Double\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Double\Vector;$(SolutionDir)Engine\AliceMath\Incluede\Float;$(SolutionDir)Engine\AliceMath\Incluede\Float\Matrix;$(SolutionDir)Engine\AliceMath\Incluede\Float\Vector;$(SolutionDir)Engine\AliceMath\Incluede\Physics;$(SolutionDir)Engine\Alice\Incluede;$(SolutionDir)Engine\Alice\Incluede\2D;$(SolutionDir)Engine\Alice\Incluede\2D\Particle;$(SolutionDir)Engine\Alice\Incluede\2D\PostEffect;$(SolutionDir)Engine\Alice\Incluede\2D\Sprite;$(SolutionDir)Engine\Alice\Incluede\3D;$(SolutionDir)Engine\Alice\Incluede\3D\Model;$(SolutionDir)Engine\Alice\Incluede\Camera;$(SolutionDir)Engine\Alice\Incluede\Core;$(SolutionDir)Engine\Alice\Incluede\Core\Buffer;$(SolutionDir)Engine\Alice\Incluede\Core\DirectX;$(SolutionDir)Engine\Alice\Incluede\Core\Framework;$(SolutionDir)Engine\Alice\Incluede\Input;$(SolutionDir)Engine\Alice\Incluede\Light;$(SolutionDir)Engine\Alice\Incluede\Scene;$(SolutionDir)Engine\Alice\Incluede\Util;$(SolutionDir)Engine\AliceInput\Incluede;$(SolutionDir)Engine\AliceAudio\Incluede;$(SolutionDir)Engine\Alice\Incluede\Transition;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Engine\Alice\lib\Include;$(SolutionDir)Engine\AliceCore\Include;$(SolutionDir)Engine\AliceCore\Include\Buffer;$(SolutionDir)Engine\AliceCore\Include\DescriptorHeap;$(SolutionDir)Engine\AliceCore\Include\GPU;$(SolutionDir)Engine\AliceCore\Include\Pipeline;$(SolutionDir)Engine\AliceUtility\Include;$(SolutionDir)Engine\AliceUtility\Include\Enum;$(SolutionDir)Engine\AliceUtility\Include\Others;$(SolutionDir)Engine\AliceUtility\Include\Utility;$(SolutionDir)Engine\AliceMath\Include;$(SolutionDir)Engine\AliceMath\Include\Double;$(SolutionDir)Engine\AliceMath\Include\Double\Matrix;$(SolutionDir)Engine\AliceMath\Include\Double\Vector;$(SolutionDir)Engine\AliceMath\Include\Float;$(SolutionDir)Engine\AliceMath\Include\Float\Matrix;$(SolutionDir)Engine\AliceMath\Include\Float\Vector;$(SolutionDir)Engine\AliceInput\Include;$(SolutionDir)Engine\AliceInput\Include\Controller;$(SolutionDir)Engine\AliceInput\Include\Keyboard;$(SolutionDir)Engine\AliceInput\Include\Mouse;$(SolutionDir)Engine\AliceAudio\Include;$(SolutionDir)Engine\Alice\Include;$(SolutionDir)Engine\Alice\Include\2D;$(SolutionDir)Engine\Alice\Include\2D\Particle;$(SolutionDir)Engine\Alice\Include\2D\PostEffect;$(SolutionDir)Engine\Alice\Include\2D\Sprite;$(SolutionDir)Engine\Alice\Include\3D;$(SolutionDir)Engine\Alice\Include\3D\Model;$(SolutionDir)Engine\Alice\Include\Camera;$(SolutionDir)Engine\Alice\Include\Core;$(SolutionDir)Engine\Alice\Include\Core\Buffer;$(SolutionDir)Engine\Alice\Include\Core\DirectX;$(SolutionDir)Engine\Alice\Include\Core\Framework;$(SolutionDir)Engine\Alice\Include\Input;$(SolutionDir)Engine\Alice\Include\Light;$(SolutionDir)Engine\Alice\Include\Scene;$(SolutionDir)Engine\Alice\Include\Util;$(SolutionDir)Engine\Alice\Include\Transition;$(SolutionDir)Engine\AlicePhysics;$(SolutionDir)Engine\AlicePhysics\Include;$(SolutionDir)Engine\AlicePhysics\Include\RigidBody;$(SolutionDir)Engine\AlicePhysics\Include\Physics;$(SolutionDir)Engine\AlicePhysics\Include\Physics\Jolt;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Box;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Sphere;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Capsule;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Mesh;$(SolutionDir)Engine\AlicePhysics\Include\DebugRenderer</IncludePath>
     <OutDir>$(SolutionDir)..\Generated\Outputs\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
     <LibraryPath>$(SolutionDir)Engine\Alice\lib\lib;$(LibraryPath)</LibraryPath>
@@ -65,19 +65,21 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;NOMINMAX;_SILENCE_CXX20_CISO646_REMOVED_WARNING;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;PX_PHYSX_STATIC_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;NOMINMAX;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;PX_PHYSX_STATIC_LIB;AlicePhysicsJolt;_SILENCE_ALL_CXX20_DEPRECATION_WARNINGS;JPH_DEBUG_RENDERER;JPH_USE_AVX2;JPH_DOUBLE_PRECISION;JPH_PROFILE_ENABLED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Scene;$(ProjectDir)GameCore;$(ProjectDir)Player;$(ProjectDir)Boss;$(ProjectDir)Util;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>assimp-vc143-mtd.lib;d3d12.lib;dxgi.lib;dxguid.lib;d3dcompiler.lib;dinput8.lib;winmm.lib;xinput.lib;xaudio2.lib;Mf.lib;mfplat.lib;Mfreadwrite.lib;mfuuid.lib;shell32.lib;DirectX-Guids.lib;DirectX-Headers.lib;DirectXTex.lib;draco.lib;imguid.lib;kubazip.lib;minizip.lib;PhysX_static_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXCommon_static_64.lib;PhysXCooking_static_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_static_64.lib;PhysXPvdSDK_static_64.lib;PhysXVehicle_static_64.lib;poly2tri.lib;pugixml.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>assimp-vc143-mtd.lib;d3d12.lib;dxgi.lib;dxguid.lib;d3dcompiler.lib;dinput8.lib;winmm.lib;xinput.lib;xaudio2.lib;Mf.lib;mfplat.lib;Mfreadwrite.lib;mfuuid.lib;shell32.lib;DirectX-Guids.lib;DirectX-Headers.lib;DirectXTex.lib;draco.lib;imguid.lib;Jolt.lib;kubazip.lib;minizip.lib;PhysX_static_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXCommon_static_64.lib;PhysXCooking_static_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_static_64.lib;PhysXPvdSDK_static_64.lib;PhysXVehicle_static_64.lib;poly2tri.lib;pugixml.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
+      <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <FxCompile>
       <ShaderModel>5.0</ShaderModel>
@@ -93,7 +95,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;NOMINMAX;_SILENCE_CXX20_CISO646_REMOVED_WARNING;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;PX_PHYSX_STATIC_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;NOMINMAX;_SILENCE_ALL_CXX20_DEPRECATION_WARNINGS;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;PX_PHYSX_STATIC_LIB;JPH_USE_AVX2;AlicePhysicsJolt;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Scene;$(ProjectDir)GameCore;$(ProjectDir)Player;$(ProjectDir)Boss;$(ProjectDir)Util;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -102,13 +104,14 @@
       </DisableSpecificWarnings>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>assimp-vc143-mt.lib;d3d12.lib;dxgi.lib;dxguid.lib;d3dcompiler.lib;dinput8.lib;winmm.lib;xinput.lib;xaudio2.lib;Mf.lib;mfplat.lib;Mfreadwrite.lib;mfuuid.lib;shell32.lib;DirectX-Guids.lib;DirectX-Headers.lib;DirectXTex.lib;draco.lib;imgui.lib;kubazip.lib;minizip.lib;PhysX_static_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXCommon_static_64.lib;PhysXCooking_static_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_static_64.lib;PhysXPvdSDK_static_64.lib;PhysXVehicle_static_64.lib;poly2tri.lib;pugixml.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>assimp-vc143-mt.lib;d3d12.lib;dxgi.lib;dxguid.lib;d3dcompiler.lib;dinput8.lib;winmm.lib;xinput.lib;xaudio2.lib;Mf.lib;mfplat.lib;Mfreadwrite.lib;mfuuid.lib;shell32.lib;DirectX-Guids.lib;DirectX-Headers.lib;DirectXTex.lib;draco.lib;imgui.lib;Jolt.lib;kubazip.lib;minizip.lib;PhysX_static_64.lib;PhysXCharacterKinematic_static_64.lib;PhysXCommon_static_64.lib;PhysXCooking_static_64.lib;PhysXExtensions_static_64.lib;PhysXFoundation_static_64.lib;PhysXPvdSDK_static_64.lib;PhysXVehicle_static_64.lib;poly2tri.lib;pugixml.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
     </Link>
     <PreBuildEvent>
@@ -117,53 +120,52 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Boss\BossUI.cpp" />
-    <ClCompile Include="Boss\BossAnimation.cpp" />
-    <ClCompile Include="Boss\BossHand.cpp" />
-    <ClCompile Include="Boss\BossActionManager.cpp" />
-    <ClCompile Include="Boss\BossBaseAction.cpp" />
-    <ClCompile Include="Boss\BossChaseMove.cpp" />
     <ClCompile Include="Boss\BaseGameCamera.cpp" />
     <ClCompile Include="Boss\Boss.cpp" />
-    <ClCompile Include="Util\DeviceInput.cpp" />
-    <ClCompile Include="Scene\FailureScene.cpp" />
-    <ClCompile Include="Util\GameCameraManager.cpp" />
-    <ClCompile Include="GameCore\GameMain.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Player\PlayerWeapon.cpp" />
-    <ClCompile Include="Player\PlayerAnimation.cpp" />
+    <ClCompile Include="Boss\BossActionManager.cpp" />
+    <ClCompile Include="Boss\BossAnimation.cpp" />
+    <ClCompile Include="Boss\BossBaseAction.cpp" />
+    <ClCompile Include="Boss\BossChaseMove.cpp" />
+    <ClCompile Include="Boss\BossHand.cpp" />
+    <ClCompile Include="Boss\BossUI.cpp" />
     <ClCompile Include="Player\Player.cpp" />
+    <ClCompile Include="Player\PlayerAnimation.cpp" />
     <ClCompile Include="Player\PlayerGameCamera.cpp" />
     <ClCompile Include="Player\PlayerUI.cpp" />
+    <ClCompile Include="Player\PlayerWeapon.cpp" />
+    <ClCompile Include="Scene\FailureScene.cpp" />
+    <ClCompile Include="GameCore\GameMain.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Scene\GameScene.cpp" />
     <ClCompile Include="Scene\ClearScene.cpp" />
     <ClCompile Include="Scene\SceneFactrory.cpp" />
     <ClCompile Include="Scene\TitleScene.cpp" />
+    <ClCompile Include="Util\DeviceInput.cpp" />
+    <ClCompile Include="Util\GameCameraManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Boss\BossUI.h" />
-    <ClInclude Include="Boss\BossAnimation.h" />
-    <ClInclude Include="Boss\BossHand.h" />
-    <ClInclude Include="Boss\BossActionManager.h" />
-    <ClInclude Include="Boss\BossBaseAction.h" />
-    <ClInclude Include="Boss\BossChaseMove.h" />
-    <ClInclude Include="Util\DeviceInput.h" />
-    <ClInclude Include="Scene\FailureScene.h" />
-    <ClInclude Include="Util\ActorSituation.h" />
     <ClInclude Include="Boss\BaseGameCamera.h" />
     <ClInclude Include="Boss\Boss.h" />
-    <ClInclude Include="Util\GameCameraManager.h" />
-    <ClInclude Include="GameCore\GameCollisionConflg.h" />
-    <ClInclude Include="GameCore\GameMain.h" />
-    <ClInclude Include="Player\PlayerWeapon.h" />
-    <ClInclude Include="Player\PlayerAnimation.h" />
+    <ClInclude Include="Boss\BossActionManager.h" />
+    <ClInclude Include="Boss\BossAnimation.h" />
+    <ClInclude Include="Boss\BossBaseAction.h" />
+    <ClInclude Include="Boss\BossChaseMove.h" />
+    <ClInclude Include="Boss\BossHand.h" />
+    <ClInclude Include="Boss\BossUI.h" />
     <ClInclude Include="Player\Player.h" />
+    <ClInclude Include="Player\PlayerAnimation.h" />
     <ClInclude Include="Player\PlayerGameCamera.h" />
     <ClInclude Include="Player\PlayerUI.h" />
+    <ClInclude Include="Player\PlayerWeapon.h" />
+    <ClInclude Include="Scene\FailureScene.h" />
+    <ClInclude Include="GameCore\GameMain.h" />
     <ClInclude Include="Scene\GameScene.h" />
     <ClInclude Include="Scene\ClearScene.h" />
     <ClInclude Include="Scene\SceneFactrory.h" />
     <ClInclude Include="Scene\TitleScene.h" />
+    <ClInclude Include="Util\ActorSituation.h" />
+    <ClInclude Include="Util\DeviceInput.h" />
+    <ClInclude Include="Util\GameCameraManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Engine\AliceAudio\AliceAudio.vcxproj">
@@ -177,6 +179,12 @@
     </ProjectReference>
     <ProjectReference Include="Engine\AliceMath\AliceMath.vcxproj">
       <Project>{e19a2bfb-b038-4bef-a6c7-364d5488e9ba}</Project>
+    </ProjectReference>
+    <ProjectReference Include="Engine\AlicePhysics\AlicePhysics.vcxproj">
+      <Project>{819c2e88-08ba-49e9-bfb5-d31544bda6c9}</Project>
+    </ProjectReference>
+    <ProjectReference Include="Engine\AliceUtility\AliceUtility.vcxproj">
+      <Project>{95e30581-d29f-44fd-8802-198f6b21e809}</Project>
     </ProjectReference>
     <ProjectReference Include="Engine\Alice\ALICE.vcxproj">
       <Project>{247ea196-f17d-4bb1-8bba-43eb5693c032}</Project>

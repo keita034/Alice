@@ -1,5 +1,6 @@
 #pragma once
 #include<GameObject.h>
+#include<AlicePhysicsSystem.h>
 
 class PlayerWeapon : public GameObject
 {
@@ -11,12 +12,12 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	virtual void Initialize(Transform* parent_);
+	virtual void Initialize(Transform* parent_,AlicePhysics::AlicePhysicsSystem* physicsSystem_,AlicePhysics::IRigidBody* rigidParent_ = nullptr);
 
 	/// <summary>
 	/// 終了
 	/// </summary>
-	virtual void Finalize()override;
+	virtual void Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)override;
 
 	/// <summary>
 	/// 毎フレーム更新
@@ -37,10 +38,14 @@ public:
 	PlayerWeapon() = default;
 	~PlayerWeapon() = default;
 
+	void OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_) override;
+	void OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_) override;
+	void OnCollisionExit() override;
+
 private:
 
-	virtual void Initialize(uint32_t handle_, const AliceMathF::Vector3& pos_, const AliceMathF::Vector3& rot_ = { 0.0f,0.0f,0.0f }, const AliceMathF::Vector3& scl_ = { 1.0f,1.0f,1.0 }, const Transform* parent_ = nullptr)override;
-	virtual void Initialize()override;
+	virtual void Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_,uint32_t handle_, const AliceMathF::Vector3& pos_, const AliceMathF::Vector3& rot_ = { 0.0f,0.0f,0.0f }, const AliceMathF::Vector3& scl_ = { 1.0f,1.0f,1.0 }, const Transform* parent_ = nullptr)override;
+	virtual void Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)override;
 	virtual void Update()override;
 
 	//コピーコンストラクタ・代入演算子削除

@@ -6,3 +6,6 @@
 #define _In_ _SAL2_Source_(_In_, (), _Pre1_impl_(__notnull_impl_notref) _Pre_valid_impl_ _Deref_pre1_impl_(__readaccess_impl_notref))
 #define _In_opt_ _SAL2_Source_(_In_opt_, (), _Pre1_impl_(__maybenull_impl_notref) _Pre_valid_impl_ _Deref_pre_readonly_)
 #define _In_opt_
+#define ALICE_SUPPRESS_WARNINGS_BEGIN
+#define ALICE_SUPPRESS_WARNINGS_END
+#define AliceAssertArray(index, max, str) AliceAssert((index < max) && "(0 <= [%zd] < %zd)",str, index, max);
