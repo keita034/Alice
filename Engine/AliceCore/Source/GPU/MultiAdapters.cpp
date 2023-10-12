@@ -89,8 +89,12 @@ void MultiAdapters::Initialize()
 		// アダプターの情報を取得する
 		lAdapters[ i ]->GetDesc3(&lAdapterDesc);
 
+		DXGI_ADAPTER_DESC lAdapterDesc2;
+		// アダプターの情報を取得する
+		lAdapters[ i ]->GetDesc(&lAdapterDesc2);
+
 		// ソフトウェアデバイスを回避
-		if ( !( lAdapterDesc.Flags & DXGI_ADAPTER_FLAG3_SOFTWARE ) )
+ 		if ( !( lAdapterDesc.Flags & DXGI_ADAPTER_FLAG3_SOFTWARE ) )
 		{
 			std::unique_ptr<IAdapter>lAdapter;
 

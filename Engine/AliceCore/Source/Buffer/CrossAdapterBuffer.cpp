@@ -62,6 +62,8 @@ void CrossAdapterBuffer::Create(size_t length_,size_t singleSize_,AdaptersIndex 
 	{
 		//ヒープ生成
 		CD3DX12_HEAP_DESC lHeapDesc = CD3DX12_HEAP_DESC(bufferSize,D3D12_HEAP_TYPE::D3D12_HEAP_TYPE_DEFAULT,0,D3D12_HEAP_FLAGS::D3D12_HEAP_FLAG_SHARED | D3D12_HEAP_FLAGS::D3D12_HEAP_FLAG_SHARED_CROSS_ADAPTER);
+		lHeapDesc.Properties.VisibleNodeMask = 0;
+		lHeapDesc.Properties.CreationNodeMask = 0;
 
 		lSauceDevice->CreateHeap(&lHeapDesc,IID_PPV_ARGS(&heaps[ ResourceIndex::SAUCE ]));
 
