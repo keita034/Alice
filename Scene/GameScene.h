@@ -7,7 +7,7 @@
 #include<BasicParticle.h>
 #include<Camera.h>
 #include<CinemaCamera.h>
-#include<DefaultMaterial.h>
+#include<MaterialManager.h>
 #include<Light.h>
 #include<Mesh.h>
 #include<ParticleEmitter.h>
@@ -68,6 +68,10 @@ public:
 	/// 後始末
 	/// </summary>
 	void Finalize() override;
+
+	const AliceMathF::Matrix4& GetSceneViewMatrix()override;
+
+	const AliceMathF::Matrix4& GetSceneProjectionMatrix()override;
 
 
 private:

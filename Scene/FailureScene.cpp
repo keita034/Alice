@@ -25,6 +25,9 @@ void FailureScene::Initialize(const std::string& previewSceneName_)
 	sAudioManager->ChangeVolume(bgmHandle,0);
 
 	seHandle = sAudioManager->LoadAudio("Resources/SE/UISelect.mp3");
+
+	gameCamera = std::make_unique<GameCamera>();
+	gameCamera->Initialize(UpdateProjMatrixFunc::UPDATE_PROJMATRIXFUNC_PERSPECTIVE);
 }
 
 void FailureScene::Update()
@@ -75,4 +78,16 @@ void FailureScene::Draw()
 
 void FailureScene::Finalize()
 {
+
+}
+
+const AliceMathF::Matrix4& FailureScene::GetSceneViewMatrix()
+{
+	return gameCamera->GetViewMatrixInv();
+}
+
+const AliceMathF::Matrix4& FailureScene::GetSceneProjectionMatrix()
+{
+	return gameCamera->GetProjectionMatrix();
+
 }

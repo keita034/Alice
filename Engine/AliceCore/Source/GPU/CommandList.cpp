@@ -365,36 +365,24 @@ void CommandList::BeginCommand(size_t bbIndex_)
 
 void CommandList::CommandListExecute(CommandListIndex index_)
 {
-	HRESULT result;
-
-
 	switch ( index_ )
 	{
 	case ICommandList::CommandListIndex::GRAPHIC:
 	{
-		result = graphic.list->Close();
-		assert(SUCCEEDED(result));
-
 		ID3D12CommandList* lCommandListts[ ] = { graphic.list.Get() };
-		graphic.queue->ExecuteCommandLists(1,lCommandListts);
+		graphic.queue->ExecuteCommandLists(_countof(lCommandListts),lCommandListts);
 	}
 		break;
 	case ICommandList::CommandListIndex::COPY:
 	{
-		result = copy.list->Close();
-		assert(SUCCEEDED(result));
-
 		ID3D12CommandList* lCommandListts[ ] = { copy.list.Get() };
-		copy.queue->ExecuteCommandLists(1,lCommandListts);
+		copy.queue->ExecuteCommandLists(_countof(lCommandListts),lCommandListts);
 	}
 		break;
 	case ICommandList::CommandListIndex::COMPUTE:
 	{
-		result = compute.list->Close();
-		assert(SUCCEEDED(result));
-
 		ID3D12CommandList* lCommandListts[ ] = { compute.list.Get() };
-		compute.queue->ExecuteCommandLists(1,lCommandListts);
+		compute.queue->ExecuteCommandLists(_countof(lCommandListts),lCommandListts);
 	}
 		break;
 	default:

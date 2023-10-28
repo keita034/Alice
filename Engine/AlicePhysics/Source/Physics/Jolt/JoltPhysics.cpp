@@ -179,7 +179,7 @@ void AlicePhysics::JoltPhysics::SetCommandList(ICommandList* commandList_)
 	commandList = commandList_;
 }
 
-void AlicePhysics::JoltPhysics::SetViewProjection(AliceMathF::Matrix4* viewMat_,AliceMathF::Matrix4* projectionMat_)
+void AlicePhysics::JoltPhysics::SetViewProjection(const AliceMathF::Matrix4& viewMat_,const AliceMathF::Matrix4& projectionMat_)
 {
 #if _DEBUG && defined(JPH_DEBUG_RENDERER)
 	debugRenderer->SetViewProjection(viewMat_,projectionMat_);

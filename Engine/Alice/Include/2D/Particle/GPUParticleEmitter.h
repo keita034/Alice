@@ -8,6 +8,7 @@ class GPUParticleEmitter
 private:
 
 	IMultiAdapters* multiAdapters = nullptr;
+	ISwapChain* swapChain = nullptr;
 
 	std::unique_ptr<BasicGPUParticle>basicGPUParticle;
 
@@ -24,11 +25,12 @@ public:
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw(Camera* camera_);
+	void Draw(const AliceMathF::Matrix4& viewMat_,const AliceMathF::Matrix4& projectionMat_);
 
 	void BasicGPUParticleEmit(const AliceMathF::Vector3& pos_,const BasicGPUParticleSetting& setting_);
 
 	void SetMultiAdapters(IMultiAdapters* multiAdapters_);
+	void SetSwapChain(ISwapChain* swapChain_);
 
 	GPUParticleEmitter() = default;
 	~GPUParticleEmitter() = default;

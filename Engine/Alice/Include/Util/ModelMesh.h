@@ -2,7 +2,7 @@
 #include<AliceUtility.h>
 #include<VertexBuffer.h>
 #include<IndexBuffer.h>
-#include<DefaultMaterial.h>
+#include<MaterialManager.h>
 #include<ConstantBuffer.h>
 #include<RootSignature.h>
 #include<ComputePipelineState.h>

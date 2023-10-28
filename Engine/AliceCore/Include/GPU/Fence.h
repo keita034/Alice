@@ -39,6 +39,8 @@ public:
 	/// </summary>
 	virtual void Wait() = 0;
 
+	virtual void CompulsionWait() = 0;
+
 	/// <summary>
 	/// コマンドの処理が完了するまで待つ
 	/// </summary>

@@ -142,3 +142,13 @@ void GameScene::Finalize()
 	fieldObjData->Finalize(sPhysicsSystem);
 }
 
+const AliceMathF::Matrix4& GameScene::GetSceneViewMatrix()
+{
+	return gameCameraManager->GetCamera()->GetViewMatrixInv();
+}
+
+const AliceMathF::Matrix4& GameScene::GetSceneProjectionMatrix()
+{
+	return gameCameraManager->GetCamera()->GetProjectionMatrix();
+}
+

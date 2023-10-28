@@ -7,7 +7,7 @@
 #include<BasicParticle.h>
 #include<Camera.h>
 #include<CinemaCamera.h>
-#include<DefaultMaterial.h>
+#include<MaterialManager.h>
 #include<Light.h>
 #include<Mesh.h>
 #include<ParticleEmitter.h>
@@ -26,6 +26,7 @@ private:
 
 	std::unique_ptr<ITransition>inTransition;
 	std::unique_ptr<ITransition>outTransition;
+	std::unique_ptr<GameCamera> gameCamera;
 
 	bool sceneChange = false;
 
@@ -39,6 +40,7 @@ private:
 
 	float bgmVolume = 0.008f;
 	float seVolume = 0.02f;
+
 
 public:
 	ClearScene() = default;
@@ -63,6 +65,10 @@ public:
 	/// 後始末
 	/// </summary>
 	void Finalize() override;
+
+	const AliceMathF::Matrix4& GetSceneViewMatrix();
+
+	const AliceMathF::Matrix4& GetSceneProjectionMatrix();
 
 private:
 	//コピーコンストラクタ・代入演算子削除

@@ -26,12 +26,11 @@ public:
 	~Fence() = default;
 
 	void Initialize(ID3D12Device* device_) override;
-
 	void Signal(ID3D12CommandQueue* queue_,uint64_t value_)override;
-
 	void Signal(ID3D12CommandQueue* queue_)override;
 	void Wait()override;
 	void Wait(ID3D12CommandQueue* queue_,IFence* fence,uint64_t Value)override;
+	void CompulsionWait()override;
 
 	uint64_t GetFenceValANDIncrement()override;
 	uint64_t GetFenceVal()override;
@@ -75,6 +74,17 @@ void Fence::Wait()
 void Fence::Wait(ID3D12CommandQueue* queue_,IFence* fence_,uint64_t Value)
 {
 	queue_->Wait(fence_->Get(),Value);
+}
+
+void Fence::CompulsionWait()
+{
+	HANDLE lEvent = CreateEvent(nullptr,false,false,nullptr);
+	fence->SetEventOnCompletion(fenceVal,lEvent);
+	if ( lEvent != 0 )
+	{
+		WaitForSingleObject(lEvent,INFINITE);
+		CloseHandle(lEvent);
+	}
 }
 
 uint64_t Fence::GetFenceValANDIncrement()

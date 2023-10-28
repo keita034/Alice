@@ -1,9 +1,9 @@
 #include "FireWorkParticle.h"
-#include<DefaultMaterial.h>
+#include<MaterialManager.h>
 
 void FireWorkParticle::Initialize()
 {
-		//頂点バッファ生成
+	//頂点バッファ生成
 	vertexBuffer = CreateUniqueVertexBuffer(VERTEX_COUNT,sizeof(VerPosColScaRot));
 
 	//定数バッファ生成

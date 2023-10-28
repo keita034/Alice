@@ -4,9 +4,9 @@
 #include<CommandList.h>
 #include<Defined.h>
 #include<PadingType.h>
+#include<SwapChain.h>
 
 ALICE_SUPPRESS_WARNINGS_BEGIN
-
 #include<wrl.h>
 ALICE_SUPPRESS_WARNINGS_END
 
@@ -17,6 +17,7 @@ protected:
 	//デバイス
 	static IMultiAdapters* sMultiAdapters;
 
+	static ISwapChain* sSwapChain;
 	//リソース
 	Microsoft::WRL::ComPtr<ID3D12Resource> resource;
 
@@ -32,6 +33,11 @@ public:
 	/// デバイスを設定
 	/// </summary>
 	static void SSetMultiAdapters(IMultiAdapters* multiAdapters_);
+
+	/// <summary>
+	/// デバイスを設定
+	/// </summary>
+	static void SSetSwapChain(ISwapChain* swapChain_);
 
 	/// <summary>
 	/// デバイスを取得

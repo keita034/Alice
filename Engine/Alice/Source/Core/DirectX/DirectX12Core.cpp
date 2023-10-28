@@ -416,4 +416,8 @@ IMultiAdapters* DirectX12Core::GetMultiAdapters() const
 {
 	return multiAdapters.get();
 }
+ISwapChain* DirectX12Core::GetSwapChain() const
+{
+	return swapChain.get();
+}
 #pragma endregion

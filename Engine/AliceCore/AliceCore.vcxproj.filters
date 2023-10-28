@@ -132,13 +132,16 @@
     <ClInclude Include="Include\Pipeline\ComputeMaterial.h">
       <Filter>ヘッダー ファイル\Pipeline</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Pipeline\DefaultMaterial.h">
-      <Filter>ヘッダー ファイル\Pipeline</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Buffer\CrossAdapterBuffer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Include\GPU\CrossAdapterFence.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Buffer\FreeListBuffer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Buffer\DrawListBuffer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -221,9 +224,6 @@
     <ClCompile Include="Source\GPU\SwapChain.cpp">
       <Filter>ソース ファイル\GPU</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Pipeline\DefaultMaterial.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Source\TextureData.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -240,6 +240,12 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\GPU\CrossAdapterFence.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Buffer\FreeListBuffer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Buffer\DrawListBuffer.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

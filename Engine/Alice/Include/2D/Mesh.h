@@ -6,7 +6,7 @@
 #include<AliceMathUtility.h>
 #include<ConstantBuffer.h>
 #include<AliceUtility.h>
-#include<DefaultMaterial.h>
+#include<MaterialManager.h>
 #include<DirectX12Core.h>
 #include<CommandList.h>
 

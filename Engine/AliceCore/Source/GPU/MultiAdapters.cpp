@@ -101,12 +101,12 @@ void MultiAdapters::Initialize()
 			if ( adapters.empty() )
 			{
 				lAdapter = CreateUniqueAdapter(lAdapters[ i ].Get(),mainAdapterSetting.maxDSV,mainAdapterSetting.maxRTV,mainAdapterSetting.maxSRV,mainAdapterSetting.maxCBV,mainAdapterSetting.maxUAV);
-
+				lAdapter->SetIndex(AdaptersIndex::MAIN);
 			}
 			else
 			{
 				lAdapter = CreateUniqueAdapter(lAdapters[ i ].Get(),subAdapterSetting.maxDSV,subAdapterSetting.maxRTV,subAdapterSetting.maxSRV,subAdapterSetting.maxCBV,subAdapterSetting.maxUAV);
-
+				lAdapter->SetIndex(AdaptersIndex::SUB);
 			}
 
 			adapters.push_back(std::move(lAdapter));
@@ -114,7 +114,7 @@ void MultiAdapters::Initialize()
 		}
 	}
 
-	crossAdapterFence = CreateUniqueCrossAdapterFence(GetAdapter(AdaptersIndex::SUB));
+	crossAdapterFence = CreateUniqueCrossAdapterFence(GetAdapter(AdaptersIndex::MAIN),GetAdapter(AdaptersIndex::SUB));
 }
 
 IAdapter* MultiAdapters::GetAdapter(AdaptersIndex index_)

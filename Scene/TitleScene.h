@@ -7,7 +7,7 @@
 #include<BasicParticle.h>
 #include<Camera.h>
 #include<CinemaCamera.h>
-#include<DefaultMaterial.h>
+#include<MaterialManager.h>
 #include<Light.h>
 #include<Mesh.h>
 #include<ParticleEmitter.h>
@@ -43,6 +43,11 @@ private:
 	std::unique_ptr<ITransition>inTransition;
 	std::unique_ptr<ITransition>outTransition;
 
+	std::unique_ptr<GameCamera>gameCamera;
+
+	AliceMathF::Matrix4 tmp;
+	AliceMathF::Matrix4 lMat;
+
 public:
 
 	TitleScene() = default;
@@ -67,6 +72,10 @@ public:
 	/// 後始末
 	/// </summary>
 	void Finalize() override;
+
+	const AliceMathF::Matrix4& GetSceneViewMatrix()override;
+
+	const AliceMathF::Matrix4& GetSceneProjectionMatrix()override;
 
 private:
 	//コピーコンストラクタ・代入演算子削除

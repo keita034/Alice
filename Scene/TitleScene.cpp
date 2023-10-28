@@ -39,10 +39,8 @@ void TitleScene::Initialize(const std::string& previewSceneName_)
 	//outTransition->Initilize(static_cast<float>(sWinApp->GetWindowSize().height), static_cast<float>(sWinApp->GetWindowSize().width));
 	//outTransition->SetIncrement(0.008f);
 
-
-
-
-
+	gameCamera = std::make_unique<GameCamera>();
+	gameCamera->Initialize(UpdateProjMatrixFunc::UPDATE_PROJMATRIXFUNC_PERSPECTIVE);
 
 }
 
@@ -95,4 +93,23 @@ void TitleScene::Draw()
 
 void TitleScene::Finalize()
 {
+}
+
+const AliceMathF::Matrix4& TitleScene::GetSceneViewMatrix()
+{
+	tmp = gameCamera->GetViewMatrixInv()* gameCamera->GetProjectionMatrix();
+
+	return tmp;
+}
+
+const AliceMathF::Matrix4& TitleScene::GetSceneProjectionMatrix()
+{
+
+	lMat = gameCamera->GetViewMatrix();
+	lMat.m[ 3 ][ 0 ] = 0;
+	lMat.m[ 3 ][ 1 ] = 0;
+	lMat.m[ 3 ][ 2 ] = 0;
+	lMat.m[ 3 ][ 3 ] = 1;
+
+	return lMat;
 }

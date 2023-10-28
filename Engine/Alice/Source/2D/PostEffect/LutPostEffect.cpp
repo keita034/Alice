@@ -2,7 +2,7 @@
 #include<DirectX12Core.h>
 #include<TextureManager.h>
 #include<WindowsApp.h>
-#include<DefaultMaterial.h>
+#include<MaterialManager.h>
 
 LutPostEffect* LutPostEffect::SGetInstance()
 {

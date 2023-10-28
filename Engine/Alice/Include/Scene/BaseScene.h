@@ -48,6 +48,10 @@ public:
 	/// </summary>
 	virtual void Finalize() = 0;
 
+	virtual const AliceMathF::Matrix4& GetSceneViewMatrix() = 0;
+
+	virtual const AliceMathF::Matrix4& GetSceneProjectionMatrix() = 0;
+
 	virtual void SetSceneManager(SceneManager* manager_);
 
 	void SetSceneName(const std::string& sceneName_);

@@ -1,15 +1,8 @@
 #include "Adapter.h"
 
+#include<Defined.h>
 
-#pragma warning(push)
-#pragma warning(disable: 4061)
-#pragma warning(disable: 4062)
-#pragma warning(disable: 4365)
-#pragma warning(disable: 4514)
-#pragma warning(disable: 4365)
-#pragma warning(disable: 4668)
-#pragma warning(disable: 4820)
-#pragma warning(disable: 5039)
+ALICE_SUPPRESS_WARNINGS_BEGIN
 
 #include<vector>
 #include<directx/d3d12.h>
@@ -17,13 +10,13 @@
 #include<memory>
 #include<dxgi1_6.h>
 #include<cassert>
-#pragma warning(pop)
+ALICE_SUPPRESS_WARNINGS_END
 
 #include<DSVDescriptorHeap.h>
 #include<DescriptorHeap.h>
 #include<RTVDescriptorHeap.h>
 
-class Adapter : public IAdapter
+class Adapter final : public IAdapter
 {
 private:
 
@@ -46,7 +39,7 @@ private:
 	uint32_t maxUAV = 0;
 	uint32_t maxRTV = 0;
 
-	int32_t PADING = 0;
+	AdaptersIndex index;
 
 public:
 
@@ -88,6 +81,7 @@ public:
 	ID3D12CommandQueue* GetComputeCommandQueue()override;
 
 	void ComputeWaitPreviousFrame()override;
+	void ComputeCompulsionWait()override;
 	void CopyWaitPreviousFrame() override;
 	void GraphicWaitPreviousFrame() override;
 
@@ -98,6 +92,9 @@ public:
 	IDSVDescriptorHeap* GetDSVDescriptorHeap()override;
 	IRTVDescriptorHeap* GetRTVDescriptorHeap()override;
 	ISRVDescriptorHeap* GetSRVDescriptorHeap()override;
+
+	void SetIndex(AdaptersIndex index_)override;
+	AdaptersIndex GetIndex() override;
 
 private:
 
@@ -156,7 +153,7 @@ void Adapter::GraphicCommandListReset(size_t bbIndex_)
 
 void Adapter::ResourceTransition(ID3D12Resource* resource_,uint32_t beforeState_,uint32_t afterState_)
 {
-	commandList->ResourceTransition(resource_, beforeState_,afterState_);
+	commandList->ResourceTransition(resource_,beforeState_,afterState_);
 }
 
 ID3D12GraphicsCommandList* Adapter::GetGraphicCommandList()
@@ -171,7 +168,7 @@ ID3D12GraphicsCommandList** Adapter::GetGraphicCommandListAddressOf()
 
 ID3D12CommandAllocator* Adapter::GetGraphicCommandAllocator(size_t bbIndex_)
 {
-	return commandList->GetGraphicCommandAllocator( bbIndex_);
+	return commandList->GetGraphicCommandAllocator(bbIndex_);
 }
 
 ID3D12CommandQueue* Adapter::GetGraphicCommandQueue()
@@ -186,7 +183,7 @@ void Adapter::CopyCommandListExecute()
 
 void Adapter::CopyCommandListReset(size_t bbIndex_)
 {
-	commandList->CopyCommandListReset( bbIndex_);
+	commandList->CopyCommandListReset(bbIndex_);
 }
 
 ID3D12GraphicsCommandList* Adapter::GetCopyCommandList()
@@ -201,7 +198,7 @@ ID3D12GraphicsCommandList** Adapter::GetCopyCommandListAddressOf()
 
 ID3D12CommandAllocator* Adapter::GetCopyCommandAllocator(size_t bbIndex_)
 {
-	return commandList->GetCopyCommandAllocator( bbIndex_);
+	return commandList->GetCopyCommandAllocator(bbIndex_);
 }
 
 ID3D12CommandQueue* Adapter::GetCopyCommandQueue()
@@ -216,7 +213,7 @@ void Adapter::ComputeCommandListExecute()
 
 void Adapter::ComputeCommandListReset(size_t bbIndex_)
 {
-	commandList->ComputeCommandListReset( bbIndex_);
+	commandList->ComputeCommandListReset(bbIndex_);
 }
 
 ID3D12GraphicsCommandList* Adapter::GetComputeCommandList()
@@ -231,7 +228,7 @@ ID3D12GraphicsCommandList** Adapter::GetComputeCommandListAddressOf()
 
 ID3D12CommandAllocator* Adapter::GetComputeCommandAllocator(size_t bbIndex_)
 {
-	return commandList->GetComputeCommandAllocator( bbIndex_);
+	return commandList->GetComputeCommandAllocator(bbIndex_);
 }
 
 ID3D12CommandQueue* Adapter::GetComputeCommandQueue()
@@ -240,6 +237,12 @@ ID3D12CommandQueue* Adapter::GetComputeCommandQueue()
 }
 
 void Adapter::ComputeWaitPreviousFrame()
+{
+	fence->Signal(commandList->GetComputeCommandQueue());
+	fence->Wait();
+}
+
+void Adapter::ComputeCompulsionWait()
 {
 	fence->Signal(commandList->GetComputeCommandQueue());
 	fence->Wait();
@@ -279,7 +282,7 @@ void Adapter::CommandListExecute()
 
 void Adapter::BeginCommand(size_t bbIndex_)
 {
-	commandList->BeginCommand( bbIndex_);
+	commandList->BeginCommand(bbIndex_);
 }
 
 void Adapter::WaitPreviousFrame()
@@ -303,4 +306,14 @@ std::shared_ptr<IAdapter> CreateSharedAdapter(IDXGIAdapter* adapter_,uint32_t ma
 	std::shared_ptr<IAdapter>adapter = std::make_shared<Adapter>();
 	adapter->Initialize(adapter_,maxDSV_,maxRTV_,maxSRV_,maxCBV_,maxUAV_);
 	return adapter;
+}
+
+void Adapter::SetIndex(AdaptersIndex index_)
+{
+	index = index_;
+}
+
+AdaptersIndex Adapter::GetIndex()
+{
+	return index;
 }

@@ -64,7 +64,7 @@ void AlicePhysics::AlicePhysicsSystem::Draw()
 
 }
 
-void AlicePhysics::AlicePhysicsSystem::SetViewProjection(AliceMathF::Matrix4* viewMat_, AliceMathF::Matrix4* projectionMat_)
+void AlicePhysics::AlicePhysicsSystem::SetViewProjection(const AliceMathF::Matrix4& viewMat_,const AliceMathF::Matrix4& projectionMat_)
 {
 	physics->SetViewProjection(viewMat_, projectionMat_);
 }

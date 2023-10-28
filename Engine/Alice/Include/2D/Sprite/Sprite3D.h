@@ -1,11 +1,11 @@
-﻿#pragma once
+#pragma once
 
 //自作.h
 #include<AliceMathUtility.h>
 #include<WindowsApp.h>
 #include<Camera.h>
 #include<Sprite.h>
-#include<DefaultMaterial.h>
+#include<MaterialManager.h>
 
 class Sprite3D : public Sprite
 {

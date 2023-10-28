@@ -46,14 +46,14 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)Engine\Alice\lib\Include;$(SolutionDir)Engine\AliceCore\Include;$(SolutionDir)Engine\AliceCore\Include\Buffer;$(SolutionDir)Engine\AliceCore\Include\DescriptorHeap;$(SolutionDir)Engine\AliceCore\Include\GPU;$(SolutionDir)Engine\AliceCore\Include\Pipeline;$(SolutionDir)Engine\AliceMath\Include;$(SolutionDir)Engine\AliceMath\Include\Double;$(SolutionDir)Engine\AliceMath\Include\Double\Matrix;$(SolutionDir)Engine\AliceMath\Include\Double\Vector;$(SolutionDir)Engine\AliceMath\Include\Float;$(SolutionDir)Engine\AliceMath\Include\Float\Matrix;$(SolutionDir)Engine\AliceMath\Include\Float\Vector;$(SolutionDir)Engine\AliceInput\Include;$(SolutionDir)Engine\AliceInput\Include\Controller;$(SolutionDir)Engine\AliceInput\Include\Keyboard;$(SolutionDir)Engine\AliceInput\Include\Mouse;$(SolutionDir)Engine\AliceAudio\Include;$(SolutionDir)Engine\AliceUtility\Include;$(SolutionDir)Engine\AliceUtility\Include\Enum;$(SolutionDir)Engine\AliceUtility\Include\Others;$(SolutionDir)Engine\AliceUtility\Include\Utility;$(SolutionDir)Engine\AlicePhysics;$(SolutionDir)Engine\AlicePhysics\Include;$(SolutionDir)Engine\AlicePhysics\Include\Physics;$(SolutionDir)Engine\AlicePhysics\Include\Physics\Jolt;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Box;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Sphere;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Capsule;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Mesh;$(SolutionDir)Engine\AlicePhysics\Include\DebugRenderer;$(SolutionDir)Engine\AlicePhysics\Include\RigidBody</IncludePath>
+    <IncludePath>$(SolutionDir)Engine\Alice\lib\Include;$(SolutionDir)Engine\AliceCore\Include;$(SolutionDir)Engine\AliceCore\Include\Buffer;$(SolutionDir)Engine\AliceCore\Include\DescriptorHeap;$(SolutionDir)Engine\AliceCore\Include\GPU;$(SolutionDir)Engine\AliceCore\Include\Pipeline;$(SolutionDir)Engine\AliceMath\Include;$(SolutionDir)Engine\AliceMath\Include\Double;$(SolutionDir)Engine\AliceMath\Include\Double\Matrix;$(SolutionDir)Engine\AliceMath\Include\Double\Vector;$(SolutionDir)Engine\AliceMath\Include\Float;$(SolutionDir)Engine\AliceMath\Include\Float\Matrix;$(SolutionDir)Engine\AliceMath\Include\Float\Vector;$(SolutionDir)Engine\AliceInput\Include;$(SolutionDir)Engine\AliceInput\Include\Controller;$(SolutionDir)Engine\AliceInput\Include\Keyboard;$(SolutionDir)Engine\AliceInput\Include\Mouse;$(SolutionDir)Engine\AliceAudio\Include;$(SolutionDir)Engine\AliceUtility\Include;$(SolutionDir)Engine\AliceUtility\Include\Enum;$(SolutionDir)Engine\AliceUtility\Include\Others;$(SolutionDir)Engine\AliceUtility\Include\Utility;$(SolutionDir)Engine\AlicePhysics;$(SolutionDir)Engine\AlicePhysics\Include;$(SolutionDir)Engine\AlicePhysics\Include\Physics;$(SolutionDir)Engine\AlicePhysics\Include\Physics\Jolt;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Box;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Sphere;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Capsule;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Mesh;$(SolutionDir)Engine\AlicePhysics\Include\DebugRenderer;$(SolutionDir)Engine\AlicePhysics\Include\RigidBody;$(SolutionDir)Engine\AlicePipeline\Include;$(SolutionDir)Engine\AlicePipeline\Include\Graphic;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Default;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Sprite2D;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Sprite3D;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Particle;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Mesh;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\PostEffect;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Model;$(SolutionDir)Engine\AlicePipeline\Include\GPUParticle;$(SolutionDir)Engine\AlicePipeline\Include\Utility</IncludePath>
     <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</ExternalIncludePath>
     <LibraryPath>$(SolutionDir)Engine\Alice\lib\lib\debug;$(LibraryPath)</LibraryPath>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)..\Generated\Lib\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)Engine\Alice\lib\Include;$(SolutionDir)Engine\AliceCore\Include;$(SolutionDir)Engine\AliceCore\Include\Buffer;$(SolutionDir)Engine\AliceCore\Include\DescriptorHeap;$(SolutionDir)Engine\AliceCore\Include\GPU;$(SolutionDir)Engine\AliceCore\Include\Pipeline;$(SolutionDir)Engine\AliceMath\Include;$(SolutionDir)Engine\AliceMath\Include\Double;$(SolutionDir)Engine\AliceMath\Include\Double\Matrix;$(SolutionDir)Engine\AliceMath\Include\Double\Vector;$(SolutionDir)Engine\AliceMath\Include\Float;$(SolutionDir)Engine\AliceMath\Include\Float\Matrix;$(SolutionDir)Engine\AliceMath\Include\Float\Vector;$(SolutionDir)Engine\AliceInput\Include;$(SolutionDir)Engine\AliceInput\Include\Controller;$(SolutionDir)Engine\AliceInput\Include\Keyboard;$(SolutionDir)Engine\AliceInput\Include\Mouse;$(SolutionDir)Engine\AliceAudio\Include;$(SolutionDir)Engine\AliceUtility\Include;$(SolutionDir)Engine\AliceUtility\Include\Enum;$(SolutionDir)Engine\AliceUtility\Include\Others;$(SolutionDir)Engine\AliceUtility\Include\Utility;$(SolutionDir)Engine\AlicePhysics;$(SolutionDir)Engine\AlicePhysics\Include;$(SolutionDir)Engine\AlicePhysics\Include\Physics;$(SolutionDir)Engine\AlicePhysics\Include\Physics\Jolt;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Box;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Sphere;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Capsule;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Mesh;$(SolutionDir)Engine\AlicePhysics\Include\DebugRenderer;$(SolutionDir)Engine\AlicePhysics\Include\RigidBody</IncludePath>
+    <IncludePath>$(SolutionDir)Engine\Alice\lib\Include;$(SolutionDir)Engine\AliceCore\Include;$(SolutionDir)Engine\AliceCore\Include\Buffer;$(SolutionDir)Engine\AliceCore\Include\DescriptorHeap;$(SolutionDir)Engine\AliceCore\Include\GPU;$(SolutionDir)Engine\AliceCore\Include\Pipeline;$(SolutionDir)Engine\AliceMath\Include;$(SolutionDir)Engine\AliceMath\Include\Double;$(SolutionDir)Engine\AliceMath\Include\Double\Matrix;$(SolutionDir)Engine\AliceMath\Include\Double\Vector;$(SolutionDir)Engine\AliceMath\Include\Float;$(SolutionDir)Engine\AliceMath\Include\Float\Matrix;$(SolutionDir)Engine\AliceMath\Include\Float\Vector;$(SolutionDir)Engine\AliceInput\Include;$(SolutionDir)Engine\AliceInput\Include\Controller;$(SolutionDir)Engine\AliceInput\Include\Keyboard;$(SolutionDir)Engine\AliceInput\Include\Mouse;$(SolutionDir)Engine\AliceAudio\Include;$(SolutionDir)Engine\AliceUtility\Include;$(SolutionDir)Engine\AliceUtility\Include\Enum;$(SolutionDir)Engine\AliceUtility\Include\Others;$(SolutionDir)Engine\AliceUtility\Include\Utility;$(SolutionDir)Engine\AlicePhysics;$(SolutionDir)Engine\AlicePhysics\Include;$(SolutionDir)Engine\AlicePhysics\Include\Physics;$(SolutionDir)Engine\AlicePhysics\Include\Physics\Jolt;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Box;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Sphere;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Capsule;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Mesh;$(SolutionDir)Engine\AlicePhysics\Include\DebugRenderer;$(SolutionDir)Engine\AlicePhysics\Include\RigidBody;$(SolutionDir)Engine\AlicePipeline\Include;$(SolutionDir)Engine\AlicePipeline\Include\Graphic;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Default;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Sprite2D;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Sprite3D;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Particle;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Mesh;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\PostEffect;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Model;$(SolutionDir)Engine\AlicePipeline\Include\GPUParticle;$(SolutionDir)Engine\AlicePipeline\Include\Utility</IncludePath>
     <LibraryPath>$(SolutionDir)Engine\Alice\lib\lib;$(LibraryPath)</LibraryPath>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)..\Generated\Lib\$(Configuration)\</OutDir>
@@ -221,7 +221,6 @@
     <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModel.hlsli" />
     <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelOutLine.hlsli" />
     <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ZeldaToonModel.hlsli" />
-    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticle.hlsli" />
     <None Include="..\..\Resources\Shaders\HLSLMath.hlsli" />
     <None Include="cpp.hint" />
   </ItemGroup>
@@ -629,29 +628,15 @@
     <ProjectReference Include="..\AlicePhysics\AlicePhysics.vcxproj">
       <Project>{819c2e88-08ba-49e9-bfb5-d31544bda6c9}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\AlicePipeline\AlicePipeline.vcxproj">
+      <Project>{7be554da-b177-4f2d-a2de-dd9cb9426e3c}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\AliceUtility\AliceUtility.vcxproj">
       <Project>{95e30581-d29f-44fd-8802-198f6b21e809}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleEmitCS.hlsl">
-      <FileType>Document</FileType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleDrawArgumentUpdateCS.hlsl">
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleGS.hlsl">
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticlePS.hlsl">
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleUpdateCS.hlsl">
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleVS.hlsl">
       <FileType>Document</FileType>
     </None>
   </ItemGroup>

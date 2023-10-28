@@ -1,5 +1,5 @@
 #include "MosaicPostEffect.h"
-#include<DefaultMaterial.h>
+#include<MaterialManager.h>
 
 MosaicPostEffect* MosaicPostEffect::SGetInstance()
 {

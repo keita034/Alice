@@ -11,12 +11,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\Enum\BufferType.h" />
+    <ClInclude Include="Include\Enum\CrossAdapterResourceIndex.h" />
     <ClInclude Include="Include\Enum\AdaptersIndex.h" />
     <ClInclude Include="Include\Enum\BlendMode.h" />
     <ClInclude Include="Include\Others\Color.h" />
     <ClInclude Include="Include\Others\AliceAssert.h" />
     <ClInclude Include="Include\Others\Bit.h" />
     <ClInclude Include="Include\Others\Defined.h" />
+    <ClInclude Include="Include\ResourceAllocationInfo.h" />
     <ClInclude Include="Include\Utility\FileUtility.h" />
     <ClInclude Include="Include\Others\PadingType.h" />
     <ClInclude Include="Include\Utility\StringUtility.h" />

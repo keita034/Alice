@@ -199,18 +199,11 @@ void AlicePhysics::JoltDebugRenderer::Draw()
 	TriangleDraw(lCommandList);
 }
 
-void AlicePhysics::JoltDebugRenderer::SetViewProjection(AliceMathF::Matrix4* viewMat_,AliceMathF::Matrix4* projectionMat_)
+void AlicePhysics::JoltDebugRenderer::SetViewProjection(const AliceMathF::Matrix4& viewMat_,const AliceMathF::Matrix4& projectionMat_)
 {
-	if ( viewMat_ )
-	{
-		viewMat = *viewMat_;
+		viewMat = viewMat_;
 
-	}
-	if ( projectionMat_ )
-	{
-		projectionMat = *projectionMat_;
-
-	}
+		projectionMat = projectionMat_;
 }
 
 void AlicePhysics::JoltDebugRenderer::SetLight(AliceMathF::Vector3* lightV_,AliceMathF::Vector4* lightColor_)

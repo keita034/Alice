@@ -3,5 +3,5 @@
 enum class AdaptersIndex
 {
 	MAIN,
-	SUB
+	SUB,
 };
