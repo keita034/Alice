@@ -99,7 +99,7 @@ private:
 	std::unique_ptr<IConstantBuffer>timeConstantsBuffer;
 	std::unique_ptr<IConstantBuffer>emitDataBuffer;
 
-	std::unique_ptr<IRWStructuredBuffer>particlePoolBuffer;
+	std::unique_ptr<ICrossAdapterBuffer>particlePoolBuffer;
 
 	int64_t emitLifeTime;
 	float timeBetweenEmit;

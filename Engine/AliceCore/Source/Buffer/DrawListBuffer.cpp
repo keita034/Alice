@@ -102,7 +102,7 @@ void DrawListBuffer::Create(size_t length_,size_t singleSize_,BufferType type_,A
 
 		ID3D12Device* lMainDevice = lMainAdapter->GetDevice()->Get();
 
-		D3D12_RESOURCE_DESC lResDesc = CD3DX12_RESOURCE_DESC::Buffer(countBufferOffset + singleSize_,D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS);
+		D3D12_RESOURCE_DESC lResDesc = CD3DX12_RESOURCE_DESC::Buffer(countBufferOffset + singleSize_,D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS | D3D12_RESOURCE_FLAG_ALLOW_CROSS_ADAPTER);
 		D3D12_RESOURCE_ALLOCATION_INFO lBuferInf = lMainDevice->GetResourceAllocationInfo(0,1,&lResDesc);
 
 			//メインリソース生成
@@ -166,8 +166,8 @@ void DrawListBuffer::Create(size_t length_,size_t singleSize_,BufferType type_,A
 			ISRVDescriptorHeap* lMainHape = lMainAdapter->GetSRVDescriptorHeap();
 			ISRVDescriptorHeap* lSubHape = lSubAdapter->GetSRVDescriptorHeap();
 
-			uavHandles[ CrossAdapterResourceIndex::MAIN ].ptr = lMainHape->CreateSRV(lSrvResDesc,resources[ CrossAdapterResourceIndex::MAIN ].Get());
-			uavHandles[ CrossAdapterResourceIndex::SUB ].ptr = lSubHape->CreateSRV(lSrvResDesc,resources[ CrossAdapterResourceIndex::SUB ].Get());
+			srvHandles[ CrossAdapterResourceIndex::MAIN ].ptr = lMainHape->CreateSRV(lSrvResDesc,resources[ CrossAdapterResourceIndex::MAIN ].Get());
+			srvHandles[ CrossAdapterResourceIndex::SUB ].ptr = lSubHape->CreateSRV(lSrvResDesc,resources[ CrossAdapterResourceIndex::SUB ].Get());
 		}
 	}
 	else
