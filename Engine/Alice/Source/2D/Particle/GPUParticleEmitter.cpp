@@ -19,11 +19,11 @@ void GPUParticleEmitter::Update(float deltaTime_)
 	BaseGPUParticle::ParticleEnd();
 }
 
-void GPUParticleEmitter::Draw(const AliceMathF::Matrix4& viewMat_,const AliceMathF::Matrix4& projectionMat_)
+void GPUParticleEmitter::Draw(const AliceMathF::Matrix4& worldMat_,const AliceMathF::Matrix4& billboardMat_)
 {
 	if ( basicGPUParticle )
 	{
-		basicGPUParticle->Draw(viewMat_,projectionMat_);
+		basicGPUParticle->Draw(worldMat_,billboardMat_);
 	}
 }
 

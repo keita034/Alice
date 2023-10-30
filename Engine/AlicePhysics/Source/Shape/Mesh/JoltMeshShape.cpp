@@ -4,7 +4,7 @@
 
 #include <Jolt/Physics/Collision/PhysicsMaterialSimple.h>
 
-#if _DEBUG && defined(JPH_DEBUG_RENDERER)
+#if defined(_DEBUG) && defined(JPH_DEBUG_RENDERER)
 AlicePhysics::JoltDebugRenderer* AlicePhysics::JoltMeshShape::renderer = nullptr;
 #endif // _DEBUG
 
@@ -41,7 +41,7 @@ void AlicePhysics::JoltMeshShape::Initialize(const std::vector<AliceMathF::Vecto
 
 	type = MESH;
 
-#if _DEBUG && defined(JPH_DEBUG_RENDERER)
+#if defined(_DEBUG) && defined(JPH_DEBUG_RENDERER)
 	constantBuffers.push_back(CreateUniqueConstantBuffer(sizeof(AlicePhysics::JoltDebugRenderer::ConstBufferData)));
 #endif // _DEBUG
 
@@ -50,7 +50,7 @@ void AlicePhysics::JoltMeshShape::Initialize(const std::vector<AliceMathF::Vecto
 
 void AlicePhysics::JoltMeshShape::Draw(const AliceMathF::Matrix4& transform_,const AliceMathF::Vector3& scale_,const AliceMathF::Vector4& inColor,bool wireframe_)
 {
-#if _DEBUG && defined(JPH_DEBUG_RENDERER)
+#if defined(_DEBUG) && defined(JPH_DEBUG_RENDERER)
 
 	if ( renderer )
 	{
@@ -69,7 +69,7 @@ void AlicePhysics::JoltMeshShape::Draw(const AliceMathF::Matrix4& transform_,con
 
 }
 
-#if _DEBUG && defined(JPH_DEBUG_RENDERER)
+#if defined(_DEBUG) && defined(JPH_DEBUG_RENDERER)
 void AlicePhysics::JoltMeshShape::SetRenderer(JoltDebugRenderer* renderer_)
 {
 	renderer = renderer_;

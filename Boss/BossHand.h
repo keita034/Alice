@@ -7,12 +7,18 @@ enum class BossHandIndex
 	RIGHT
 };
 
+struct BossUsData
+{
+	int32_t situation;
+	BossHandIndex index;
+};
+
 class BossHand : public GameObject
 {
 private:
 
 	AliceModel::AnimationTransform animationTransform;
-	uint32_t situation;
+	BossUsData bossUsData;
 public:
 
 	BossHand() = default;
@@ -21,7 +27,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(Transform* parent_,AlicePhysics::AlicePhysicsSystem* physicsSystem_);
+	void Initialize(Transform* parent_,AlicePhysics::AlicePhysicsSystem* physicsSystem_,BossHandIndex index_);
 
 	/// <summary>
 	/// 更新処理

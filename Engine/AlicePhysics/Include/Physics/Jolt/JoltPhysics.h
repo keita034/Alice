@@ -60,7 +60,7 @@ namespace AlicePhysics
 		std::unique_ptr<JPH::JobSystemThreadPool> jobSystem;
 
 		std::unique_ptr<RigidBodyManager> rigidBodyManager;
-#if _DEBUG && defined(JPH_DEBUG_RENDERER)
+#if defined(_DEBUG) && defined(JPH_DEBUG_RENDERER)
 		std::unique_ptr<JoltDebugRenderer>debugRenderer;
 
 #endif // _DEBUG

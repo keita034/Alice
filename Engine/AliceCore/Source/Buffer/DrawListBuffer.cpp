@@ -95,6 +95,8 @@ void DrawListBuffer::Create(size_t length_,size_t singleSize_,BufferType type_,A
 	size_t deadListByteSize = singleSize_ * length_;
 	size_t countBufferOffset = ( size_t ) PAlignForUavCounter(( uint32_t ) deadListByteSize);
 
+	HRESULT lResult;
+
 	if ( type_ == BufferType::SHARED )
 	{
 		IAdapter* lMainAdapter = sMultiAdapters->GetAdapter(mainIndex_);
@@ -105,16 +107,18 @@ void DrawListBuffer::Create(size_t length_,size_t singleSize_,BufferType type_,A
 		D3D12_RESOURCE_DESC lResDesc = CD3DX12_RESOURCE_DESC::Buffer(countBufferOffset + singleSize_,D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS | D3D12_RESOURCE_FLAG_ALLOW_CROSS_ADAPTER);
 		D3D12_RESOURCE_ALLOCATION_INFO lBuferInf = lMainDevice->GetResourceAllocationInfo(0,1,&lResDesc);
 
-			//メインリソース生成
+		//メインリソース生成
 		{
 			CD3DX12_HEAP_DESC lHeapDesc = CD3DX12_HEAP_DESC(lBuferInf.SizeInBytes,D3D12_HEAP_TYPE::D3D12_HEAP_TYPE_DEFAULT,0,D3D12_HEAP_FLAGS::D3D12_HEAP_FLAG_SHARED | D3D12_HEAP_FLAGS::D3D12_HEAP_FLAG_SHARED_CROSS_ADAPTER);
 			lHeapDesc.Properties.VisibleNodeMask = 0;
 			lHeapDesc.Properties.CreationNodeMask = 0;
 
-			lMainDevice->CreateHeap(&lHeapDesc,IID_PPV_ARGS(&heaps[ CrossAdapterResourceIndex::MAIN ]));
+			lResult = lMainDevice->CreateHeap(&lHeapDesc,IID_PPV_ARGS(&heaps[ CrossAdapterResourceIndex::MAIN ]));
+			assert(SUCCEEDED(lResult));
 
 			//リソース生成
-			lMainDevice->CreatePlacedResource(heaps[ CrossAdapterResourceIndex::MAIN ].Get(),0,&lResDesc,D3D12_RESOURCE_STATES::D3D12_RESOURCE_STATE_UNORDERED_ACCESS,nullptr,IID_PPV_ARGS(&resources[ CrossAdapterResourceIndex::MAIN ]));
+			lResult = lMainDevice->CreatePlacedResource(heaps[ CrossAdapterResourceIndex::MAIN ].Get(),0,&lResDesc,D3D12_RESOURCE_STATES::D3D12_RESOURCE_STATE_UNORDERED_ACCESS,nullptr,IID_PPV_ARGS(&resources[ CrossAdapterResourceIndex::MAIN ]));
+			assert(SUCCEEDED(lResult));
 		}
 
 
@@ -124,15 +128,16 @@ void DrawListBuffer::Create(size_t length_,size_t singleSize_,BufferType type_,A
 			HANDLE lHeapHandle = nullptr;
 
 			//ヒープを共有
-			HRESULT lResult = lMainDevice->CreateSharedHandle(heaps[ CrossAdapterResourceIndex::MAIN ].Get(),nullptr,GENERIC_ALL,nullptr,&lHeapHandle);
+			lResult = lMainDevice->CreateSharedHandle(heaps[ CrossAdapterResourceIndex::MAIN ].Get(),nullptr,GENERIC_ALL,nullptr,&lHeapHandle);
 			assert(SUCCEEDED(lResult));
 
-			lSubDevice->OpenSharedHandle(lHeapHandle,IID_PPV_ARGS(&heaps[ CrossAdapterResourceIndex::SUB ]));
-
+			lResult = lSubDevice->OpenSharedHandle(lHeapHandle,IID_PPV_ARGS(&heaps[ CrossAdapterResourceIndex::SUB ]));
+			assert(SUCCEEDED(lResult));
 			CloseHandle(lHeapHandle);
 
 			//リソース生成
-			lSubDevice->CreatePlacedResource(heaps[ CrossAdapterResourceIndex::SUB ].Get(),0,&lResDesc,D3D12_RESOURCE_STATES::D3D12_RESOURCE_STATE_UNORDERED_ACCESS,nullptr,IID_PPV_ARGS(&resources[ CrossAdapterResourceIndex::SUB ]));
+			lResult = lSubDevice->CreatePlacedResource(heaps[ CrossAdapterResourceIndex::SUB ].Get(),0,&lResDesc,D3D12_RESOURCE_STATES::D3D12_RESOURCE_STATE_UNORDERED_ACCESS,nullptr,IID_PPV_ARGS(&resources[ CrossAdapterResourceIndex::SUB ]));
+			assert(SUCCEEDED(lResult));
 		}
 
 		//UAV生成
@@ -180,13 +185,8 @@ void DrawListBuffer::Create(size_t length_,size_t singleSize_,BufferType type_,A
 
 		D3D12_HEAP_PROPERTIES lHeapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE::D3D12_HEAP_TYPE_DEFAULT);
 
-		HRESULT lResult = lDevice->CreateCommittedResource(&lHeapProp,D3D12_HEAP_FLAGS::D3D12_HEAP_FLAG_NONE,&lResDesc,D3D12_RESOURCE_STATES::D3D12_RESOURCE_STATE_UNORDERED_ACCESS,nullptr,IID_PPV_ARGS(resource.GetAddressOf()));
-
-		if ( FAILED(lResult) )
-		{
-			printf("Failed to create buffer resource");
-			return;
-		}
+		lResult = lDevice->CreateCommittedResource(&lHeapProp,D3D12_HEAP_FLAGS::D3D12_HEAP_FLAG_NONE,&lResDesc,D3D12_RESOURCE_STATES::D3D12_RESOURCE_STATE_UNORDERED_ACCESS,nullptr,IID_PPV_ARGS(resource.GetAddressOf()));
+		assert(SUCCEEDED(lResult));
 
 		//uav生成
 		{

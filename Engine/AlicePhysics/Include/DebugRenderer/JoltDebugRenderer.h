@@ -8,7 +8,7 @@
 #include<Device.h>
 #include<CommandList.h>
 
-#if _DEBUG && defined(JPH_DEBUG_RENDERER)
+#if defined(_DEBUG) && defined(JPH_DEBUG_RENDERER)
 
 
 

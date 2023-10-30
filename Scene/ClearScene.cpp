@@ -81,13 +81,7 @@ void ClearScene::Finalize()
 {
 }
 
-const AliceMathF::Matrix4& ClearScene::GetSceneViewMatrix()
+Camera* ClearScene::GetSceneCamera()
 {
-	return gameCamera->GetViewMatrixInv();
-}
-
-const AliceMathF::Matrix4& ClearScene::GetSceneProjectionMatrix()
-{
-	return gameCamera->GetProjectionMatrix();
-
+	return gameCamera.get();
 }

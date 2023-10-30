@@ -17,7 +17,7 @@ ALICE_SUPPRESS_WARNINGS_END
 #include<ConstantBuffer.h>
 #include<CommandList.h>
 
-#if _DEBUG && defined(JPH_DEBUG_RENDERER)
+#if defined(_DEBUG) && defined(JPH_DEBUG_RENDERER)
 namespace AlicePhysics
 {
 	class JoltDebugRenderPrimitive : public JPH::RefTarget<JoltDebugRenderPrimitive>

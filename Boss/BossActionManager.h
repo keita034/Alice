@@ -46,10 +46,8 @@ private:
 
 	AliceMathF::Vector3 distanceTraveled;
 
-	float maxDistance = 55.0f;
+	float maxDistance = 80.0f;
 	float speed = 80.0f;
-
-
 
 public:
 

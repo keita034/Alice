@@ -1,7 +1,7 @@
 
 #include "JoltDebugRenderPrimitive.h"
 
-#if _DEBUG && defined(JPH_DEBUG_RENDERER)
+#if defined(_DEBUG) && defined(JPH_DEBUG_RENDERER)
 
 
 void AlicePhysics::JoltDebugRenderPrimitive::CreateVertexBuffer(size_t numVtx_, size_t vtxSize_, const void* data_)

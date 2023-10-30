@@ -8,7 +8,7 @@
 #include<JoltCapsuleShape.h>
 #include<JoltSphereShape.h>
 
-#if _DEBUG && defined(JPH_DEBUG_RENDERER)
+#if defined(_DEBUG) && defined(JPH_DEBUG_RENDERER)
 
 
 void AlicePhysics::JoltDebugRenderer::Initialize()

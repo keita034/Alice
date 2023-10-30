@@ -11,14 +11,9 @@ SceneManager::~SceneManager()
 {
 }
 
-const AliceMathF::Matrix4& SceneManager::GetSceneViewMatrix()
+Camera*  SceneManager::GetSceneCamera()
 {
-	return scene->GetSceneViewMatrix();
-}
-
-const AliceMathF::Matrix4& SceneManager::GetSceneProjectionMatrix()
-{
-	return scene->GetSceneProjectionMatrix();
+	return scene->GetSceneCamera();
 }
 
 SceneManager* SceneManager::SGetInstance()

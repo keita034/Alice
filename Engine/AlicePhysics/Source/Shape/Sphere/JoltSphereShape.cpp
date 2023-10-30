@@ -1,6 +1,6 @@
 #include "JoltSphereShape.h"
 
-#if _DEBUG && defined(JPH_DEBUG_RENDERER)
+#if defined(_DEBUG) && defined(JPH_DEBUG_RENDERER)
 AlicePhysics::JoltDebugRenderer* AlicePhysics::JoltSphereShape::renderer = nullptr;
 #endif // _DEBUG
 
@@ -17,7 +17,7 @@ void AlicePhysics::JoltSphereShape::Initialize(float radius_)
 	type = SPHERE;
 	radius = radius_;
 
-#if _DEBUG && defined(JPH_DEBUG_RENDERER)
+#if defined(_DEBUG) && defined(JPH_DEBUG_RENDERER)
 	constantBuffers.push_back(CreateUniqueConstantBuffer(sizeof(AlicePhysics::JoltDebugRenderer::ConstBufferData)));
 #endif // _DEBUG
 
@@ -25,7 +25,7 @@ void AlicePhysics::JoltSphereShape::Initialize(float radius_)
 
 void AlicePhysics::JoltSphereShape::Draw(const AliceMathF::Matrix4& transform_, const AliceMathF::Vector3& scale_, const AliceMathF::Vector4& inColor, bool wireframe_)
 {
-#if _DEBUG && defined(JPH_DEBUG_RENDERER)
+#if defined(_DEBUG) && defined(JPH_DEBUG_RENDERER)
 
 	if (renderer)
 	{
@@ -43,7 +43,7 @@ void AlicePhysics::JoltSphereShape::Draw(const AliceMathF::Matrix4& transform_, 
 
 }
 
-#if _DEBUG && defined(JPH_DEBUG_RENDERER)
+#if defined(_DEBUG) && defined(JPH_DEBUG_RENDERER)
 void AlicePhysics::JoltSphereShape::SetRenderer(JoltDebugRenderer* renderer_)
 {
 	renderer = renderer_;

@@ -4,7 +4,7 @@
 
 void CreateSprite2DSubMaterial(MaterialManager* manager_,IAdapter* adapter_)
 {
-	std::unique_ptr<Material>lMaterial;
+	std::unique_ptr<Material>lMaterial = std::make_unique<Material>();
 	ID3D12Device* lDevice = adapter_->GetDevice()->Get();
 
 	//頂点シェーダの読み込み

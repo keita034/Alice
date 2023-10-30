@@ -18,7 +18,7 @@ namespace AlicePhysics
 	{
 	private:
 		JPH::BoxShape*shape;
-#if _DEBUG && defined(JPH_DEBUG_RENDERER)
+#if defined(_DEBUG) && defined(JPH_DEBUG_RENDERER)
 		static JoltDebugRenderer* renderer;
 		std::vector<std::unique_ptr<IConstantBuffer>>constantBuffers;
 #endif // _DEBUG
@@ -47,7 +47,7 @@ namespace AlicePhysics
 		/// <param name="wireframe_">ワイヤーフレームで描画するか</param>
 		void Draw(const AliceMathF::Matrix4& transform_,const AliceMathF::Vector3& scale_,const AliceMathF::Vector4& inColor,bool wireframe_) override;
 
-#if _DEBUG && defined(JPH_DEBUG_RENDERER)
+#if defined(_DEBUG) && defined(JPH_DEBUG_RENDERER)
 		static void SetRenderer(JoltDebugRenderer* renderer_);
 #endif // _DEBUG
 

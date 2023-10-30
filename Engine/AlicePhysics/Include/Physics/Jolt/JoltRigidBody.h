@@ -59,7 +59,7 @@ namespace AlicePhysics
 		void SetPositionAndRotationInternal(const AliceMathF::Vector3& position_,const AliceMathF::Quaternion& rotation_)override;
 		void SetPosition(const AliceMathF::Vector3& position_)override;
 		void SetRotation(const AliceMathF::Quaternion& rotation_)override;
-		void SetMatrix(const AliceMathF::Matrix4& mat_)override;
+		void SetMatrix(const AliceMathF::Matrix4& matRigidBody_,const AliceMathF::Matrix4& matWorld_)override;
 		void* GetBody() override;
 		bool IsActive()override;
 		float GetFriction()override;

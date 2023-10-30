@@ -36,8 +36,6 @@ private:
 
 	int32_t situation = 0;
 	int32_t hp = 0;
-
-
 public:
 
 	Boss() = default;

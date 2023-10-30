@@ -55,10 +55,10 @@ public:
 		AliceMathF::Vector4 endColor;
 	};
 
-	struct ViewProjection
+	struct WorldBillboard
 	{
-		AliceMathF::Matrix4 view;
-		AliceMathF::Matrix4 projection;
+		AliceMathF::Matrix4 worldMat;
+		AliceMathF::Matrix4 billboardMat;
 	};
 
 	struct TimeConstants
@@ -95,7 +95,7 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12CommandSignature> particleCommandSignature = nullptr;
 
 	std::unique_ptr<IConstantBuffer>particleConstantsBuffer;
-	std::unique_ptr<IConstantBuffer>viewProjectionBuffer;
+	std::unique_ptr<IConstantBuffer>worldBillboardBuffer;
 	std::unique_ptr<IConstantBuffer>timeConstantsBuffer;
 	std::unique_ptr<IConstantBuffer>emitDataBuffer;
 
@@ -106,7 +106,7 @@ private:
 
 	ParticleConstant particleConstant;
 
-	ViewProjection viewProjection;
+	WorldBillboard worldBillboard;
 	TimeConstants time;
 	EmitData emitData;
 
@@ -119,7 +119,7 @@ public:
 	void Initialize() override;
 	void Update(float deltaTime_) override;
 	void Finalize() override;
-	void Draw(const AliceMathF::Matrix4& viewMat_,const AliceMathF::Matrix4& projectionMat_) override;
+	void Draw(const AliceMathF::Matrix4& worldMat_,const AliceMathF::Matrix4& billboardMat_) override;
 	void SetSetting()override;
 
 	void ADD(const AliceMathF::Vector3& pos_,const BasicGPUParticleSetting& setting_);

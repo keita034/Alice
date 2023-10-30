@@ -1,4 +1,5 @@
 #include "DefaultParticle.h"
+#include<CreateBlend.h>
 
 void CreateDefaultParticleMaterial(MaterialManager* manager_,IAdapter* adapter_)
 {
@@ -34,9 +35,7 @@ void CreateDefaultParticleMaterial(MaterialManager* manager_,IAdapter* adapter_)
 	lDefaultParticleMaterial->rootSignature->Create(lDevice);
 
 	//ブレンド設定
-	lDefaultParticleMaterial->blenddesc.RenderTarget[ 0 ].BlendEnable = true;// ブレンドを有効
-	lDefaultParticleMaterial->blenddesc.RenderTarget[ 0 ].SrcBlend = D3D12_BLEND_SRC_ALPHA;// ソースのアルファ値
-	lDefaultParticleMaterial->blenddesc.RenderTarget[ 0 ].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;// 1.0f-ソースのアルファ値
+	lDefaultParticleMaterial->blenddesc = CreateBlend(BlendMode::AX_BLENDMODE_ALPHA);
 
 	lDefaultParticleMaterial->primitiveType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT;
 

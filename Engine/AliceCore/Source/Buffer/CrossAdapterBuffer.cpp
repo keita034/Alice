@@ -59,16 +59,20 @@ void CrossAdapterBuffer::Create(size_t length_,size_t singleSize_,AdaptersIndex 
 
 	bufferSize = lBuferInf.SizeInBytes;
 
+	HRESULT lResult;
+
 	//メインリソース生成
 	{
 		CD3DX12_HEAP_DESC lHeapDesc = CD3DX12_HEAP_DESC(bufferSize,D3D12_HEAP_TYPE::D3D12_HEAP_TYPE_DEFAULT,0,D3D12_HEAP_FLAGS::D3D12_HEAP_FLAG_SHARED | D3D12_HEAP_FLAGS::D3D12_HEAP_FLAG_SHARED_CROSS_ADAPTER);
 		lHeapDesc.Properties.VisibleNodeMask = 0;
 		lHeapDesc.Properties.CreationNodeMask = 0;
 
-		lMainDevice->CreateHeap(&lHeapDesc,IID_PPV_ARGS(&heaps[ CrossAdapterResourceIndex::MAIN ]));
+		lResult = lMainDevice->CreateHeap(&lHeapDesc,IID_PPV_ARGS(&heaps[ CrossAdapterResourceIndex::MAIN ]));
+		assert(SUCCEEDED(lResult));
 
 		//リソース生成
-		lMainDevice->CreatePlacedResource(heaps[ CrossAdapterResourceIndex::MAIN ].Get(),0,&lSauceResDesc,D3D12_RESOURCE_STATES::D3D12_RESOURCE_STATE_UNORDERED_ACCESS,nullptr,IID_PPV_ARGS(&resources[ CrossAdapterResourceIndex::MAIN ]));
+		lResult = lMainDevice->CreatePlacedResource(heaps[ CrossAdapterResourceIndex::MAIN ].Get(),0,&lSauceResDesc,D3D12_RESOURCE_STATES::D3D12_RESOURCE_STATE_UNORDERED_ACCESS,nullptr,IID_PPV_ARGS(&resources[ CrossAdapterResourceIndex::MAIN ]));
+		assert(SUCCEEDED(lResult));
 	}
 
 
@@ -79,15 +83,17 @@ void CrossAdapterBuffer::Create(size_t length_,size_t singleSize_,AdaptersIndex 
 		HANDLE lHeapHandle = nullptr;
 
 		//ヒープを共有
-		HRESULT lResult = lMainDevice->CreateSharedHandle(heaps[ CrossAdapterResourceIndex::MAIN ].Get(),nullptr,GENERIC_ALL,nullptr,&lHeapHandle);
+		lResult = lMainDevice->CreateSharedHandle(heaps[ CrossAdapterResourceIndex::MAIN ].Get(),nullptr,GENERIC_ALL,nullptr,&lHeapHandle);
 		assert(SUCCEEDED(lResult));
 
-		lSubDevice->OpenSharedHandle(lHeapHandle,IID_PPV_ARGS(&heaps[ CrossAdapterResourceIndex::SUB ]));
+		lResult = lSubDevice->OpenSharedHandle(lHeapHandle,IID_PPV_ARGS(&heaps[ CrossAdapterResourceIndex::SUB ]));
+		assert(SUCCEEDED(lResult));
 
 		CloseHandle(lHeapHandle);
 
 		//リソース生成
-		lSubDevice->CreatePlacedResource(heaps[ CrossAdapterResourceIndex::SUB ].Get(),0,&lSauceResDesc,D3D12_RESOURCE_STATES::D3D12_RESOURCE_STATE_UNORDERED_ACCESS,nullptr,IID_PPV_ARGS(&resources[ CrossAdapterResourceIndex::SUB ]));
+		lResult = lSubDevice->CreatePlacedResource(heaps[ CrossAdapterResourceIndex::SUB ].Get(),0,&lSauceResDesc,D3D12_RESOURCE_STATES::D3D12_RESOURCE_STATE_UNORDERED_ACCESS,nullptr,IID_PPV_ARGS(&resources[ CrossAdapterResourceIndex::SUB ]));
+		assert(SUCCEEDED(lResult));
 	}
 
 	{

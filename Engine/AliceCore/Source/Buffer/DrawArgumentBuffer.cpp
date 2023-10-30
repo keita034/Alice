@@ -3,6 +3,7 @@
 #include<DescriptorHeap.h>
 #include<PadingType.h>
 #include<AliceAssert.h>
+#include<cassert>
 
 class DrawArgumentBuffer : public BaseBuffer , public IDrawArgumentBuffer
 {
@@ -62,6 +63,8 @@ void DrawArgumentBuffer::Create(size_t length_,size_t singleSize_,BufferType typ
 	mainAdapter = sMultiAdapters->GetAdapter(mainIndex_);
 	subAdapter = sMultiAdapters->GetAdapter(subIndex_);
 
+	HRESULT lResult;
+
 	if ( type_ == BufferType::SHARED )
 	{
 		ID3D12Device* lMainDevice = mainAdapter->GetDevice()->Get();
@@ -72,10 +75,12 @@ void DrawArgumentBuffer::Create(size_t length_,size_t singleSize_,BufferType typ
 			lHeapDesc.Properties.VisibleNodeMask = 0;
 			lHeapDesc.Properties.CreationNodeMask = 0;
 
-			lMainDevice->CreateHeap(&lHeapDesc,IID_PPV_ARGS(&heaps[ CrossAdapterResourceIndex::MAIN ]));
+			lResult = lMainDevice->CreateHeap(&lHeapDesc,IID_PPV_ARGS(&heaps[ CrossAdapterResourceIndex::MAIN ]));
+			assert(SUCCEEDED(lResult));
 
 			//リソース生成
-			lMainDevice->CreatePlacedResource(heaps[ CrossAdapterResourceIndex::MAIN ].Get(),0,&lSauceResDesc,D3D12_RESOURCE_STATES::D3D12_RESOURCE_STATE_UNORDERED_ACCESS,nullptr,IID_PPV_ARGS(&resources[ CrossAdapterResourceIndex::MAIN ]));
+			lResult = lMainDevice->CreatePlacedResource(heaps[ CrossAdapterResourceIndex::MAIN ].Get(),0,&lSauceResDesc,D3D12_RESOURCE_STATES::D3D12_RESOURCE_STATE_UNORDERED_ACCESS,nullptr,IID_PPV_ARGS(&resources[ CrossAdapterResourceIndex::MAIN ]));
+			assert(SUCCEEDED(lResult));
 		}
 
 			//サブリソース生成
@@ -85,15 +90,17 @@ void DrawArgumentBuffer::Create(size_t length_,size_t singleSize_,BufferType typ
 			HANDLE lHeapHandle = nullptr;
 
 			//ヒープを共有
-			HRESULT lResult = lMainDevice->CreateSharedHandle(heaps[ CrossAdapterResourceIndex::MAIN ].Get(),nullptr,GENERIC_ALL,nullptr,&lHeapHandle);
+			lResult = lMainDevice->CreateSharedHandle(heaps[ CrossAdapterResourceIndex::MAIN ].Get(),nullptr,GENERIC_ALL,nullptr,&lHeapHandle);
 			AliceAssert(SUCCEEDED(lResult),"シェアハンドルの生成に失敗しました。");
 
-			lSubDevice->OpenSharedHandle(lHeapHandle,IID_PPV_ARGS(&heaps[ CrossAdapterResourceIndex::SUB ]));
+			lResult = lSubDevice->OpenSharedHandle(lHeapHandle,IID_PPV_ARGS(&heaps[ CrossAdapterResourceIndex::SUB ]));
+			assert(SUCCEEDED(lResult));
 
 			CloseHandle(lHeapHandle);
 
 			//リソース生成
-			lSubDevice->CreatePlacedResource(heaps[ CrossAdapterResourceIndex::SUB ].Get(),0,&lSauceResDesc,D3D12_RESOURCE_STATES::D3D12_RESOURCE_STATE_INDIRECT_ARGUMENT,nullptr,IID_PPV_ARGS(&resources[ CrossAdapterResourceIndex::SUB ]));
+			lResult = lSubDevice->CreatePlacedResource(heaps[ CrossAdapterResourceIndex::SUB ].Get(),0,&lSauceResDesc,D3D12_RESOURCE_STATES::D3D12_RESOURCE_STATE_INDIRECT_ARGUMENT,nullptr,IID_PPV_ARGS(&resources[ CrossAdapterResourceIndex::SUB ]));
+			assert(SUCCEEDED(lResult));
 		}
 
 		{
@@ -125,13 +132,8 @@ void DrawArgumentBuffer::Create(size_t length_,size_t singleSize_,BufferType typ
 
 		D3D12_HEAP_PROPERTIES lHeapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE::D3D12_HEAP_TYPE_DEFAULT);
 
-		HRESULT lResult = lDevice->CreateCommittedResource(&lHeapProp,D3D12_HEAP_FLAGS::D3D12_HEAP_FLAG_NONE,&lResDesc,D3D12_RESOURCE_STATES::D3D12_RESOURCE_STATE_UNORDERED_ACCESS,nullptr,IID_PPV_ARGS(resource.GetAddressOf()));
-
-		if ( FAILED(lResult) )
-		{
-			printf("Failed to create buffer resource");
-			return;
-		}
+		lResult = lDevice->CreateCommittedResource(&lHeapProp,D3D12_HEAP_FLAGS::D3D12_HEAP_FLAG_NONE,&lResDesc,D3D12_RESOURCE_STATES::D3D12_RESOURCE_STATE_UNORDERED_ACCESS,nullptr,IID_PPV_ARGS(resource.GetAddressOf()));
+		assert(SUCCEEDED(lResult));
 
 		D3D12_UNORDERED_ACCESS_VIEW_DESC lUavResDesc{};
 		lUavResDesc.Format = DXGI_FORMAT::DXGI_FORMAT_UNKNOWN;

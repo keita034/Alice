@@ -25,7 +25,7 @@ public:
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw(const AliceMathF::Matrix4& viewMat_,const AliceMathF::Matrix4& projectionMat_);
+	void Draw(const AliceMathF::Matrix4& worldMat_,const AliceMathF::Matrix4& billboardMat_);
 
 	void BasicGPUParticleEmit(const AliceMathF::Vector3& pos_,const BasicGPUParticleSetting& setting_);
 

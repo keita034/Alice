@@ -52,7 +52,7 @@ void PlayerWeapon::TransUpdate(Camera* camera_)
 {
 	transform.TransUpdate(camera_, &animationTransform.boneMatrix);
 
-	rigidBody->SetMatrix(transform.rigidBodyMatWorld);
+	rigidBody->SetMatrix(transform.rigidBodyMatWorld,transform.matWorld);
 	rigidBody->SetPosition(AliceMathF::GetWorldPosition(transform.matWorld));
 }
 

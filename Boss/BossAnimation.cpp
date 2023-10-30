@@ -3,11 +3,11 @@
 void BossAnimation::Initialize()
 {
 
-	standAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Idle.almb");
-	walkAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Walk.almb");
-	runAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Run.almb");
+	standAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/Idle.almb");
+	walkAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/Walking.almb");
+	runAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/Run.almb");
 
-	downAttackAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/DownAttack.almb");
+	downAttackAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/Punch.almb");
 	deathAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/Death.almb");
 
 	blendTree = std::make_unique<AliceBlendTree>();

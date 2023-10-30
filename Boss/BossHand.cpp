@@ -3,12 +3,13 @@
 #include<CollisionAttribute.h>
 #include<SphereShape.h>
 
-void BossHand::Initialize(Transform* parent_,AlicePhysics::AlicePhysicsSystem* physicsSystem_)
+void BossHand::Initialize(Transform* parent_,AlicePhysics::AlicePhysicsSystem* physicsSystem_,BossHandIndex index_)
 {
+	transform.translation = { 0.0f,1000.0f,0.0f };
 	transform.parent = parent_;
 	transform.Initialize();
 
-	shape.reset(AlicePhysics::CreateSphereShape(5.0f));
+	shape.reset(AlicePhysics::CreateSphereShape(25.0f));
 
 	AlicePhysics::IRigidBodyCreationSettings lSetting;
 	lSetting.name = "BossHand";
@@ -19,10 +20,11 @@ void BossHand::Initialize(Transform* parent_,AlicePhysics::AlicePhysicsSystem* p
 	lSetting.collisionAttribute = CollisionAttribute::HAND;
 	lSetting.position = transform.translation;
 	lSetting.shape = shape.get();
-	lSetting.userData = static_cast< void* >( &situation );
+	lSetting.userData = static_cast< void* >( &bossUsData );
 	lSetting.trigger = true;
 	physicsSystem_->CreateRigidBody(rigidBody,&lSetting);
 	physicsSystem_->AddRigidBody(rigidBody);
+	bossUsData.index = index_;
 }
 
 void BossHand::Update(const std::string& boneName_, AliceBlendTree* tree_, AliceModel* playerModel_)
@@ -39,12 +41,12 @@ void BossHand::TransUpdate(Camera* camera_)
 {
 	transform.TransUpdate(camera_, &animationTransform.boneMatrix);
 
-	rigidBody->SetMatrix(transform.rigidBodyMatWorld);
+	rigidBody->SetMatrix(transform.rigidBodyMatWorld,transform.matWorld);
 }
 
 void BossHand::SetSituation(uint32_t situation_)
 {
-	situation = situation_;
+	bossUsData.situation = situation_;
 }
 
 void BossHand::Draw()

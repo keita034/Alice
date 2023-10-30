@@ -43,9 +43,7 @@ public:
 
 	~SceneManager();
 
-	const AliceMathF::Matrix4& GetSceneViewMatrix();
-
-	const AliceMathF::Matrix4& GetSceneProjectionMatrix();
+	Camera* GetSceneCamera();
 
 private:
 

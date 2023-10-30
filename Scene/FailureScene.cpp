@@ -81,13 +81,7 @@ void FailureScene::Finalize()
 
 }
 
-const AliceMathF::Matrix4& FailureScene::GetSceneViewMatrix()
+Camera* FailureScene::GetSceneCamera()
 {
-	return gameCamera->GetViewMatrixInv();
-}
-
-const AliceMathF::Matrix4& FailureScene::GetSceneProjectionMatrix()
-{
-	return gameCamera->GetProjectionMatrix();
-
+	return gameCamera.get();
 }

@@ -117,6 +117,15 @@ void GameCamera::Update()
 		//ビュー行列の逆行列を計算
 		viewMatrixInv = AliceMathF::MakeInverse(&viewMatrix);
 
+		AliceMathF::Matrix4 backFrontMat;
+		backFrontMat.MakeRotationY(AliceMathF::AX_PI);
+
+		billboardMat = viewMatrixInv * backFrontMat;
+
+		billboardMat.m[ 3 ][ 0 ] = 0.0f;
+		billboardMat.m[ 3 ][ 1 ] = 0.0f;
+		billboardMat.m[ 3 ][ 2 ] = 0.0f;
+
 		forward = { viewMatrixInv.m[2][0], viewMatrixInv.m[2][1], viewMatrixInv.m[2][2] };
 
 		AliceMathF::Vector3 lTgtToPosLen;
@@ -269,6 +278,13 @@ const AliceMathF::Matrix4& GameCamera::GetViewProjectionMatrix()
 	//更新
 	Update();
 	return viewProjectionMatrix;
+}
+
+const AliceMathF::Matrix4& GameCamera::GetBillboardMatrix()
+{
+	//更新
+	Update();
+	return billboardMat;
 }
 
 const AliceMathF::Matrix4& GameCamera::GetCameraRotation()

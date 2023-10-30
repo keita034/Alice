@@ -45,9 +45,6 @@ private:
 
 	std::unique_ptr<GameCamera>gameCamera;
 
-	AliceMathF::Matrix4 tmp;
-	AliceMathF::Matrix4 lMat;
-
 public:
 
 	TitleScene() = default;
@@ -73,9 +70,7 @@ public:
 	/// </summary>
 	void Finalize() override;
 
-	const AliceMathF::Matrix4& GetSceneViewMatrix()override;
-
-	const AliceMathF::Matrix4& GetSceneProjectionMatrix()override;
+	Camera* GetSceneCamera()override;
 
 private:
 	//コピーコンストラクタ・代入演算子削除

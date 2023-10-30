@@ -3,6 +3,8 @@
 #include<AudioManager.h>
 #include<WindowsApp.h>
 #include<AlicePhysicsSystem.h>
+#include<Camera.h>
+
 /// <summary>
 /// シーン基底クラス
 /// </summary>
@@ -22,8 +24,6 @@ protected:
 	SceneManager* sceneManager = nullptr;
 
 	std::string sceneName;
-
-
 public:
 
 	virtual ~BaseScene() = default;
@@ -48,9 +48,7 @@ public:
 	/// </summary>
 	virtual void Finalize() = 0;
 
-	virtual const AliceMathF::Matrix4& GetSceneViewMatrix() = 0;
-
-	virtual const AliceMathF::Matrix4& GetSceneProjectionMatrix() = 0;
+	virtual Camera* GetSceneCamera() =0;
 
 	virtual void SetSceneManager(SceneManager* manager_);
 

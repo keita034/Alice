@@ -115,15 +115,14 @@ void BasicGPUParticle::Update(float deltaTime_)
 
 void BasicGPUParticle::Finalize(){}
 
-void BasicGPUParticle::Draw(const AliceMathF::Matrix4& viewMat_,const AliceMathF::Matrix4& projectionMat_)
+void BasicGPUParticle::Draw(const AliceMathF::Matrix4& worldMat_,const AliceMathF::Matrix4& billboardMat_)
 {
 	{
-		ViewProjection lViewProjection;
 
-		lViewProjection.view = viewMat_;
-		lViewProjection.projection = projectionMat_;
+		worldBillboard.worldMat = worldMat_;
+		worldBillboard.billboardMat = billboardMat_;
 
-		viewProjectionBuffer->Update(&lViewProjection);
+		worldBillboardBuffer->Update(&worldBillboard);
 	}
 
 	ID3D12GraphicsCommandList* lGraphicCommandList = graphicAdapter->GetGraphicCommandList();
@@ -138,7 +137,7 @@ void BasicGPUParticle::Draw(const AliceMathF::Matrix4& viewMat_,const AliceMathF
 	ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::MAIN)->GetHeap() };
 	lGraphicCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
 
-	lGraphicCommandList->SetGraphicsRootConstantBufferView(0,viewProjectionBuffer->GetAddress());
+	lGraphicCommandList->SetGraphicsRootConstantBufferView(0,worldBillboardBuffer->GetAddress());
 
 	lGraphicCommandList->SetGraphicsRootDescriptorTable(1,particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::SUB));
 	lGraphicCommandList->SetGraphicsRootDescriptorTable(2,drawListBuffer->GetUAVAddress(CrossAdapterResourceIndex::SUB));
@@ -186,7 +185,7 @@ void BasicGPUParticle::PBufferCreate()
 	particleConstantsBuffer = CreateUniqueConstantBuffer(sizeof(ParticleConstant),AdaptersIndex::SUB);
 	timeConstantsBuffer = CreateUniqueConstantBuffer(sizeof(TimeConstants),AdaptersIndex::SUB);
 	emitDataBuffer = CreateUniqueConstantBuffer(sizeof(EmitData),AdaptersIndex::SUB);
-	viewProjectionBuffer = CreateUniqueConstantBuffer(sizeof(ViewProjection),AdaptersIndex::MAIN);
+	worldBillboardBuffer = CreateUniqueConstantBuffer(sizeof(WorldBillboard),AdaptersIndex::MAIN);
 }
 
 void BasicGPUParticle::PUpdateConstantBuffer(float deltaTime_)

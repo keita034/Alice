@@ -69,9 +69,7 @@ public:
 	/// </summary>
 	void Finalize() override;
 
-	const AliceMathF::Matrix4& GetSceneViewMatrix()override;
-
-	const AliceMathF::Matrix4& GetSceneProjectionMatrix()override;
+	Camera* GetSceneCamera()override;
 
 
 private:

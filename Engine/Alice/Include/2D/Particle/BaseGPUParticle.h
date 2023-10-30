@@ -56,7 +56,7 @@ public:
 	/// </summary>
 	virtual void Finalize() = 0;
 
-	virtual void Draw(const AliceMathF::Matrix4& viewMat_,const AliceMathF::Matrix4& projectionMat_) = 0;
+	virtual void Draw(const AliceMathF::Matrix4& worldMat_,const AliceMathF::Matrix4& billboardMat_) = 0;
 
 	virtual void SetSetting() =0;
 

@@ -30,7 +30,7 @@ void AlicePhysics::JoltPhysics::Initialize()
 	physicsSystem->SetContactListener(&contactListener);
 	physicsSystem->SetGravity(gravity);
 
-#if _DEBUG && defined(JPH_DEBUG_RENDERER)
+#if defined(_DEBUG) && defined(JPH_DEBUG_RENDERER)
 	debugRenderer = std::make_unique<JoltDebugRenderer>();
 	debugRenderer->SetDevice(device);
 	debugRenderer->SetCommandList(commandList);
@@ -163,7 +163,7 @@ void AlicePhysics::JoltPhysics::Finalize()
 
 void AlicePhysics::JoltPhysics::Draw()
 {
-#if _DEBUG && defined(JPH_DEBUG_RENDERER)
+#if defined(_DEBUG) && defined(JPH_DEBUG_RENDERER)
 	debugRenderer->Draw();
 #endif // _DEBUG
 
@@ -181,7 +181,7 @@ void AlicePhysics::JoltPhysics::SetCommandList(ICommandList* commandList_)
 
 void AlicePhysics::JoltPhysics::SetViewProjection(const AliceMathF::Matrix4& viewMat_,const AliceMathF::Matrix4& projectionMat_)
 {
-#if _DEBUG && defined(JPH_DEBUG_RENDERER)
+#if defined(_DEBUG) && defined(JPH_DEBUG_RENDERER)
 	debugRenderer->SetViewProjection(viewMat_,projectionMat_);
 #else
 	static_cast< void >( viewMat_ );
@@ -192,7 +192,7 @@ void AlicePhysics::JoltPhysics::SetViewProjection(const AliceMathF::Matrix4& vie
 
 void AlicePhysics::JoltPhysics::SetLight(AliceMathF::Vector3* lightV_,AliceMathF::Vector4* lightColor_)
 {
-#if _DEBUG && defined(JPH_DEBUG_RENDERER)
+#if defined(_DEBUG) && defined(JPH_DEBUG_RENDERER)
 	debugRenderer->SetLight(lightV_,lightColor_);
 #else
 	static_cast< void >( lightV_ );

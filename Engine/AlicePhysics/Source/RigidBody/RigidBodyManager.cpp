@@ -8,7 +8,7 @@ void AlicePhysics::RigidBodyManager::AddRigidBody(std::unique_ptr<IRigidBody>& r
 	}
 	else
 	{
-		printf("そのIDは追加済みです");
+		printf("ID:%dは追加済みです\n",id_);
 	}
 }
 
@@ -20,7 +20,7 @@ void AlicePhysics::RigidBodyManager::RemoveRigidBody(uint32_t id_)
 	}
 	else
 	{
-		printf("そのIDは存在しません");
+		printf("ID:%dは存在しません\n",id_);
 	}
 }
 
@@ -28,11 +28,11 @@ AlicePhysics::IRigidBody* AlicePhysics::RigidBodyManager::GetRigidBody(uint32_t 
 {
 	if ( rigidBodys.find(id_) != rigidBodys.end() )
 	{
-		return rigidBodys[id_].get();
+		return rigidBodys[ id_ ].get();
 	}
 	else
 	{
-		printf("そのIDは存在しません");
+		printf("ID:%dは存在しません\n",id_);
 
 		return nullptr;
 	}

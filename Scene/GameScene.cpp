@@ -142,13 +142,9 @@ void GameScene::Finalize()
 	fieldObjData->Finalize(sPhysicsSystem);
 }
 
-const AliceMathF::Matrix4& GameScene::GetSceneViewMatrix()
+Camera* GameScene::GetSceneCamera()
 {
-	return gameCameraManager->GetCamera()->GetViewMatrixInv();
-}
+	BaseGameCamera* lCamera = gameCameraManager->GetGameCamera();
 
-const AliceMathF::Matrix4& GameScene::GetSceneProjectionMatrix()
-{
-	return gameCameraManager->GetCamera()->GetProjectionMatrix();
+	return lCamera->GetGameCamera();
 }
-

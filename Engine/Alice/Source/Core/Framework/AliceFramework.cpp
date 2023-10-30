@@ -137,25 +137,9 @@ void AliceFramework::Update()
 
 	sceneManager->Update();
 
-	if ( input->TriggerKey(Keys::SPACE) )
-	{
-		BasicGPUParticleSetting lSetting;
-		lSetting.acceleration = { 0.0f, 0.001f ,0.0f };
-		lSetting.endColor = { 0.0f,0.0f,1.0f,1.0f };
-		lSetting.emitCount = 50;
-		lSetting.maxParticles = 1000000;
-		lSetting.startColor = { 1.0f,0.0f,0.0f,1.0f };
-		lSetting.velocity = { 5.0f,5.0f,5.0f };
-		lSetting.LifeTime = 5;
-		lSetting.scale = { 1.0f,0.0f };
-		lSetting.emitLifeTime = 6000;
-		lSetting.timeBetweenEmit = 1.0f;
-		gpuParticleEmitter->BasicGPUParticleEmit({0,0,0},lSetting);
-	}
-
 	gpuParticleEmitter->Update(fps->GetDeltaTime());
 
-	physicsSystem->SetViewProjection(sceneManager->GetSceneViewMatrix(),sceneManager->GetSceneProjectionMatrix());
+	physicsSystem->SetViewProjection(sceneManager->GetSceneCamera()->GetViewMatrixInv(),sceneManager->GetSceneCamera()->GetProjectionMatrix());
 	physicsSystem->SetLight(Light::SGetLightDirPtr(),Light::SGetLightColorPtr());
 
 	physicsSystem->Update(fps->GetDeltaTime(),fps->GetFrameRate());
@@ -183,7 +167,7 @@ void AliceFramework::Draw()
 
 		sceneManager->Draw();
 
-		gpuParticleEmitter->Draw(sceneManager->GetSceneViewMatrix(),sceneManager->GetSceneProjectionMatrix());
+		gpuParticleEmitter->Draw(sceneManager->GetSceneCamera()->GetViewProjectionMatrix(),sceneManager->GetSceneCamera()->GetBillboardMatrix());
 
 		physicsSystem->Draw();
 
@@ -206,7 +190,7 @@ void AliceFramework::Draw()
 
 		sceneManager->Draw();
 
-		gpuParticleEmitter->Draw(sceneManager->GetSceneViewMatrix(),sceneManager->GetSceneProjectionMatrix());
+		gpuParticleEmitter->Draw(sceneManager->GetSceneCamera()->GetViewProjectionMatrix(),sceneManager->GetSceneCamera()->GetBillboardMatrix());
 
 		physicsSystem->Draw();
 
