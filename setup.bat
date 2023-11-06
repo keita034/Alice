@@ -22,7 +22,10 @@ START /wait vcpkg.exe install imgui[core,dx12-binding,win32-binding]:x64-windows
 echo imgui終了
 
 START /wait vcpkg.exe install directxtex:x64-windows-static
-echo directxTex終了
+echo DirectXTex終了
+
+START /wait vcpkg.exe install directx-headers:x64-windows-static
+echo DirectX-Headers終了
 
 START /wait vcpkg.exe install assimp:x64-windows-static 
 echo assimp終了
