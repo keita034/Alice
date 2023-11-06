@@ -112,13 +112,13 @@ void RWStructuredBuffer::CreateSRV(size_t length_,size_t singleSize_,AdaptersInd
 	ISRVDescriptorHeap* lSRVHeap = lAdapter->GetSRVDescriptorHeap();
 
 	D3D12_RESOURCE_DESC lResDesc = CD3DX12_RESOURCE_DESC::Buffer(singleSize_ * length_);
-	lResDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS | D3D12_RESOURCE_FLAG_ALLOW_CROSS_ADAPTER;
+	lResDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS;
 
 	D3D12_HEAP_PROPERTIES lHeapProp = CD3DX12_HEAP_PROPERTIES(heapType);
 
 	HRESULT lResult = lDevice->CreateCommittedResource(
 		&lHeapProp,
-		D3D12_HEAP_FLAG_SHARED | D3D12_HEAP_FLAG_SHARED_CROSS_ADAPTER,
+		D3D12_HEAP_FLAGS::D3D12_HEAP_FLAG_NONE,
 		&lResDesc,
 		D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
 		nullptr,

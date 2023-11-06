@@ -25,6 +25,9 @@ GameScene::~GameScene()
 
 void GameScene::Initialize(const std::string& previewSceneName_)
 {
+	sGPUParticleEmitter->FireParticleCreate(10000000,"BossHandParticle");
+	sGPUParticleEmitter->FireParticleSetTex("BossHandParticle",TextureManager::SLoad("Resources/Default/Particle/FireEffectNoise.png"));
+
 	fieldObjData = SceneLoader::SLoadFile(sPhysicsSystem,"Resources/Field.json");
 
 	player = std::make_unique<Player>();
@@ -36,6 +39,7 @@ void GameScene::Initialize(const std::string& previewSceneName_)
 	boss = std::make_unique<Boss>();
 	boss->SetPlayer(player.get());
 	boss->SetAudioManager(sAudioManager);
+	boss->SetFireGPUParticle(sGPUParticleEmitter->GetFireParticle("BossHandParticle"));
 	boss->Initialize(sPhysicsSystem);
 
 	inTransition = std::make_unique<FadeInTransition>();
@@ -50,6 +54,9 @@ void GameScene::Initialize(const std::string& previewSceneName_)
 	
 	sAudioManager->PlayWave(bgmHandle,true);
 	sAudioManager->ChangeVolume(bgmHandle,0);
+
+	camera = std::make_unique<GameCamera>();
+	camera->Initialize(UPDATE_PROJMATRIXFUNC_PERSPECTIVE);
 }
 
 void GameScene::Update()
@@ -144,7 +151,5 @@ void GameScene::Finalize()
 
 Camera* GameScene::GetSceneCamera()
 {
-	BaseGameCamera* lCamera = gameCameraManager->GetGameCamera();
-
-	return lCamera->GetGameCamera();
+	return gameCameraManager->GetCamera();
 }

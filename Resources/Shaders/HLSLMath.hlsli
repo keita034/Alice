@@ -1,15 +1,15 @@
-static const float PI_2 = 3.14f;
+static const float PI = 3.14f;
 
 //弧度法から度数法に
 float RadianToAngle(float RADIAN)
 {
-    return RADIAN * (180.0f / PI_2);
+    return RADIAN * (180.0f / PI);
 }
 
 //度数法から弧度法に
 float AngleToRadian(float ANGLE)
 {
-    float radian = ANGLE * (3.14f / 180.0f);
+    float radian = ANGLE * (PI / 180.0f);
     return radian;
 }
 
@@ -142,4 +142,71 @@ float3 RandVec3(uint SEED, float MAX, float MIN)
         result.z = MIN;
     }
     return result;
+}
+
+float RandFloat(uint SEED, float MAX, float MIN)
+{
+    uint rand = WangHashRand(SEED * 1847483629);
+    float result;
+    result = (rand % 1024) / 1024.0f;
+    rand /= 1024;
+
+    result = (MAX + abs(MIN)) * result - abs(MIN);
+
+    if (result.x <= MIN)
+    {
+        result.x = MIN;
+    }
+
+    return result;
+}
+
+float3 RandomPointInUnitSphere(uint SEED)
+{
+    float3 rand = RandVec3(SEED, 1.0f, 0.0f);
+
+    float theta = rand.x * 2 * 3.14159;
+    float phi = rand.y * 3.14159;
+    float r = pow(rand.z, 1.0 / 3.0);
+
+    float3 randomPoint;
+    randomPoint.x = r * sin(phi) * cos(theta);
+    randomPoint.y = r * cos(phi);
+    randomPoint.z = r * sin(phi) * sin(theta);
+
+    return randomPoint;
+}
+
+float3 RandomPointInUnitSphere(uint SEED,float RADIUS)
+{
+    float3 rand = RandVec3(SEED, 1.0f, 0.0f);
+
+    float theta = rand.x * 2 * 3.14159;
+    float phi = rand.y * 3.14159;
+    float r = pow(rand.z, 1.0 / 3.0) * RADIUS;
+
+    float3 randomPoint;
+    randomPoint.x = r * sin(phi) * cos(theta);
+    randomPoint.y = r * cos(phi);
+    randomPoint.z = r * sin(phi) * sin(theta);
+
+    return randomPoint;
+}
+
+float3 RandomPointInUnitSphere(uint SEED, float3 RADIUS)
+{
+    float3 rand = RandVec3(SEED, 1.0f, 0.0f);
+
+    float theta = rand.x * 2 * 3.14159;
+    float phi = rand.y * 3.14159;
+    float rX = pow(rand.z, 1.0 / 3.0) * RADIUS.x;
+    float rY = pow(rand.z, 1.0 / 3.0) * RADIUS.y;
+    float rZ = pow(rand.z, 1.0 / 3.0) * RADIUS.z;
+
+    float3 randomPoint;
+    randomPoint.x = rX * sin(phi) * cos(theta);
+    randomPoint.y = rY * cos(phi);
+    randomPoint.z = rZ * sin(phi) * sin(theta);
+
+    return randomPoint;
 }

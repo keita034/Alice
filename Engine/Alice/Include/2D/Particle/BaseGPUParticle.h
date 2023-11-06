@@ -18,6 +18,7 @@
 #include<CrossAdapterBuffer.h>
 #include<FreeListBuffer.h>
 #include<DrawListBuffer.h>
+
 ALICE_SUPPRESS_WARNINGS_BEGIN
 #include<string>
 #include<unordered_map>
@@ -35,9 +36,6 @@ protected:
 	std::unique_ptr<IDrawListBuffer>drawListBuffer;
 	std::unique_ptr<IFreeListBuffer>freeListBuffer;
 
-	float emitTimeCounter;
-
-	Byte4 PADING;
 
 public:
 
@@ -55,6 +53,8 @@ public:
 	/// 終了
 	/// </summary>
 	virtual void Finalize() = 0;
+
+	static void BaseGPUParticleFinalize();
 
 	virtual void Draw(const AliceMathF::Matrix4& worldMat_,const AliceMathF::Matrix4& billboardMat_) = 0;
 

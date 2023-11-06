@@ -10,6 +10,8 @@ public:
 
 	static void SSetDevice(IDevice* device_);
 
+	static void Finalize();
+
 protected:
 
 	static IDevice* sMainDevice;

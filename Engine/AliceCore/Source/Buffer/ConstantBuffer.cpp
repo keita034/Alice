@@ -22,39 +22,13 @@ private:
 
 public:
 
-	/// <summary>
-	/// 定数バッファを生成
-	/// </summary>
 	void Create(size_t bufferSize_,AdaptersIndex index_) override;
-
-   /// <summary>
-   /// バッファ生成に成功したかを返す
-   /// </summary>
 	bool IsValid() override;
-
-   /// <summary>
-   /// バッファのGPU上のアドレスを返す
-   /// </summary>
 	const D3D12_GPU_VIRTUAL_ADDRESS& GetAddress() override;
-
-   /// <summary>
-   /// 定数バッファビューを返す
-   /// </summary>
 	const D3D12_CONSTANT_BUFFER_VIEW_DESC& GetViewDesc() override;
-
-   /// <summary>
-   /// データの更新
-   /// </summary>
 	void Update(void* data_) override;
-
-   /// <summary>
-   /// バッファを取得
-   /// </summary>
+	void Update(void* data_,size_t size_)override;
 	ID3D12Resource* GetResource() override;
-
-   /// <summary>
-   /// マップ用ポインタを取得
-   /// </summary>
 	void* GetPtr() override;
 
 	~ConstantBuffer() = default;
@@ -142,6 +116,17 @@ void ConstantBuffer::Update(void* data)
 
 	// 頂点データをマッピング先に設定
 	memcpy(bufferMappedPtr, data, bufferSize);
+}
+
+void ConstantBuffer::Update(void* data_,size_t size_)
+{
+	if ( data_ == nullptr )
+	{
+		return;
+	}
+
+	// 頂点データをマッピング先に設定
+	memcpy(bufferMappedPtr,data_,size_);
 }
 
 ID3D12Resource* ConstantBuffer::GetResource()

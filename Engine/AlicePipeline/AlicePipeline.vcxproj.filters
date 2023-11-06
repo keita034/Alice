@@ -126,6 +126,9 @@
     <ClInclude Include="Include\Graphic\Model\Fbx.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Include\GPUParticle\Fire.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\MaterialManager.cpp">
@@ -237,6 +240,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\Graphic\Model\Fbx.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GPUParticle\Fire.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

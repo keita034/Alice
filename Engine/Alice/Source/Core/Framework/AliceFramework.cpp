@@ -96,6 +96,8 @@ void AliceFramework::Initialize()
 	gpuParticleEmitter->SetSwapChain(directX12Core->GetSwapChain());
 	gpuParticleEmitter->Initialize();
 
+	BaseScene::SSetGPUParticleEmitter(gpuParticleEmitter.get());
+
 	sceneManager = SceneManager::SGetInstance();
 }
 
@@ -103,8 +105,10 @@ void AliceFramework::Finalize()
 {
 	BaseBuffer::Finalize();
 	AliceModel::Finalize();
-
+	BasePipelineState::Finalize();
 	sceneManager->Finalize();
+	BaseScene::BaseSceneFinalize();
+	gpuParticleEmitter->Finalize();
 	physicsSystem->Finalize();
 	imGuiManager->Finalize();
 	imGuiManager.release();
@@ -190,7 +194,11 @@ void AliceFramework::Draw()
 
 		sceneManager->Draw();
 
-		gpuParticleEmitter->Draw(sceneManager->GetSceneCamera()->GetViewProjectionMatrix(),sceneManager->GetSceneCamera()->GetBillboardMatrix());
+		{
+			AliceMathF::Matrix4 mat = sceneManager->GetSceneCamera()->GetViewMatrixInv() * sceneManager->GetSceneCamera()->GetProjectionMatrix();
+
+			gpuParticleEmitter->Draw(mat,sceneManager->GetSceneCamera()->GetBillboardMatrix());
+		}
 
 		physicsSystem->Draw();
 

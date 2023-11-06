@@ -41,6 +41,7 @@ ALICE_SUPPRESS_WARNINGS_END
 #include<Basic.h>
 #include<Test.h>
 #include<Fbx.h>
+#include<Fire.h>
 
 std::unique_ptr<MaterialManager> MaterialManager::materialManager;
 
@@ -243,6 +244,10 @@ Material* MaterialManager::GetMaterialData(const std::string& name_,AdaptersInde
 			{
 				CreateTestMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
+			else if ( name_ == "FireGPUParticleDraw" )
+			{
+				CreateFireDrawMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
 
 			return materials[ name_ ].get();
 		}
@@ -291,6 +296,22 @@ ComputeMaterial* MaterialManager::GetComputeMaterialData(const std::string& name
 			else if ( name_ == "ComputeMultiGPUTest" )
 			{
 				CreateTestComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeFireGPUParticleEmit" )
+			{
+				CreateFireEmitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeFireGPUParticleFreeListInit" )
+			{
+				CreateFireFreeListInitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeFireGPUParticleUpdate" )
+			{
+				CreateFireUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeFireGPUParticleDrawArgumentUpdate" )
+			{
+				CreateFireDrawArgumentUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
 
 			return computeMaterials[ name_ ].get();
@@ -353,6 +374,17 @@ void MaterialManager::AddMaterial(Material* material,const std::string& name_)
 void MaterialManager::Finalize()
 {
 	sMultiAdapters = nullptr;
+
+	for ( std::pair<const std::string,std::unique_ptr<Material>>& material : materials )
+	{
+		material.second.reset();
+	}
+
+	for ( std::pair<const std::string,std::unique_ptr<ComputeMaterial>>& material : computeMaterials )
+	{
+		material.second.reset();
+	}
+
 	materials.clear();
 	computeMaterials.clear();
 	materialManager.release();

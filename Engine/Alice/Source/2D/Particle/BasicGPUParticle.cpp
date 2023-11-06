@@ -1,5 +1,4 @@
 #include "BasicGPUParticle.h"
-#include<BaseBuffer.h>
 #include<DescriptorHeap.h>
 
 void BasicGPUParticle::Initialize()
@@ -118,7 +117,6 @@ void BasicGPUParticle::Finalize(){}
 void BasicGPUParticle::Draw(const AliceMathF::Matrix4& worldMat_,const AliceMathF::Matrix4& billboardMat_)
 {
 	{
-
 		worldBillboard.worldMat = worldMat_;
 		worldBillboard.billboardMat = billboardMat_;
 

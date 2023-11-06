@@ -103,12 +103,17 @@ private:
 
 	int64_t emitLifeTime;
 	float timeBetweenEmit;
+	float emitTimeCounter;
 
 	ParticleConstant particleConstant;
 
 	WorldBillboard worldBillboard;
 	TimeConstants time;
 	EmitData emitData;
+
+private:
+
+	Byte4 PADING;
 
 
 public:

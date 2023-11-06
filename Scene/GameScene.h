@@ -44,6 +44,8 @@ private:
 	float bgmVolume = 0.008f;
 	float seVolume = 0.02f;
 
+	std::unique_ptr<GameCamera> camera;
+
 public:
 
 	GameScene();

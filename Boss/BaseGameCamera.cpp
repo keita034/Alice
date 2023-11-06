@@ -17,9 +17,9 @@ void BaseGameCamera::CameraUpdate()
 	camera->SetUp(AliceMathF::Vec3Mat4Mul(up, transform.matWorld));
 }
 
-BaseGameCamera* BaseGameCamera::GetCamera()
+GameCamera* BaseGameCamera::GetCamera()
 {
-	return this;
+	return camera.get();
 }
 
 Camera* BaseGameCamera::GetGameCamera()

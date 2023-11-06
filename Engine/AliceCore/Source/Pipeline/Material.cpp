@@ -56,6 +56,8 @@ void Material::Initialize()
 
 	pipelineState->SetRenderTargetFormat(renderTargetFormat);
 
+	pipelineState->SetDepthWriteMask(depthWriteMask);
+
 	//生成
 	if (!pipelineState->Create())
 	{

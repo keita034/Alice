@@ -8,7 +8,7 @@ void BossAnimation::Initialize()
 	runAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/Run.almb");
 
 	downAttackAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/Punch.almb");
-	deathAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/Death.almb");
+	deathAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/Dying.almb");
 
 	blendTree = std::make_unique<AliceBlendTree>();
 

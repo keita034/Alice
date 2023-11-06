@@ -60,9 +60,11 @@ private:
 	//レンダーターゲットのフォーマット
 	RenderTargetFormat renderTargetFormat;
 
+	D3D12_DEPTH_WRITE_MASK depthWriteMask = D3D12_DEPTH_WRITE_MASK::D3D12_DEPTH_WRITE_MASK_ALL;
+
 	//深度フラグ
 	bool depthFlag = true;
-	int8_t PADING[7]{};
+	int8_t PADING[3]{};
 
 public:
 
@@ -140,6 +142,8 @@ public:
 	void SetFillMode(D3D12_FILL_MODE mode_);
 
 	void SetRenderTargetFormat(const RenderTargetFormat& format_);
+
+	void SetDepthWriteMask(D3D12_DEPTH_WRITE_MASK depthWriteMask_);
 
 	/// <summary>
 	/// パイプラインステートを生成

@@ -1,6 +1,8 @@
 #pragma once
 #include<GameObject.h>
 
+#include<FireGPUParticle.h>
+
 enum class BossHandIndex
 {
 	LEFT,
@@ -19,6 +21,8 @@ private:
 
 	AliceModel::AnimationTransform animationTransform;
 	BossUsData bossUsData;
+	FireGPUParticle* fireGPUParticle;
+	int32_t particleIndex;
 public:
 
 	BossHand() = default;
@@ -46,6 +50,9 @@ public:
 	virtual void TransUpdate(Camera* camera_)override;
 
 	void SetSituation(uint32_t situation_);
+	void SetFireGPUParticle(FireGPUParticle* fireGPUParticle_);
+	void ParticleEmit();
+	void ParticleStop();
 
 	void Draw()override;
 

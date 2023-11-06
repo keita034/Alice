@@ -4,6 +4,7 @@
 #include<WindowsApp.h>
 #include<AlicePhysicsSystem.h>
 #include<Camera.h>
+#include<GPUParticleEmitter.h>
 
 /// <summary>
 /// シーン基底クラス
@@ -19,6 +20,7 @@ protected:
 	static IAudioManager* sAudioManager;
 	static IWindowsApp* sWinApp;
 	static AlicePhysics::AlicePhysicsSystem* sPhysicsSystem;
+	static GPUParticleEmitter* sGPUParticleEmitter;
 
 	//シーンマネージャー
 	SceneManager* sceneManager = nullptr;
@@ -48,6 +50,8 @@ public:
 	/// </summary>
 	virtual void Finalize() = 0;
 
+	static void BaseSceneFinalize();
+
 	virtual Camera* GetSceneCamera() =0;
 
 	virtual void SetSceneManager(SceneManager* manager_);
@@ -60,6 +64,7 @@ public:
 	static void SSetAudioManager(IAudioManager* audioManager_);
 	static void SSetWindowsApp(IWindowsApp* windowsApp_);
 	static void SSetPhysicsSystem(AlicePhysics::AlicePhysicsSystem* physicsSystem_);
+	static void SSetGPUParticleEmitter(GPUParticleEmitter* gpuParticleEmitter_);
 
 };
 

@@ -9,6 +9,7 @@ enum class BlendMode
 	AX_BLENDMODE_SUB,//減算ブレンド
 	AX_BLENDMODE_MULA,//乗算ブレンド
 	AX_BLENDMODE_INVSRC,//反転ブレンド
+	AX_BLENDMODE_SCREEN,
 
 	AX_BLENDMODE_MAX,//ブレンド種類数
 

@@ -114,6 +114,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\GPUParticle\Fire.h" />
     <ClInclude Include="Include\Graphic\Model\Fbx.h" />
     <ClInclude Include="Include\Graphic\PostEffect\DefaultPostEffect.h" />
     <ClInclude Include="Include\Graphic\Particle\IcosahedronParticle.h" />
@@ -153,6 +154,7 @@
     <ClInclude Include="Include\GPUParticle\Test.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\GPUParticle\Fire.cpp" />
     <ClCompile Include="Source\Graphic\Model\Fbx.cpp" />
     <ClCompile Include="Source\GPUParticle\Basic.cpp" />
     <ClCompile Include="Source\Graphic\PostEffect\DefaultPostEffect.cpp" />

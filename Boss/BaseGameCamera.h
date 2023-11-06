@@ -44,7 +44,7 @@ public:
 	/// <summary>
 	/// カメラ取得
 	/// </summary>
-	BaseGameCamera* GetCamera();
+	GameCamera* GetCamera();
 
 	/// <summary>
 	/// カメラ取得

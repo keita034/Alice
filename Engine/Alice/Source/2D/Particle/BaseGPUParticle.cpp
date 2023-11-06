@@ -5,7 +5,15 @@ IAdapter* BaseGPUParticle::computeAdapter;
 
 ISwapChain* BaseGPUParticle::swapChain = nullptr;
 
-void BaseGPUParticle::SetAdapter(IAdapter* graphicAdapter_, IAdapter* computeAdapter_)
+void BaseGPUParticle::BaseGPUParticleFinalize()
+{
+	swapChain = nullptr;
+
+	graphicAdapter = nullptr;
+	computeAdapter = nullptr;
+}
+
+void BaseGPUParticle::SetAdapter(IAdapter* graphicAdapter_,IAdapter* computeAdapter_)
 {
 	graphicAdapter = graphicAdapter_;
 	computeAdapter = computeAdapter_;
@@ -14,7 +22,7 @@ void BaseGPUParticle::SetAdapter(IAdapter* graphicAdapter_, IAdapter* computeAda
 void BaseGPUParticle::ParticleBegin()
 {
 	size_t bbIndex = static_cast< size_t >( swapChain->GetCurrentBackBufferIndex() );
-	computeAdapter->ComputeCommandListReset(bbIndex);
+	graphicAdapter->ComputeCommandListReset(bbIndex);
 }
 
 void BaseGPUParticle::SetSwapChain(ISwapChain* swapChain_)
@@ -24,7 +32,7 @@ void BaseGPUParticle::SetSwapChain(ISwapChain* swapChain_)
 
 void BaseGPUParticle::ParticleEnd()
 {
-	computeAdapter->ComputeCommandListExecute();
-	computeAdapter->ComputeWaitPreviousFrame();
+	graphicAdapter->ComputeCommandListExecute();
+	graphicAdapter->ComputeWaitPreviousFrame();
 
 }

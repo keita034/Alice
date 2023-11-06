@@ -50,7 +50,7 @@ bool PipelineState::Create()
 	//デプスステンシルステートの設定
 	//深度テストを行うか
 	lPipelineDesc.DepthStencilState.DepthEnable = depthFlag;
-	lPipelineDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;//書き込み許可
+	lPipelineDesc.DepthStencilState.DepthWriteMask = depthWriteMask;//書き込み許可
 	lPipelineDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;//小さければ合格
 	lPipelineDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;//深度フォーマット
 	
@@ -107,6 +107,11 @@ void PipelineState::SetFillMode(D3D12_FILL_MODE mode_)
 void PipelineState::SetRenderTargetFormat(const RenderTargetFormat& format_)
 {
 	std::memcpy(&renderTargetFormat, &format_, sizeof(RenderTargetFormat));
+}
+
+void PipelineState::SetDepthWriteMask(D3D12_DEPTH_WRITE_MASK depthWriteMask_)
+{
+	depthWriteMask = depthWriteMask_;
 }
 
 ID3D12PipelineState* PipelineState::GetPipelineState()const

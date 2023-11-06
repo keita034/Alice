@@ -46,10 +46,12 @@ public:
 
 	D3D12_CULL_MODE cullMode = D3D12_CULL_MODE_BACK;
 
+	D3D12_DEPTH_WRITE_MASK depthWriteMask = D3D12_DEPTH_WRITE_MASK::D3D12_DEPTH_WRITE_MASK_ALL;
+
 	//深度フラグ
 	bool depthFlag = true;
-	int8_t PADING[3]{};
 
+	int8_t PADING[ 7 ];
 public:
 
 	/// <summary>
