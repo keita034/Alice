@@ -4,19 +4,19 @@ chcp 65001
 echo バッチ処理を開始します
 
 echo フォルダ生成開始
-cd %~dp0Engine\Alice\lib\
+cd %~dp0Engine\ThirdPartys\
 md lib
 md include
-cd %~dp0Engine\Alice\lib\lib
+cd %~dp0Engine\ThirdPartys\lib\
 md debug
 echo フォルダ生成終了
 
 echo libファイル生成するためのvcpkg生成開始
-call %~dp0Engine\Alice\lib\vcpkg\bootstrap-vcpkg.bat
+call %~dp0Engine\ThirdPartys\vcpkg\bootstrap-vcpkg.bat
 echo libファイル生成するためのvcpkg生成終了
 
 echo libファイル生成開始
-cd %~dp0Engine\Alice\lib\vcpkg
+cd %~dp0Engine\ThirdPartys\vcpkg
 
 START /wait vcpkg.exe install imgui[core,dx12-binding,win32-binding]:x64-windows-static 
 echo imgui終了
@@ -39,14 +39,14 @@ echo JoltPhysics終了
 echo libファイル生成終了
 
 echo 生成ファイル移動開始
-cd %~dp0Engine\Alice\lib\vcpkg\installed\x64-windows-static\lib
-copy *.lib %~dp0Engine\Alice\lib\lib
+cd %~dp0Engine\ThirdPartys\vcpkg\installed\x64-windows-static\lib
+copy *.lib %~dp0Engine\ThirdPartys\lib\
 
-cd %~dp0Engine\Alice\lib\vcpkg\installed\x64-windows-static\debug\lib
-copy *.lib %~dp0Engine\Alice\lib\lib\debug
+cd %~dp0Engine\ThirdPartys\vcpkg\installed\x64-windows-static\debug\lib
+copy *.lib %~dp0Engine\ThirdPartys\lib\debug
 
-cd %~dp0Engine\Alice\lib\vcpkg\installed\x64-windows-static
-xcopy /e include %~dp0Engine\Alice\lib\include\
+cd %~dp0Engine\ThirdPartys\vcpkg\installed\x64-windows-static
+xcopy /e include %~dp0Engine\ThirdPartys\include\
 echo 生成ファイル移動終了
 
 echo バッチ処理が終了しました
