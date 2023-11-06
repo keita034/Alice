@@ -136,6 +136,8 @@ public:
 	/// </summary>
 	IMultiAdapters* GetMultiAdapters()const;
 
+	ISwapChain* GetSwapChain() const;
+
 	/// <summary>
 	/// リソースの状態を変える
 	/// </summary>

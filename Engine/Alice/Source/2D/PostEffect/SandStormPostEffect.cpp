@@ -1,5 +1,5 @@
 #include "SandStormPostEffect.h"
-#include"DefaultMaterial.h"
+#include"MaterialManager.h"
 
 SandStormPostEffect* SandStormPostEffect::SGetInstance()
 {

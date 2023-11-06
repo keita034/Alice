@@ -15,18 +15,20 @@ class ICrossAdapterFence
 {
 public:
 
-	virtual void Initialize(IAdapter* mainAdapter_) = 0;
+	virtual void Initialize(IAdapter* mainAdapter_,IAdapter* subAdapter_) = 0;
 
-	virtual ID3D12Fence* Get() = 0;
+	virtual ID3D12Fence* Get(size_t index_) = 0;
 
-	virtual void Wait(ID3D12CommandQueue* queue_) = 0;
+	virtual void Wait(ID3D12CommandQueue* queue_,size_t index_) = 0;
 
-	virtual void Signal(ID3D12CommandQueue* queue_) = 0;
+	virtual void Signal(ID3D12CommandQueue* queue_,size_t index_) = 0;
+
+	virtual void WaitForGpu(AdaptersIndex index_) = 0;
 
 	ICrossAdapterFence() = default;
 	virtual ~ICrossAdapterFence() = default;
 };
 
-std::unique_ptr<ICrossAdapterFence> CreateUniqueCrossAdapterFence(IAdapter* mainAdapter_);
+std::unique_ptr<ICrossAdapterFence> CreateUniqueCrossAdapterFence(IAdapter* mainAdapter_,IAdapter* subAdapter_);
 
-std::shared_ptr<ICrossAdapterFence> CreateSharedCrossAdapterFence(IAdapter* mainAdapter_);
+std::shared_ptr<ICrossAdapterFence> CreateSharedCrossAdapterFence(IAdapter* mainAdapter_,IAdapter* subAdapter_);

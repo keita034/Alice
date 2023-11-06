@@ -5,6 +5,7 @@
 #include<GameCollisionConflg.h>
 #include<CollisionAttribute.h>
 #include<CapsuleShape.h>
+#include<BossHand.h>
 
 void Player::Initialize(AliceInput::IInput* input_,IAudioManager* audioManager_, AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 {
@@ -58,6 +59,7 @@ void Player::Initialize(AliceInput::IInput* input_,IAudioManager* audioManager_,
 
 	deathSE = audioManager->LoadAudio("Resources/SE/PlayerDeath.mp3");
 
+	animation->Update();
 }
 
 void Player::Update(BaseGameCamera* camera_,GameCameraManager::CameraIndex index_)
@@ -130,8 +132,8 @@ void Player::Update(BaseGameCamera* camera_,GameCameraManager::CameraIndex index
 	PUIUpdate();
 
 	ui->Update();
-	animation->Update();
 	weapon->Update("mixamorig:RightHand",animation->GetAnimation(),model.get());
+	animation->Update();
 }
 
 void Player::Draw()
@@ -188,10 +190,11 @@ void Player::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_)
 {
 	if (BodyData_->GetGroup() == CollisionGroup::BOSS && BodyData_->GetAttribute() == CollisionAttribute::HAND)
 	{
-		uint32_t lSituation = *static_cast<uint32_t*>(BodyData_->GetUserData());
+		uint32_t lSituation = static_cast< BossUsData*>(BodyData_->GetUserData())->situation;
 
 		if ((lSituation & 0xfff) == ActorSituation::ATTACK &&
-			!(lSituation & ActorSituation::DAMAGE))
+			!( situation & ActorSituation::DAMAGE) &&
+			static_cast< BossUsData* >( BodyData_->GetUserData() ) ->index == BossHandIndex::RIGHT)
 		{
 			if (hp > 0)
 			{

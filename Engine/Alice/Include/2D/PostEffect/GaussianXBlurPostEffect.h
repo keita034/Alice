@@ -1,10 +1,10 @@
-﻿#pragma once
+#pragma once
 #include<BasePostEffect.h>
 #include<ConstantBuffer.h>
 #include<DirectX12Core.h>
 #include<TextureManager.h>
 #include<WindowsApp.h>
-#include<DefaultMaterial.h>
+#include<MaterialManager.h>
 
 class GaussianXBlurPostEffect final :public BasePostEffect
 {

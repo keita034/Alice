@@ -7,7 +7,7 @@
 #include<BasicParticle.h>
 #include<Camera.h>
 #include<CinemaCamera.h>
-#include<DefaultMaterial.h>
+#include<MaterialManager.h>
 #include<Light.h>
 #include<Mesh.h>
 #include<ParticleEmitter.h>
@@ -44,6 +44,8 @@ private:
 	float bgmVolume = 0.008f;
 	float seVolume = 0.02f;
 
+	std::unique_ptr<GameCamera> camera;
+
 public:
 
 	GameScene();
@@ -68,6 +70,8 @@ public:
 	/// 後始末
 	/// </summary>
 	void Finalize() override;
+
+	Camera* GetSceneCamera()override;
 
 
 private:

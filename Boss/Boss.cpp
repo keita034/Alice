@@ -9,7 +9,8 @@ void Boss::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 	model = std::make_unique<AliceModel>();
 	model->SetModel(modelHandle);
 
-	transform.translation = { 0.0f,0.0f,10.0f };
+	transform.translation = { 0.0f,0.0f,20.0f };
+	transform.scale = {0.01f,0.01f,0.01f };
 	transform.Initialize();
 
 	rigidBodyoffset = { 4.0f, 15.0f + 35.0f, 0.0f };
@@ -44,10 +45,15 @@ void Boss::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 	actionManager = std::make_unique<BossActionManager>();
 	actionManager->Initialize(animation.get());
 
+
 	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ] = std::make_unique<BossHand>();
 	hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ] = std::make_unique<BossHand>();
-	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->Initialize(&transform,physicsSystem_);
-	hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->Initialize(&transform,physicsSystem_);
+
+	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->SetFireGPUParticle(fireGPUParticle);
+	hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->SetFireGPUParticle(fireGPUParticle);
+
+	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->Initialize(&transform,physicsSystem_,BossHandIndex::LEFT);
+	hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->Initialize(&transform,physicsSystem_,BossHandIndex::RIGHT);
 
 	bossUI = std::make_unique<BossUI>();
 	bossUI->Initialize();
@@ -71,12 +77,14 @@ void Boss::Update()
 		if ( actionManager->GetinternalAction() == BossInternalAction::ATTACK )
 		{
 			situation |= ActorSituation::ATTACK;
+			animation->SetAddFrame(0.01f);
 		}
 		else
 		{
 			if ( situation & ActorSituation::ATTACK )
 			{
 				situation &= ~ActorSituation::ATTACK;
+				animation->SetAddFrame(0.02f);
 			}
 		}
 
@@ -98,7 +106,6 @@ void Boss::Update()
 			direction = lMove.Normal();
 			direction = -direction;
 			direction = direction.Normal();
-
 		}
 	}
 
@@ -108,16 +115,36 @@ void Boss::Update()
 	}
 
 	animation->Update();
-	hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->Update("mixamorig:RightHandThumb1",animation->GetAnimation(),model.get());
-	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->Update("mixamorig:LeftHandThumb1",animation->GetAnimation(),model.get());
+	hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->Update("mixamorig:RightHandMiddle1",animation->GetAnimation(),model.get());
+	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->Update("mixamorig:LeftHandMiddle1",animation->GetAnimation(),model.get());
 	fireWorkParticle->Update();
 	bossUI->Update();
 
+	if( situation & ActorSituation::ATTACK )
 	{
-		hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->SetSituation(situation);
-		hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->SetSituation(situation);
-	}
+		hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->ParticleEmit();
 
+		if ( animation->GetAnimation()->GetRatio() >= 0.22f && animation->GetAnimation()->GetRatio() <= 0.6f)
+		{
+			hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->SetSituation(situation);
+			hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->SetSituation(situation);
+
+		}
+		else
+		{
+			int32_t lSituation = situation;
+			lSituation &= ~ActorSituation::ATTACK;
+
+			hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->SetSituation(lSituation);
+			hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->SetSituation(lSituation);
+
+		}
+	}
+	else
+	{
+
+		hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->ParticleStop();
+	}
 }
 
 void Boss::Draw()
@@ -136,6 +163,8 @@ void Boss::UIDraw()
 
 void Boss::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 {
+	fireGPUParticle = nullptr;
+
 	hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->Finalize(physicsSystem_);
 	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->Finalize(physicsSystem_);
 
@@ -205,6 +234,11 @@ void Boss::SetPlayer(Player* player_)
 void Boss::SetAudioManager(IAudioManager* audioManager_)
 {
 	audioManager = audioManager_;
+}
+
+void Boss::SetFireGPUParticle(FireGPUParticle* fireGPUParticle_)
+{
+	fireGPUParticle = fireGPUParticle_;
 }
 
 int32_t Boss::GetHp()

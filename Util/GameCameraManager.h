@@ -67,12 +67,9 @@ public:
 	/// </summary>
 	BaseGameCamera* GetGameCamera();
 
-
 	CameraIndex GetCameraIndex();
 
 private:
-
-	void PPlayerCameraUpdate();
 
 
 	//コピーコンストラクタ・代入演算子削除

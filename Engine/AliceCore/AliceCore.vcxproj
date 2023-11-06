@@ -11,6 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\Buffer\DrawListBuffer.h" />
+    <ClInclude Include="Include\Buffer\FreeListBuffer.h" />
     <ClInclude Include="Include\GPU\CrossAdapterFence.h" />
     <ClInclude Include="Include\Buffer\CrossAdapterBuffer.h" />
     <ClInclude Include="Include\Pipeline\BasePipelineState.h" />
@@ -19,7 +21,6 @@
     <ClInclude Include="Include\Pipeline\BaseMaterial.h" />
     <ClInclude Include="Include\Pipeline\ComputePipelineState.h" />
     <ClInclude Include="Include\GPU\Adapter.h" />
-    <ClInclude Include="Include\Pipeline\DefaultMaterial.h" />
     <ClInclude Include="Include\GPU\Fence.h" />
     <ClInclude Include="Include\GPU\CommandList.h" />
     <ClInclude Include="Include\GPU\Device.h" />
@@ -47,13 +48,14 @@
     <ClInclude Include="Include\TextureData.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Buffer\DrawListBuffer.cpp" />
+    <ClCompile Include="Source\Buffer\FreeListBuffer.cpp" />
     <ClCompile Include="Source\GPU\CrossAdapterFence.cpp" />
     <ClCompile Include="Source\Buffer\CrossAdapterBuffer.cpp" />
     <ClCompile Include="Source\Pipeline\BasePipelineState.cpp" />
     <ClCompile Include="Source\Pipeline\ComputeMaterial.cpp" />
     <ClCompile Include="Source\Buffer\DrawArgumentBuffer.cpp" />
     <ClCompile Include="Source\Pipeline\ComputePipelineState.cpp" />
-    <ClCompile Include="Source\Pipeline\DefaultMaterial.cpp" />
     <ClCompile Include="Source\Pipeline\Material.cpp" />
     <ClCompile Include="Source\Pipeline\PipelineState.cpp" />
     <ClCompile Include="Source\GPU\Adapter.cpp" />

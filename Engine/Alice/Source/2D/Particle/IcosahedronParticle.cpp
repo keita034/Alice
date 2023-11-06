@@ -1,7 +1,7 @@
 #include<IcosahedronParticle.h>
 
 #include<Particle.h>
-#include<DefaultMaterial.h>
+#include<MaterialManager.h>
 
 class IcosahedronParticle : public Particle, public IIcosahedronParticle
 {

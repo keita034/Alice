@@ -1,7 +1,7 @@
 #include<BasicParticle.h>
 
 #include<Particle.h>
-#include<DefaultMaterial.h>
+#include<MaterialManager.h>
 
 class BasicParticle : public Particle,public IBasicParticle
 {

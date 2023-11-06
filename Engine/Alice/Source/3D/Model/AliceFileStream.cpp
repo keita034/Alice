@@ -1,6 +1,6 @@
 #include<AliceFileStream.h>
 #include<FileUtility.h>
-#include<DefaultMaterial.h>
+#include<MaterialManager.h>
 
 std::string AliceFileStream::sBbuff;
 std::istringstream AliceFileStream::sLineData;

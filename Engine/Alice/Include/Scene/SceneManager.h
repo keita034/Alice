@@ -43,6 +43,8 @@ public:
 
 	~SceneManager();
 
+	Camera* GetSceneCamera();
+
 private:
 
 	SceneManager();

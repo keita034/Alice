@@ -1,5 +1,5 @@
 #include "FrostedGlassPostEffect.h"
-#include<DefaultMaterial.h>
+#include<MaterialManager.h>
 
 FrostedGlassPostEffect* FrostedGlassPostEffect::SGetInstance()
 {

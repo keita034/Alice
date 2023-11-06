@@ -1,6 +1,6 @@
 #include<PostEffectManager.h>
 #include<WindowsApp.h>
-#include<DefaultMaterial.h>
+#include<MaterialManager.h>
 #include<PostEffectFactory.h>
 
 ICommandList* PostEffectManager::sCmdList = nullptr;

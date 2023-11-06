@@ -1,10 +1,18 @@
 #pragma once
 #include<GameObject.h>
 
+#include<FireGPUParticle.h>
+
 enum class BossHandIndex
 {
 	LEFT,
 	RIGHT
+};
+
+struct BossUsData
+{
+	int32_t situation;
+	BossHandIndex index;
 };
 
 class BossHand : public GameObject
@@ -12,7 +20,9 @@ class BossHand : public GameObject
 private:
 
 	AliceModel::AnimationTransform animationTransform;
-	uint32_t situation;
+	BossUsData bossUsData;
+	FireGPUParticle* fireGPUParticle;
+	int32_t particleIndex;
 public:
 
 	BossHand() = default;
@@ -21,7 +31,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(Transform* parent_,AlicePhysics::AlicePhysicsSystem* physicsSystem_);
+	void Initialize(Transform* parent_,AlicePhysics::AlicePhysicsSystem* physicsSystem_,BossHandIndex index_);
 
 	/// <summary>
 	/// 更新処理
@@ -40,6 +50,9 @@ public:
 	virtual void TransUpdate(Camera* camera_)override;
 
 	void SetSituation(uint32_t situation_);
+	void SetFireGPUParticle(FireGPUParticle* fireGPUParticle_);
+	void ParticleEmit();
+	void ParticleStop();
 
 	void Draw()override;
 

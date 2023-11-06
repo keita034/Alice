@@ -95,7 +95,7 @@ namespace AlicePhysics
 		/// </summary>
 		virtual void SetRotation(const AliceMathF::Quaternion& rotation_) = 0;
 
-		virtual void SetMatrix(const AliceMathF::Matrix4& mat_) = 0;
+		virtual void SetMatrix(const AliceMathF::Matrix4& matRigidBody_,const AliceMathF::Matrix4& matWorld_) = 0;
 
 		IRigidBody() = default;
 		virtual ~IRigidBody() = default;

@@ -60,7 +60,7 @@ namespace AlicePhysics
 		std::unique_ptr<JPH::JobSystemThreadPool> jobSystem;
 
 		std::unique_ptr<RigidBodyManager> rigidBodyManager;
-#ifdef _DEBUG
+#if defined(_DEBUG) && defined(JPH_DEBUG_RENDERER)
 		std::unique_ptr<JoltDebugRenderer>debugRenderer;
 
 #endif // _DEBUG
@@ -123,7 +123,7 @@ namespace AlicePhysics
 
 		void SetDevice(IDevice* device_) override;
 		void SetCommandList(ICommandList* commandList_) override;
-		void SetViewProjection(AliceMathF::Matrix4* viewMat_,AliceMathF::Matrix4* projectionMat_)override;
+		void SetViewProjection(const AliceMathF::Matrix4& viewMat_,const AliceMathF::Matrix4& projectionMat_)override;
 		void SetLight(AliceMathF::Vector3* lightV_,AliceMathF::Vector4* lightColor_)override;
 
 	private:

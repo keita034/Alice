@@ -74,7 +74,7 @@ namespace AlicePhysics
 		/// </summary>
 		void Draw();
 
-		void SetViewProjection(AliceMathF::Matrix4* viewMat_,AliceMathF::Matrix4* projectionMat_);
+		void SetViewProjection(const AliceMathF::Matrix4& viewMat_,const AliceMathF::Matrix4& projectionMat_);
 		void SetLight(AliceMathF::Vector3* lightV_ ,AliceMathF::Vector4* lightColor_);
 
 		void SetDevice(IDevice* device_);

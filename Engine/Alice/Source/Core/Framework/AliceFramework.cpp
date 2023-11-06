@@ -2,7 +2,7 @@
 
 #include<AliceModel.h>
 #include<AliceMotionData.h>
-#include<DefaultMaterial.h>
+#include<MaterialManager.h>
 #include<Particle.h>
 #include<Sprite.h>
 #include<SceneLoader.h>
@@ -45,6 +45,8 @@ void AliceFramework::Initialize()
 	AliceModel::SCommonInitialize(directX12Core.get());
 
 	PipelineState::SSetDevice(directX12Core->GetDevice());
+
+	BaseBuffer::SSetSwapChain(directX12Core->GetSwapChain());
 	//DirectX初期化処理ここまで
 
 	//描画初期化処理ここから
@@ -62,10 +64,7 @@ void AliceFramework::Initialize()
 
 	materialManager = MaterialManager::SGetInstance();
 
-	IDevice* lMainDevice = directX12Core->GetMultiAdapters()->GetMainAdapter()->GetDevice();
-	IDevice* lSubDevice = directX12Core->GetMultiAdapters()->GetSubAdapter()->GetDevice();
-
-	materialManager->Initialize(lMainDevice,lSubDevice);
+	materialManager->Initialize(directX12Core->GetMultiAdapters());
 
 	//描画初期化処理ここまで
 
@@ -94,7 +93,10 @@ void AliceFramework::Initialize()
 
 	gpuParticleEmitter = std::make_unique<GPUParticleEmitter>();
 	gpuParticleEmitter->SetMultiAdapters(directX12Core->GetMultiAdapters());
+	gpuParticleEmitter->SetSwapChain(directX12Core->GetSwapChain());
 	gpuParticleEmitter->Initialize();
+
+	BaseScene::SSetGPUParticleEmitter(gpuParticleEmitter.get());
 
 	sceneManager = SceneManager::SGetInstance();
 }
@@ -103,8 +105,10 @@ void AliceFramework::Finalize()
 {
 	BaseBuffer::Finalize();
 	AliceModel::Finalize();
-
+	BasePipelineState::Finalize();
 	sceneManager->Finalize();
+	BaseScene::BaseSceneFinalize();
+	gpuParticleEmitter->Finalize();
 	physicsSystem->Finalize();
 	imGuiManager->Finalize();
 	imGuiManager.release();
@@ -137,25 +141,9 @@ void AliceFramework::Update()
 
 	sceneManager->Update();
 
-	directX12Core->BeginCommand();
-	if ( input->TriggerKey(Keys::SPACE) )
-	{
-		BasicGPUParticleSetting lSetting;
-		lSetting.acceleration = { 0.0f, 0.001f ,0.0f };
-		lSetting.endColor = { 0.0f,0.0f,1.0f,1.0f };
-		lSetting.emitCount = 50;
-		lSetting.maxParticles = 10000;
-		lSetting.startColor = { 1.0f,0.0f,0.0f,1.0f };
-		lSetting.velocity = { 0.1f,0.1f,0.1f };
-		lSetting.LifeTime = 50;
-		gpuParticleEmitter->BasicGPUParticleEmit({0,0,0},lSetting);
-	}
-
 	gpuParticleEmitter->Update(fps->GetDeltaTime());
 
-	directX12Core->ExecuteCommand(false);
-
-	physicsSystem->SetViewProjection(Camera::GetViewMatrixPtr(),Camera::GetProjectionMatrixPtr());
+	physicsSystem->SetViewProjection(sceneManager->GetSceneCamera()->GetViewMatrixInv(),sceneManager->GetSceneCamera()->GetProjectionMatrix());
 	physicsSystem->SetLight(Light::SGetLightDirPtr(),Light::SGetLightColorPtr());
 
 	physicsSystem->Update(fps->GetDeltaTime(),fps->GetFrameRate());
@@ -183,7 +171,7 @@ void AliceFramework::Draw()
 
 		sceneManager->Draw();
 
-		gpuParticleEmitter->Draw(Camera::GetCameraPtr());
+		gpuParticleEmitter->Draw(sceneManager->GetSceneCamera()->GetViewProjectionMatrix(),sceneManager->GetSceneCamera()->GetBillboardMatrix());
 
 		physicsSystem->Draw();
 
@@ -205,6 +193,12 @@ void AliceFramework::Draw()
 		directX12Core->BeginDraw();//描画準備
 
 		sceneManager->Draw();
+
+		{
+			AliceMathF::Matrix4 mat = sceneManager->GetSceneCamera()->GetViewMatrixInv() * sceneManager->GetSceneCamera()->GetProjectionMatrix();
+
+			gpuParticleEmitter->Draw(mat,sceneManager->GetSceneCamera()->GetBillboardMatrix());
+		}
 
 		physicsSystem->Draw();
 

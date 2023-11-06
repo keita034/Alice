@@ -11,6 +11,11 @@ SceneManager::~SceneManager()
 {
 }
 
+Camera*  SceneManager::GetSceneCamera()
+{
+	return scene->GetSceneCamera();
+}
+
 SceneManager* SceneManager::SGetInstance()
 {
 	if ( !sSceneManager )

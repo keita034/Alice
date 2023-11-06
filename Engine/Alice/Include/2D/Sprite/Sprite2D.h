@@ -1,8 +1,8 @@
-﻿#pragma once
+#pragma once
 
 #include<AliceMathUtility.h>
 #include<Sprite.h>
-#include<DefaultMaterial.h>
+#include<MaterialManager.h>
 #include<AliceUtility.h>
 
 class Sprite2D : public Sprite

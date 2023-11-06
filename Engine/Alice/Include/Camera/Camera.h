@@ -49,6 +49,9 @@ public:
 	/// </summary>
 	virtual const AliceMathF::Matrix4& GetCameraRotation() = 0;
 
+	virtual const AliceMathF::Matrix4& GetBillboardMatrix() = 0;
+
+
 	/// <summary>
 	/// 遠平面までの距離を取得
 	/// </summary>
@@ -148,6 +151,7 @@ private:
 	AliceMathF::Matrix4 viewMatrixInv;
 	//カメラの回転行列
 	AliceMathF::Matrix4 cameraRotation;
+	AliceMathF::Matrix4 billboardMat;
 
 	//画角(ラジアン度)
 	float fovAngleY = 0.0;
@@ -328,6 +332,8 @@ public:
 	/// </summary>
 	const AliceMathF::Matrix4& GetCameraRotation()override;
 
+	const AliceMathF::Matrix4& GetBillboardMatrix()override;
+
 	/// <summary>
 	/// 遠平面までの距離を取得
 	/// </summary>
@@ -394,6 +400,8 @@ public:
 	/// 上方向ベクトルを取得
 	/// </summary>
 	const AliceMathF::Vector3& GetTarget()const override;
+
+
 
 #pragma endregion
 };

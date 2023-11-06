@@ -7,30 +7,26 @@ struct Particle
     float Size;
     float Alive;
     float3 accel;
-    uint index;
+    float lifeTime;
 };
 
 struct ParticleData
 {
-	//座標
-    float3 startPosition;
-    //最大数
-    int emitCount;
-	//速度
-    float3 velocity;
-    //ライフ
-    float lifeTime;
-	//加速度
-    float3 accel;
-    float pad;
-	//スケール(初期値,最終値)
-    float2 scale;
-	//初期値(初期値,最終値)
-    float2 rotation;
-    //カラー初期値
-    float4 startColor;
-    //カラー最終値
-    float4 endColor;
+		float3 startPosition;
+        float pad1;
+
+		float3 velocity;
+		float lifeTime;
+
+		float3 accel;
+		float pad2;
+
+		float2 scale;
+		float2 rotation;
+
+		float4 startColor;
+
+		float4 endColor;
 };
 
 struct IndirectCommand
@@ -57,11 +53,25 @@ struct GS_OUTPUT
 
 static const uint RAND_MAX = 32767;
 
-static const float2 gsOffsets[4] =
+//四角形の頂点
+static const uint vnum = 4;
+
+//センターからオフセット
+static const float4 offset_array[vnum] =
 {
-    float2(-1.0f, -1.0f),
-    float2(-1.0f, +1.0f),
-    float2(+1.0f, -1.0f),
-    float2(+1.0f, +1.0f)
+    float4(-0.5f, -0.5f, 0, 0), //左下
+    float4(-0.5f, +0.5f, 0, 0), //左上
+    float4(+0.5f, -0.5f, 0, 0), //右下
+    float4(+0.5f, +0.5f, 0, 0) //右上
+};
+
+//左上が0,0 右下が1,1
+
+static const float2 uv_array[vnum] =
+{
+    float2(0, 1), //左下
+    float2(0, 0), //左上
+    float2(1, 1), //右下
+    float2(1, 0), //右上
 };
 

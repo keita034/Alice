@@ -11,6 +11,7 @@ void BossChaseMove::Update()
 	if (maxDistance >= lDistance)
 	{
 		isFinish = true;
+		distanceTraveled = { 0.0f,0.0f,0.0f };
 		return;
 	}
 	else

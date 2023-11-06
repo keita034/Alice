@@ -6,7 +6,7 @@ ALICE_SUPPRESS_WARNINGS_BEGIN
 #include<directx/d3dx12.h>
 #include<d3dcompiler.h>
 #include<cassert>
-
+#include<dxcapi.h>
 
 ALICE_SUPPRESS_WARNINGS_END
 
@@ -39,6 +39,8 @@ public:
 	/// <summary>
 	/// シェーダオブジェクトを取得
 	/// </summary>
+	/// 
+
 	D3D12_SHADER_BYTECODE* GetShader()override;
 
 	/// <summary>
@@ -70,7 +72,7 @@ void Shader::Create(const std::string& fileName_, const std::string& entryPoint_
 		entryPoint_.c_str(), target_.c_str(), // エントリーポイント名、シェーダーモデル指定
 		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
 		0,
-		&blob, &lErrorBlob);
+		&blob, lErrorBlob.GetAddressOf());
 
 	// エラーなら
 	if (FAILED(lResult))

@@ -4,7 +4,7 @@
 
 namespace AlicePhysics
 {
-#ifdef _DEBUG
+#if defined(_DEBUG) && defined(JPH_DEBUG_RENDERER)
 
 	class JoltBatch : public JPH::RefTargetVirtual,public JoltDebugRenderPrimitive
 	{

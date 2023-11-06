@@ -26,6 +26,9 @@ void ClearScene::Initialize(const std::string& previewSceneName_)
 	sAudioManager->ChangeVolume(bgmHandle,0);
 
 	seHandle = sAudioManager->LoadAudio("Resources/SE/UISelect.mp3");
+
+	gameCamera = std::make_unique<GameCamera>();
+	gameCamera->Initialize(UpdateProjMatrixFunc::UPDATE_PROJMATRIXFUNC_PERSPECTIVE);
 }
 
 void ClearScene::Update()
@@ -76,4 +79,9 @@ void ClearScene::Draw()
 
 void ClearScene::Finalize()
 {
+}
+
+Camera* ClearScene::GetSceneCamera()
+{
+	return gameCamera.get();
 }

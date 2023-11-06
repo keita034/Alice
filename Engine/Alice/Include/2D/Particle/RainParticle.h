@@ -1,6 +1,6 @@
-﻿#pragma once
+#pragma once
 #include<Particle.h>
-#include<DefaultMaterial.h>
+#include<MaterialManager.h>
 
 class IRainParticle
 {

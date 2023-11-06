@@ -95,13 +95,13 @@ void BossActionManager::PChaseAttack()
 		if (chaseMove->IsFinish())
 		{
 			bossInternalAction = BossInternalAction::ATTACK;
+			animation->InsertDownAttackAnimation();
 			chaseMove->Finalize();
 			distanceTraveled = { 0,0,0 };
 			animation->SetStandThresh();
 			return;
 		}
 		chaseMove->Update();
-		animation->InsertDownAttackAnimation();
 
 		distanceTraveled = chaseMove->GetDistanceTraveled();
 	}

@@ -53,6 +53,12 @@ public:
 	virtual void Update(void* data_) = 0;
 
 	/// <summary>
+	/// データの更新
+	/// </summary>
+	/// <param name="data">データ</param>
+	virtual void Update(void* data_,size_t size_) = 0;
+
+	/// <summary>
 	/// バッファを取得
 	/// </summary>
 	virtual ID3D12Resource* GetResource() = 0;

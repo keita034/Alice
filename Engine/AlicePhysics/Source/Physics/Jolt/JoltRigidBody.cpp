@@ -96,12 +96,14 @@ void AlicePhysics::JoltRigidBody::SetRotation(const AliceMathF::Quaternion& rota
 	bodyInterface->SetRotation(id,rotation_,JPH::EActivation::Activate);
 }
 
-void AlicePhysics::JoltRigidBody::SetMatrix(const AliceMathF::Matrix4& mat_)
+void AlicePhysics::JoltRigidBody::SetMatrix(const AliceMathF::Matrix4& matRigidBody_,const AliceMathF::Matrix4& matWorld_)
 {
-	JPH::RMat44 lTmpmat = mat_;
+	JPH::RMat44 lMatRigidBody = matRigidBody_;
 
-	SetRotation(lTmpmat.GetQuaternion().Normalized());
-	SetPosition(lTmpmat.GetTranslation());
+	SetPosition(AliceMathF::GetWorldPosition(matWorld_));
+	lMatRigidBody.SetTranslation({ 0,0,0 });
+	SetRotation(lMatRigidBody.GetQuaternion().Normalized());
+
 }
 
 AliceMathF::Matrix4 AlicePhysics::JoltRigidBody::GetCenterOfMassTransform()

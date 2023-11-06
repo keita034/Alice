@@ -56,7 +56,7 @@ public:
 	/// <param name="desc">アンオーダーアクセスビューデスク</param>
 	/// <param name="resource">バッファ</param>
 	/// <returns>GPUハンドル(UINT64)</returns>
-	virtual uint64_t CreateUAV(const D3D12_UNORDERED_ACCESS_VIEW_DESC& desc_, ID3D12Resource* resource_) = 0;
+	virtual uint64_t CreateUAV(const D3D12_UNORDERED_ACCESS_VIEW_DESC& desc_, ID3D12Resource* resource_,bool countBuff_ = false) = 0;
 
 	/// <summary>
 	/// アンオーダーアクセスビュー追加

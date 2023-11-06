@@ -30,6 +30,7 @@ struct ID3D12CommandAllocator;
 #include<Device.h>
 #include<CommandList.h>
 #include<Fence.h>
+#include<AdaptersIndex.h>
 
 /// <summary>
 /// アダプター
@@ -73,6 +74,7 @@ public:
 	virtual ID3D12CommandQueue* GetComputeCommandQueue() = 0;
 
 	virtual void ComputeWaitPreviousFrame() = 0;
+	virtual void ComputeCompulsionWait() = 0;
 	virtual void CopyWaitPreviousFrame() = 0;
 	virtual	 void GraphicWaitPreviousFrame() = 0;
 
@@ -83,6 +85,9 @@ public:
 	virtual IDSVDescriptorHeap* GetDSVDescriptorHeap() = 0;
 	virtual IRTVDescriptorHeap* GetRTVDescriptorHeap() = 0;
 	virtual ISRVDescriptorHeap* GetSRVDescriptorHeap() = 0;
+
+	virtual void SetIndex(AdaptersIndex index_) =0;
+	virtual AdaptersIndex GetIndex() =0;
 };
 
 /// <summary>

@@ -91,6 +91,8 @@ public:
 	/// <param name="flag_"></param>
 	void SetHeapType(HEAP_TYPE heapType_)override;
 
+	uint32_t AlignForUavCounter(uint32_t bufferSize);
+
 	~RWStructuredBuffer() = default;
 	RWStructuredBuffer() = default;
 
@@ -110,13 +112,13 @@ void RWStructuredBuffer::CreateSRV(size_t length_,size_t singleSize_,AdaptersInd
 	ISRVDescriptorHeap* lSRVHeap = lAdapter->GetSRVDescriptorHeap();
 
 	D3D12_RESOURCE_DESC lResDesc = CD3DX12_RESOURCE_DESC::Buffer(singleSize_ * length_);
-	lResDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS | D3D12_RESOURCE_FLAG_ALLOW_CROSS_ADAPTER;
+	lResDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS;
 
 	D3D12_HEAP_PROPERTIES lHeapProp = CD3DX12_HEAP_PROPERTIES(heapType);
 
 	HRESULT lResult = lDevice->CreateCommittedResource(
 		&lHeapProp,
-		D3D12_HEAP_FLAG_SHARED | D3D12_HEAP_FLAG_SHARED_CROSS_ADAPTER,
+		D3D12_HEAP_FLAGS::D3D12_HEAP_FLAG_NONE,
 		&lResDesc,
 		D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
 		nullptr,
@@ -160,18 +162,20 @@ void RWStructuredBuffer::CreateUAV(size_t length_,size_t singleSize_,AdaptersInd
 	bufferlength = length_;
 	bufferSingleSize = singleSize_;
 
+	UINT64 deadListByteSize = singleSize_ * length_;
+	UINT64 countBufferOffset = (UINT64)AlignForUavCounter(( UINT ) deadListByteSize);
+
 	IAdapter* lAdapter = sMultiAdapters->GetAdapter(index_);
 	ID3D12Device* lDevice = lAdapter->GetDevice()->Get();
 	ISRVDescriptorHeap* lSRVHeap = lAdapter->GetSRVDescriptorHeap();
 
-	D3D12_RESOURCE_DESC lResDesc = CD3DX12_RESOURCE_DESC::Buffer(singleSize_ * length_);
-	lResDesc.Flags = lResDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS;
+	D3D12_RESOURCE_DESC lResDesc = CD3DX12_RESOURCE_DESC::Buffer(countBufferOffset + singleSize_,D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS);
 
 	D3D12_HEAP_PROPERTIES lHeapProp = CD3DX12_HEAP_PROPERTIES(heapType);
 
 	HRESULT lResult = lDevice->CreateCommittedResource(
 		&lHeapProp,
-		D3D12_HEAP_FLAG_NONE,
+		D3D12_HEAP_FLAGS::D3D12_HEAP_FLAG_NONE,
 		&lResDesc,
 		D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
 		nullptr,
@@ -200,10 +204,12 @@ void RWStructuredBuffer::CreateUAV(size_t length_,size_t singleSize_,AdaptersInd
 	}
 
 	D3D12_UNORDERED_ACCESS_VIEW_DESC lUavResDesc{};
-	lUavResDesc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
 	lUavResDesc.Format = DXGI_FORMAT_UNKNOWN;
-	lUavResDesc.Buffer.NumElements = static_cast< UINT >( length_ );
-	lUavResDesc.Buffer.StructureByteStride = static_cast< UINT >( singleSize_ );
+	lUavResDesc.Buffer.NumElements = (UINT)length_;
+	lUavResDesc.Buffer.StructureByteStride = ( UINT ) singleSize_;
+	lUavResDesc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
+	lUavResDesc.Buffer.FirstElement = 0;
+	lUavResDesc.Buffer.CounterOffsetInBytes = 0;
 
 	structuredBufferHandle.ptr = lSRVHeap->CreateUAV(lUavResDesc,resource.Get());
 
@@ -268,6 +274,12 @@ void RWStructuredBuffer::Update(void* data_)
 void RWStructuredBuffer::SetHeapType(HEAP_TYPE heapType_)
 {
 	heapType = static_cast< D3D12_HEAP_TYPE >( heapType_ );
+}
+
+uint32_t RWStructuredBuffer::AlignForUavCounter(uint32_t bufferSize)
+{
+	const uint32_t alignment = D3D12_UAV_COUNTER_PLACEMENT_ALIGNMENT;
+	return ( bufferSize + ( alignment - 1 ) ) & ~( alignment - 1 );
 }
 
 bool RWStructuredBuffer::IsValid()

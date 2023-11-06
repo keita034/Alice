@@ -242,7 +242,7 @@ float AliceBlendTree::GetRatio()
 	{
 		std::unique_ptr<AliceMotionData>& node = startNode->animation;
 
-		return node->GetTickTimes(frame) / node->GetAnimeMaxflame();;
+		return node->GetTickTimes(frame) / node->GetAnimeMaxflame();
 	}
 	else
 	{

@@ -34,7 +34,6 @@ void Device::Initialize(IDXGIAdapter* adapter_)
 		//対応レベルの配列
 	D3D_FEATURE_LEVEL lLevels[ ] =
 	{
-		D3D_FEATURE_LEVEL_12_2,
 		D3D_FEATURE_LEVEL_12_1,
 		D3D_FEATURE_LEVEL_12_0,
 		D3D_FEATURE_LEVEL_11_1,

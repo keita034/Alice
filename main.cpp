@@ -20,6 +20,7 @@ struct D3DResouceLeakChecker
 }
 
 };
+
 int main()
 {
 	D3DResouceLeakChecker checker;

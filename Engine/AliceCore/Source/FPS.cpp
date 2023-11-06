@@ -1,4 +1,4 @@
-﻿#include<FPS.h>
+#include<FPS.h>
 
 #pragma warning(push)
 #pragma warning(disable: 4365)
@@ -100,6 +100,7 @@ float FPS::GetFrameRate()
 float FPS::GetDeltaTime()
 {
 	return deltaTime;
+
 }
 
 std::unique_ptr<IFPS> CreateUniqueFPS()

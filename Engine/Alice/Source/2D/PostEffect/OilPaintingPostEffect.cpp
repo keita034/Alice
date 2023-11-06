@@ -1,7 +1,7 @@
 #include "OilPaintingPostEffect.h"
 #include<DirectX12Core.h>
 #include<WindowsApp.h>
-#include<DefaultMaterial.h>
+#include<MaterialManager.h>
 
 OilPaintingPostEffect* OilPaintingPostEffect::SGetInstance()
 {

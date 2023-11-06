@@ -1,6 +1,7 @@
 #include "BaseBuffer.h"
 
 IMultiAdapters* BaseBuffer::sMultiAdapters = nullptr;
+ISwapChain* BaseBuffer::sSwapChain = nullptr;
 
 void BaseBuffer::SSetMultiAdapters(IMultiAdapters* multiAdapters_)
 {
@@ -10,7 +11,15 @@ void BaseBuffer::SSetMultiAdapters(IMultiAdapters* multiAdapters_)
 	}
 }
 
-IDevice* BaseBuffer::SGetDevice(AdaptersIndex index_)
+void BaseBuffer::SSetSwapChain(ISwapChain* swapChain_)
+{
+	if ( !sSwapChain )
+	{
+		sSwapChain = swapChain_;
+	}
+}
+
+IDevice* BaseBuffer::BaseBuffer::SGetDevice(AdaptersIndex index_)
 {
 	IAdapter* lAdapter = sMultiAdapters->GetAdapter(index_);
 	return lAdapter->GetDevice();

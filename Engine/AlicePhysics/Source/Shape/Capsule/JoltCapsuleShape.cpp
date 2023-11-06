@@ -1,6 +1,6 @@
 #include "JoltCapsuleShape.h"
 
-#ifdef _DEBUG
+#if defined(_DEBUG) && defined(JPH_DEBUG_RENDERER)
 AlicePhysics::JoltDebugRenderer* AlicePhysics::JoltCapsuleShape::renderer = nullptr;
 #endif // _DEBUG
 
@@ -17,7 +17,7 @@ void AlicePhysics::JoltCapsuleShape::Initialize(float halfHeightOfCylinder_,floa
 	halfHeightOfCylinder = halfHeightOfCylinder_;
 	radius = radius_;
 
-#ifdef _DEBUG
+#if defined(_DEBUG) && defined(JPH_DEBUG_RENDERER)
 	constantBuffers.push_back(CreateUniqueConstantBuffer(sizeof(AlicePhysics::JoltDebugRenderer::ConstBufferData)));
 	constantBuffers.push_back(CreateUniqueConstantBuffer(sizeof(AlicePhysics::JoltDebugRenderer::ConstBufferData)));
 	constantBuffers.push_back(CreateUniqueConstantBuffer(sizeof(AlicePhysics::JoltDebugRenderer::ConstBufferData)));
@@ -28,7 +28,7 @@ void AlicePhysics::JoltCapsuleShape::Initialize(float halfHeightOfCylinder_,floa
 
 void AlicePhysics::JoltCapsuleShape::Draw(const AliceMathF::Matrix4& transform_, const AliceMathF::Vector3& scale_, const AliceMathF::Vector4& inColor, bool wireframe_)
 {
-#ifdef _DEBUG
+#if defined(_DEBUG) && defined(JPH_DEBUG_RENDERER)
 	if (renderer)
 	{
 		renderer->SetConstant(&constantBuffers);
@@ -46,7 +46,7 @@ void AlicePhysics::JoltCapsuleShape::Draw(const AliceMathF::Matrix4& transform_,
 
 }
 
-#ifdef _DEBUG
+#if defined(_DEBUG) && defined(JPH_DEBUG_RENDERER)
 void AlicePhysics::JoltCapsuleShape::SetRenderer(JoltDebugRenderer* renderer_)
 {
 	renderer = renderer_;

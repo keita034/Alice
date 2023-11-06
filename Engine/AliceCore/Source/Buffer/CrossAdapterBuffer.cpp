@@ -20,21 +20,23 @@ class CrossAdapterBuffer : public BaseBuffer,public ICrossAdapterBuffer
 {
 private:
 
-	IAdapter* sauceAdapter = nullptr;
-	IAdapter* dustAdapter = nullptr;
-	std::array<Microsoft::WRL::ComPtr<ID3D12Resource>,2> resources;
+	static constexpr size_t NUM_RESOURCE = 2;
+
+	IAdapter* mainAdapter = nullptr;
+	IAdapter* subAdapter = nullptr;
+
+	std::array<Microsoft::WRL::ComPtr<ID3D12Resource>,NUM_RESOURCE> resources;
+	std::array<Microsoft::WRL::ComPtr<ID3D12Heap>,NUM_RESOURCE> heaps;
 	//GPUハンドル
-	std::array <D3D12_GPU_DESCRIPTOR_HANDLE,2> structuredBufferHandles;
+	std::array <D3D12_GPU_DESCRIPTOR_HANDLE,NUM_RESOURCE> structuredBufferHandles;
 	size_t bufferSize;
-	std::array<Microsoft::WRL::ComPtr<ID3D12Heap>,2> heaps;
 
 public:
 
-	void Create(size_t length_,size_t singleSize_,AdaptersIndex dustIndex_,AdaptersIndex sauceIndex_)override;
+	void Create(size_t length_,size_t singleSize_,AdaptersIndex mainIndex_,AdaptersIndex subIndex_)override;
 	bool IsValid();
-	const D3D12_GPU_DESCRIPTOR_HANDLE& GetAddress(ResourceIndex index_)override;
+	const D3D12_GPU_DESCRIPTOR_HANDLE& GetAddress(CrossAdapterResourceIndex index_)override;
 	ID3D12Resource* GetResource()override;
-	void ResourceCopy() override;
 
 	~CrossAdapterBuffer() = default;
 	CrossAdapterBuffer() = default;
@@ -45,56 +47,68 @@ private:
 	CrossAdapterBuffer& operator = (const CrossAdapterBuffer&) = delete;
 };
 
-void CrossAdapterBuffer::Create(size_t length_,size_t singleSize_,AdaptersIndex dustIndex_,AdaptersIndex sauceIndex_)
+void CrossAdapterBuffer::Create(size_t length_,size_t singleSize_,AdaptersIndex mainIndex_,AdaptersIndex subIndex_)
 {
-	dustAdapter = sMultiAdapters->GetAdapter(dustIndex_);
-	sauceAdapter = sMultiAdapters->GetAdapter(sauceIndex_);
+	mainAdapter = sMultiAdapters->GetAdapter(mainIndex_);
+	subAdapter = sMultiAdapters->GetAdapter(subIndex_);
 
-	ID3D12Device* lSauceDevice = sauceAdapter->GetDevice()->Get();
-	ID3D12Device* lDustDevice = dustAdapter->GetDevice()->Get();
+	ID3D12Device* lMainDevice = mainAdapter->GetDevice()->Get();
 
-	D3D12_RESOURCE_DESC lSauceResDesc = CD3DX12_RESOURCE_DESC::Buffer(singleSize_ * length_);
-	lSauceResDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_CROSS_ADAPTER | D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS;
-	D3D12_RESOURCE_ALLOCATION_INFO lBuferInf = lSauceDevice->GetResourceAllocationInfo(0,1,&lSauceResDesc);
+	D3D12_RESOURCE_DESC lSauceResDesc = CD3DX12_RESOURCE_DESC::Buffer(singleSize_ * length_,D3D12_RESOURCE_FLAG_ALLOW_CROSS_ADAPTER | D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS);
+	D3D12_RESOURCE_ALLOCATION_INFO lBuferInf = lMainDevice->GetResourceAllocationInfo(0,1,&lSauceResDesc);
 
 	bufferSize = lBuferInf.SizeInBytes;
 
-	{
-		//ヒープ生成
-		CD3DX12_HEAP_DESC lHeapDesc = CD3DX12_HEAP_DESC(bufferSize,D3D12_HEAP_TYPE::D3D12_HEAP_TYPE_DEFAULT,0,D3D12_HEAP_FLAGS::D3D12_HEAP_FLAG_SHARED | D3D12_HEAP_FLAGS::D3D12_HEAP_FLAG_SHARED_CROSS_ADAPTER);
+	HRESULT lResult;
 
-		lSauceDevice->CreateHeap(&lHeapDesc,IID_PPV_ARGS(&heaps[ ResourceIndex::SAUCE ]));
+	//メインリソース生成
+	{
+		CD3DX12_HEAP_DESC lHeapDesc = CD3DX12_HEAP_DESC(bufferSize,D3D12_HEAP_TYPE::D3D12_HEAP_TYPE_DEFAULT,0,D3D12_HEAP_FLAGS::D3D12_HEAP_FLAG_SHARED | D3D12_HEAP_FLAGS::D3D12_HEAP_FLAG_SHARED_CROSS_ADAPTER);
+		lHeapDesc.Properties.VisibleNodeMask = 0;
+		lHeapDesc.Properties.CreationNodeMask = 0;
+
+		lResult = lMainDevice->CreateHeap(&lHeapDesc,IID_PPV_ARGS(&heaps[ CrossAdapterResourceIndex::MAIN ]));
+		assert(SUCCEEDED(lResult));
 
 		//リソース生成
-		//コピー元
-		lSauceDevice->CreatePlacedResource(heaps[ ResourceIndex::SAUCE ].Get(),0,&lSauceResDesc,D3D12_RESOURCE_STATES::D3D12_RESOURCE_STATE_COPY_SOURCE,nullptr,IID_PPV_ARGS(&resources[ ResourceIndex::SAUCE ]));
+		lResult = lMainDevice->CreatePlacedResource(heaps[ CrossAdapterResourceIndex::MAIN ].Get(),0,&lSauceResDesc,D3D12_RESOURCE_STATES::D3D12_RESOURCE_STATE_UNORDERED_ACCESS,nullptr,IID_PPV_ARGS(&resources[ CrossAdapterResourceIndex::MAIN ]));
+		assert(SUCCEEDED(lResult));
 	}
 
 
-	D3D12_RESOURCE_DESC lResDesc = CD3DX12_RESOURCE_DESC::Buffer(bufferSize);
-	lResDesc.Flags = lResDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS;
+	//サブリソース生成
+	{
+		ID3D12Device* lSubDevice = subAdapter->GetDevice()->Get();
 
-	D3D12_HEAP_PROPERTIES lHeapProp = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
+		HANDLE lHeapHandle = nullptr;
 
-	lDustDevice->CreateCommittedResource(
-		&lHeapProp,
-		D3D12_HEAP_FLAG_NONE,
-		&lResDesc,
-		D3D12_RESOURCE_STATE_COPY_DEST,
-		nullptr,
-		IID_PPV_ARGS(resources[ ResourceIndex::DUST ].GetAddressOf())
-	);
-	D3D12_UNORDERED_ACCESS_VIEW_DESC lUavResDesc{};
-	lUavResDesc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
-	lUavResDesc.Format = DXGI_FORMAT_UNKNOWN;
-	lUavResDesc.Buffer.NumElements = static_cast< UINT >( length_ );
-	lUavResDesc.Buffer.StructureByteStride = static_cast< UINT >( singleSize_ );
+		//ヒープを共有
+		lResult = lMainDevice->CreateSharedHandle(heaps[ CrossAdapterResourceIndex::MAIN ].Get(),nullptr,GENERIC_ALL,nullptr,&lHeapHandle);
+		assert(SUCCEEDED(lResult));
 
-	//ISRVDescriptorHeap* lDustHape = dustAdapter->GetSRVDescriptorHeap();
-	//ISRVDescriptorHeap* lSauceHape = sauceAdapter->GetSRVDescriptorHeap();
+		lResult = lSubDevice->OpenSharedHandle(lHeapHandle,IID_PPV_ARGS(&heaps[ CrossAdapterResourceIndex::SUB ]));
+		assert(SUCCEEDED(lResult));
 
-	//structuredBufferHandles[ ResourceIndex::SAUCE ].ptr = lSauceHape->CreateUAV(lUavResDesc,resources[ ResourceIndex::SAUCE ].Get());
-	//structuredBufferHandles[ ResourceIndex::DUST ].ptr = lDustHape->CreateUAV(lUavResDesc,resources[ ResourceIndex::DUST ].Get());
+		CloseHandle(lHeapHandle);
+
+		//リソース生成
+		lResult = lSubDevice->CreatePlacedResource(heaps[ CrossAdapterResourceIndex::SUB ].Get(),0,&lSauceResDesc,D3D12_RESOURCE_STATES::D3D12_RESOURCE_STATE_UNORDERED_ACCESS,nullptr,IID_PPV_ARGS(&resources[ CrossAdapterResourceIndex::SUB ]));
+		assert(SUCCEEDED(lResult));
+	}
+
+	{
+		D3D12_UNORDERED_ACCESS_VIEW_DESC lUavResDesc{};
+		lUavResDesc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
+		lUavResDesc.Format = DXGI_FORMAT_UNKNOWN;
+		lUavResDesc.Buffer.NumElements = static_cast< UINT >( length_ );
+		lUavResDesc.Buffer.StructureByteStride = static_cast< UINT >( singleSize_ );
+
+		ISRVDescriptorHeap* lMainHape = mainAdapter->GetSRVDescriptorHeap();
+		ISRVDescriptorHeap* lSubHape = subAdapter->GetSRVDescriptorHeap();
+
+		structuredBufferHandles[ CrossAdapterResourceIndex::MAIN ].ptr = lMainHape->CreateUAV(lUavResDesc,resources[ CrossAdapterResourceIndex::MAIN ].Get());
+		structuredBufferHandles[ CrossAdapterResourceIndex::SUB ].ptr = lSubHape->CreateUAV(lUavResDesc,resources[ CrossAdapterResourceIndex::SUB ].Get());
+	}
 }
 
 bool CrossAdapterBuffer::IsValid()
@@ -102,9 +116,9 @@ bool CrossAdapterBuffer::IsValid()
 	return isValid;
 }
 
-const D3D12_GPU_DESCRIPTOR_HANDLE& CrossAdapterBuffer::GetAddress(ResourceIndex index_)
+const D3D12_GPU_DESCRIPTOR_HANDLE& CrossAdapterBuffer::GetAddress(CrossAdapterResourceIndex index_)
 {
-	return structuredBufferHandles[ index_  ];
+	return structuredBufferHandles[ index_ ];
 }
 
 ID3D12Resource* CrossAdapterBuffer::GetResource()
@@ -112,33 +126,16 @@ ID3D12Resource* CrossAdapterBuffer::GetResource()
 	return resource.Get();
 }
 
-void CrossAdapterBuffer::ResourceCopy()
-{
-	ICommandList* lSauceCommandList = sauceAdapter->GetCommandList();
-	ICommandList* lDustCommandList = dustAdapter->GetCommandList();
-	ICrossAdapterFence* lCrossAdapterFence = sMultiAdapters->GetCrossAdapterFence();
-
-	lSauceCommandList->CommandListExecute(ICommandList::CommandListIndex::COMPUTE);
-
-	lCrossAdapterFence->Signal(lSauceCommandList->GetComputeCommandQueue());
-	lCrossAdapterFence->Wait(lDustCommandList->GetCopyCommandQueue());
-
-	lDustCommandList->CommandListExecute(ICommandList::CommandListIndex::COPY);
-
-	ID3D12GraphicsCommandList* lDustCopyCommandList = lDustCommandList->GetCopyCommandList();
- 	lDustCopyCommandList->CopyBufferRegion(resources[ ResourceIndex::DUST ].Get(),0,resources[ ResourceIndex::SAUCE ].Get(),0,bufferSize);
-}
-
-std::unique_ptr<ICrossAdapterBuffer> CreateUniqueCrossAdapterBuffer(size_t length_,size_t singleSize_,AdaptersIndex dustIndex_,AdaptersIndex sauceIndex_)
+std::unique_ptr<ICrossAdapterBuffer> CreateUniqueCrossAdapterBuffer(size_t length_,size_t singleSize_,AdaptersIndex mainIndex_,AdaptersIndex subIndex_)
 {
 	std::unique_ptr<ICrossAdapterBuffer> lCrossAdapterBuffer = std::make_unique<CrossAdapterBuffer>();
-	lCrossAdapterBuffer->Create(length_,singleSize_,dustIndex_,sauceIndex_);
+	lCrossAdapterBuffer->Create(length_,singleSize_,mainIndex_,subIndex_);
 	return std::move(lCrossAdapterBuffer);
 }
 
-std::shared_ptr<ICrossAdapterBuffer> CreateSharedCrossAdapterBuffer(size_t length_,size_t singleSize_,AdaptersIndex dustIndex_,AdaptersIndex sauceIndex_)
+std::shared_ptr<ICrossAdapterBuffer> CreateSharedCrossAdapterBuffer(size_t length_,size_t singleSize_,AdaptersIndex mainIndex_,AdaptersIndex subIndex_)
 {
 	std::shared_ptr<ICrossAdapterBuffer> lCrossAdapterBuffer = std::make_shared<CrossAdapterBuffer>();
-	lCrossAdapterBuffer->Create(length_,singleSize_,dustIndex_,sauceIndex_);
+	lCrossAdapterBuffer->Create(length_,singleSize_,mainIndex_,subIndex_);
 	return lCrossAdapterBuffer;
 }

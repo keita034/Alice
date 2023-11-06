@@ -62,7 +62,7 @@
     <ClCompile>
       <WarningLevel>EnableAllWarnings</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_LIB;PX_PHYSX_STATIC_LIB;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;AlicePhysicsJolt;_SILENCE_ALL_CXX20_DEPRECATION_WARNINGS;JPH_DEBUG_RENDERER;JPH_USE_AVX2;JPH_DOUBLE_PRECISION;JPH_PROFILE_ENABLED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_LIB;PX_PHYSX_STATIC_LIB;_SILENCE_ALL_CXX23_DEPRECATION_WARNINGS;AlicePhysicsJolt;_SILENCE_ALL_CXX20_DEPRECATION_WARNINGS;JPH_PROFILE_ENABLED;JPH_DEBUG_RENDERER;JPH_USE_AVX2;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)Include;$(ProjectDir)Include\Float;$(ProjectDir)Include\Float\Matrix;$(ProjectDir)Include\Float\Vector;$(ProjectDir)Include\Double;$(ProjectDir)Include\Double\Matrix;$(ProjectDir)Include\Double\Vector;$(SolutionDir)Alice;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>

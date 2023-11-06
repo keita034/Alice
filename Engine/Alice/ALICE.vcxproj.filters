@@ -38,9 +38,6 @@
     <Filter Include="ソース ファイル\Light">
       <UniqueIdentifier>{209fad85-2044-4779-95ee-258b1314a073}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Util">
-      <UniqueIdentifier>{72ee2f8a-4c7b-4efa-b30c-b9543bd282b8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Scene">
       <UniqueIdentifier>{3e05d7bb-88d6-435f-9366-06729f55dbeb}</UniqueIdentifier>
     </Filter>
@@ -177,6 +174,9 @@
     </Filter>
     <Filter Include="ヘッダー ファイル\Transition">
       <UniqueIdentifier>{98f2a96a-5cd0-4672-8e48-a82f7d812bed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Util">
+      <UniqueIdentifier>{72ee2f8a-4c7b-4efa-b30c-b9543bd282b8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -364,6 +364,12 @@
       <Filter>ヘッダー ファイル\2D\Particle</Filter>
     </ClInclude>
     <ClInclude Include="Include\2D\Particle\GPUParticleEmitter.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="GPUTimeStamp.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\2D\Particle\FireGPUParticle.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -651,13 +657,7 @@
     <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleEmitCS.hlsl">
       <Filter>リソース ファイル\シェーダー\2D\Particle</Filter>
     </None>
-    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticle.hlsli" />
     <None Include="..\..\Resources\Shaders\HLSLMath.hlsli" />
-    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleVS.hlsl" />
-    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleUpdateCS.hlsl" />
-    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticlePS.hlsl" />
-    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleGS.hlsl" />
-    <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleDrawArgumentUpdateCS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Core\TextureManager.cpp">
@@ -835,7 +835,13 @@
       <Filter>ソース ファイル\2D\Particle</Filter>
     </ClCompile>
     <ClCompile Include="Source\2D\Particle\GPUParticleEmitter.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\2D\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="GPUTimeStamp.cpp">
+      <Filter>ソース ファイル\2D\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\2D\Particle\FireGPUParticle.cpp">
+      <Filter>ソース ファイル\2D\Particle</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

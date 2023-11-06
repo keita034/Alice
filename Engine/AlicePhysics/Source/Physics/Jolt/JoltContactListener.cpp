@@ -53,10 +53,17 @@ void AlicePhysics::JoltContactListener::OnContactPersisted(const JPH::Body& body
 void AlicePhysics::JoltContactListener::OnContactRemoved(const JPH::SubShapeIDPair& subShapePair)
 {
 	IRigidBody* lBody1RigidBody = rigidBodyManager->GetRigidBody(subShapePair.GetBody1ID().GetIndex());
-	lBody1RigidBody->OnCollisionExit();
+	if ( lBody1RigidBody )
+	{
+		lBody1RigidBody->OnCollisionExit();
+	}
+
 
 	IRigidBody* lBody2RigidBody = rigidBodyManager->GetRigidBody(subShapePair.GetBody2ID().GetIndex());
-	lBody2RigidBody->OnCollisionExit();
+	if ( lBody2RigidBody )
+	{
+		lBody2RigidBody->OnCollisionExit();
+	}
 
 	static_cast< void >( subShapePair );
 }

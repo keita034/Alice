@@ -50,7 +50,7 @@ public:
 	/// <summary>
 	/// アンオーダーアクセスビュー生成
 	/// </summary>
-	uint64_t CreateUAV(const D3D12_UNORDERED_ACCESS_VIEW_DESC& desc_, ID3D12Resource* resource_) override;
+	uint64_t CreateUAV(const D3D12_UNORDERED_ACCESS_VIEW_DESC& desc_, ID3D12Resource* resource_,bool countBuff_ = false) override;
 
 	/// <summary>
 	/// アンオーダーアクセスビュー追加
@@ -140,7 +140,7 @@ SRVDescriptorHeap::DescriptorHeapViewHandle SRVDescriptorHeap::AddSRV()
 	return lHandle;
 }
 
-uint64_t SRVDescriptorHeap::CreateUAV(const D3D12_UNORDERED_ACCESS_VIEW_DESC& desc_, ID3D12Resource* resource_)
+uint64_t SRVDescriptorHeap::CreateUAV(const D3D12_UNORDERED_ACCESS_VIEW_DESC& desc_, ID3D12Resource* resource_,bool countBuff_)
 {
 	if (countUAV > maxUAV)
 	{
@@ -155,8 +155,16 @@ uint64_t SRVDescriptorHeap::CreateUAV(const D3D12_UNORDERED_ACCESS_VIEW_DESC& de
 	lCpuHandle.ptr = startCpuHandle.ptr + (static_cast<UINT64>(maxSRV + countUAV) * incrementSize);
 	lGpuHandle.ptr = startGpuHandle.ptr + (static_cast<UINT64>(maxSRV + countUAV) * incrementSize);
 
-	// ハンドルの指す位置にシェーダーリソースビュー作成
-	device->CreateUnorderedAccessView(resource_, nullptr, &desc_, lCpuHandle);
+	if ( countBuff_ )
+	{
+		// ハンドルの指す位置にシェーダーリソースビュー作成
+		device->CreateUnorderedAccessView(resource_,resource_,&desc_,lCpuHandle);
+	}
+	else
+	{
+		// ハンドルの指す位置にシェーダーリソースビュー作成
+		device->CreateUnorderedAccessView(resource_,nullptr,&desc_,lCpuHandle);
+	}
 
 	countUAV++;
 
