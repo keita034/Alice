@@ -3,6 +3,7 @@
 #include<JoltCollisionFiltering.h>
 #include<AliceAssert.h>
 #include<AliceMathUtility.h>
+#include<JoltSphereShape.h>
 
 void AlicePhysics::JoltPhysics::Initialize()
 {
@@ -169,6 +170,18 @@ void AlicePhysics::JoltPhysics::Draw()
 
 }
 
+void AlicePhysics::JoltPhysics::SetScaleShape(const AliceMathF::Vector3& scale,IRigidBody* rigidBody_,IShape*& shape_)
+{
+	JPH::BodyInterface& lBodyInterface = physicsSystem->GetBodyInterface();
+	JoltRigidBody* lIRigidBody = dynamic_cast< JoltRigidBody* >( rigidBody_ );
+	JPH::Shape* lShape;
+	PGetShape(lShape,shape_);
+	JPH::Shape::ShapeResult resilt = lShape->ScaleShape(scale);
+	lBodyInterface.SetShape(lIRigidBody->id,resilt.Get(),false,JPH::EActivation::Activate);
+
+	lIRigidBody->SetShape(shape_);
+}
+
 void AlicePhysics::JoltPhysics::SetDevice(IDevice* device_)
 {
 	device = device_;
@@ -204,8 +217,6 @@ void AlicePhysics::JoltPhysics::SetLight(AliceMathF::Vector3* lightV_,AliceMathF
 void AlicePhysics::JoltPhysics::PGetShape(JPH::Shape*& joltShape_,IShape* shape_)
 {
 	AliceAssertNull(shape_,"シェイプが設定されてません\n");
-
-	JPH::ShapeSettings::ShapeResult lShapeResult;
 
 	switch ( shape_->GetShapeType() )
 	{

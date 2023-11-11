@@ -10,6 +10,12 @@
 #include<AudioManager.h>
 #include<AlicePhysicsSystem.h>
 
+struct PlayerUsData
+{
+	int32_t situation;
+	AliceMathF::Vector3 pos;
+};
+
 class Player : public GameObject
 {
 private:
@@ -18,11 +24,20 @@ private:
 	IAudioManager* audioManager = nullptr;
 	Camera* camera = nullptr;
 
+	PlayerUsData usData;
+
 	AliceMathF::Vector3 oldTrans;
+	float speed = 170.0f;
+
 	AliceMathF::Vector3 direction;
+	float scale = 0.35f;
 
 	AliceMathF::Vector3 rowlingWay;
+	float rowlingDistance = 100.0f;
+
 	AliceMathF::Vector3 rowlingStartPos;
+	float deathSEVolume = 0.04f;
+
 	AliceMathF::Vector3 rowlingEndPos;
 	AliceMathF::Vector3 rigidBodyoffset;
 
@@ -31,38 +46,28 @@ private:
 	std::unique_ptr<PlayerWeapon> weapon;
 	std::unique_ptr<DeviceInput> deviceInput;
 
-	float speed = 170.0f;
-	float scale = 0.35f;
-	float rowlingDistance = 100.0f;
-	float deathSEVolume = 0.04f;
-
 	const int32_t MAX_HP = 30;
 	const int32_t MAX_STAMINA = 2000;
 	const int32_t MAX_BULLET = 20;
 	const int32_t MAX_HEALING = 20;
+
 	const int32_t MAX_DAMAGE_INTERVAL = 20;
-
 	int32_t hp = 0;
-
 	int32_t stamina = 0;
 	int32_t subRunStamina = 2;
+
 	int32_t subAttackStamina = 200;
 	int32_t subRowlingStamina = 400;
-
 	int32_t bullet = 0;
-
 	int32_t healing = 0;
+
 	int32_t healingNum = 10;
-
-	int32_t situation = 0;
-
 	int32_t damageInterval = 0;
-
 	uint32_t deathSE = 0;
 
 	bool isStationary = true;
 	bool fieldHit = false;
-
+	bool shockwaveHit = false;
 
 public:
 

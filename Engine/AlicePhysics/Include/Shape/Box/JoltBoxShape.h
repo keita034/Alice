@@ -18,10 +18,15 @@ namespace AlicePhysics
 	{
 	private:
 		JPH::BoxShape*shape;
+
 #if defined(_DEBUG) && defined(JPH_DEBUG_RENDERER)
 		static JoltDebugRenderer* renderer;
 		std::vector<std::unique_ptr<IConstantBuffer>>constantBuffers;
 #endif // _DEBUG
+
+	private:
+
+		friend class JoltRigidBody;
 
 	public:
 

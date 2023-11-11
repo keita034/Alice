@@ -121,6 +121,8 @@ namespace AlicePhysics
 
 		void Draw()override;
 
+		void SetScaleShape(const AliceMathF::Vector3& scale,IRigidBody* rigidBody_,IShape*& shape_)override;
+
 		void SetDevice(IDevice* device_) override;
 		void SetCommandList(ICommandList* commandList_) override;
 		void SetViewProjection(const AliceMathF::Matrix4& viewMat_,const AliceMathF::Matrix4& projectionMat_)override;

@@ -1,4 +1,5 @@
 #include "AlicePhysicsSystem.h"
+#include "AlicePhysicsSystem.h"
 
 
 #include<JoltPhysics.h>
@@ -46,6 +47,11 @@ void AlicePhysics::AlicePhysicsSystem::CreateRigidBody(IRigidBody*& rigidBody_, 
 {
 	physics->CreateRigidBody(rigidBody_, settings_);
 
+}
+
+void AlicePhysics::AlicePhysicsSystem::SetScaleShape(const AliceMathF::Vector3& scale, IRigidBody* rigidBody_, IShape*& shape_)
+{
+	physics->SetScaleShape(scale, rigidBody_, shape_);
 }
 
 void AlicePhysics::AlicePhysicsSystem::Finalize()

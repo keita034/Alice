@@ -69,6 +69,11 @@ void AlicePhysics::JoltMeshShape::Draw(const AliceMathF::Matrix4& transform_,con
 
 }
 
+void AlicePhysics::JoltMeshShape::SetScaleShape(const AliceMathF::Vector3& scale)
+{
+	shape->ScaleShape(scale);
+}
+
 #if defined(_DEBUG) && defined(JPH_DEBUG_RENDERER)
 void AlicePhysics::JoltMeshShape::SetRenderer(JoltDebugRenderer* renderer_)
 {

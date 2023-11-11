@@ -65,6 +65,14 @@ namespace AlicePhysics
 		void CreateRigidBody(IRigidBody*& rigidBody_, const IRigidBodyCreationSettings* settings_);
 
 		/// <summary>
+		/// シェイプのスケールを変更
+		/// </summary>
+		/// <param name="scale">スケール</param>
+		/// <param name="rigidBody_">リジットボディ</param>
+		/// <param name="shape_">シェイプ</param>
+		void SetScaleShape(const AliceMathF::Vector3& scale,IRigidBody* rigidBody_,IShape*& shape_);
+
+		/// <summary>
 		/// 終了処理
 		/// </summary>
 		void Finalize();

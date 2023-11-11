@@ -121,6 +121,7 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Boss\BossJumpAttackMove.cpp" />
     <ClCompile Include="Boss\BaseGameCamera.cpp" />
     <ClCompile Include="Boss\Boss.cpp" />
     <ClCompile Include="Boss\BossActionManager.cpp" />
@@ -129,6 +130,7 @@
     <ClCompile Include="Boss\BossChaseMove.cpp" />
     <ClCompile Include="Boss\BossHand.cpp" />
     <ClCompile Include="Boss\BossUI.cpp" />
+    <ClCompile Include="Engine\AlicePhysics\Include\IShape.cpp" />
     <ClCompile Include="Player\Player.cpp" />
     <ClCompile Include="Player\PlayerAnimation.cpp" />
     <ClCompile Include="Player\PlayerGameCamera.cpp" />
@@ -145,6 +147,7 @@
     <ClCompile Include="Util\GameCameraManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Boss\BossJumpAttackMove.h" />
     <ClInclude Include="Boss\BaseGameCamera.h" />
     <ClInclude Include="Boss\Boss.h" />
     <ClInclude Include="Boss\BossActionManager.h" />

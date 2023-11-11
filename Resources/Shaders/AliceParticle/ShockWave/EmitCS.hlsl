@@ -1,4 +1,4 @@
-#include<FireGPUParticle.hlsli>
+#include<ShockWaveGPUParticle.hlsli>
 #include<../../HLSLMath.hlsli>
 
 cbuffer timeData : register(b0)
@@ -41,10 +41,15 @@ void main( uint3 DTid : SV_DispatchThreadID )
     
     Particle emitParticle = ParticlePool.Load(emitIndex);
 
-    float3 rand = RandomPointInUnitSphere(emitIndex + computeTime, float3(emitData.radius, emitData.radius, emitData.radius));
+    float lAngleDiv = PI2 / emitData.emitCount;
     
-    emitParticle.position = rand;
-    emitParticle.velocity = float3(0, 1, 0) * emitData.speed;
+    float3 rand;
+    rand.x = cos(lAngleDiv * DTid.x );
+    rand.y = 0.0f;
+    rand.z = sin(lAngleDiv * DTid.x );
+
+    emitParticle.position = emitData.position;
+    emitParticle.velocity = rand* emitData.speed;
     emitParticle.color = emitData.startColor;
     emitParticle.position = rand + emitData.position;
     emitParticle.age = 0.0f;

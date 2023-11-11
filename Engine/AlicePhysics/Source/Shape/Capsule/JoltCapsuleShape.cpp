@@ -23,7 +23,7 @@ void AlicePhysics::JoltCapsuleShape::Initialize(float halfHeightOfCylinder_,floa
 	constantBuffers.push_back(CreateUniqueConstantBuffer(sizeof(AlicePhysics::JoltDebugRenderer::ConstBufferData)));
 #endif // _DEBUG
 
-
+	
 }
 
 void AlicePhysics::JoltCapsuleShape::Draw(const AliceMathF::Matrix4& transform_, const AliceMathF::Vector3& scale_, const AliceMathF::Vector4& inColor, bool wireframe_)

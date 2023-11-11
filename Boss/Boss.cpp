@@ -43,14 +43,15 @@ void Boss::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 	animation->Initialize();
 
 	actionManager = std::make_unique<BossActionManager>();
-	actionManager->Initialize(animation.get());
+	actionManager->SetParticleEmitter(particleEmitter);
+	actionManager->Initialize(animation.get(),physicsSystem_);
 
 
 	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ] = std::make_unique<BossHand>();
 	hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ] = std::make_unique<BossHand>();
 
-	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->SetFireGPUParticle(fireGPUParticle);
-	hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->SetFireGPUParticle(fireGPUParticle);
+	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->SetFireGPUParticle(particleEmitter->GetFireParticle("BossHandParticle"));
+	hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->SetFireGPUParticle(particleEmitter->GetFireParticle("BossHandParticle"));
 
 	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->Initialize(&transform,physicsSystem_,BossHandIndex::LEFT);
 	hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->Initialize(&transform,physicsSystem_,BossHandIndex::RIGHT);
@@ -154,6 +155,10 @@ void Boss::Draw()
 	hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->Draw();
 	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->Draw();
 	fireWorkParticle->Draw(camera);
+
+#ifdef _DEBUG
+	actionManager->GetBossJumpAttackMove()->Draw();
+#endif
 }
 
 void Boss::UIDraw()
@@ -163,7 +168,7 @@ void Boss::UIDraw()
 
 void Boss::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 {
-	fireGPUParticle = nullptr;
+	particleEmitter = nullptr;
 
 	hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->Finalize(physicsSystem_);
 	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->Finalize(physicsSystem_);
@@ -181,9 +186,13 @@ void Boss::TransUpdate(Camera* camera_)
 {
 
 	transform.LookAtMatrixAxisFix(direction,{ 0,1,0 },camera_);
-	//transform.TransUpdate( camera_);
+
 	hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->TransUpdate(camera_);
 	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->TransUpdate(camera_);
+
+#ifdef _DEBUG
+	actionManager->GetBossJumpAttackMove()->TransUpdate(camera_);
+#endif
 
 	camera = camera_;
 }
@@ -236,9 +245,9 @@ void Boss::SetAudioManager(IAudioManager* audioManager_)
 	audioManager = audioManager_;
 }
 
-void Boss::SetFireGPUParticle(FireGPUParticle* fireGPUParticle_)
+void Boss::SetFireGPUParticle(GPUParticleEmitter* particleEmitter_)
 {
-	fireGPUParticle = fireGPUParticle_;
+	particleEmitter = particleEmitter_;
 }
 
 int32_t Boss::GetHp()

@@ -8,7 +8,10 @@ Aliceは、C++20以降で書かれた DirectX12 3Dゲームエンジンです。
 
 Visual Studio 2022 を使用していることを確認してください
 
-リポジトリをクローンします
+Visual Studioでクローンするか、gitでクローンします。
+※サブモジュールが含まれているのでご注意ください
+
+     $ git clone --recursive https://github.com/keita034/Alice.git
 
 setup.bat を実行してlibファイルをビルドします  
 ※インターネット環境が良い所で行ってください  

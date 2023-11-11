@@ -69,6 +69,7 @@ namespace AlicePhysics
 		AliceMathF::Vector3 GetPosition()override;
 		AliceMathF::Quaternion GetRotation()override;
 		AliceMathF::Matrix4 GetCenterOfMassTransform()override;
+		void SetShape(IShape*& shape_);
 
 	private:
 		//コピーコンストラクタ・代入演算子削除

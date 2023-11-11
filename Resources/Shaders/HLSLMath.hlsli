@@ -1,4 +1,5 @@
 static const float PI = 3.14f;
+static const float PI2 = 6.28f;
 
 //弧度法から度数法に
 float RadianToAngle(float RADIAN)

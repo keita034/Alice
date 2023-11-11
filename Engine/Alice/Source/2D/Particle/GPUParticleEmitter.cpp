@@ -21,6 +21,11 @@ void GPUParticleEmitter::Update(float deltaTime_)
 		particle.second->Update(deltaTime_);
 	}
 
+	for ( std::pair<const std::string,std::unique_ptr<ShockWaveGPUParticle>>& particle : shockWaveParticles )
+	{
+		particle.second->Update(deltaTime_);
+	}
+
 	BaseGPUParticle::ParticleEnd();
 }
 
@@ -35,6 +40,11 @@ void GPUParticleEmitter::Draw(const AliceMathF::Matrix4& worldMat_,const AliceMa
 	{
 		particle.second->Draw(worldMat_,billboardMat_);
 	}
+
+	for ( std::pair<const std::string,std::unique_ptr<ShockWaveGPUParticle>>& particle : shockWaveParticles )
+	{
+		particle.second->Draw(worldMat_,billboardMat_);
+	}
 }
 
 void GPUParticleEmitter::Finalize()
@@ -45,6 +55,13 @@ void GPUParticleEmitter::Finalize()
 		particle.second.reset();
 	}
 
+	for ( std::pair<const std::string,std::unique_ptr<ShockWaveGPUParticle>>& particle : shockWaveParticles )
+	{
+		particle.second->Finalize();
+		particle.second.reset();
+	}
+
+	shockWaveParticles.clear();
 	fireParticles.clear();
 	basicGPUParticle.reset();
 
@@ -73,6 +90,8 @@ void GPUParticleEmitter::BasicGPUParticleEmit(const AliceMathF::Vector3& pos_,co
 		basicGPUParticle->SetSetting();
 	}
 }
+
+#pragma region 炎
 
 void GPUParticleEmitter::FireParticleCreate(uint32_t maxParticles_,const std::string& name_)
 {
@@ -113,14 +132,64 @@ FireGPUParticle* GPUParticleEmitter::GetFireParticle(const std::string& name_)
 	return fireParticles[ name_ ].get();
 }
 
-void GPUParticleEmitter::SetMultiAdapters(IMultiAdapters* multiAdapters_)
-{
-	multiAdapters = multiAdapters_;
-}
-
 void GPUParticleEmitter::FireParticleMove(const std::string& name_,const AliceMathF::Vector3& move_,int32_t index_)
 {
 	fireParticles[ name_ ]->Move(move_,index_);
+}
+
+#pragma endregion
+
+#pragma region 衝撃波
+
+void GPUParticleEmitter::ShockWaveParticleCreate(uint32_t maxParticles_,const std::string& name_)
+{
+	BaseGPUParticle::ParticleBegin();
+	std::unique_ptr<ShockWaveGPUParticle> lParticle = std::make_unique<ShockWaveGPUParticle>();
+	lParticle->Create(maxParticles_);
+	shockWaveParticles[ name_ ] = std::move(lParticle);
+	BaseGPUParticle::ParticleEnd();
+}
+
+void GPUParticleEmitter::ShockWaveParticleMove(const std::string& name_,const AliceMathF::Vector3& move_,int32_t index_)
+{
+	shockWaveParticles[ name_ ]->Move(move_,index_);
+}
+
+int32_t GPUParticleEmitter::ShockWaveParticleEmit(const std::string& name_,const ShockWaveGPUParticleSetting& setting_,int32_t index_)
+{
+	return shockWaveParticles[ name_ ]->Emit(setting_,index_);
+}
+
+void GPUParticleEmitter::ShockWaveParticleSetTex(const std::string& name_,uint32_t textureHandle_)
+{
+	shockWaveParticles[ name_ ]->SetTex(textureHandle_);
+}
+
+void GPUParticleEmitter::ShockWaveParticleEmitPlay(const std::string& name_,int32_t index_)
+{
+	shockWaveParticles[ name_ ]->EmitPlay(index_);
+}
+
+void GPUParticleEmitter::ShockWaveParticleEmitStop(const std::string& name_,int32_t index_)
+{
+	shockWaveParticles[ name_ ]->EmitStop(index_);
+}
+
+void GPUParticleEmitter::ShockWaveParticleSetPos(const std::string& name_,const AliceMathF::Vector3& pos_,int32_t index_)
+{
+	shockWaveParticles[ name_ ]->SetPos(pos_,index_);
+}
+
+ShockWaveGPUParticle* GPUParticleEmitter::GetShockWaveParticle(const std::string& name_)
+{
+	return shockWaveParticles[ name_ ].get();
+}
+
+#pragma endregion
+
+void GPUParticleEmitter::SetMultiAdapters(IMultiAdapters* multiAdapters_)
+{
+	multiAdapters = multiAdapters_;
 }
 
 void GPUParticleEmitter::SetSwapChain(ISwapChain* swapChain_)

@@ -12,13 +12,16 @@
 
 #pragma warning(pop)
 
+#include<GPUParticleEmitter.h>
+
 #include<BossAnimation.h>
 #include<BossChaseMove.h>
-
+#include<BossJumpAttackMove.h>
 enum class BossAction
 {
 	NONE,
 	CHASE_ATTACK,
+	JUMP_ATTACK,
 
 	BOSS_ACTION_NUM
 };
@@ -28,6 +31,8 @@ enum class BossInternalAction
 	NONE,
 	CHASE,
 	ATTACK,
+	JUMP,
+	JUMP_ATTACK,
 	BOSS_INTERNAL_ACTION_NUM
 };
 
@@ -35,8 +40,10 @@ class BossActionManager
 {
 private:
 	BossAnimation* animation = nullptr;
+	GPUParticleEmitter* particleEmitter = nullptr;
 
 	std::unique_ptr<BossChaseMove> chaseMove;
+	std::unique_ptr<BossJumpAttackMove>jumpAttackMove;
 
 	const int32_t MAX_ACTION_COUNT = 200;
 	int32_t actionCount = 0;
@@ -49,12 +56,15 @@ private:
 	float maxDistance = 80.0f;
 	float speed = 80.0f;
 
+	float fallingTime;
+	float risingTime;
+
 public:
 
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(BossAnimation* animation_);
+	void Initialize(BossAnimation* animation_,AlicePhysics::AlicePhysicsSystem* physicsSystem_);
 
    /// <summary>
    /// 更新処理
@@ -64,7 +74,7 @@ public:
    /// <summary>
    /// 後始末
    /// </summary>
-	void Finalize();
+	void Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_);
 
 	BossActionManager() = default;
 	~BossActionManager() = default;
@@ -75,10 +85,22 @@ public:
 
 	const BossInternalAction GetinternalAction()const;
 
+	void SetParticleEmitter(GPUParticleEmitter* particleEmitter_);
+
+	//デバッグ用
+#ifdef _DEBUG
+
+	BossJumpAttackMove* GetBossJumpAttackMove();
+
+#endif // _DEBUG
+
+
+
 private:
 
 	void PMoveUpdate();
 
 	void PChaseAttack();
+	void PJumpAttack();
 };
 

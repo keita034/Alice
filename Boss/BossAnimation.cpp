@@ -9,6 +9,7 @@ void BossAnimation::Initialize()
 
 	downAttackAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/Punch.almb");
 	deathAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/Dying.almb");
+	jumpAttackAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/JumpAttack.almb");
 
 	blendTree = std::make_unique<AliceBlendTree>();
 
@@ -44,6 +45,11 @@ void BossAnimation::InsertDownAttackAnimation()
 void BossAnimation::InsertDeathAnimation()
 {
 	blendTree->CoercionInsertAnimation(deathAnimationHandle,false);
+}
+
+void BossAnimation::InserJumpAttackAnimation()
+{
+	blendTree->InsertAnimation(jumpAttackAnimationHandle);
 }
 
 bool BossAnimation::IsInsert()

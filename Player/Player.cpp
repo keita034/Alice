@@ -6,8 +6,9 @@
 #include<CollisionAttribute.h>
 #include<CapsuleShape.h>
 #include<BossHand.h>
+#include<BossJumpAttackMove.h>
 
-void Player::Initialize(AliceInput::IInput* input_,IAudioManager* audioManager_, AlicePhysics::AlicePhysicsSystem* physicsSystem_)
+void Player::Initialize(AliceInput::IInput* input_,IAudioManager* audioManager_,AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 {
 	assert(input_);
 	assert(audioManager_);
@@ -38,7 +39,7 @@ void Player::Initialize(AliceInput::IInput* input_,IAudioManager* audioManager_,
 
 	rigidBodyoffset = { 1.5f, 12.0f + 5.0f, 0.0f };
 	AliceMathF::Vector3 pos = transform.translation + rigidBodyoffset;
-	shape.reset(AlicePhysics::CreateCapsuleShape(12.0f, 5.0f));
+	shape.reset(AlicePhysics::CreateCapsuleShape(12.0f,5.0f));
 
 	AlicePhysics::IRigidBodyCreationSettings lSetting;
 	lSetting.name = "Player";
@@ -49,8 +50,8 @@ void Player::Initialize(AliceInput::IInput* input_,IAudioManager* audioManager_,
 	lSetting.collisionAttribute = CollisionAttribute::BODY;
 	lSetting.position = pos;
 	lSetting.shape = shape.get();
-	lSetting.userData = static_cast<void*>(&situation);
-	physicsSystem_->CreateRigidBody(rigidBody, &lSetting);
+	lSetting.userData = static_cast< void* >( &usData );
+	physicsSystem_->CreateRigidBody(rigidBody,&lSetting);
 	physicsSystem_->AddRigidBody(rigidBody);
 	rigidBody->SetRigidBodyCollision(this);
 
@@ -64,10 +65,20 @@ void Player::Initialize(AliceInput::IInput* input_,IAudioManager* audioManager_,
 
 void Player::Update(BaseGameCamera* camera_,GameCameraManager::CameraIndex index_)
 {
+	if ( !shockwaveHit )
+	{
+		if (  usData.situation & ActorSituation::SHOCKWAVE_DAMAGE )
+		{
+			usData.situation &= ~ActorSituation::SHOCKWAVE_DAMAGE;
+		}
+	}
+
+	shockwaveHit = false;
+
 	oldTrans = transform.translation;
 	isStationary = true;
 
-	if ( fieldHit && !( situation & ActorSituation::ROWLING ) )
+	if ( fieldHit && !( usData.situation & ActorSituation::ROWLING ) )
 	{
 		fieldHit = false;
 
@@ -82,13 +93,13 @@ void Player::Update(BaseGameCamera* camera_,GameCameraManager::CameraIndex index
 	{
 		PHealing();
 
-		if ( !( situation & ActorSituation::HEALING ) )
+		if ( !( usData.situation & ActorSituation::HEALING ) )
 		{
 			PRowling(camera_);
 
 			PAttack();
 
-			if ( index_ == GameCameraManager::CameraIndex::PLAYER_CAMERA && !( situation & ActorSituation::ROWLING ) )
+			if ( index_ == GameCameraManager::CameraIndex::PLAYER_CAMERA && !( usData.situation & ActorSituation::ROWLING ) )
 			{
 				PMove(camera_);
 
@@ -101,7 +112,7 @@ void Player::Update(BaseGameCamera* camera_,GameCameraManager::CameraIndex index
 		PRotate();
 	}
 
-	if ( deviceInput->NotAction() && situation == 0 )
+	if ( deviceInput->NotAction() && usData.situation == 0 )
 	{
 		for ( int32_t i = 0; i < 5; i++ )
 		{
@@ -118,13 +129,13 @@ void Player::Update(BaseGameCamera* camera_,GameCameraManager::CameraIndex index
 
 	}
 
-	if ( situation & ActorSituation::DAMAGE )
+	if ( usData.situation & ActorSituation::DAMAGE )
 	{
 		damageInterval--;
 
 		if ( damageInterval == 0 )
 		{
-			situation &= ~ActorSituation::DAMAGE;
+			usData.situation &= ~ActorSituation::DAMAGE;
 			damageInterval = MAX_DAMAGE_INTERVAL;
 		}
 	}
@@ -139,7 +150,7 @@ void Player::Update(BaseGameCamera* camera_,GameCameraManager::CameraIndex index
 void Player::Draw()
 {
 	model->Draw(transform,animation->GetAnimation());
-	shape->Draw(rigidBody->GetCenterOfMassTransform(), { 1.0f,1.0f ,1.0f }, { 1.0f ,1.0f ,1.0f ,1.0f }, true);
+	shape->Draw(rigidBody->GetCenterOfMassTransform(),{ 1.0f,1.0f ,1.0f },{ 1.0f ,1.0f ,1.0f ,1.0f },true);
 	weapon->Draw();
 }
 
@@ -188,19 +199,75 @@ void Player::Reset()
 
 void Player::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_)
 {
-	if (BodyData_->GetGroup() == CollisionGroup::BOSS && BodyData_->GetAttribute() == CollisionAttribute::HAND)
+	if ( BodyData_->GetGroup() == CollisionGroup::BOSS )
 	{
-		uint32_t lSituation = static_cast< BossUsData*>(BodyData_->GetUserData())->situation;
-
-		if ((lSituation & 0xfff) == ActorSituation::ATTACK &&
-			!( situation & ActorSituation::DAMAGE) &&
-			static_cast< BossUsData* >( BodyData_->GetUserData() ) ->index == BossHandIndex::RIGHT)
+		if ( BodyData_->GetAttribute() == CollisionAttribute::HAND )
 		{
-			if (hp > 0)
+			uint32_t lSituation = static_cast< BossUsData* >( BodyData_->GetUserData() )->situation;
+
+			if ( ( lSituation & 0xfff ) == ActorSituation::ATTACK &&
+				!( usData.situation & ActorSituation::DAMAGE ) &&
+				static_cast< BossUsData* >( BodyData_->GetUserData() )->index == BossHandIndex::RIGHT )
 			{
-				for (int32_t i = 0; i < 10; i++)
+				if ( hp > 0 )
 				{
-					if (hp == 0)
+					for ( int32_t i = 0; i < 10; i++ )
+					{
+						if ( hp == 0 )
+						{
+							break;
+						}
+
+						hp--;
+					}
+
+					usData.situation |= ActorSituation::DAMAGE;
+
+					if ( hp <= 0 )
+					{
+						animation->InsertDeathAnimation();
+						animation->AnimationEndStop();
+						audioManager->PlayWave(deathSE);
+						audioManager->ChangeVolume(deathSE,deathSEVolume);
+					}
+					else
+					{
+						if ( !( usData.situation & ActorSituation::WALKING ) )
+						{
+							animation->InsertHitAnimation();
+
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+void Player::OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_)
+{
+	if ( BodyData_->GetGroup() == CollisionGroup::FIELD )
+	{
+		fieldHit = true;
+	}
+
+	if ( BodyData_->GetAttribute() == CollisionAttribute::SHOCKWAVE )
+	{
+		bool isHit = false;
+
+		BossShockWaveUsData* lUsData = static_cast< BossShockWaveUsData* >( BodyData_->GetUserData() );
+		AliceMathF::Vector3 lDistance = lUsData->pos - transform.translation;
+		isHit = lUsData->radius >= AliceMathF::Abs(lDistance.Length());
+
+		shockwaveHit = true;
+
+		if ( !( usData.situation & ActorSituation::SHOCKWAVE_DAMAGE ) && isHit && ( !lUsData->isFinish ) )
+		{
+			if ( hp > 0 )
+			{
+				for ( int32_t i = 0; i < 10; i++ )
+				{
+					if ( hp == 0 )
 					{
 						break;
 					}
@@ -208,18 +275,18 @@ void Player::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_)
 					hp--;
 				}
 
-				situation |= ActorSituation::DAMAGE;
+				usData.situation |= ActorSituation::SHOCKWAVE_DAMAGE;
 
-				if (hp <= 0)
+				if ( hp <= 0 )
 				{
 					animation->InsertDeathAnimation();
 					animation->AnimationEndStop();
 					audioManager->PlayWave(deathSE);
-					audioManager->ChangeVolume(deathSE, deathSEVolume);
+					audioManager->ChangeVolume(deathSE,deathSEVolume);
 				}
 				else
 				{
-					if (!(situation & ActorSituation::WALKING))
+					if ( !( usData.situation & ActorSituation::WALKING ) )
 					{
 						animation->InsertHitAnimation();
 
@@ -230,14 +297,6 @@ void Player::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_)
 	}
 }
 
-void Player::OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_)
-{
-	if (BodyData_->GetGroup() == CollisionGroup::FIELD)
-	{
-		fieldHit = true;
-	}
-}
-
 
 void Player::OnCollisionExit()
 {
@@ -245,7 +304,7 @@ void Player::OnCollisionExit()
 
 bool Player::IsAttack()
 {
-	return situation & ActorSituation::ATTACK && animation->GetInsertAnimationPhase() == InsertAnimationPhase::DURING;
+	return usData.situation & ActorSituation::ATTACK && animation->GetInsertAnimationPhase() == InsertAnimationPhase::DURING;
 }
 
 int32_t Player::GetDamage()
@@ -317,14 +376,14 @@ void Player::PMove(BaseGameCamera* camera_)
 
 	if ( lStickPower >= 0.01f )
 	{
-		situation |= ActorSituation::WALKING;
+		usData.situation |= ActorSituation::WALKING;
 
 		lMove = { lLeftStickPower.x * lSpeed, 0.0f, -lLeftStickPower.y * lSpeed };
 		isStationary = false;
 	}
 	else
 	{
-		situation &= ~ActorSituation::WALKING;
+		usData.situation &= ~ActorSituation::WALKING;
 
 	}
 
@@ -354,9 +413,9 @@ void Player::PRowling(BaseGameCamera* camera_)
 
 	if ( lStickPower >= 0.5f )
 	{
-		if ( deviceInput->TriggerButton(ControllerButton::A,10.0f) && !( situation & ActorSituation::ROWLING ) )
+		if ( deviceInput->TriggerButton(ControllerButton::A,10.0f) && !( usData.situation & ActorSituation::ROWLING ) )
 		{
-			situation |= ActorSituation::ROWLING;
+			usData.situation |= ActorSituation::ROWLING;
 
 			rowlingWay = AliceMathF::Vector3(lLeftStickPower.x,0.0f,-lLeftStickPower.y);
 
@@ -384,14 +443,14 @@ void Player::PRowling(BaseGameCamera* camera_)
 		}
 	}
 
-	if ( situation & ActorSituation::ROWLING && animation->IsInsert() )
+	if ( usData.situation & ActorSituation::ROWLING && animation->IsInsert() )
 	{
 		transform.translation = AliceMathF::Easing::EaseInSine(animation->GetRatio(),1.0f,rowlingStartPos,rowlingWay);
 	}
 
-	if ( situation & ActorSituation::ROWLING && !animation->IsInsert() )
+	if ( usData.situation & ActorSituation::ROWLING && !animation->IsInsert() )
 	{
-		situation &= ~ActorSituation::ROWLING;
+		usData.situation &= ~ActorSituation::ROWLING;
 
 		rigidBody->SetRotation(AliceMathF::Quaternion());
 		animation->SetAddFrame();
@@ -419,27 +478,27 @@ void Player::PRotate()
 
 void Player::PAttack()
 {
-	if ( input->InputButton(ControllerButton::LB)&& !( situation & ActorSituation::ATTACK ) )
+	if ( input->InputButton(ControllerButton::LB) && !( usData.situation & ActorSituation::ATTACK ) )
 	{
 		animation->InsertAttackAnimation();
 		stamina -= subAttackStamina;
 
-		situation |= ActorSituation::ATTACK;
+		usData.situation |= ActorSituation::ATTACK;
 	}
 
-	if ( situation & ActorSituation::ATTACK && !animation->IsInsert() )
+	if ( usData.situation & ActorSituation::ATTACK && !animation->IsInsert() )
 	{
-		situation &= ~ActorSituation::ATTACK;
+		usData.situation &= ~ActorSituation::ATTACK;
 	}
 }
 
 void Player::PHealing()
 {
-	if ( deviceInput->InputButton(ControllerButton::Y,1.0f) && situation == 0 )
+	if ( deviceInput->InputButton(ControllerButton::Y,1.0f) && usData.situation == 0 )
 	{
 		if ( healing != 0 )
 		{
-			situation |= ActorSituation::HEALING;
+			usData.situation |= ActorSituation::HEALING;
 			animation->InsertHealingAnimation();
 			healing--;
 			ui->SetHealing(healing);
@@ -457,8 +516,8 @@ void Player::PHealing()
 
 	}
 
-	if ( situation & ActorSituation::HEALING && !animation->IsInsert() )
+	if ( usData.situation & ActorSituation::HEALING && !animation->IsInsert() )
 	{
-		situation &= ~ActorSituation::HEALING;
+		usData.situation &= ~ActorSituation::HEALING;
 	}
 }

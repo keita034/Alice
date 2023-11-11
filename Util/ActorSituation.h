@@ -6,5 +6,6 @@ enum ActorSituation
 	ROWLING = ( 1 << 1 ),
 	DAMAGE = ( 1 << 2 ),
 	WALKING = ( 1 << 3 ),
-	HEALING = ( 1 << 3 ),
+	HEALING = ( 1 << 4 ),
+	SHOCKWAVE_DAMAGE = ( 1 << 5 ),
 };

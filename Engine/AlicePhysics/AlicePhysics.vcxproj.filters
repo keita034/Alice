@@ -46,11 +46,11 @@
     <Filter Include="ソース ファイル\Jolt\RigidBody">
       <UniqueIdentifier>{736f571c-f0f6-4cd5-a170-ee78249b2c7f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\Jolt\Shape">
-      <UniqueIdentifier>{e279ae45-e43c-477a-9204-0f0518c8bf75}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\Jolt\RigidBody">
       <UniqueIdentifier>{42863571-f406-4a6f-af66-4f11cb4abb6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Jolt\Shape">
+      <UniqueIdentifier>{e279ae45-e43c-477a-9204-0f0518c8bf75}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

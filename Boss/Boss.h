@@ -3,7 +3,7 @@
 #include<Player.h>
 #include<FireWorkParticle.h>
 #include<AudioManager.h>
-#include<FireGPUParticle.h>
+#include<GPUParticleEmitter.h>
 
 #include<BossActionManager.h>
 #include<BossAnimation.h>
@@ -17,7 +17,7 @@ private:
 	Player* player = nullptr;
 	Camera* camera = nullptr;
 	IAudioManager* audioManager = nullptr;
-	FireGPUParticle* fireGPUParticle = nullptr;
+	GPUParticleEmitter* particleEmitter = nullptr;
 
 	std::unique_ptr<FireWorkParticle>fireWorkParticle;
 	std::unique_ptr<BossActionManager> actionManager;
@@ -84,7 +84,7 @@ public:
 
 	void SetPlayer(Player* player_);
 	void SetAudioManager(IAudioManager* audioManager_);
-	void SetFireGPUParticle(FireGPUParticle* fireGPUParticle_);
+	void SetFireGPUParticle(GPUParticleEmitter* particleEmitter_);
 
 	int32_t GetHp();
 

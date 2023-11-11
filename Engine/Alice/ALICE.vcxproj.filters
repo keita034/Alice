@@ -363,14 +363,17 @@
     <ClInclude Include="Include\2D\Particle\BaseGPUParticle.h">
       <Filter>ヘッダー ファイル\2D\Particle</Filter>
     </ClInclude>
-    <ClInclude Include="Include\2D\Particle\GPUParticleEmitter.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="GPUTimeStamp.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Include\2D\Particle\GPUParticleEmitter.h">
+      <Filter>ヘッダー ファイル\2D\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\2D\Particle\ShockWaveGPUParticle.h">
+      <Filter>ヘッダー ファイル\2D\Particle</Filter>
+    </ClInclude>
     <ClInclude Include="Include\2D\Particle\FireGPUParticle.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\2D\Particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -841,6 +844,9 @@
       <Filter>ソース ファイル\2D\Particle</Filter>
     </ClCompile>
     <ClCompile Include="Source\2D\Particle\FireGPUParticle.cpp">
+      <Filter>ソース ファイル\2D\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\2D\Particle\ShockWaveGPUParticle.cpp">
       <Filter>ソース ファイル\2D\Particle</Filter>
     </ClCompile>
   </ItemGroup>

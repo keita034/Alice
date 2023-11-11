@@ -1,6 +1,7 @@
 #pragma once
 #include<BasicGPUParticle.h>
 #include<FireGPUParticle.h>
+#include<ShockWaveGPUParticle.h>
 #include<Camera.h>
 #include<MultiAdapters.h>
 
@@ -14,6 +15,7 @@ private:
 	std::unique_ptr<BasicGPUParticle>basicGPUParticle;
 
 	std::unordered_map<std::string,std::unique_ptr<FireGPUParticle>>fireParticles;
+	std::unordered_map<std::string,std::unique_ptr<ShockWaveGPUParticle>>shockWaveParticles;
 
 public:
 
@@ -41,6 +43,16 @@ public:
 	void FireParticleEmitStop(const std::string& name_,int32_t index_);
 	void FireParticleSetPos(const std::string& name_,const AliceMathF::Vector3& pos_,int32_t index_);
 	FireGPUParticle* GetFireParticle(const std::string& name_);
+
+	void ShockWaveParticleCreate(uint32_t maxParticles_,const std::string& name_);
+	void ShockWaveParticleMove(const std::string& name_,const AliceMathF::Vector3& move_,int32_t index_);
+	int32_t ShockWaveParticleEmit(const std::string& name_,const ShockWaveGPUParticleSetting& setting_,int32_t index_ = -1);
+	void ShockWaveParticleSetTex(const std::string& name_,uint32_t textureHandle_);
+	void ShockWaveParticleEmitPlay(const std::string& name_,int32_t index_);
+	void ShockWaveParticleEmitStop(const std::string& name_,int32_t index_);
+	void ShockWaveParticleSetPos(const std::string& name_,const AliceMathF::Vector3& pos_,int32_t index_);
+	ShockWaveGPUParticle* GetShockWaveParticle(const std::string& name_);
+
 
 	void SetMultiAdapters(IMultiAdapters* multiAdapters_);
 	void SetSwapChain(ISwapChain* swapChain_);

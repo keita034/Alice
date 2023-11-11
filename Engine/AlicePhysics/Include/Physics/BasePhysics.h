@@ -41,6 +41,8 @@ namespace AlicePhysics
 
 		virtual void Draw() = 0;
 
+		virtual void SetScaleShape(const AliceMathF::Vector3& scale,IRigidBody* rigidBody_,IShape*& shape_) = 0;
+
 		virtual void SetDevice(IDevice* device_) = 0;
 		virtual void SetCommandList(ICommandList* commandList_) = 0;
 		virtual void SetViewProjection(const AliceMathF::Matrix4& viewMat_,const AliceMathF::Matrix4& projectionMat_) = 0;

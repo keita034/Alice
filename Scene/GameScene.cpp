@@ -28,6 +28,9 @@ void GameScene::Initialize(const std::string& previewSceneName_)
 	sGPUParticleEmitter->FireParticleCreate(10000000,"BossHandParticle");
 	sGPUParticleEmitter->FireParticleSetTex("BossHandParticle",TextureManager::SLoad("Resources/Default/Particle/FireEffectNoise.png"));
 
+	sGPUParticleEmitter->ShockWaveParticleCreate(10000000,"BossShockWaveParticle");
+	sGPUParticleEmitter->ShockWaveParticleSetTex("BossShockWaveParticle",TextureManager::SLoad("Resources/Default/Particle/effect1.png"));
+
 	fieldObjData = SceneLoader::SLoadFile(sPhysicsSystem,"Resources/Field.json");
 
 	player = std::make_unique<Player>();
@@ -39,7 +42,7 @@ void GameScene::Initialize(const std::string& previewSceneName_)
 	boss = std::make_unique<Boss>();
 	boss->SetPlayer(player.get());
 	boss->SetAudioManager(sAudioManager);
-	boss->SetFireGPUParticle(sGPUParticleEmitter->GetFireParticle("BossHandParticle"));
+	boss->SetFireGPUParticle(sGPUParticleEmitter);
 	boss->Initialize(sPhysicsSystem);
 
 	inTransition = std::make_unique<FadeInTransition>();

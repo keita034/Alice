@@ -38,10 +38,9 @@ ALICE_SUPPRESS_WARNINGS_END
 #include<LineInvsrc.h>
 #include<DefaultPostEffect.h>
 #include<ToonModel.h>
-#include<Basic.h>
-#include<Test.h>
 #include<Fbx.h>
-#include<Fire.h>
+
+#include<GPUParticleh.h>
 
 std::unique_ptr<MaterialManager> MaterialManager::materialManager;
 
@@ -248,6 +247,10 @@ Material* MaterialManager::GetMaterialData(const std::string& name_,AdaptersInde
 			{
 				CreateFireDrawMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
+			else if ( name_ == "ShockWaveGPUParticleDraw" )
+			{
+				CreateShockWaveDrawMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
 
 			return materials[ name_ ].get();
 		}
@@ -313,7 +316,22 @@ ComputeMaterial* MaterialManager::GetComputeMaterialData(const std::string& name
 			{
 				CreateFireDrawArgumentUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
-
+			else if ( name_ == "ComputeShockWaveGPUParticleFreeListInit" )
+			{
+				CreateShockWaveFreeListInitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeShockWaveGPUParticleUpdate" )
+			{
+				CreateShockWaveUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeShockWaveGPUParticleEmit" )
+			{
+				CreateShockWaveEmitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeShockWaveGPUParticleDrawArgumentUpdate" )
+			{
+				CreateShockWaveDrawArgumentUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
 			return computeMaterials[ name_ ].get();
 		}
 

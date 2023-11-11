@@ -103,6 +103,12 @@
     <ClCompile Include="Util\GameCameraManager.cpp">
       <Filter>ソース ファイル\Util</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\AlicePhysics\Include\IShape.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss\BossJumpAttackMove.cpp">
+      <Filter>ソース ファイル\Boss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCore\GameMain.h">
@@ -170,6 +176,9 @@
     </ClInclude>
     <ClInclude Include="Util\GameCameraManager.h">
       <Filter>ヘッダー ファイル\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss\BossJumpAttackMove.h">
+      <Filter>ヘッダー ファイル\Boss</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

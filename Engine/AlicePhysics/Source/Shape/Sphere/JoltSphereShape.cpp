@@ -5,7 +5,6 @@ AlicePhysics::JoltDebugRenderer* AlicePhysics::JoltSphereShape::renderer = nullp
 #endif // _DEBUG
 
 
-
 void* AlicePhysics::JoltSphereShape::GetGetShape()
 {
 	return static_cast<void*>(shape);

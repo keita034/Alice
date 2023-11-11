@@ -49,6 +49,7 @@ void BossHand::Initialize(Transform* parent_,AlicePhysics::AlicePhysicsSystem* p
 
 void BossHand::Update(const std::string& boneName_, AliceBlendTree* tree_, AliceModel* playerModel_)
 {
+
 	animationTransform = playerModel_->GetAnimationTransform(tree_, boneName_);
 }
 
