@@ -22,7 +22,7 @@ void BaseGPUParticle::SetAdapter(IAdapter* graphicAdapter_,IAdapter* computeAdap
 void BaseGPUParticle::ParticleBegin()
 {
 	size_t bbIndex = static_cast< size_t >( swapChain->GetCurrentBackBufferIndex() );
-	graphicAdapter->ComputeCommandListReset(bbIndex);
+	computeAdapter->ComputeCommandListReset(bbIndex);
 }
 
 void BaseGPUParticle::SetSwapChain(ISwapChain* swapChain_)
@@ -32,7 +32,7 @@ void BaseGPUParticle::SetSwapChain(ISwapChain* swapChain_)
 
 void BaseGPUParticle::ParticleEnd()
 {
-	graphicAdapter->ComputeCommandListExecute();
-	graphicAdapter->ComputeWaitPreviousFrame();
+	computeAdapter->ComputeCommandListExecute();
+	computeAdapter->ComputeWaitPreviousFrame();
 
 }
