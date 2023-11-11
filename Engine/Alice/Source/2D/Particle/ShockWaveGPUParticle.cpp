@@ -16,9 +16,10 @@ void ShockWaveGPUParticle::Initialize()
 
 	PBufferCreate();
 
+	//フリーリスト初期化
+
 	ID3D12GraphicsCommandList* lComputeCommandList = computeAdapter->GetComputeCommandList();
 
-	//フリーリスト初期化
 	{
 
 		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeShockWaveGPUParticleFreeListInit",AdaptersIndex::SUB);
@@ -29,14 +30,12 @@ void ShockWaveGPUParticle::Initialize()
 		ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::SUB)->GetHeap() };
 		lComputeCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
 
-		lComputeCommandList->SetComputeRootDescriptorTable(0,freeListBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
-		lComputeCommandList->SetComputeRootDescriptorTable(1,particleDrawCountBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
+		lComputeCommandList->SetComputeRootDescriptorTable(0,freeListBuffer->GetAddress());//u0
 
-		lComputeCommandList->SetComputeRootConstantBufferView(2,fireGPUParticleDataBuffer->GetAddress());//b0
+		lComputeCommandList->SetComputeRootConstantBufferView(1,fireGPUParticleDataBuffer->GetAddress());//b0
 
 		lComputeCommandList->Dispatch(static_cast< UINT >( maxParticles / 1024 ) + 1,1,1);
 	}
-
 
 	{
 		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeShockWaveGPUParticleEmit",AdaptersIndex::SUB);
@@ -104,7 +103,6 @@ void ShockWaveGPUParticle::Update(float deltaTime_)
 		lComputeCommandList->SetComputeRootDescriptorTable(3,particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
 		lComputeCommandList->SetComputeRootDescriptorTable(4,freeListBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u1
 		lComputeCommandList->SetComputeRootDescriptorTable(5,drawListBuffer->GetUAVAddress(CrossAdapterResourceIndex::MAIN));//u2
-		lComputeCommandList->SetComputeRootDescriptorTable(6,particleDrawCountBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u3
 
 		lComputeCommandList->Dispatch(static_cast< UINT >( maxParticles / 1024 ) + 1,1,1);
 
@@ -122,7 +120,6 @@ void ShockWaveGPUParticle::Update(float deltaTime_)
 
 		lComputeCommandList->SetComputeRootDescriptorTable(0,drawListBuffer->GetUAVAddress(CrossAdapterResourceIndex::MAIN));//u0
 		lComputeCommandList->SetComputeRootDescriptorTable(1,drawArgumentBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u1
-		lComputeCommandList->SetComputeRootDescriptorTable(2,particleDrawCountBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u2
 
 		lComputeCommandList->Dispatch(1,1,1);
 	}
@@ -158,9 +155,8 @@ void ShockWaveGPUParticle::Draw(const AliceMathF::Matrix4& worldMat_,const Alice
 
 	lGraphicCommandList->SetGraphicsRootDescriptorTable(1,particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::SUB));
 	lGraphicCommandList->SetGraphicsRootDescriptorTable(2,drawListBuffer->GetUAVAddress(CrossAdapterResourceIndex::SUB));
-	lGraphicCommandList->SetGraphicsRootDescriptorTable(3,particleDrawCountBuffer->GetAddress(CrossAdapterResourceIndex::SUB));//u2
 
-	lGraphicCommandList->SetGraphicsRootDescriptorTable(4,texture->gpuHandle);
+	lGraphicCommandList->SetGraphicsRootDescriptorTable(3,texture->gpuHandle);
 
 	lGraphicCommandList->ExecuteIndirect(particleCommandSignature.Get(),1,drawArgumentBuffer->GetResource(CrossAdapterResourceIndex::SUB),0,nullptr,0);
 }
@@ -270,8 +266,6 @@ float ShockWaveGPUParticle::GetDeltaTime()
 void ShockWaveGPUParticle::PBufferCreate()
 {
 	particlePoolBuffer = CreateUniqueCrossAdapterBuffer(maxParticles,sizeof(ParticleGPUData),AdaptersIndex::SUB,AdaptersIndex::MAIN);
-	particleDrawCountBuffer = CreateUniqueCrossAdapterBuffer(1,sizeof(uint32_t),AdaptersIndex::SUB,AdaptersIndex::MAIN);
-
 	drawListBuffer = CreateUniqueDrawListBuffer(maxParticles,sizeof(uint32_t),BufferType::SHARED,AdaptersIndex::SUB,AdaptersIndex::MAIN);
 	freeListBuffer = CreateUniqueFreeListBuffer(maxParticles,sizeof(uint32_t),BufferType::SHARED,AdaptersIndex::SUB,AdaptersIndex::MAIN);
 	drawArgumentBuffer = CreateUniqueDrawArgumentBuffer(1,sizeof(D3D12_DRAW_ARGUMENTS),BufferType::SHARED,AdaptersIndex::SUB,AdaptersIndex::MAIN);
@@ -281,7 +275,19 @@ void ShockWaveGPUParticle::PBufferCreate()
 	timeConstantsBuffer = CreateUniqueConstantBuffer(sizeof(TimeConstantGPUData),AdaptersIndex::SUB);
 	worldBillboardBuffer = CreateUniqueConstantBuffer(sizeof(WorldBillboardGPUData),AdaptersIndex::MAIN);
 
-	fireGPUParticleDataBuffer->Update(&fireGPUParticleGPUData);
+	//particlePoolBuffer = CreateUniqueUAVRWStructuredBuffer(maxParticles,sizeof(ParticleGPUData),AdaptersIndex::MAIN,HEAP_TYPE::DEFAULT);
+
+	//drawListBuffer = CreateUniqueDrawListBuffer(maxParticles,sizeof(uint32_t),BufferType::MAIN);
+	//freeListBuffer = CreateUniqueFreeListBuffer(maxParticles,sizeof(uint32_t),BufferType::MAIN);
+	//drawArgumentBuffer = CreateUniqueDrawArgumentBuffer(1,sizeof(D3D12_DRAW_ARGUMENTS),BufferType::MAIN);
+
+	//particleConstantsBuffer = CreateUniqueConstantBuffer(sizeof(ParticleConstantGPUDatas),AdaptersIndex::MAIN);
+	//fireGPUParticleDataBuffer = CreateUniqueConstantBuffer(sizeof(FireGPUParticleGPUData),AdaptersIndex::MAIN);
+	//timeConstantsBuffer = CreateUniqueConstantBuffer(sizeof(TimeConstantGPUData),AdaptersIndex::MAIN);
+	//worldBillboardBuffer = CreateUniqueConstantBuffer(sizeof(WorldBillboardGPUData),AdaptersIndex::MAIN);
+
+	fireGPUParticleDataBuffer->Update(&fireGPUParticleGPUData);	//drawListBuffer = CreateUniqueDrawListBuffer(maxParticles,sizeof(uint32_t),BufferType::SHARED,AdaptersIndex::SUB,AdaptersIndex::MAIN);
+
 }
 
 void ShockWaveGPUParticle::PUpdateConstantBuffer(float deltaTime_)

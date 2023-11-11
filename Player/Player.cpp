@@ -218,7 +218,7 @@ void Player::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_)
 							break;
 						}
 
-						hp--;
+						//hp--;
 					}
 
 					usData.situation |= ActorSituation::DAMAGE;
@@ -272,7 +272,7 @@ void Player::OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_)
 						break;
 					}
 
-					hp--;
+					//hp--;
 				}
 
 				usData.situation |= ActorSituation::SHOCKWAVE_DAMAGE;

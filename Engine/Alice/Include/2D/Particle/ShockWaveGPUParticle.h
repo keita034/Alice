@@ -131,7 +131,6 @@ private:
 	std::unique_ptr<IConstantBuffer>fireGPUParticleDataBuffer;
 
 	std::unique_ptr<ICrossAdapterBuffer>particlePoolBuffer;
-	std::unique_ptr<ICrossAdapterBuffer>particleDrawCountBuffer;
 
 	WorldBillboardGPUData worldBillboardGPUData;
 	TimeConstantGPUData timeGPUData;

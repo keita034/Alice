@@ -33,8 +33,8 @@ void BossHand::Initialize(Transform* parent_,AlicePhysics::AlicePhysicsSystem* p
 		lSetting.radius = 10.0f;
 		lSetting.isPlay = false;
 		lSetting.emitLifeTime = -1.0f;
-		lSetting.timeBetweenEmit = 0.0001f;
-		lSetting.maxParticles = 1000000;
+		lSetting.timeBetweenEmit = 0.005f;
+		lSetting.maxParticles = 10000;
 		lSetting.emitCount = 100;
 		lSetting.startColor = { 1,0.01f,0.01f,1 };
 		lSetting.endColor = {1.0f,0.0f,0.0f,1.0f};

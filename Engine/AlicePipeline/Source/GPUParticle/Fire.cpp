@@ -62,6 +62,7 @@ void CreateFireEmitComputeMaterial(MaterialManager* manager_,IAdapter* adapter_)
 
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,0);//u0
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,1);//u1
+	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,2);//u1
 
 	lMaterial->rootSignature->Create(lDevice);
 
@@ -134,7 +135,7 @@ void CreateFireFreeListInitComputeMaterial(MaterialManager* manager_,IAdapter* a
 	lMaterial->rootSignature = CreateUniqueRootSignature();
 
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,0);//u0
-	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,1);//b0
+
 	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
 
 	lMaterial->rootSignature->Create(lDevice);

@@ -59,7 +59,7 @@ public://GPUで使う構造体
 		float lifeTime;
 		float size;
 		float speed;
-		float pad;
+		uint32_t emitCount;
 	};
 
 	struct WorldBillboardGPUData
@@ -136,7 +136,6 @@ private:
 	std::unique_ptr<IConstantBuffer>fireGPUParticleDataBuffer;
 
 	std::unique_ptr<ICrossAdapterBuffer>particlePoolBuffer;
-	std::unique_ptr<ICrossAdapterBuffer>particleDrawCountBuffer;
 
 	WorldBillboardGPUData worldBillboardGPUData;
 	TimeConstantGPUData timeGPUData;

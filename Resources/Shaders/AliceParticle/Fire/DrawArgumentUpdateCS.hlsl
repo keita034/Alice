@@ -3,14 +3,13 @@
 
 RWStructuredBuffer<uint> DrawList : register(u0);
 RWStructuredBuffer<IndirectCommand> DrawArgs : register(u1);
-RWStructuredBuffer<uint> DrawCount : register(u2);
 
 [numthreads(1, 1, 1)]
 void main( uint3 DTid : SV_DispatchThreadID )
 {
-    DrawArgs[DTid.x].vertexCountPerInstance = DrawList.IncrementCounter();
-    DrawArgs[DTid.x].instanceCount = 1;
-    DrawArgs[DTid.x].startVertexLocation = 0;
-    DrawArgs[DTid.x].startInstanceLocation = 0;
+    DrawArgs[0].vertexCountPerInstance = DrawList.IncrementCounter();
+    DrawArgs[0].instanceCount = 1;
+    DrawArgs[0].startVertexLocation = 0;
+    DrawArgs[0].startInstanceLocation = 0;
 
 }

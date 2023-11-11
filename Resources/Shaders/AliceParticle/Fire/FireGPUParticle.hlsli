@@ -26,7 +26,7 @@ struct EmitData
 	float lifeTime;
     float size;
     float speed;
-    float pad;
+    uint emitCount;
 };
 
 struct IndirectCommand
