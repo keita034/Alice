@@ -29,7 +29,9 @@ void ShockWaveGPUParticle::Initialize()
 		lComputeCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
 
 		lComputeCommandList->SetComputeRootDescriptorTable(0,freeListBuffer->GetAddress());//u0
-		lComputeCommandList->SetComputeRootConstantBufferView(1,fireGPUParticleDataBuffer->GetAddress());//b0
+		lComputeCommandList->SetComputeRootDescriptorTable(1,particleDrawCountBuffer->GetAddress());//u0
+
+		lComputeCommandList->SetComputeRootConstantBufferView(2,fireGPUParticleDataBuffer->GetAddress());//b0
 
 		lComputeCommandList->Dispatch(static_cast< UINT >( maxParticles / 1024 ) + 1,1,1);
 	}
@@ -85,6 +87,7 @@ void ShockWaveGPUParticle::Update(float deltaTime_)
 		lComputeCommandList->SetComputeRootDescriptorTable(3,particlePoolBuffer->GetAddress());//u0
 		lComputeCommandList->SetComputeRootDescriptorTable(4,freeListBuffer->GetAddress());//u1
 		lComputeCommandList->SetComputeRootDescriptorTable(5,drawListBuffer->GetUAVAddress());//u2
+		lComputeCommandList->SetComputeRootDescriptorTable(6,particleDrawCountBuffer->GetAddress());//u3
 
 		lComputeCommandList->Dispatch(static_cast< UINT >( maxParticles / 1024 ) + 1,1,1);
 
@@ -102,6 +105,7 @@ void ShockWaveGPUParticle::Update(float deltaTime_)
 
 		lComputeCommandList->SetComputeRootDescriptorTable(0,drawListBuffer->GetUAVAddress());//u0
 		lComputeCommandList->SetComputeRootDescriptorTable(1,drawArgumentBuffer->GetAddress());//u1
+		lComputeCommandList->SetComputeRootDescriptorTable(2,particleDrawCountBuffer->GetAddress());//u2
 
 		lComputeCommandList->Dispatch(1,1,1);
 	}
@@ -139,7 +143,9 @@ void ShockWaveGPUParticle::Draw(const AliceMathF::Matrix4& worldMat_,const Alice
 
 	lGraphicCommandList->SetGraphicsRootDescriptorTable(1,particlePoolBuffer->GetAddress());
 	lGraphicCommandList->SetGraphicsRootDescriptorTable(2,drawListBuffer->GetUAVAddress());
-	lGraphicCommandList->SetGraphicsRootDescriptorTable(3,texture->gpuHandle);
+	lGraphicCommandList->SetGraphicsRootDescriptorTable(3,particleDrawCountBuffer->GetAddress());//u2
+
+	lGraphicCommandList->SetGraphicsRootDescriptorTable(4,texture->gpuHandle);
 
 	lGraphicCommandList->ExecuteIndirect(particleCommandSignature.Get(),1,drawArgumentBuffer->GetResource(),0,nullptr,0);
 
@@ -261,6 +267,8 @@ void ShockWaveGPUParticle::PBufferCreate()
 	//worldBillboardBuffer = CreateUniqueConstantBuffer(sizeof(WorldBillboardGPUData),AdaptersIndex::MAIN);
 
 	particlePoolBuffer = CreateUniqueUAVRWStructuredBuffer(maxParticles,sizeof(ParticleGPUData),AdaptersIndex::MAIN,HEAP_TYPE::DEFAULT);
+	particleDrawCountBuffer = CreateUniqueUAVRWStructuredBuffer(1,sizeof(uint32_t),AdaptersIndex::MAIN,HEAP_TYPE::DEFAULT);
+
 	drawListBuffer = CreateUniqueDrawListBuffer(maxParticles,sizeof(uint32_t),BufferType::MAIN);
 	freeListBuffer = CreateUniqueFreeListBuffer(maxParticles,sizeof(uint32_t),BufferType::MAIN);
 	drawArgumentBuffer = CreateUniqueDrawArgumentBuffer(1,sizeof(D3D12_DRAW_ARGUMENTS),BufferType::MAIN);

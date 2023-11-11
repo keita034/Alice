@@ -28,8 +28,8 @@ void BossActionManager::Update(const AliceMathF::Vector3& plyerPos_, const Alice
 		{
 			do
 			{
-				bossAction = static_cast<BossAction>(AliceMathF::GetRand(0.0f, static_cast<float>(BossAction::BOSS_ACTION_NUM)));
-				//bossAction = BossAction::JUMP_ATTACK;
+				//bossAction = static_cast<BossAction>(AliceMathF::GetRand(0.0f, static_cast<float>(BossAction::BOSS_ACTION_NUM)));
+				bossAction = BossAction::CHASE_ATTACK;
 
 				switch (bossAction)
 				{

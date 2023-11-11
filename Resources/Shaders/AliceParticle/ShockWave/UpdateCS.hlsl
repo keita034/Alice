@@ -21,6 +21,7 @@ cbuffer ParticleDatas : register(b2)
 RWStructuredBuffer<Particle> ParticlePool : register(u0);
 AppendStructuredBuffer<uint> freeList : register(u1);
 RWStructuredBuffer<uint> DrawList : register(u2);
+RWStructuredBuffer<uint> DrawCount : register(u3);
 
 [numthreads(1024, 1, 1)]
 void main(uint3 DTid : SV_DispatchThreadID)
@@ -65,6 +66,8 @@ void main(uint3 DTid : SV_DispatchThreadID)
         uint drawIndex = DrawList.IncrementCounter();
         uint drawData;
         drawData = DTid.x;
+
+        DrawCount[0]+=1;
 
         DrawList[drawIndex] = drawData;
     }

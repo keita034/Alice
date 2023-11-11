@@ -3,6 +3,7 @@
 
 RWStructuredBuffer<uint> DrawList : register(u0);
 RWStructuredBuffer<IndirectCommand> DrawArgs : register(u1);
+RWStructuredBuffer<uint> DrawCount : register(u2);
 
 [numthreads(1, 1, 1)]
 void main( uint3 DTid : SV_DispatchThreadID )

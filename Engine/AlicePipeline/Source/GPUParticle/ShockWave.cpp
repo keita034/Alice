@@ -21,6 +21,7 @@ void CreateShockWaveDrawMaterial(MaterialManager* manager_,IAdapter* adapter_)
 
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,0);//u0
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,1);//u1
+	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,2);//u1
 
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 	lMaterial->rootSignature->AddStaticSampler(0);//s0
@@ -87,6 +88,7 @@ void CreateShockWaveUpdateComputeMaterial(MaterialManager* manager_,IAdapter* ad
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,0);//u0
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,1);//u1
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,2);//u2
+	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,3);//u2
 
 	lMaterial->rootSignature->Create(lDevice);
 
@@ -109,6 +111,7 @@ void CreateShockWaveDrawArgumentUpdateComputeMaterial(MaterialManager* manager_,
 
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,0);//u0
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,1);//u1
+	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,2);//u1
 
 	lMaterial->rootSignature->Create(lDevice);
 
@@ -130,6 +133,8 @@ void CreateShockWaveFreeListInitComputeMaterial(MaterialManager* manager_,IAdapt
 	lMaterial->rootSignature = CreateUniqueRootSignature();
 
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,0);//u0
+	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,1);//u0
+
 	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
 
 	lMaterial->rootSignature->Create(lDevice);
