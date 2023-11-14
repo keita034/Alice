@@ -13,6 +13,10 @@ void GameMain::Initialize()
 	gpuParticleEmitter->ShockWaveParticleCreate(10000,"BossShockWaveParticle");
 	gpuParticleEmitter->ShockWaveParticleSetTex("BossShockWaveParticle",TextureManager::SLoad("Resources/Default/Particle/effect1.png"));
 
+	gpuParticleEmitter->LaserParticleCreate(10000,"BossLaserParticle");
+	gpuParticleEmitter->LaserParticleSetMainTex("BossLaserParticle",TextureManager::SLoad("Resources/Default/Particle/Laser1.png"));
+	gpuParticleEmitter->LaserParticleSetSubTex("BossLaserParticle",TextureManager::SLoad("Resources/Default/Particle/effect2.png"));
+
 	//シーンの初期化
 	sceneFactory = SceneFactrory::SGetInstance();
 	SceneManager::SGetInstance()->SetSceneFactory(sceneFactory);

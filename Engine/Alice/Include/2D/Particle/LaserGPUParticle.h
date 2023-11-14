@@ -6,33 +6,30 @@
 #include<IndexBuffer.h>
 #include<TextureManager.h>
 
-struct ShockWaveGPUParticleSetting
+struct LaserGPUParticleSetting
 {
 	//収束点(基準点からの相対)
 	AliceMathF::Vector3 position;
 	//パーティクルが生きてる時間
 	float lifeTime;
+	AliceMathF::Vector3 velocity;
+	//このエミッタからでる最大数
+	float maxParticles;
 	//スタート時のカラー
 	AliceMathF::Vector4 startColor;
 	//終了時のカラー
 	AliceMathF::Vector4 endColor;
-	//このエミッタからでる最大数
-	float maxParticles;
-	//このエミッタから1回でるパーティクル数
-	uint32_t emitCount;
 	//パーティクルが発生する時間
 	float timeBetweenEmit;
-	//このエミッタが存在する時間
-	float emitLifeTime;
-	float size;
+	float maxSize;
+	float maxSizeTime;
 	float speed;
-	float switchingTime;
 	bool isPlay = true;
 private:
 	Byte3 PADING;
 };
 
-class ShockWaveGPUParticle : public BaseGPUParticle
+class LaserGPUParticle : public BaseGPUParticle
 {
 private:
 	static constexpr size_t EMIT_DATA_MAX_COUNT = 100;
@@ -41,6 +38,9 @@ public://GPUで使う構造体
 
 	struct ParticleConstantGPUData
 	{
+		AliceMathF::Vector3 velocity;
+		float lifeTime;
+
 		AliceMathF::Vector3 position;
 		float maxParticles;
 
@@ -48,13 +48,10 @@ public://GPUで使う構造体
 
 		AliceMathF::Vector4 endColor;
 
-		float lifeTime;
-		float size;
 		float speed;
-		uint32_t emitCount;
-
-		float switchingTime;
-		AliceMathF::Vector3 pad;
+		float maxSize;
+		float maxSizeTime;
+		float pad;
 	};
 
 	struct WorldBillboardGPUData
@@ -99,21 +96,18 @@ public://内部で使う構造体
 	struct ParticleEmit
 	{
 		AliceMathF::Vector3 position;
-		AliceMathF::Vector3 convergePointPosition;
-		float radius;
+		float emitTimeCounter;
+		AliceMathF::Vector3 velocity;
 		float lifeTime;
 		AliceMathF::Vector4 startColor;
 		AliceMathF::Vector4 endColor;
 		float maxParticles;
 		uint32_t index;
-		float emitTimeCounter;
+
 		float timeBetweenEmit;
-		float emitLifeTime;
-		float emitMaxLifeTime;
-		uint32_t emitCount;
-		float size;
+		float maxSize;
+		float maxSizeTime;
 		float speed;
-		float switchingTime;
 		bool isPlay;
 	private:
 		Byte3 PADING;
@@ -143,13 +137,13 @@ private:
 	size_t emitDataCount;
 	size_t maxParticles;
 
-	TextureData* texture;
-
+	TextureData* mainTexture;
+	TextureData* subTexture;
 
 public:
 
-	ShockWaveGPUParticle() = default;
-	~ShockWaveGPUParticle() = default;
+	LaserGPUParticle() = default;
+	~LaserGPUParticle() = default;
 
 	void Initialize() override;
 	void Update(float deltaTime_) override;
@@ -158,13 +152,15 @@ public:
 	void SetSetting()override;
 
 	void Create(uint32_t maxParticles_);
-	int32_t Emit(const ShockWaveGPUParticleSetting& setting_,int32_t index_ = -1);
+	int32_t Emit(const LaserGPUParticleSetting& setting_,int32_t index_ = -1);
 	void Move(const AliceMathF::Vector3& move_,int32_t index_);
 	void SetPos(const AliceMathF::Vector3& pos_,int32_t index_);
-	void SetTex(uint32_t textureHandle_);
+	void SetVelocity(const AliceMathF::Vector3& velocity_,int32_t index_);
 	void EmitPlay(int32_t index_);
 	void EmitStop(int32_t index_);
 	float GetDeltaTime();
+	void SetMainTex(uint32_t textureHandle_);
+	void SetSubTex(uint32_t textureHandle_);
 
 private:
 
@@ -175,7 +171,7 @@ private:
 	bool PCanEmit(ParticleEmit& data_,float deltaTime_);
 
 	//コピーコンストラクタ・代入演算子削除
-	ShockWaveGPUParticle& operator=(const ShockWaveGPUParticle&) = delete;
-	ShockWaveGPUParticle(const ShockWaveGPUParticle&) = delete;
+	LaserGPUParticle& operator=(const LaserGPUParticle&) = delete;
+	LaserGPUParticle(const LaserGPUParticle&) = delete;
 };
 

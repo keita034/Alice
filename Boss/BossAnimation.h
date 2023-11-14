@@ -13,6 +13,7 @@ private:
 	uint32_t downAttackAnimationHandle;
 	uint32_t deathAnimationHandle;
 	uint32_t jumpAttackAnimationHandle;
+	uint32_t beamAnimationHandle;
 
 	float walkAnimationThresh = 0.0f;
 
@@ -61,6 +62,8 @@ public:
 	void InsertDeathAnimation();
 
 	void InserJumpAttackAnimation();
+
+	void InserBeamAnimation();
 
 	bool IsInsert();
 

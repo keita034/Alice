@@ -251,6 +251,10 @@ Material* MaterialManager::GetMaterialData(const std::string& name_,AdaptersInde
 			{
 				CreateShockWaveDrawMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
+			else if ( name_ == "LaserGPUParticleDraw" )
+			{
+				CreateLaserDrawMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
 
 			return materials[ name_ ].get();
 		}
@@ -332,6 +336,23 @@ ComputeMaterial* MaterialManager::GetComputeMaterialData(const std::string& name
 			{
 				CreateShockWaveDrawArgumentUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
+			else if ( name_ == "ComputeLaserGPUParticleFreeListInit" )
+			{
+				CreateLaserFreeListInitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeLaserGPUParticleEmit" )
+			{
+				CreateLaserEmitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeLaserGPUParticleUpdate" )
+			{
+				CreateLaserUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeLaserGPUParticleDrawArgumentUpdate" )
+			{
+				CreateLaserDrawArgumentUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+
 			return computeMaterials[ name_ ].get();
 		}
 

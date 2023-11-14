@@ -99,6 +99,7 @@ void AliceFramework::Initialize()
 	BaseScene::SSetGPUParticleEmitter(gpuParticleEmitter.get());
 
 	sceneManager = SceneManager::SGetInstance();
+
 }
 
 void AliceFramework::Finalize()
@@ -140,6 +141,29 @@ void AliceFramework::Update()
 	imGuiManager->Bigin();
 
 	sceneManager->Update();
+
+	//if ( input->TriggerKey(Keys::S) )
+	//{
+	//	LaserGPUParticleSetting lSetting;
+	//	lSetting.position = { -10,0,0 };
+	//	lSetting.lifeTime = 10.0f;
+	//	lSetting.velocity = {10,0,0};
+	//	lSetting.startColor = { 1,0.1f,0.1f,1 };
+	//	lSetting.endColor = { 1,0.1f,0.1f,1 };
+	//	lSetting.timeBetweenEmit = 0.00005f;
+	//	//lSetting.timeBetweenEmit = 1.0f;
+	//	lSetting.maxSize = 100;
+	//	lSetting.maxSizeTime = 0.15f;
+	//	lSetting.speed = 9;
+	//	lSetting.isPlay = false;
+
+	//	gpuParticleEmitter->LaserParticleEmit("BossLaserParticle",lSetting);
+	//}
+
+	//if ( input->TriggerKey(Keys::SPACE) )
+	//{
+	//	gpuParticleEmitter->LaserParticleEmitPlay("BossLaserParticle",0);
+	//}
 
 	gpuParticleEmitter->Update(fps->GetDeltaTime());
 

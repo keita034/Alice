@@ -66,15 +66,6 @@
     <Filter Include="ヘッダー ファイル\Camera">
       <UniqueIdentifier>{191d4a36-453e-47f2-bbd9-301ea4d78c1e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\Core">
-      <UniqueIdentifier>{3317107d-3264-46db-9636-2fc085e0526c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Core\DirectX">
-      <UniqueIdentifier>{a27bcbb8-d6e1-4cb6-9f22-4263858c3b90}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Core\Framework">
-      <UniqueIdentifier>{2896c3ee-894b-4fd0-ab16-73a638092e66}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\Light">
       <UniqueIdentifier>{b68b129b-cdd0-40e7-b83c-734eaed6d4e2}</UniqueIdentifier>
     </Filter>
@@ -178,10 +169,19 @@
     <Filter Include="ソース ファイル\Util">
       <UniqueIdentifier>{72ee2f8a-4c7b-4efa-b30c-b9543bd282b8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\EnginMain">
+      <UniqueIdentifier>{3317107d-3264-46db-9636-2fc085e0526c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\EnginMain\DirectX">
+      <UniqueIdentifier>{a27bcbb8-d6e1-4cb6-9f22-4263858c3b90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\EnginMain\Framework">
+      <UniqueIdentifier>{2896c3ee-894b-4fd0-ab16-73a638092e66}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Core\TextureManager.h">
-      <Filter>ヘッダー ファイル\Core</Filter>
+      <Filter>ヘッダー ファイル\EnginMain</Filter>
     </ClInclude>
     <ClInclude Include="Include\Util\AliceUtility.h">
       <Filter>ヘッダー ファイル\Util</Filter>
@@ -229,7 +229,7 @@
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="Include\Core\ImGuiManager.h">
-      <Filter>ヘッダー ファイル\Core</Filter>
+      <Filter>ヘッダー ファイル\EnginMain</Filter>
     </ClInclude>
     <ClInclude Include="Include\2D\PostEffect\AbstractPostEffectFactory.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
@@ -253,13 +253,13 @@
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Include\Core\Framework\AliceFramework.h">
-      <Filter>ヘッダー ファイル\Core\Framework</Filter>
+      <Filter>ヘッダー ファイル\EnginMain\Framework</Filter>
     </ClInclude>
     <ClInclude Include="Include\2D\PostEffect\GaussianBlurPostEffect.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="Include\Core\DirectX\RenderTarget.h">
-      <Filter>ヘッダー ファイル\Core\DirectX</Filter>
+      <Filter>ヘッダー ファイル\EnginMain\DirectX</Filter>
     </ClInclude>
     <ClInclude Include="Include\2D\PostEffect\PostEffectSprite.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
@@ -286,7 +286,7 @@
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="Include\Core\DirectX\DirectX12Core.h">
-      <Filter>ヘッダー ファイル\Core\DirectX</Filter>
+      <Filter>ヘッダー ファイル\EnginMain\DirectX</Filter>
     </ClInclude>
     <ClInclude Include="Include\Util\GameObject.h">
       <Filter>ヘッダー ファイル\Util</Filter>
@@ -373,6 +373,9 @@
       <Filter>ヘッダー ファイル\2D\Particle</Filter>
     </ClInclude>
     <ClInclude Include="Include\2D\Particle\FireGPUParticle.h">
+      <Filter>ヘッダー ファイル\2D\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\2D\Particle\LaserGPUParticle.h">
       <Filter>ヘッダー ファイル\2D\Particle</Filter>
     </ClInclude>
   </ItemGroup>
@@ -847,6 +850,9 @@
       <Filter>ソース ファイル\2D\Particle</Filter>
     </ClCompile>
     <ClCompile Include="Source\2D\Particle\ShockWaveGPUParticle.cpp">
+      <Filter>ソース ファイル\2D\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\2D\Particle\LaserGPUParticle.cpp">
       <Filter>ソース ファイル\2D\Particle</Filter>
     </ClCompile>
   </ItemGroup>

@@ -120,7 +120,7 @@ void GameCamera::Update()
 		AliceMathF::Matrix4 backFrontMat;
 		backFrontMat.MakeRotationY(AliceMathF::AX_PI);
 
-		billboardMat = viewMatrixInv * backFrontMat;
+		billboardMat = viewMatrix * backFrontMat;
 
 		billboardMat.m[ 3 ][ 0 ] = 0.0f;
 		billboardMat.m[ 3 ][ 1 ] = 0.0f;

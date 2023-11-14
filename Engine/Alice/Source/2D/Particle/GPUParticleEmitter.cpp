@@ -26,6 +26,11 @@ void GPUParticleEmitter::Update(float deltaTime_)
 		particle.second->Update(deltaTime_);
 	}
 
+	for ( std::pair<const std::string,std::unique_ptr<LaserGPUParticle>>& particle : laserGPUParticles )
+	{
+		particle.second->Update(deltaTime_);
+	}
+
 	BaseGPUParticle::ParticleEnd();
 }
 
@@ -45,6 +50,11 @@ void GPUParticleEmitter::Draw(const AliceMathF::Matrix4& worldMat_,const AliceMa
 	{
 		particle.second->Draw(worldMat_,billboardMat_);
 	}
+
+	for ( std::pair<const std::string,std::unique_ptr<LaserGPUParticle>>& particle : laserGPUParticles )
+	{
+		particle.second->Draw(worldMat_,billboardMat_);
+	}
 }
 
 void GPUParticleEmitter::Finalize()
@@ -61,8 +71,15 @@ void GPUParticleEmitter::Finalize()
 		particle.second.reset();
 	}
 
+	for ( std::pair<const std::string,std::unique_ptr<LaserGPUParticle>>& particle : laserGPUParticles )
+	{
+		particle.second->Finalize();
+		particle.second.reset();
+	}
+
 	shockWaveParticles.clear();
 	fireParticles.clear();
+	laserGPUParticles.clear();
 	basicGPUParticle.reset();
 
 	BaseGPUParticle::BaseGPUParticleFinalize();
@@ -183,6 +200,64 @@ void GPUParticleEmitter::ShockWaveParticleSetPos(const std::string& name_,const 
 ShockWaveGPUParticle* GPUParticleEmitter::GetShockWaveParticle(const std::string& name_)
 {
 	return shockWaveParticles[ name_ ].get();
+}
+
+#pragma endregion
+
+#pragma region レーザー
+
+void GPUParticleEmitter::LaserParticleCreate(uint32_t maxParticles_,const std::string& name_)
+{
+	BaseGPUParticle::ParticleBegin();
+	std::unique_ptr<LaserGPUParticle> lParticle = std::make_unique<LaserGPUParticle>();
+	lParticle->Create(maxParticles_);
+	laserGPUParticles[ name_ ] = std::move(lParticle);
+	BaseGPUParticle::ParticleEnd();
+}
+
+void GPUParticleEmitter::LaserParticleMove(const std::string& name_,const AliceMathF::Vector3& move_,int32_t index_)
+{
+	laserGPUParticles[ name_ ]->Move(move_,index_);
+}
+
+int32_t GPUParticleEmitter::LaserParticleEmit(const std::string& name_,const LaserGPUParticleSetting& setting_,int32_t index_)
+{
+	return laserGPUParticles[ name_ ]->Emit(setting_,index_);
+}
+
+void GPUParticleEmitter::LaserParticleSetMainTex(const std::string& name_,uint32_t textureHandle_)
+{
+	laserGPUParticles[ name_ ]->SetMainTex(textureHandle_);
+}
+
+void GPUParticleEmitter::LaserParticleSetSubTex(const std::string& name_,uint32_t textureHandle_)
+{
+	laserGPUParticles[ name_ ]->SetSubTex(textureHandle_);
+}
+
+void GPUParticleEmitter::LaserParticleEmitPlay(const std::string& name_,int32_t index_)
+{
+	laserGPUParticles[ name_ ]->EmitPlay(index_);
+}
+
+void GPUParticleEmitter::LaserParticleEmitStop(const std::string& name_,int32_t index_)
+{
+	laserGPUParticles[ name_ ]->EmitStop(index_);
+}
+
+void GPUParticleEmitter::LaserParticleSetPos(const std::string& name_,const AliceMathF::Vector3& pos_,int32_t index_)
+{
+	laserGPUParticles[ name_ ]->SetPos(pos_,index_);
+}
+
+void GPUParticleEmitter::LaserParticleSetVelocity(const std::string& name_,const AliceMathF::Vector3& velocity_,int32_t index_)
+{
+	laserGPUParticles[ name_ ]->SetVelocity(velocity_,index_);
+}
+
+LaserGPUParticle* GPUParticleEmitter::GetLaserParticle(const std::string& name_)
+{
+	return laserGPUParticles[ name_ ].get();
 }
 
 #pragma endregion

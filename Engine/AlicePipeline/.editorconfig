@@ -1,7 +1,7 @@
 # Visual Studio で、C++ の設定で .editorconfig ファイルが生成されました。
 root = true
 
-[*.{c++,cc,cpp,cppm,cxx,h,h++,hh,hpp,hxx,inl,ipp,ixx,tlh,tli}]
+[*.{c++,cc,cpp,cppm,cxx,h,h++,hh,hpp,hxx,inl,ipp,ixx,tlh,tli,hlsl,hlsli}]
 
 # Visual C++ コード スタイルの設定
 

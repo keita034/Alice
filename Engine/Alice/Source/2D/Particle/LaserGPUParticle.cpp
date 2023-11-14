@@ -1,6 +1,6 @@
-#include "ShockWaveGPUParticle.h"
+#include "LaserGPUParticle.h"
 
-void ShockWaveGPUParticle::Initialize()
+void LaserGPUParticle::Initialize()
 {
 	D3D12_INDIRECT_ARGUMENT_DESC arg[ 1 ]{};
 	arg[ 0 ].Type = D3D12_INDIRECT_ARGUMENT_TYPE_DRAW;
@@ -22,7 +22,7 @@ void ShockWaveGPUParticle::Initialize()
 
 	{
 
-		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeShockWaveGPUParticleFreeListInit",AdaptersIndex::MAIN);
+		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeLaserGPUParticleFreeListInit",AdaptersIndex::MAIN);
 
 		lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
 		lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
@@ -38,22 +38,22 @@ void ShockWaveGPUParticle::Initialize()
 	}
 
 	{
-		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeShockWaveGPUParticleEmit",AdaptersIndex::MAIN);
+		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeLaserGPUParticleEmit",AdaptersIndex::MAIN);
 		lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
 	}
 
 	{
-		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeShockWaveGPUParticleUpdate",AdaptersIndex::MAIN);
+		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeLaserGPUParticleUpdate",AdaptersIndex::MAIN);
 		lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
 	}
 
 	{
-		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeShockWaveGPUParticleDrawArgumentUpdate",AdaptersIndex::MAIN);
+		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeLaserGPUParticleDrawArgumentUpdate",AdaptersIndex::MAIN);
 		lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
 	}
 }
 
-void ShockWaveGPUParticle::Update(float deltaTime_)
+void LaserGPUParticle::Update(float deltaTime_)
 {
 	PUpdateConstantBuffer(deltaTime_);
 
@@ -67,7 +67,7 @@ void ShockWaveGPUParticle::Update(float deltaTime_)
 			fireGPUParticleGPUData.emitDataIndex = emitData.index;
 			fireGPUParticleDataBuffer->Update(&fireGPUParticleGPUData);
 
-			ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeShockWaveGPUParticleEmit",AdaptersIndex::MAIN);
+			ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeLaserGPUParticleEmit",AdaptersIndex::MAIN);
 
 			lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
 			lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
@@ -82,13 +82,13 @@ void ShockWaveGPUParticle::Update(float deltaTime_)
 			lComputeCommandList->SetComputeRootDescriptorTable(3,particlePoolBuffer->GetAddress());//u0
 			lComputeCommandList->SetComputeRootDescriptorTable(4,freeListBuffer->GetAddress());//u1
 
-			lComputeCommandList->Dispatch(static_cast< UINT >( emitData.emitCount / 1024 ) + 1,1,1);
+			lComputeCommandList->Dispatch(1,1,1);
 		}
 	}
 
 	//更新
 	{
-		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeShockWaveGPUParticleUpdate",AdaptersIndex::MAIN);
+		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeLaserGPUParticleUpdate",AdaptersIndex::MAIN);
 
 		lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
 		lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
@@ -110,7 +110,7 @@ void ShockWaveGPUParticle::Update(float deltaTime_)
 
 	//ドローアギュメント更新
 	{
-		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeShockWaveGPUParticleDrawArgumentUpdate",AdaptersIndex::MAIN);
+		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeLaserGPUParticleDrawArgumentUpdate",AdaptersIndex::MAIN);
 
 		lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
 		lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
@@ -125,12 +125,13 @@ void ShockWaveGPUParticle::Update(float deltaTime_)
 	}
 }
 
-void ShockWaveGPUParticle::Finalize()
+void LaserGPUParticle::Finalize()
 {
-	texture = nullptr;
+	mainTexture = nullptr;
+	subTexture = nullptr;
 }
 
-void ShockWaveGPUParticle::Draw(const AliceMathF::Matrix4& worldMat_,const AliceMathF::Matrix4& billboardMat_)
+void LaserGPUParticle::Draw(const AliceMathF::Matrix4& worldMat_,const AliceMathF::Matrix4& billboardMat_)
 {
 	{
 		worldBillboardGPUData.worldMat = worldMat_;
@@ -143,7 +144,7 @@ void ShockWaveGPUParticle::Draw(const AliceMathF::Matrix4& worldMat_,const Alice
 
 	drawArgumentBuffer->Transition(D3D12_RESOURCE_STATES::D3D12_RESOURCE_STATE_INDIRECT_ARGUMENT);
 
-	Material* lMaterial = MaterialManager::SGetMaterial("ShockWaveGPUParticleDraw",AdaptersIndex::MAIN);
+	Material* lMaterial = MaterialManager::SGetMaterial("LaserGPUParticleDraw",AdaptersIndex::MAIN);
 
 	lGraphicCommandList->IASetPrimitiveTopology(D3D12_PRIMITIVE_TOPOLOGY::D3D_PRIMITIVE_TOPOLOGY_POINTLIST);
 
@@ -158,18 +159,19 @@ void ShockWaveGPUParticle::Draw(const AliceMathF::Matrix4& worldMat_,const Alice
 	lGraphicCommandList->SetGraphicsRootDescriptorTable(1,particlePoolBuffer->GetAddress());
 	lGraphicCommandList->SetGraphicsRootDescriptorTable(2,drawListBuffer->GetUAVAddress());
 
-	lGraphicCommandList->SetGraphicsRootDescriptorTable(3,texture->gpuHandle);
+	lGraphicCommandList->SetGraphicsRootDescriptorTable(3,mainTexture->gpuHandle);
+	lGraphicCommandList->SetGraphicsRootDescriptorTable(4,subTexture->gpuHandle);
 
 	lGraphicCommandList->ExecuteIndirect(particleCommandSignature.Get(),1,drawArgumentBuffer->GetResource(),0,nullptr,0);
 
 	drawArgumentBuffer->Transition(D3D12_RESOURCE_STATES::D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
 }
 
-void ShockWaveGPUParticle::SetSetting()
+void LaserGPUParticle::SetSetting()
 {
 }
 
-void ShockWaveGPUParticle::Create(uint32_t maxParticles_)
+void LaserGPUParticle::Create(uint32_t maxParticles_)
 {
 	fireGPUParticleGPUData.maxParticles = maxParticles_;
 
@@ -178,24 +180,23 @@ void ShockWaveGPUParticle::Create(uint32_t maxParticles_)
 	Initialize();
 }
 
-int32_t ShockWaveGPUParticle::Emit(const ShockWaveGPUParticleSetting& setting_,int32_t index_)
+int32_t LaserGPUParticle::Emit(const LaserGPUParticleSetting& setting_,int32_t index_)
 {
 	if ( index_ == -1 )
 	{
 		ParticleEmit lEmitData;
 		ParticleConstantGPUData particleConstant;
 
+		lEmitData.velocity = particleConstant.velocity = setting_.velocity;
+		lEmitData.lifeTime = particleConstant.lifeTime = setting_.lifeTime;
 		lEmitData.position = particleConstant.position = setting_.position;
 		lEmitData.maxParticles = particleConstant.maxParticles = setting_.maxParticles;
-		lEmitData.endColor = particleConstant.endColor = setting_.endColor;
 		lEmitData.startColor = particleConstant.startColor = setting_.startColor;
-		lEmitData.lifeTime = particleConstant.lifeTime = setting_.lifeTime;
-		lEmitData.size = particleConstant.size = setting_.size;
+		lEmitData.endColor = particleConstant.endColor = setting_.endColor;
 		lEmitData.speed = particleConstant.speed = setting_.speed;
-		lEmitData.switchingTime = particleConstant.switchingTime = setting_.switchingTime;
+		lEmitData.maxSize = particleConstant.maxSize = setting_.maxSize;
+		lEmitData.maxSizeTime = particleConstant.maxSizeTime = setting_.maxSizeTime;
 
-		lEmitData.emitCount = particleConstant.emitCount = setting_.emitCount;
-		lEmitData.emitLifeTime = lEmitData.emitMaxLifeTime = setting_.emitLifeTime;
 		lEmitData.timeBetweenEmit = setting_.timeBetweenEmit;
 		lEmitData.index = static_cast< uint32_t >( emitDatas.size() );
 		lEmitData.isPlay = setting_.isPlay;
@@ -214,7 +215,7 @@ int32_t ShockWaveGPUParticle::Emit(const ShockWaveGPUParticleSetting& setting_,i
 	}
 }
 
-void ShockWaveGPUParticle::Move(const AliceMathF::Vector3& move_,int32_t index_)
+void LaserGPUParticle::Move(const AliceMathF::Vector3& move_,int32_t index_)
 {
 	size_t lIndex = static_cast< size_t >( index_ );
 
@@ -225,7 +226,7 @@ void ShockWaveGPUParticle::Move(const AliceMathF::Vector3& move_,int32_t index_)
 	particleConstantsBuffer->Update(particleConstants.data(),sizeof(ParticleConstantGPUData) * particleConstants.size());
 }
 
-void ShockWaveGPUParticle::SetPos(const AliceMathF::Vector3& pos_,int32_t index_)
+void LaserGPUParticle::SetPos(const AliceMathF::Vector3& pos_,int32_t index_)
 {
 	size_t lIndex = static_cast< size_t >( index_ );
 
@@ -235,24 +236,27 @@ void ShockWaveGPUParticle::SetPos(const AliceMathF::Vector3& pos_,int32_t index_
 
 }
 
-void ShockWaveGPUParticle::SetTex(uint32_t textureHandle_)
+void LaserGPUParticle::SetVelocity(const AliceMathF::Vector3& velocity_,int32_t index_)
 {
-	texture = TextureManager::SGetTextureData(textureHandle_);
+	size_t lIndex = static_cast< size_t >( index_ );
+
+	particleConstants[ lIndex ].velocity = emitDatas[ lIndex ].velocity = velocity_;
+
+	particleConstantsBuffer->Update(particleConstants.data(),sizeof(ParticleConstantGPUData) * particleConstants.size());
 }
 
-void ShockWaveGPUParticle::EmitPlay(int32_t index_)
+void LaserGPUParticle::EmitPlay(int32_t index_)
 {
 	size_t lIndex = static_cast< size_t >( index_ );
 
 	if ( !emitDatas[ lIndex ].isPlay )
 	{
 		emitDatas[ lIndex ].isPlay = true;
-		emitDatas[ lIndex ].emitLifeTime = emitDatas[ lIndex ].emitMaxLifeTime;
 		emitDatas[ lIndex ].emitTimeCounter = 0.0f;
 	}
 }
 
-void ShockWaveGPUParticle::EmitStop(int32_t index_)
+void LaserGPUParticle::EmitStop(int32_t index_)
 {
 	size_t lIndex = static_cast< size_t >( index_ );
 
@@ -262,12 +266,22 @@ void ShockWaveGPUParticle::EmitStop(int32_t index_)
 	}
 }
 
-float ShockWaveGPUParticle::GetDeltaTime()
+float LaserGPUParticle::GetDeltaTime()
 {
 	return timeGPUData.deltaTime;
 }
 
-void ShockWaveGPUParticle::PBufferCreate()
+void LaserGPUParticle::SetMainTex(uint32_t textureHandle_)
+{
+	mainTexture = TextureManager::SGetTextureData(textureHandle_);
+}
+
+void LaserGPUParticle::SetSubTex(uint32_t textureHandle_)
+{
+	subTexture = TextureManager::SGetTextureData(textureHandle_);
+}
+
+void LaserGPUParticle::PBufferCreate()
 {
 	//particlePoolBuffer = CreateUniqueCrossAdapterBuffer(maxParticles,sizeof(ParticleGPUData),AdaptersIndex::SUB,AdaptersIndex::MAIN);
 	//drawListBuffer = CreateUniqueDrawListBuffer(maxParticles,sizeof(uint32_t),BufferType::SHARED,AdaptersIndex::SUB,AdaptersIndex::MAIN);
@@ -290,11 +304,11 @@ void ShockWaveGPUParticle::PBufferCreate()
 	timeConstantsBuffer = CreateUniqueConstantBuffer(sizeof(TimeConstantGPUData),AdaptersIndex::MAIN);
 	worldBillboardBuffer = CreateUniqueConstantBuffer(sizeof(WorldBillboardGPUData),AdaptersIndex::MAIN);
 
-	fireGPUParticleDataBuffer->Update(&fireGPUParticleGPUData);	//drawListBuffer = CreateUniqueDrawListBuffer(maxParticles,sizeof(uint32_t),BufferType::SHARED,AdaptersIndex::SUB,AdaptersIndex::MAIN);
+	fireGPUParticleDataBuffer->Update(&fireGPUParticleGPUData);	
 
 }
 
-void ShockWaveGPUParticle::PUpdateConstantBuffer(float deltaTime_)
+void LaserGPUParticle::PUpdateConstantBuffer(float deltaTime_)
 {
 	timeGPUData.deltaTime = deltaTime_;
 	timeGPUData.totalTime += deltaTime_;
@@ -303,38 +317,20 @@ void ShockWaveGPUParticle::PUpdateConstantBuffer(float deltaTime_)
 	timeConstantsBuffer->Update(&timeGPUData);
 }
 
-bool ShockWaveGPUParticle::PCanEmit(ParticleEmit& data_,float deltaTime_)
+bool LaserGPUParticle::PCanEmit(ParticleEmit& data_,float deltaTime_)
 {
 	if ( data_.isPlay )
 	{
-		if ( data_.emitLifeTime >= 0 )
+
+		if ( data_.emitTimeCounter <= 0.0f )
 		{
-			if ( data_.emitTimeCounter <= 0.0f )
-			{
-				data_.emitTimeCounter = data_.timeBetweenEmit;
-				return true;
-			}
-			else
-			{
-				data_.emitTimeCounter -= deltaTime_;
-				data_.emitLifeTime -= deltaTime_;
-			}
+			data_.emitTimeCounter = data_.timeBetweenEmit;
+
+			return true;
 		}
 		else
 		{
-			if ( data_.emitLifeTime == -1 )
-			{
-				if ( data_.emitTimeCounter <= 0.0f )
-				{
-					data_.emitTimeCounter = data_.timeBetweenEmit;
-
-					return true;
-				}
-				else
-				{
-					data_.emitTimeCounter -= deltaTime_;
-				}
-			}
+			data_.emitTimeCounter -= deltaTime_;
 		}
 	}
 

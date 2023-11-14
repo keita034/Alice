@@ -135,6 +135,7 @@
     <ClInclude Include="Include\2D\Particle\BaseGPUParticle.h" />
     <ClInclude Include="Include\2D\Particle\BasicGPUParticle.h" />
     <ClInclude Include="Include\2D\Particle\FireWorkParticle.h" />
+    <ClInclude Include="Include\2D\Particle\LaserGPUParticle.h" />
     <ClInclude Include="Include\3D\Model\AliceBlendTree.h" />
     <ClInclude Include="Include\2D\PostEffect\DistortionPostEffect.h" />
     <ClInclude Include="Include\2D\PostEffect\FrostedGlassPostEffect.h" />
@@ -228,6 +229,7 @@
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\2D\Particle\LaserGPUParticle.cpp" />
     <ClCompile Include="Source\2D\Particle\ShockWaveGPUParticle.cpp" />
     <ClCompile Include="Source\2D\Particle\FireGPUParticle.cpp" />
     <ClCompile Include="GPUTimeStamp.cpp" />

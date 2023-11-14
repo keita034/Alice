@@ -61,6 +61,12 @@ void BossJumpAttackMove::Update()
 	}
 
 	isFinish = ShockWaveUpdate() && animationFinish;
+
+#ifndef _DEBUG
+	transform.MakeWorldMatrix();
+	rigidBody->SetMatrix(transform.rigidBodyMatWorld,transform.matWorld);
+#endif // _RELEASE
+
 }
 
 void BossJumpAttackMove::TransUpdate(Camera* camera_)

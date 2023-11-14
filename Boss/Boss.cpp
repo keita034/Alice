@@ -44,7 +44,7 @@ void Boss::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 
 	actionManager = std::make_unique<BossActionManager>();
 	actionManager->SetParticleEmitter(particleEmitter);
-	actionManager->Initialize(animation.get(),physicsSystem_);
+	actionManager->Initialize(animation.get(),physicsSystem_,&transform);
 
 
 	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ] = std::make_unique<BossHand>();
@@ -91,6 +91,7 @@ void Boss::Update()
 
 		//移動
 
+
 		AliceMathF::Vector3 lMove = actionManager->GetDistanceTraveled();
 		rigidBody->SetLinearVelocity(lMove);
 
@@ -100,6 +101,8 @@ void Boss::Update()
 			transform.translation = rigidBody->GetPosition() + -rigidBodyoffset;
 			actionManager->SetBossPos(rigidBody->GetPosition());
 		}
+
+		direction = actionManager->GetDirection();
 
 		if ( AliceMathF::Vector3(0,0,0) != lMove )
 
@@ -158,6 +161,7 @@ void Boss::Draw()
 
 #ifdef _DEBUG
 	actionManager->GetBossJumpAttackMove()->Draw();
+	actionManager->GetBossBeamAttackMove()->Draw();
 #endif
 }
 
@@ -192,6 +196,7 @@ void Boss::TransUpdate(Camera* camera_)
 
 #ifdef _DEBUG
 	actionManager->GetBossJumpAttackMove()->TransUpdate(camera_);
+	actionManager->GetBossBeamAttackMove()->TransUpdate(camera_);
 #endif
 
 	camera = camera_;

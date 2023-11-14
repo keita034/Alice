@@ -14,7 +14,8 @@ enum class CollisionAttribute : uint8_t
 	BODY,
 	HAND,
 	WEAPON,
-	SHOCKWAVE
+	SHOCKWAVE,
+	BEAM,
 };
 
 enum class CollisionGroup : uint8_t
