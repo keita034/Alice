@@ -6,7 +6,7 @@
 
 void AlicePhysics::JoltDebugRenderPrimitive::CreateVertexBuffer(size_t numVtx_, size_t vtxSize_, const void* data_)
 {
-	vertexBuffer = CreateUniqueVertexBuffer(numVtx_, vtxSize_, data_);
+	vertexBuffer = CreateUniqueVertexBuffer(numVtx_, vtxSize_,AdaptersIndex::MAIN, data_);
 	vertexDrawCount = numVtx_;
 }
 

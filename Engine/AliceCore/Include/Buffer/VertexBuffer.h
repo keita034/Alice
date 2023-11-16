@@ -14,6 +14,8 @@
 
 #pragma warning(pop)
 
+#include<AdaptersIndex.h>
+
 /// <summary>
 /// 頂点バッファ(インターフェース)
 /// </summary>
@@ -28,7 +30,7 @@ public:
 	/// <param name="length_">要素数</param>
 	/// <param name="singleSize">単体のサイズ</param>
 	/// <param name="data">配列の先頭アドレス</param>
-	virtual void Create(size_t length_, size_t singleSize_, const void* data_) = 0;
+	virtual void Create(size_t length_, size_t singleSize_,AdaptersIndex index_,const void* data_) = 0;
 
 	/// <summary>
 	/// 頂点バッファビューを取得
@@ -67,6 +69,10 @@ public:
 	/// <param name="name_">名前</param>
 	virtual void SetName(const std::string& name_) = 0;
 
+	virtual void CreateSRV() = 0;
+
+	virtual const D3D12_GPU_DESCRIPTOR_HANDLE& GetSRVAddress() = 0;
+
 	virtual ~IVertexBuffer() = default;
 	IVertexBuffer() = default;
 };
@@ -78,7 +84,7 @@ public:
 /// <param name="singleSize">単体のサイズ</param>
 /// <param name="data">配列の先頭アドレス</param>
 /// <returns>生成されたポインタ</returns>
-std::unique_ptr<IVertexBuffer> CreateUniqueVertexBuffer(size_t length_, size_t singleSize_, const void* data_ = nullptr);
+std::unique_ptr<IVertexBuffer> CreateUniqueVertexBuffer(size_t length_, size_t singleSize_,AdaptersIndex index_ = AdaptersIndex::MAIN,const void* data_ = nullptr);
 
 /// <summary>
 /// 頂点バッファを生成(シェアード)
@@ -87,4 +93,4 @@ std::unique_ptr<IVertexBuffer> CreateUniqueVertexBuffer(size_t length_, size_t s
 /// <param name="singleSize">単体のサイズ</param>
 /// <param name="data">配列の先頭アドレス</param>
 /// <returns>生成されたポインタ</returns>
-std::shared_ptr<IVertexBuffer> CreateSharedVertexBuffer(size_t length_, size_t singleSize_, const void* data_ = nullptr);
+std::shared_ptr<IVertexBuffer> CreateSharedVertexBuffer(size_t length_, size_t singleSize_,AdaptersIndex index_ = AdaptersIndex::MAIN,const void* data_ = nullptr);

@@ -352,6 +352,14 @@ ComputeMaterial* MaterialManager::GetComputeMaterialData(const std::string& name
 			{
 				CreateLaserDrawArgumentUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
+			else if ( name_ == "ComputeMeshGPUParticleFreeListInit" )
+			{
+				CreateMeshFreeListInitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeMeshGPUParticleEmit" )
+			{
+				CreateMeshEmitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
 
 			return computeMaterials[ name_ ].get();
 		}

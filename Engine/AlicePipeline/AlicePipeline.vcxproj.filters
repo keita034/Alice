@@ -138,6 +138,9 @@
     <ClInclude Include="Include\GPUParticle\Laser.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Include\GPUParticle\Mesh.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\MaterialManager.cpp">
@@ -258,6 +261,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\GPUParticle\Laser.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GPUParticle\Mesh.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

@@ -7,6 +7,7 @@
 #include<Sprite.h>
 #include<SceneLoader.h>
 #include<BaseBuffer.h>
+#include<MeshGPUParticleAliceModel.h>
 
 void AliceFramework::SDebugInitialize()
 {
@@ -47,6 +48,8 @@ void AliceFramework::Initialize()
 	PipelineState::SSetDevice(directX12Core->GetDevice());
 
 	BaseBuffer::SSetSwapChain(directX12Core->GetSwapChain());
+
+	MeshGPUParticleAliceModel::SSetMultiAdapters(directX12Core->GetMultiAdapters());
 	//DirectX初期化処理ここまで
 
 	//描画初期化処理ここから
@@ -105,6 +108,7 @@ void AliceFramework::Initialize()
 void AliceFramework::Finalize()
 {
 	BaseBuffer::Finalize();
+	MeshGPUParticleAliceModel::Finalize();
 	AliceModel::Finalize();
 	BasePipelineState::Finalize();
 	sceneManager->Finalize();
@@ -141,29 +145,6 @@ void AliceFramework::Update()
 	imGuiManager->Bigin();
 
 	sceneManager->Update();
-
-	//if ( input->TriggerKey(Keys::S) )
-	//{
-	//	LaserGPUParticleSetting lSetting;
-	//	lSetting.position = { -10,0,0 };
-	//	lSetting.lifeTime = 10.0f;
-	//	lSetting.velocity = {10,0,0};
-	//	lSetting.startColor = { 1,0.1f,0.1f,1 };
-	//	lSetting.endColor = { 1,0.1f,0.1f,1 };
-	//	lSetting.timeBetweenEmit = 0.00005f;
-	//	//lSetting.timeBetweenEmit = 1.0f;
-	//	lSetting.maxSize = 100;
-	//	lSetting.maxSizeTime = 0.15f;
-	//	lSetting.speed = 9;
-	//	lSetting.isPlay = false;
-
-	//	gpuParticleEmitter->LaserParticleEmit("BossLaserParticle",lSetting);
-	//}
-
-	//if ( input->TriggerKey(Keys::SPACE) )
-	//{
-	//	gpuParticleEmitter->LaserParticleEmitPlay("BossLaserParticle",0);
-	//}
 
 	gpuParticleEmitter->Update(fps->GetDeltaTime());
 
