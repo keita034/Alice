@@ -32,8 +32,8 @@ void BossActionManager::Update(const AliceMathF::Vector3& plyerPos_, const Alice
 		{
 			do
 			{
-				//bossAction = static_cast< BossAction >( AliceMathF::GetRand(0.0f,static_cast< float >( BossAction::BOSS_ACTION_NUM )) );
-				bossAction = BossAction::BEAM_ATTACK;
+				bossAction = ChoiceAction();
+				//bossAction = BossAction::JUMP_ATTACK;
 
 				switch (bossAction)
 				{
@@ -128,6 +128,7 @@ void BossActionManager::PChaseAttack()
 		{
 			bossInternalAction = BossInternalAction::ATTACK;
 			animation->InsertDownAttackAnimation();
+			direction = -chaseMove->GetDirection();
 			chaseMove->Finalize();
 			distanceTraveled = { 0,0,0 };
 			animation->SetStandThresh();
@@ -192,18 +193,42 @@ void BossActionManager::PBeamAttack()
 	}
 }
 
+BossAction BossActionManager::ChoiceAction()
+{
+	int32_t lRand = AliceMathUtility::GetRand(0,7) ;
+
+	if ( lRand == 0 )
+	{
+		return BossAction::NONE;
+	}
+	if ( lRand < 4 )
+	{
+		return BossAction::CHASE_ATTACK;
+	}
+	if ( lRand < 6 )
+	{
+		return BossAction::JUMP_ATTACK;
+	}
+	if ( lRand == 7 )
+	{
+		return BossAction::BEAM_ATTACK;
+	}
+
+	return BossAction::NONE;
+}
+
 #ifdef _DEBUG
+
 BossJumpAttackMove* BossActionManager::GetBossJumpAttackMove()
 {
 	return jumpAttackMove.get();
 }
 
+#endif
 BossBeamAttack* BossActionManager::GetBossBeamAttackMove()
 {
 	return bossBeamAttack.get();
 }
-
-#endif
 
 const BossInternalAction BossActionManager::GetinternalAction()const
 {

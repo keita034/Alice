@@ -49,7 +49,7 @@ private:
 	std::unique_ptr<BossJumpAttackMove>jumpAttackMove;
 	std::unique_ptr<BossBeamAttack>bossBeamAttack;
 
-	const int32_t MAX_ACTION_COUNT = 200;
+	const int32_t MAX_ACTION_COUNT = 90;
 	int32_t actionCount = 0;
 
 	BossAction bossAction;
@@ -95,14 +95,16 @@ public:
 
 	void SetParticleEmitter(GPUParticleEmitter* particleEmitter_);
 
+	BossAction ChoiceAction();
+
 	//デバッグ用
 #ifdef _DEBUG
 
 	BossJumpAttackMove* GetBossJumpAttackMove();
-	BossBeamAttack* GetBossBeamAttackMove();
 
 #endif // _DEBUG
 
+	BossBeamAttack* GetBossBeamAttackMove();
 
 
 private:

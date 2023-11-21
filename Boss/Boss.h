@@ -30,7 +30,7 @@ private:
 	AliceMathF::Vector3 oldTrans;
 	AliceMathF::Vector3 rigidBodyoffset;
 
-	const int32_t MAX_HP = 3;
+	const int32_t MAX_HP = 7;
 
 	uint32_t damageSE = 0;
 	uint32_t deathSE = 0;

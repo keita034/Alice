@@ -13,10 +13,10 @@ void Boss::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 	transform.scale = {0.01f,0.01f,0.01f };
 	transform.Initialize();
 
-	rigidBodyoffset = { 4.0f, 15.0f + 35.0f, 0.0f };
+	rigidBodyoffset = { 4.0f, 30.0f + 35.0f, 0.0f };
 
 	AliceMathF::Vector3 pos = transform.translation + rigidBodyoffset;
-	shape.reset(AlicePhysics::CreateCapsuleShape(35.0f,15.0f));
+	shape.reset(AlicePhysics::CreateCapsuleShape(35.0f,30.0f));
 
 	AlicePhysics::IRigidBodyCreationSettings lSetting;
 	lSetting.name = "Boss";
@@ -194,9 +194,11 @@ void Boss::TransUpdate(Camera* camera_)
 	hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->TransUpdate(camera_);
 	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->TransUpdate(camera_);
 
+	actionManager->GetBossBeamAttackMove()->TransUpdate(camera_);
+
 #ifdef _DEBUG
 	actionManager->GetBossJumpAttackMove()->TransUpdate(camera_);
-	actionManager->GetBossBeamAttackMove()->TransUpdate(camera_);
+
 #endif
 
 	camera = camera_;

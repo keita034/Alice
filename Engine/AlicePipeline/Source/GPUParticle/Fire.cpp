@@ -22,7 +22,6 @@ void CreateFireDrawMaterial(MaterialManager* manager_,IAdapter* adapter_)
 
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,0);//u0
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,1);//u1
-	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,2);//u1
 
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 	lMaterial->rootSignature->AddStaticSampler(0);//s0

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include"AliceMathF.h"
 #include"AliceMath.h"
 
@@ -87,4 +87,6 @@ namespace AliceMathUtility
 	}
 
 #pragma endregion 比較関数
+
+	int32_t GetRand(int32_t min,int32_t max);
 };
