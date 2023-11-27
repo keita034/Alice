@@ -325,16 +325,6 @@ void GPUParticleEmitter::MeshGPUParticleSetModel(const std::string& name_,AliceM
 	meshGPUParticles[ name_ ]->SetModel(model_);
 }
 
-void GPUParticleEmitter::MeshGPUParticleModelMotionUpdate(const std::string& name_,AliceMotionData* motionData_)
-{
-	meshGPUParticles[ name_ ]->ModelMotionUpdate(motionData_);
-}
-
-void GPUParticleEmitter::MeshGPUParticleModelMotionUpdate(const std::string& name_,AliceBlendTree* blendTree_)
-{
-	meshGPUParticles[ name_ ]->ModelMotionUpdate(blendTree_);
-}
-
 MeshGPUParticle* GPUParticleEmitter::GetMeshGPUParticle(const std::string& name_)
 {
 	return meshGPUParticles[ name_ ].get();

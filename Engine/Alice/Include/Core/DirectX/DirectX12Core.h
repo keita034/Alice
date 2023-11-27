@@ -100,8 +100,8 @@ public:
 
 	void BeginCommand();
 
-	void GraphicBeginCommand();
-	void GraphicExecuteCommand();
+	void GraphicBeginCommand(AdaptersIndex index_ = AdaptersIndex::MAIN);
+	void GraphicExecuteCommand(AdaptersIndex index_ = AdaptersIndex::MAIN);
 
 	//背景の色変え(RGBA)
 	void SetBackScreenColor(float red_, float green_, float blue_, float alpha_);

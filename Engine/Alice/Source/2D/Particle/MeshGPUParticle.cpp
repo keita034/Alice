@@ -1,5 +1,7 @@
 #include "MeshGPUParticle.h"
 
+#include<AliceAssert.h>
+
 void MeshGPUParticle::Initialize()
 {
 	D3D12_INDIRECT_ARGUMENT_DESC arg[ 1 ]{};
@@ -44,15 +46,15 @@ void MeshGPUParticle::Initialize()
 		lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
 	}
 
-	//{
-	//	ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeMeshGPUParticleUpdate",AdaptersIndex::MAIN);
-	//	lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
-	//}
+	{
+		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeMeshGPUParticleUpdate",AdaptersIndex::MAIN);
+		lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
+	}
 
-	//{
-	//	ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeMeshGPUParticleDrawArgumentUpdate",AdaptersIndex::MAIN);
-	//	lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
-	//}
+	{
+		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeMeshGPUParticleDrawArgumentUpdate",AdaptersIndex::MAIN);
+		lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
+	}
 }
 
 void MeshGPUParticle::Update(float deltaTime_)
@@ -66,6 +68,13 @@ void MeshGPUParticle::Update(float deltaTime_)
 		//生成
 		if ( PCanEmit(emitData,deltaTime_) )
 		{
+			if ( determineTexture->resourceState == D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE )
+			{
+				graphicAdapter->ResourceTransition(determineTexture->texBuff.Get(),determineTexture->resourceState,D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
+				determineTexture->resourceState = D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE;
+
+			}
+
 			for ( const std::unique_ptr<MeshGPUParticleModelMesh>& mesh : modelData->GetMeshs() )
 			{
 				fireGPUParticleGPUData.emitDataIndex = emitData.index;
@@ -84,55 +93,56 @@ void MeshGPUParticle::Update(float deltaTime_)
 				lComputeCommandList->SetComputeRootConstantBufferView(2,particleConstantsBuffer->GetAddress());//b2
 				lComputeCommandList->SetComputeRootConstantBufferView(3,mesh->constBoneBuffer->GetAddress());//b2
 
-				lComputeCommandList->SetComputeRootDescriptorTable(4,determineTexture->gpuHandle);//t0
+				lComputeCommandList->SetComputeRootDescriptorTable(4,particlePoolBuffer->GetAddress());//u0
+				lComputeCommandList->SetComputeRootDescriptorTable(5,freeListBuffer->GetAddress());//u1
 
-				lComputeCommandList->SetComputeRootDescriptorTable(5,mesh->GetSRVAddress());//s0
-
-				lComputeCommandList->SetComputeRootDescriptorTable(6,particlePoolBuffer->GetAddress());//u0
-				lComputeCommandList->SetComputeRootDescriptorTable(7,freeListBuffer->GetAddress());//u1
+				lComputeCommandList->SetComputeRootDescriptorTable(6,determineTexture->gpuHandle);//t0
+				lComputeCommandList->SetComputeRootDescriptorTable(7,mesh->GetVertexSRVAddress());//t1
+				lComputeCommandList->SetComputeRootDescriptorTable(8,mesh->GetIndicesSRVAddress());//t2
 
 				lComputeCommandList->Dispatch(static_cast< uint32_t >( mesh->GetVertices().size() / 1024 + 1 ),1,1);
 			}
 		}
 	}
 
-	////更新
-	//{
-	//	ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeLaserGPUParticleUpdate",AdaptersIndex::MAIN);
 
-	//	lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
-	//	lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
+	//更新
+	{
+		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeMeshGPUParticleUpdate",AdaptersIndex::MAIN);
 
-	//	ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::MAIN)->GetHeap() };
-	//	lComputeCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
+		lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
+		lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
 
-	//	lComputeCommandList->SetComputeRootConstantBufferView(0,timeConstantsBuffer->GetAddress());//b0
-	//	lComputeCommandList->SetComputeRootConstantBufferView(1,fireGPUParticleDataBuffer->GetAddress());//b1
-	//	lComputeCommandList->SetComputeRootConstantBufferView(2,particleConstantsBuffer->GetAddress());//b2
+		ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::MAIN)->GetHeap() };
+		lComputeCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
 
-	//	lComputeCommandList->SetComputeRootDescriptorTable(3,particlePoolBuffer->GetAddress());//u0
-	//	lComputeCommandList->SetComputeRootDescriptorTable(4,freeListBuffer->GetAddress());//u1
-	//	lComputeCommandList->SetComputeRootDescriptorTable(5,drawListBuffer->GetUAVAddress());//u2
+		lComputeCommandList->SetComputeRootConstantBufferView(0,timeConstantsBuffer->GetAddress());//b0
+		lComputeCommandList->SetComputeRootConstantBufferView(1,gpuParticleDataBuffer->GetAddress());//b1
+		lComputeCommandList->SetComputeRootConstantBufferView(2,particleConstantsBuffer->GetAddress());//b2
 
-	//	lComputeCommandList->Dispatch(static_cast< UINT >( maxParticles / 1024 ) + 1,1,1);
+		lComputeCommandList->SetComputeRootDescriptorTable(3,particlePoolBuffer->GetAddress());//u0
+		lComputeCommandList->SetComputeRootDescriptorTable(4,freeListBuffer->GetAddress());//u1
+		lComputeCommandList->SetComputeRootDescriptorTable(5,drawListBuffer->GetUAVAddress());//u2
 
-	//}
+		lComputeCommandList->Dispatch(static_cast< UINT >( maxParticles / 1024 ) + 1,1,1);
 
-	////ドローアギュメント更新
-	//{
-	//	ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeLaserGPUParticleDrawArgumentUpdate",AdaptersIndex::MAIN);
+	}
 
-	//	lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
-	//	lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
+	//ドローアギュメント更新
+	{
+		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeMeshGPUParticleDrawArgumentUpdate",AdaptersIndex::MAIN);
 
-	//	ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::MAIN)->GetHeap() };
-	//	lComputeCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
+		lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
+		lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
 
-	//	lComputeCommandList->SetComputeRootDescriptorTable(0,drawListBuffer->GetUAVAddress());//u0
-	//	lComputeCommandList->SetComputeRootDescriptorTable(1,drawArgumentBuffer->GetAddress());//u1
+		ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::MAIN)->GetHeap() };
+		lComputeCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
 
-	//	lComputeCommandList->Dispatch(1,1,1);
-	//}
+		lComputeCommandList->SetComputeRootDescriptorTable(0,drawListBuffer->GetUAVAddress());//u0
+		lComputeCommandList->SetComputeRootDescriptorTable(1,drawArgumentBuffer->GetAddress());//u1
+
+		lComputeCommandList->Dispatch(1,1,1);
+	}
 }
 
 void MeshGPUParticle::Finalize()
@@ -142,6 +152,8 @@ void MeshGPUParticle::Finalize()
 
 void MeshGPUParticle::Draw(const AliceMathF::Matrix4& worldMat_,const AliceMathF::Matrix4& billboardMat_)
 {
+	AliceAssertNull(texture,"テクスチャがありません");
+
 	{
 		worldBillboardGPUData.worldMat = worldMat_;
 		worldBillboardGPUData.billboardMat = billboardMat_;
@@ -149,31 +161,30 @@ void MeshGPUParticle::Draw(const AliceMathF::Matrix4& worldMat_,const AliceMathF
 		worldBillboardBuffer->Update(&worldBillboardGPUData);
 	}
 
-	//ID3D12GraphicsCommandList* lGraphicCommandList = graphicAdapter->GetGraphicCommandList();
+	ID3D12GraphicsCommandList* lGraphicCommandList = graphicAdapter->GetGraphicCommandList();
 
-	//drawArgumentBuffer->Transition(D3D12_RESOURCE_STATES::D3D12_RESOURCE_STATE_INDIRECT_ARGUMENT);
+	drawArgumentBuffer->Transition(D3D12_RESOURCE_STATES::D3D12_RESOURCE_STATE_INDIRECT_ARGUMENT);
 
-	//Material* lMaterial = MaterialManager::SGetMaterial("LaserGPUParticleDraw",AdaptersIndex::MAIN);
+	Material* lMaterial = MaterialManager::SGetMaterial("MeshGPUParticleDraw",AdaptersIndex::MAIN);
 
-	//lGraphicCommandList->IASetPrimitiveTopology(D3D12_PRIMITIVE_TOPOLOGY::D3D_PRIMITIVE_TOPOLOGY_POINTLIST);
+	lGraphicCommandList->IASetPrimitiveTopology(D3D12_PRIMITIVE_TOPOLOGY::D3D_PRIMITIVE_TOPOLOGY_POINTLIST);
 
-	//lGraphicCommandList->SetPipelineState(lMaterial->pipelineState->GetPipelineState());
-	//lGraphicCommandList->SetGraphicsRootSignature(lMaterial->rootSignature->GetRootSignature());
+	lGraphicCommandList->SetPipelineState(lMaterial->pipelineState->GetPipelineState());
+	lGraphicCommandList->SetGraphicsRootSignature(lMaterial->rootSignature->GetRootSignature());
 
-	//ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::MAIN)->GetHeap() };
-	//lGraphicCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
+	ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::MAIN)->GetHeap() };
+	lGraphicCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
 
-	//lGraphicCommandList->SetGraphicsRootConstantBufferView(0,worldBillboardBuffer->GetAddress());
+	lGraphicCommandList->SetGraphicsRootConstantBufferView(0,worldBillboardBuffer->GetAddress());
 
-	//lGraphicCommandList->SetGraphicsRootDescriptorTable(1,particlePoolBuffer->GetAddress());
-	//lGraphicCommandList->SetGraphicsRootDescriptorTable(2,drawListBuffer->GetUAVAddress());
+	lGraphicCommandList->SetGraphicsRootDescriptorTable(1,particlePoolBuffer->GetAddress());
+	lGraphicCommandList->SetGraphicsRootDescriptorTable(2,drawListBuffer->GetUAVAddress());
 
-	//lGraphicCommandList->SetGraphicsRootDescriptorTable(3,mainTexture->gpuHandle);
-	//lGraphicCommandList->SetGraphicsRootDescriptorTable(4,subTexture->gpuHandle);
+	lGraphicCommandList->SetGraphicsRootDescriptorTable(3,texture->gpuHandle);
 
-	//lGraphicCommandList->ExecuteIndirect(particleCommandSignature.Get(),1,drawArgumentBuffer->GetResource(),0,nullptr,0);
+	lGraphicCommandList->ExecuteIndirect(particleCommandSignature.Get(),1,drawArgumentBuffer->GetResource(),0,nullptr,0);
 
-	//drawArgumentBuffer->Transition(D3D12_RESOURCE_STATES::D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+	drawArgumentBuffer->Transition(D3D12_RESOURCE_STATES::D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
 }
 
 void MeshGPUParticle::SetSetting()
@@ -272,16 +283,6 @@ void MeshGPUParticle::SetModel(AliceModel* model_)
 float MeshGPUParticle::GetDeltaTime()
 {
 	return timeGPUData.deltaTime;
-}
-
-void MeshGPUParticle::ModelMotionUpdate(AliceMotionData* motionData_)
-{
-	static_cast< void >( motionData_ );
-}
-
-void MeshGPUParticle::ModelMotionUpdate(AliceBlendTree* blendTree_)
-{
-	static_cast< void >( blendTree_ );
 }
 
 void MeshGPUParticle::PBufferCreate()

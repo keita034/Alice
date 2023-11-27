@@ -1,4 +1,4 @@
-#include<FireGPUParticle.hlsli>
+#include<MeshGPUParticle.hlsli>
 
 cbuffer timeData : register(b0)
 {

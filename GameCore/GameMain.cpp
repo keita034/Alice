@@ -7,36 +7,27 @@ void GameMain::Initialize()
 	AliceFramework::Initialize();
 	directX12Core->SetBackScreenColor(11 / 255.f, 15 / 255.f, 20 / 255.f, 1.0f);
 
+	int32_t fireEffectNoiseHandle = TextureManager::SLoad("Resources/Model/Boss/emmision fire_elemental.png");
+	int32_t effect1Handle = TextureManager::SLoad("Resources/Default/Particle/effect1.png"));;
+	int32_t effect2Handle = TextureManager::SLoad("Resources/Default/Particle/effect2.png"));
+
 	gpuParticleEmitter->FireParticleCreate(10000,"BossHandParticle");
-	gpuParticleEmitter->FireParticleSetTex("BossHandParticle",TextureManager::SLoad("Resources/Default/Particle/FireEffectNoise.png"));
+	gpuParticleEmitter->FireParticleSetTex("BossHandParticle",fireEffectNoiseHandle);
 
 	gpuParticleEmitter->ShockWaveParticleCreate(10000,"BossShockWaveParticle");
-	gpuParticleEmitter->ShockWaveParticleSetTex("BossShockWaveParticle",TextureManager::SLoad("Resources/Default/Particle/effect1.png"));
+	gpuParticleEmitter->ShockWaveParticleSetTex("BossShockWaveParticle",effect1Handle);
 
 	gpuParticleEmitter->LaserParticleCreate(10000,"BossLaserParticle");
-	gpuParticleEmitter->LaserParticleSetMainTex("BossLaserParticle",TextureManager::SLoad("Resources/Default/Particle/Laser1.png"));
-	gpuParticleEmitter->LaserParticleSetSubTex("BossLaserParticle",TextureManager::SLoad("Resources/Default/Particle/effect2.png"));
+	gpuParticleEmitter->LaserParticleSetMainTex("BossLaserParticle",effect1Handle);
+	gpuParticleEmitter->LaserParticleSetSubTex("BossLaserParticle",effect2Handle);
 
 	gpuParticleEmitter->MeshGPUParticleCreate(1000000,"BossModelParticle");
 
 	std::unique_ptr<AliceModel>lModel = std::make_unique<AliceModel>();
 	lModel->SetModel(AliceModel::SCreateModel("Resources/Model/Boss"));
 	gpuParticleEmitter->MeshGPUParticleSetModel("BossModelParticle",lModel.get());
-	gpuParticleEmitter->MeshGPUParticleSetDetermineTex("BossModelParticle",TextureManager::SLoad("Resources/Model/Boss/emmision fire_elemental.png"));
-
-	MeshGPUParticleSetting lSetting;
-
-	lSetting.matWorld = AliceMathF::MakeIdentity();
-	lSetting.velocity = { 0,1,0 };
-	lSetting.startColor = { 1,0,0,1 };
-	lSetting.endColor = { 1,0,0,1 };
-	lSetting.lifeTime = 1.0f;
-	lSetting.maxParticles = 10000.0f;
-	lSetting.timeBetweenEmit = 0.0001f;
-	lSetting.emitLifeTime = -1;
-	lSetting.size = 10;
-	lSetting.speed = 10;
-	gpuParticleEmitter->MeshGPUParticleEmit("BossModelParticle",lSetting);
+	gpuParticleEmitter->MeshGPUParticleSetDetermineTex("BossModelParticle",fireEffectNoiseHandle);
+	gpuParticleEmitter->MeshGPUParticleSetTex("BossModelParticle",fireEffectNoiseHandle);
 
 	//シーンの初期化
 	sceneFactory = SceneFactrory::SGetInstance();

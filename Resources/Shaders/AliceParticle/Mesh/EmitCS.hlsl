@@ -25,8 +25,8 @@ cbuffer BoneDatas : register(b3)
 }
 
 Texture2D<float4> tex : register(t0);
-
 StructuredBuffer<Mesh> meshs : register(t1);
+StructuredBuffer<uint> indices : register(t1);
 
 RWStructuredBuffer<Particle> ParticlePool : register(u0);
 ConsumeStructuredBuffer<uint> freeList : register(u1);
@@ -94,9 +94,12 @@ void main( uint3 DTid : SV_DispatchThreadID )
     
     uv = int2(texSize * meshs[DTid.x].uv);
     
-    //float4 texcolor = tex.Load(int3(uv, 0));
-    float3 texcolor = tex[uv].rgb;
-    texcolor.r = 0;
+    float4 texcolor = tex[uv];
+    
+    if (texcolor.a == 0.0f)
+    {
+        return;
+    }
     
     EmitData emitData = emitDatas[emitDataIndex];
 
@@ -105,14 +108,13 @@ void main( uint3 DTid : SV_DispatchThreadID )
     SkinOutput skin = (SkinOutput) 0;
     skin = ComputeSkin(meshs[DTid.x]);
 
-    ParticlePool[emitIndex].position = skin.pos;
+    ParticlePool[emitIndex].position = mul(emitData.matWorld, skin.pos);
     ParticlePool[emitIndex].velocity = emitData.velocity * emitData.speed;
     ParticlePool[emitIndex].color = emitData.startColor;
-    ParticlePool[emitIndex].age = texcolor.r;
+    ParticlePool[emitIndex].age = 0;
     ParticlePool[emitIndex].size = emitData.size;
     ParticlePool[emitIndex].alive = 1.0f;
-    texcolor = tex[uv].rgb;
-    ParticlePool[emitIndex].index = uv.x;
+    ParticlePool[emitIndex].index = emitDataIndex;
     ParticlePool[emitIndex].lifeTime = emitData.lifeTime;
     
 }

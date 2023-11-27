@@ -178,6 +178,9 @@
     <Filter Include="ソース ファイル\2D\Particle\Sprite">
       <UniqueIdentifier>{90d70637-2ff7-4170-b02e-95ef5224e665}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\2D\Particle\GPU">
+      <UniqueIdentifier>{7d870615-6109-45a7-81e4-c0b0d287d3a5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Core\TextureManager.h">
@@ -840,32 +843,32 @@
     <ClCompile Include="Source\3D\Model\AliceBlendTree.cpp">
       <Filter>ソース ファイル\3D</Filter>
     </ClCompile>
-    <ClCompile Include="Source\2D\Particle\BasicGPUParticle.cpp">
-      <Filter>ソース ファイル\2D\Particle</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\Particle\BaseGPUParticle.cpp">
-      <Filter>ソース ファイル\2D\Particle</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\Particle\GPUParticleEmitter.cpp">
-      <Filter>ソース ファイル\2D\Particle</Filter>
-    </ClCompile>
-    <ClCompile Include="GPUTimeStamp.cpp">
-      <Filter>ソース ファイル\2D\Particle</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\Particle\FireGPUParticle.cpp">
-      <Filter>ソース ファイル\2D\Particle</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\Particle\ShockWaveGPUParticle.cpp">
-      <Filter>ソース ファイル\2D\Particle</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\Particle\LaserGPUParticle.cpp">
-      <Filter>ソース ファイル\2D\Particle</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\Particle\MeshGPUParticle.cpp">
-      <Filter>ソース ファイル\2D\Particle</Filter>
-    </ClCompile>
     <ClCompile Include="Source\2D\Particle\MeshGPUParticleAliceModel.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\2D\Particle\BaseGPUParticle.cpp">
+      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\2D\Particle\BasicGPUParticle.cpp">
+      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
+    </ClCompile>
+    <ClCompile Include="GPUTimeStamp.cpp">
+      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\2D\Particle\GPUParticleEmitter.cpp">
+      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\2D\Particle\MeshGPUParticle.cpp">
+      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\2D\Particle\LaserGPUParticle.cpp">
+      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\2D\Particle\ShockWaveGPUParticle.cpp">
+      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\2D\Particle\FireGPUParticle.cpp">
+      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

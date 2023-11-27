@@ -147,6 +147,7 @@ uint32_t TextureManager::LoadTexture(const std::string& path_)
 		lData = PFromTextureData(path_);
 		lData->textureHandle = nextTexture;
 		lData->path = path_;
+		lData->resourceState = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
 
 		sTextureDatas[path_] = std::move(lData);
 		sFilePaths[nextTexture] = path_;

@@ -77,8 +77,6 @@ public:
 	void MeshGPUParticleEmitPlay(const std::string& name_,int32_t index_);
 	void MeshGPUParticleEmitStop(const std::string& name_,int32_t index_);
 	void MeshGPUParticleSetModel(const std::string& name_,AliceModel* model_);
-	void MeshGPUParticleModelMotionUpdate(const std::string& name_,AliceMotionData* motionData_);
-	void MeshGPUParticleModelMotionUpdate(const std::string& name_,AliceBlendTree* blendTree_);
 	MeshGPUParticle* GetMeshGPUParticle(const std::string& name_);
 
 	void SetMultiAdapters(IMultiAdapters* multiAdapters_);

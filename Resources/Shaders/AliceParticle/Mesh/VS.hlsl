@@ -1,4 +1,4 @@
-#include<FireGPUParticle.hlsli>
+#include<MeshGPUParticle.hlsli>
 
 RWStructuredBuffer<Particle> ParticlePool : register(u0);
 ConsumeStructuredBuffer<uint> DrawList : register(u1);

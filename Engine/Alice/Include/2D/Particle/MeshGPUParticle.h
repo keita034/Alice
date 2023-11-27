@@ -167,8 +167,6 @@ public:
 	void EmitStop(int32_t index_);
 	void SetModel(AliceModel* model_);
 	float GetDeltaTime();
-	void ModelMotionUpdate(AliceMotionData* motionData_);
-	void ModelMotionUpdate(AliceBlendTree* blendTree_);
 
 
 private:

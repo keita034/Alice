@@ -33,7 +33,7 @@ void BossActionManager::Update(const AliceMathF::Vector3& plyerPos_, const Alice
 			do
 			{
 				//bossAction = static_cast< BossAction >( AliceMathF::GetRand(0.0f,static_cast< float >( BossAction::BOSS_ACTION_NUM )) );
-				bossAction = BossAction::BEAM_ATTACK;
+				bossAction = BossAction::NONE;
 
 				switch (bossAction)
 				{
@@ -72,6 +72,7 @@ void BossActionManager::Update(const AliceMathF::Vector3& plyerPos_, const Alice
 void BossActionManager::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 {
 	jumpAttackMove->Finalize(physicsSystem_);
+	bossBeamAttack->Finalize(physicsSystem_);
 }
 
 const AliceMathF::Vector3& BossActionManager::GetDistanceTraveled() const

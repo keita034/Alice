@@ -161,6 +161,8 @@ void BossJumpAttackMove::End()
 
 void BossJumpAttackMove::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 {
+	physicsSystem_->RemoveRigidBody(rigidBody);
+	shockWaveGPUParticle->EmitStop(particleIndex);
 }
 
 void BossJumpAttackMove::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_)

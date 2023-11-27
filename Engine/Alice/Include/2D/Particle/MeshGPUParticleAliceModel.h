@@ -10,28 +10,20 @@ public:
 	//名前
 	std::string name;
 
-	//名前
-	std::string nodeName;
-
 	//頂点データの配列
 	std::vector<PosNormUvTangeColSkin>* vertices;
+	//インデックスの配列
+	std::vector<uint32_t>* indices;
 
-	std::unordered_map<std::string,Bone*>* bones;
-
-	std::vector<Bone>* vecBones;
-
-	Node* node = nullptr;
+	//インデックスバッファ
+	std::unique_ptr<IIndexBuffer> indexBuffer;
 
 	//頂点バッファ
 	std::unique_ptr<IVertexBuffer> vertexBuffer;
 	//ボーン
-	std::unique_ptr<IConstantBuffer> constBoneBuffer;
-
-	BoneData bonedata;
+	IConstantBuffer* constBoneBuffer;
 
 public:
-
-	void Update();
 
 	/// <summary>
 	/// 頂点座標を取得
@@ -39,7 +31,10 @@ public:
 	/// <returns>頂点座標配列</returns>
 	const std::vector<PosNormUvTangeColSkin>& GetVertices();
 
-	D3D12_GPU_DESCRIPTOR_HANDLE GetSRVAddress();
+	D3D12_GPU_DESCRIPTOR_HANDLE GetVertexSRVAddress() const;
+	D3D12_GPU_DESCRIPTOR_HANDLE GetIndicesSRVAddress() const;
+
+	IConstantBuffer* GetBoneBuffer();
 
 
 
@@ -71,12 +66,7 @@ private:
 	std::vector<std::unique_ptr<MeshGPUParticleModelMesh>> meshes;
 
 	//姿勢行列
-	std::unique_ptr<IConstantBuffer> postureMatBuff;
-
-	//ノード配列
-	std::vector<Node>* nodes;
-
-	AliceMathF::Matrix4 globalInverseTransform;
+	IConstantBuffer* postureMatBuff;
 
 public:
 	MeshGPUParticleAliceModelData() = default;
@@ -115,18 +105,6 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	const std::vector<std::unique_ptr<MeshGPUParticleModelMesh>>& GetMeshs();
-
-	/// <summary>
-	/// アニメーションの更新
-	/// </summary>
-	/// <param name="animation">アニメーションデータ</param>
-	void AnimationUpdate(const AliceMotionData* animation_);
-
-	/// <summary>
-	/// アニメーションの更新
-	/// </summary>
-	/// <param name="animation">アニメーションデータ</param>
-	void AnimationUpdate(AliceBlendTree* blendTree_);
 
 	/// <summary>
 	/// モデルをセット

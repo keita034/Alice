@@ -12,7 +12,7 @@ void AlicePhysics::JoltDebugRenderPrimitive::CreateVertexBuffer(size_t numVtx_, 
 
 void AlicePhysics::JoltDebugRenderPrimitive::CreateIndexBuffer(size_t numIdx_, const uint32_t* data_)
 {
-	indexBuffer = CreateUniqueIndexBuffer(numIdx_, data_);
+	indexBuffer = CreateUniqueIndexBuffer(numIdx_,AdaptersIndex::MAIN, data_);
 	indexDrawCount = numIdx_;
 }
 
