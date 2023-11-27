@@ -2,6 +2,9 @@
 #include<BasicGPUParticle.h>
 #include<FireGPUParticle.h>
 #include<ShockWaveGPUParticle.h>
+#include<LaserGPUParticle.h>
+#include<MeshGPUParticle.h>
+
 #include<Camera.h>
 #include<MultiAdapters.h>
 
@@ -16,6 +19,8 @@ private:
 
 	std::unordered_map<std::string,std::unique_ptr<FireGPUParticle>>fireParticles;
 	std::unordered_map<std::string,std::unique_ptr<ShockWaveGPUParticle>>shockWaveParticles;
+	std::unordered_map<std::string,std::unique_ptr<LaserGPUParticle>>laserGPUParticles;
+	std::unordered_map<std::string,std::unique_ptr<MeshGPUParticle>>meshGPUParticles;
 
 public:
 
@@ -53,6 +58,26 @@ public:
 	void ShockWaveParticleSetPos(const std::string& name_,const AliceMathF::Vector3& pos_,int32_t index_);
 	ShockWaveGPUParticle* GetShockWaveParticle(const std::string& name_);
 
+	void LaserParticleCreate(uint32_t maxParticles_,const std::string& name_);
+	void LaserParticleMove(const std::string& name_,const AliceMathF::Vector3& move_,int32_t index_);
+	int32_t LaserParticleEmit(const std::string& name_,const LaserGPUParticleSetting& setting_,int32_t index_ = -1);
+	void LaserParticleSetMainTex(const std::string& name_,uint32_t textureHandle_);
+	void LaserParticleSetSubTex(const std::string& name_,uint32_t textureHandle_);
+	void LaserParticleEmitPlay(const std::string& name_,int32_t index_);
+	void LaserParticleEmitStop(const std::string& name_,int32_t index_);
+	void LaserParticleSetPos(const std::string& name_,const AliceMathF::Vector3& pos_,int32_t index_);
+	void LaserParticleSetVelocity(const std::string& name_,const AliceMathF::Vector3& velocity_,int32_t index_);
+	LaserGPUParticle* GetLaserParticle(const std::string& name_);
+
+	void MeshGPUParticleCreate(uint32_t maxParticles_,const std::string& name_);
+	int32_t MeshGPUParticleEmit(const std::string& name_,const MeshGPUParticleSetting& setting_,int32_t index_ = -1);
+	void MeshGPUParticleSetMat(const std::string& name_,const AliceMathF::Matrix4& matWorld_,int32_t index_);
+	void MeshGPUParticleSetDetermineTex(const std::string& name_,uint32_t textureHandle_);
+	void MeshGPUParticleSetTex(const std::string& name_,uint32_t textureHandle_);
+	void MeshGPUParticleEmitPlay(const std::string& name_,int32_t index_);
+	void MeshGPUParticleEmitStop(const std::string& name_,int32_t index_);
+	void MeshGPUParticleSetModel(const std::string& name_,AliceModel* model_);
+	MeshGPUParticle* GetMeshGPUParticle(const std::string& name_);
 
 	void SetMultiAdapters(IMultiAdapters* multiAdapters_);
 	void SetSwapChain(ISwapChain* swapChain_);

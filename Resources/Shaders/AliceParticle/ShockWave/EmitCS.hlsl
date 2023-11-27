@@ -32,7 +32,7 @@ void main( uint3 DTid : SV_DispatchThreadID )
 
     EmitData emitData = emitDatas[emitDataIndex];
     
-    if (DTid.x >= emitData.maxParticles)
+    if (DTid.x >= emitData.emitCount)
     {
         return;
     }

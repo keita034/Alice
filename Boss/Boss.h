@@ -34,6 +34,7 @@ private:
 
 	uint32_t damageSE = 0;
 	uint32_t deathSE = 0;
+	int32_t meshParticleIndex = 0;
 	float deathSEVolume = 0.04f;
 
 	int32_t situation = 0;

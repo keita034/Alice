@@ -15,5 +15,6 @@ VS_OUTPUT main(uint id : SV_VertexID)
     output.color = particle.color;
     output.threshold = particle.threshold;
 
+
     return output;
 }

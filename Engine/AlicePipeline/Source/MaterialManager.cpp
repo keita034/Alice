@@ -41,6 +41,7 @@ ALICE_SUPPRESS_WARNINGS_END
 #include<Fbx.h>
 
 #include<GPUParticleh.h>
+#include<AliceAssert.h>
 
 std::unique_ptr<MaterialManager> MaterialManager::materialManager;
 
@@ -251,9 +252,19 @@ Material* MaterialManager::GetMaterialData(const std::string& name_,AdaptersInde
 			{
 				CreateShockWaveDrawMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
+			else if ( name_ == "LaserGPUParticleDraw" )
+			{
+				CreateLaserDrawMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "MeshGPUParticleDraw" )
+			{
+				CreateMeshDrawMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
 
 			return materials[ name_ ].get();
 		}
+
+		AliceAssertError("その名前のマテリアルは存在しません\n");
 
 		return nullptr;
 	}
@@ -332,6 +343,39 @@ ComputeMaterial* MaterialManager::GetComputeMaterialData(const std::string& name
 			{
 				CreateShockWaveDrawArgumentUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
+			else if ( name_ == "ComputeLaserGPUParticleFreeListInit" )
+			{
+				CreateLaserFreeListInitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeLaserGPUParticleEmit" )
+			{
+				CreateLaserEmitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeLaserGPUParticleUpdate" )
+			{
+				CreateLaserUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeLaserGPUParticleDrawArgumentUpdate" )
+			{
+				CreateLaserDrawArgumentUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeMeshGPUParticleFreeListInit" )
+			{
+				CreateMeshFreeListInitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeMeshGPUParticleEmit" )
+			{
+				CreateMeshEmitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeMeshGPUParticleUpdate" )
+			{
+				CreateMeshUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeMeshGPUParticleDrawArgumentUpdate" )
+			{
+				CreateMeshDrawArgumentUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+
 			return computeMaterials[ name_ ].get();
 		}
 

@@ -1,8 +1,8 @@
 #include "IndexBuffer.h"
 
-#include"BaseBuffer.h"
+#include<BaseBuffer.h>
 #include<StringUtility.h>
-
+#include<DescriptorHeap.h>
 
 /// <summary>
 /// インデックスバッファ
@@ -14,12 +14,19 @@ private:
 	// インデックスバッファビュー
 	D3D12_INDEX_BUFFER_VIEW bufferView{};
 
+	D3D12_GPU_DESCRIPTOR_HANDLE srvHandle;
+
 	//マップ用ポインタ
 	void* bufferMappedPtr = nullptr;
 
 	//バッファの長さ
 	size_t bufferlength = 0;
 
+	AdaptersIndex index;
+
+private:
+
+	Byte4 PADING;
 public:
 
 	/// <summary>
@@ -27,7 +34,7 @@ public:
 	/// </summary>
 	/// <param name="length_">インデックスバッファの要素数</param>
 	/// <param name="data">インデックス配列の先頭アドレス(uint32_t)</param>
-	void Create(size_t length_, const uint32_t* data_) override;
+	void Create(size_t length_,AdaptersIndex index_, const uint32_t* data_) override;
 
 	/// <summary>
 	/// 成功したか
@@ -58,6 +65,10 @@ public:
 	/// <param name="name_">名前</param>
 	void SetName(const std::string& name_)override;
 
+	void CreateSRV();
+
+	const D3D12_GPU_DESCRIPTOR_HANDLE& GetSRVAddress();
+
 	IndexBuffer() = default;
 	~IndexBuffer() = default;
 
@@ -67,13 +78,14 @@ private:
 	IndexBuffer& operator = (const IndexBuffer&) = delete;
 };
 
-void IndexBuffer::Create(size_t length_, const uint32_t* data)
+void IndexBuffer::Create(size_t length_,AdaptersIndex index_,const uint32_t* data)
 {
 	if (!isValid)
 	{
 		bufferlength = length_;
+		index = index_;
 
-		IAdapter* lAdapter = sMultiAdapters->GetAdapter(AdaptersIndex::MAIN);
+		IAdapter* lAdapter = sMultiAdapters->GetAdapter(index_);
 		ID3D12Device* lDevice = lAdapter->GetDevice()->Get();
 
 		// ヒーププロパティ
@@ -151,16 +163,37 @@ void IndexBuffer::SetName(const std::string& name_)
 	resource->SetName(AliceUtility::String::StringToWstring(name_).c_str());
 }
 
-std::unique_ptr<IIndexBuffer> CreateUniqueIndexBuffer(size_t length_, const uint32_t* data_)
+void IndexBuffer::CreateSRV()
+{
+	D3D12_SHADER_RESOURCE_VIEW_DESC lSrvResDesc = {};
+	lSrvResDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	lSrvResDesc.Format = DXGI_FORMAT::DXGI_FORMAT_UNKNOWN;
+	lSrvResDesc.ViewDimension = D3D12_SRV_DIMENSION::D3D12_SRV_DIMENSION_BUFFER;
+	lSrvResDesc.Buffer.FirstElement = 0;
+	lSrvResDesc.Buffer.NumElements = static_cast< uint32_t > ( bufferlength );
+	lSrvResDesc.Buffer.StructureByteStride = static_cast< uint32_t > ( sizeof(uint32_t) );
+
+	IAdapter* lAdapter = sMultiAdapters->GetAdapter(index);
+	ISRVDescriptorHeap* lSRVHeap = lAdapter->GetSRVDescriptorHeap();
+
+	srvHandle.ptr = lSRVHeap->CreateSRV(lSrvResDesc,resource.Get());
+}
+
+const D3D12_GPU_DESCRIPTOR_HANDLE& IndexBuffer::GetSRVAddress()
+{
+	return srvHandle;
+}
+
+std::unique_ptr<IIndexBuffer> CreateUniqueIndexBuffer(size_t length_,AdaptersIndex index_, const uint32_t* data_)
 {
 	std::unique_ptr<IIndexBuffer> lIndexBuffer = std::make_unique<IndexBuffer>();
-	lIndexBuffer->Create(length_, data_);
+	lIndexBuffer->Create(length_,index_, data_);
 	return std::move(lIndexBuffer);
 }
 
-std::shared_ptr<IIndexBuffer> CreateSharedIndexBuffer(size_t length_, const uint32_t* data_)
+std::shared_ptr<IIndexBuffer> CreateSharedIndexBuffer(size_t length_,AdaptersIndex index_, const uint32_t* data_)
 {
 	std::shared_ptr<IIndexBuffer> lIndexBuffer = std::make_shared<IndexBuffer>();
-	lIndexBuffer->Create(length_, data_);
+	lIndexBuffer->Create(length_,index_, data_);
 	return lIndexBuffer;
 }

@@ -59,7 +59,7 @@ public://GPUで使う構造体
 		float lifeTime;
 		float size;
 		float speed;
-		float pad;
+		uint32_t emitCount;
 	};
 
 	struct WorldBillboardGPUData

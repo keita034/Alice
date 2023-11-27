@@ -17,8 +17,10 @@ void ShockWaveGPUParticle::Initialize()
 	PBufferCreate();
 
 	//フリーリスト初期化
+
+	ID3D12GraphicsCommandList* lComputeCommandList = graphicAdapter->GetComputeCommandList();
+
 	{
-		ID3D12GraphicsCommandList* lComputeCommandList = graphicAdapter->GetComputeCommandList();
 
 		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeShockWaveGPUParticleFreeListInit",AdaptersIndex::MAIN);
 
@@ -29,9 +31,25 @@ void ShockWaveGPUParticle::Initialize()
 		lComputeCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
 
 		lComputeCommandList->SetComputeRootDescriptorTable(0,freeListBuffer->GetAddress());//u0
+
 		lComputeCommandList->SetComputeRootConstantBufferView(1,fireGPUParticleDataBuffer->GetAddress());//b0
 
 		lComputeCommandList->Dispatch(static_cast< UINT >( maxParticles / 1024 ) + 1,1,1);
+	}
+
+	{
+		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeShockWaveGPUParticleEmit",AdaptersIndex::MAIN);
+		lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
+	}
+
+	{
+		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeShockWaveGPUParticleUpdate",AdaptersIndex::MAIN);
+		lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
+	}
+
+	{
+		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeShockWaveGPUParticleDrawArgumentUpdate",AdaptersIndex::MAIN);
+		lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
 	}
 }
 
@@ -121,9 +139,9 @@ void ShockWaveGPUParticle::Draw(const AliceMathF::Matrix4& worldMat_,const Alice
 		worldBillboardBuffer->Update(&worldBillboardGPUData);
 	}
 
-	drawArgumentBuffer->Transition(D3D12_RESOURCE_STATES::D3D12_RESOURCE_STATE_INDIRECT_ARGUMENT);
-
 	ID3D12GraphicsCommandList* lGraphicCommandList = graphicAdapter->GetGraphicCommandList();
+
+	drawArgumentBuffer->Transition(D3D12_RESOURCE_STATES::D3D12_RESOURCE_STATE_INDIRECT_ARGUMENT);
 
 	Material* lMaterial = MaterialManager::SGetMaterial("ShockWaveGPUParticleDraw",AdaptersIndex::MAIN);
 
@@ -139,6 +157,7 @@ void ShockWaveGPUParticle::Draw(const AliceMathF::Matrix4& worldMat_,const Alice
 
 	lGraphicCommandList->SetGraphicsRootDescriptorTable(1,particlePoolBuffer->GetAddress());
 	lGraphicCommandList->SetGraphicsRootDescriptorTable(2,drawListBuffer->GetUAVAddress());
+
 	lGraphicCommandList->SetGraphicsRootDescriptorTable(3,texture->gpuHandle);
 
 	lGraphicCommandList->ExecuteIndirect(particleCommandSignature.Get(),1,drawArgumentBuffer->GetResource(),0,nullptr,0);
@@ -261,6 +280,7 @@ void ShockWaveGPUParticle::PBufferCreate()
 	//worldBillboardBuffer = CreateUniqueConstantBuffer(sizeof(WorldBillboardGPUData),AdaptersIndex::MAIN);
 
 	particlePoolBuffer = CreateUniqueUAVRWStructuredBuffer(maxParticles,sizeof(ParticleGPUData),AdaptersIndex::MAIN,HEAP_TYPE::DEFAULT);
+
 	drawListBuffer = CreateUniqueDrawListBuffer(maxParticles,sizeof(uint32_t),BufferType::MAIN);
 	freeListBuffer = CreateUniqueFreeListBuffer(maxParticles,sizeof(uint32_t),BufferType::MAIN);
 	drawArgumentBuffer = CreateUniqueDrawArgumentBuffer(1,sizeof(D3D12_DRAW_ARGUMENTS),BufferType::MAIN);

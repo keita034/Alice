@@ -130,6 +130,7 @@ void CreateShockWaveFreeListInitComputeMaterial(MaterialManager* manager_,IAdapt
 	lMaterial->rootSignature = CreateUniqueRootSignature();
 
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,0);//u0
+
 	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
 
 	lMaterial->rootSignature->Create(lDevice);

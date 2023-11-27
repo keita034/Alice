@@ -21,6 +21,7 @@ cbuffer ParticleDatas : register(b2)
 
 RWStructuredBuffer<Particle> ParticlePool : register(u0);
 ConsumeStructuredBuffer<uint> freeList : register(u1);
+RWStructuredBuffer<uint> DrawList : register(u2);
 
 [numthreads(1024, 1, 1)]
 void main( uint3 DTid : SV_DispatchThreadID )
@@ -29,29 +30,25 @@ void main( uint3 DTid : SV_DispatchThreadID )
     {
        return;
     }
-
+    
     EmitData emitData = emitDatas[emitDataIndex];
     
-    if (DTid.x >= emitData.maxParticles)
+    if (DTid.x >= emitData.emitCount)
     {
         return;
     }
-    
+
     uint emitIndex = freeList.Consume();
     
-    Particle emitParticle = ParticlePool.Load(emitIndex);
-
     float3 rand = RandomPointInUnitSphere(emitIndex + computeTime, float3(emitData.radius, emitData.radius, emitData.radius));
     
-    emitParticle.position = rand;
-    emitParticle.velocity = float3(0, 1, 0) * emitData.speed;
-    emitParticle.color = emitData.startColor;
-    emitParticle.position = rand + emitData.position;
-    emitParticle.age = 0.0f;
-    emitParticle.size = emitData.size;
-    emitParticle.alive = 1.0f;
-    emitParticle.index = emitDataIndex;
-    emitParticle.lifeTime = emitData.lifeTime;
-
-    ParticlePool[emitIndex] = emitParticle;
+     ParticlePool[emitIndex].position = rand;
+     ParticlePool[emitIndex].velocity = float3(0, 1, 0) * emitData.speed;
+     ParticlePool[emitIndex].color = emitData.startColor;
+     ParticlePool[emitIndex].position = rand + emitData.position;
+     ParticlePool[emitIndex].age = 0.0f;
+     ParticlePool[emitIndex].size = emitData.size;
+     ParticlePool[emitIndex].alive = 1.0f;
+     ParticlePool[emitIndex].index = emitDataIndex;
+     ParticlePool[emitIndex].lifeTime = emitData.lifeTime;
 }

@@ -15,14 +15,9 @@ class BossJumpAttackMove : public GameObject
 {
 private:
 
-	enum Phase
-	{
-		JUMP,
-		ATTACK,
-	};
-	BossAnimation* bossAnimation;
-	ShockWaveGPUParticle* shockWaveGPUParticle;
-	AlicePhysics::AlicePhysicsSystem* physicsSystem;
+	BossAnimation* bossAnimation = nullptr;
+	ShockWaveGPUParticle* shockWaveGPUParticle = nullptr;
+	AlicePhysics::AlicePhysicsSystem* physicsSystem = nullptr;
 
 	AliceMathF::Vector3 bossPosition;
 
@@ -40,7 +35,6 @@ private:
 
 	int32_t particleIndex;
 
-	Phase phase;
 	bool isFinish;
 	bool animationFinish;
 	bool shockWaveFinish;

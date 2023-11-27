@@ -9,7 +9,7 @@ cbuffer particleGPUData : register(b0)
 	uint emitDataIndex;	
 };
 
-[numthreads(32, 1, 1)]
+[numthreads(1024, 1, 1)]
 void main( uint3 DTid : SV_DispatchThreadID )
 {
     if (DTid.x >= maxParticles)

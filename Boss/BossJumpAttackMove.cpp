@@ -61,6 +61,12 @@ void BossJumpAttackMove::Update()
 	}
 
 	isFinish = ShockWaveUpdate() && animationFinish;
+
+#ifndef _DEBUG
+	transform.MakeWorldMatrix();
+	rigidBody->SetMatrix(transform.rigidBodyMatWorld,transform.matWorld);
+#endif // _RELEASE
+
 }
 
 void BossJumpAttackMove::TransUpdate(Camera* camera_)
@@ -155,6 +161,8 @@ void BossJumpAttackMove::End()
 
 void BossJumpAttackMove::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 {
+	physicsSystem_->RemoveRigidBody(rigidBody);
+	shockWaveGPUParticle->EmitStop(particleIndex);
 }
 
 void BossJumpAttackMove::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_)

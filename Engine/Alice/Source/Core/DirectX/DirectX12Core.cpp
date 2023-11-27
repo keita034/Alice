@@ -362,20 +362,34 @@ void DirectX12Core::BeginCommand()
 	multiAdapters->BeginCommand(bbIndex);
 }
 
-void DirectX12Core::GraphicBeginCommand()
+void DirectX12Core::GraphicBeginCommand(AdaptersIndex index_)
 {
 	//1バックバッファ番号を取得
 	bbIndex = swapChain->GetCurrentBackBufferIndex();
 
-	mainAdapters->GraphicCommandListReset(bbIndex);
-
+	if (  index_ == AdaptersIndex::MAIN )
+	{
+		mainAdapters->GraphicCommandListReset(bbIndex);
+	}
+	else
+	{
+		subAdapters->GraphicCommandListReset(bbIndex);
+	}
 }
 
-void DirectX12Core::GraphicExecuteCommand()
+void DirectX12Core::GraphicExecuteCommand(AdaptersIndex index_)
 {
-	mainAdapters->GraphicCommandListExecute();
+	if ( index_ == AdaptersIndex::MAIN )
+	{
+		mainAdapters->GraphicCommandListExecute();
+		mainAdapters->GraphicWaitPreviousFrame();
+	}
+	else
+	{
+		subAdapters->GraphicCommandListExecute();
+		subAdapters->GraphicWaitPreviousFrame();
+	}
 
-	mainAdapters->GraphicWaitPreviousFrame();
 }
 
 void DirectX12Core::SetBackScreenColor(float red_,float green_,float blue_,float alpha_)

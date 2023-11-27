@@ -43,6 +43,9 @@ namespace internal
 //未実装アサート
 #define ALICE_ASSERT_NOT_IMPLEMENTED AliceAssert(0,"Not implemented");
 
+#define AliceAssertError(str) AliceAssert(0,str);
+
+
 //スイッチ・ブロック内のデフォルトケースをエラーにする
 #define ALICE_DEFAULT_CASE_NOT_IMPLEMENTED \
   default:                                 \

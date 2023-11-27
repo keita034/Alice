@@ -8,9 +8,6 @@
     <Filter Include="ソース ファイル\2D">
       <UniqueIdentifier>{672696c3-44a5-4567-8012-5c9e822e6d8c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\2D\Sprite">
-      <UniqueIdentifier>{90d70637-2ff7-4170-b02e-95ef5224e665}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\2D\Particle">
       <UniqueIdentifier>{5e4fe5f4-e3b5-4283-903b-246d931620c5}</UniqueIdentifier>
     </Filter>
@@ -65,15 +62,6 @@
     </Filter>
     <Filter Include="ヘッダー ファイル\Camera">
       <UniqueIdentifier>{191d4a36-453e-47f2-bbd9-301ea4d78c1e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Core">
-      <UniqueIdentifier>{3317107d-3264-46db-9636-2fc085e0526c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Core\DirectX">
-      <UniqueIdentifier>{a27bcbb8-d6e1-4cb6-9f22-4263858c3b90}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Core\Framework">
-      <UniqueIdentifier>{2896c3ee-894b-4fd0-ab16-73a638092e66}</UniqueIdentifier>
     </Filter>
     <Filter Include="ヘッダー ファイル\Light">
       <UniqueIdentifier>{b68b129b-cdd0-40e7-b83c-734eaed6d4e2}</UniqueIdentifier>
@@ -178,10 +166,25 @@
     <Filter Include="ソース ファイル\Util">
       <UniqueIdentifier>{72ee2f8a-4c7b-4efa-b30c-b9543bd282b8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\EnginMain">
+      <UniqueIdentifier>{3317107d-3264-46db-9636-2fc085e0526c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\EnginMain\DirectX">
+      <UniqueIdentifier>{a27bcbb8-d6e1-4cb6-9f22-4263858c3b90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\EnginMain\Framework">
+      <UniqueIdentifier>{2896c3ee-894b-4fd0-ab16-73a638092e66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\2D\Particle\Sprite">
+      <UniqueIdentifier>{90d70637-2ff7-4170-b02e-95ef5224e665}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\2D\Particle\GPU">
+      <UniqueIdentifier>{7d870615-6109-45a7-81e4-c0b0d287d3a5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Core\TextureManager.h">
-      <Filter>ヘッダー ファイル\Core</Filter>
+      <Filter>ヘッダー ファイル\EnginMain</Filter>
     </ClInclude>
     <ClInclude Include="Include\Util\AliceUtility.h">
       <Filter>ヘッダー ファイル\Util</Filter>
@@ -229,7 +232,7 @@
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="Include\Core\ImGuiManager.h">
-      <Filter>ヘッダー ファイル\Core</Filter>
+      <Filter>ヘッダー ファイル\EnginMain</Filter>
     </ClInclude>
     <ClInclude Include="Include\2D\PostEffect\AbstractPostEffectFactory.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
@@ -253,13 +256,13 @@
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Include\Core\Framework\AliceFramework.h">
-      <Filter>ヘッダー ファイル\Core\Framework</Filter>
+      <Filter>ヘッダー ファイル\EnginMain\Framework</Filter>
     </ClInclude>
     <ClInclude Include="Include\2D\PostEffect\GaussianBlurPostEffect.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="Include\Core\DirectX\RenderTarget.h">
-      <Filter>ヘッダー ファイル\Core\DirectX</Filter>
+      <Filter>ヘッダー ファイル\EnginMain\DirectX</Filter>
     </ClInclude>
     <ClInclude Include="Include\2D\PostEffect\PostEffectSprite.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
@@ -286,7 +289,7 @@
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="Include\Core\DirectX\DirectX12Core.h">
-      <Filter>ヘッダー ファイル\Core\DirectX</Filter>
+      <Filter>ヘッダー ファイル\EnginMain\DirectX</Filter>
     </ClInclude>
     <ClInclude Include="Include\Util\GameObject.h">
       <Filter>ヘッダー ファイル\Util</Filter>
@@ -374,6 +377,15 @@
     </ClInclude>
     <ClInclude Include="Include\2D\Particle\FireGPUParticle.h">
       <Filter>ヘッダー ファイル\2D\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\2D\Particle\LaserGPUParticle.h">
+      <Filter>ヘッダー ファイル\2D\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\2D\Particle\MeshGPUParticle.h">
+      <Filter>ヘッダー ファイル\2D\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\2D\Particle\MeshGPUParticleAliceModel.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -667,13 +679,13 @@
       <Filter>ソース ファイル\Core</Filter>
     </ClCompile>
     <ClCompile Include="Source\2D\Sprite\Sprite3D.cpp">
-      <Filter>ソース ファイル\2D\Sprite</Filter>
+      <Filter>ソース ファイル\2D\Particle\Sprite</Filter>
     </ClCompile>
     <ClCompile Include="Source\2D\Sprite\Sprite2D.cpp">
-      <Filter>ソース ファイル\2D\Sprite</Filter>
+      <Filter>ソース ファイル\2D\Particle\Sprite</Filter>
     </ClCompile>
     <ClCompile Include="Source\2D\Sprite\Sprite.cpp">
-      <Filter>ソース ファイル\2D\Sprite</Filter>
+      <Filter>ソース ファイル\2D\Particle\Sprite</Filter>
     </ClCompile>
     <ClCompile Include="Source\Camera\Camera.cpp">
       <Filter>ソース ファイル\Camera</Filter>
@@ -831,23 +843,32 @@
     <ClCompile Include="Source\3D\Model\AliceBlendTree.cpp">
       <Filter>ソース ファイル\3D</Filter>
     </ClCompile>
-    <ClCompile Include="Source\2D\Particle\BasicGPUParticle.cpp">
-      <Filter>ソース ファイル\2D\Particle</Filter>
+    <ClCompile Include="Source\2D\Particle\MeshGPUParticleAliceModel.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\2D\Particle\BaseGPUParticle.cpp">
-      <Filter>ソース ファイル\2D\Particle</Filter>
+      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
     </ClCompile>
-    <ClCompile Include="Source\2D\Particle\GPUParticleEmitter.cpp">
-      <Filter>ソース ファイル\2D\Particle</Filter>
+    <ClCompile Include="Source\2D\Particle\BasicGPUParticle.cpp">
+      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
     </ClCompile>
     <ClCompile Include="GPUTimeStamp.cpp">
-      <Filter>ソース ファイル\2D\Particle</Filter>
+      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
     </ClCompile>
-    <ClCompile Include="Source\2D\Particle\FireGPUParticle.cpp">
-      <Filter>ソース ファイル\2D\Particle</Filter>
+    <ClCompile Include="Source\2D\Particle\GPUParticleEmitter.cpp">
+      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\2D\Particle\MeshGPUParticle.cpp">
+      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\2D\Particle\LaserGPUParticle.cpp">
+      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
     </ClCompile>
     <ClCompile Include="Source\2D\Particle\ShockWaveGPUParticle.cpp">
-      <Filter>ソース ファイル\2D\Particle</Filter>
+      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\2D\Particle\FireGPUParticle.cpp">
+      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

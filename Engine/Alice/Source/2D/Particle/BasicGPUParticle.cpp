@@ -25,12 +25,12 @@ void BasicGPUParticle::Initialize()
 	{
 		ID3D12GraphicsCommandList* lComputeCommandList = computeAdapter->GetComputeCommandList();
 
-		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeBasicGPUParticleFreeListInit",AdaptersIndex::SUB);
+		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeBasicGPUParticleFreeListInit",AdaptersIndex::MAIN);
 
 		lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
 		lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
 
-		ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::SUB)->GetHeap() };
+		ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::MAIN)->GetHeap() };
 		lComputeCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
 
 		lComputeCommandList->SetComputeRootDescriptorTable(0,freeListBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
@@ -51,20 +51,20 @@ void BasicGPUParticle::Update(float deltaTime_)
 	{
 		emitTimeCounter = 0.0f;
 
-		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeBasicGPUParticleEmit",AdaptersIndex::SUB);
+		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeBasicGPUParticleEmit",AdaptersIndex::MAIN);
 
 		lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
 		lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
 
-		ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::SUB)->GetHeap() };
+		ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::MAIN)->GetHeap() };
 		lComputeCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
 
 		lComputeCommandList->SetComputeRootConstantBufferView(0,timeConstantsBuffer->GetAddress());//b0
 		lComputeCommandList->SetComputeRootConstantBufferView(1,emitDataBuffer->GetAddress());//b1
 		lComputeCommandList->SetComputeRootConstantBufferView(2,particleConstantsBuffer->GetAddress());//b2
 
-		lComputeCommandList->SetComputeRootDescriptorTable(3,particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
-		lComputeCommandList->SetComputeRootDescriptorTable(4,freeListBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u1
+		lComputeCommandList->SetComputeRootDescriptorTable(3,particlePoolBuffer->GetAddress());//u0
+		lComputeCommandList->SetComputeRootDescriptorTable(4,freeListBuffer->GetAddress());//u1
 
 		lComputeCommandList->Dispatch(static_cast< UINT >( emitData.emitCount / 1024 ) + 1,1,1);
 	}
@@ -75,21 +75,21 @@ void BasicGPUParticle::Update(float deltaTime_)
 
 	//更新
 	{
-		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeBasicGPUParticleUpdate",AdaptersIndex::SUB);
+		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeBasicGPUParticleUpdate",AdaptersIndex::MAIN);
 
 		lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
 		lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
 
-		ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::SUB)->GetHeap() };
+		ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::MAIN)->GetHeap() };
 		lComputeCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
 
 		lComputeCommandList->SetComputeRootConstantBufferView(0,timeConstantsBuffer->GetAddress());//b0
 		lComputeCommandList->SetComputeRootConstantBufferView(1,emitDataBuffer->GetAddress());//b1
 		lComputeCommandList->SetComputeRootConstantBufferView(2,particleConstantsBuffer->GetAddress());//b2
 
-		lComputeCommandList->SetComputeRootDescriptorTable(3,particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
-		lComputeCommandList->SetComputeRootDescriptorTable(4,freeListBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u1
-		lComputeCommandList->SetComputeRootDescriptorTable(5,drawListBuffer->GetUAVAddress(CrossAdapterResourceIndex::MAIN));//u2
+		lComputeCommandList->SetComputeRootDescriptorTable(3,particlePoolBuffer->GetAddress());//u0
+		lComputeCommandList->SetComputeRootDescriptorTable(4,freeListBuffer->GetAddress());//u1
+		lComputeCommandList->SetComputeRootDescriptorTable(5,drawListBuffer->GetUAVAddress());//u2
 
 		lComputeCommandList->Dispatch(static_cast< UINT >( emitData.maxParticles / 1024 ) + 1,1,1);
 
@@ -97,16 +97,16 @@ void BasicGPUParticle::Update(float deltaTime_)
 
 	//ドローアギュメント更新
 	{
-		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeBasicGPUParticleDrawArgumentUpdate",AdaptersIndex::SUB);
+		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeBasicGPUParticleDrawArgumentUpdate",AdaptersIndex::MAIN);
 
 		lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
 		lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
 
-		ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::SUB)->GetHeap() };
+		ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::MAIN)->GetHeap() };
 		lComputeCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
 
-		lComputeCommandList->SetComputeRootDescriptorTable(0,drawListBuffer->GetUAVAddress(CrossAdapterResourceIndex::MAIN));//u0
-		lComputeCommandList->SetComputeRootDescriptorTable(1,drawArgumentBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u1
+		lComputeCommandList->SetComputeRootDescriptorTable(0,drawListBuffer->GetUAVAddress());//u0
+		lComputeCommandList->SetComputeRootDescriptorTable(1,drawArgumentBuffer->GetAddress());//u1
 
 		lComputeCommandList->Dispatch(1,1,1);
 	}
@@ -137,10 +137,10 @@ void BasicGPUParticle::Draw(const AliceMathF::Matrix4& worldMat_,const AliceMath
 
 	lGraphicCommandList->SetGraphicsRootConstantBufferView(0,worldBillboardBuffer->GetAddress());
 
-	lGraphicCommandList->SetGraphicsRootDescriptorTable(1,particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::SUB));
-	lGraphicCommandList->SetGraphicsRootDescriptorTable(2,drawListBuffer->GetUAVAddress(CrossAdapterResourceIndex::SUB));
+	lGraphicCommandList->SetGraphicsRootDescriptorTable(1,particlePoolBuffer->GetAddress());
+	lGraphicCommandList->SetGraphicsRootDescriptorTable(2,drawListBuffer->GetUAVAddress());
 
-	lGraphicCommandList->ExecuteIndirect(particleCommandSignature.Get(),1,drawArgumentBuffer->GetResource(CrossAdapterResourceIndex::SUB),0,nullptr,0);
+	lGraphicCommandList->ExecuteIndirect(particleCommandSignature.Get(),1,drawArgumentBuffer->GetResource(),0,nullptr,0);
 }
 
 void BasicGPUParticle::SetSetting()
@@ -174,7 +174,7 @@ void BasicGPUParticle::ADD(const AliceMathF::Vector3& pos_,const BasicGPUParticl
 
 void BasicGPUParticle::PBufferCreate()
 {
-	particlePoolBuffer = CreateUniqueCrossAdapterBuffer(emitData.maxParticles,sizeof(ParticleData),AdaptersIndex::SUB,AdaptersIndex::MAIN);
+	//particlePoolBuffer = CreateUniqueCrossAdapterBuffer(emitData.maxParticles,sizeof(ParticleData),AdaptersIndex::SUB,AdaptersIndex::MAIN);
 
 	drawListBuffer = CreateUniqueDrawListBuffer(emitData.maxParticles,sizeof(uint32_t),BufferType::SHARED,AdaptersIndex::SUB,AdaptersIndex::MAIN);
 	freeListBuffer = CreateUniqueFreeListBuffer(emitData.maxParticles,sizeof(uint32_t),BufferType::SHARED,AdaptersIndex::SUB,AdaptersIndex::MAIN);
@@ -184,6 +184,7 @@ void BasicGPUParticle::PBufferCreate()
 	timeConstantsBuffer = CreateUniqueConstantBuffer(sizeof(TimeConstants),AdaptersIndex::SUB);
 	emitDataBuffer = CreateUniqueConstantBuffer(sizeof(EmitData),AdaptersIndex::SUB);
 	worldBillboardBuffer = CreateUniqueConstantBuffer(sizeof(WorldBillboard),AdaptersIndex::MAIN);
+
 }
 
 void BasicGPUParticle::PUpdateConstantBuffer(float deltaTime_)

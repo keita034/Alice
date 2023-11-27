@@ -7,6 +7,7 @@
 #include<CapsuleShape.h>
 #include<BossHand.h>
 #include<BossJumpAttackMove.h>
+#include<BossBeamAttack.h>
 
 void Player::Initialize(AliceInput::IInput* input_,IAudioManager* audioManager_,AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 {
@@ -218,7 +219,7 @@ void Player::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_)
 							break;
 						}
 
-						hp--;
+						//hp--;
 					}
 
 					usData.situation |= ActorSituation::DAMAGE;
@@ -272,10 +273,55 @@ void Player::OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_)
 						break;
 					}
 
-					hp--;
+					//hp--;
 				}
 
 				usData.situation |= ActorSituation::SHOCKWAVE_DAMAGE;
+
+				if ( hp <= 0 )
+				{
+					animation->InsertDeathAnimation();
+					animation->AnimationEndStop();
+					audioManager->PlayWave(deathSE);
+					audioManager->ChangeVolume(deathSE,deathSEVolume);
+				}
+				else
+				{
+					if ( !( usData.situation & ActorSituation::WALKING ) )
+					{
+						animation->InsertHitAnimation();
+
+					}
+				}
+			}
+		}
+	}
+
+	if ( BodyData_->GetAttribute() == CollisionAttribute::BEAM )
+	{
+		bool isHit = false;
+
+		BossBeamUsData* lUsData = static_cast< BossBeamUsData* >( BodyData_->GetUserData() );
+		AliceMathF::Vector3 lDistance = lUsData->pos - AliceMathF::Vector3(transform.translation.x,0.0f,transform.translation.z);
+		isHit = lUsData->distance >= AliceMathF::Abs(lDistance.Length());
+
+		shockwaveHit = true;
+
+		if ( !( usData.situation & ActorSituation::DAMAGE ) && isHit && ( !lUsData->isFinish ) )
+		{
+			if ( hp > 0 )
+			{
+				for ( int32_t i = 0; i < 10; i++ )
+				{
+					if ( hp == 0 )
+					{
+						break;
+					}
+
+					//hp--;
+				}
+
+				usData.situation |= ActorSituation::DAMAGE;
 
 				if ( hp <= 0 )
 				{

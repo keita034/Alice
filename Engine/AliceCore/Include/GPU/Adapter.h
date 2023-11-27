@@ -1,20 +1,12 @@
 #pragma once
+#include<Defined.h>
+
+ALICE_SUPPRESS_WARNINGS_BEGIN
+
 #include<stdint.h>
-
-#pragma warning(push)
-#pragma warning(disable: 4061)
-#pragma warning(disable: 4062)
-#pragma warning(disable: 4365)
-#pragma warning(disable: 4514)
-#pragma warning(disable: 4365)
-#pragma warning(disable: 4668)
-#pragma warning(disable: 4820)
-#pragma warning(disable: 5039)
-
 #include<memory>
 
-#pragma warning(pop)
-
+ALICE_SUPPRESS_WARNINGS_END
 
 class IDSVDescriptorHeap;
 class IRTVDescriptorHeap;

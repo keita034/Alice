@@ -1,7 +1,8 @@
 #include "BossActionManager.h"
 
-void BossActionManager::Initialize(BossAnimation* animation_, AlicePhysics::AlicePhysicsSystem* physicsSystem_)
+void BossActionManager::Initialize(BossAnimation* animation_,AlicePhysics::AlicePhysicsSystem* physicsSystem_,Transform* bossTransform_)
 {
+	bossTransform = bossTransform_;
 	chaseMove = std::make_unique<BossChaseMove>();
 	chaseMove->Initialize();
 	chaseMove->SetMaxDistance(maxDistance);
@@ -12,6 +13,9 @@ void BossActionManager::Initialize(BossAnimation* animation_, AlicePhysics::Alic
 	jumpAttackMove->SetShockWaveRadius(1000);
 	jumpAttackMove->SetShockWaveCollisionRadius(10);
 	jumpAttackMove->SetShockWaveTime(100);
+
+	bossBeamAttack = std::make_unique<BossBeamAttack>();
+	bossBeamAttack->Initialize(physicsSystem_,animation_,particleEmitter->GetLaserParticle("BossLaserParticle"),bossTransform);
 
 	actionCount = MAX_ACTION_COUNT;
 
@@ -28,8 +32,8 @@ void BossActionManager::Update(const AliceMathF::Vector3& plyerPos_, const Alice
 		{
 			do
 			{
-				bossAction = static_cast<BossAction>(AliceMathF::GetRand(0.0f, static_cast<float>(BossAction::BOSS_ACTION_NUM)));
-				//bossAction = BossAction::JUMP_ATTACK;
+				//bossAction = static_cast< BossAction >( AliceMathF::GetRand(0.0f,static_cast< float >( BossAction::BOSS_ACTION_NUM )) );
+				bossAction = BossAction::NONE;
 
 				switch (bossAction)
 				{
@@ -46,6 +50,12 @@ void BossActionManager::Update(const AliceMathF::Vector3& plyerPos_, const Alice
 					bossInternalAction = BossInternalAction::JUMP_ATTACK;
 					animation->InserJumpAttackAnimation();
 					jumpAttackMove->SetBossPosition(bossPos_);
+					direction = -AliceMathF::Vector3(plyerPos_ - bossPos_).Normal();
+					break;
+				case BossAction::BEAM_ATTACK:
+					bossInternalAction = BossInternalAction::BEAM_ATTACK;
+					animation->InserBeamAnimation();
+					direction = -AliceMathF::Vector3(plyerPos_ - bossPos_).Normal();
 					break;
 
 				case BossAction::BOSS_ACTION_NUM:
@@ -62,6 +72,7 @@ void BossActionManager::Update(const AliceMathF::Vector3& plyerPos_, const Alice
 void BossActionManager::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 {
 	jumpAttackMove->Finalize(physicsSystem_);
+	bossBeamAttack->Finalize(physicsSystem_);
 }
 
 const AliceMathF::Vector3& BossActionManager::GetDistanceTraveled() const
@@ -98,6 +109,9 @@ void BossActionManager::PMoveUpdate()
 		break;
 	case BossAction::JUMP_ATTACK:
 		PJumpAttack();
+		break;
+	case BossAction::BEAM_ATTACK:
+		PBeamAttack();
 		break;
 	case BossAction::BOSS_ACTION_NUM:
 		break;
@@ -142,6 +156,11 @@ void BossActionManager::SetParticleEmitter(GPUParticleEmitter* particleEmitter_)
 	particleEmitter = particleEmitter_;
 }
 
+const AliceMathF::Vector3& BossActionManager::GetDirection() const
+{
+	return direction;
+}
+
 void BossActionManager::PJumpAttack()
 {
 	if ( bossInternalAction == BossInternalAction::JUMP_ATTACK )
@@ -158,11 +177,33 @@ void BossActionManager::PJumpAttack()
 	}
 }
 
+void BossActionManager::PBeamAttack()
+{
+	if ( bossInternalAction == BossInternalAction::BEAM_ATTACK )
+	{
+		bossBeamAttack->Update();
+
+		if ( bossBeamAttack->IsFinish() )
+		{
+			bossBeamAttack->End();
+			actionCount = MAX_ACTION_COUNT;
+			bossInternalAction = BossInternalAction::NONE;
+			bossAction = BossAction::NONE;
+		}
+	}
+}
+
 #ifdef _DEBUG
 BossJumpAttackMove* BossActionManager::GetBossJumpAttackMove()
 {
 	return jumpAttackMove.get();
 }
+
+BossBeamAttack* BossActionManager::GetBossBeamAttackMove()
+{
+	return bossBeamAttack.get();
+}
+
 #endif
 
 const BossInternalAction BossActionManager::GetinternalAction()const

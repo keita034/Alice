@@ -7,6 +7,7 @@
 #include<Sprite.h>
 #include<SceneLoader.h>
 #include<BaseBuffer.h>
+#include<MeshGPUParticleAliceModel.h>
 
 void AliceFramework::SDebugInitialize()
 {
@@ -47,6 +48,8 @@ void AliceFramework::Initialize()
 	PipelineState::SSetDevice(directX12Core->GetDevice());
 
 	BaseBuffer::SSetSwapChain(directX12Core->GetSwapChain());
+
+	MeshGPUParticleAliceModel::SSetMultiAdapters(directX12Core->GetMultiAdapters());
 	//DirectX初期化処理ここまで
 
 	//描画初期化処理ここから
@@ -99,11 +102,13 @@ void AliceFramework::Initialize()
 	BaseScene::SSetGPUParticleEmitter(gpuParticleEmitter.get());
 
 	sceneManager = SceneManager::SGetInstance();
+
 }
 
 void AliceFramework::Finalize()
 {
 	BaseBuffer::Finalize();
+	MeshGPUParticleAliceModel::Finalize();
 	AliceModel::Finalize();
 	BasePipelineState::Finalize();
 	sceneManager->Finalize();
