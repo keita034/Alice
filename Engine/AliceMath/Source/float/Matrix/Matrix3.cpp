@@ -1,15 +1,11 @@
-#pragma warning(push)
-#pragma warning(disable: 4365)
-#pragma warning(disable: 4514)
-#pragma warning(disable: 4619)
-#pragma warning(disable: 4668)
-#pragma warning(disable: 5039)
+#include<Defined.h>
+
+ALICE_SUPPRESS_WARNINGS_BEGIN
 
 #include<cmath>
 #include<assimp/matrix3x3.h>
 
-
-#pragma warning(pop)
+ALICE_SUPPRESS_WARNINGS_END
 
 #include "Matrix3.h"
 #include"AliceMathF.h"

@@ -23,7 +23,7 @@ void ModelMesh::CreateBuffer()
 	lSize = indices.size();
 	uint32_t* lIndice = indices.data();
 	//生成
-	indexBuffer = CreateUniqueIndexBuffer(lSize, lIndice);
+	indexBuffer = CreateUniqueIndexBuffer(lSize,AdaptersIndex::MAIN, lIndice);
 	if (!indexBuffer->IsValid())
 	{
 		printf("Failed to create index buffer\n");

@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="ソース ファイル\GPUParticle">
+      <UniqueIdentifier>{dcc22633-1c63-4a58-b691-b8e8fa03856d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\MaterialManager.h">
@@ -138,6 +141,9 @@
     <ClInclude Include="Include\GPUParticle\Laser.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Include\GPUParticle\Mesh.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\MaterialManager.cpp">
@@ -242,23 +248,26 @@
     <ClCompile Include="Source\Graphic\Model\ToonModel.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Source\GPUParticle\Basic.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Source\GPUParticle\Test.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\Graphic\Model\Fbx.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Source\GPUParticle\Fire.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Source\GPUParticle\ShockWave.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Source\GPUParticle\Mesh.cpp">
+      <Filter>ソース ファイル\GPUParticle</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GPUParticle\Basic.cpp">
+      <Filter>ソース ファイル\GPUParticle</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GPUParticle\Fire.cpp">
+      <Filter>ソース ファイル\GPUParticle</Filter>
+    </ClCompile>
     <ClCompile Include="Source\GPUParticle\Laser.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\GPUParticle</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

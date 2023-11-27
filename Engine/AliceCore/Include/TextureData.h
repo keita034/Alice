@@ -9,8 +9,9 @@ ALICE_SUPPRESS_WARNINGS_BEGIN
 #include<directx/d3d12.h>
 #include<string>
 
-
 ALICE_SUPPRESS_WARNINGS_END
+
+#include<AdaptersIndex.h>
 
 class TextureData
 {
@@ -34,8 +35,14 @@ public:
 
 	uint32_t textureHandle;
 
+	AdaptersIndex index = AdaptersIndex::MAIN;
+
+	D3D12_RESOURCE_STATES resourceState;
+
 private:
+
 	Byte4 PADING;
+
 public:
 
 	TextureData();

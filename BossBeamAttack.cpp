@@ -151,6 +151,8 @@ void BossBeamAttack::TransUpdate(Camera* camera_)
 
 void BossBeamAttack::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 {
+	physicsSystem_->RemoveRigidBody(rigidBody);
+	laserGPUParticle->EmitStop(particleIndex);
 }
 
 void BossBeamAttack::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_)

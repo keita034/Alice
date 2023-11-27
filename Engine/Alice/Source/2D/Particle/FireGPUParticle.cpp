@@ -244,23 +244,29 @@ void FireGPUParticle::SetTex(uint32_t textureHandle_)
 
 void FireGPUParticle::EmitPlay(int32_t index_)
 {
-	size_t lIndex = static_cast< size_t >( index_ );
-
-	if ( !emitDatas[ lIndex ].isPlay )
+	if ( !emitDatas.empty() )
 	{
-		emitDatas[ lIndex ].isPlay = true;
-		emitDatas[ lIndex ].emitLifeTime = emitDatas[ lIndex ].emitMaxLifeTime;
-		emitDatas[ lIndex ].emitTimeCounter = 0.0f;
+		size_t lIndex = static_cast< size_t >( index_ );
+
+		if ( !emitDatas[ lIndex ].isPlay )
+		{
+			emitDatas[ lIndex ].isPlay = true;
+			emitDatas[ lIndex ].emitLifeTime = emitDatas[ lIndex ].emitMaxLifeTime;
+			emitDatas[ lIndex ].emitTimeCounter = 0.0f;
+		}
 	}
 }
 
 void FireGPUParticle::EmitStop(int32_t index_)
 {
-	size_t lIndex = static_cast< size_t >( index_ );
-
-	if ( emitDatas[ lIndex ].isPlay )
+	if ( !emitDatas.empty() )
 	{
-		emitDatas[ lIndex ].isPlay = false;
+		size_t lIndex = static_cast< size_t >( index_ );
+
+		if ( emitDatas[ lIndex ].isPlay )
+		{
+			emitDatas[ lIndex ].isPlay = false;
+		}
 	}
 }
 

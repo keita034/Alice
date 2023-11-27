@@ -18,23 +18,44 @@ void Boss::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 	AliceMathF::Vector3 pos = transform.translation + rigidBodyoffset;
 	shape.reset(AlicePhysics::CreateCapsuleShape(35.0f,30.0f));
 
-	AlicePhysics::IRigidBodyCreationSettings lSetting;
-	lSetting.name = "Boss";
-	lSetting.type = AlicePhysics::PhysicsRigidBodyType::DYNAMIC;
-	lSetting.motionType = AlicePhysics::MotionType::DYNAMIC;
-	lSetting.allowSleeping = false;
-	lSetting.collisionGroup = CollisionGroup::BOSS;
-	lSetting.collisionAttribute = CollisionAttribute::BODY;
-	lSetting.position = pos;
-	lSetting.shape = shape.get();
-	lSetting.userData = static_cast< void* >( &situation );
-	physicsSystem_->CreateRigidBody(rigidBody,&lSetting);
-	physicsSystem_->AddRigidBody(rigidBody);
-	rigidBody->SetRigidBodyCollision(this);
+	{
+		AlicePhysics::IRigidBodyCreationSettings lSetting;
+		lSetting.name = "Boss";
+		lSetting.type = AlicePhysics::PhysicsRigidBodyType::DYNAMIC;
+		lSetting.motionType = AlicePhysics::MotionType::DYNAMIC;
+		lSetting.allowSleeping = false;
+		lSetting.collisionGroup = CollisionGroup::BOSS;
+		lSetting.collisionAttribute = CollisionAttribute::BODY;
+		lSetting.position = pos;
+		lSetting.shape = shape.get();
+		lSetting.userData = static_cast< void* >( &situation );
+		physicsSystem_->CreateRigidBody(rigidBody,&lSetting);
+		physicsSystem_->AddRigidBody(rigidBody);
+		rigidBody->SetRigidBodyCollision(this);
+	}
 
-	fireWorkParticle = std::make_unique<FireWorkParticle>();
-	fireWorkParticle->Initialize();
-	fireWorkParticle->SetTex(TextureManager::SLoad("Resources/Default/Particle/effect1.png"));
+	{
+		fireWorkParticle = std::make_unique<FireWorkParticle>();
+		fireWorkParticle->Initialize();
+		fireWorkParticle->SetTex(TextureManager::SLoad("Resources/Default/Particle/effect1.png"));
+
+		MeshGPUParticleSetting lSetting;
+
+		lSetting.matWorld = AliceMathF::MakeIdentity();
+		lSetting.velocity = { 0,1,0 };
+		lSetting.startColor = { 1,0,0,1 };
+		lSetting.endColor = { 1,0,0,1 };
+		lSetting.lifeTime = 1.0f;
+		lSetting.maxParticles = 1000000.0f;
+		lSetting.timeBetweenEmit = 0.01f;
+		lSetting.emitLifeTime = -1;
+		lSetting.size = 2;
+		lSetting.speed = 15;
+		lSetting.isPlay = false;
+		meshParticleIndex = particleEmitter->MeshGPUParticleEmit("BossModelParticle",lSetting);
+
+		particleEmitter->MeshGPUParticleEmitPlay("BossModelParticle",meshParticleIndex);
+	}
 
 	damageSE = audioManager->LoadAudio("Resources/SE/Damage.mp3",0.3f);
 	deathSE = audioManager->LoadAudio("Resources/SE/BossDeath.mp3");
@@ -172,6 +193,10 @@ void Boss::UIDraw()
 
 void Boss::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 {
+	particleEmitter->MeshGPUParticleEmitStop("BossModelParticle",meshParticleIndex);
+
+	actionManager->Finalize(physicsSystem_);
+
 	particleEmitter = nullptr;
 
 	hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->Finalize(physicsSystem_);
@@ -195,6 +220,8 @@ void Boss::TransUpdate(Camera* camera_)
 	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->TransUpdate(camera_);
 
 	actionManager->GetBossBeamAttackMove()->TransUpdate(camera_);
+	
+	particleEmitter->MeshGPUParticleSetMat("BossModelParticle",transform.matWorld,meshParticleIndex);
 
 #ifdef _DEBUG
 	actionManager->GetBossJumpAttackMove()->TransUpdate(camera_);

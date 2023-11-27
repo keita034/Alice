@@ -72,6 +72,7 @@ void BossActionManager::Update(const AliceMathF::Vector3& plyerPos_, const Alice
 void BossActionManager::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 {
 	jumpAttackMove->Finalize(physicsSystem_);
+	bossBeamAttack->Finalize(physicsSystem_);
 }
 
 const AliceMathF::Vector3& BossActionManager::GetDistanceTraveled() const

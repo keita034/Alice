@@ -12,6 +12,7 @@ private:
 	friend class AliceModel;
 	friend class AliceFileStream;
 	friend class AliceToonModel;
+	friend class MeshGPUParticleAliceModel;
 
 	std::string filePath;
 
@@ -58,6 +59,8 @@ private:
 class AliceModel
 {
 protected:
+
+	friend class MeshGPUParticleAliceModel;
 
 	static IDevice* sMainDevice;
 	static ICommandList* sCmdList;

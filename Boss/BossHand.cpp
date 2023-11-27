@@ -55,8 +55,9 @@ void BossHand::Update(const std::string& boneName_, AliceBlendTree* tree_, Alice
 
 void BossHand::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 {
-	fireGPUParticle = nullptr;
 	physicsSystem_->RemoveRigidBody(rigidBody);
+	fireGPUParticle->EmitStop(particleIndex);
+	fireGPUParticle = nullptr;
 }
 
 void BossHand::TransUpdate(Camera* camera_)
