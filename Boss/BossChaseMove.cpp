@@ -61,3 +61,8 @@ const AliceMathF::Vector3& BossChaseMove::GetDistanceTraveled()const
 {
 	return distanceTraveled;
 }
+
+const AliceMathF::Vector3& BossChaseMove::GetDirection()const
+{
+	return direction;
+}

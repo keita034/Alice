@@ -103,6 +103,11 @@ void BossBeamAttack::Update()
 	{
 		isFinish = true;
 	}
+
+#ifndef _DEBUG
+	transform.MakeWorldMatrix();
+	rigidBody->SetMatrix(transform.rigidBodyMatWorld,transform.matWorld);
+#endif // _RELEASE
 }
 
 bool BossBeamAttack::IsFinish()

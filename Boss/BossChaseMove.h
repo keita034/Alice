@@ -47,4 +47,6 @@ public:
 	 bool IsFinish();
 
 	 const AliceMathF::Vector3& GetDistanceTraveled()const;
+
+	 const AliceMathF::Vector3& GetDirection()const;
 };

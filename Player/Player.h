@@ -46,12 +46,12 @@ private:
 	std::unique_ptr<PlayerWeapon> weapon;
 	std::unique_ptr<DeviceInput> deviceInput;
 
-	const int32_t MAX_HP = 30;
+	const int32_t MAX_HP = 200;
 	const int32_t MAX_STAMINA = 2000;
 	const int32_t MAX_BULLET = 20;
 	const int32_t MAX_HEALING = 20;
 
-	const int32_t MAX_DAMAGE_INTERVAL = 20;
+	const int32_t MAX_DAMAGE_INTERVAL = 70;
 	int32_t hp = 0;
 	int32_t stamina = 0;
 	int32_t subRunStamina = 2;

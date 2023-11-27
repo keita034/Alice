@@ -68,7 +68,7 @@ void Player::Update(BaseGameCamera* camera_,GameCameraManager::CameraIndex index
 {
 	if ( !shockwaveHit )
 	{
-		if (  usData.situation & ActorSituation::SHOCKWAVE_DAMAGE )
+		if ( usData.situation & ActorSituation::SHOCKWAVE_DAMAGE )
 		{
 			usData.situation &= ~ActorSituation::SHOCKWAVE_DAMAGE;
 		}
@@ -210,7 +210,7 @@ void Player::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_)
 				!( usData.situation & ActorSituation::DAMAGE ) &&
 				static_cast< BossUsData* >( BodyData_->GetUserData() )->index == BossHandIndex::RIGHT )
 			{
-				if ( hp > 0 )
+				if ( hp > 0  && !( usData.situation & ActorSituation::ROWLING ) )
 				{
 					for ( int32_t i = 0; i < 10; i++ )
 					{
@@ -219,7 +219,7 @@ void Player::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_)
 							break;
 						}
 
-						//hp--;
+						hp--;
 					}
 
 					usData.situation |= ActorSituation::DAMAGE;
@@ -233,11 +233,7 @@ void Player::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_)
 					}
 					else
 					{
-						if ( !( usData.situation & ActorSituation::WALKING ) )
-						{
 							animation->InsertHitAnimation();
-
-						}
 					}
 				}
 			}
@@ -264,16 +260,16 @@ void Player::OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_)
 
 		if ( !( usData.situation & ActorSituation::SHOCKWAVE_DAMAGE ) && isHit && ( !lUsData->isFinish ) )
 		{
-			if ( hp > 0 )
+			if ( hp > 0 && !( usData.situation & ActorSituation::ROWLING ) )
 			{
-				for ( int32_t i = 0; i < 10; i++ )
+				for ( int32_t i = 0; i < 15; i++ )
 				{
 					if ( hp == 0 )
 					{
 						break;
 					}
 
-					//hp--;
+					hp--;
 				}
 
 				usData.situation |= ActorSituation::SHOCKWAVE_DAMAGE;
@@ -309,16 +305,16 @@ void Player::OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_)
 
 		if ( !( usData.situation & ActorSituation::DAMAGE ) && isHit && ( !lUsData->isFinish ) )
 		{
-			if ( hp > 0 )
+			if ( hp > 0 && !( usData.situation & ActorSituation::ROWLING ) )
 			{
-				for ( int32_t i = 0; i < 10; i++ )
+				for ( int32_t i = 0; i < 20; i++ )
 				{
 					if ( hp == 0 )
 					{
 						break;
 					}
 
-					//hp--;
+					hp--;
 				}
 
 				usData.situation |= ActorSituation::DAMAGE;
@@ -332,11 +328,7 @@ void Player::OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_)
 				}
 				else
 				{
-					if ( !( usData.situation & ActorSituation::WALKING ) )
-					{
-						animation->InsertHitAnimation();
-
-					}
+					animation->InsertHitAnimation();
 				}
 			}
 		}
@@ -392,45 +384,60 @@ void Player::PMove(BaseGameCamera* camera_)
 	AliceMathF::Vector3 lCameraForward = camera_->GetGameCamera()->GetTarget().Normal();
 	lCameraForward = { lCameraForward.x, 0.0f, lCameraForward.z };
 
-	AliceMathF::Vector2 lLeftStickPower = input->GetLeftStickVec();
+	bool isDamage = false;
 
-	float lStickPower = AliceMathUtility::Max<float>(AliceMathF::Abs(lLeftStickPower.x),AliceMathF::Abs(lLeftStickPower.y));
-
-	if ( !deviceInput->InputButton(ControllerButton::A,10.0f) )
+	if ( ( usData.situation & ActorSituation::ATTACK ) ||
+		( usData.situation & ActorSituation::SHOCKWAVE_DAMAGE ) )
 	{
-		lLeftStickPower = AliceMathF::Clamp(lLeftStickPower,0,0.45f);
-		lStickPower = AliceMathF::Clamp(lStickPower,0,0.45f);
+		isDamage = true;
 	}
-	else
+	if ( ( usData.situation & ActorSituation::DAMAGE ) && animation->IsInsert() )
 	{
-		if ( lStickPower >= 0.5f )
-		{
-			if ( stamina < subRunStamina )
-			{
-				lLeftStickPower = AliceMathF::Clamp(lLeftStickPower,0,0.45f);
+		isDamage = true;
+	}
 
-				lStickPower = AliceMathF::Clamp(lStickPower,0,0.45f);
-			}
-			else
+	if ( !isDamage )
+	{
+		AliceMathF::Vector2 lLeftStickPower = input->GetLeftStickVec();
+
+		float lStickPower = AliceMathUtility::Max<float>(AliceMathF::Abs(lLeftStickPower.x),AliceMathF::Abs(lLeftStickPower.y));
+
+		if ( !deviceInput->InputButton(ControllerButton::A,10.0f) )
+		{
+			lLeftStickPower = AliceMathF::Clamp(lLeftStickPower,0,0.45f);
+			lStickPower = AliceMathF::Clamp(lStickPower,0,0.45f);
+		}
+		else
+		{
+			if ( lStickPower >= 0.5f )
 			{
-				stamina -= subRunStamina;
+				if ( stamina < subRunStamina )
+				{
+					lLeftStickPower = AliceMathF::Clamp(lLeftStickPower,0,0.45f);
+
+					lStickPower = AliceMathF::Clamp(lStickPower,0,0.45f);
+				}
+				else
+				{
+					stamina -= subRunStamina;
+				}
 			}
 		}
-	}
 
-	animation->WalkAnimationUpdate(lStickPower);
+		animation->WalkAnimationUpdate(lStickPower);
 
-	if ( lStickPower >= 0.01f )
-	{
-		usData.situation |= ActorSituation::WALKING;
+		if ( lStickPower >= 0.01f )
+		{
+			usData.situation |= ActorSituation::WALKING;
 
-		lMove = { lLeftStickPower.x * lSpeed, 0.0f, -lLeftStickPower.y * lSpeed };
-		isStationary = false;
-	}
-	else
-	{
-		usData.situation &= ~ActorSituation::WALKING;
+			lMove = { lLeftStickPower.x * lSpeed, 0.0f, -lLeftStickPower.y * lSpeed };
+			isStationary = false;
+		}
+		else
+		{
+			usData.situation &= ~ActorSituation::WALKING;
 
+		}
 	}
 
 	PlayerGameCamera* lPlayerCamera = dynamic_cast< PlayerGameCamera* >( camera_ );
