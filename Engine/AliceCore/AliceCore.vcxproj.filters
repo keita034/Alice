@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\DescriptorHeap">
+      <UniqueIdentifier>{e780006a-016b-4702-9102-f4dcce3e1617}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\DescriptorHeap">
+      <UniqueIdentifier>{164c7769-9804-4ce1-bca0-c92271181455}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Buffer">
+      <UniqueIdentifier>{e72a8b48-f0fb-423b-abba-1d935b5a446d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Buffer">
+      <UniqueIdentifier>{25c4e90a-635f-40d1-80fc-5bb4c85e0458}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Pipeline">
+      <UniqueIdentifier>{bce4d3bc-2016-4271-9d80-36f136b36ee2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Pipeline">
+      <UniqueIdentifier>{cada0dd9-87c9-4a00-b402-1e5be222166a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\GPU">
+      <UniqueIdentifier>{3edb0ffd-3227-4b99-9602-817b3c87fe64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\GPU">
+      <UniqueIdentifier>{043f2bda-14d9-4d7a-9a99-8588bfec5a75}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Include\DescriptorHeap\DSVDescriptorHeap.h">
+      <Filter>ヘッダー ファイル\DescriptorHeap</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\DescriptorHeap\RTVDescriptorHeap.h">
+      <Filter>ヘッダー ファイル\DescriptorHeap</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\DescriptorHeap\DescriptorHeap.h">
+      <Filter>ヘッダー ファイル\DescriptorHeap</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Buffer\VertexBuffer.h">
+      <Filter>ヘッダー ファイル\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Buffer\StructuredBuffer.h">
+      <Filter>ヘッダー ファイル\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Buffer\BaseBuffer.h">
+      <Filter>ヘッダー ファイル\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Buffer\RWStructuredBuffer.h">
+      <Filter>ヘッダー ファイル\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Buffer\RenderTargetBuffer.h">
+      <Filter>ヘッダー ファイル\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Buffer\ComputeVertexBuffer.h">
+      <Filter>ヘッダー ファイル\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Buffer\ConstantBuffer.h">
+      <Filter>ヘッダー ファイル\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Buffer\DepthStencilBuffer.h">
+      <Filter>ヘッダー ファイル\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Buffer\IndexBuffer.h">
+      <Filter>ヘッダー ファイル\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\DescriptorHeap\BaseDescriptorHeap.h">
+      <Filter>ヘッダー ファイル\DescriptorHeap</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\WindowsApp.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\FPS.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Pipeline\PipelineState.h">
+      <Filter>ヘッダー ファイル\Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Pipeline\RootSignature.h">
+      <Filter>ヘッダー ファイル\Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Pipeline\ComputePipelineState.h">
+      <Filter>ヘッダー ファイル\Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\GPU\Device.h">
+      <Filter>ヘッダー ファイル\GPU</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\GPU\CommandList.h">
+      <Filter>ヘッダー ファイル\GPU</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\GPU\Adapter.h">
+      <Filter>ヘッダー ファイル\GPU</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\GPU\Fence.h">
+      <Filter>ヘッダー ファイル\GPU</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\GPU\MultiAdapters.h">
+      <Filter>ヘッダー ファイル\GPU</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\GPU\SwapChain.h">
+      <Filter>ヘッダー ファイル\GPU</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Buffer\DrawArgumentBuffer.h">
+      <Filter>ヘッダー ファイル\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\TextureData.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Pipeline\Material.h">
+      <Filter>ヘッダー ファイル\Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Pipeline\Shader.h">
+      <Filter>ヘッダー ファイル\Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Pipeline\BasePipelineState.h">
+      <Filter>ヘッダー ファイル\Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Pipeline\BaseMaterial.h">
+      <Filter>ヘッダー ファイル\Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Pipeline\ComputeMaterial.h">
+      <Filter>ヘッダー ファイル\Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Buffer\CrossAdapterBuffer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\GPU\CrossAdapterFence.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Buffer\FreeListBuffer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Buffer\DrawListBuffer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\DescriptorHeap\RTVDescriptorHeap.cpp">
+      <Filter>ソース ファイル\DescriptorHeap</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DescriptorHeap\DescriptorHeap.cpp">
+      <Filter>ソース ファイル\DescriptorHeap</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DescriptorHeap\DSVDescriptorHeap.cpp">
+      <Filter>ソース ファイル\DescriptorHeap</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Buffer\VertexBuffer.cpp">
+      <Filter>ソース ファイル\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Buffer\BaseBuffer.cpp">
+      <Filter>ソース ファイル\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Buffer\StructuredBuffer.cpp">
+      <Filter>ソース ファイル\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Buffer\RWStructuredBuffer.cpp">
+      <Filter>ソース ファイル\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Buffer\RenderTargetBuffer.cpp">
+      <Filter>ソース ファイル\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Buffer\ComputeVertexBuffer.cpp">
+      <Filter>ソース ファイル\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Buffer\ConstantBuffer.cpp">
+      <Filter>ソース ファイル\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Buffer\DepthStencilBuffer.cpp">
+      <Filter>ソース ファイル\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Buffer\IndexBuffer.cpp">
+      <Filter>ソース ファイル\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DescriptorHeap\BaseDescriptorHeap.cpp">
+      <Filter>ソース ファイル\DescriptorHeap</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\WindowsApp.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Pipeline\Shader.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FPS.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Pipeline\PipelineState.cpp">
+      <Filter>ソース ファイル\Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Pipeline\RootSignature.cpp">
+      <Filter>ソース ファイル\Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Pipeline\ComputePipelineState.cpp">
+      <Filter>ソース ファイル\Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GPU\Fence.cpp">
+      <Filter>ソース ファイル\GPU</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GPU\MultiAdapters.cpp">
+      <Filter>ソース ファイル\GPU</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Buffer\DrawArgumentBuffer.cpp">
+      <Filter>ソース ファイル\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GPU\Adapter.cpp">
+      <Filter>ソース ファイル\GPU</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GPU\Device.cpp">
+      <Filter>ソース ファイル\GPU</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GPU\CommandList.cpp">
+      <Filter>ソース ファイル\GPU</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GPU\SwapChain.cpp">
+      <Filter>ソース ファイル\GPU</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\TextureData.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Pipeline\Material.cpp">
+      <Filter>ソース ファイル\Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Pipeline\ComputeMaterial.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Pipeline\BasePipelineState.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Buffer\CrossAdapterBuffer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GPU\CrossAdapterFence.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Buffer\FreeListBuffer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Buffer\DrawListBuffer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
