@@ -31,14 +31,19 @@ protected:
 	struct ParticleGPUData
 	{
 		AliceMathF::Vector4 color;
+
 		AliceMathF::Vector3 position;
 		float age;
+
 		AliceMathF::Vector3 velocity;
-		float size;
 		float alive;
+
+		AliceMathF::Vector2 size;
 		float threshold;
 		float lifeTime;
+
 		uint32_t index;
+		AliceMathF::Vector3 pad;
 	};
 
 	struct WorldBillboardGPUData

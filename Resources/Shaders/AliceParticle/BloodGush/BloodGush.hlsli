@@ -1,25 +1,19 @@
 struct Particle
 {
-	float4 color;
-	float3 position;
-	float age;
-	float3 velocity;
-    float size;
+    float4 color;
+
+    float3 position;
+    float age;
+
+    float3 velocity;
     float alive;
+
+    float2 size;
     float threshold;
     float lifeTime;
-    uint index;
-};
 
-struct Mesh
-{
-    float4 pos : POSITION; // 座標
-    float3 normal : NORMAL; // 法線
-    float2 uv : TEXCOORD; // uv座標
-    float3 tangent :TANGENT; // 接空間
-    float4 color :COLOR; // 頂点色
-    uint4 boneIndex : BONEINDICES; // ボーンの番号
-    float4 boneWeight : BONEWEIGHTS; // ボーンの重み
+    uint index;
+    float3 pad;
 };
 
 struct EmitData
@@ -31,20 +25,20 @@ struct EmitData
     float maxParticles;
 
     float3 accel;
-    float size;
+    float speed;
 
     float4 startColor;
+
     float4 endColor;
 
     uint index;
     uint emitCount;
-    float speed;
+    float emitLifeTime;
     float amount;
 
-    float emitLifeTime;
+    float2 size;
     float pad;
     float pad2;
-    float pad3;
 };
 
 struct IndirectCommand
@@ -58,7 +52,7 @@ struct IndirectCommand
 struct VS_OUTPUT
 {
     float3 position : POSITION;
-    float size : SIZE;
+    float2 size : SIZE;
     float4 color : COLOR;
     float threshold : THRESHOLD;
 };

@@ -12,17 +12,21 @@ struct BloodGushGPUParticleSetting
 	//加速度
 	AliceMathF::Vector3 accel;
 	float lifeTime;
+
 	AliceMathF::Vector3 blurWidth;
-	float size;
-	AliceMathF::Vector4 startColor;
-	AliceMathF::Vector4 endColor;
 	uint32_t index;
+
+	AliceMathF::Vector4 startColor;
+
+	AliceMathF::Vector4 endColor;
+
+	AliceMathF::Vector2 size;
 	float speed;
 	float amount;
+
 	float emitLifeTime;
 	float emitMaxLifeTime;
 	float timeBetweenEmit;
-
 	bool isPlay = true;
 private:
 	Byte3 PADING;
@@ -34,7 +38,7 @@ class BloodGushGPUParticle : public BaseGPUParticle
 {
 private:
 	static constexpr size_t EMIT_DATA_MAX_COUNT = 100;
-	static constexpr size_t EMIT_COUNT = 100;
+	static constexpr size_t EMIT_COUNT = 20;
 
 public://GPUで使う構造体
 
@@ -47,20 +51,20 @@ public://GPUで使う構造体
 		float maxParticles;
 
 		AliceMathF::Vector3 accel;
-		float size;
+		float speed;
 
 		AliceMathF::Vector4 startColor;
+
 		AliceMathF::Vector4 endColor;
 
 		uint32_t index;
 		uint32_t emitCount;
-		float speed;
+		float emitLifeTime;
 		float amount;
 
-		float emitLifeTime;
+		AliceMathF::Vector2 size;
 		float pad;
 		float pad2;
-		float pad3;
 	};
 
 	struct FireGPUParticleGPUData
@@ -81,20 +85,26 @@ public://内部で使う構造体
 	{
 		AliceMathF::Vector3 position;
 		float lifeTime;
+
 		AliceMathF::Vector3 velocity;
 		float maxParticles;
+
 		AliceMathF::Vector3 accel;
-		float size;
+		uint32_t index;
+
 		AliceMathF::Vector4 startColor;
 		AliceMathF::Vector4 endColor;
-		uint32_t index;
+
+		AliceMathF::Vector2 size;
 		uint32_t emitCount;
 		float speed;
 		float amount;
+
 		float emitTimeCounter;
 		float timeBetweenEmit;
 		float emitLifeTime;
 		float emitMaxLifeTime;
+
 		bool isPlay;
 	private:
 		Byte3 PADING;

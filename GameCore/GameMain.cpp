@@ -30,6 +30,22 @@ void GameMain::Initialize()
 	gpuParticleEmitter->MeshGPUParticleSetDetermineTex("BossModelParticle",emmisionFireElemental);
 	gpuParticleEmitter->MeshGPUParticleSetTex("BossModelParticle",fireEffectNoiseHandle);
 
+	gpuParticleEmitter->BloodGushGPUParticleCreate(100000,"BossBloodGushParticle");
+	gpuParticleEmitter->BloodGushGPUParticleSetTex("BossBloodGushParticle",fireEffectNoiseHandle);
+
+	BloodGushGPUParticleSetting lSetting;
+	lSetting.accel = { 0.0f,-3.5f,0.0f };
+	lSetting.amount = 1.0f;
+	lSetting.emitLifeTime = 0.1f;
+	lSetting.endColor = { 1.0f,0.0f,0.0f,1.0f };
+	lSetting.startColor = { 1.0f,0.0f,0.0f,1.0f };
+	lSetting.lifeTime = 0.4f;
+	lSetting.size = { 20.0f,11.0f };
+	lSetting.speed = 400.0f;
+	lSetting.timeBetweenEmit = 0.01f;
+	lSetting.isPlay = false;
+	gpuParticleEmitter->BloodGushGPUParticleEmit("BossBloodGushParticle",lSetting);
+
 	//シーンの初期化
 	sceneFactory = SceneFactrory::SGetInstance();
 	SceneManager::SGetInstance()->SetSceneFactory(sceneFactory);

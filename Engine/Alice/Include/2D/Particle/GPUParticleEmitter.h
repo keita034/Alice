@@ -4,7 +4,7 @@
 #include<ShockWaveGPUParticle.h>
 #include<LaserGPUParticle.h>
 #include<MeshGPUParticle.h>
-
+#include<BloodGushGPUParticle.h>
 #include<Camera.h>
 #include<MultiAdapters.h>
 
@@ -21,6 +21,7 @@ private:
 	std::unordered_map<std::string,std::unique_ptr<ShockWaveGPUParticle>>shockWaveParticles;
 	std::unordered_map<std::string,std::unique_ptr<LaserGPUParticle>>laserGPUParticles;
 	std::unordered_map<std::string,std::unique_ptr<MeshGPUParticle>>meshGPUParticles;
+	std::unordered_map<std::string,std::unique_ptr<BloodGushGPUParticle>>bloodGushGPUParticles;
 
 public:
 
@@ -78,6 +79,13 @@ public:
 	void MeshGPUParticleEmitStop(const std::string& name_,int32_t index_);
 	void MeshGPUParticleSetModel(const std::string& name_,AliceModel* model_);
 	MeshGPUParticle* GetMeshGPUParticle(const std::string& name_);
+
+	void BloodGushGPUParticleCreate(uint32_t maxParticles_,const std::string& name_);
+	int32_t BloodGushGPUParticleEmit(const std::string& name_,const BloodGushGPUParticleSetting& setting_,int32_t index_ = -1);
+	void BloodGushGPUParticleSetTex(const std::string& name_,uint32_t textureHandle_);
+	void BloodGushGPUParticleEmitPlay(const std::string& name_,const AliceMathF::Vector3& pos_,const AliceMathF::Vector3& velocity_,int32_t index_);
+	void BloodGushGPUParticleEmitStop(const std::string& name_,int32_t index_);
+	BloodGushGPUParticle* GetBloodGushGPUParticle(const std::string& name_);
 
 	void SetMultiAdapters(IMultiAdapters* multiAdapters_);
 	void SetSwapChain(ISwapChain* swapChain_);

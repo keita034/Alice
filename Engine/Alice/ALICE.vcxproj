@@ -129,7 +129,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="BloodGushGPUParticle.h" />
+    <ClInclude Include="Include\2D\Particle\BloodGushGPUParticle.h" />
     <ClInclude Include="Include\2D\Particle\FireGPUParticle.h" />
     <ClInclude Include="GPUTimeStamp.h" />
     <ClInclude Include="Include\2D\Particle\GPUParticleEmitter.h" />
@@ -232,7 +232,7 @@
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BloodGushGPUParticle.cpp" />
+    <ClCompile Include="Source\2D\Particle\BloodGushGPUParticle.cpp" />
     <ClCompile Include="Source\2D\Particle\LaserGPUParticle.cpp" />
     <ClCompile Include="Source\2D\Particle\MeshGPUParticle.cpp" />
     <ClCompile Include="Source\2D\Particle\MeshGPUParticleAliceModel.cpp" />

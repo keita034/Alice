@@ -3,14 +3,14 @@
 void BossAnimation::Initialize()
 {
 
-	standAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/Idle.almb");
-	walkAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/Walking.almb");
-	runAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/Run.almb");
+	standAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/Idle.almb");//アイドル時
+	walkAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/Walking.almb");//歩き
+	runAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/Run.almb");//走り
 
-	downAttackAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/Punch.almb");
-	deathAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/Dying.almb");
-	jumpAttackAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/JumpAttack.almb");
-	beamAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/Roaring.almb");
+	downAttackAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/Punch.almb");//パンチ
+	deathAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/Dying.almb");//死んだ時
+	jumpAttackAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/JumpAttack.almb");//ジャンプ攻撃
+	beamAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/Beam.almb");//ビーム
 
 	blendTree = std::make_unique<AliceBlendTree>();
 

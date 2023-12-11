@@ -30,10 +30,10 @@ private:
 	float speed = 170.0f;
 
 	AliceMathF::Vector3 direction;
-	float scale = 0.35f;
+	float scale = 0.002f;
 
 	AliceMathF::Vector3 rowlingWay;
-	float rowlingDistance = 100.0f;
+	float rowlingDistance = 300.0f;
 
 	AliceMathF::Vector3 rowlingStartPos;
 	float deathSEVolume = 0.04f;
@@ -64,10 +64,12 @@ private:
 	int32_t healingNum = 10;
 	int32_t damageInterval = 0;
 	uint32_t deathSE = 0;
+	uint32_t attackCount = 0;
 
 	bool isStationary = true;
 	bool fieldHit = false;
 	bool shockwaveHit = false;
+	bool attackAdd = false;
 
 public:
 

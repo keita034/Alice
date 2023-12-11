@@ -187,12 +187,15 @@ int32_t BloodGushGPUParticle::Emit(const BloodGushGPUParticleSetting& setting_,i
 		lEmitData.lifeTime = particleConstant.lifeTime = setting_.lifeTime;
 		lEmitData.size = particleConstant.size = setting_.size;
 		lEmitData.speed = particleConstant.speed = setting_.speed;
-		lEmitData.emitCount = particleConstant.emitCount = static_cast<uint32_t>( EMIT_COUNT * setting_.amount );
+		lEmitData.emitCount = particleConstant.emitCount = static_cast< uint32_t >( EMIT_COUNT * setting_.amount );
 		lEmitData.accel = particleConstant.accel = setting_.accel;
+
+		lEmitData.timeBetweenEmit = setting_.timeBetweenEmit;
+		lEmitData.isPlay = setting_.isPlay;
 
 		lEmitData.emitLifeTime = lEmitData.emitMaxLifeTime = setting_.emitLifeTime;
 		lEmitData.index = static_cast< uint32_t >( emitDatas.size() );
-		lEmitData.isPlay = setting_.isPlay;
+
 
 		emitDatas.push_back(lEmitData);
 		particleConstants.push_back(particleConstant);
@@ -223,7 +226,7 @@ void BloodGushGPUParticle::EmitPlay(const AliceMathF::Vector3& pos_,const AliceM
 		emitDatas[ lIndex ].emitLifeTime = emitDatas[ lIndex ].emitMaxLifeTime;
 		emitDatas[ lIndex ].position = pos_;
 		emitDatas[ lIndex ].velocity = particleConstants[ lIndex ].velocity = velocity_;
-		emitDatas[ lIndex ].position = particleConstants[ lIndex ].velocity = pos_;
+		emitDatas[ lIndex ].position = particleConstants[ lIndex ].position = pos_;
 
 		particleConstantsBuffer->Update(particleConstants.data(),( sizeof(ParticleConstantGPUData) * particleConstants.size() ));
 	}
@@ -295,6 +298,10 @@ bool BloodGushGPUParticle::PCanEmit(ParticleEmit& data_,float deltaTime_)
 				{
 					data_.emitTimeCounter -= deltaTime_;
 				}
+			}
+			else
+			{
+				data_.isPlay = false;
 			}
 		}
 	}

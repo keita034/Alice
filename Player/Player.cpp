@@ -98,10 +98,10 @@ void Player::Update(BaseGameCamera* camera_,GameCameraManager::CameraIndex index
 		{
 			PRowling(camera_);
 
-			PAttack();
-
 			if ( index_ == GameCameraManager::CameraIndex::PLAYER_CAMERA && !( usData.situation & ActorSituation::ROWLING ) )
 			{
+				PAttack();
+
 				PMove(camera_);
 
 			}
@@ -116,8 +116,8 @@ void Player::Update(BaseGameCamera* camera_,GameCameraManager::CameraIndex index
 	AliceMathF::Vector2 lLeftStickPower = input->GetLeftStickVec();
 	float lStickPower = AliceMathUtility::Max<float>(AliceMathF::Abs(lLeftStickPower.x),AliceMathF::Abs(lLeftStickPower.y));
 
-	if ( deviceInput->NotAction() && usData.situation == 0||
-		usData.situation & ActorSituation::WALKING && lStickPower <= 0.5f)
+	if ( deviceInput->NotAction() && usData.situation == 0 ||
+		usData.situation & ActorSituation::WALKING && lStickPower <= 0.5f )
 	{
 		for ( int32_t i = 0; i < 5; i++ )
 		{
@@ -498,16 +498,17 @@ void Player::PRowling(BaseGameCamera* camera_)
 
 	if ( usData.situation & ActorSituation::ROWLING && animation->IsInsert() )
 	{
-		transform.translation = AliceMathF::Easing::EaseInSine(animation->GetRatio(),1.0f,rowlingStartPos,rowlingWay);
+		transform.translation = AliceMathF::Easing::EaseInSine(animation->GetRatio(),0.5f,rowlingStartPos,rowlingWay);
 	}
 
 	if ( usData.situation & ActorSituation::ROWLING && !animation->IsInsert() )
 	{
 		usData.situation &= ~ActorSituation::ROWLING;
-
-		rigidBody->SetRotation(AliceMathF::Quaternion());
 		animation->SetAddFrame();
 	}
+
+	rigidBody->SetRotation(AliceMathF::Quaternion());
+	transform.translation = rigidBody->GetPosition() + -rigidBodyoffset;
 }
 
 void Player::PUIUpdate()
@@ -531,17 +532,53 @@ void Player::PRotate()
 
 void Player::PAttack()
 {
-	if ( input->InputButton(ControllerButton::LB) && !( usData.situation & ActorSituation::ATTACK ) )
+	if ( usData.situation & ActorSituation::ATTACK )
 	{
-		animation->InsertAttackAnimation();
+		if ( animation->IsInsert() && input->TriggerButton(ControllerButton::LB) && !attackAdd && animation->GetRatio() > 0.8f)
+		{
+			if ( attackCount <2 )
+			{
+				attackAdd = true;
+				stamina -= subAttackStamina;
+				attackCount++;
+			}
+		}
+
+		if ( !animation->IsInsert() )
+		{
+			if ( attackAdd )
+			{
+				switch ( attackCount )
+				{
+				case 1:
+					animation->InsertAttackCombo2Animation();
+					attackAdd = false;
+					break;
+				case 2:
+					animation->InsertAttackCombo3Animation();
+					attackAdd = false;
+					break;
+				default:
+					break;
+				}
+			}
+			else
+			{
+				usData.situation &= ~ActorSituation::ATTACK;
+				attackCount = 0;
+				animation->SetAddFrame();
+			}
+		}
+
+	}
+
+	if ( input->TriggerButton(ControllerButton::LB) && !( usData.situation & ActorSituation::ATTACK ) )
+	{
+		animation->InsertAttackCombo1Animation();
+		animation->SetAddFrame(0.035f);
 		stamina -= subAttackStamina;
 
 		usData.situation |= ActorSituation::ATTACK;
-	}
-
-	if ( usData.situation & ActorSituation::ATTACK && !animation->IsInsert() )
-	{
-		usData.situation &= ~ActorSituation::ATTACK;
 	}
 }
 

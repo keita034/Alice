@@ -12,6 +12,11 @@ private:
 	uint32_t runAnimationHandle;
 
 	uint32_t attackAnimationHandle;
+
+	uint32_t attackCombo1AnimationHandle;
+	uint32_t attackCombo2AnimationHandle;
+	uint32_t attackCombo3AnimationHandle;
+
 	uint32_t rowlingAnimationHandle;
 	uint32_t deathAnimationHandle;
 	uint32_t hitAnimationHandle;
@@ -58,6 +63,9 @@ public:
 	float GetRatio();
 
 	void InsertAttackAnimation();
+	void InsertAttackCombo1Animation();
+	void InsertAttackCombo2Animation();
+	void InsertAttackCombo3Animation();
 	void InsertRowlingAnimation();
 	void InsertDeathAnimation();
 	void InsertHitAnimation();

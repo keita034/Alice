@@ -36,6 +36,11 @@ void GPUParticleEmitter::Update(float deltaTime_)
 		particle.second->Update(deltaTime_);
 	}
 
+	for ( std::pair<const std::string,std::unique_ptr<BloodGushGPUParticle>>& particle : bloodGushGPUParticles )
+	{
+		particle.second->Update(deltaTime_);
+	}
+
 	BaseGPUParticle::ParticleEnd();
 }
 
@@ -62,6 +67,11 @@ void GPUParticleEmitter::Draw(const AliceMathF::Matrix4& worldMat_,const AliceMa
 	}
 
 	for ( std::pair<const std::string,std::unique_ptr<MeshGPUParticle>>& particle : meshGPUParticles )
+	{
+		particle.second->Draw(worldMat_,billboardMat_);
+	}
+
+	for ( std::pair<const std::string,std::unique_ptr<BloodGushGPUParticle>>& particle : bloodGushGPUParticles )
 	{
 		particle.second->Draw(worldMat_,billboardMat_);
 	}
@@ -93,10 +103,17 @@ void GPUParticleEmitter::Finalize()
 		particle.second.reset();
 	}
 
+	for ( std::pair<const std::string,std::unique_ptr<BloodGushGPUParticle>>& particle : bloodGushGPUParticles )
+	{
+		particle.second->Finalize();
+		particle.second.reset();
+	}
+
 	shockWaveParticles.clear();
 	fireParticles.clear();
 	laserGPUParticles.clear();
 	meshGPUParticles.clear();
+	bloodGushGPUParticles.clear();
 	basicGPUParticle.reset();
 
 	BaseGPUParticle::BaseGPUParticleFinalize();
@@ -331,6 +348,40 @@ MeshGPUParticle* GPUParticleEmitter::GetMeshGPUParticle(const std::string& name_
 }
 
 #pragma endregion
+
+void GPUParticleEmitter::BloodGushGPUParticleCreate(uint32_t maxParticles_,const std::string& name_)
+{
+	BaseGPUParticle::ParticleBegin();
+	std::unique_ptr<BloodGushGPUParticle> lParticle = std::make_unique<BloodGushGPUParticle>();
+	lParticle->Create(maxParticles_);
+	bloodGushGPUParticles[ name_ ] = std::move(lParticle);
+	BaseGPUParticle::ParticleEnd();
+}
+
+int32_t GPUParticleEmitter::BloodGushGPUParticleEmit(const std::string& name_,const BloodGushGPUParticleSetting& setting_,int32_t index_)
+{
+	return bloodGushGPUParticles[ name_ ]->Emit(setting_,index_);
+}
+
+void GPUParticleEmitter::BloodGushGPUParticleSetTex(const std::string& name_,uint32_t textureHandle_)
+{
+	bloodGushGPUParticles[ name_ ]->SetTex(textureHandle_);
+}
+
+void GPUParticleEmitter::BloodGushGPUParticleEmitPlay(const std::string& name_,const AliceMathF::Vector3& pos_,const AliceMathF::Vector3& velocity_,int32_t index_)
+{
+	bloodGushGPUParticles[ name_ ]->EmitPlay(pos_,velocity_,index_);
+}
+
+void GPUParticleEmitter::BloodGushGPUParticleEmitStop(const std::string& name_,int32_t index_)
+{
+	bloodGushGPUParticles[ name_ ]->EmitStop(index_);
+}
+
+BloodGushGPUParticle* GPUParticleEmitter::GetBloodGushGPUParticle(const std::string& name_)
+{
+	return bloodGushGPUParticles[ name_ ].get();
+}
 
 void GPUParticleEmitter::SetMultiAdapters(IMultiAdapters* multiAdapters_)
 {

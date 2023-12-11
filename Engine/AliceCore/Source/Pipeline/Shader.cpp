@@ -108,7 +108,7 @@ void Shader::Create(const std::string& fileName_, const std::string& entryPoint_
 	type = type_;
 }
 
-void Shader::Copy(IShader* shader_)
+void Shader::Copy(IShader* shader_) 
 {
 	type = shader_->GetType();
 	shaderBytecode = *shader_->GetShader();

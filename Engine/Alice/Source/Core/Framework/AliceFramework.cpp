@@ -144,6 +144,11 @@ void AliceFramework::Update()
 
 	sceneManager->Update();
 
+	if ( input->TriggerKey(Keys::SPACE) )
+	{
+		gpuParticleEmitter->BloodGushGPUParticleEmitPlay("BossBloodGushParticle",{ -40,0,30 },{ 1,0,0 },0);
+	}
+
 	gpuParticleEmitter->Update(fps->GetDeltaTime());
 
 	physicsSystem->SetViewProjection(sceneManager->GetSceneCamera()->GetViewMatrixInv(),sceneManager->GetSceneCamera()->GetProjectionMatrix());

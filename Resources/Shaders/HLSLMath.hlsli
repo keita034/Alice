@@ -102,8 +102,8 @@ matrix Rotate(float3 ANGLE)
 //ƒ‰ƒ“ƒ_ƒ€
 float Rand(int SEED, int SEED2, int MAX, int MIN)
 {
-    float rand = frac(sin(dot(float2(SEED, SEED), float2(12.9898, 78.233)) + (SEED2 + SEED)) * 43758.5453);
-    return (MAX + abs(MIN)) * rand - abs(MIN);
+    float rand = frac(sin(dot(float2(SEED, SEED), float2(12.9898, 78.233))) * 43758.5453);
+    return clamp(rand, MIN, MAX);
 }
 
 uint WangHashRand(uint seed)

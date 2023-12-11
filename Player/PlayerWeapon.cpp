@@ -11,9 +11,9 @@ void PlayerWeapon::Initialize(Transform* parent_,AlicePhysics::AlicePhysicsSyste
 
 	transform.Initialize();
 	transform.parent = parent_;
-	transform.translation = { 10.0f,5.0f,-0.6f };
-	transform.scale = { 0.7f,0.7f ,0.7f };
-	transform.rotation = { 70.0f * AliceMathF::DEG_TO_RAD,0.0f,-90.0f * AliceMathF::DEG_TO_RAD };
+	transform.translation = { 100.0f * 20,100.0f * 10,100.0f * -6.0f };
+	transform.scale = { 120.0f,120.0f ,120.0f };
+	transform.rotation = { 60.0f * AliceMathF::DEG_TO_RAD,0.0f,-90.0f * AliceMathF::DEG_TO_RAD };
 
 	shape.reset(AlicePhysics::CreateBoxShape({ 2.0f,20.0f,3.0f }));
 
@@ -50,7 +50,9 @@ void PlayerWeapon::Update(const std::string& boneName_, AliceBlendTree* tree_,Al
 
 void PlayerWeapon::TransUpdate(Camera* camera_)
 {
-	transform.TransUpdate(camera_, &animationTransform.boneMatrix);
+	AliceMathF::Matrix4 tmp = animationTransform.boneMatrix;
+
+	transform.TransUpdate(camera_, &tmp);
 
 	rigidBody->SetMatrix(transform.rigidBodyMatWorld,transform.matWorld);
 	rigidBody->SetPosition(AliceMathF::GetWorldPosition(transform.matWorld));

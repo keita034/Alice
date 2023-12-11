@@ -10,6 +10,10 @@ void PlayerAnimation::Initialize(AliceInput::IInput* input_)
 	walkAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Walk.almb");
 	runAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Run.almb");
 
+	attackCombo1AnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/AttackCombo1.almb");;
+	attackCombo2AnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/AttackCombo2.almb");;
+	attackCombo3AnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/AttackCombo3.almb");;
+
 	rowlingAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Rowling.almb");
 	attackAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Attack.almb");
 	deathAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Death.almb");
@@ -46,6 +50,24 @@ float PlayerAnimation::GetRatio()
 void PlayerAnimation::InsertAttackAnimation()
 {
 	blendTree->InsertAnimation(attackAnimationHandle);
+}
+
+void PlayerAnimation::InsertAttackCombo1Animation()
+{
+	blendTree->InsertAnimation(attackCombo1AnimationHandle);
+
+}
+
+void PlayerAnimation::InsertAttackCombo2Animation()
+{
+	blendTree->InsertAnimation(attackCombo2AnimationHandle);
+
+}
+
+void PlayerAnimation::InsertAttackCombo3Animation()
+{
+	blendTree->InsertAnimation(attackCombo3AnimationHandle);
+
 }
 
 void PlayerAnimation::InsertRowlingAnimation()
