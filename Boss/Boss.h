@@ -18,6 +18,8 @@ private:
 	Camera* camera = nullptr;
 	IAudioManager* audioManager = nullptr;
 	GPUParticleEmitter* particleEmitter = nullptr;
+	BloodGushGPUParticle* bloodGushGPUParticle = nullptr;
+	MeshGPUParticle* meshGPUParticle = nullptr;
 
 	std::unique_ptr<FireWorkParticle>fireWorkParticle;
 	std::unique_ptr<BossActionManager> actionManager;
@@ -27,18 +29,18 @@ private:
 	std::array< std::unique_ptr<BossHand>,2> hands;
 
 	AliceMathF::Vector3 direction = { 0,0,1 };
-	AliceMathF::Vector3 oldTrans;
-	AliceMathF::Vector3 rigidBodyoffset;
-
 	const int32_t MAX_HP = 7;
-
+	AliceMathF::Vector3 oldTrans;
 	uint32_t damageSE = 0;
+	AliceMathF::Vector3 rigidBodyoffset;
 	uint32_t deathSE = 0;
+
 	uint32_t meshParticleIndex =0;
 	float deathSEVolume = 0.04f;
-
 	int32_t situation = 0;
 	int32_t hp = 0;
+
+	uint32_t bloodGushParticleIndex = 0;
 public:
 
 	Boss() = default;
@@ -76,12 +78,12 @@ public:
 	/// <summary>
 	/// 当たった瞬間に呼ばれる
 	/// </summary>
-	void OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_)override;
+	void OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_)override;
 
    /// <summary>
    /// 当たってる時に呼ばれる
    /// </summary>
-	void OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_)override;
+	void OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_)override;
 
 	void SetPlayer(Player* player_);
 	void SetAudioManager(IAudioManager* audioManager_);

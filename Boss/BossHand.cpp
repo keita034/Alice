@@ -36,8 +36,8 @@ void BossHand::Initialize(Transform* parent_,AlicePhysics::AlicePhysicsSystem* p
 		lSetting.timeBetweenEmit = 0.005f;
 		lSetting.maxParticles = 10000;
 		lSetting.emitCount = 100;
-		lSetting.startColor = { 1,0.01f,0.01f,1 };
-		lSetting.endColor = {1.0f,0.0f,0.0f,1.0f};
+		lSetting.endColor = { 1.0f,0.1f,0.0f,1.0f };
+		lSetting.startColor = { 1.0f,0.1f,0.0f,1.0f };
 		lSetting.lifeTime = 4.2f;
 		lSetting.size = 10.0f;
 		lSetting.convergePointPosition = { 0.0f,3.5f,0.0f };
@@ -94,6 +94,6 @@ void BossHand::Draw()
 	shape->Draw(rigidBody->GetCenterOfMassTransform(), { 1.0f,1.0f ,1.0f }, { 0.8f ,0.0f ,0.0f ,1.0f }, true);
 }
 
-void BossHand::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_){}
-void BossHand::OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_) {}
+void BossHand::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_){}
+void BossHand::OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_) {}
 void BossHand::OnCollisionExit() {}

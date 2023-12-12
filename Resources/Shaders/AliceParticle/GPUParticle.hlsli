@@ -1,19 +1,19 @@
 struct Particle
 {
-	float4 color;
+    float4 color;
 
-	float3 position;
-	float age;
+    float3 position;
+    float age;
 
-	float3 velocity;
+    float3 velocity;
     float alive;
-    
-    float3 accel;
-    uint index;
 
     float2 size;
     float threshold;
     float lifeTime;
+
+    uint index;
+    float3 accel;
 };
 
 struct IndirectCommand

@@ -46,9 +46,10 @@ void main(uint3 DTid : SV_DispatchThreadID)
     particle.alive = (float) (particle.age < particle.lifeTime);
 
     particle.position += particle.velocity * deltaTime;
-    particle.velocity += emitData.accel;
+    particle.velocity += particle.accel;
     
     particle.color = lerp(emitData.startColor, emitData.endColor, t);
+    particle.size = lerp(float2(0.2f, 0.2f), emitData.size, t);
     
     particle.threshold = t;
 

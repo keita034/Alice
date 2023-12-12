@@ -167,11 +167,11 @@ void BossJumpAttackMove::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSyste
 	shockWaveGPUParticle = nullptr;
 }
 
-void BossJumpAttackMove::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_)
+void BossJumpAttackMove::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_)
 {
 }
 
-void BossJumpAttackMove::OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_)
+void BossJumpAttackMove::OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_)
 {
 
 }

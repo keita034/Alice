@@ -71,8 +71,8 @@ public:
 		Object(const Object&) = delete;
 		Object& operator = (const Object&) = delete;
 
-		void OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_) override;
-		void OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_) override;
+		void OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_) override;
+		void OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_) override;
 		void OnCollisionExit() override;
 	};
 

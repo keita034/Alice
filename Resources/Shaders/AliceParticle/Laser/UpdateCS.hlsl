@@ -50,7 +50,9 @@ void main(uint3 DTid : SV_DispatchThreadID)
     
     particle.color = lerp(emitData.startColor, emitData.endColor, t);
     
-    particle.size = lerp(0.0f, emitData.maxSize, saturate(sizeT));
+    float size = lerp(0.0f, emitData.maxSize, saturate(sizeT));
+    
+    particle.size = float2(size, size);
     
     particle.threshold = t;
 

@@ -30,7 +30,7 @@ void CreateBloodGushDrawMaterial(MaterialManager* manager_,IAdapter* adapter_)
 
 	lMaterial->primitiveType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT;
 
-	lMaterial->blenddesc = CreateBlend(BlendMode::AX_BLENDMODE_ADD);
+	lMaterial->blenddesc = CreateBlend(BlendMode::AX_BLENDMODE_SUB);
 
 	lMaterial->cullMode = D3D12_CULL_MODE_NONE;
 

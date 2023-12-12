@@ -74,8 +74,8 @@ public:
 	/// </summary>
 	void Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)override;
 
-	void OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_)override;
-	void OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_)override;
+	void OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_)override;
+	void OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_)override;
 	void OnCollisionExit() override;
 	void Draw()override;
 

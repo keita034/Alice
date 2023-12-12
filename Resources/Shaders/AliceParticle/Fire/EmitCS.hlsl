@@ -47,7 +47,7 @@ void main( uint3 DTid : SV_DispatchThreadID )
      ParticlePool[emitIndex].color = emitData.startColor;
      ParticlePool[emitIndex].position = rand + emitData.position;
      ParticlePool[emitIndex].age = 0.0f;
-     ParticlePool[emitIndex].size = emitData.size;
+    ParticlePool[emitIndex].size = float2(emitData.size, emitData.size);
      ParticlePool[emitIndex].alive = 1.0f;
      ParticlePool[emitIndex].index = emitDataIndex;
      ParticlePool[emitIndex].lifeTime = emitData.lifeTime;

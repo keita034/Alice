@@ -33,7 +33,7 @@ void BossActionManager::Update(const AliceMathF::Vector3& plyerPos_, const Alice
 			do
 			{
 				//bossAction = ChoiceAction();
-				bossAction = BossAction::BEAM_ATTACK;
+				bossAction = BossAction::JUMP_ATTACK;
 
 				switch (bossAction)
 				{

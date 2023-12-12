@@ -113,11 +113,12 @@ void Player::Update(BaseGameCamera* camera_,GameCameraManager::CameraIndex index
 		PRotate();
 	}
 
+	rigidBody->SetRotation(AliceMathF::Quaternion());
+
 	AliceMathF::Vector2 lLeftStickPower = input->GetLeftStickVec();
 	float lStickPower = AliceMathUtility::Max<float>(AliceMathF::Abs(lLeftStickPower.x),AliceMathF::Abs(lLeftStickPower.y));
 
-	if ( deviceInput->NotAction() && usData.situation == 0 ||
-		usData.situation & ActorSituation::WALKING && lStickPower <= 0.5f )
+	if ( deviceInput->NotAction() && usData.situation == 0 || usData.situation & ActorSituation::WALKING && lStickPower <= 0.5f )
 	{
 		for ( int32_t i = 0; i < 5; i++ )
 		{
@@ -202,7 +203,7 @@ void Player::Reset()
 	PRotate();
 }
 
-void Player::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_)
+void Player::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_)
 {
 	if ( BodyData_->GetGroup() == CollisionGroup::BOSS )
 	{
@@ -210,9 +211,7 @@ void Player::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_)
 		{
 			uint32_t lSituation = static_cast< BossUsData* >( BodyData_->GetUserData() )->situation;
 
-			if ( ( lSituation & 0xfff ) == ActorSituation::ATTACK &&
-				!( usData.situation & ActorSituation::DAMAGE ) &&
-				static_cast< BossUsData* >( BodyData_->GetUserData() )->index == BossHandIndex::RIGHT )
+			if ( ( lSituation & 0xfff ) == ActorSituation::ATTACK && !( usData.situation & ActorSituation::DAMAGE ) && static_cast< BossUsData* >( BodyData_->GetUserData() )->index == BossHandIndex::RIGHT )
 			{
 				if ( hp > 0 && !( usData.situation & ActorSituation::ROWLING ) )
 				{
@@ -245,7 +244,7 @@ void Player::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_)
 	}
 }
 
-void Player::OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_)
+void Player::OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_)
 {
 	if ( BodyData_->GetGroup() == CollisionGroup::FIELD )
 	{
@@ -507,7 +506,6 @@ void Player::PRowling(BaseGameCamera* camera_)
 		animation->SetAddFrame();
 	}
 
-	rigidBody->SetRotation(AliceMathF::Quaternion());
 	transform.translation = rigidBody->GetPosition() + -rigidBodyoffset;
 }
 

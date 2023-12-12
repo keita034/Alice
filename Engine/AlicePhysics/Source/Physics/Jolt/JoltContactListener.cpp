@@ -26,10 +26,10 @@ void AlicePhysics::JoltContactListener::OnContactAdded(const JPH::Body& body1,co
 	RigidBodyUserData* lBody2Data = reinterpret_cast< RigidBodyUserData* >( body2.GetUserData() );
 
 	IRigidBody * lBody1RigidBody = 	lBody1Data->GetRigidBody();
-	lBody1RigidBody->OnCollisionEnter(lBody2Data);
+	lBody1RigidBody->OnCollisionEnter(lBody2Data,manifold.mBaseOffset);
 
 	IRigidBody* lBody2RigidBody = lBody2Data->GetRigidBody();
-	lBody2RigidBody->OnCollisionEnter(lBody1Data);
+	lBody2RigidBody->OnCollisionEnter(lBody1Data,manifold.mBaseOffset);
 
 	static_cast< void >( manifold );
 	static_cast< void >( ref_settings );
@@ -41,10 +41,10 @@ void AlicePhysics::JoltContactListener::OnContactPersisted(const JPH::Body& body
 	RigidBodyUserData* lBody2Data = reinterpret_cast< RigidBodyUserData* >( body2.GetUserData() );
 
 	IRigidBody* lBody1RigidBody = lBody1Data->GetRigidBody();
-	lBody1RigidBody->OnCollisionStay(lBody2Data);
+	lBody1RigidBody->OnCollisionStay(lBody2Data,manifold.mBaseOffset);
 
 	IRigidBody* lBody2RigidBody = lBody2Data->GetRigidBody();
-	lBody2RigidBody->OnCollisionStay(lBody1Data);
+	lBody2RigidBody->OnCollisionStay(lBody1Data,manifold.mBaseOffset);
 
 	static_cast< void >( manifold );
 	static_cast< void >( ref_settings );

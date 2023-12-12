@@ -302,15 +302,17 @@ void SceneData::Object::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSyst
 	static_cast< void >( physicsSystem_ );
 }
 
-void SceneData::Object::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_)
+void SceneData::Object::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_)
 {
 	static_cast< void >( BodyData_ );
+	static_cast< void >( hitPosdition_ );
 
 }
 
-void SceneData::Object::OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_)
+void SceneData::Object::OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_)
 {
 	static_cast< void >( BodyData_ );
+	static_cast< void >( hitPosdition_ );
 
 }
 

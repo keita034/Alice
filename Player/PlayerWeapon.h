@@ -2,11 +2,19 @@
 #include<GameObject.h>
 #include<AlicePhysicsSystem.h>
 
+struct PlayerWeaponUsData
+{
+	AliceMathF::Vector3 velocity;
+};
+
 class PlayerWeapon : public GameObject
 {
 private:
 
 	AliceModel::AnimationTransform animationTransform;
+	PlayerWeaponUsData usData;
+	AliceMathF::Vector3 oldPos;
+	AliceMathF::Vector3 rigidBodyOffset;
 public:
 
 	/// <summary>
@@ -38,8 +46,8 @@ public:
 	PlayerWeapon() = default;
 	~PlayerWeapon() = default;
 
-	void OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_) override;
-	void OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_) override;
+	void OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_) override;
+	void OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_) override;
 	void OnCollisionExit() override;
 
 private:

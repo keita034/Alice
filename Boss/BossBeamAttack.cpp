@@ -39,8 +39,8 @@ void BossBeamAttack::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_
 	lSetting.startColor = { 1,0.2f,0.2f,1 };
 	lSetting.endColor = { 1,0.2f,0.2f,1 };
 	lSetting.timeBetweenEmit = 0.00005f;
-	lSetting.maxSize = 800;
-	lSetting.maxSizeTime = 0.15f;
+	lSetting.maxSize = 220;
+	lSetting.maxSizeTime = 0.10f;
 	lSetting.speed = 700;
 	lSetting.isPlay = false;
 
@@ -157,11 +157,11 @@ void BossBeamAttack::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 	laserGPUParticle = nullptr;
 }
 
-void BossBeamAttack::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_)
+void BossBeamAttack::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_)
 {
 }
 
-void BossBeamAttack::OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_)
+void BossBeamAttack::OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_)
 {
 }
 

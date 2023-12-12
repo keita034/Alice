@@ -39,7 +39,10 @@ private:
 	float deathSEVolume = 0.04f;
 
 	AliceMathF::Vector3 rowlingEndPos;
+	int32_t hp = 0;
+
 	AliceMathF::Vector3 rigidBodyoffset;
+	int32_t stamina = 0;
 
 	std::unique_ptr<PlayerUI>ui;
 	std::unique_ptr<PlayerAnimation>animation;
@@ -52,8 +55,6 @@ private:
 	const int32_t MAX_HEALING = 20;
 
 	const int32_t MAX_DAMAGE_INTERVAL = 70;
-	int32_t hp = 0;
-	int32_t stamina = 0;
 	int32_t subRunStamina = 2;
 
 	int32_t subAttackStamina = 200;
@@ -119,12 +120,12 @@ public:
 	/// <summary>
 	/// 当たった瞬間に呼ばれる
 	/// </summary>
-	virtual void OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_)override;
+	virtual void OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_)override;
 
 	/// <summary>
 	/// 当たってる時に呼ばれる
 	/// </summary>
-	virtual void OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_)override;
+	virtual void OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_)override;
 
 	/// <summary>
 	/// 離れた瞬間に呼ばれる

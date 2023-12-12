@@ -34,14 +34,19 @@ void main( uint3 DTid : SV_DispatchThreadID )
     EmitData emitData = emitDatas[emitDataIndex];
 
     uint emitIndex = freeList.Consume();
+    
+    float rand = RandFloat(emitIndex + DTid.x, 1.0f, 0.0f);
+    
+    float rand2 = RandFloat(emitIndex + computeTime + DTid.x, 1.0f, -0.2f);
 
     ParticlePool[emitIndex].position = emitData.position;
-    ParticlePool[emitIndex].velocity = emitData.velocity * emitData.speed;
+    ParticlePool[emitIndex].velocity = emitData.velocity * (emitData.speed * rand);
     ParticlePool[emitIndex].color = emitData.startColor;
     ParticlePool[emitIndex].age = 0;
     ParticlePool[emitIndex].size = emitData.size;
     ParticlePool[emitIndex].alive = 1.0f;
     ParticlePool[emitIndex].index = emitDataIndex;
-    ParticlePool[emitIndex].lifeTime = emitData.lifeTime;
-    
+    ParticlePool[emitIndex].lifeTime = emitData.lifeTime * rand;
+    ParticlePool[emitIndex].accel = emitData.accel * rand2;
+
 }

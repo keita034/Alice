@@ -37,25 +37,40 @@ void Boss::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 		fireWorkParticle->Initialize();
 		fireWorkParticle->SetTex(TextureManager::SLoad("Resources/Default/Particle/effect1.png"));
 
-		MeshGPUParticleSetting lSetting;
+		MeshGPUParticleSetting lMeshSetting;
 
-		lSetting.matWorld = AliceMathF::MakeIdentity();
-		lSetting.velocity = { 0,1,0 };
-		lSetting.startColor = { 1,0,0,1 };
-		lSetting.endColor = { 1,0,0,1 };
-		lSetting.lifeTime = 1.0f;
-		lSetting.maxParticles = 1000000.0f;
-		lSetting.timeBetweenEmit = 0.01f;
-		lSetting.emitLifeTime = -1;
-		lSetting.size = 2;
-		lSetting.speed = 15;
-		lSetting.isPlay = false;
+		lMeshSetting.matWorld = AliceMathF::MakeIdentity();
+		lMeshSetting.velocity = { 0,1,0 };
+		lMeshSetting.startColor = { 1,0,0,1 };
+		lMeshSetting.endColor = { 1,0,0,1 };
+		lMeshSetting.lifeTime = 1.0f;
+		lMeshSetting.maxParticles = 1000000.0f;
+		lMeshSetting.timeBetweenEmit = 0.01f;
+		lMeshSetting.emitLifeTime = -1;
+		lMeshSetting.size = 2;
+		lMeshSetting.speed = 15;
+		lMeshSetting.isPlay = false;
 
-		meshParticleIndex = particleEmitter->MeshGPUParticleEmit("BossModelParticle",lSetting);
+		meshParticleIndex = particleEmitter->MeshGPUParticleEmit("BossModelParticle",lMeshSetting);
+		meshGPUParticle = particleEmitter->GetMeshGPUParticle("BossModelParticle");
+
+		BloodGushGPUParticleSetting lBloodGushSetting;
+		lBloodGushSetting.accel = { 0.0f,-8.5f,0.0f };
+		lBloodGushSetting.amount = 1.0f;
+		lBloodGushSetting.emitLifeTime = 0.1f;
+		lBloodGushSetting.endColor = { 0.0f,1.0f,1.0f,1.0f };
+		lBloodGushSetting.startColor = { 0.0f,1.0f,1.0f,1.0f };
+		lBloodGushSetting.lifeTime = 0.4f;
+		lBloodGushSetting.size = { 20.0f,11.0f };
+		lBloodGushSetting.speed = 350.0f;
+		lBloodGushSetting.timeBetweenEmit = 0.05f;
+		lBloodGushSetting.isPlay = false;
+		bloodGushParticleIndex = particleEmitter->BloodGushGPUParticleEmit("BossBloodGushParticle",lBloodGushSetting);
+		bloodGushGPUParticle = particleEmitter->GetBloodGushGPUParticle("BossBloodGushParticle");
+
+		particleEmitter->MeshGPUParticleEmitPlay("BossModelParticle",meshParticleIndex);
+
 	}
-
-	particleEmitter->MeshGPUParticleEmitPlay("BossModelParticle",meshParticleIndex);
-
 
 	damageSE = audioManager->LoadAudio("Resources/SE/Damage.mp3",0.3f);
 	deathSE = audioManager->LoadAudio("Resources/SE/BossDeath.mp3");
@@ -193,7 +208,7 @@ void Boss::UIDraw()
 
 void Boss::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 {
-	particleEmitter->MeshGPUParticleEmitStop("BossModelParticle",meshParticleIndex);
+	meshGPUParticle->EmitStop(meshParticleIndex);
 
 	actionManager->Finalize(physicsSystem_);
 
@@ -221,7 +236,7 @@ void Boss::TransUpdate(Camera* camera_)
 
 	actionManager->GetBossBeamAttackMove()->TransUpdate(camera_);
 
-	particleEmitter->MeshGPUParticleSetMat("BossModelParticle",transform.matWorld,meshParticleIndex);
+	meshGPUParticle->SetMat(transform.matWorld,meshParticleIndex);
 
 #ifdef _DEBUG
 	actionManager->GetBossJumpAttackMove()->TransUpdate(camera_);
@@ -231,13 +246,13 @@ void Boss::TransUpdate(Camera* camera_)
 	camera = camera_;
 }
 
-void Boss::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_)
+void Boss::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_)
 {
-	if ( BodyData_->GetGroup() == CollisionGroup::PLAYER &&
-		BodyData_->GetAttribute() == CollisionAttribute::WEAPON &&
-		player->IsAttack() &&
-		!( situation & ActorSituation::DAMAGE ) )
+	if ( BodyData_->GetGroup() == CollisionGroup::PLAYER && BodyData_->GetAttribute() == CollisionAttribute::WEAPON && player->IsAttack() && !( situation & ActorSituation::DAMAGE ) )
 	{
+
+		PlayerWeaponUsData* lUsData = static_cast< PlayerWeaponUsData* > ( BodyData_->GetUserData() );
+
 		if ( hp > 0 )
 		{
 			for ( int32_t i = 0; i < player->GetDamage(); i++ )
@@ -247,12 +262,12 @@ void Boss::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_)
 					break;
 				}
 
-				hp--;
+				//hp--;
 			}
 
 			situation |= ActorSituation::DAMAGE;
-			fireWorkParticle->Add(transform.translation + rigidBodyoffset);
 			audioManager->PlayWave(damageSE);
+			bloodGushGPUParticle->EmitPlay(hitPosdition_,lUsData->velocity,bloodGushParticleIndex);
 
 			if ( hp <= 0 )
 			{
@@ -265,7 +280,7 @@ void Boss::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_)
 	}
 }
 
-void Boss::OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_)
+void Boss::OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_)
 {
 }
 

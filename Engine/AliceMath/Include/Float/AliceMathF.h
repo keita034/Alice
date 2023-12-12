@@ -361,5 +361,7 @@ namespace AliceMathF
 	/// <param name="p1">1つ目の座標</param>
 	/// <param name="p2">2つ目の座標</param>
 	float GetCenter(float p1_,float p2_);
+
+	AliceMathF::Vector4 GetColer(uint8_t r,uint8_t g,uint8_t b,uint8_t a = 255);
 };
 

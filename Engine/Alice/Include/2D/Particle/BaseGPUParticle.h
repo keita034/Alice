@@ -43,7 +43,7 @@ protected:
 		float lifeTime;
 
 		uint32_t index;
-		AliceMathF::Vector3 pad;
+		AliceMathF::Vector3 accel;
 	};
 
 	struct WorldBillboardGPUData

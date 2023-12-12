@@ -14,6 +14,8 @@ VS_OUTPUT main(uint id : SV_VertexID)
     output.size = particle.size;
     output.color = particle.color;
     output.threshold = particle.threshold;
+    
+    ParticlePool[drawIndex].size = float2(0.0f,0.0f);
 
     return output;
 }

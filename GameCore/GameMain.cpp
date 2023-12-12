@@ -11,6 +11,7 @@ void GameMain::Initialize()
 	int32_t fireEffectNoiseHandle = TextureManager::SLoad("Resources/Default/Particle/FireEffectNoise.png");
 	int32_t effect1Handle = TextureManager::SLoad("Resources/Default/Particle/effect1.png");
 	int32_t effect2Handle = TextureManager::SLoad("Resources/Default/Particle/effect2.png");
+	int32_t fireEffectNoiseInvHandle = TextureManager::SLoad("Resources/Default/Particle/FireEffectNoiseInv.png");
 
 	gpuParticleEmitter->FireParticleCreate(10000,"BossHandParticle");
 	gpuParticleEmitter->FireParticleSetTex("BossHandParticle",fireEffectNoiseHandle);
@@ -32,19 +33,6 @@ void GameMain::Initialize()
 
 	gpuParticleEmitter->BloodGushGPUParticleCreate(100000,"BossBloodGushParticle");
 	gpuParticleEmitter->BloodGushGPUParticleSetTex("BossBloodGushParticle",fireEffectNoiseHandle);
-
-	BloodGushGPUParticleSetting lSetting;
-	lSetting.accel = { 0.0f,-3.5f,0.0f };
-	lSetting.amount = 1.0f;
-	lSetting.emitLifeTime = 0.1f;
-	lSetting.endColor = { 1.0f,0.0f,0.0f,1.0f };
-	lSetting.startColor = { 1.0f,0.0f,0.0f,1.0f };
-	lSetting.lifeTime = 0.4f;
-	lSetting.size = { 20.0f,11.0f };
-	lSetting.speed = 400.0f;
-	lSetting.timeBetweenEmit = 0.01f;
-	lSetting.isPlay = false;
-	gpuParticleEmitter->BloodGushGPUParticleEmit("BossBloodGushParticle",lSetting);
 
 	//シーンの初期化
 	sceneFactory = SceneFactrory::SGetInstance();

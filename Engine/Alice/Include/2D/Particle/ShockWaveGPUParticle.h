@@ -57,36 +57,10 @@ public://GPUで使う構造体
 		AliceMathF::Vector3 pad;
 	};
 
-	struct WorldBillboardGPUData
-	{
-		AliceMathF::Matrix4 worldMat;
-		AliceMathF::Matrix4 billboardMat;
-	};
-
-	struct TimeConstantGPUData
-	{
-		float deltaTime = 0.0f;
-		float totalTime = 0.0f;
-		uint32_t computeTime;
-	};
-
 	struct FireGPUParticleGPUData
 	{
 		uint32_t maxParticles = 0;
 		uint32_t emitDataIndex = 0;
-	};
-
-	struct ParticleGPUData
-	{
-		AliceMathF::Vector4 color;
-		AliceMathF::Vector3 position;
-		float age;
-		AliceMathF::Vector3 velocity;
-		float size;
-		float alive;
-		float threshold;
-		float lifeTime;
-		uint32_t index;
 	};
 
 	struct ParticleConstantGPUDatas
