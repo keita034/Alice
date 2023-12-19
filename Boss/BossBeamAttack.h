@@ -37,6 +37,8 @@ private:
 
 	BossBeamUsData usData;
 
+	bool isDraw = false;
+
 public:
 
 	void Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_,BossAnimation* bossAnimation_,LaserGPUParticle* laserGPUParticle_,Transform* parent_);

@@ -14,6 +14,7 @@ private:
 	uint32_t deathAnimationHandle;
 	uint32_t jumpAttackAnimationHandle;
 	uint32_t beamAnimationHandle;
+	uint32_t closeRangeAttackAnimationHandle;
 
 	float walkAnimationThresh = 0.0f;
 
@@ -58,12 +59,10 @@ public:
 	float GetRatio();
 
 	void InsertDownAttackAnimation();
-
 	void InsertDeathAnimation();
-
 	void InserJumpAttackAnimation();
-
 	void InserBeamAnimation();
+	void InsertCloseRangeAttackAnimation();
 
 	bool IsInsert();
 

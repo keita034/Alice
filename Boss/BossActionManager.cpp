@@ -17,25 +17,49 @@ void BossActionManager::Initialize(BossAnimation* animation_,AlicePhysics::Alice
 	bossBeamAttack = std::make_unique<BossBeamAttack>();
 	bossBeamAttack->Initialize(physicsSystem_,animation_,particleEmitter->GetLaserParticle("BossLaserParticle"),bossTransform);
 
+	closeRangeAttack = std::make_unique<BossCloseRangeAttack>();
+	closeRangeAttack->Initialize(bossTransform,physicsSystem_,animation_);
+	closeRangeAttack->SetFrameDistance(460);
+	closeRangeAttack->SetDistanceFrame(200);
 	actionCount = MAX_ACTION_COUNT;
 
 	animation = animation_;
 }
 
-void BossActionManager::Update(const AliceMathF::Vector3& plyerPos_, const AliceMathF::Vector3& bossPos_)
+void BossActionManager::Update(const AliceMathF::Vector3& plyerPos_,const AliceMathF::Vector3& bossPos_,const std::string& boneName_,AliceBlendTree* tree_,AliceModel* bossModel_)
 {
-	if (actionCount > 0)
+	float length = 0.0f;
+
+	if ( bossAction == BossAction::NONE )
+	{
+		AliceMathF::Vector3 vec = plyerPos_ - bossPos_;
+		length = AliceMathF::Abs(vec.Length());
+
+		if ( length < 300 )
+		{
+			shortDistanceTIme++;
+
+			longDistanceTIme = 0;
+		}
+		else
+		{
+			longDistanceTIme++;
+
+			shortDistanceTIme = 0;
+		}
+	}
+
+	if ( actionCount > 0 )
 	{
 		actionCount--;
 
-		if (actionCount == 0)
+		if ( actionCount == 0 )
 		{
 			do
 			{
-				//bossAction = ChoiceAction();
-				bossAction = BossAction::JUMP_ATTACK;
+				bossAction = ChoiceAction(length,bossPos_);
 
-				switch (bossAction)
+				switch ( bossAction )
 				{
 				case BossAction::NONE:
 					actionCount = MAX_ACTION_COUNT;
@@ -57,16 +81,21 @@ void BossActionManager::Update(const AliceMathF::Vector3& plyerPos_, const Alice
 					animation->InserBeamAnimation();
 					direction = -AliceMathF::Vector3(plyerPos_ - bossPos_).Normal();
 					break;
-
+				case BossAction::CLOSERANGE_ATTACK:
+					bossInternalAction = BossInternalAction::CLOSERANGE_ATTACK;
+					closeRangeAttack->SetPlayerPos(plyerPos_);
+					closeRangeAttack->SetBossPos(bossPos_);
+					animation->InsertCloseRangeAttackAnimation();
+					break;
 				case BossAction::BOSS_ACTION_NUM:
 				default:
 					break;
 				}
-			}while (bossAction == BossAction::BOSS_ACTION_NUM);
+			} while ( bossAction == BossAction::BOSS_ACTION_NUM );
 		}
 	}
 
-	PMoveUpdate();
+	PMoveUpdate(boneName_,tree_,bossModel_);
 }
 
 void BossActionManager::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
@@ -82,7 +111,7 @@ const AliceMathF::Vector3& BossActionManager::GetDistanceTraveled() const
 
 void BossActionManager::SetBossPos(const AliceMathF::Vector3& pos_)
 {
-	switch (bossInternalAction)
+	switch ( bossInternalAction )
 	{
 	case BossInternalAction::NONE:
 		break;
@@ -91,6 +120,9 @@ void BossActionManager::SetBossPos(const AliceMathF::Vector3& pos_)
 		break;
 	case BossInternalAction::ATTACK:
 		break;
+	case BossInternalAction::CLOSERANGE_ATTACK:
+		closeRangeAttack->SetBossPos(pos_);
+		break;
 	case BossInternalAction::BOSS_INTERNAL_ACTION_NUM:
 		break;
 	default:
@@ -98,9 +130,9 @@ void BossActionManager::SetBossPos(const AliceMathF::Vector3& pos_)
 	}
 }
 
-void BossActionManager::PMoveUpdate()
+void BossActionManager::PMoveUpdate(const std::string& boneName_,AliceBlendTree* tree_,AliceModel* bossModel_)
 {
-	switch (bossAction)
+	switch ( bossAction )
 	{
 	case BossAction::NONE:
 		break;
@@ -113,6 +145,9 @@ void BossActionManager::PMoveUpdate()
 	case BossAction::BEAM_ATTACK:
 		PBeamAttack();
 		break;
+	case BossAction::CLOSERANGE_ATTACK:
+		PCloseRangeAttack(boneName_,tree_,bossModel_);
+		break;
 	case BossAction::BOSS_ACTION_NUM:
 		break;
 	default:
@@ -123,9 +158,9 @@ void BossActionManager::PMoveUpdate()
 void BossActionManager::PChaseAttack()
 {
 	//追跡
-	if (bossInternalAction == BossInternalAction::CHASE)
+	if ( bossInternalAction == BossInternalAction::CHASE )
 	{
-		if (chaseMove->IsFinish())
+		if ( chaseMove->IsFinish() )
 		{
 			bossInternalAction = BossInternalAction::ATTACK;
 			animation->InsertDownAttackAnimation();
@@ -143,9 +178,9 @@ void BossActionManager::PChaseAttack()
 	//攻撃
 	else if ( bossInternalAction == BossInternalAction::ATTACK )
 	{
-		if (!animation->IsInsert())
+		if ( !animation->IsInsert() )
 		{
-			actionCount = MAX_ACTION_COUNT;
+			actionCount = 25;
 			bossInternalAction = BossInternalAction::NONE;
 			bossAction = BossAction::NONE;
 		}
@@ -171,7 +206,7 @@ void BossActionManager::PJumpAttack()
 		if ( jumpAttackMove->IsFinish() )
 		{
 			jumpAttackMove->End();
-			actionCount = MAX_ACTION_COUNT;
+			actionCount = 30;
 			bossInternalAction = BossInternalAction::NONE;
 			bossAction = BossAction::NONE;
 		}
@@ -194,25 +229,55 @@ void BossActionManager::PBeamAttack()
 	}
 }
 
-BossAction BossActionManager::ChoiceAction()
+void BossActionManager::PCloseRangeAttack(const std::string& boneName_,AliceBlendTree* tree_,AliceModel* bossModel_)
 {
-	int32_t lRand = AliceMathUtility::GetRand(0,7) ;
+	if ( bossInternalAction == BossInternalAction::CLOSERANGE_ATTACK )
+	{
+		closeRangeAttack->Update();
+		closeRangeAttack->SwordUpdate(boneName_,tree_,bossModel_);
 
-	if ( lRand == 0 )
-	{
-		return BossAction::NONE;
+		distanceTraveled = closeRangeAttack->GetDistanceTraveled();
+		direction = -closeRangeAttack->GetDirection();
+
+		if ( closeRangeAttack->IsFinish() )
+		{
+			closeRangeAttack->End();
+			actionCount = MAX_ACTION_COUNT;
+			bossInternalAction = BossInternalAction::NONE;
+			bossAction = BossAction::NONE;
+		}
 	}
-	if ( lRand < 4 )
+}
+
+BossAction BossActionManager::ChoiceAction(float length_,const AliceMathF::Vector3& bossPos_)
+{
+	if ( shortDistanceTIme > 0 )
 	{
-		return BossAction::CHASE_ATTACK;
+		if ( shortDistanceTIme >= 250 )
+		{
+			shortDistanceTIme = 0;
+
+			return BossAction::JUMP_ATTACK;
+		}
+
+		if ( length_ <= 200 )
+		{
+			return BossAction::CHASE_ATTACK;
+		}
 	}
-	if ( lRand < 6 )
+	else
 	{
-		return BossAction::JUMP_ATTACK;
-	}
-	if ( lRand == 7 )
-	{
-		return BossAction::BEAM_ATTACK;
+		if ( longDistanceTIme >= 100 )
+		{
+			longDistanceTIme = 0;
+
+			return BossAction::BEAM_ATTACK;
+		}
+
+		if ( length_>= 200 )
+		{
+			return BossAction::CLOSERANGE_ATTACK;
+		}
 	}
 
 	return BossAction::NONE;
@@ -226,9 +291,15 @@ BossJumpAttackMove* BossActionManager::GetBossJumpAttackMove()
 }
 
 #endif
+
 BossBeamAttack* BossActionManager::GetBossBeamAttackMove()
 {
 	return bossBeamAttack.get();
+}
+
+BossCloseRangeAttack* BossActionManager::GetBossCloseRangeAttack()
+{
+	return closeRangeAttack.get();
 }
 
 const BossInternalAction BossActionManager::GetinternalAction()const

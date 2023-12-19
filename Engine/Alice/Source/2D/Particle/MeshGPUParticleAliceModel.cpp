@@ -1,22 +1,22 @@
 #include "MeshGPUParticleAliceModel.h"
 
-IMultiAdapters* MeshGPUParticleAliceModel::sMultiAdapters;
+IMultiAdapters* AnimationMeshGPUParticleAliceModel::sMultiAdapters;
 
-std::unordered_map<std::string,std::unique_ptr<MeshGPUParticleAliceModelData>> MeshGPUParticleAliceModel::sModelDatas;
+std::unordered_map<std::string,std::unique_ptr<AnimationMeshGPUParticleAliceModelData>> AnimationMeshGPUParticleAliceModel::sModelDatas;
 
 
-const std::vector<std::unique_ptr<MeshGPUParticleModelMesh>>& MeshGPUParticleAliceModel::GetMeshs()
+const std::vector<std::unique_ptr<AnimationMeshGPUParticleModelMesh>>& AnimationMeshGPUParticleAliceModel::GetMeshs()
 {
 	return modelData->meshes;
 }
 
 
-void MeshGPUParticleAliceModel::SetModel(AliceModel* model_,BufferType type)
+void AnimationMeshGPUParticleAliceModel::SetModel(AliceModel* model_,BufferType type)
 {
 	std::string lFilePath = model_->modelData->filePath;
 
 		//一回読み込んだことがあるファイルはそのまま返す
-	auto lModelItr = find_if(sModelDatas.begin(),sModelDatas.end(),[ & ] (std::pair<const std::string,std::unique_ptr<MeshGPUParticleAliceModelData,std::default_delete<MeshGPUParticleAliceModelData>>>& modelData)
+	auto lModelItr = find_if(sModelDatas.begin(),sModelDatas.end(),[ & ] (std::pair<const std::string,std::unique_ptr<AnimationMeshGPUParticleAliceModelData,std::default_delete<AnimationMeshGPUParticleAliceModelData>>>& modelData)
 		{
 			return modelData.second->filePath == lFilePath;
 		});
@@ -29,7 +29,7 @@ void MeshGPUParticleAliceModel::SetModel(AliceModel* model_,BufferType type)
 		}
 		else
 		{
-			std::unique_ptr<MeshGPUParticleAliceModelData> lData = std::make_unique<MeshGPUParticleAliceModelData>();
+			std::unique_ptr<AnimationMeshGPUParticleAliceModelData> lData = std::make_unique<AnimationMeshGPUParticleAliceModelData>();
 
 			AliceModelData* lModelData = model_->modelData;
 
@@ -39,7 +39,7 @@ void MeshGPUParticleAliceModel::SetModel(AliceModel* model_,BufferType type)
 
 			for ( std::unique_ptr<ModelMesh>& mesh : lModelData->meshes )
 			{
-				std::unique_ptr<MeshGPUParticleModelMesh> lMesh = std::make_unique<MeshGPUParticleModelMesh>();
+				std::unique_ptr<AnimationMeshGPUParticleModelMesh> lMesh = std::make_unique<AnimationMeshGPUParticleModelMesh>();
 
 				lMesh->name = mesh->name;
 				lMesh->vertices = &mesh->vertices;
@@ -65,32 +65,32 @@ void MeshGPUParticleAliceModel::SetModel(AliceModel* model_,BufferType type)
 	}
 }
 
-void MeshGPUParticleAliceModel::SSetMultiAdapters(IMultiAdapters* multiAdapters_)
+void AnimationMeshGPUParticleAliceModel::SSetMultiAdapters(IMultiAdapters* multiAdapters_)
 {
 	sMultiAdapters = multiAdapters_;
 }
 
-const std::vector<PosNormUvTangeColSkin>& MeshGPUParticleModelMesh::GetVertices()
+const std::vector<PosNormUvTangeColSkin>& AnimationMeshGPUParticleModelMesh::GetVertices()
 {
 	return *vertices;
 }
 
-D3D12_GPU_DESCRIPTOR_HANDLE MeshGPUParticleModelMesh::GetVertexSRVAddress() const
+D3D12_GPU_DESCRIPTOR_HANDLE AnimationMeshGPUParticleModelMesh::GetVertexSRVAddress() const
 {
 	return vertexBuffer->GetSRVAddress();
 }
 
-D3D12_GPU_DESCRIPTOR_HANDLE MeshGPUParticleModelMesh::GetIndicesSRVAddress() const
+D3D12_GPU_DESCRIPTOR_HANDLE AnimationMeshGPUParticleModelMesh::GetIndicesSRVAddress() const
 {
 	return indexBuffer->GetSRVAddress();
 }
 
-IConstantBuffer* MeshGPUParticleModelMesh::GetBoneBuffer()
+IConstantBuffer* AnimationMeshGPUParticleModelMesh::GetBoneBuffer()
 {
 	return constBoneBuffer.get();
 }
 
-void MeshGPUParticleAliceModel::Finalize()
+void AnimationMeshGPUParticleAliceModel::Finalize()
 {
 	sMultiAdapters = nullptr;
 
@@ -98,7 +98,7 @@ void MeshGPUParticleAliceModel::Finalize()
 	sModelDatas.clear();
 }
 
-const ReturnMotionNode* MeshGPUParticleAliceModel::PFindNodeAnim(const AliceMotionData* pAnimation_,const std::string& strNodeName_)
+const ReturnMotionNode* AnimationMeshGPUParticleAliceModel::PFindNodeAnim(const AliceMotionData* pAnimation_,const std::string& strNodeName_)
 {
 	return pAnimation_->GetMotion(strNodeName_);
 }

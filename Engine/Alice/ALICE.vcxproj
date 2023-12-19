@@ -137,7 +137,7 @@
     <ClInclude Include="Include\2D\Particle\BasicGPUParticle.h" />
     <ClInclude Include="Include\2D\Particle\FireWorkParticle.h" />
     <ClInclude Include="Include\2D\Particle\LaserGPUParticle.h" />
-    <ClInclude Include="Include\2D\Particle\MeshGPUParticle.h" />
+    <ClInclude Include="Include\2D\Particle\AnimationMeshGPUParticle.h" />
     <ClInclude Include="Include\2D\Particle\MeshGPUParticleAliceModel.h" />
     <ClInclude Include="Include\3D\Model\AliceBlendTree.h" />
     <ClInclude Include="Include\2D\PostEffect\DistortionPostEffect.h" />
@@ -234,7 +234,7 @@
   <ItemGroup>
     <ClCompile Include="Source\2D\Particle\BloodGushGPUParticle.cpp" />
     <ClCompile Include="Source\2D\Particle\LaserGPUParticle.cpp" />
-    <ClCompile Include="Source\2D\Particle\MeshGPUParticle.cpp" />
+    <ClCompile Include="Source\2D\Particle\AnimationMeshGPUParticle.cpp" />
     <ClCompile Include="Source\2D\Particle\MeshGPUParticleAliceModel.cpp" />
     <ClCompile Include="Source\2D\Particle\ShockWaveGPUParticle.cpp" />
     <ClCompile Include="Source\2D\Particle\FireGPUParticle.cpp" />

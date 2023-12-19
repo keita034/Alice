@@ -3,7 +3,7 @@
 #include<AliceModel.h>
 #include<BufferType.h>
 
-class MeshGPUParticleModelMesh
+class AnimationMeshGPUParticleModelMesh
 {
 public:
 
@@ -42,20 +42,20 @@ public:
 private:
 
 //コピーコンストラクタ・代入演算子削除
-	MeshGPUParticleModelMesh& operator=(const MeshGPUParticleModelMesh&) = delete;
-	MeshGPUParticleModelMesh(const MeshGPUParticleModelMesh&) = delete;
+	AnimationMeshGPUParticleModelMesh& operator=(const AnimationMeshGPUParticleModelMesh&) = delete;
+	AnimationMeshGPUParticleModelMesh(const AnimationMeshGPUParticleModelMesh&) = delete;
 
 public:
 
-	MeshGPUParticleModelMesh() = default;
-	~MeshGPUParticleModelMesh() = default;
+	AnimationMeshGPUParticleModelMesh() = default;
+	~AnimationMeshGPUParticleModelMesh() = default;
 };
 
-class MeshGPUParticleAliceModelData
+class AnimationMeshGPUParticleAliceModelData
 {
 private:
 	//フレンドクラス
-	friend class MeshGPUParticleAliceModel;
+	friend class AnimationMeshGPUParticleAliceModel;
 	friend class AliceFileStream;
 
 	std::string filePath;
@@ -64,48 +64,48 @@ private:
 	std::string name;
 
 	//メッシュ配列
-	std::vector<std::unique_ptr<MeshGPUParticleModelMesh>> meshes;
+	std::vector<std::unique_ptr<AnimationMeshGPUParticleModelMesh>> meshes;
 
 	//姿勢行列
 	IConstantBuffer* postureMatBuff;
 
 public:
-	MeshGPUParticleAliceModelData() = default;
-	~MeshGPUParticleAliceModelData() = default;
+	AnimationMeshGPUParticleAliceModelData() = default;
+	~AnimationMeshGPUParticleAliceModelData() = default;
 
 private:
 	//コピーコンストラクタ・代入演算子削除
-	MeshGPUParticleAliceModelData& operator=(const MeshGPUParticleAliceModelData&) = delete;
-	MeshGPUParticleAliceModelData(const MeshGPUParticleAliceModelData&) = delete;
+	AnimationMeshGPUParticleAliceModelData& operator=(const AnimationMeshGPUParticleAliceModelData&) = delete;
+	AnimationMeshGPUParticleAliceModelData(const AnimationMeshGPUParticleAliceModelData&) = delete;
 };
 
-class MeshGPUParticleAliceModel
+class AnimationMeshGPUParticleAliceModel
 {
 protected:
 
 	static IMultiAdapters* sMultiAdapters;
 
-	static std::unordered_map<std::string,std::unique_ptr<MeshGPUParticleAliceModelData>> sModelDatas;
+	static std::unordered_map<std::string,std::unique_ptr<AnimationMeshGPUParticleAliceModelData>> sModelDatas;
 
-	MeshGPUParticleAliceModelData* modelData = nullptr;
+	AnimationMeshGPUParticleAliceModelData* modelData = nullptr;
 
 public:
 
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	MeshGPUParticleAliceModel() = default;
+	AnimationMeshGPUParticleAliceModel() = default;
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	virtual ~MeshGPUParticleAliceModel() = default;
+	virtual ~AnimationMeshGPUParticleAliceModel() = default;
 
 	/// <summary>
 	/// メッシュ配列を取得
 	/// </summary>
 	/// <returns></returns>
-	const std::vector<std::unique_ptr<MeshGPUParticleModelMesh>>& GetMeshs();
+	const std::vector<std::unique_ptr<AnimationMeshGPUParticleModelMesh>>& GetMeshs();
 
 	/// <summary>
 	/// モデルをセット
@@ -125,11 +125,11 @@ public:
 
 protected:
 
-	void PReadNodeHeirarchy(MeshGPUParticleModelMesh* mesh_,const AliceMotionData* pAnimation_,const Node* pNode_,const AliceMathF::Matrix4& mxParentTransform_);
-	void PReadNodeHeirarchy(MeshGPUParticleModelMesh* mesh_,AliceBlendTree* blendTree_,const Node* pNode_,const AliceMathF::Matrix4& mxParentTransform_);
+	void PReadNodeHeirarchy(AnimationMeshGPUParticleModelMesh* mesh_,const AliceMotionData* pAnimation_,const Node* pNode_,const AliceMathF::Matrix4& mxParentTransform_);
+	void PReadNodeHeirarchy(AnimationMeshGPUParticleModelMesh* mesh_,AliceBlendTree* blendTree_,const Node* pNode_,const AliceMathF::Matrix4& mxParentTransform_);
 	const ReturnMotionNode* PFindNodeAnim(const AliceMotionData* pAnimation_,const std::string& strNodeName_);
 
 	//コピーコンストラクタ・代入演算子削除
-	MeshGPUParticleAliceModel& operator=(const MeshGPUParticleAliceModel&) = delete;
-	MeshGPUParticleAliceModel(const MeshGPUParticleAliceModel&) = delete;
+	AnimationMeshGPUParticleAliceModel& operator=(const AnimationMeshGPUParticleAliceModel&) = delete;
+	AnimationMeshGPUParticleAliceModel(const AnimationMeshGPUParticleAliceModel&) = delete;
 };

@@ -18,6 +18,7 @@
 #include<BossChaseMove.h>
 #include<BossJumpAttackMove.h>
 #include<BossBeamAttack.h>
+#include<BossCloseRangeAttack.h>
 
 enum class BossAction
 {
@@ -25,6 +26,7 @@ enum class BossAction
 	CHASE_ATTACK,
 	JUMP_ATTACK,
 	BEAM_ATTACK,
+	CLOSERANGE_ATTACK,
 	BOSS_ACTION_NUM
 };
 
@@ -35,6 +37,7 @@ enum class BossInternalAction
 	ATTACK,
 	JUMP_ATTACK,
 	BEAM_ATTACK,
+	CLOSERANGE_ATTACK,
 	BOSS_INTERNAL_ACTION_NUM
 };
 
@@ -48,8 +51,10 @@ private:
 	std::unique_ptr<BossChaseMove> chaseMove;
 	std::unique_ptr<BossJumpAttackMove>jumpAttackMove;
 	std::unique_ptr<BossBeamAttack>bossBeamAttack;
+	std::unique_ptr<BossCloseRangeAttack>closeRangeAttack;
 
-	const int32_t MAX_ACTION_COUNT = 90;
+
+	int32_t MAX_ACTION_COUNT = 90;
 	int32_t actionCount = 0;
 
 	BossAction bossAction;
@@ -65,6 +70,9 @@ private:
 
 	AliceMathF::Vector3 direction = { 0,0,1 };
 
+	int32_t shortDistanceTIme = 0;
+	int32_t longDistanceTIme = 0;
+
 public:
 
 	/// <summary>
@@ -75,7 +83,7 @@ public:
    /// <summary>
    /// 更新処理
    /// </summary>
-	void Update(const AliceMathF::Vector3& plyerPos_, const AliceMathF::Vector3& bossPos_);
+	void Update(const AliceMathF::Vector3& plyerPos_, const AliceMathF::Vector3& bossPos_,const std::string& boneName_,AliceBlendTree* tree_,AliceModel* bossModel_);
 
    /// <summary>
    /// 後始末
@@ -95,7 +103,7 @@ public:
 
 	void SetParticleEmitter(GPUParticleEmitter* particleEmitter_);
 
-	BossAction ChoiceAction();
+	BossAction ChoiceAction(float length_,const AliceMathF::Vector3& bossPos_);
 
 	//デバッグ用
 #ifdef _DEBUG
@@ -105,14 +113,16 @@ public:
 #endif // _DEBUG
 
 	BossBeamAttack* GetBossBeamAttackMove();
+	BossCloseRangeAttack* GetBossCloseRangeAttack();
 
 
 private:
 
-	void PMoveUpdate();
+	void PMoveUpdate(const std::string& boneName_,AliceBlendTree* tree_,AliceModel* bossModel_);
 
 	void PChaseAttack();
 	void PJumpAttack();
 	void PBeamAttack();
+	void PCloseRangeAttack(const std::string& boneName_,AliceBlendTree* tree_,AliceModel* bossModel_);
 };
 

@@ -21,7 +21,7 @@ cbuffer ParticleDatas : register(b2)
 
 cbuffer BoneDatas : register(b3)
 {
-    matrix bones[BONE_MAX];
+    matrix postureMat;
 }
 
 Texture2D<float4> tex : register(t0);

@@ -11,11 +11,11 @@ void PlayerWeapon::Initialize(Transform* parent_,AlicePhysics::AlicePhysicsSyste
 
 	transform.Initialize();
 	transform.parent = parent_;
-	transform.translation = { 100.0f * 20,100.0f * 10,100.0f * -6.0f };
+	transform.translation = { 100.0f * 50,100.0f * 10,100.0f * -6.0f };
 	transform.scale = { 120.0f,120.0f ,120.0f };
 	transform.rotation = { 60.0f * AliceMathF::DEG_TO_RAD,0.0f,-90.0f * AliceMathF::DEG_TO_RAD };
 
-	shape.reset(AlicePhysics::CreateBoxShape({ 2.0f,10.0f,3.0f }));
+	shape.reset(AlicePhysics::CreateBoxShape({ 2.0f,12.0f,3.0f }));
 
 	{
 		AlicePhysics::IRigidBodyCreationSettings lSetting;

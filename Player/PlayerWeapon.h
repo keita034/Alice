@@ -14,7 +14,6 @@ private:
 	AliceModel::AnimationTransform animationTransform;
 	PlayerWeaponUsData usData;
 	AliceMathF::Vector3 oldPos;
-	AliceMathF::Vector3 rigidBodyOffset;
 public:
 
 	/// <summary>

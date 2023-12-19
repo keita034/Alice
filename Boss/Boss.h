@@ -19,7 +19,7 @@ private:
 	IAudioManager* audioManager = nullptr;
 	GPUParticleEmitter* particleEmitter = nullptr;
 	BloodGushGPUParticle* bloodGushGPUParticle = nullptr;
-	MeshGPUParticle* meshGPUParticle = nullptr;
+	AnimationMeshGPUParticle* AnimationMeshGPUParticle = nullptr;
 
 	std::unique_ptr<FireWorkParticle>fireWorkParticle;
 	std::unique_ptr<BossActionManager> actionManager;

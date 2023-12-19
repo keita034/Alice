@@ -11,6 +11,7 @@ void BossAnimation::Initialize()
 	deathAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/Dying.almb");//死んだ時
 	jumpAttackAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/JumpAttack.almb");//ジャンプ攻撃
 	beamAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/Beam.almb");//ビーム
+	closeRangeAttackAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/CloseRangeAttack.almb");//近づく攻撃
 
 	blendTree = std::make_unique<AliceBlendTree>();
 
@@ -56,6 +57,11 @@ void BossAnimation::InserJumpAttackAnimation()
 void BossAnimation::InserBeamAnimation()
 {
 	blendTree->InsertAnimation(beamAnimationHandle);
+}
+
+void BossAnimation::InsertCloseRangeAttackAnimation()
+{
+	blendTree->InsertAnimation(closeRangeAttackAnimationHandle);
 }
 
 bool BossAnimation::IsInsert()

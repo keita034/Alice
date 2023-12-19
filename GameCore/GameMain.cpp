@@ -12,6 +12,7 @@ void GameMain::Initialize()
 	int32_t effect1Handle = TextureManager::SLoad("Resources/Default/Particle/effect1.png");
 	int32_t effect2Handle = TextureManager::SLoad("Resources/Default/Particle/effect2.png");
 	int32_t fireEffectNoiseInvHandle = TextureManager::SLoad("Resources/Default/Particle/FireEffectNoiseInv.png");
+	int32_t white1x1Handle = TextureManager::SLoad("Resources/Default/white1x1.png");
 
 	gpuParticleEmitter->FireParticleCreate(10000,"BossHandParticle");
 	gpuParticleEmitter->FireParticleSetTex("BossHandParticle",fireEffectNoiseHandle);
@@ -23,13 +24,20 @@ void GameMain::Initialize()
 	gpuParticleEmitter->LaserParticleSetMainTex("BossLaserParticle",effect1Handle);
 	gpuParticleEmitter->LaserParticleSetSubTex("BossLaserParticle",effect2Handle);
 
-	gpuParticleEmitter->MeshGPUParticleCreate(1000000,"BossModelParticle");
-
+	gpuParticleEmitter->AnimationMeshGPUParticleCreate(1000000,"BossModelParticle");
 	std::unique_ptr<AliceModel>lModel = std::make_unique<AliceModel>();
 	lModel->SetModel(AliceModel::SCreateModel("Resources/Model/Boss"));
-	gpuParticleEmitter->MeshGPUParticleSetModel("BossModelParticle",lModel.get());
-	gpuParticleEmitter->MeshGPUParticleSetDetermineTex("BossModelParticle",emmisionFireElemental);
-	gpuParticleEmitter->MeshGPUParticleSetTex("BossModelParticle",fireEffectNoiseHandle);
+	gpuParticleEmitter->AnimationMeshGPUParticleSetModel("BossModelParticle",lModel.get());
+	gpuParticleEmitter->AnimationMeshGPUParticleSetDetermineTex("BossModelParticle",emmisionFireElemental);
+	gpuParticleEmitter->AnimationMeshGPUParticleSetTex("BossModelParticle",fireEffectNoiseHandle);
+
+	gpuParticleEmitter->AnimationMeshGPUParticleCreate(1000000,"BossWeaponParticle");
+	std::unique_ptr<AliceModel>lWeaponModel = std::make_unique<AliceModel>();
+	lModel->SetModel(AliceModel::SCreateModel("Resources/Model/Boss/Weapon/Sword"));
+	gpuParticleEmitter->AnimationMeshGPUParticleSetModel("BossWeaponParticle",lModel.get());
+	gpuParticleEmitter->AnimationMeshGPUParticleSetDetermineTex("BossWeaponParticle",white1x1Handle);
+	gpuParticleEmitter->AnimationMeshGPUParticleSetTex("BossWeaponParticle",fireEffectNoiseHandle);
+
 
 	gpuParticleEmitter->BloodGushGPUParticleCreate(100000,"BossBloodGushParticle");
 	gpuParticleEmitter->BloodGushGPUParticleSetTex("BossBloodGushParticle",fireEffectNoiseHandle);

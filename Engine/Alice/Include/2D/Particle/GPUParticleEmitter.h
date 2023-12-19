@@ -3,7 +3,7 @@
 #include<FireGPUParticle.h>
 #include<ShockWaveGPUParticle.h>
 #include<LaserGPUParticle.h>
-#include<MeshGPUParticle.h>
+#include<AnimationMeshGPUParticle.h>
 #include<BloodGushGPUParticle.h>
 #include<Camera.h>
 #include<MultiAdapters.h>
@@ -20,7 +20,7 @@ private:
 	std::unordered_map<std::string,std::unique_ptr<FireGPUParticle>>fireParticles;
 	std::unordered_map<std::string,std::unique_ptr<ShockWaveGPUParticle>>shockWaveParticles;
 	std::unordered_map<std::string,std::unique_ptr<LaserGPUParticle>>laserGPUParticles;
-	std::unordered_map<std::string,std::unique_ptr<MeshGPUParticle>>meshGPUParticles;
+	std::unordered_map<std::string,std::unique_ptr<AnimationMeshGPUParticle>>AnimationMeshGPUParticles;
 	std::unordered_map<std::string,std::unique_ptr<BloodGushGPUParticle>>bloodGushGPUParticles;
 
 public:
@@ -70,15 +70,15 @@ public:
 	void LaserParticleSetVelocity(const std::string& name_,const AliceMathF::Vector3& velocity_,int32_t index_);
 	LaserGPUParticle* GetLaserParticle(const std::string& name_);
 
-	void MeshGPUParticleCreate(uint32_t maxParticles_,const std::string& name_);
-	int32_t MeshGPUParticleEmit(const std::string& name_,const MeshGPUParticleSetting& setting_,int32_t index_ = -1);
-	void MeshGPUParticleSetMat(const std::string& name_,const AliceMathF::Matrix4& matWorld_,int32_t index_);
-	void MeshGPUParticleSetDetermineTex(const std::string& name_,uint32_t textureHandle_);
-	void MeshGPUParticleSetTex(const std::string& name_,uint32_t textureHandle_);
-	void MeshGPUParticleEmitPlay(const std::string& name_,int32_t index_);
-	void MeshGPUParticleEmitStop(const std::string& name_,int32_t index_);
-	void MeshGPUParticleSetModel(const std::string& name_,AliceModel* model_);
-	MeshGPUParticle* GetMeshGPUParticle(const std::string& name_);
+	void AnimationMeshGPUParticleCreate(uint32_t maxParticles_,const std::string& name_);
+	int32_t AnimationMeshGPUParticleEmit(const std::string& name_,const AnimationMeshGPUParticleSetting& setting_,int32_t index_ = -1);
+	void AnimationMeshGPUParticleSetMat(const std::string& name_,const AliceMathF::Matrix4& matWorld_,int32_t index_);
+	void AnimationMeshGPUParticleSetDetermineTex(const std::string& name_,uint32_t textureHandle_);
+	void AnimationMeshGPUParticleSetTex(const std::string& name_,uint32_t textureHandle_);
+	void AnimationMeshGPUParticleEmitPlay(const std::string& name_,int32_t index_);
+	void AnimationMeshGPUParticleEmitStop(const std::string& name_,int32_t index_);
+	void AnimationMeshGPUParticleSetModel(const std::string& name_,AliceModel* model_);
+	AnimationMeshGPUParticle* GetAnimationMeshGPUParticle(const std::string& name_);
 
 	void BloodGushGPUParticleCreate(uint32_t maxParticles_,const std::string& name_);
 	int32_t BloodGushGPUParticleEmit(const std::string& name_,const BloodGushGPUParticleSetting& setting_,int32_t index_ = -1);

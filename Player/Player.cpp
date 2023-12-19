@@ -8,6 +8,7 @@
 #include<BossHand.h>
 #include<BossJumpAttackMove.h>
 #include<BossBeamAttack.h>
+#include <BossSword.h>
 
 void Player::Initialize(AliceInput::IInput* input_,IAudioManager* audioManager_,AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 {
@@ -117,6 +118,11 @@ void Player::Update(BaseGameCamera* camera_,GameCameraManager::CameraIndex index
 
 	AliceMathF::Vector2 lLeftStickPower = input->GetLeftStickVec();
 	float lStickPower = AliceMathUtility::Max<float>(AliceMathF::Abs(lLeftStickPower.x),AliceMathF::Abs(lLeftStickPower.y));
+	if ( !deviceInput->InputButton(ControllerButton::A,10.0f) )
+	{
+		lLeftStickPower = AliceMathF::Clamp(lLeftStickPower,0,0.45f);
+		lStickPower = AliceMathF::Clamp(lStickPower,0,0.45f);
+	}
 
 	if ( deviceInput->NotAction() && usData.situation == 0 || usData.situation & ActorSituation::WALKING && lStickPower <= 0.5f )
 	{
@@ -214,6 +220,41 @@ void Player::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_,const A
 			if ( ( lSituation & 0xfff ) == ActorSituation::ATTACK && !( usData.situation & ActorSituation::DAMAGE ) && static_cast< BossUsData* >( BodyData_->GetUserData() )->index == BossHandIndex::RIGHT )
 			{
 				if ( hp > 0 && !( usData.situation & ActorSituation::ROWLING ) )
+				{
+					for ( int32_t i = 0; i < 10; i++ )
+					{
+						if ( hp == 0 )
+						{
+							break;
+						}
+
+						hp--;
+					}
+
+					usData.situation |= ActorSituation::DAMAGE;
+
+					if ( hp <= 0 )
+					{
+						animation->InsertDeathAnimation();
+						animation->AnimationEndStop();
+						audioManager->PlayWave(deathSE);
+						audioManager->ChangeVolume(deathSE,deathSEVolume);
+					}
+					else
+					{
+						animation->InsertHitAnimation();
+					}
+				}
+			}
+		}
+
+		if ( BodyData_->GetAttribute() == CollisionAttribute::WEAPON )
+		{
+			BossSwordUsData* bossSwordUsData = static_cast< BossSwordUsData* >( BodyData_->GetUserData() );
+
+			if ( !( usData.situation & ActorSituation::DAMAGE ) && bossSwordUsData->isAttack )
+			{
+				if ( hp > 0 && !( usData.situation & ActorSituation::ROWLING ))
 				{
 					for ( int32_t i = 0; i < 10; i++ )
 					{

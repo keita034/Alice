@@ -37,7 +37,7 @@ void Boss::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 		fireWorkParticle->Initialize();
 		fireWorkParticle->SetTex(TextureManager::SLoad("Resources/Default/Particle/effect1.png"));
 
-		MeshGPUParticleSetting lMeshSetting;
+		AnimationMeshGPUParticleSetting lMeshSetting;
 
 		lMeshSetting.matWorld = AliceMathF::MakeIdentity();
 		lMeshSetting.velocity = { 0,1,0 };
@@ -51,8 +51,8 @@ void Boss::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 		lMeshSetting.speed = 15;
 		lMeshSetting.isPlay = false;
 
-		meshParticleIndex = particleEmitter->MeshGPUParticleEmit("BossModelParticle",lMeshSetting);
-		meshGPUParticle = particleEmitter->GetMeshGPUParticle("BossModelParticle");
+		meshParticleIndex = particleEmitter->AnimationMeshGPUParticleEmit("BossModelParticle",lMeshSetting);
+		AnimationMeshGPUParticle = particleEmitter->GetAnimationMeshGPUParticle("BossModelParticle");
 
 		BloodGushGPUParticleSetting lBloodGushSetting;
 		lBloodGushSetting.accel = { 0.0f,-8.5f,0.0f };
@@ -68,7 +68,7 @@ void Boss::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 		bloodGushParticleIndex = particleEmitter->BloodGushGPUParticleEmit("BossBloodGushParticle",lBloodGushSetting);
 		bloodGushGPUParticle = particleEmitter->GetBloodGushGPUParticle("BossBloodGushParticle");
 
-		particleEmitter->MeshGPUParticleEmitPlay("BossModelParticle",meshParticleIndex);
+		particleEmitter->AnimationMeshGPUParticleEmitPlay("BossModelParticle",meshParticleIndex);
 
 	}
 
@@ -104,7 +104,7 @@ void Boss::Update()
 
 	if ( hp > 0 )
 	{
-		actionManager->Update(player->GetPosition(),transform.translation);
+		actionManager->Update(player->GetPosition(),transform.translation,"mixamorig:RightHand",animation->GetAnimation(),model.get());
 	}
 
 	bossUI->SetHp(hp,MAX_HP);
@@ -141,7 +141,6 @@ void Boss::Update()
 		direction = actionManager->GetDirection();
 
 		if ( AliceMathF::Vector3(0,0,0) != lMove )
-
 		{
 			direction = lMove.Normal();
 			direction = -direction;
@@ -194,10 +193,12 @@ void Boss::Draw()
 	hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->Draw();
 	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->Draw();
 	fireWorkParticle->Draw(camera);
+	actionManager->GetBossCloseRangeAttack()->Draw();
 
 #ifdef _DEBUG
 	actionManager->GetBossJumpAttackMove()->Draw();
 	actionManager->GetBossBeamAttackMove()->Draw();
+
 #endif
 }
 
@@ -208,7 +209,7 @@ void Boss::UIDraw()
 
 void Boss::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 {
-	meshGPUParticle->EmitStop(meshParticleIndex);
+	AnimationMeshGPUParticle->EmitStop(meshParticleIndex);
 
 	actionManager->Finalize(physicsSystem_);
 
@@ -235,8 +236,9 @@ void Boss::TransUpdate(Camera* camera_)
 	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->TransUpdate(camera_);
 
 	actionManager->GetBossBeamAttackMove()->TransUpdate(camera_);
+	actionManager->GetBossCloseRangeAttack()->TransUpdate(camera_);
 
-	meshGPUParticle->SetMat(transform.matWorld,meshParticleIndex);
+	AnimationMeshGPUParticle->SetMat(transform.matWorld,meshParticleIndex);
 
 #ifdef _DEBUG
 	actionManager->GetBossJumpAttackMove()->TransUpdate(camera_);
@@ -262,7 +264,7 @@ void Boss::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_,const Ali
 					break;
 				}
 
-				//hp--;
+				hp--;
 			}
 
 			situation |= ActorSituation::DAMAGE;

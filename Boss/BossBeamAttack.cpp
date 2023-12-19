@@ -10,7 +10,7 @@ void BossBeamAttack::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_
 	rigidBodyTransform.parent = &firePosition;
 	rigidBodyTransform.Initialize();
 
-	firePosition.translation = {0,100*70,-100 * 70 };
+	firePosition.translation = { 0,100 * 70,-100 * 70 };
 
 	shape.reset(AlicePhysics::CreateCapsuleShape(rigidHalfHeight,rigidRadius));
 
@@ -55,6 +55,7 @@ void BossBeamAttack::Update()
 	{
 		if ( !isFire )
 		{
+			isDraw = true;
 			firePosition.MakeWorldMatrix();
 
 			laserGPUParticle->EmitPlay(particleIndex);
@@ -67,7 +68,7 @@ void BossBeamAttack::Update()
 			lBossPos.y = 0;
 
 			AliceMathF::Vector3 lVelocity;
-			lVelocity = lFirePos- lBossPos;
+			lVelocity = lFirePos - lBossPos;
 			lVelocity = lVelocity.Normal();
 			laserGPUParticle->SetVelocity(lVelocity,particleIndex);
 			usData.pos = lBossPos;
@@ -79,9 +80,9 @@ void BossBeamAttack::Update()
 
 		time += laserGPUParticle->GetDeltaTime();
 
-		if (time> 0.15f&& time < 2.2f )
+		if ( time > 0.15f && time < 2.2f )
 		{
-			usData.distance = AliceMathF::Lerp(0.0f,10000.0f,AliceMathF::Clamp01(time*0.5f - 0.15f));
+			usData.distance = AliceMathF::Lerp(0.0f,10000.0f,AliceMathF::Clamp01(time * 0.5f - 0.15f));
 
 		}
 
@@ -133,6 +134,7 @@ void BossBeamAttack::Fire()
 	if ( bossAnimation->GetRatio() >= 0.7f )
 	{
 		isFire = false;
+		isDraw = false;
 		laserGPUParticle->EmitStop(particleIndex);
 	}
 }
@@ -171,5 +173,8 @@ void BossBeamAttack::OnCollisionExit()
 
 void BossBeamAttack::Draw()
 {
-	shape->Draw(rigidBody->GetCenterOfMassTransform(),{ 1.0f,1.0f ,1.0f },{ 0.0f ,1.0f ,0.0f ,1.0f },true);
+	if ( isDraw )
+	{
+		shape->Draw(rigidBody->GetCenterOfMassTransform(),{ 1.0f,1.0f ,1.0f },{ 0.0f ,1.0f ,0.0f ,1.0f },true);
+	}
 }
