@@ -31,12 +31,22 @@ void GPUParticleEmitter::Update(float deltaTime_)
 		particle.second->Update(deltaTime_);
 	}
 
-	for ( std::pair<const std::string,std::unique_ptr<AnimationMeshGPUParticle>>& particle : AnimationMeshGPUParticles )
+	for ( std::pair<const std::string,std::unique_ptr<AnimationMeshGPUParticle>>& particle : animationMeshGPUParticles )
+	{
+		particle.second->Update(deltaTime_);
+	}
+
+	for (std::pair<const std::string, std::unique_ptr<MeshGPUParticle>>& particle : meshGPUParticles)
 	{
 		particle.second->Update(deltaTime_);
 	}
 
 	for ( std::pair<const std::string,std::unique_ptr<BloodGushGPUParticle>>& particle : bloodGushGPUParticles )
+	{
+		particle.second->Update(deltaTime_);
+	}
+
+	for ( std::pair<const std::string,std::unique_ptr<ModelGPUParticle>>& particle : modelGPUParticles )
 	{
 		particle.second->Update(deltaTime_);
 	}
@@ -66,12 +76,22 @@ void GPUParticleEmitter::Draw(const AliceMathF::Matrix4& worldMat_,const AliceMa
 		particle.second->Draw(worldMat_,billboardMat_);
 	}
 
-	for ( std::pair<const std::string,std::unique_ptr<AnimationMeshGPUParticle>>& particle : AnimationMeshGPUParticles )
+	for ( std::pair<const std::string,std::unique_ptr<AnimationMeshGPUParticle>>& particle : animationMeshGPUParticles )
 	{
 		particle.second->Draw(worldMat_,billboardMat_);
 	}
 
+	for (std::pair<const std::string, std::unique_ptr<MeshGPUParticle>>& particle : meshGPUParticles)
+	{
+		particle.second->Draw(worldMat_, billboardMat_);
+	}
+
 	for ( std::pair<const std::string,std::unique_ptr<BloodGushGPUParticle>>& particle : bloodGushGPUParticles )
+	{
+		particle.second->Draw(worldMat_,billboardMat_);
+	}
+
+	for ( std::pair<const std::string,std::unique_ptr<ModelGPUParticle>>& particle : modelGPUParticles )
 	{
 		particle.second->Draw(worldMat_,billboardMat_);
 	}
@@ -97,7 +117,7 @@ void GPUParticleEmitter::Finalize()
 		particle.second.reset();
 	}
 
-	for ( std::pair<const std::string,std::unique_ptr<AnimationMeshGPUParticle>>& particle : AnimationMeshGPUParticles )
+	for ( std::pair<const std::string,std::unique_ptr<AnimationMeshGPUParticle>>& particle : animationMeshGPUParticles )
 	{
 		particle.second->Finalize();
 		particle.second.reset();
@@ -109,10 +129,23 @@ void GPUParticleEmitter::Finalize()
 		particle.second.reset();
 	}
 
+	for (std::pair<const std::string, std::unique_ptr<MeshGPUParticle>>& particle : meshGPUParticles)
+	{
+		particle.second->Finalize();
+		particle.second.reset();
+	}
+
+	for ( std::pair<const std::string,std::unique_ptr<ModelGPUParticle>>& particle : modelGPUParticles )
+	{
+		particle.second->Finalize();
+		particle.second.reset();
+	}
+
 	shockWaveParticles.clear();
 	fireParticles.clear();
 	laserGPUParticles.clear();
-	AnimationMeshGPUParticles.clear();
+	animationMeshGPUParticles.clear();
+	meshGPUParticles.clear();
 	bloodGushGPUParticles.clear();
 	basicGPUParticle.reset();
 
@@ -303,50 +336,99 @@ void GPUParticleEmitter::AnimationMeshGPUParticleCreate(uint32_t maxParticles_,c
 	BaseGPUParticle::ParticleBegin();
 	std::unique_ptr<AnimationMeshGPUParticle> lParticle = std::make_unique<AnimationMeshGPUParticle>();
 	lParticle->Create(maxParticles_);
-	AnimationMeshGPUParticles[ name_ ] = std::move(lParticle);
+	animationMeshGPUParticles[ name_ ] = std::move(lParticle);
 	BaseGPUParticle::ParticleEnd();
 }
 
 int32_t GPUParticleEmitter::AnimationMeshGPUParticleEmit(const std::string& name_,const AnimationMeshGPUParticleSetting& setting_,int32_t index_)
 {
-	return AnimationMeshGPUParticles[ name_ ]->Emit(setting_,index_);
+	return animationMeshGPUParticles[ name_ ]->Emit(setting_,index_);
 }
 
 void GPUParticleEmitter::AnimationMeshGPUParticleSetMat(const std::string& name_,const AliceMathF::Matrix4& matWorld_,int32_t index_)
 {
-	AnimationMeshGPUParticles[ name_ ]->SetMat(matWorld_,index_);
+	animationMeshGPUParticles[ name_ ]->SetMat(matWorld_,index_);
 }
 
 void GPUParticleEmitter::AnimationMeshGPUParticleSetDetermineTex(const std::string& name_,uint32_t textureHandle_)
 {
-	AnimationMeshGPUParticles[ name_ ]->SetDetermineTex(textureHandle_);
+	animationMeshGPUParticles[ name_ ]->SetDetermineTex(textureHandle_);
 }
 
 void GPUParticleEmitter::AnimationMeshGPUParticleSetTex(const std::string& name_,uint32_t textureHandle_)
 {
-	AnimationMeshGPUParticles[ name_ ]->SetTex(textureHandle_);
+	animationMeshGPUParticles[ name_ ]->SetTex(textureHandle_);
 }
 
 void GPUParticleEmitter::AnimationMeshGPUParticleEmitPlay(const std::string& name_,int32_t index_)
 {
-	AnimationMeshGPUParticles[ name_ ]->EmitPlay(index_);
+	animationMeshGPUParticles[ name_ ]->EmitPlay(index_);
 }
 
 void GPUParticleEmitter::AnimationMeshGPUParticleEmitStop(const std::string& name_,int32_t index_)
 {
-	AnimationMeshGPUParticles[ name_ ]->EmitStop(index_);
+	animationMeshGPUParticles[ name_ ]->EmitStop(index_);
 }
 
 void GPUParticleEmitter::AnimationMeshGPUParticleSetModel(const std::string& name_,AliceModel* model_)
 {
-	AnimationMeshGPUParticles[ name_ ]->SetModel(model_);
+	animationMeshGPUParticles[ name_ ]->SetModel(model_);
 }
 
 AnimationMeshGPUParticle* GPUParticleEmitter::GetAnimationMeshGPUParticle(const std::string& name_)
 {
-	return AnimationMeshGPUParticles[ name_ ].get();
+	return animationMeshGPUParticles[ name_ ].get();
 }
 
+
+void GPUParticleEmitter::MeshGPUParticleCreate(uint32_t maxParticles_, const std::string& name_)
+{
+	BaseGPUParticle::ParticleBegin();
+	std::unique_ptr<MeshGPUParticle> lParticle = std::make_unique<MeshGPUParticle>();
+	lParticle->Create(maxParticles_);
+	meshGPUParticles.insert(make_pair(name_,std::move(lParticle)));
+	BaseGPUParticle::ParticleEnd();
+}
+
+int32_t GPUParticleEmitter::MeshGPUParticleEmit(const std::string& name_, const MeshGPUParticleSetting& setting_, int32_t index_)
+{
+	return meshGPUParticles[name_]->Emit(setting_, index_);
+}
+
+void GPUParticleEmitter::MeshGPUParticleSetMat(const std::string& name_, const AliceMathF::Matrix4& matWorld_, int32_t index_)
+{
+	meshGPUParticles[name_]->SetMat(matWorld_, index_);
+}
+
+void GPUParticleEmitter::MeshGPUParticleSetDetermineTex(const std::string& name_, uint32_t textureHandle_)
+{
+	meshGPUParticles[name_]->SetDetermineTex(textureHandle_);
+}
+
+void GPUParticleEmitter::MeshGPUParticleSetTex(const std::string& name_, uint32_t textureHandle_)
+{
+	meshGPUParticles[name_]->SetTex(textureHandle_);
+}
+
+void GPUParticleEmitter::MeshGPUParticleEmitPlay(const std::string& name_, int32_t index_)
+{
+	meshGPUParticles[name_]->EmitPlay(index_);
+}
+
+void GPUParticleEmitter::MeshGPUParticleEmitStop(const std::string& name_, int32_t index_)
+{
+	meshGPUParticles[name_]->EmitStop(index_);
+}
+
+void GPUParticleEmitter::MeshGPUParticleSetModel(const std::string& name_, AliceModel* model_)
+{
+	meshGPUParticles[name_]->SetModel(model_);
+}
+
+MeshGPUParticle* GPUParticleEmitter::GetMeshGPUParticle(const std::string& name_)
+{
+	return meshGPUParticles[name_].get();
+}
 #pragma endregion
 
 void GPUParticleEmitter::BloodGushGPUParticleCreate(uint32_t maxParticles_,const std::string& name_)
@@ -381,6 +463,59 @@ void GPUParticleEmitter::BloodGushGPUParticleEmitStop(const std::string& name_,i
 BloodGushGPUParticle* GPUParticleEmitter::GetBloodGushGPUParticle(const std::string& name_)
 {
 	return bloodGushGPUParticles[ name_ ].get();
+}
+
+void GPUParticleEmitter::AnimationModelGPUParticleCreate(uint32_t maxParticles_,const std::string& name_)
+{
+	BaseGPUParticle::ParticleBegin();
+	std::unique_ptr<ModelGPUParticle> lParticle = std::make_unique<ModelGPUParticle>();
+	lParticle->Create(maxParticles_);
+	modelGPUParticles[ name_ ] = std::move(lParticle);
+	BaseGPUParticle::ParticleEnd();
+}
+
+void GPUParticleEmitter::AnimationModelGPUParticleEmit(const std::string& name_,const ModelGPUParticleSetting& setting_)
+{
+	modelGPUParticles[ name_ ]->Emit(setting_);
+}
+
+void GPUParticleEmitter::AnimationModelGPUParticleSetMat(const std::string& name_,const AliceMathF::Matrix4& matWorld_)
+{
+	modelGPUParticles[ name_ ]->SetMat(matWorld_);
+}
+
+void GPUParticleEmitter::AnimationModelGPUParticleSetTex(const std::string& name_,uint32_t textureHandle_)
+{
+	modelGPUParticles[ name_ ]->SetTex(textureHandle_);
+}
+
+void GPUParticleEmitter::AnimationModelGPUParticleEmitPlay(const std::string& name_)
+{
+	modelGPUParticles[ name_ ]->EmitPlay();
+}
+
+void GPUParticleEmitter::AnimationModelGPUParticleEmitStop(const std::string& name_)
+{
+	modelGPUParticles[ name_ ]->EmitStop();
+}
+
+void GPUParticleEmitter::AnimationModelGPUParticleDrawListRelease(const std::string& name_)
+{
+	BaseGPUParticle::ParticleBegin();
+
+	modelGPUParticles[ name_ ]->DrawListRelease();
+
+	BaseGPUParticle::ParticleEnd();
+}
+
+void GPUParticleEmitter::AnimationModelGPUParticleSetModel(const std::string& name_,AliceModel* model_)
+{
+	modelGPUParticles[ name_ ]->SetModel(model_);
+}
+
+ModelGPUParticle* GPUParticleEmitter::GetAnimationModelGPUParticle(const std::string& name_)
+{
+	return modelGPUParticles[ name_ ].get();
 }
 
 void GPUParticleEmitter::SetMultiAdapters(IMultiAdapters* multiAdapters_)

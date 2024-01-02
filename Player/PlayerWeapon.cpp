@@ -75,6 +75,11 @@ void PlayerWeapon::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_,c
 void PlayerWeapon::OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_) {}
 void PlayerWeapon::OnCollisionExit() {}
 
+const AliceMathF::Matrix4& PlayerWeapon::GetWorldMat() const
+{
+	return transform.matWorld;
+}
+
 void PlayerWeapon::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_,uint32_t handle_, const AliceMathF::Vector3& pos_, const AliceMathF::Vector3& rot_, const AliceMathF::Vector3& scl_, const Transform* parent_){}
 void PlayerWeapon::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_){}
 void PlayerWeapon::Update() {};

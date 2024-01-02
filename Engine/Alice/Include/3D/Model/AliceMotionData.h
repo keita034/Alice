@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #pragma warning(push)
 #pragma warning(disable: 4365)
 #pragma warning(disable: 4514)
@@ -34,6 +34,7 @@ class MotionData
 private:
 	friend class AliceMotionData;
 	friend class AliceFileStream;
+	friend class AliceBlendTree;
 
 	//ノードアニメーションチャンネル
 	std::vector<MotionNode> channels;
@@ -94,6 +95,8 @@ public:
 	/// 共通初期化
 	/// </summary>
 	static void SCommonInitialize();
+
+	const MotionData* GetMotionData()const;
 
 private:
 	void PCalcInterpolatedScaling(AliceMathF::Vector3& mxOut_,float animationTime_,const MotionNode* pNodeAnim_);

@@ -1,6 +1,6 @@
 #include "BossCloseRangeAttack.h"
 
-void BossCloseRangeAttack::Initialize(Transform* bossTrans_,AlicePhysics::AlicePhysicsSystem* physicsSystem_,BossAnimation* bossAnimation_)
+void BossCloseRangeAttack::Initialize(GPUParticleEmitter* particleEmitter_,Transform* bossTrans_,AlicePhysics::AlicePhysicsSystem* physicsSystem_,BossAnimation* bossAnimation_)
 {
 	physicsSystem = physicsSystem_;
 	bossAnimation = bossAnimation_;
@@ -9,6 +9,23 @@ void BossCloseRangeAttack::Initialize(Transform* bossTrans_,AlicePhysics::AliceP
 	bossSword = std::make_unique<BossSword>();
 	bossSword->Initialize(bossTrans_,physicsSystem_);
 
+	meshParticle = particleEmitter_->GetMeshGPUParticle("BossWeaponParticle");
+
+	MeshGPUParticleSetting lSetting;
+
+	lSetting.matWorld = AliceMathF::MakeIdentity();
+	lSetting.velocity = { 0,1,0 };
+	lSetting.startColor = { 1,1,1,1 };
+	lSetting.endColor = { 1,1,1,1 };
+	lSetting.lifeTime = 2.0f;
+	lSetting.maxParticles = 100000.0f;
+	lSetting.timeBetweenEmit = 0.001f;
+	lSetting.emitLifeTime = -1;
+	lSetting.size = 2;
+	lSetting.speed = 15;
+	lSetting.isPlay = false;
+
+	particleIndex = meshParticle->Emit(lSetting);
 }
 
 void BossCloseRangeAttack::Update()
@@ -20,6 +37,8 @@ void BossCloseRangeAttack::Update()
 		{
 			bossAnimation->SetAddFrame(0.0f);
 			phase = Phase::APPROACH;
+			bossSword->SetIsUpdate(true);
+			meshParticle->EmitPlay(particleIndex);
 		}
 		break;
 	case BossCloseRangeAttack::Phase::APPROACH:
@@ -30,8 +49,8 @@ void BossCloseRangeAttack::Update()
 		{
 			phase = Phase::ATTACK;
 			distanceTraveled = { 0.0f,0.0f,0.0f };
-			bossSword->SetIsUpdate(true);
-			bossAnimation->SetAddFrame();
+	
+			bossAnimation->SetAddFrame(0.015f);
 		}
 		else
 		{
@@ -41,10 +60,14 @@ void BossCloseRangeAttack::Update()
 		break;
 	case BossCloseRangeAttack::Phase::ATTACK:
 
+		if ( bossAnimation->GetRatio() >= 0.6f )
+		{
+			bossSword->SetIsUpdate(false);
+			meshParticle->EmitStop(particleIndex);
+		}
 		if ( !bossAnimation->IsInsert() )
 		{
 			isFinish = true;
-			bossSword->SetIsUpdate(false);
 		}
 
 		break;
@@ -58,6 +81,7 @@ void BossCloseRangeAttack::Finalize()
 {
 	physicsSystem = nullptr;
 	bossAnimation = nullptr;
+	meshParticle->EmitStop(particleIndex);
 }
 
 void BossCloseRangeAttack::End()
@@ -95,6 +119,7 @@ void BossCloseRangeAttack::SetDistanceFrame(float distanceFrame_)
 void BossCloseRangeAttack::TransUpdate(Camera* camera_)
 {
 	bossSword->TransUpdate(camera_);
+	meshParticle->SetMat(bossSword->GetWorldMat(),particleIndex);
 }
 
 bool BossCloseRangeAttack::IsFinish()

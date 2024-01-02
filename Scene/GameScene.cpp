@@ -29,7 +29,7 @@ void GameScene::Initialize(const std::string& previewSceneName_)
 	fieldObjData = SceneLoader::SLoadFile(sPhysicsSystem,"Resources/Field.json");
 
 	player = std::make_unique<Player>();
-	player->Initialize(sInput,sAudioManager,sPhysicsSystem);
+	player->Initialize(sInput,sAudioManager,sPhysicsSystem,sGPUParticleEmitter);
 
 	gameCameraManager = std::make_unique<GameCameraManager>();
 	gameCameraManager->Initialize(player.get(), sInput);

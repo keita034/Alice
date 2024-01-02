@@ -6,16 +6,16 @@ void AliceBlendTree::AddAnimation(uint32_t handle_)
 	node->animationHandle = handle_;
 	node->animation = std::make_unique<AliceMotionData>();
 	node->animation->SetMotion(handle_);
-	node->index = static_cast<uint32_t>(tree.size());
+	node->index = static_cast< uint32_t >( tree.size() );
 
 	tree.push_back(std::move(node));
 
 	isDirty = true;
 }
 
-bool AliceBlendTree::InsertAnimation(uint32_t handle_, bool complement_)
+bool AliceBlendTree::InsertAnimation(uint32_t handle_,bool complement_)
 {
-	if (!isInsert || animationEndStop && !isPlay)
+	if ( !isInsert || animationEndStop && !isPlay )
 	{
 		insertAnimation->SetMotion(handle_);
 		frame = 0.0f;
@@ -31,14 +31,29 @@ bool AliceBlendTree::InsertAnimation(uint32_t handle_, bool complement_)
 
 }
 
-bool AliceBlendTree::CoercionInsertAnimation(uint32_t handle_, bool complement_)
+bool AliceBlendTree::CoercionInsertAnimation(uint32_t handle_,bool complement_,float frame_)
 {
+	if ( isInsert )
+	{
+		nowAnimation = insertAnimation->GetMotionData();
+	}
+
 	insertAnimation->SetMotion(handle_);
-	frame = 0.0f;
-	isInsert = true;
+	frame = frame_;
+	isInsert = coercion = true;
 	insertAnimationPhase = BEFORE;
 	insertAnimationOneThirdFrame = insertAnimation->GetAnimeMaxflame() / 3.0f;
 	complement = complement_;
+
+	if ( insertAnimationOneThirdFrame < insertAnimation->GetTickTimes(frame) )
+	{
+		insertAnimationPhase = DURING;
+	}
+
+	if ( insertAnimationOneThirdFrame * 2.0f < insertAnimation->GetTickTimes(frame) )
+	{
+		insertAnimationPhase = AFTER;
+	}
 
 	return true;
 }
@@ -53,19 +68,19 @@ void AliceBlendTree::SetThresh(float thresh_)
 
 void AliceBlendTree::Update(float addFrameNum_)
 {
-	if (isPlay)
+	if ( isPlay )
 	{
-		if (!animationEndStop)
+		if ( !animationEndStop )
 		{
 			frame += addFrameNum_;
 		}
 		else
 		{
-			if (isInsert)
+			if ( isInsert )
 			{
 				float lTmpframe = frame + addFrameNum_;
 
-				if (insertAnimation->GetAnimeMaxflame() < insertAnimation->GetTickTimes(lTmpframe))
+				if ( insertAnimation->GetAnimeMaxflame() < insertAnimation->GetTickTimes(lTmpframe) )
 				{
 					isPlay = false;
 				}
@@ -78,15 +93,15 @@ void AliceBlendTree::Update(float addFrameNum_)
 
 	}
 
-	if (!isInsert)
+	if ( !isInsert )
 	{
 		PAnimationChoice();
 
-		if (animationEndStop && isPlay)
+		if ( animationEndStop && isPlay )
 		{
 			float lTmpframe = frame = addFrameNum_;
 
-			if (startNode->animation->GetAnimeMaxflame() < startNode->animation->GetTickTimes(lTmpframe))
+			if ( startNode->animation->GetAnimeMaxflame() < startNode->animation->GetTickTimes(lTmpframe) )
 			{
 				isPlay = false;
 			}
@@ -103,26 +118,26 @@ void AliceBlendTree::Update(float addFrameNum_)
 	{
 		insertAnimation->SetFrame(frame);
 
-		if (insertAnimationOneThirdFrame < insertAnimation->GetTickTimes(frame))
+		if ( insertAnimationOneThirdFrame < insertAnimation->GetTickTimes(frame) )
 		{
 			insertAnimationPhase = DURING;
 		}
 
-		if (insertAnimationOneThirdFrame * 2.0f < insertAnimation->GetTickTimes(frame))
+		if ( insertAnimationOneThirdFrame * 2.0f < insertAnimation->GetTickTimes(frame) )
 		{
 			insertAnimationPhase = AFTER;
 		}
 
-		if (insertAnimationPhase == BEFORE || insertAnimationPhase == AFTER)
+		if ( insertAnimationPhase == BEFORE || insertAnimationPhase == AFTER )
 		{
 			PAnimationChoice();
 		}
 
-		if (insertAnimation->GetAnimeMaxflame() < insertAnimation->GetTickTimes(frame))
+		if ( insertAnimation->GetAnimeMaxflame() < insertAnimation->GetTickTimes(frame) )
 		{
 			frame = 0.0f;
 			isInsert = false;
-
+			nowAnimation = nullptr;
 		}
 
 	}
@@ -132,54 +147,74 @@ const ReturnMotionNode* AliceBlendTree::GetMotion(const std::string& nodeName)
 {
 	ReturnMotionNode lReturnNode;
 
-	if (!isInsert)
+	if ( !isInsert )
 	{
-		if (!PBlend(startNode->animation.get(), endNode->animation.get(), lReturnNode, nodeName))
+		if ( !PBlend(startNode->animation.get(),endNode->animation.get(),lReturnNode,nodeName) )
 		{
 			return nullptr;
 		}
 	}
 	else
 	{
-		if (insertAnimationPhase == BEFORE)
+		if ( insertAnimationPhase == BEFORE )
 		{
 			ReturnMotionNode lAnimation;
 
 			const ReturnMotionNode* lInsert = insertAnimation->GetMotion(nodeName);
 
-			if (!PBlend(startNode->animation.get(), endNode->animation.get(), lAnimation, nodeName))
+			if ( !nowAnimation )
 			{
-				if (lInsert)
+				if ( !PBlend(startNode->animation.get(),endNode->animation.get(),lAnimation,nodeName) )
+				{
+					if ( lInsert )
+					{
+						lAnimation = zeroReturnMotionNode;
+					}
+					else
+					{
+						return nullptr;
+					}
+				}
+			}
+			else
+			{
+				auto lMotionItr = find_if(nowAnimation->returnChannels.begin(),nowAnimation->returnChannels.end(),[ & ] (std::pair<const std::string,ReturnMotionNode> motion)
+				{
+					return motion.second.name == nodeName;
+				});
+
+				if ( lMotionItr == nowAnimation->returnChannels.end() )
 				{
 					lAnimation = zeroReturnMotionNode;
 				}
 				else
 				{
-					return nullptr;
+					lAnimation = lMotionItr._Ptr->_Myval.second;
 				}
+
 			}
 
-			if (!lInsert)
+			if ( !lInsert )
 			{
 				lInsert = &zeroReturnMotionNode;
 			}
 
 			float lThresh = insertAnimation->GetTickTimes(frame) / insertAnimationOneThirdFrame;
 
-			PInsertBlend(&lAnimation, lInsert, lReturnNode, lThresh);
+			PInsertBlend(&lAnimation,lInsert,lReturnNode,lThresh);
 		}
-		else if (insertAnimationPhase == AFTER)
+		else if ( insertAnimationPhase == AFTER )
 		{
-			if (complement)
+			if ( complement )
 			{
 
 				ReturnMotionNode lAnimation;
 
 				const ReturnMotionNode* lInsert = insertAnimation->GetMotion(nodeName);
 
-				if (!PBlend(startNode->animation.get(), endNode->animation.get(), lAnimation, nodeName))
+				if ( !PBlend(startNode->animation.get(),endNode->animation.get(),lAnimation,nodeName) )
 				{
-					if (lInsert)
+					if ( lInsert )
 					{
 						lAnimation = zeroReturnMotionNode;
 					}
@@ -189,21 +224,21 @@ const ReturnMotionNode* AliceBlendTree::GetMotion(const std::string& nodeName)
 					}
 				}
 
-				if (!lInsert)
+				if ( !lInsert )
 				{
 					lInsert = &zeroReturnMotionNode;
 				}
 
 				float lTickTime = insertAnimation->GetTickTimes(frame);
-				float lThresh = (lTickTime - insertAnimationOneThirdFrame * 2.0f) / insertAnimationOneThirdFrame;
+				float lThresh = ( lTickTime - insertAnimationOneThirdFrame * 2.0f ) / insertAnimationOneThirdFrame;
 
-				PInsertBlend(lInsert, &lAnimation, lReturnNode, lThresh);
+				PInsertBlend(lInsert,&lAnimation,lReturnNode,lThresh);
 			}
 			else
 			{
 				const ReturnMotionNode* insertReturnNode = insertAnimation->GetMotion(nodeName);
 
-				if (!insertReturnNode)
+				if ( !insertReturnNode )
 				{
 					return nullptr;
 				}
@@ -219,7 +254,7 @@ const ReturnMotionNode* AliceBlendTree::GetMotion(const std::string& nodeName)
 		{
 			const ReturnMotionNode* insertReturnNode = insertAnimation->GetMotion(nodeName);
 
-			if (!insertReturnNode)
+			if ( !insertReturnNode )
 			{
 				return nullptr;
 			}
@@ -238,7 +273,7 @@ const ReturnMotionNode* AliceBlendTree::GetMotion(const std::string& nodeName)
 
 float AliceBlendTree::GetRatio()
 {
-	if (!isInsert)
+	if ( !isInsert )
 	{
 		std::unique_ptr<AliceMotionData>& node = startNode->animation;
 
@@ -253,7 +288,7 @@ float AliceBlendTree::GetRatio()
 bool AliceBlendTree::IsInsert()
 {
 	//次フレームでは終わってるため
-	if (animationEndStop && !isPlay)
+	if ( animationEndStop && !isPlay )
 	{
 		return false;
 	}
@@ -291,54 +326,54 @@ AliceBlendTree::AliceBlendTree()
 
 void AliceBlendTree::PAnimationChoice()
 {
-	float lLength = static_cast<float>(tree.size());
-	float lProgress = (lLength - 1) * thresh;
+	float lLength = static_cast< float >( tree.size() );
+	float lProgress = ( lLength - 1 ) * thresh;
 	float lIndex = std::floor(lProgress);
 	float lWeight = lProgress - lIndex;
 
-	if (AliceMathF::Approximately(lWeight, 0.0f) && lIndex >= lLength - 1)
+	if ( AliceMathF::Approximately(lWeight,0.0f) && lIndex >= lLength - 1 )
 	{
 		lIndex = lLength - 2;
 		lWeight = 1;
 	}
 
-	startNode = tree[static_cast<size_t>(lIndex)].get();
-	endNode = tree[static_cast<size_t>(lIndex + 1)].get();
+	startNode = tree[ static_cast< size_t >( lIndex ) ].get();
+	endNode = tree[ static_cast< size_t >( lIndex + 1 ) ].get();
 
 	localThresh = lWeight;
 }
 
-void AliceBlendTree::PInsertBlend(const ReturnMotionNode* animation_, const ReturnMotionNode* insertAnimation_, ReturnMotionNode& returnMotionNode_, float thresh_)
+void AliceBlendTree::PInsertBlend(const ReturnMotionNode* animation_,const ReturnMotionNode* insertAnimation_,ReturnMotionNode& returnMotionNode_,float thresh_)
 {
 	float lThresh = AliceMathF::Clamp01(thresh_);
 
-	returnMotionNode_.positionKeys = AliceMathF::Vector3Lerp(animation_->positionKeys, insertAnimation_->positionKeys, lThresh);
-	AliceMathF::QuaternionSlerp(returnMotionNode_.rotationKeys, animation_->rotationKeys, insertAnimation_->rotationKeys, lThresh);
-	returnMotionNode_.scalingKeys = AliceMathF::Vector3Lerp(animation_->scalingKeys, insertAnimation_->scalingKeys, lThresh);
+	returnMotionNode_.positionKeys = AliceMathF::Vector3Lerp(animation_->positionKeys,insertAnimation_->positionKeys,lThresh);
+	AliceMathF::QuaternionSlerp(returnMotionNode_.rotationKeys,animation_->rotationKeys,insertAnimation_->rotationKeys,lThresh);
+	returnMotionNode_.scalingKeys = AliceMathF::Vector3Lerp(animation_->scalingKeys,insertAnimation_->scalingKeys,lThresh);
 }
 
-bool AliceBlendTree::PBlend(const AliceMotionData* startAnimation_, const AliceMotionData* endAnimation_, ReturnMotionNode& returnMotionNode_, const std::string& nodeName)
+bool AliceBlendTree::PBlend(const AliceMotionData* startAnimation_,const AliceMotionData* endAnimation_,ReturnMotionNode& returnMotionNode_,const std::string& nodeName)
 {
 	const ReturnMotionNode* startReturnNode = startAnimation_->GetMotion(nodeName);
 	const ReturnMotionNode* endReturnNode = endAnimation_->GetMotion(nodeName);
 
-	if (!startReturnNode && !endReturnNode)
+	if ( !startReturnNode && !endReturnNode )
 	{
 		return false;
 	}
-	else if (!startReturnNode)
+	else if ( !startReturnNode )
 	{
 		startReturnNode = &zeroReturnMotionNode;
 	}
-	else if (!endReturnNode)
+	else if ( !endReturnNode )
 	{
 		endReturnNode = &zeroReturnMotionNode;
 	}
 
 	returnMotionNode_.name = nodeName;
-	returnMotionNode_.positionKeys = AliceMathF::Vector3Lerp(startReturnNode->positionKeys, endReturnNode->positionKeys, localThresh);
-	AliceMathF::QuaternionSlerp(returnMotionNode_.rotationKeys, startReturnNode->rotationKeys, endReturnNode->rotationKeys, localThresh);
-	returnMotionNode_.scalingKeys = AliceMathF::Vector3Lerp(startReturnNode->scalingKeys, endReturnNode->scalingKeys, localThresh);
+	returnMotionNode_.positionKeys = AliceMathF::Vector3Lerp(startReturnNode->positionKeys,endReturnNode->positionKeys,localThresh);
+	AliceMathF::QuaternionSlerp(returnMotionNode_.rotationKeys,startReturnNode->rotationKeys,endReturnNode->rotationKeys,localThresh);
+	returnMotionNode_.scalingKeys = AliceMathF::Vector3Lerp(startReturnNode->scalingKeys,endReturnNode->scalingKeys,localThresh);
 
 	return true;
 }

@@ -18,7 +18,7 @@ void AnimationMeshGPUParticle::Initialize()
 
 	PBufferCreate();
 
-	modelData = std::make_unique<AnimationMeshGPUParticleAliceModel>();
+	modelData = std::make_unique<MeshGPUParticleAliceModel>();
 
 	//フリーリスト初期化
 
@@ -75,13 +75,16 @@ void AnimationMeshGPUParticle::Update(float deltaTime_)
 
 			}
 
-			for ( const std::unique_ptr<AnimationMeshGPUParticleModelMesh>& mesh : modelData->GetMeshs() )
+			for ( const std::unique_ptr<MeshGPUParticleModelMesh>& mesh : modelData->GetMeshs() )
 			{
 				fireGPUParticleGPUData.emitDataIndex = emitData.index;
 				gpuParticleDataBuffer->Update(&fireGPUParticleGPUData);
 
 				BoneData* lBonedata = mesh->bonedata;
 				mesh->constBoneBuffer->Update(lBonedata->boneMat.data());
+
+				particleConstants[ emitData.index ].vertexSize = static_cast< uint32_t >( mesh->GetVertices().size() );
+				particleConstantsBuffer->Update(particleConstants.data(),( sizeof(ParticleConstantGPUData) * particleConstants.size() ));
 
 				ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeAnimationMeshGPUParticleEmit",AdaptersIndex::SUB);
 

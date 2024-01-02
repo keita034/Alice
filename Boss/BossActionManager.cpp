@@ -18,7 +18,7 @@ void BossActionManager::Initialize(BossAnimation* animation_,AlicePhysics::Alice
 	bossBeamAttack->Initialize(physicsSystem_,animation_,particleEmitter->GetLaserParticle("BossLaserParticle"),bossTransform);
 
 	closeRangeAttack = std::make_unique<BossCloseRangeAttack>();
-	closeRangeAttack->Initialize(bossTransform,physicsSystem_,animation_);
+	closeRangeAttack->Initialize(particleEmitter,bossTransform,physicsSystem_,animation_);
 	closeRangeAttack->SetFrameDistance(460);
 	closeRangeAttack->SetDistanceFrame(200);
 	actionCount = MAX_ACTION_COUNT;
@@ -57,7 +57,8 @@ void BossActionManager::Update(const AliceMathF::Vector3& plyerPos_,const AliceM
 		{
 			do
 			{
-				bossAction = ChoiceAction(length,bossPos_);
+				
+				bossAction = ChoiceAction(length,bossPos_, false);
 
 				switch ( bossAction )
 				{
@@ -249,36 +250,40 @@ void BossActionManager::PCloseRangeAttack(const std::string& boneName_,AliceBlen
 	}
 }
 
-BossAction BossActionManager::ChoiceAction(float length_,const AliceMathF::Vector3& bossPos_)
+BossAction BossActionManager::ChoiceAction(float length_,const AliceMathF::Vector3& bossPos_,bool action_)
 {
-	if ( shortDistanceTIme > 0 )
+	if ( action_ )
 	{
-		if ( shortDistanceTIme >= 250 )
+		if ( shortDistanceTIme > 0 )
 		{
-			shortDistanceTIme = 0;
+			if ( shortDistanceTIme >= 250 )
+			{
+				shortDistanceTIme = 0;
 
-			return BossAction::JUMP_ATTACK;
+				return BossAction::JUMP_ATTACK;
+			}
+
+			if ( length_ <= 200 )
+			{
+				return BossAction::CHASE_ATTACK;
+			}
 		}
-
-		if ( length_ <= 200 )
+		else
 		{
-			return BossAction::CHASE_ATTACK;
+			if ( longDistanceTIme >= 100 )
+			{
+				longDistanceTIme = 0;
+
+				return BossAction::BEAM_ATTACK;
+			}
+
+			if ( length_ >= 200 )
+			{
+				return BossAction::CLOSERANGE_ATTACK;
+			}
 		}
 	}
-	else
-	{
-		if ( longDistanceTIme >= 100 )
-		{
-			longDistanceTIme = 0;
 
-			return BossAction::BEAM_ATTACK;
-		}
-
-		if ( length_>= 200 )
-		{
-			return BossAction::CLOSERANGE_ATTACK;
-		}
-	}
 
 	return BossAction::NONE;
 }

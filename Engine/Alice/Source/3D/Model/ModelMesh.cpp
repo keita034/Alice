@@ -210,7 +210,7 @@ void ModelMesh::AnimToonDraw(ID3D12GraphicsCommandList* cmdList_, const Transfor
 	}
 }
 
-void ModelMesh::AnimOutLineDraw(ID3D12GraphicsCommandList* cmdList_, const Transform& transform_)
+void ModelMesh::AnimOutLineDraw(ID3D12GraphicsCommandList* cmdList_, const Transform& transform_) const
 {
 	D3D12_VERTEX_BUFFER_VIEW lVbView = vertexBuffer->GetView();
 	D3D12_INDEX_BUFFER_VIEW lIbView = indexBuffer->GetView();

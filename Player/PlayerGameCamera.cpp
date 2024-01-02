@@ -49,7 +49,6 @@ AliceMathF::Vector2 PlayerGameCamera::GetAngle()
 
 void PlayerGameCamera::PMove()
 {
-	// ZCSXキーでカメラの操作
 	if (input->InputStick(ControllerStick::RRIGHT))
 	{
 		yAngle += ANGLE_ROTATE_SPEED;

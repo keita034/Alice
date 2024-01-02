@@ -103,6 +103,11 @@ void main( uint3 DTid : SV_DispatchThreadID )
     
     EmitData emitData = emitDatas[emitDataIndex];
 
+    if (DTid.x >= emitData.vertexSize)
+    {
+        return;
+    }
+    
     uint emitIndex = freeList.Consume();
     
     SkinOutput skin = (SkinOutput) 0;

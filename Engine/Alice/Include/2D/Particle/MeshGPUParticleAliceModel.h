@@ -3,7 +3,7 @@
 #include<AliceModel.h>
 #include<BufferType.h>
 
-class AnimationMeshGPUParticleModelMesh
+class MeshGPUParticleModelMesh
 {
 public:
 
@@ -24,38 +24,40 @@ public:
 	std::unique_ptr<IConstantBuffer> constBoneBuffer;
 	BoneData* bonedata;
 
+	std::unique_ptr<IConstantBuffer> postureMatBuff;
+	AliceMathF::Matrix4* postureMat;
 public:
 
 	/// <summary>
 	/// 頂点座標を取得
 	/// </summary>
 	/// <returns>頂点座標配列</returns>
-	const std::vector<PosNormUvTangeColSkin>& GetVertices();
+	const std::vector<PosNormUvTangeColSkin>& GetVertices() const;
 
 	D3D12_GPU_DESCRIPTOR_HANDLE GetVertexSRVAddress() const;
 	D3D12_GPU_DESCRIPTOR_HANDLE GetIndicesSRVAddress() const;
 
-	IConstantBuffer* GetBoneBuffer();
+	IConstantBuffer* GetBoneBuffer() const;
 
-
+	IConstantBuffer* GetPostureMatBuffer();
 
 private:
 
 //コピーコンストラクタ・代入演算子削除
-	AnimationMeshGPUParticleModelMesh& operator=(const AnimationMeshGPUParticleModelMesh&) = delete;
-	AnimationMeshGPUParticleModelMesh(const AnimationMeshGPUParticleModelMesh&) = delete;
+	MeshGPUParticleModelMesh& operator=(const MeshGPUParticleModelMesh&) = delete;
+	MeshGPUParticleModelMesh(const MeshGPUParticleModelMesh&) = delete;
 
 public:
 
-	AnimationMeshGPUParticleModelMesh() = default;
-	~AnimationMeshGPUParticleModelMesh() = default;
+	MeshGPUParticleModelMesh() = default;
+	~MeshGPUParticleModelMesh() = default;
 };
 
-class AnimationMeshGPUParticleAliceModelData
+class MeshGPUParticleAliceModelData
 {
 private:
 	//フレンドクラス
-	friend class AnimationMeshGPUParticleAliceModel;
+	friend class MeshGPUParticleAliceModel;
 	friend class AliceFileStream;
 
 	std::string filePath;
@@ -64,48 +66,48 @@ private:
 	std::string name;
 
 	//メッシュ配列
-	std::vector<std::unique_ptr<AnimationMeshGPUParticleModelMesh>> meshes;
+	std::vector<std::unique_ptr<MeshGPUParticleModelMesh>> meshes;
 
 	//姿勢行列
 	IConstantBuffer* postureMatBuff;
 
 public:
-	AnimationMeshGPUParticleAliceModelData() = default;
-	~AnimationMeshGPUParticleAliceModelData() = default;
+	MeshGPUParticleAliceModelData() = default;
+	~MeshGPUParticleAliceModelData() = default;
 
 private:
 	//コピーコンストラクタ・代入演算子削除
-	AnimationMeshGPUParticleAliceModelData& operator=(const AnimationMeshGPUParticleAliceModelData&) = delete;
-	AnimationMeshGPUParticleAliceModelData(const AnimationMeshGPUParticleAliceModelData&) = delete;
+	MeshGPUParticleAliceModelData& operator=(const MeshGPUParticleAliceModelData&) = delete;
+	MeshGPUParticleAliceModelData(const MeshGPUParticleAliceModelData&) = delete;
 };
 
-class AnimationMeshGPUParticleAliceModel
+class MeshGPUParticleAliceModel
 {
 protected:
 
 	static IMultiAdapters* sMultiAdapters;
 
-	static std::unordered_map<std::string,std::unique_ptr<AnimationMeshGPUParticleAliceModelData>> sModelDatas;
+	static std::unordered_map<std::string,std::unique_ptr<MeshGPUParticleAliceModelData>> sModelDatas;
 
-	AnimationMeshGPUParticleAliceModelData* modelData = nullptr;
+	MeshGPUParticleAliceModelData* modelData = nullptr;
 
 public:
 
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	AnimationMeshGPUParticleAliceModel() = default;
+	MeshGPUParticleAliceModel() = default;
 
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	virtual ~AnimationMeshGPUParticleAliceModel() = default;
+	virtual ~MeshGPUParticleAliceModel() = default;
 
 	/// <summary>
 	/// メッシュ配列を取得
 	/// </summary>
 	/// <returns></returns>
-	const std::vector<std::unique_ptr<AnimationMeshGPUParticleModelMesh>>& GetMeshs();
+	const std::vector<std::unique_ptr<MeshGPUParticleModelMesh>>& GetMeshs();
 
 	/// <summary>
 	/// モデルをセット
@@ -125,11 +127,11 @@ public:
 
 protected:
 
-	void PReadNodeHeirarchy(AnimationMeshGPUParticleModelMesh* mesh_,const AliceMotionData* pAnimation_,const Node* pNode_,const AliceMathF::Matrix4& mxParentTransform_);
-	void PReadNodeHeirarchy(AnimationMeshGPUParticleModelMesh* mesh_,AliceBlendTree* blendTree_,const Node* pNode_,const AliceMathF::Matrix4& mxParentTransform_);
+	void PReadNodeHeirarchy(MeshGPUParticleModelMesh* mesh_,const AliceMotionData* pAnimation_,const Node* pNode_,const AliceMathF::Matrix4& mxParentTransform_);
+	void PReadNodeHeirarchy(MeshGPUParticleModelMesh* mesh_,AliceBlendTree* blendTree_,const Node* pNode_,const AliceMathF::Matrix4& mxParentTransform_);
 	const ReturnMotionNode* PFindNodeAnim(const AliceMotionData* pAnimation_,const std::string& strNodeName_);
 
 	//コピーコンストラクタ・代入演算子削除
-	AnimationMeshGPUParticleAliceModel& operator=(const AnimationMeshGPUParticleAliceModel&) = delete;
-	AnimationMeshGPUParticleAliceModel(const AnimationMeshGPUParticleAliceModel&) = delete;
+	MeshGPUParticleAliceModel& operator=(const MeshGPUParticleAliceModel&) = delete;
+	MeshGPUParticleAliceModel(const MeshGPUParticleAliceModel&) = delete;
 };

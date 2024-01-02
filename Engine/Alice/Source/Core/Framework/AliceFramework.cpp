@@ -106,7 +106,7 @@ void AliceFramework::Initialize()
 void AliceFramework::Finalize()
 {
 	BaseBuffer::Finalize();
-	AnimationMeshGPUParticleAliceModel::Finalize();
+	MeshGPUParticleAliceModel::Finalize();
 	AliceModel::Finalize();
 	BasePipelineState::Finalize();
 	sceneManager->Finalize();

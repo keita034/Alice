@@ -98,8 +98,6 @@ private:
 	std::unique_ptr<IConstantBuffer>timeConstantsBuffer;
 	std::unique_ptr<IConstantBuffer>fireGPUParticleDataBuffer;
 
-	std::unique_ptr<ICrossAdapterBuffer>particlePoolBuffer;
-
 	WorldBillboardGPUData worldBillboardGPUData;
 	TimeConstantGPUData timeGPUData;
 	Byte4 PADING;

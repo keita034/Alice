@@ -98,7 +98,7 @@ public:
 	/// </summary>
 	void AnimToonDraw(ID3D12GraphicsCommandList* cmdList_, const Transform& transform_, D3D12_GPU_DESCRIPTOR_HANDLE rampHandle_, const Light* light_);
 
-	void AnimOutLineDraw(ID3D12GraphicsCommandList* cmdList_, const Transform& transform_);
+	void AnimOutLineDraw(ID3D12GraphicsCommandList* cmdList_, const Transform& transform_) const;
 
 	void Update();
 

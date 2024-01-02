@@ -177,6 +177,9 @@
     <ClInclude Include="Include\Graphic\Sprite.h">
       <Filter>ヘッダー ファイル\Sprite</Filter>
     </ClInclude>
+    <ClInclude Include="Include\GPUParticle\Model.h">
+      <Filter>ヘッダー ファイル\GPUParticleh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\MaterialManager.cpp">
@@ -304,6 +307,9 @@
     </ClCompile>
     <ClCompile Include="Source\Graphic\Mesh\TriangleSub.cpp">
       <Filter>ソース ファイル\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GPUParticle\Model.cpp">
+      <Filter>ソース ファイル\GPUParticleh</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

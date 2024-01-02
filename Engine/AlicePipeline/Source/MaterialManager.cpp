@@ -249,6 +249,18 @@ Material* MaterialManager::GetMaterialData(const std::string& name_,AdaptersInde
 			{
 				CreateAnimationMeshDrawMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
+			else if ( name_ == "MeshGPUParticleDraw" )
+			{
+				CreateMeshDrawMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "AnimationModelGPUParticleDraw" )
+			{
+				CreateAnimationModelDrawMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ModelGPUParticleDraw" )
+			{
+				CreateModelDrawMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
 			else if ( name_ == "BloodGushGPUParticleDraw" )
 			{
 				CreateBloodGushDrawMaterial(this,sMultiAdapters->GetAdapter(index_));
@@ -301,12 +313,10 @@ ComputeMaterial* MaterialManager::GetComputeMaterialData(const std::string& name
 				CreateBasicFreeListInitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
 
-
 			else if ( name_ == "ComputeMultiGPUTest" )
 			{
 				CreateTestComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
-
 
 			else if ( name_ == "ComputeFireGPUParticleEmit" )
 			{
@@ -325,7 +335,6 @@ ComputeMaterial* MaterialManager::GetComputeMaterialData(const std::string& name
 				CreateFireDrawArgumentUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
 
-
 			else if ( name_ == "ComputeShockWaveGPUParticleFreeListInit" )
 			{
 				CreateShockWaveFreeListInitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
@@ -342,7 +351,6 @@ ComputeMaterial* MaterialManager::GetComputeMaterialData(const std::string& name
 			{
 				CreateShockWaveDrawArgumentUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
-
 
 			else if ( name_ == "ComputeLaserGPUParticleFreeListInit" )
 			{
@@ -361,7 +369,6 @@ ComputeMaterial* MaterialManager::GetComputeMaterialData(const std::string& name
 				CreateLaserDrawArgumentUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
 
-
 			else if ( name_ == "ComputeAnimationMeshGPUParticleFreeListInit" )
 			{
 				CreateAnimationMeshFreeListInitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
@@ -379,6 +386,60 @@ ComputeMaterial* MaterialManager::GetComputeMaterialData(const std::string& name
 				CreateAnimationMeshDrawArgumentUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
 
+			else if ( name_ == "ComputeMeshGPUParticleFreeListInit" )
+			{
+				CreateMeshFreeListInitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeMeshGPUParticleEmit" )
+			{
+				CreateMeshEmitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeMeshGPUParticleUpdate" )
+			{
+				CreateMeshUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeMeshGPUParticleDrawArgumentUpdate" )
+			{
+				CreateMeshDrawArgumentUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+
+			else if ( name_ == "ComputeAnimationModelGPUParticleFreeListInit" )
+			{
+				CreateAnimationModelFreeListInitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeAnimationModelGPUParticleEmit" )
+			{
+				CreateAnimationModelEmitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeAnimationModelGPUParticleUpdate" )
+			{
+				CreateAnimationModelUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeAnimationModelGPUParticleDrawArgumentUpdate" )
+			{
+				CreateAnimationModelDrawArgumentUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if( name_ == "ComputeAnimationModelGPUParticleDrawListRelease" )
+			{
+				CreateAnimationModelDrawListReleaseComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+
+			else if ( name_ == "ComputeModelGPUParticleFreeListInit" )
+			{
+				CreateModelFreeListInitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeModelGPUParticleEmit" )
+			{
+				CreateModelEmitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeModelGPUParticleUpdate" )
+			{
+				CreateModelUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeModelGPUParticleDrawArgumentUpdate" )
+			{
+				CreateModelDrawArgumentUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
 
 			else if ( name_ == "ComputeBloodGushGPUParticleFreeListInit" )
 			{

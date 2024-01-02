@@ -25,7 +25,7 @@ struct EmitData
     float lifeTime;
     float size;
     float speed;
-    float pad;
+    uint vertexSize;
 };
 
 static const uint RAND_MAX = 32767;

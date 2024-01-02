@@ -55,7 +55,7 @@ public://GPUで使う構造体
 		float lifeTime;
 		float size;
 		float speed;
-		float pad;
+		uint32_t vertexSize;
 	};
 
 	struct FireGPUParticleGPUData
@@ -104,7 +104,6 @@ private:
 	std::unique_ptr<IConstantBuffer>timeConstantsBuffer;
 	std::unique_ptr<IConstantBuffer>gpuParticleDataBuffer;
 
-	std::unique_ptr<ICrossAdapterBuffer>particlePoolBuffer;
 
 	WorldBillboardGPUData worldBillboardGPUData;
 	TimeConstantGPUData timeGPUData;
@@ -119,7 +118,7 @@ private:
 
 	TextureData* texture;
 	TextureData* determineTexture;
-	std::unique_ptr <AnimationMeshGPUParticleAliceModel> modelData;
+	std::unique_ptr <MeshGPUParticleAliceModel> modelData;
 
 public:
 

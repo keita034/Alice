@@ -21,7 +21,6 @@ void LaserGPUParticle::Initialize()
 	ID3D12GraphicsCommandList* lComputeCommandList = computeAdapter->GetComputeCommandList();
 
 	{
-
 		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeLaserGPUParticleFreeListInit",AdaptersIndex::SUB);
 
 		lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());

@@ -41,7 +41,7 @@ float BossAnimation::GetRatio()
 
 void BossAnimation::InsertDownAttackAnimation()
 {
-	blendTree->InsertAnimation(downAttackAnimationHandle);
+	blendTree->CoercionInsertAnimation(downAttackAnimationHandle);
 }
 
 void BossAnimation::InsertDeathAnimation()
@@ -51,17 +51,17 @@ void BossAnimation::InsertDeathAnimation()
 
 void BossAnimation::InserJumpAttackAnimation()
 {
-	blendTree->InsertAnimation(jumpAttackAnimationHandle);
+	blendTree->CoercionInsertAnimation(jumpAttackAnimationHandle);
 }
 
 void BossAnimation::InserBeamAnimation()
 {
-	blendTree->InsertAnimation(beamAnimationHandle);
+	blendTree->CoercionInsertAnimation(beamAnimationHandle);
 }
 
 void BossAnimation::InsertCloseRangeAttackAnimation()
 {
-	blendTree->InsertAnimation(closeRangeAttackAnimationHandle);
+	blendTree->CoercionInsertAnimation(closeRangeAttackAnimationHandle);
 }
 
 bool BossAnimation::IsInsert()

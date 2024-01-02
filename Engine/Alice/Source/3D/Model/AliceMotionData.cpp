@@ -182,6 +182,11 @@ void AliceMotionData::SCommonInitialize()
 	sFilePaths.resize(sMAX_MOTION);
 }
 
+const MotionData* AliceMotionData::GetMotionData() const
+{
+	return motionData;
+}
+
 void AliceMotionData::PCalcInterpolatedScaling(AliceMathF::Vector3& mxOut_, float animationTime_, const MotionNode* pNodeAnim_)
 {
 	if (pNodeAnim_->scalingKeys.size() == 1)

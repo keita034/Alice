@@ -10,9 +10,9 @@ void PlayerAnimation::Initialize(AliceInput::IInput* input_)
 	walkAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Walk.almb");
 	runAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Run.almb");
 
-	attackCombo1AnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/AttackCombo1.almb");;
-	attackCombo2AnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/AttackCombo2.almb");;
-	attackCombo3AnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/AttackCombo3.almb");;
+	attackCombo1AnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/SwordSlash1.almb");;
+	attackCombo2AnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/SwordSlash2.almb");;
+	attackCombo3AnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/SwordSlash3.almb");;
 
 	rowlingAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Rowling.almb");
 	attackAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Attack.almb");
@@ -52,32 +52,32 @@ void PlayerAnimation::InsertAttackAnimation()
 	blendTree->InsertAnimation(attackAnimationHandle);
 }
 
-void PlayerAnimation::InsertAttackCombo1Animation()
+void PlayerAnimation::InsertAttackCombo1Animation(float frame_)
 {
-	blendTree->InsertAnimation(attackCombo1AnimationHandle);
+	blendTree->CoercionInsertAnimation(attackCombo1AnimationHandle,true,frame_);
 
 }
 
-void PlayerAnimation::InsertAttackCombo2Animation()
+void PlayerAnimation::InsertAttackCombo2Animation(float frame_)
 {
-	blendTree->InsertAnimation(attackCombo2AnimationHandle);
+	blendTree->CoercionInsertAnimation(attackCombo2AnimationHandle,true,frame_);
 
 }
 
-void PlayerAnimation::InsertAttackCombo3Animation()
+void PlayerAnimation::InsertAttackCombo3Animation(float frame_)
 {
-	blendTree->InsertAnimation(attackCombo3AnimationHandle);
+	blendTree->CoercionInsertAnimation(attackCombo3AnimationHandle,true,frame_);
 
 }
 
 void PlayerAnimation::InsertRowlingAnimation()
 {
-	blendTree->InsertAnimation(rowlingAnimationHandle);
+	blendTree->CoercionInsertAnimation(rowlingAnimationHandle);
 }
 
 void PlayerAnimation::InsertDeathAnimation()
 {
-	blendTree->InsertAnimation(deathAnimationHandle, false);
+	blendTree->CoercionInsertAnimation(deathAnimationHandle, false);
 }
 
 void PlayerAnimation::InsertHitAnimation()

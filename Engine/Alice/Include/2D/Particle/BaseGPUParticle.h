@@ -66,7 +66,7 @@ protected:
 
 	std::unique_ptr<IDrawListBuffer>drawListBuffer;
 	std::unique_ptr<IFreeListBuffer>freeListBuffer;
-
+	std::unique_ptr<ICrossAdapterBuffer>particlePoolBuffer;
 
 public:
 

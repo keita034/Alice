@@ -33,6 +33,7 @@ private:
 
 	BlendNode* startNode;
 	BlendNode* endNode;
+	const MotionData* nowAnimation;
 
 	ReturnMotionNode zeroReturnMotionNode;
 	ReturnMotionNode returnAnimation;
@@ -51,18 +52,19 @@ private:
 	float insertAnimationOneThirdFrame;
 	
 	bool isInsert = false;
+	bool coercion = false;
 	bool isDirty = true;
 	bool complement;
 	bool isPlay = true;
 	bool animationEndStop = false;
 
-	int8_t PADING[7];
+	int8_t PADING[6];
 public:
 
 	void AddAnimation(uint32_t handle_);
 
 	bool InsertAnimation(uint32_t handle_,bool complement_ = true);
-	bool CoercionInsertAnimation(uint32_t handle_,bool complement_ = true);
+	bool CoercionInsertAnimation(uint32_t handle_,bool complement_ = true,float frame_ = 0.0f);
 
 	void SetThresh(float thresh_); 
 

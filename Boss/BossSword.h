@@ -33,6 +33,8 @@ public:
 
 	void SetIsUpdate(bool flag_);
 
+	const AliceMathF::Matrix4& GetWorldMat();
+
 private:
 
 	void Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_,uint32_t handle_,const AliceMathF::Vector3& pos_,const AliceMathF::Vector3& rot_,const AliceMathF::Vector3& scl_,const Transform* parent_) override {};

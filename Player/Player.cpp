@@ -9,14 +9,18 @@
 #include<BossJumpAttackMove.h>
 #include<BossBeamAttack.h>
 #include <BossSword.h>
+#include<AliceAssert.h>
 
-void Player::Initialize(AliceInput::IInput* input_,IAudioManager* audioManager_,AlicePhysics::AlicePhysicsSystem* physicsSystem_)
+void Player::Initialize(AliceInput::IInput* input_,IAudioManager* audioManager_,AlicePhysics::AlicePhysicsSystem* physicsSystem_,GPUParticleEmitter* particleEmitter_)
 {
-	assert(input_);
-	assert(audioManager_);
+	AliceAssertNull(input_,"Inputがnullです");
+	AliceAssertNull(audioManager_,"AudioManagerがnullです");
+	AliceAssertNull(physicsSystem_,"PhysicsSystemがnullです");
+	AliceAssertNull(particleEmitter_,"GPUParticleEmitterがnullです");
 
 	input = input_;
 	audioManager = audioManager_;
+	meshParticle = particleEmitter_->GetMeshGPUParticle("PiayerWeaponParticle");
 	deviceInput = std::make_unique<DeviceInput>();
 	deviceInput->Initialize(input_);
 
@@ -63,6 +67,27 @@ void Player::Initialize(AliceInput::IInput* input_,IAudioManager* audioManager_,
 	deathSE = audioManager->LoadAudio("Resources/SE/PlayerDeath.mp3");
 
 	animation->Update();
+
+	{
+
+		MeshGPUParticleSetting lSetting;
+
+		lSetting.matWorld = AliceMathF::MakeIdentity();
+		lSetting.velocity = { 0,0,0 };
+		lSetting.startColor = { 1,1,1,1 };
+		lSetting.endColor = { 1,1,1,1 };
+		lSetting.lifeTime = 0.01f;
+		lSetting.maxParticles = 100000.0f;
+		lSetting.timeBetweenEmit = 0.0001f;
+		lSetting.emitLifeTime = -1;
+		lSetting.size = 0.2f;
+		lSetting.speed = 15;
+		lSetting.isPlay = false;
+
+		particleIndex = meshParticle->Emit(lSetting);
+	}
+
+	meshParticle->EmitPlay(particleIndex);
 }
 
 void Player::Update(BaseGameCamera* camera_,GameCameraManager::CameraIndex index_)
@@ -97,7 +122,11 @@ void Player::Update(BaseGameCamera* camera_,GameCameraManager::CameraIndex index
 
 		if ( !( usData.situation & ActorSituation::HEALING ) )
 		{
-			PRowling(camera_);
+			if ( !( usData.situation & ActorSituation::ATTACK ) || !( usData.situation & ActorSituation::HEALING ) )
+			{
+				PRowling(camera_);
+			}
+
 
 			if ( index_ == GameCameraManager::CameraIndex::PLAYER_CAMERA && !( usData.situation & ActorSituation::ROWLING ) )
 			{
@@ -163,13 +192,14 @@ void Player::Draw()
 {
 	model->Draw(transform,animation->GetAnimation());
 	shape->Draw(rigidBody->GetCenterOfMassTransform(),{ 1.0f,1.0f ,1.0f },{ 1.0f ,1.0f ,1.0f ,1.0f },true);
-	weapon->Draw();
+	//weapon->Draw();
 }
 
 void Player::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 {
 	weapon->Finalize(physicsSystem_);
 	physicsSystem_->RemoveRigidBody(rigidBody);
+	meshParticle->EmitStop(particleIndex);
 }
 
 const AliceMathF::Vector3& Player::GetPosition() const
@@ -181,7 +211,7 @@ void Player::TransUpdate(Camera* camera_)
 {
 	transform.LookAtMatrixAxisFix(direction,{ 0,1,0 },camera_);
 	weapon->TransUpdate(camera_);
-
+	meshParticle->SetMat(weapon->GetWorldMat(),particleIndex);
 	camera = camera_;
 }
 
@@ -254,7 +284,7 @@ void Player::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_,const A
 
 			if ( !( usData.situation & ActorSituation::DAMAGE ) && bossSwordUsData->isAttack )
 			{
-				if ( hp > 0 && !( usData.situation & ActorSituation::ROWLING ))
+				if ( hp > 0 && !( usData.situation & ActorSituation::ROWLING ) )
 				{
 					for ( int32_t i = 0; i < 10; i++ )
 					{
@@ -390,7 +420,7 @@ int32_t Player::GetDamage()
 	return 1;
 }
 
-int32_t Player::GetHp()
+int32_t Player::GetHp() const
 {
 	return hp;
 }
@@ -573,52 +603,58 @@ void Player::PAttack()
 {
 	if ( usData.situation & ActorSituation::ATTACK )
 	{
-		if ( animation->IsInsert() && input->TriggerButton(ControllerButton::LB) && !attackAdd && animation->GetRatio() > 0.8f)
+		if ( animation->IsInsert() && input->TriggerButton(ControllerButton::LB) && !attackAdd )
 		{
-			if ( attackCount <2 )
+			if ( attackCount < 2 )
 			{
 				attackAdd = true;
 				stamina -= subAttackStamina;
 				attackCount++;
+				animation->SetAddFrame(0.025f);
 			}
+		}
+
+		switch ( attackCount )
+		{
+		case 1:
+			if ( animation->GetRatio() >= 0.65f && attackAdd )
+			{
+				animation->InsertAttackCombo2Animation(0.0f);
+				attackAdd = false;
+			}
+			break;
+		case 2:
+			if ( animation->GetRatio() >= 0.65f && attackAdd )
+			{
+				animation->SetAddFrame(0.015f);
+				animation->InsertAttackCombo3Animation(0.0f);
+				attackAdd = false;
+			}
+			break;
+		default:
+			break;
 		}
 
 		if ( !animation->IsInsert() )
 		{
-			if ( attackAdd )
-			{
-				switch ( attackCount )
-				{
-				case 1:
-					animation->InsertAttackCombo2Animation();
-					attackAdd = false;
-					break;
-				case 2:
-					animation->InsertAttackCombo3Animation();
-					attackAdd = false;
-					break;
-				default:
-					break;
-				}
-			}
-			else
-			{
-				usData.situation &= ~ActorSituation::ATTACK;
-				attackCount = 0;
-				animation->SetAddFrame();
-			}
+			usData.situation &= ~ActorSituation::ATTACK;
+			
+			attackCount = 0;
+			animation->SetAddFrame();
 		}
-
 	}
-
-	if ( input->TriggerButton(ControllerButton::LB) && !( usData.situation & ActorSituation::ATTACK ) )
+	else
 	{
-		animation->InsertAttackCombo1Animation();
-		animation->SetAddFrame(0.035f);
-		stamina -= subAttackStamina;
+		if ( input->TriggerButton(ControllerButton::LB) )
+		{
+			animation->InsertAttackCombo1Animation(0.0f);
+			animation->SetAddFrame(0.025f);
+			stamina -= subAttackStamina;
 
-		usData.situation |= ActorSituation::ATTACK;
+			usData.situation |= ActorSituation::ATTACK;
+		}
 	}
+
 }
 
 void Player::PHealing()

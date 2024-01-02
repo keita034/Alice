@@ -19,12 +19,13 @@ private:
 	IAudioManager* audioManager = nullptr;
 	GPUParticleEmitter* particleEmitter = nullptr;
 	BloodGushGPUParticle* bloodGushGPUParticle = nullptr;
-	AnimationMeshGPUParticle* AnimationMeshGPUParticle = nullptr;
+	AnimationMeshGPUParticle* bossGPUParticle = nullptr;
+	ModelGPUParticle* bossModelGPUParticle = nullptr;
 
-	std::unique_ptr<FireWorkParticle>fireWorkParticle;
 	std::unique_ptr<BossActionManager> actionManager;
 	std::unique_ptr<BossAnimation> animation;
 	std::unique_ptr<BossUI>bossUI;
+	std::unique_ptr<AliceModel>bossParticleModel;
 
 	std::array< std::unique_ptr<BossHand>,2> hands;
 
@@ -35,7 +36,8 @@ private:
 	AliceMathF::Vector3 rigidBodyoffset;
 	uint32_t deathSE = 0;
 
-	uint32_t meshParticleIndex =0;
+	uint32_t meshParticleIndex = 0;
+	uint32_t bossModelParticleIndex =0;
 	float deathSEVolume = 0.04f;
 	int32_t situation = 0;
 	int32_t hp = 0;

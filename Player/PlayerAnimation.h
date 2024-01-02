@@ -63,9 +63,9 @@ public:
 	float GetRatio();
 
 	void InsertAttackAnimation();
-	void InsertAttackCombo1Animation();
-	void InsertAttackCombo2Animation();
-	void InsertAttackCombo3Animation();
+	void InsertAttackCombo1Animation(float frame_);
+	void InsertAttackCombo2Animation(float frame_);
+	void InsertAttackCombo3Animation(float frame_);
 	void InsertRowlingAnimation();
 	void InsertDeathAnimation();
 	void InsertHitAnimation();

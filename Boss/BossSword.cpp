@@ -12,7 +12,7 @@ void BossSword::Initialize(Transform* parent_,AlicePhysics::AlicePhysicsSystem* 
 	transform.Initialize();
 	transform.parent = parent_;
 	transform.translation = { 100.0f * 50,100.0f * 25,100.0f * -6.0f };
-	transform.scale = { 12.0f,12.0f ,12.0f };
+	transform.scale = { 1200.0f,1200.0f ,1200.0f };
 	transform.rotation = { 60.0f * AliceMathF::DEG_TO_RAD,0.0f,-90.0f * AliceMathF::DEG_TO_RAD };
 
 	shape.reset(AlicePhysics::CreateBoxShape({ 3.0f,70.0f,2.0f }));
@@ -82,10 +82,14 @@ void BossSword::TransUpdate(Camera* camera_)
 
 	rigidBody->SetMatrix(transform.rigidBodyMatWorld,transform.matWorld);
 	rigidBody->SetPosition(AliceMathF::GetWorldPosition(transform.matWorld));
-
 }
 
 void BossSword::SetIsUpdate(bool flag_)
 {
 	isUpdate = flag_;
+}
+
+const AliceMathF::Matrix4& BossSword::GetWorldMat()
+{
+	return transform.matWorld;
 }

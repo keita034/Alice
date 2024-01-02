@@ -43,7 +43,9 @@ void main(uint3 DTid : SV_DispatchThreadID)
     
     particle.age += deltaTime;
 
-    particle.alive = (float) (particle.age < particle.lifeTime);
+
+        particle.alive = (float) (particle.age < particle.lifeTime );
+
 
     particle.position += particle.velocity * deltaTime;
     

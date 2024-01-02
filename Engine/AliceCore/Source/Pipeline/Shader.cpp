@@ -85,7 +85,7 @@ void Shader::Create(const std::string& fileName_, const std::string& entryPoint_
 			lError.begin());
 		lError += "\n";
 		// エラー内容を出力ウィンドウに表示
-		OutputDebugStringA(lError.c_str());
+		printf("%s",lError.c_str());
 		assert(0);
 	};
 

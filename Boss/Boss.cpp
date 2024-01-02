@@ -9,6 +9,9 @@ void Boss::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 	model = std::make_unique<AliceModel>();
 	model->SetModel(modelHandle);
 
+	bossParticleModel = std::make_unique<AliceModel>();
+	bossParticleModel->SetModel(AliceModel::SCreateModel("Resources/Model/Boss/Particle"));
+
 	transform.translation = { 0.0f,0.0f,20.0f };
 	transform.scale = {0.01f,0.01f,0.01f };
 	transform.Initialize();
@@ -33,26 +36,29 @@ void Boss::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 	rigidBody->SetRigidBodyCollision(this);
 
 	{
-		fireWorkParticle = std::make_unique<FireWorkParticle>();
-		fireWorkParticle->Initialize();
-		fireWorkParticle->SetTex(TextureManager::SLoad("Resources/Default/Particle/effect1.png"));
 
-		AnimationMeshGPUParticleSetting lMeshSetting;
+		{
+			AnimationMeshGPUParticleSetting lMeshSetting;
 
-		lMeshSetting.matWorld = AliceMathF::MakeIdentity();
-		lMeshSetting.velocity = { 0,1,0 };
-		lMeshSetting.startColor = { 1,0,0,1 };
-		lMeshSetting.endColor = { 1,0,0,1 };
-		lMeshSetting.lifeTime = 1.0f;
-		lMeshSetting.maxParticles = 1000000.0f;
-		lMeshSetting.timeBetweenEmit = 0.01f;
-		lMeshSetting.emitLifeTime = -1;
-		lMeshSetting.size = 2;
-		lMeshSetting.speed = 15;
-		lMeshSetting.isPlay = false;
+			lMeshSetting.matWorld = AliceMathF::MakeIdentity();
+			lMeshSetting.velocity = { 0,1,0 };
+			lMeshSetting.startColor = { 1,0,0,1 };
+			lMeshSetting.endColor = { 1,0,0,1 };
+			lMeshSetting.lifeTime = 1.0f;
+			lMeshSetting.maxParticles = 1000000.0f;
+			lMeshSetting.timeBetweenEmit = 0.01f;
+			lMeshSetting.emitLifeTime = -1;
+			lMeshSetting.size = 2;
+			lMeshSetting.speed = 15;
+			lMeshSetting.isPlay = false;
 
-		meshParticleIndex = particleEmitter->AnimationMeshGPUParticleEmit("BossModelParticle",lMeshSetting);
-		AnimationMeshGPUParticle = particleEmitter->GetAnimationMeshGPUParticle("BossModelParticle");
+			meshParticleIndex = particleEmitter->AnimationMeshGPUParticleEmit("BossParticle",lMeshSetting);
+			bossGPUParticle = particleEmitter->GetAnimationMeshGPUParticle("BossParticle");
+		}
+
+		{
+			bossModelGPUParticle = particleEmitter->GetAnimationModelGPUParticle("BossModelParticle");
+		}
 
 		BloodGushGPUParticleSetting lBloodGushSetting;
 		lBloodGushSetting.accel = { 0.0f,-8.5f,0.0f };
@@ -68,7 +74,8 @@ void Boss::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 		bloodGushParticleIndex = particleEmitter->BloodGushGPUParticleEmit("BossBloodGushParticle",lBloodGushSetting);
 		bloodGushGPUParticle = particleEmitter->GetBloodGushGPUParticle("BossBloodGushParticle");
 
-		particleEmitter->AnimationMeshGPUParticleEmitPlay("BossModelParticle",meshParticleIndex);
+		//bossGPUParticle->EmitPlay(meshParticleIndex);
+		bossModelGPUParticle->EmitPlay();
 
 	}
 
@@ -156,7 +163,6 @@ void Boss::Update()
 	animation->Update();
 	hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->Update("mixamorig:RightHandMiddle1",animation->GetAnimation(),model.get());
 	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->Update("mixamorig:LeftHandMiddle1",animation->GetAnimation(),model.get());
-	fireWorkParticle->Update();
 	bossUI->Update();
 
 	if( situation & ActorSituation::ATTACK )
@@ -184,15 +190,17 @@ void Boss::Update()
 
 		hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->ParticleStop();
 	}
+
+	bossParticleModel->AnimationUpdate(animation->GetAnimation());
+	model->AnimationUpdate(animation->GetAnimation());
 }
 
 void Boss::Draw()
 {
-	model->Draw(transform,animation->GetAnimation());
+	//model->Draw(transform,animation->GetAnimation());
 	shape->Draw(rigidBody->GetCenterOfMassTransform(),{ 1.0f,1.0f ,1.0f },{ 1.0f ,0.0f ,0.0f ,1.0f },true);
 	hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->Draw();
 	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->Draw();
-	fireWorkParticle->Draw(camera);
 	actionManager->GetBossCloseRangeAttack()->Draw();
 
 #ifdef _DEBUG
@@ -209,7 +217,7 @@ void Boss::UIDraw()
 
 void Boss::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 {
-	AnimationMeshGPUParticle->EmitStop(meshParticleIndex);
+	bossGPUParticle->EmitStop(meshParticleIndex);
 
 	actionManager->Finalize(physicsSystem_);
 
@@ -229,7 +237,6 @@ void Boss::Reset()
 
 void Boss::TransUpdate(Camera* camera_)
 {
-
 	transform.LookAtMatrixAxisFix(direction,{ 0,1,0 },camera_);
 
 	hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->TransUpdate(camera_);
@@ -238,7 +245,8 @@ void Boss::TransUpdate(Camera* camera_)
 	actionManager->GetBossBeamAttackMove()->TransUpdate(camera_);
 	actionManager->GetBossCloseRangeAttack()->TransUpdate(camera_);
 
-	AnimationMeshGPUParticle->SetMat(transform.matWorld,meshParticleIndex);
+	bossGPUParticle->SetMat(transform.matWorld,meshParticleIndex);
+	bossModelGPUParticle->SetMat(transform.matWorld);
 
 #ifdef _DEBUG
 	actionManager->GetBossJumpAttackMove()->TransUpdate(camera_);

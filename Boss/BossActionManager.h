@@ -103,7 +103,7 @@ public:
 
 	void SetParticleEmitter(GPUParticleEmitter* particleEmitter_);
 
-	BossAction ChoiceAction(float length_,const AliceMathF::Vector3& bossPos_);
+	BossAction ChoiceAction(float length_,const AliceMathF::Vector3& bossPos_, bool action_ = true);
 
 	//デバッグ用
 #ifdef _DEBUG

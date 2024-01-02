@@ -9,6 +9,7 @@
 #include<DeviceInput.h>
 #include<AudioManager.h>
 #include<AlicePhysicsSystem.h>
+#include<GPUParticleEmitter.h>
 
 struct PlayerUsData
 {
@@ -23,6 +24,7 @@ private:
 	AliceInput::IInput* input = nullptr;
 	IAudioManager* audioManager = nullptr;
 	Camera* camera = nullptr;
+	MeshGPUParticle* meshParticle = nullptr;
 
 	PlayerUsData usData;
 
@@ -56,6 +58,7 @@ private:
 
 	const int32_t MAX_DAMAGE_INTERVAL = 70;
 	int32_t subRunStamina = 2;
+	int32_t particleIndex;
 
 	int32_t subAttackStamina = 200;
 	int32_t subRowlingStamina = 400;
@@ -80,7 +83,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(AliceInput::IInput* input_,IAudioManager* audioManager_,AlicePhysics::AlicePhysicsSystem* physicsSystem_);
+	void Initialize(AliceInput::IInput* input_,IAudioManager* audioManager_,AlicePhysics::AlicePhysicsSystem* physicsSystem_,GPUParticleEmitter* particleEmitter_);
 
 	/// <summary>
 	/// 更新処理
@@ -136,7 +139,7 @@ public:
 
 	int32_t GetDamage();
 
-	int32_t GetHp();
+	int32_t GetHp() const;
 
 	bool IsEnd();
 

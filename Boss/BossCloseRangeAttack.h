@@ -3,6 +3,7 @@
 #include<AlicePhysicsSystem.h>
 #include<BossAnimation.h>
 #include<BossSword.h>
+#include<GPUParticleEmitter.h>
 
 class BossCloseRangeAttack
 {
@@ -20,30 +21,32 @@ private:
 
 	AlicePhysics::AlicePhysicsSystem* physicsSystem;
 	BossAnimation* bossAnimation;
+	MeshGPUParticle* meshParticle;
 
 	std::unique_ptr<BossSword>bossSword;
 
 	AliceMathF::Vector3 playerPos;
-
-	AliceMathF::Vector3 BossPos;
-	AliceMathF::Vector3 oldBossPos;
-
-	AliceMathF::Vector3 direction;
-	AliceMathF::Vector3 distanceTraveled;
-
 	float distanceFrame = 0.0f;
 
+	AliceMathF::Vector3 BossPos;
 	float frameDistance = 0.0f;
 
-	bool isFinish = false;
+	AliceMathF::Vector3 oldBossPos;
+	float frame = 0.0f;
 
+	AliceMathF::Vector3 direction;
+	float length = 0.0f;
+
+	AliceMathF::Vector3 distanceTraveled;
 	float maxFrame = 0.0f;
 
-	float frame = 0.0f;
-	float length = 0.0f;
+	AliceMathF::Vector3 retBossPos;
 	Phase phase;
 
-	AliceMathF::Vector3 retBossPos;
+	int32_t particleIndex;
+
+
+	bool isFinish = false;
 
 public:
 
@@ -53,7 +56,7 @@ public:
    /// <summary>
    /// 初期化
    /// </summary>
-	void Initialize(Transform* bossTrans_,AlicePhysics::AlicePhysicsSystem* physicsSystem_,BossAnimation* bossAnimation_);
+	void Initialize(GPUParticleEmitter* particleEmitter_,Transform* bossTrans_,AlicePhysics::AlicePhysicsSystem* physicsSystem_,BossAnimation* bossAnimation_);
 
    /// <summary>
    /// 更新処理
