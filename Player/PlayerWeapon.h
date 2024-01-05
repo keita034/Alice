@@ -31,6 +31,8 @@ public:
 	/// </summary>
 	virtual void Update(const std::string& boneName_,AliceBlendTree* tree_, AliceModel* playerModel_);
 
+	void Update(const AliceMathF::Matrix4& mat_);
+
 	/// <summary>
 	/// ワールド行列更新
 	/// </summary>

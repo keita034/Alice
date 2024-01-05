@@ -5,7 +5,7 @@
 
 void PlayerWeapon::Initialize(Transform* parent_,AlicePhysics::AlicePhysicsSystem* physicsSystem_,AlicePhysics::IRigidBody* rigidParent_)
 {
-	modelHandle = AliceModel::SCreateModel("Resources/Model/Player/Weapon/katana");
+	modelHandle = AliceModel::SCreateModel("Resources/Model/Player/Weapon/Sword");
 	model = std::make_unique<AliceModel>();
 	model->SetModel(modelHandle);
 
@@ -52,6 +52,11 @@ void PlayerWeapon::Update(const std::string& boneName_, AliceBlendTree* tree_,Al
 
 }
 
+void PlayerWeapon::Update(const AliceMathF::Matrix4& mat_)
+{
+	animationTransform.boneMatrix = mat_;
+}
+
 void PlayerWeapon::TransUpdate(Camera* camera_)
 {
 	transform.TransUpdate(camera_, &animationTransform.boneMatrix);
@@ -67,7 +72,7 @@ void PlayerWeapon::TransUpdate(Camera* camera_)
 
 void PlayerWeapon::Draw()
 {
-	model->Draw(transform);
+	//model->Draw(transform);
 	shape->Draw(rigidBody->GetCenterOfMassTransform(),{ 1.0f,1.0f ,1.0f },{ 1.0f ,1.0f ,1.0f ,1.0f },true);
 }
 

@@ -118,6 +118,9 @@
     <ClCompile Include="Boss\BossSword.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Player\PlayerGreatWeapon.cpp">
+      <Filter>ソース ファイル\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCore\GameMain.h">
@@ -197,6 +200,9 @@
     </ClInclude>
     <ClInclude Include="Boss\BossSword.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\PlayerGreatWeapon.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

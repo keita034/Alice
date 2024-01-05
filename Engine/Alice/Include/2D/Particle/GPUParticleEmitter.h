@@ -8,6 +8,7 @@
 #include<BloodGushGPUParticle.h>
 #include<Camera.h>
 #include<MultiAdapters.h>
+#include<AnimationModelGPUParticle.h>
 #include<ModelGPUParticle.h>
 
 class GPUParticleEmitter
@@ -17,15 +18,14 @@ private:
 	IMultiAdapters* multiAdapters = nullptr;
 	ISwapChain* swapChain = nullptr;
 
-	std::unique_ptr<BasicGPUParticle>basicGPUParticle;
-
-	std::unordered_map<std::string,std::unique_ptr<FireGPUParticle>>fireParticles;
-	std::unordered_map<std::string,std::unique_ptr<ShockWaveGPUParticle>>shockWaveParticles;
-	std::unordered_map<std::string,std::unique_ptr<LaserGPUParticle>>laserGPUParticles;
-	std::unordered_map<std::string,std::unique_ptr<AnimationMeshGPUParticle>>animationMeshGPUParticles;
-	std::unordered_map<std::string,std::unique_ptr<MeshGPUParticle>>meshGPUParticles;
-	std::unordered_map<std::string,std::unique_ptr<BloodGushGPUParticle>>bloodGushGPUParticles;
-	std::unordered_map<std::string,std::unique_ptr<ModelGPUParticle>>modelGPUParticles;
+	std::unordered_map<std::string,std::unique_ptr<FireGPUParticle>>fires;
+	std::unordered_map<std::string,std::unique_ptr<ShockWaveGPUParticle>>shockWaves;
+	std::unordered_map<std::string,std::unique_ptr<LaserGPUParticle>>lasers;
+	std::unordered_map<std::string,std::unique_ptr<AnimationMeshGPUParticle>>animationMeshs;
+	std::unordered_map<std::string,std::unique_ptr<MeshGPUParticle>>meshs;
+	std::unordered_map<std::string,std::unique_ptr<BloodGushGPUParticle>>bloodGushs;
+	std::unordered_map<std::string,std::unique_ptr<AnimationModelGPUParticle>>animationModels;
+	std::unordered_map<std::string,std::unique_ptr<ModelGPUParticle>>models;
 
 public:
 
@@ -42,8 +42,6 @@ public:
 	void Draw(const AliceMathF::Matrix4& worldMat_,const AliceMathF::Matrix4& billboardMat_);
 
 	void Finalize();
-
-	void BasicGPUParticleEmit(const AliceMathF::Vector3& pos_,const BasicGPUParticleSetting& setting_);
 
 	void FireParticleCreate(uint32_t maxParticles_,const std::string& name_);
 	void FireParticleMove(const std::string& name_,const AliceMathF::Vector3& move_,int32_t index_);
@@ -102,14 +100,24 @@ public:
 	BloodGushGPUParticle* GetBloodGushGPUParticle(const std::string& name_);
 
 	void AnimationModelGPUParticleCreate(uint32_t maxParticles_,const std::string& name_);
-	void AnimationModelGPUParticleEmit(const std::string& name_,const ModelGPUParticleSetting& setting_);
+	void AnimationModelGPUParticleEmit(const std::string& name_,const AnimationModelGPUParticleSetting& setting_);
 	void AnimationModelGPUParticleSetMat(const std::string& name_,const AliceMathF::Matrix4& matWorld_);
 	void AnimationModelGPUParticleSetTex(const std::string& name_,uint32_t textureHandle_);
 	void AnimationModelGPUParticleEmitPlay(const std::string& name_);
 	void AnimationModelGPUParticleEmitStop(const std::string& name_);
 	void AnimationModelGPUParticleDrawListRelease(const std::string& name_);
 	void AnimationModelGPUParticleSetModel(const std::string& name_,AliceModel* model_);
-	ModelGPUParticle* GetAnimationModelGPUParticle(const std::string& name_);
+	AnimationModelGPUParticle* GetAnimationModelGPUParticle(const std::string& name_);
+
+	void ModelGPUParticleCreate(uint32_t maxParticles_,const std::string& name_);
+	void ModelGPUParticleEmit(const std::string& name_,const ModelGPUParticleSetting& setting_);
+	void ModelGPUParticleSetMat(const std::string& name_,const AliceMathF::Matrix4& matWorld_);
+	void ModelGPUParticleSetTex(const std::string& name_,uint32_t textureHandle_);
+	void ModelGPUParticleEmitPlay(const std::string& name_);
+	void ModelGPUParticleEmitStop(const std::string& name_);
+	void ModelGPUParticleDrawListRelease(const std::string& name_);
+	void ModelGPUParticleSetModel(const std::string& name_,AliceModel* model_);
+	ModelGPUParticle* GetModelGPUParticle(const std::string& name_);
 
 	void SetMultiAdapters(IMultiAdapters* multiAdapters_);
 	void SetSwapChain(ISwapChain* swapChain_);

@@ -17,8 +17,6 @@ void main(uint3 DTid : SV_DispatchThreadID)
         return;
     }
     
-    int
-    
     uint index = DrawList.Consume();
     freeList.Append(index);
 }

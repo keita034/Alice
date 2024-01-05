@@ -74,7 +74,7 @@ void Boss::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 		bloodGushParticleIndex = particleEmitter->BloodGushGPUParticleEmit("BossBloodGushParticle",lBloodGushSetting);
 		bloodGushGPUParticle = particleEmitter->GetBloodGushGPUParticle("BossBloodGushParticle");
 
-		//bossGPUParticle->EmitPlay(meshParticleIndex);
+		bossGPUParticle->EmitPlay(meshParticleIndex);
 		bossModelGPUParticle->EmitPlay();
 
 	}
@@ -260,34 +260,67 @@ void Boss::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_,const Ali
 {
 	if ( BodyData_->GetGroup() == CollisionGroup::PLAYER && BodyData_->GetAttribute() == CollisionAttribute::WEAPON && player->IsAttack() && !( situation & ActorSituation::DAMAGE ) )
 	{
-
-		PlayerWeaponUsData* lUsData = static_cast< PlayerWeaponUsData* > ( BodyData_->GetUserData() );
-
-		if ( hp > 0 )
+		if ( BodyData_->GetName() == "PlayerGreatWeapon" )
 		{
-			for ( int32_t i = 0; i < player->GetDamage(); i++ )
+			PlayerGreatWeaponUsData* lUsData = static_cast< PlayerGreatWeaponUsData* > ( BodyData_->GetUserData() );
+
+			if ( hp > 0 )
 			{
-				if ( hp <= 0 )
+				for ( int32_t i = 0; i < player->GetDamage(); i++ )
 				{
-					break;
+					if ( hp <= 0 )
+					{
+						break;
+					}
+
+					//hp--;
 				}
 
-				hp--;
-			}
+				situation |= ActorSituation::DAMAGE;
+				audioManager->PlayWave(damageSE);
+				bloodGushGPUParticle->EmitPlay(hitPosdition_,lUsData->velocity,bloodGushParticleIndex);
 
-			situation |= ActorSituation::DAMAGE;
-			audioManager->PlayWave(damageSE);
-			bloodGushGPUParticle->EmitPlay(hitPosdition_,lUsData->velocity,bloodGushParticleIndex);
-
-			if ( hp <= 0 )
-			{
-				animation->InsertDeathAnimation();
-				animation->AnimationEndStop();
-				audioManager->PlayWave(deathSE);
-				audioManager->ChangeVolume(deathSE,deathSEVolume);
+				if ( hp <= 0 )
+				{
+					animation->InsertDeathAnimation();
+					animation->AnimationEndStop();
+					audioManager->PlayWave(deathSE);
+					audioManager->ChangeVolume(deathSE,deathSEVolume);
+				}
 			}
 		}
+		else
+		{
+			PlayerWeaponUsData* lUsData = static_cast< PlayerWeaponUsData* > ( BodyData_->GetUserData() );
+
+			if ( hp > 0 )
+			{
+				for ( int32_t i = 0; i < player->GetDamage(); i++ )
+				{
+					if ( hp <= 0 )
+					{
+						break;
+					}
+
+					//hp--;
+				}
+
+				situation |= ActorSituation::DAMAGE;
+				audioManager->PlayWave(damageSE);
+				bloodGushGPUParticle->EmitPlay(hitPosdition_,lUsData->velocity,bloodGushParticleIndex);
+
+				if ( hp <= 0 )
+				{
+					animation->InsertDeathAnimation();
+					animation->AnimationEndStop();
+					audioManager->PlayWave(deathSE);
+					audioManager->ChangeVolume(deathSE,deathSEVolume);
+				}
+			}
+		}
+
 	}
+
 }
 
 void Boss::OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_)

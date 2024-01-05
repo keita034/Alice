@@ -10,6 +10,7 @@
 #include<AudioManager.h>
 #include<AlicePhysicsSystem.h>
 #include<GPUParticleEmitter.h>
+#include<PlayerGreatWeapon.h>
 
 struct PlayerUsData
 {
@@ -24,9 +25,12 @@ private:
 	AliceInput::IInput* input = nullptr;
 	IAudioManager* audioManager = nullptr;
 	Camera* camera = nullptr;
-	MeshGPUParticle* meshParticle = nullptr;
-
+	ModelGPUParticle* weaponParticle = nullptr; 
+	ModelGPUParticle* greatWeaponParticle = nullptr;
+	AnimationModelGPUParticle* modelParticle = nullptr;
 	PlayerUsData usData;
+	
+	AliceMathF::Matrix4 evacuationMat;
 
 	AliceMathF::Vector3 oldTrans;
 	float speed = 170.0f;
@@ -49,7 +53,9 @@ private:
 	std::unique_ptr<PlayerUI>ui;
 	std::unique_ptr<PlayerAnimation>animation;
 	std::unique_ptr<PlayerWeapon> weapon;
+	std::unique_ptr<PlayerGreatWeapon>greatWeapon;
 	std::unique_ptr<DeviceInput> deviceInput;
+	std::unique_ptr<AliceModel>particleModel;
 
 	const int32_t MAX_HP = 200;
 	const int32_t MAX_STAMINA = 2000;
@@ -61,6 +67,7 @@ private:
 	int32_t particleIndex;
 
 	int32_t subAttackStamina = 200;
+	int32_t subGreaAttackStamina = 300;
 	int32_t subRowlingStamina = 400;
 	int32_t bullet = 0;
 	int32_t healing = 0;
@@ -74,7 +81,7 @@ private:
 	bool fieldHit = false;
 	bool shockwaveHit = false;
 	bool attackAdd = false;
-
+	bool isGreat = false;
 public:
 
 	Player() = default;
@@ -138,6 +145,7 @@ public:
 	bool IsAttack();
 
 	int32_t GetDamage();
+	int32_t GetGreatDamage();
 
 	int32_t GetHp() const;
 

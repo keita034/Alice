@@ -26,7 +26,7 @@ void ModelGPUParticle::Initialize()
 
 	{
 
-		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeAnimationModelGPUParticleFreeListInit",AdaptersIndex::SUB);
+		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeModelGPUParticleFreeListInit",AdaptersIndex::SUB);
 
 		lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
 		lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
@@ -42,17 +42,17 @@ void ModelGPUParticle::Initialize()
 	}
 
 	{
-		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeAnimationModelGPUParticleEmit",AdaptersIndex::SUB);
+		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeModelGPUParticleEmit",AdaptersIndex::SUB);
 		lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
 	}
 
 	{
-		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeAnimationModelGPUParticleUpdate",AdaptersIndex::SUB);
+		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeModelGPUParticleUpdate",AdaptersIndex::SUB);
 		lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
 	}
 
 	{
-		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeAnimationModelGPUParticleDrawArgumentUpdate",AdaptersIndex::SUB);
+		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeModelGPUParticleDrawArgumentUpdate",AdaptersIndex::SUB);
 		lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
 	}
 }
@@ -75,13 +75,10 @@ void ModelGPUParticle::Update(float deltaTime_)
 				drawListBuffers.push_back(CreateUniqueDrawListBuffer(mesh->vertices->size(),sizeof(uint32_t),BufferType::SHARED,AdaptersIndex::SUB,AdaptersIndex::MAIN));
 				gpuParticleDataBuffer->Update(&fireGPUParticleGPUData);
 
-				BoneData* lBonedata = mesh->bonedata;
-				mesh->constBoneBuffer->Update(lBonedata->boneMat.data());
-
 				particleConstants.vertexSize = static_cast< uint32_t >( mesh->GetVertices().size() );
 				particleConstantsBuffer->Update(&particleConstants);
 
-				ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeAnimationModelGPUParticleEmit",AdaptersIndex::SUB);
+				ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeModelGPUParticleEmit",AdaptersIndex::SUB);
 
 				lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
 				lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
@@ -92,7 +89,7 @@ void ModelGPUParticle::Update(float deltaTime_)
 				lComputeCommandList->SetComputeRootConstantBufferView(0,timeConstantsBuffer->GetAddress());//b0
 				lComputeCommandList->SetComputeRootConstantBufferView(1,gpuParticleDataBuffer->GetAddress());//b1
 				lComputeCommandList->SetComputeRootConstantBufferView(2,particleConstantsBuffer->GetAddress());//b2
-				lComputeCommandList->SetComputeRootConstantBufferView(3,mesh->constBoneBuffer->GetAddress());//b3
+				lComputeCommandList->SetComputeRootConstantBufferView(3,mesh->postureMatBuff->GetAddress());//b3
 
 				lComputeCommandList->SetComputeRootDescriptorTable(4,mesh->GetVertexSRVAddress());//t0
 
@@ -109,13 +106,10 @@ void ModelGPUParticle::Update(float deltaTime_)
 			size_t i = 0;
 			for ( const std::unique_ptr<MeshGPUParticleModelMesh>& mesh : modelData->GetMeshs() )
 			{
-				BoneData* lBonedata = mesh->bonedata;
-				mesh->constBoneBuffer->Update(lBonedata->boneMat.data());
-
 				particleConstants.vertexSize = static_cast< uint32_t >( mesh->GetVertices().size() );
 				particleConstantsBuffer->Update(&particleConstants);
 
-				ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeAnimationModelGPUParticleUpdate",AdaptersIndex::SUB);
+				ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeModelGPUParticleUpdate",AdaptersIndex::SUB);
 
 				lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
 				lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
@@ -126,7 +120,7 @@ void ModelGPUParticle::Update(float deltaTime_)
 				lComputeCommandList->SetComputeRootConstantBufferView(0,timeConstantsBuffer->GetAddress());//b0
 				lComputeCommandList->SetComputeRootConstantBufferView(1,gpuParticleDataBuffer->GetAddress());//b1
 				lComputeCommandList->SetComputeRootConstantBufferView(2,particleConstantsBuffer->GetAddress());//b2
-				lComputeCommandList->SetComputeRootConstantBufferView(3,mesh->constBoneBuffer->GetAddress());//b3
+				lComputeCommandList->SetComputeRootConstantBufferView(3,mesh->postureMatBuff->GetAddress());//b3
 
 				lComputeCommandList->SetComputeRootDescriptorTable(4,particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
 				lComputeCommandList->SetComputeRootDescriptorTable(5,drawListBuffers[ i ]->GetUAVAddress(CrossAdapterResourceIndex::MAIN));//u1
@@ -141,7 +135,7 @@ void ModelGPUParticle::Update(float deltaTime_)
 
 		//ドローアギュメント更新
 		{
-			ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeAnimationModelGPUParticleDrawArgumentUpdate",AdaptersIndex::SUB);
+			ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeModelGPUParticleDrawArgumentUpdate",AdaptersIndex::SUB);
 
 			lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
 			lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
@@ -180,7 +174,7 @@ void ModelGPUParticle::Draw(const AliceMathF::Matrix4& worldMat_,const AliceMath
 		{
 			ID3D12GraphicsCommandList* lGraphicCommandList = graphicAdapter->GetGraphicCommandList();
 
-			Material* lMaterial = MaterialManager::SGetMaterial("AnimationModelGPUParticleDraw",AdaptersIndex::MAIN);
+			Material* lMaterial = MaterialManager::SGetMaterial("ModelGPUParticleDraw",AdaptersIndex::MAIN);
 
 			lGraphicCommandList->IASetPrimitiveTopology(D3D12_PRIMITIVE_TOPOLOGY::D3D_PRIMITIVE_TOPOLOGY_POINTLIST);
 
@@ -281,7 +275,7 @@ void ModelGPUParticle::DrawListRelease()
 {
 	ID3D12GraphicsCommandList* lComputeCommandList = computeAdapter->GetComputeCommandList();
 
-	ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeAnimationModelGPUParticleDrawListRelease",AdaptersIndex::SUB);
+	ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeModelGPUParticleDrawListRelease",AdaptersIndex::SUB);
 
 	lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
 	lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());

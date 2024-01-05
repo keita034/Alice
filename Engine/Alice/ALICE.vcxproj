@@ -140,6 +140,7 @@
     <ClInclude Include="Include\2D\Particle\AnimationMeshGPUParticle.h" />
     <ClInclude Include="Include\2D\Particle\MeshGPUParticle.h" />
     <ClInclude Include="Include\2D\Particle\MeshGPUParticleAliceModel.h" />
+    <ClInclude Include="Include\2D\Particle\ModelGPUParticle.h" />
     <ClInclude Include="Include\3D\Model\AliceBlendTree.h" />
     <ClInclude Include="Include\2D\PostEffect\DistortionPostEffect.h" />
     <ClInclude Include="Include\2D\PostEffect\FrostedGlassPostEffect.h" />
@@ -199,7 +200,7 @@
     <ClInclude Include="Include\2D\PostEffect\MonochromePostEffect.h" />
     <ClInclude Include="Include\2D\PostEffect\MosaicPostEffect.h" />
     <ClInclude Include="Include\2D\Particle\ShockWaveGPUParticle.h" />
-    <ClInclude Include="Include\2D\Particle\ModelGPUParticle.h" />
+    <ClInclude Include="Include\2D\Particle\AnimationModelGPUParticle.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Resources\Shaders\2D\Mesh\Mesh.hlsli" />
@@ -234,12 +235,13 @@
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\2D\Particle\ModelGPUParticle.cpp" />
+    <ClCompile Include="Source\2D\Particle\AnimationModelGPUParticle.cpp" />
     <ClCompile Include="Source\2D\Particle\BloodGushGPUParticle.cpp" />
     <ClCompile Include="Source\2D\Particle\LaserGPUParticle.cpp" />
     <ClCompile Include="Source\2D\Particle\AnimationMeshGPUParticle.cpp" />
     <ClCompile Include="Source\2D\Particle\MeshGPUParticle.cpp" />
     <ClCompile Include="Source\2D\Particle\MeshGPUParticleAliceModel.cpp" />
+    <ClCompile Include="Source\2D\Particle\ModelGPUParticle.cpp" />
     <ClCompile Include="Source\2D\Particle\ShockWaveGPUParticle.cpp" />
     <ClCompile Include="Source\2D\Particle\FireGPUParticle.cpp" />
     <ClCompile Include="GPUTimeStamp.cpp" />

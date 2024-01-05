@@ -1,4 +1,4 @@
-#include<MeshGPUParticle.hlsli>
+#include<ModelGPUParticle.hlsli>
 
 cbuffer timeData : register(b0)
 {
@@ -15,53 +15,32 @@ cbuffer ParticleData : register(b1)
 
 cbuffer ParticleDatas : register(b2)
 {
-    EmitData emitDatas[EMIT_DATA_MAX];
+    EmitData emitData;
+}
+
+cbuffer BoneDatas : register(b3)
+{
+    matrix postureMat;
 }
 
 RWStructuredBuffer<Particle> ParticlePool : register(u0);
-AppendStructuredBuffer<uint> freeList : register(u1);
-AppendStructuredBuffer<uint> DrawList : register(u2);
+RWStructuredBuffer<uint> DrawList : register(u1);
+
+StructuredBuffer<Mesh> meshs : register(t0);
 
 [numthreads(1024, 1, 1)]
 void main(uint3 DTid : SV_DispatchThreadID)
 {
-    if (DTid.x >= (uint) maxParticles)
+    if (DTid.x >= (uint) emitData.vertexSize)
     {
         return;
     }
 
-    Particle particle = ParticlePool.Load(DTid.x);
-
-    if (particle.alive == 0.0f)
-    {
-        return;
-    }
+    uint particleIndex = DrawList[DTid.x];
     
-    EmitData emitData = emitDatas[emitDataIndex];
-    
-    float t = particle.age / emitData.lifeTime;
-    
-    particle.age += deltaTime;
+    Particle particle = ParticlePool.Load(particleIndex);
 
+    particle.position = mul(emitData.matWorld, mul(postureMat, meshs[particle.index].pos));
 
-        particle.alive = (float) (particle.age < particle.lifeTime );
-
-
-    particle.position += particle.velocity * deltaTime;
-    
-    particle.color = lerp(emitData.startColor, emitData.endColor, t);
-    
-    particle.threshold = t;
-
-    ParticlePool[DTid.x] = particle;
-
-    if (particle.alive == 0.0f)
-    {
-        freeList.Append(DTid.x);
-    }
-    else
-    {
-
-        DrawList.Append(DTid.x);
-    }
+    ParticlePool[particleIndex] = particle;
 }

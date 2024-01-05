@@ -14,7 +14,6 @@ void CreateAnimationModelFreeListInitComputeMaterial(MaterialManager* manager_,I
 void CreateAnimationModelDrawListReleaseComputeMaterial(MaterialManager* manager_,IAdapter* adapter_);
 
 
-
 void CreateModelDrawMaterial(MaterialManager* manager_,IAdapter* adapter_);
 
 void CreateModelEmitComputeMaterial(MaterialManager* manager_,IAdapter* adapter_);
@@ -24,3 +23,5 @@ void CreateModelUpdateComputeMaterial(MaterialManager* manager_,IAdapter* adapte
 void CreateModelDrawArgumentUpdateComputeMaterial(MaterialManager* manager_,IAdapter* adapter_);
 
 void CreateModelFreeListInitComputeMaterial(MaterialManager* manager_,IAdapter* adapter_);
+
+void CreateModelDrawListReleaseComputeMaterial(MaterialManager* manager_,IAdapter* adapter_);

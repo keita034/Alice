@@ -1,4 +1,4 @@
-#include<MeshGPUParticle.hlsli>
+#include<ModelGPUParticle.hlsli>
 #include<../../HLSLMath.hlsli>
 
 cbuffer timeData : register(b0)
@@ -16,7 +16,7 @@ cbuffer ParticleData : register(b1)
 
 cbuffer ParticleDatas : register(b2)
 {
-    EmitData emitDatas[EMIT_DATA_MAX];
+    EmitData emitData;
 }
 
 cbuffer BoneDatas : register(b3)
@@ -24,13 +24,11 @@ cbuffer BoneDatas : register(b3)
     matrix postureMat;
 }
 
-Texture2D<float4> tex : register(t0);
-StructuredBuffer<Mesh> meshs : register(t1);
-StructuredBuffer<uint> indices : register(t1);
+StructuredBuffer<Mesh> meshs : register(t0);
 
 RWStructuredBuffer<Particle> ParticlePool : register(u0);
-ConsumeStructuredBuffer<uint> freeList : register(u1);
-RWStructuredBuffer<uint> DrawList : register(u2);
+AppendStructuredBuffer<uint> DrawList : register(u1);
+ConsumeStructuredBuffer<uint> freeList : register(u2);
 
 [numthreads(1024, 1, 1)]
 void main( uint3 DTid : SV_DispatchThreadID )
@@ -39,21 +37,6 @@ void main( uint3 DTid : SV_DispatchThreadID )
     {
        return;
     }
-    
-    int2 uv;
-    float2 texSize;
-    tex.GetDimensions(texSize.x, texSize.y);
-    
-    uv = int2(texSize * meshs[DTid.x].uv);
-    
-    float4 texcolor = tex[uv];
-    
-    if (texcolor.a == 0.0f)
-    {
-        return;
-    }
-    
-    EmitData emitData = emitDatas[emitDataIndex];
 
     if (DTid.x >= emitData.vertexSize)
     {
@@ -63,12 +46,13 @@ void main( uint3 DTid : SV_DispatchThreadID )
     uint emitIndex = freeList.Consume();
 
     ParticlePool[emitIndex].position = mul(emitData.matWorld, mul(postureMat, meshs[DTid.x].pos));
-    ParticlePool[emitIndex].velocity = emitData.velocity * emitData.speed;
+    ParticlePool[emitIndex].velocity = float3(0,0,0);
     ParticlePool[emitIndex].color = emitData.startColor;
     ParticlePool[emitIndex].age = 0;
     ParticlePool[emitIndex].size = float2(emitData.size, emitData.size);
     ParticlePool[emitIndex].alive = 1.0f;
-    ParticlePool[emitIndex].index = 0;
+    ParticlePool[emitIndex].index = DTid.x;
     ParticlePool[emitIndex].lifeTime = emitData.lifeTime;
-    
+
+    DrawList.Append(emitIndex);
 }

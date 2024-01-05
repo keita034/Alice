@@ -1,4 +1,4 @@
-#include<MeshGPUParticle.hlsli>
+#include<ModelGPUParticle.hlsli>
 
 cbuffer objectData : register(b0)
 {

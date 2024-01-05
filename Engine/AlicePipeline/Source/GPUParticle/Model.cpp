@@ -174,7 +174,6 @@ void CreateAnimationModelDrawArgumentUpdateComputeMaterial(MaterialManager* mana
 }
 
 
-
 void CreateModelDrawMaterial(MaterialManager* manager_,IAdapter* adapter_)
 {
 	std::unique_ptr<Material>lMaterial = std::make_unique<Material>();
@@ -233,12 +232,11 @@ void CreateModelEmitComputeMaterial(MaterialManager* manager_,IAdapter* adapter_
 	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,2);//b2
 	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,3);//b3
 
+	lMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
+
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,0);//u0
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,1);//u1
-
-	lMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
-	lMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,1);//t1
-	lMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,2);//t1
+	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,2);//u1
 
 	lMaterial->rootSignature->Create(lDevice);
 
@@ -271,6 +269,30 @@ void CreateModelFreeListInitComputeMaterial(MaterialManager* manager_,IAdapter* 
 	manager_->AddMaterial(lMaterial,"ComputeModelGPUParticleFreeListInit");
 }
 
+void CreateModelDrawListReleaseComputeMaterial(MaterialManager* manager_,IAdapter* adapter_)
+{
+	std::unique_ptr<ComputeMaterial> lMaterial = std::make_unique<ComputeMaterial>();
+	ID3D12Device* lDevice = adapter_->GetDevice()->Get();
+
+	//シェーダの読み込み
+	lMaterial->computeShader = CreateUniqueShader("Resources/Shaders/AliceParticle/Model/DrawListRelease.hlsl","main","cs_5_0",IShader::ShaderType::CS);
+
+	//ルートシグネチャ設定
+	lMaterial->rootSignature = CreateUniqueRootSignature();
+
+	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,0);//u0
+	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,1);//u1
+
+	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
+
+	lMaterial->rootSignature->Create(lDevice);
+
+	//生成
+	lMaterial->Initialize(adapter_->GetDevice());
+
+	manager_->AddMaterial(lMaterial,"ComputeModelGPUParticleDrawListRelease");
+}
+
 void CreateModelUpdateComputeMaterial(MaterialManager* manager_,IAdapter* adapter_)
 {
 	std::unique_ptr<ComputeMaterial> lMaterial = std::make_unique<ComputeMaterial>();
@@ -285,11 +307,12 @@ void CreateModelUpdateComputeMaterial(MaterialManager* manager_,IAdapter* adapte
 	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
 	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,1);//b1
 	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,2);//u2
+	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,3);//u3
 
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,0);//u0
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,1);//u1
-	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,2);//u2
-	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,3);//u2
+
+	lMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 
 	lMaterial->rootSignature->Create(lDevice);
 
@@ -310,9 +333,9 @@ void CreateModelDrawArgumentUpdateComputeMaterial(MaterialManager* manager_,IAda
 	//ルートシグネチャ設定
 	lMaterial->rootSignature = CreateUniqueRootSignature();
 
+	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
+
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,0);//u0
-	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,1);//u1
-	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,2);//u1
 
 	lMaterial->rootSignature->Create(lDevice);
 
@@ -321,4 +344,3 @@ void CreateModelDrawArgumentUpdateComputeMaterial(MaterialManager* manager_,IAda
 
 	manager_->AddMaterial(lMaterial,"ComputeModelGPUParticleDrawArgumentUpdate");
 }
-

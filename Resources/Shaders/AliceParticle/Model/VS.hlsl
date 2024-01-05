@@ -1,13 +1,13 @@
-#include<MeshGPUParticle.hlsli>
+#include<ModelGPUParticle.hlsli>
 
 RWStructuredBuffer<Particle> ParticlePool : register(u0);
-ConsumeStructuredBuffer<uint> DrawList : register(u1);
+RWStructuredBuffer<uint> DrawList : register(u1);
 
-VS_OUTPUT main(uint id : SV_VertexID)
+VS_OUTPUT main(uint id : SV_InstanceID)
 {
     VS_OUTPUT output;
 
-    uint drawIndex = DrawList.Consume();
+    uint drawIndex = DrawList[id];
     Particle particle = ParticlePool.Load(drawIndex);
 
     output.position = particle.position;

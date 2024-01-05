@@ -440,6 +440,10 @@ ComputeMaterial* MaterialManager::GetComputeMaterialData(const std::string& name
 			{
 				CreateModelDrawArgumentUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
+			else if ( name_ == "ComputeModelGPUParticleDrawListRelease" )
+			{
+				CreateModelDrawListReleaseComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
 
 			else if ( name_ == "ComputeBloodGushGPUParticleFreeListInit" )
 			{

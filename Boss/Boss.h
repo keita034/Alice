@@ -20,7 +20,7 @@ private:
 	GPUParticleEmitter* particleEmitter = nullptr;
 	BloodGushGPUParticle* bloodGushGPUParticle = nullptr;
 	AnimationMeshGPUParticle* bossGPUParticle = nullptr;
-	ModelGPUParticle* bossModelGPUParticle = nullptr;
+	AnimationModelGPUParticle* bossModelGPUParticle = nullptr;
 
 	std::unique_ptr<BossActionManager> actionManager;
 	std::unique_ptr<BossAnimation> animation;

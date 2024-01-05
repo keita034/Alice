@@ -1,4 +1,4 @@
-#include<MeshGPUParticle.hlsli>
+#include<ModelGPUParticle.hlsli>
 #include<../../HLSLMath.hlsli>
 
 AppendStructuredBuffer<uint> freeList : register(u0);

@@ -10,12 +10,15 @@ void PlayerAnimation::Initialize(AliceInput::IInput* input_)
 	walkAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Walk.almb");
 	runAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Run.almb");
 
-	attackCombo1AnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/SwordSlash1.almb");;
-	attackCombo2AnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/SwordSlash2.almb");;
-	attackCombo3AnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/SwordSlash3.almb");;
+	attackCombo1AnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/SwordSlash1.almb");
+	attackCombo2AnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/SwordSlash2.almb");
+	attackCombo3AnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/SwordSlash3.almb");
+
+	greatAttackCombo1AnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/GreatSwordSlash1.almb");
+	greatAttackCombo2AnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/GreatSwordSlash2.almb");
+	greatAttackCombo3AnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/GreatSwordSlash3.almb");
 
 	rowlingAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Rowling.almb");
-	attackAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Attack.almb");
 	deathAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Death.almb");
 	hitAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/HitReaction.almb");
 	healingAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Player/Motion/Healing.almb");
@@ -47,11 +50,6 @@ float PlayerAnimation::GetRatio()
 	return blendTree->GetRatio();
 }
 
-void PlayerAnimation::InsertAttackAnimation()
-{
-	blendTree->InsertAnimation(attackAnimationHandle);
-}
-
 void PlayerAnimation::InsertAttackCombo1Animation(float frame_)
 {
 	blendTree->CoercionInsertAnimation(attackCombo1AnimationHandle,true,frame_);
@@ -68,6 +66,21 @@ void PlayerAnimation::InsertAttackCombo3Animation(float frame_)
 {
 	blendTree->CoercionInsertAnimation(attackCombo3AnimationHandle,true,frame_);
 
+}
+
+void PlayerAnimation::InsertGreatAttackCombo1Animation()
+{
+	blendTree->CoercionInsertAnimation(greatAttackCombo1AnimationHandle);
+}
+
+void PlayerAnimation::InsertGreatAttackCombo2Animation()
+{
+	blendTree->CoercionInsertAnimation(greatAttackCombo2AnimationHandle);
+}
+
+void PlayerAnimation::InsertGreatAttackCombo3Animation()
+{
+	blendTree->CoercionInsertAnimation(greatAttackCombo3AnimationHandle);
 }
 
 void PlayerAnimation::InsertRowlingAnimation()

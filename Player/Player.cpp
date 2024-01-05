@@ -20,7 +20,7 @@ void Player::Initialize(AliceInput::IInput* input_,IAudioManager* audioManager_,
 
 	input = input_;
 	audioManager = audioManager_;
-	meshParticle = particleEmitter_->GetMeshGPUParticle("PiayerWeaponParticle");
+
 	deviceInput = std::make_unique<DeviceInput>();
 	deviceInput->Initialize(input_);
 
@@ -64,30 +64,24 @@ void Player::Initialize(AliceInput::IInput* input_,IAudioManager* audioManager_,
 	weapon = std::make_unique<PlayerWeapon>();
 	weapon->Initialize(&transform,physicsSystem_,rigidBody);
 
+	greatWeapon = std::make_unique<PlayerGreatWeapon>();
+	greatWeapon->Initialize(&transform,physicsSystem_,rigidBody);
+
 	deathSE = audioManager->LoadAudio("Resources/SE/PlayerDeath.mp3");
 
 	animation->Update();
 
-	{
+	weaponParticle = particleEmitter_->GetModelGPUParticle("PiayerWeaponParticle");
 
-		MeshGPUParticleSetting lSetting;
+	greatWeaponParticle = particleEmitter_->GetModelGPUParticle("PiayerGreatWeaponParticle");
 
-		lSetting.matWorld = AliceMathF::MakeIdentity();
-		lSetting.velocity = { 0,0,0 };
-		lSetting.startColor = { 1,1,1,1 };
-		lSetting.endColor = { 1,1,1,1 };
-		lSetting.lifeTime = 0.01f;
-		lSetting.maxParticles = 100000.0f;
-		lSetting.timeBetweenEmit = 0.0001f;
-		lSetting.emitLifeTime = -1;
-		lSetting.size = 0.2f;
-		lSetting.speed = 15;
-		lSetting.isPlay = false;
+	evacuationMat.MakeTranslation(1000,1000,1000);
 
-		particleIndex = meshParticle->Emit(lSetting);
-	}
+	particleModel = std::make_unique<AliceModel>();
+	particleModel->SetModel(AliceModel::SCreateModel("Resources/Model/Player/Particle"));
 
-	meshParticle->EmitPlay(particleIndex);
+	modelParticle = particleEmitter_->GetAnimationModelGPUParticle("PlayerModelParticle");
+	modelParticle->EmitPlay();
 }
 
 void Player::Update(BaseGameCamera* camera_,GameCameraManager::CameraIndex index_)
@@ -184,22 +178,35 @@ void Player::Update(BaseGameCamera* camera_,GameCameraManager::CameraIndex index
 	PUIUpdate();
 
 	ui->Update();
-	weapon->Update("mixamorig:RightHand",animation->GetAnimation(),model.get());
+	if ( isGreat )
+	{
+		greatWeapon->Update("mixamorig:RightHand",animation->GetAnimation(),model.get());
+		weapon->Update(evacuationMat);
+	}
+	else
+	{
+		weapon->Update("mixamorig:RightHand",animation->GetAnimation(),model.get());
+		greatWeapon->Update(evacuationMat);
+	}
+
 	animation->Update();
+	particleModel->AnimationUpdate(animation->GetAnimation());
 }
 
 void Player::Draw()
 {
-	model->Draw(transform,animation->GetAnimation());
+	//model->Draw(transform,animation->GetAnimation());
 	shape->Draw(rigidBody->GetCenterOfMassTransform(),{ 1.0f,1.0f ,1.0f },{ 1.0f ,1.0f ,1.0f ,1.0f },true);
-	//weapon->Draw();
+	weapon->Draw();
+	greatWeapon->Draw();
 }
 
 void Player::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 {
 	weapon->Finalize(physicsSystem_);
 	physicsSystem_->RemoveRigidBody(rigidBody);
-	meshParticle->EmitStop(particleIndex);
+	weaponParticle->EmitStop();
+	greatWeaponParticle->EmitStop();
 }
 
 const AliceMathF::Vector3& Player::GetPosition() const
@@ -210,8 +217,11 @@ const AliceMathF::Vector3& Player::GetPosition() const
 void Player::TransUpdate(Camera* camera_)
 {
 	transform.LookAtMatrixAxisFix(direction,{ 0,1,0 },camera_);
+	modelParticle->SetMat(transform.matWorld);
 	weapon->TransUpdate(camera_);
-	meshParticle->SetMat(weapon->GetWorldMat(),particleIndex);
+	greatWeapon->TransUpdate(camera_);
+	weaponParticle->SetMat(weapon->GetWorldMat());
+	greatWeaponParticle->SetMat(greatWeapon->GetWorldMat());
 	camera = camera_;
 }
 
@@ -420,6 +430,11 @@ int32_t Player::GetDamage()
 	return 1;
 }
 
+int32_t Player::GetGreatDamage()
+{
+	return 3;
+}
+
 int32_t Player::GetHp() const
 {
 	return hp;
@@ -603,44 +618,93 @@ void Player::PAttack()
 {
 	if ( usData.situation & ActorSituation::ATTACK )
 	{
-		if ( animation->IsInsert() && input->TriggerButton(ControllerButton::LB) && !attackAdd )
+		if ( !isGreat )
 		{
-			if ( attackCount < 2 )
+			if ( animation->IsInsert() && input->TriggerButton(ControllerButton::LB) && !attackAdd )
 			{
-				attackAdd = true;
-				stamina -= subAttackStamina;
-				attackCount++;
-				animation->SetAddFrame(0.025f);
+
+				if ( attackCount < 2 )
+				{
+					attackAdd = true;
+					stamina -= subAttackStamina;
+					attackCount++;
+					animation->SetAddFrame(0.025f);
+				}
+			}
+
+			switch ( attackCount )
+			{
+			case 1:
+				if ( animation->GetRatio() >= 0.65f && attackAdd )
+				{
+					animation->InsertAttackCombo2Animation(0.0f);
+					attackAdd = false;
+				}
+				break;
+			case 2:
+				if ( animation->GetRatio() >= 0.65f && attackAdd )
+				{
+					animation->SetAddFrame(0.015f);
+					animation->InsertAttackCombo3Animation(0.0f);
+					attackAdd = false;
+				}
+				break;
+			default:
+				break;
+			}
+
+			if ( !animation->IsInsert() )
+			{
+				usData.situation &= ~ActorSituation::ATTACK;
+				weaponParticle->EmitStop();
+				attackCount = 0;
+				animation->SetAddFrame();
 			}
 		}
-
-		switch ( attackCount )
+		else
 		{
-		case 1:
-			if ( animation->GetRatio() >= 0.65f && attackAdd )
+			if ( animation->IsInsert() && input->TriggerButton(ControllerButton::LT) && !attackAdd )
 			{
-				animation->InsertAttackCombo2Animation(0.0f);
-				attackAdd = false;
-			}
-			break;
-		case 2:
-			if ( animation->GetRatio() >= 0.65f && attackAdd )
-			{
-				animation->SetAddFrame(0.015f);
-				animation->InsertAttackCombo3Animation(0.0f);
-				attackAdd = false;
-			}
-			break;
-		default:
-			break;
-		}
 
-		if ( !animation->IsInsert() )
-		{
-			usData.situation &= ~ActorSituation::ATTACK;
-			
-			attackCount = 0;
-			animation->SetAddFrame();
+				if ( attackCount < 2 )
+				{
+					attackAdd = true;
+					stamina -= subAttackStamina;
+					attackCount++;
+					animation->SetAddFrame(0.015f);
+				}
+			}
+
+			switch ( attackCount )
+			{
+			case 1:
+				if ( animation->GetRatio() >= 0.65f && attackAdd )
+				{
+					animation->InsertGreatAttackCombo2Animation();
+					attackAdd = false;
+				}
+				break;
+			case 2:
+				if ( animation->GetRatio() >= 0.65f && attackAdd )
+				{
+					animation->SetAddFrame(0.010f);
+					animation->InsertGreatAttackCombo3Animation();
+					attackAdd = false;
+				}
+				break;
+			default:
+				break;
+			}
+
+			if ( !animation->IsInsert() )
+			{
+				usData.situation &= ~ActorSituation::ATTACK;
+				greatWeaponParticle->EmitStop();
+
+				
+				attackCount = 0;
+				animation->SetAddFrame();
+			}
 		}
 	}
 	else
@@ -651,6 +715,20 @@ void Player::PAttack()
 			animation->SetAddFrame(0.025f);
 			stamina -= subAttackStamina;
 
+			isGreat = false;
+			weaponParticle->EmitPlay();
+
+			usData.situation |= ActorSituation::ATTACK;
+		}
+
+		if ( input->TriggerButton(ControllerButton::LT) )
+		{
+			animation->InsertGreatAttackCombo1Animation();
+			animation->SetAddFrame(0.015f);
+			stamina -= subAttackStamina;
+
+			isGreat = true;
+			greatWeaponParticle->EmitPlay();
 			usData.situation |= ActorSituation::ATTACK;
 		}
 	}

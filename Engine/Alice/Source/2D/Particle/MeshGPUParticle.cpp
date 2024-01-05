@@ -84,9 +84,6 @@ void MeshGPUParticle::Update(float deltaTime_)
 				particleConstants[ emitData.index ].vertexSize = static_cast<uint32_t>(mesh->GetVertices().size());
 				particleConstantsBuffer->Update(particleConstants.data(),( sizeof(ParticleConstantGPUData) * particleConstants.size() ));
 
-				BoneData* lBonedata = mesh->bonedata;
-				mesh->constBoneBuffer->Update(lBonedata->boneMat.data());
-
 				ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeMeshGPUParticleEmit",AdaptersIndex::SUB);
 
 				lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());

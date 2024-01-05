@@ -39,27 +39,67 @@ void GameMain::Initialize()
 	}
 
 	{
+		AnimationModelGPUParticleSetting lAnimationSetting;
+
+		lAnimationSetting.matWorld = AliceMathF::MakeIdentity();
+		lAnimationSetting.velocity = { 0,0,0 };
+		lAnimationSetting.startColor = { 1,0,0,1 };
+		lAnimationSetting.endColor = { 1,0,0,1 };
+		lAnimationSetting.lifeTime = 0.05f;
+		lAnimationSetting.maxParticles = 1000000.0f;
+		lAnimationSetting.timeBetweenEmit = 0.1f;
+		lAnimationSetting.emitLifeTime = -1;
+		lAnimationSetting.size = 0.2f;
+		lAnimationSetting.speed = 15;
+		lAnimationSetting.isPlay = false;
+
+		ModelGPUParticleSetting lModelSetting;
+
+		lModelSetting.matWorld = AliceMathF::MakeIdentity();
+		lModelSetting.velocity = { 0,0,0 };
+		lModelSetting.startColor = { 1,0,0,1 };
+		lModelSetting.endColor = { 1,0,0,1 };
+		lModelSetting.lifeTime = 0.05f;
+		lModelSetting.maxParticles = 1000000.0f;
+		lModelSetting.timeBetweenEmit = 0.1f;
+		lModelSetting.emitLifeTime = -1;
+		lModelSetting.size = 0.05f;
+		lModelSetting.speed = 15;
+		lModelSetting.isPlay = false;
+
 		gpuParticleEmitter->AnimationModelGPUParticleCreate(1000000,"BossModelParticle");
-		std::unique_ptr<AliceModel>lModel = std::make_unique<AliceModel>();
-		lModel->SetModel(AliceModel::SCreateModel("Resources/Model/Boss/Particle"));
-		gpuParticleEmitter->AnimationModelGPUParticleSetModel("BossModelParticle",lModel.get());
+		std::unique_ptr<AliceModel>lBossModel = std::make_unique<AliceModel>();
+		lBossModel->SetModel(AliceModel::SCreateModel("Resources/Model/Boss/Particle"));
+		gpuParticleEmitter->AnimationModelGPUParticleSetModel("BossModelParticle",lBossModel.get());
+
 		gpuParticleEmitter->AnimationModelGPUParticleSetTex("BossModelParticle",effect1Handle);
+		gpuParticleEmitter->AnimationModelGPUParticleEmit("BossModelParticle",lAnimationSetting);
 
-		ModelGPUParticleSetting lSetting;
+		gpuParticleEmitter->AnimationModelGPUParticleCreate(1000000,"PlayerModelParticle");
+		std::unique_ptr<AliceModel>lPlayerModel = std::make_unique<AliceModel>();
+		lPlayerModel->SetModel(AliceModel::SCreateModel("Resources/Model/Player/Particle"));
+		gpuParticleEmitter->AnimationModelGPUParticleSetModel("PlayerModelParticle",lPlayerModel.get());
 
-		lSetting.matWorld = AliceMathF::MakeIdentity();
-		lSetting.velocity = { 0,0,0 };
-		lSetting.startColor = { 1,0,0,1 };
-		lSetting.endColor = { 1,0,0,1 };
-		lSetting.lifeTime = 0.05f;
-		lSetting.maxParticles = 1000000.0f;
-		lSetting.timeBetweenEmit = 0.1f;
-		lSetting.emitLifeTime = -1;
-		lSetting.size = 0.2f;
-		lSetting.speed = 15;
-		lSetting.isPlay = false;
+		lAnimationSetting.size = 0.05f;
 
-		gpuParticleEmitter->AnimationModelGPUParticleEmit("BossModelParticle",lSetting);
+		gpuParticleEmitter->AnimationModelGPUParticleSetTex("PlayerModelParticle",effect1Handle);
+		gpuParticleEmitter->AnimationModelGPUParticleEmit("PlayerModelParticle",lAnimationSetting);
+
+		gpuParticleEmitter->ModelGPUParticleCreate(1000000,"PiayerWeaponParticle");
+		std::unique_ptr<AliceModel>lPlayerWeaponModel = std::make_unique<AliceModel>();
+		lPlayerWeaponModel->SetModel(AliceModel::SCreateModel("Resources/Model/Player/Weapon/Sword"));
+		gpuParticleEmitter->ModelGPUParticleSetModel("PiayerWeaponParticle",lPlayerWeaponModel.get());
+		gpuParticleEmitter->ModelGPUParticleSetTex("PiayerWeaponParticle",effect1Handle);
+
+		gpuParticleEmitter->ModelGPUParticleEmit("PiayerWeaponParticle",lModelSetting);
+
+		gpuParticleEmitter->ModelGPUParticleCreate(1000000,"PiayerGreatWeaponParticle");
+		std::unique_ptr<AliceModel>lPlayerGreatWeaponModel = std::make_unique<AliceModel>();
+		lPlayerGreatWeaponModel->SetModel(AliceModel::SCreateModel("Resources/Model/Player/Weapon/GreatSword"));
+		gpuParticleEmitter->ModelGPUParticleSetModel("PiayerGreatWeaponParticle",lPlayerGreatWeaponModel.get());
+		gpuParticleEmitter->ModelGPUParticleSetTex("PiayerGreatWeaponParticle",effect1Handle);
+
+		gpuParticleEmitter->ModelGPUParticleEmit("PiayerGreatWeaponParticle",lModelSetting);
 	}
 
 	{
@@ -69,15 +109,6 @@ void GameMain::Initialize()
 		gpuParticleEmitter->MeshGPUParticleSetModel("BossWeaponParticle",lWeaponModel.get());
 		gpuParticleEmitter->MeshGPUParticleSetDetermineTex("BossWeaponParticle",white1x1Handle);
 		gpuParticleEmitter->MeshGPUParticleSetTex("BossWeaponParticle",fireEffectNoiseHandle);
-	}
-
-	{
-		gpuParticleEmitter->MeshGPUParticleCreate(1000000,"PiayerWeaponParticle");
-		std::unique_ptr<AliceModel>lPlayerWeaponModel = std::make_unique<AliceModel>();
-		lPlayerWeaponModel->SetModel(AliceModel::SCreateModel("Resources/Model/Player/Weapon/katana"));
-		gpuParticleEmitter->MeshGPUParticleSetModel("PiayerWeaponParticle",lPlayerWeaponModel.get());
-		gpuParticleEmitter->MeshGPUParticleSetDetermineTex("PiayerWeaponParticle",white1x1Handle);
-		gpuParticleEmitter->MeshGPUParticleSetTex("PiayerWeaponParticle",fireEffectNoiseHandle);
 	}
 
 	{
