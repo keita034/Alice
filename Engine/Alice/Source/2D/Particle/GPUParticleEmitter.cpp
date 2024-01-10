@@ -558,15 +558,6 @@ void GPUParticleEmitter::ModelGPUParticleEmitStop(const std::string& name_)
 	models[ name_ ]->EmitStop();
 }
 
-void GPUParticleEmitter::ModelGPUParticleDrawListRelease(const std::string& name_)
-{
-	BaseGPUParticle::ParticleBegin();
-
-	models[ name_ ]->DrawListRelease();
-
-	BaseGPUParticle::ParticleEnd();
-}
-
 void GPUParticleEmitter::ModelGPUParticleSetModel(const std::string& name_,AliceModel* model_)
 {
 	models[ name_ ]->SetModel(model_);

@@ -80,8 +80,8 @@ void Player::Initialize(AliceInput::IInput* input_,IAudioManager* audioManager_,
 	particleModel = std::make_unique<AliceModel>();
 	particleModel->SetModel(AliceModel::SCreateModel("Resources/Model/Player/Particle"));
 
-	modelParticle = particleEmitter_->GetAnimationModelGPUParticle("PlayerModelParticle");
-	modelParticle->EmitPlay();
+	//modelParticle = particleEmitter_->GetAnimationModelGPUParticle("PlayerModelParticle");
+	//modelParticle->EmitPlay();
 }
 
 void Player::Update(BaseGameCamera* camera_,GameCameraManager::CameraIndex index_)
@@ -195,7 +195,7 @@ void Player::Update(BaseGameCamera* camera_,GameCameraManager::CameraIndex index
 
 void Player::Draw()
 {
-	//model->Draw(transform,animation->GetAnimation());
+	model->Draw(transform,animation->GetAnimation());
 	shape->Draw(rigidBody->GetCenterOfMassTransform(),{ 1.0f,1.0f ,1.0f },{ 1.0f ,1.0f ,1.0f ,1.0f },true);
 	weapon->Draw();
 	greatWeapon->Draw();
@@ -217,7 +217,7 @@ const AliceMathF::Vector3& Player::GetPosition() const
 void Player::TransUpdate(Camera* camera_)
 {
 	transform.LookAtMatrixAxisFix(direction,{ 0,1,0 },camera_);
-	modelParticle->SetMat(transform.matWorld);
+	//modelParticle->SetMat(transform.matWorld);
 	weapon->TransUpdate(camera_);
 	greatWeapon->TransUpdate(camera_);
 	weaponParticle->SetMat(weapon->GetWorldMat());

@@ -53,7 +53,7 @@ void Boss::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 			lMeshSetting.isPlay = false;
 
 			meshParticleIndex = particleEmitter->AnimationMeshGPUParticleEmit("BossParticle",lMeshSetting);
-			bossGPUParticle = particleEmitter->GetAnimationMeshGPUParticle("BossParticle");
+			//bossGPUParticle = particleEmitter->GetAnimationMeshGPUParticle("BossParticle");
 		}
 
 		{
@@ -74,7 +74,7 @@ void Boss::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 		bloodGushParticleIndex = particleEmitter->BloodGushGPUParticleEmit("BossBloodGushParticle",lBloodGushSetting);
 		bloodGushGPUParticle = particleEmitter->GetBloodGushGPUParticle("BossBloodGushParticle");
 
-		bossGPUParticle->EmitPlay(meshParticleIndex);
+		//bossGPUParticle->EmitPlay(meshParticleIndex);
 		bossModelGPUParticle->EmitPlay();
 
 	}
@@ -217,7 +217,8 @@ void Boss::UIDraw()
 
 void Boss::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 {
-	bossGPUParticle->EmitStop(meshParticleIndex);
+	//bossGPUParticle->EmitStop(meshParticleIndex);
+	bossModelGPUParticle->EmitStop();
 
 	actionManager->Finalize(physicsSystem_);
 
@@ -245,7 +246,7 @@ void Boss::TransUpdate(Camera* camera_)
 	actionManager->GetBossBeamAttackMove()->TransUpdate(camera_);
 	actionManager->GetBossCloseRangeAttack()->TransUpdate(camera_);
 
-	bossGPUParticle->SetMat(transform.matWorld,meshParticleIndex);
+	//bossGPUParticle->SetMat(transform.matWorld,meshParticleIndex);
 	bossModelGPUParticle->SetMat(transform.matWorld);
 
 #ifdef _DEBUG

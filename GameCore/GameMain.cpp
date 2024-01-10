@@ -4,7 +4,7 @@
 void GameMain::Initialize()
 {
 	AliceFramework::Initialize();
-	directX12Core->SetBackScreenColor(11 / 255.f, 15 / 255.f, 20 / 255.f, 1.0f);
+	directX12Core->SetBackScreenColor(5 / 255.f, 5 / 255.f, 5 / 255.f, 1.0f);
 
 	int32_t emmisionFireElemental = TextureManager::SLoad("Resources/Model/Boss/emmision fire_elemental.png",AdaptersIndex::SUB);
 	int32_t fireEffectNoiseHandle = TextureManager::SLoad("Resources/Default/Particle/FireEffectNoise.png");
@@ -14,12 +14,12 @@ void GameMain::Initialize()
 	int32_t white1x1Handle = TextureManager::SLoad("Resources/Default/white1x1.png",AdaptersIndex::SUB);
 
 	{
-		gpuParticleEmitter->FireParticleCreate(10000,"BossHandParticle");
+		gpuParticleEmitter->FireParticleCreate(100000,"BossHandParticle");
 		gpuParticleEmitter->FireParticleSetTex("BossHandParticle",fireEffectNoiseHandle);
 	}
 
 	{
-		gpuParticleEmitter->ShockWaveParticleCreate(10000,"BossShockWaveParticle");
+		gpuParticleEmitter->ShockWaveParticleCreate(100000,"BossShockWaveParticle");
 		gpuParticleEmitter->ShockWaveParticleSetTex("BossShockWaveParticle",effect1Handle);
 	}
 
@@ -75,31 +75,59 @@ void GameMain::Initialize()
 		gpuParticleEmitter->AnimationModelGPUParticleSetTex("BossModelParticle",effect1Handle);
 		gpuParticleEmitter->AnimationModelGPUParticleEmit("BossModelParticle",lAnimationSetting);
 
-		gpuParticleEmitter->AnimationModelGPUParticleCreate(1000000,"PlayerModelParticle");
-		std::unique_ptr<AliceModel>lPlayerModel = std::make_unique<AliceModel>();
-		lPlayerModel->SetModel(AliceModel::SCreateModel("Resources/Model/Player/Particle"));
-		gpuParticleEmitter->AnimationModelGPUParticleSetModel("PlayerModelParticle",lPlayerModel.get());
+		lModelSetting.startColor = { 1,1,1,1 };
+		lModelSetting.size = 1.5f;
+		{
+			gpuParticleEmitter->ModelGPUParticleCreate(1000000,"FieldModelParticle");
+			std::unique_ptr<AliceModel>lFieldModel = std::make_unique<AliceModel>();
+			lFieldModel->SetModel(AliceModel::SCreateModel("Resources/Model/Wall/Particle"));
+			gpuParticleEmitter->ModelGPUParticleSetModel("FieldModelParticle",lFieldModel.get());
+			gpuParticleEmitter->ModelGPUParticleSetTex("FieldModelParticle",effect1Handle);
 
-		lAnimationSetting.size = 0.05f;
+			gpuParticleEmitter->ModelGPUParticleEmit("FieldModelParticle",lModelSetting);
+		}
 
-		gpuParticleEmitter->AnimationModelGPUParticleSetTex("PlayerModelParticle",effect1Handle);
-		gpuParticleEmitter->AnimationModelGPUParticleEmit("PlayerModelParticle",lAnimationSetting);
+		{
+			gpuParticleEmitter->ModelGPUParticleCreate(1000000,"Field2ModelParticle");
+			std::unique_ptr<AliceModel>lFieldModel = std::make_unique<AliceModel>();
+			lFieldModel->SetModel(AliceModel::SCreateModel("Resources/Model/Wall/Particle2"));
+			gpuParticleEmitter->ModelGPUParticleSetModel("Field2ModelParticle",lFieldModel.get());
+			gpuParticleEmitter->ModelGPUParticleSetTex("Field2ModelParticle",effect1Handle);
 
-		gpuParticleEmitter->ModelGPUParticleCreate(1000000,"PiayerWeaponParticle");
-		std::unique_ptr<AliceModel>lPlayerWeaponModel = std::make_unique<AliceModel>();
-		lPlayerWeaponModel->SetModel(AliceModel::SCreateModel("Resources/Model/Player/Weapon/Sword"));
-		gpuParticleEmitter->ModelGPUParticleSetModel("PiayerWeaponParticle",lPlayerWeaponModel.get());
-		gpuParticleEmitter->ModelGPUParticleSetTex("PiayerWeaponParticle",effect1Handle);
+			gpuParticleEmitter->ModelGPUParticleEmit("Field2ModelParticle",lModelSetting);
+		}
 
-		gpuParticleEmitter->ModelGPUParticleEmit("PiayerWeaponParticle",lModelSetting);
+		{
+			gpuParticleEmitter->ModelGPUParticleCreate(1000000,"GroundModelParticle");
+			std::unique_ptr<AliceModel>lFieldModel = std::make_unique<AliceModel>();
+			lFieldModel->SetModel(AliceModel::SCreateModel("Resources/Model/Ground/Particle"));
+			gpuParticleEmitter->ModelGPUParticleSetModel("GroundModelParticle",lFieldModel.get());
+			gpuParticleEmitter->ModelGPUParticleSetTex("GroundModelParticle",effect1Handle);
 
-		gpuParticleEmitter->ModelGPUParticleCreate(1000000,"PiayerGreatWeaponParticle");
-		std::unique_ptr<AliceModel>lPlayerGreatWeaponModel = std::make_unique<AliceModel>();
-		lPlayerGreatWeaponModel->SetModel(AliceModel::SCreateModel("Resources/Model/Player/Weapon/GreatSword"));
-		gpuParticleEmitter->ModelGPUParticleSetModel("PiayerGreatWeaponParticle",lPlayerGreatWeaponModel.get());
-		gpuParticleEmitter->ModelGPUParticleSetTex("PiayerGreatWeaponParticle",effect1Handle);
+			gpuParticleEmitter->ModelGPUParticleEmit("GroundModelParticle",lModelSetting);
+		}
 
-		gpuParticleEmitter->ModelGPUParticleEmit("PiayerGreatWeaponParticle",lModelSetting);
+		lModelSetting.startColor = { 1,0,0,1 };
+		lModelSetting.size = 0.05f;
+		{
+			gpuParticleEmitter->ModelGPUParticleCreate(1000000,"PiayerWeaponParticle");
+			std::unique_ptr<AliceModel>lPlayerWeaponModel = std::make_unique<AliceModel>();
+			lPlayerWeaponModel->SetModel(AliceModel::SCreateModel("Resources/Model/Player/Weapon/Sword"));
+			gpuParticleEmitter->ModelGPUParticleSetModel("PiayerWeaponParticle",lPlayerWeaponModel.get());
+			gpuParticleEmitter->ModelGPUParticleSetTex("PiayerWeaponParticle",effect1Handle);
+
+			gpuParticleEmitter->ModelGPUParticleEmit("PiayerWeaponParticle",lModelSetting);
+		}
+
+		{
+			gpuParticleEmitter->ModelGPUParticleCreate(1000000,"PiayerGreatWeaponParticle");
+			std::unique_ptr<AliceModel>lPlayerGreatWeaponModel = std::make_unique<AliceModel>();
+			lPlayerGreatWeaponModel->SetModel(AliceModel::SCreateModel("Resources/Model/Player/Weapon/GreatSword"));
+			gpuParticleEmitter->ModelGPUParticleSetModel("PiayerGreatWeaponParticle",lPlayerGreatWeaponModel.get());
+			gpuParticleEmitter->ModelGPUParticleSetTex("PiayerGreatWeaponParticle",effect1Handle);
+
+			gpuParticleEmitter->ModelGPUParticleEmit("PiayerGreatWeaponParticle",lModelSetting);
+		}
 	}
 
 	{

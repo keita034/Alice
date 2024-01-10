@@ -27,8 +27,6 @@ cbuffer BoneDatas : register(b3)
 StructuredBuffer<Mesh> meshs : register(t0);
 
 RWStructuredBuffer<Particle> ParticlePool : register(u0);
-AppendStructuredBuffer<uint> DrawList : register(u1);
-ConsumeStructuredBuffer<uint> freeList : register(u2);
 
 [numthreads(1024, 1, 1)]
 void main( uint3 DTid : SV_DispatchThreadID )
@@ -43,7 +41,7 @@ void main( uint3 DTid : SV_DispatchThreadID )
         return;
     }
     
-    uint emitIndex = freeList.Consume();
+    uint emitIndex = DTid.x;
 
     ParticlePool[emitIndex].position = mul(emitData.matWorld, mul(postureMat, meshs[DTid.x].pos));
     ParticlePool[emitIndex].velocity = float3(0,0,0);
@@ -53,6 +51,4 @@ void main( uint3 DTid : SV_DispatchThreadID )
     ParticlePool[emitIndex].alive = 1.0f;
     ParticlePool[emitIndex].index = DTid.x;
     ParticlePool[emitIndex].lifeTime = emitData.lifeTime;
-
-    DrawList.Append(emitIndex);
 }

@@ -84,6 +84,10 @@ void TitleScene::Update()
 
 void TitleScene::Draw()
 {
+}
+
+void TitleScene::SpriteDraw()
+{
 	title->Draw(transform);
 	startA->Draw(startATransform);
 

@@ -186,7 +186,7 @@ void AliceFramework::Draw()
 
 		directX12Core->BeginDraw();//描画準備
 		postEffectManager->Draw();
-
+		sceneManager->SpriteDraw();
 		imGuiManager->Draw();
 		//DirectX毎フレーム処理　ここまで
 		directX12Core->EndDraw();//描画後処理
@@ -202,6 +202,8 @@ void AliceFramework::Draw()
 
 			gpuParticleEmitter->Draw(mat,sceneManager->GetSceneCamera()->GetBillboardMatrix());
 		}
+
+		sceneManager->SpriteDraw();
 
 		physicsSystem->Draw();
 

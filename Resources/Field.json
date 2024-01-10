@@ -30,102 +30,6 @@
         },
         {
             "type": "MESH",
-            "name": "Castle_Wall_A_Corner",
-            "transform": {
-                "translation": [
-                    -249.89376831054688,
-                    187.18121337890625,
-                    -4.741255283355713
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.100830078125
-                ],
-                "scaling": [
-                    0.5844496488571167,
-                    0.5844496488571167,
-                    0.5844497084617615
-                ]
-            },
-            "file_name": "Model/Wall",
-            "isValid" : true,
-            "isMesh" : false
-        },
-        {
-            "type": "MESH",
-            "name": "Castle_Wall_A_Corner.001",
-            "transform": {
-                "translation": [
-                    183.84173583984375,
-                    252.28326416015625,
-                    -4.741255283355713
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    -89.0
-                ],
-                "scaling": [
-                    0.5844496488571167,
-                    0.5844496488571167,
-                    0.5844497084617615
-                ]
-            },
-            "file_name": "Model/Wall",
-            "isValid" : true,
-            "isMesh" : false
-        },
-        {
-            "type": "MESH",
-            "name": "Castle_Wall_A_Corner.002",
-            "transform": {
-                "translation": [
-                    253.61422729492188,
-                    -179.9842529296875,
-                    -4.741255283355713
-                ],
-                "rotation": [
-                    0.0,
-                    0.0,
-                    -178.0
-                ],
-                "scaling": [
-                    0.5844496488571167,
-                    0.5844496488571167,
-                    0.5844497084617615
-                ]
-            },
-            "file_name": "Model/Wall",
-            "isValid" : true,
-            "isMesh" : false
-        },
-        {
-            "type": "MESH",
-            "name": "Castle_Wall_A_Corner_メッシュ.003",
-            "transform": {
-                "translation": [
-                    -150.12127685546875,
-                    -240.08633422851562,
-                    -4.741255283355713
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    86.0
-                ],
-                "scaling": [
-                    0.5844496488571167,
-                    0.75,
-                    0.5844497084617615
-                ]
-            },
-            "file_name": "Model/Wall",
-            "isValid" : true,
-            "isMesh" : false
-        },
-        {
-            "type": "MESH",
             "name": "平面",
             "transform": {
                 "translation": [
@@ -145,7 +49,7 @@
                 ]
             },
             "file_name": "Model/Ground",
-            "isValid" : true,
+            "isValid" : false,
             "isMesh" : true
         },
         {
@@ -169,32 +73,8 @@
                 ]
             },
             "file_name": "Model/InvisibleWall",
-            "isValid" : false,
-            "isMesh" : true
-        },
-        {
-            "type": "MESH",
-            "name": "Sphere001",
-            "transform": {
-                "translation": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    10.151873588562012,
-                    10.151873588562012,
-                    10.151873588562012
-                ]
-            },
-            "file_name": "Model/Skydome",
             "isValid" : true,
-            "isMesh" : false
+            "isMesh" : true
         }
     ]
 }

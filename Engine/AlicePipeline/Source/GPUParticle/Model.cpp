@@ -21,7 +21,6 @@ void CreateAnimationModelDrawMaterial(MaterialManager* manager_,IAdapter* adapte
 	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
 
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,0);//u0
-	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,1);//u1
 
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 	lMaterial->rootSignature->AddStaticSampler(0);//s0
@@ -63,8 +62,6 @@ void CreateAnimationModelEmitComputeMaterial(MaterialManager* manager_,IAdapter*
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,0);//u0
-	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,1);//u1
-	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,2);//u1
 
 	lMaterial->rootSignature->Create(lDevice);
 
@@ -138,7 +135,6 @@ void CreateAnimationModelUpdateComputeMaterial(MaterialManager* manager_,IAdapte
 	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,3);//u3
 
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,0);//u0
-	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,1);//u1
 
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 
@@ -193,7 +189,6 @@ void CreateModelDrawMaterial(MaterialManager* manager_,IAdapter* adapter_)
 	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
 
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,0);//u0
-	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,1);//u1
 
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 	lMaterial->rootSignature->AddStaticSampler(0);//s0
@@ -235,8 +230,6 @@ void CreateModelEmitComputeMaterial(MaterialManager* manager_,IAdapter* adapter_
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,0);//u0
-	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,1);//u1
-	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,2);//u1
 
 	lMaterial->rootSignature->Create(lDevice);
 
@@ -281,7 +274,6 @@ void CreateModelDrawListReleaseComputeMaterial(MaterialManager* manager_,IAdapte
 	lMaterial->rootSignature = CreateUniqueRootSignature();
 
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,0);//u0
-	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,1);//u1
 
 	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
 
@@ -310,7 +302,6 @@ void CreateModelUpdateComputeMaterial(MaterialManager* manager_,IAdapter* adapte
 	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,3);//u3
 
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,0);//u0
-	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,1);//u1
 
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 

@@ -48,6 +48,7 @@ void AlicePhysics::JoltPhysics::Update(float deltaTime_,float baseDeltaTime_)
 	if ( deltaTime_ > baseDeltaTime_ )
 	{
 		lCollisionSteps = AliceMathUtility::Min<int32_t>(static_cast< int32_t > ( deltaTime_ / baseDeltaTime_ ),10);
+		deltaTime_ = 0.016f;
 	}
 
 	// ステップを進める

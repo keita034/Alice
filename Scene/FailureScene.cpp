@@ -76,6 +76,10 @@ void FailureScene::Draw()
 
 }
 
+void FailureScene::SpriteDraw()
+{
+}
+
 void FailureScene::Finalize()
 {
 

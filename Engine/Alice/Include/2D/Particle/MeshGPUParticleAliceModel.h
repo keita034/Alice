@@ -2,6 +2,8 @@
 
 #include<AliceModel.h>
 #include<BufferType.h>
+#include<CrossAdapterBuffer.h>
+#include<DrawArgumentBuffer.h>
 
 class MeshGPUParticleModelMesh
 {
@@ -26,6 +28,10 @@ public:
 
 	std::unique_ptr<IConstantBuffer> postureMatBuff;
 	AliceMathF::Matrix4* postureMat;
+
+	std::unique_ptr<ICrossAdapterBuffer>particlePoolBuffer;
+	std::unique_ptr<IDrawArgumentBuffer>drawArgumentBuffer;
+
 public:
 
 	/// <summary>
@@ -39,7 +45,10 @@ public:
 
 	IConstantBuffer* GetBoneBuffer() const;
 
-	IConstantBuffer* GetPostureMatBuffer();
+	IConstantBuffer* GetPostureMatBuffer() const;
+
+	IDrawArgumentBuffer* GetDrawArgumentBuffer()const;
+	ICrossAdapterBuffer* GetCrossAdapterBuffer()const;
 
 private:
 
@@ -113,7 +122,7 @@ public:
 	/// モデルをセット
 	/// </summary>
 	/// <param name="modelHandle">ハンドル</param>
-	void SetModel(AliceModel* model_,BufferType type);
+	void SetModel(AliceModel* model_,BufferType type,bool bufferCreat_ = false);
 
 	/// <summary>
 	/// 共通初期化

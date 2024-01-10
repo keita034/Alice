@@ -27,8 +27,6 @@ cbuffer BoneDatas : register(b3)
 StructuredBuffer<Mesh> meshs : register(t0);
 
 RWStructuredBuffer<Particle> ParticlePool : register(u0);
-AppendStructuredBuffer<uint> DrawList : register(u1);
-ConsumeStructuredBuffer<uint> freeList : register(u2);
 
 //スキニング計算
 SkinOutput ComputeSkin(Mesh input)
@@ -84,7 +82,7 @@ void main( uint3 DTid : SV_DispatchThreadID )
         return;
     }
     
-    uint emitIndex = freeList.Consume();
+    uint emitIndex = DTid.x;
     
     SkinOutput skin = (SkinOutput) 0;
     skin = ComputeSkin(meshs[DTid.x]);
@@ -98,5 +96,4 @@ void main( uint3 DTid : SV_DispatchThreadID )
     ParticlePool[emitIndex].index = DTid.x;
     ParticlePool[emitIndex].lifeTime = emitData.lifeTime;
     
-    DrawList.Append(emitIndex);
 }

@@ -65,6 +65,8 @@ public:
 	/// </summary>
 	void Draw() override;
 
+	void SpriteDraw()override;
+
 	/// <summary>
 	/// 後始末
 	/// </summary>

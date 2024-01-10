@@ -90,8 +90,6 @@ public://内部で使う構造体
 
 private:
 
-	std::unique_ptr<IDrawArgumentBuffer>drawArgumentBuffer;
-
 	Microsoft::WRL::ComPtr<ID3D12CommandSignature> particleCommandSignature = nullptr;
 
 	std::unique_ptr<IConstantBuffer>particleConstantsBuffer;
@@ -103,8 +101,6 @@ private:
 	std::unique_ptr <MeshGPUParticleAliceModel> modelData;
 
 	TextureData* texture;
-
-	std::vector<std::unique_ptr<IDrawListBuffer>>drawListBuffers;
 
 	WorldBillboardGPUData worldBillboardGPUData;
 	TimeConstantGPUData timeGPUData;

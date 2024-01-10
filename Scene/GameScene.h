@@ -46,6 +46,11 @@ private:
 
 	std::unique_ptr<GameCamera> camera;
 
+	Transform trans;
+
+	Transform trans2;
+	Transform trans3;
+
 public:
 
 	GameScene();
@@ -65,6 +70,8 @@ public:
 	/// 描画
 	/// </summary>
 	void Draw() override;
+
+	void SpriteDraw()override;
 
 	/// <summary>
 	/// 後始末

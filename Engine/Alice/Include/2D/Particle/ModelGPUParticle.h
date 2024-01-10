@@ -90,8 +90,6 @@ public://内部で使う構造体
 
 private:
 
-	std::unique_ptr<IDrawArgumentBuffer>drawArgumentBuffer;
-
 	Microsoft::WRL::ComPtr<ID3D12CommandSignature> particleCommandSignature = nullptr;
 
 	std::unique_ptr<IConstantBuffer>particleConstantsBuffer;
@@ -104,8 +102,6 @@ private:
 
 	TextureData* texture;
 
-	std::vector<std::unique_ptr<IDrawListBuffer>>drawListBuffers;
-
 	WorldBillboardGPUData worldBillboardGPUData;
 	TimeConstantGPUData timeGPUData;
 	ParticleConstantGPUData particleConstants;
@@ -116,8 +112,9 @@ private:
 	size_t maxParticles;
 
 	bool isEmit = false;
+	bool dirty = false;
 
-	Byte7 PADING;
+	Byte6 PADING;
 public:
 
 	ModelGPUParticle() = default;
@@ -137,7 +134,6 @@ public:
 	void EmitStop();
 	void SetModel(AliceModel* model_);
 	float GetDeltaTime() const;
-	void DrawListRelease();
 
 private:
 

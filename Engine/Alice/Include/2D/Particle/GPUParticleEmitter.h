@@ -115,7 +115,6 @@ public:
 	void ModelGPUParticleSetTex(const std::string& name_,uint32_t textureHandle_);
 	void ModelGPUParticleEmitPlay(const std::string& name_);
 	void ModelGPUParticleEmitStop(const std::string& name_);
-	void ModelGPUParticleDrawListRelease(const std::string& name_);
 	void ModelGPUParticleSetModel(const std::string& name_,AliceModel* model_);
 	ModelGPUParticle* GetModelGPUParticle(const std::string& name_);
 

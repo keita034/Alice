@@ -26,8 +26,8 @@ ALICE_SUPPRESS_WARNINGS_END
 
 class BaseGPUParticle
 {
-protected:
 
+public:
 	struct ParticleGPUData
 	{
 		AliceMathF::Vector4 color;
@@ -45,6 +45,7 @@ protected:
 		uint32_t index;
 		AliceMathF::Vector3 accel;
 	};
+protected:
 
 	struct WorldBillboardGPUData
 	{

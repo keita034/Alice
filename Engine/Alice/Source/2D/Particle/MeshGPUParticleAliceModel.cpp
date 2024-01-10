@@ -1,5 +1,7 @@
 #include "MeshGPUParticleAliceModel.h"
 
+#include<BaseGPUParticle.h>
+
 IMultiAdapters* MeshGPUParticleAliceModel::sMultiAdapters;
 
 std::unordered_map<std::string,std::unique_ptr<MeshGPUParticleAliceModelData>> MeshGPUParticleAliceModel::sModelDatas;
@@ -11,7 +13,7 @@ const std::vector<std::unique_ptr<MeshGPUParticleModelMesh>>& MeshGPUParticleAli
 }
 
 
-void MeshGPUParticleAliceModel::SetModel(AliceModel* model_,BufferType type)
+void MeshGPUParticleAliceModel::SetModel(AliceModel* model_,BufferType type,bool bufferCreat_)
 {
 	std::string lFilePath = model_->modelData->filePath;
 
@@ -48,12 +50,19 @@ void MeshGPUParticleAliceModel::SetModel(AliceModel* model_,BufferType type)
 				lMesh->bonedata = &mesh->bonedata;
 				lMesh->postureMat = &mesh->node->globalTransform;
 
-				lMesh->vertexBuffer = CreateUniqueVertexBuffer(mesh->vertices.size(),sizeof(mesh->vertices[0]),static_cast<AdaptersIndex>(type),mesh->vertices.data());
+				lMesh->vertexBuffer = CreateUniqueVertexBuffer(mesh->vertices.size(),sizeof(mesh->vertices[ 0 ]),static_cast< AdaptersIndex >( type ),mesh->vertices.data());
 				lMesh->vertexBuffer->CreateSRV();
-				lMesh->indexBuffer = CreateUniqueIndexBuffer(mesh->indices.size(), static_cast<AdaptersIndex>(type), mesh->indices.data());
+				lMesh->indexBuffer = CreateUniqueIndexBuffer(mesh->indices.size(),static_cast< AdaptersIndex >( type ),mesh->indices.data());
 				lMesh->indexBuffer->CreateSRV();
 				lMesh->postureMatBuff = CreateUniqueConstantBuffer(sizeof(AliceMathF::Matrix4),static_cast< AdaptersIndex >( type ));
 				lMesh->postureMatBuff->Update(lMesh->postureMat);
+
+				if ( bufferCreat_ )
+				{
+					lMesh->particlePoolBuffer = CreateUniqueCrossAdapterBuffer(lMesh->vertices->size(),sizeof(BaseGPUParticle::ParticleGPUData),AdaptersIndex::SUB,AdaptersIndex::MAIN);
+					lMesh->drawArgumentBuffer = CreateUniqueDrawArgumentBuffer(1,sizeof(D3D12_DRAW_ARGUMENTS),BufferType::SHARED,AdaptersIndex::SUB,AdaptersIndex::MAIN);
+
+				}
 
 				lData->meshes.push_back(std::move(lMesh));
 			}
@@ -93,9 +102,19 @@ IConstantBuffer* MeshGPUParticleModelMesh::GetBoneBuffer() const
 	return constBoneBuffer.get();
 }
 
-IConstantBuffer* MeshGPUParticleModelMesh::GetPostureMatBuffer()
+IConstantBuffer* MeshGPUParticleModelMesh::GetPostureMatBuffer() const
 {
 	return postureMatBuff.get();
+}
+
+IDrawArgumentBuffer* MeshGPUParticleModelMesh::GetDrawArgumentBuffer() const
+{
+	return drawArgumentBuffer.get();
+}
+
+ICrossAdapterBuffer* MeshGPUParticleModelMesh::GetCrossAdapterBuffer() const
+{
+	return particlePoolBuffer.get();
 }
 
 void MeshGPUParticleAliceModel::Finalize()

@@ -24,7 +24,6 @@ cbuffer BoneDatas : register(b3)
 }
 
 RWStructuredBuffer<Particle> ParticlePool : register(u0);
-RWStructuredBuffer<uint> DrawList : register(u1);
 
 StructuredBuffer<Mesh> meshs : register(t0);
 
@@ -36,7 +35,7 @@ void main(uint3 DTid : SV_DispatchThreadID)
         return;
     }
 
-    uint particleIndex = DrawList[DTid.x];
+    uint particleIndex = DTid.x;
     
     Particle particle = ParticlePool.Load(particleIndex);
 

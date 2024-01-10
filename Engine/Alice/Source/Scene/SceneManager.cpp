@@ -74,6 +74,11 @@ void SceneManager::Draw()
 	scene->Draw();
 }
 
+void SceneManager::SpriteDraw()
+{
+	scene->SpriteDraw();
+}
+
 void SceneManager::SetSceneFactory(AbstractSceneFactory* factory_)
 {
 	sceneFactory = factory_;

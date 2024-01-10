@@ -55,6 +55,24 @@ void GameScene::Initialize(const std::string& previewSceneName_)
 
 	camera = std::make_unique<GameCamera>();
 	camera->Initialize(UPDATE_PROJMATRIXFUNC_PERSPECTIVE);
+
+	sGPUParticleEmitter->ModelGPUParticleEmitPlay("FieldModelParticle");
+	sGPUParticleEmitter->ModelGPUParticleEmitPlay("GroundModelParticle");
+	sGPUParticleEmitter->ModelGPUParticleEmitPlay("Field2ModelParticle");
+	trans.Initialize();
+	trans2.Initialize();
+	trans3.Initialize();
+
+	trans.scale = { 0.24f,0.24f ,0.24f };
+	trans2.scale = { 0.24f,0.24f ,0.24f };
+	trans3.scale = { 0.1f,0.1f ,0.1f };
+	trans2.rotation = { 0.0f,180.0f * AliceMathF::DEG_TO_RAD ,180.0f * AliceMathF::DEG_TO_RAD };
+	trans.MakeWorldMatrix();
+	trans2.MakeWorldMatrix();
+	trans3.MakeWorldMatrix();
+	sGPUParticleEmitter->ModelGPUParticleSetMat("FieldModelParticle",trans.matWorld);
+	sGPUParticleEmitter->ModelGPUParticleSetMat("GroundModelParticle",trans3.matWorld);
+	sGPUParticleEmitter->ModelGPUParticleSetMat("Field2ModelParticle",trans2.matWorld);
 }
 
 void GameScene::Update()
@@ -122,6 +140,7 @@ void GameScene::Update()
 
 	fieldObjData->Update(sPhysicsSystem,gameCameraManager->GetCamera());
 
+
 	inTransition->Update();
 	outTransition->Update();
 }
@@ -133,6 +152,11 @@ void GameScene::Draw()
 	player->Draw();
 	boss->Draw();
 
+
+}
+
+void GameScene::SpriteDraw()
+{
 	player->UIDraw();
 	boss->UIDraw();
 
