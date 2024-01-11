@@ -109,7 +109,6 @@ private:
 	ParticleEmit emitDatas;
 
 	size_t emitDataCount;
-	size_t maxParticles;
 
 	bool isEmit = false;
 	bool dirty = false;

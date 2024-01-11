@@ -114,7 +114,6 @@ private:
 	std::vector<ParticleConstantGPUData>particleConstants;
 
 	size_t emitDataCount;
-	size_t maxParticles;
 
 	TextureData* texture;
 

@@ -201,6 +201,7 @@
     <ClInclude Include="Include\2D\PostEffect\MosaicPostEffect.h" />
     <ClInclude Include="Include\2D\Particle\ShockWaveGPUParticle.h" />
     <ClInclude Include="Include\2D\Particle\AnimationModelGPUParticle.h" />
+    <ClInclude Include="ScatteringGPUParticle.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Resources\Shaders\2D\Mesh\Mesh.hlsli" />
@@ -235,6 +236,7 @@
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ScatteringGPUParticle.cpp" />
     <ClCompile Include="Source\2D\Particle\AnimationModelGPUParticle.cpp" />
     <ClCompile Include="Source\2D\Particle\BloodGushGPUParticle.cpp" />
     <ClCompile Include="Source\2D\Particle\LaserGPUParticle.cpp" />

@@ -7,3 +7,4 @@
 #include<Mesh.h>
 #include<BloodGush.h>
 #include<Model.h>
+#include<Scattering.h>

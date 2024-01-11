@@ -69,6 +69,8 @@ protected:
 	std::unique_ptr<IFreeListBuffer>freeListBuffer;
 	std::unique_ptr<ICrossAdapterBuffer>particlePoolBuffer;
 
+	size_t maxParticles;
+
 public:
 
 	/// <summary>
@@ -91,6 +93,14 @@ public:
 	virtual void Draw(const AliceMathF::Matrix4& worldMat_,const AliceMathF::Matrix4& billboardMat_) = 0;
 
 	virtual void SetSetting() =0;
+
+	virtual ICrossAdapterBuffer* GetParticlePoolBuffer();
+
+	virtual IFreeListBuffer* GetFreeListBuffer();
+
+	virtual IDrawListBuffer* GetDrawListBuffer();
+
+	size_t GetMaxParticles();
 
 	/// <summary>
 	/// アダプターを設定

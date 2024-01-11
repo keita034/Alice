@@ -159,8 +159,10 @@
     <ClInclude Include="Include\GPUParticle\ShockWave.h" />
     <ClInclude Include="Include\Graphic\Sprite.h" />
     <ClInclude Include="Include\GPUParticle\Model.h" />
+    <ClInclude Include="Include\GPUParticle\Scattering.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\GPUParticle\Scattering.cpp" />
     <ClCompile Include="Source\GPUParticle\Model.cpp" />
     <ClCompile Include="Source\GPUParticle\BloodGush.cpp" />
     <ClCompile Include="Source\GPUParticle\Laser.cpp" />

@@ -121,6 +121,8 @@ private:
 	std::unique_ptr<IConstantBuffer>timeConstantsBuffer;
 	std::unique_ptr<IConstantBuffer>fireGPUParticleDataBuffer;
 
+	TextureData* texture;
+
 	WorldBillboardGPUData worldBillboardGPUData;
 	TimeConstantGPUData timeGPUData;
 	Byte4 PADING;
@@ -130,9 +132,7 @@ private:
 	std::vector<ParticleConstantGPUData>particleConstants;
 
 	size_t emitDataCount;
-	size_t maxParticles;
 
-	TextureData* texture;
 
 
 public:

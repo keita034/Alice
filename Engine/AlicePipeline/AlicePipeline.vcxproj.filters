@@ -180,6 +180,9 @@
     <ClInclude Include="Include\GPUParticle\Model.h">
       <Filter>ヘッダー ファイル\GPUParticleh</Filter>
     </ClInclude>
+    <ClInclude Include="Include\GPUParticle\Scattering.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\MaterialManager.cpp">
@@ -310,6 +313,9 @@
     </ClCompile>
     <ClCompile Include="Source\GPUParticle\Model.cpp">
       <Filter>ソース ファイル\GPUParticleh</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GPUParticle\Scattering.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -13,6 +13,26 @@ void BaseGPUParticle::BaseGPUParticleFinalize()
 	computeAdapter = nullptr;
 }
 
+ICrossAdapterBuffer* BaseGPUParticle::GetParticlePoolBuffer()
+{
+	return particlePoolBuffer.get();
+}
+
+IFreeListBuffer* BaseGPUParticle::GetFreeListBuffer()
+{
+	return freeListBuffer.get();
+}
+
+IDrawListBuffer* BaseGPUParticle::GetDrawListBuffer()
+{
+	return drawListBuffer.get();
+}
+
+size_t BaseGPUParticle::GetMaxParticles()
+{
+	return maxParticles;
+}
+
 void BaseGPUParticle::SetAdapter(IAdapter* graphicAdapter_,IAdapter* computeAdapter_)
 {
 	graphicAdapter = graphicAdapter_;
