@@ -12,11 +12,19 @@ void BossChaseMove::Update()
 	{
 		isFinish = true;
 		distanceTraveled = { 0.0f,0.0f,0.0f };
+		time = 0;
 		return;
 	}
 	else
 	{
 		distanceTraveled = direction * speed;
+	}
+	time++;
+	if ( time>180 )
+	{
+		isFinish = true;
+		distanceTraveled = { 0.0f,0.0f,0.0f };
+		time = 0;
 	}
 }
 

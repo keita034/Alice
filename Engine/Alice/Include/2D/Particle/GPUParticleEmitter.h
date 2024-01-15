@@ -10,6 +10,7 @@
 #include<MultiAdapters.h>
 #include<AnimationModelGPUParticle.h>
 #include<ModelGPUParticle.h>
+#include<ScatteringGPUParticle.h>
 
 class GPUParticleEmitter
 {
@@ -17,6 +18,8 @@ private:
 
 	IMultiAdapters* multiAdapters = nullptr;
 	ISwapChain* swapChain = nullptr;
+
+	std::unique_ptr<ScatteringGPUParticle> scattering;
 
 	std::unordered_map<std::string,std::unique_ptr<FireGPUParticle>>fires;
 	std::unordered_map<std::string,std::unique_ptr<ShockWaveGPUParticle>>shockWaves;
@@ -91,6 +94,14 @@ public:
 	void MeshGPUParticleEmitStop(const std::string& name_,int32_t index_);
 	void MeshGPUParticleSetModel(const std::string& name_,AliceModel* model_);
 	MeshGPUParticle* GetMeshGPUParticle(const std::string& name_);
+
+	void AnimationMeshGPUParticleScattering(const std::string& name_);
+	void MeshGPUParticleScattering(const std::string& name_);
+
+	void ScatteringSetSpeed(float speed_);
+	void ScatteringSetAccel(const AliceMathF::Vector3& accel_);
+	void ScatteringSetLifeTime(float lifeTime_);
+	void ScatteringSetCenterPos(const AliceMathF::Vector3& centerPos_);
 
 	void BloodGushGPUParticleCreate(uint32_t maxParticles_,const std::string& name_);
 	int32_t BloodGushGPUParticleEmit(const std::string& name_,const BloodGushGPUParticleSetting& setting_,int32_t index_ = -1);

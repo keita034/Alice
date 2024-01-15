@@ -30,7 +30,7 @@ private:
 	std::array< std::unique_ptr<BossHand>,2> hands;
 
 	AliceMathF::Vector3 direction = { 0,0,1 };
-	const int32_t MAX_HP = 7;
+	const int32_t MAX_HP = 40;
 	AliceMathF::Vector3 oldTrans;
 	uint32_t damageSE = 0;
 	AliceMathF::Vector3 rigidBodyoffset;
@@ -43,6 +43,8 @@ private:
 	int32_t hp = 0;
 
 	uint32_t bloodGushParticleIndex = 0;
+
+	bool isMove = false;
 public:
 
 	Boss() = default;

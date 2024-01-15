@@ -26,7 +26,7 @@ void BossActionManager::Initialize(BossAnimation* animation_,AlicePhysics::Alice
 	animation = animation_;
 }
 
-void BossActionManager::Update(const AliceMathF::Vector3& plyerPos_,const AliceMathF::Vector3& bossPos_,const std::string& boneName_,AliceBlendTree* tree_,AliceModel* bossModel_)
+void BossActionManager::Update(const AliceMathF::Vector3& plyerPos_,const AliceMathF::Vector3& bossPos_,const std::string& boneName_,AliceBlendTree* tree_,AliceModel* bossModel_,bool action_)
 {
 	float length = 0.0f;
 
@@ -58,7 +58,7 @@ void BossActionManager::Update(const AliceMathF::Vector3& plyerPos_,const AliceM
 			do
 			{
 				
-				bossAction = ChoiceAction(length,bossPos_, false);
+				bossAction = ChoiceAction(length,bossPos_,action_);
 
 				switch ( bossAction )
 				{
@@ -103,6 +103,7 @@ void BossActionManager::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem
 {
 	jumpAttackMove->Finalize(physicsSystem_);
 	bossBeamAttack->Finalize(physicsSystem_);
+	closeRangeAttack->Finalize(physicsSystem_);
 }
 
 const AliceMathF::Vector3& BossActionManager::GetDistanceTraveled() const
@@ -256,21 +257,11 @@ BossAction BossActionManager::ChoiceAction(float length_,const AliceMathF::Vecto
 	{
 		if ( shortDistanceTIme > 0 )
 		{
-			if ( shortDistanceTIme >= 250 )
-			{
-				shortDistanceTIme = 0;
-
-				return BossAction::JUMP_ATTACK;
-			}
-
-			if ( length_ <= 200 )
-			{
-				return BossAction::CHASE_ATTACK;
-			}
+			return BossAction::CHASE_ATTACK;
 		}
 		else
 		{
-			if ( longDistanceTIme >= 100 )
+			if ( longDistanceTIme >= 250 )
 			{
 				longDistanceTIme = 0;
 

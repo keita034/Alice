@@ -83,7 +83,7 @@ public:
    /// <summary>
    /// 更新処理
    /// </summary>
-	void Update(const AliceMathF::Vector3& plyerPos_, const AliceMathF::Vector3& bossPos_,const std::string& boneName_,AliceBlendTree* tree_,AliceModel* bossModel_);
+	void Update(const AliceMathF::Vector3& plyerPos_, const AliceMathF::Vector3& bossPos_,const std::string& boneName_,AliceBlendTree* tree_,AliceModel* bossModel_,bool action_);
 
    /// <summary>
    /// 後始末

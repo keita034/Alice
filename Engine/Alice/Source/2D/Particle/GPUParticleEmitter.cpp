@@ -3,8 +3,17 @@
 
 void GPUParticleEmitter::Initialize()
 {
+
 	BasicGPUParticle::SetAdapter(multiAdapters->GetMainAdapter(),multiAdapters->GetSubAdapter());
 	BasicGPUParticle::SetSwapChain(swapChain);
+
+	BaseGPUParticle::ParticleBegin();
+
+	scattering = std::make_unique<ScatteringGPUParticle>();
+	scattering->Initialize();
+
+	BaseGPUParticle::ParticleEnd();
+
 }
 
 void GPUParticleEmitter::Update(float deltaTime_)
@@ -425,6 +434,40 @@ MeshGPUParticle* GPUParticleEmitter::GetMeshGPUParticle(const std::string& name_
 #pragma endregion
 
 #pragma endregion
+
+void GPUParticleEmitter::AnimationMeshGPUParticleScattering(const std::string& name_)
+{
+	BaseGPUParticle::ParticleBegin();
+	scattering->SetVelocityMeshGPUParticle(animationMeshs[ name_ ].get());
+	BaseGPUParticle::ParticleEnd();
+}
+
+void GPUParticleEmitter::MeshGPUParticleScattering(const std::string& name_)
+{
+	BaseGPUParticle::ParticleBegin();
+	scattering->SetVelocityMeshGPUParticle(meshs[ name_ ].get());
+	BaseGPUParticle::ParticleEnd();
+}
+
+void GPUParticleEmitter::ScatteringSetSpeed(float speed_)
+{
+	scattering->SetSpeed(speed_);
+}
+
+void GPUParticleEmitter::ScatteringSetAccel(const AliceMathF::Vector3& accel_)
+{
+	scattering->SetAccel(accel_);
+}
+
+void GPUParticleEmitter::ScatteringSetLifeTime(float lifeTime_)
+{
+	scattering->SetLifeTime(lifeTime_);
+}
+
+void GPUParticleEmitter::ScatteringSetCenterPos(const AliceMathF::Vector3& centerPos_)
+{
+	scattering->SetCenterPos(centerPos_);
+}
 
 #pragma region 血しぶき
 

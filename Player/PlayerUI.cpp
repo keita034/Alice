@@ -74,7 +74,7 @@ void PlayerUI::Draw()
 	staminaBarBackUI.sprite->Draw(staminaBarBackUI.transform);
 	staminaBarUI.sprite->Draw(staminaBarUI.transform);
 
-	bulletUI.sprite->Draw(bulletUI.transform);
+	//bulletUI.sprite->Draw(bulletUI.transform);
 
 	PDrawHealingUI();
 }

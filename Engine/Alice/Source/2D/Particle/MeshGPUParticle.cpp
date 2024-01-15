@@ -59,7 +59,7 @@ void MeshGPUParticle::Initialize()
 
 void MeshGPUParticle::Update(float deltaTime_)
 {
-	
+
 	PUpdateConstantBuffer(deltaTime_);
 
 	ID3D12GraphicsCommandList* lComputeCommandList = computeAdapter->GetComputeCommandList();
@@ -81,7 +81,7 @@ void MeshGPUParticle::Update(float deltaTime_)
 				fireGPUParticleGPUData.emitDataIndex = emitData.index;
 				gpuParticleDataBuffer->Update(&fireGPUParticleGPUData);
 
-				particleConstants[ emitData.index ].vertexSize = static_cast<uint32_t>(mesh->GetVertices().size());
+				particleConstants[ emitData.index ].vertexSize = static_cast< uint32_t >( mesh->GetVertices().size() );
 				particleConstantsBuffer->Update(particleConstants.data(),( sizeof(ParticleConstantGPUData) * particleConstants.size() ));
 
 				ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeMeshGPUParticleEmit",AdaptersIndex::SUB);
@@ -100,9 +100,9 @@ void MeshGPUParticle::Update(float deltaTime_)
 				lComputeCommandList->SetComputeRootDescriptorTable(4,particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
 				lComputeCommandList->SetComputeRootDescriptorTable(5,freeListBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u1
 
-				lComputeCommandList->SetComputeRootDescriptorTable(6,determineTexture->gpuHandle);//t0
-				lComputeCommandList->SetComputeRootDescriptorTable(7,mesh->GetVertexSRVAddress());//t1
-				lComputeCommandList->SetComputeRootDescriptorTable(8,mesh->GetIndicesSRVAddress());//t2
+				//lComputeCommandList->SetComputeRootDescriptorTable(4,determineTexture->gpuHandle);//t0
+				lComputeCommandList->SetComputeRootDescriptorTable(6,mesh->GetVertexSRVAddress());//t1
+				lComputeCommandList->SetComputeRootDescriptorTable(7,mesh->GetIndicesSRVAddress());//t2
 
 				lComputeCommandList->Dispatch(static_cast< uint32_t >( mesh->GetVertices().size() / 1024 + 1 ),1,1);
 			}
@@ -219,6 +219,7 @@ int32_t MeshGPUParticle::Emit(const MeshGPUParticleSetting& setting_,int32_t ind
 		lEmitData.timeBetweenEmit = setting_.timeBetweenEmit;
 		lEmitData.index = static_cast< uint32_t >( emitDatas.size() );
 		lEmitData.isPlay = setting_.isPlay;
+		lEmitData.isInfinityEmit = setting_.isInfinityEmit;
 
 		emitDatas.push_back(lEmitData);
 		particleConstants.push_back(particleConstant);
@@ -254,14 +255,67 @@ void MeshGPUParticle::SetTex(uint32_t textureHandle_)
 	texture = TextureManager::SGetTextureData(textureHandle_);
 }
 
-void MeshGPUParticle::EmitPlay(int32_t index_)
+void MeshGPUParticle::EmitPlay(int32_t index_,bool flag_)
 {
 	size_t lIndex = static_cast< size_t >( index_ );
 
 	if ( !emitDatas[ lIndex ].isPlay )
 	{
 		emitDatas[ lIndex ].isPlay = true;
-		emitDatas[ lIndex ].emitTimeCounter = 0.0f;
+
+		if ( flag_ )
+		{
+
+			emitDatas[ lIndex ].emitTimeCounter = emitDatas[ lIndex ].timeBetweenEmit;
+
+			BaseGPUParticle::ParticleBegin();
+
+			ID3D12GraphicsCommandList* lComputeCommandList = computeAdapter->GetComputeCommandList();
+
+			if ( determineTexture->resourceState == D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE )
+			{
+				computeAdapter->ResourceTransition(determineTexture->texBuff.Get(),determineTexture->resourceState,D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
+				determineTexture->resourceState = D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE;
+
+			}
+
+			for ( const std::unique_ptr<MeshGPUParticleModelMesh>& mesh : modelData->GetMeshs() )
+			{
+				fireGPUParticleGPUData.emitDataIndex = emitDatas[ lIndex ].index;
+				gpuParticleDataBuffer->Update(&fireGPUParticleGPUData);
+
+				particleConstants[ emitDatas[ lIndex ].index ].vertexSize = static_cast< uint32_t >( mesh->GetVertices().size() );
+				particleConstantsBuffer->Update(particleConstants.data(),( sizeof(ParticleConstantGPUData) * particleConstants.size() ));
+
+				ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeMeshGPUParticleEmit",AdaptersIndex::SUB);
+
+				lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
+				lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
+
+				ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::SUB)->GetHeap() };
+				lComputeCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
+
+				lComputeCommandList->SetComputeRootConstantBufferView(0,timeConstantsBuffer->GetAddress());//b0
+				lComputeCommandList->SetComputeRootConstantBufferView(1,gpuParticleDataBuffer->GetAddress());//b1
+				lComputeCommandList->SetComputeRootConstantBufferView(2,particleConstantsBuffer->GetAddress());//b2
+				lComputeCommandList->SetComputeRootConstantBufferView(3,mesh->postureMatBuff->GetAddress());//b3
+
+				lComputeCommandList->SetComputeRootDescriptorTable(4,particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
+				lComputeCommandList->SetComputeRootDescriptorTable(5,freeListBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u1
+
+				//lComputeCommandList->SetComputeRootDescriptorTable(6,determineTexture->gpuHandle);//t0
+				lComputeCommandList->SetComputeRootDescriptorTable(6,mesh->GetVertexSRVAddress());//t1
+				lComputeCommandList->SetComputeRootDescriptorTable(7,mesh->GetIndicesSRVAddress());//t2
+
+				lComputeCommandList->Dispatch(static_cast< uint32_t >( mesh->GetVertices().size() / 1024 + 1 ),1,1);
+			}
+			BaseGPUParticle::ParticleEnd();
+
+		}
+		else
+		{
+			emitDatas[ lIndex ].emitTimeCounter = 0.0f;
+		}
 	}
 }
 
@@ -280,7 +334,7 @@ void MeshGPUParticle::SetModel(AliceModel* model_)
 	modelData->SetModel(model_,BufferType::SUB);
 }
 
-float MeshGPUParticle::GetDeltaTime()
+float MeshGPUParticle::GetDeltaTime() const
 {
 	return timeGPUData.deltaTime;
 }
@@ -314,17 +368,40 @@ bool MeshGPUParticle::PCanEmit(ParticleEmit& data_,float deltaTime_)
 {
 	if ( data_.isPlay )
 	{
-
-		if ( data_.emitTimeCounter <= 0.0f )
+		if ( data_.isInfinityEmit )
 		{
-			data_.emitTimeCounter = data_.timeBetweenEmit;
+			if ( data_.emitTimeCounter <= 0.0f )
+			{
+				data_.emitTimeCounter = data_.timeBetweenEmit;
 
-			return true;
+				return true;
+			}
+			else
+			{
+				data_.emitTimeCounter -= deltaTime_;
+			}
 		}
 		else
 		{
-			data_.emitTimeCounter -= deltaTime_;
+			if ( data_.emitTimeCounter <= 0.0f )
+			{
+				data_.emitTimeCounter = data_.timeBetweenEmit;
+
+				return true;
+			}
+			else
+			{
+				data_.emitTimeCounter -= deltaTime_;
+				data_.emitLifeTime -= deltaTime_;
+
+				if ( data_.emitLifeTime <= 0.0f )
+				{
+					data_.isPlay = false;
+				}
+			}
 		}
+
+
 	}
 
 	return false;

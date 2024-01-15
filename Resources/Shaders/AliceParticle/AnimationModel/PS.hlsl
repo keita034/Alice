@@ -9,5 +9,5 @@ float4 main(GS_OUTPUT input) : SV_TARGET
    
     float4 col = input.color;
   
-    return col;
+    return texCol*col;
 }

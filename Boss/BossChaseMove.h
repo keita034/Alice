@@ -19,6 +19,8 @@ private:
 
 	bool isFinish = false;
 
+	int32_t time = 0;
+
 public:
 
 	BossChaseMove() = default;

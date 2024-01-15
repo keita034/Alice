@@ -52,7 +52,7 @@ void Boss::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 			lMeshSetting.speed = 15;
 			lMeshSetting.isPlay = false;
 
-			meshParticleIndex = particleEmitter->AnimationMeshGPUParticleEmit("BossParticle",lMeshSetting);
+			//meshParticleIndex = particleEmitter->AnimationMeshGPUParticleEmit("BossParticle",lMeshSetting);
 			//bossGPUParticle = particleEmitter->GetAnimationMeshGPUParticle("BossParticle");
 		}
 
@@ -107,11 +107,16 @@ void Boss::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 
 void Boss::Update()
 {
+	if ( !isMove && player->GetPosition().z >= -230)
+	{
+		isMove = true;
+	}
+
 	oldTrans = transform.translation;
 
 	if ( hp > 0 )
 	{
-		actionManager->Update(player->GetPosition(),transform.translation,"mixamorig:RightHand",animation->GetAnimation(),model.get());
+		actionManager->Update(player->GetPosition(),transform.translation,"mixamorig:RightHand",animation->GetAnimation(),model.get(),isMove);
 	}
 
 	bossUI->SetHp(hp,MAX_HP);
@@ -218,6 +223,8 @@ void Boss::UIDraw()
 void Boss::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 {
 	//bossGPUParticle->EmitStop(meshParticleIndex);
+	bloodGushGPUParticle->EmitStop(0);
+	//bossGPUParticle->EmitStop(0);
 	bossModelGPUParticle->EmitStop();
 
 	actionManager->Finalize(physicsSystem_);
@@ -274,7 +281,7 @@ void Boss::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_,const Ali
 						break;
 					}
 
-					//hp--;
+					hp--;
 				}
 
 				situation |= ActorSituation::DAMAGE;
@@ -303,7 +310,7 @@ void Boss::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_,const Ali
 						break;
 					}
 
-					//hp--;
+					hp--;
 				}
 
 				situation |= ActorSituation::DAMAGE;

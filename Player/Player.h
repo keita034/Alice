@@ -28,8 +28,11 @@ private:
 	ModelGPUParticle* weaponParticle = nullptr; 
 	ModelGPUParticle* greatWeaponParticle = nullptr;
 	AnimationModelGPUParticle* modelParticle = nullptr;
+	MeshGPUParticle* weaponScatteringParticle = nullptr;
+	MeshGPUParticle* greatWeaponScatteringParticle = nullptr;
 	PlayerUsData usData;
-	
+	GPUParticleEmitter* particleEmitter = nullptr;
+
 	AliceMathF::Matrix4 evacuationMat;
 
 	AliceMathF::Vector3 oldTrans;

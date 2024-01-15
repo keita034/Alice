@@ -34,8 +34,8 @@ void BossHand::Initialize(Transform* parent_,AlicePhysics::AlicePhysicsSystem* p
 		lSetting.isPlay = false;
 		lSetting.emitLifeTime = -1.0f;
 		lSetting.timeBetweenEmit = 0.005f;
-		lSetting.maxParticles = 10000;
-		lSetting.emitCount = 100;
+		lSetting.maxParticles = 100000;
+		lSetting.emitCount = 100000;
 		lSetting.endColor = { 1.0f,0.1f,0.0f,1.0f };
 		lSetting.startColor = { 1.0f,0.1f,0.0f,1.0f };
 		lSetting.lifeTime = 4.2f;
@@ -81,7 +81,7 @@ void BossHand::SetFireGPUParticle(FireGPUParticle* fireGPUParticle_)
 
 void BossHand::ParticleEmit()
 {
-	fireGPUParticle->EmitPlay(particleIndex);
+	//fireGPUParticle->EmitPlay(particleIndex);
 }
 
 void BossHand::ParticleStop()

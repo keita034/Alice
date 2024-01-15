@@ -24,6 +24,7 @@ void BossCloseRangeAttack::Initialize(GPUParticleEmitter* particleEmitter_,Trans
 	lSetting.size = 2;
 	lSetting.speed = 15;
 	lSetting.isPlay = false;
+	lSetting.isInfinityEmit = true;
 
 	particleIndex = meshParticle->Emit(lSetting);
 }
@@ -38,7 +39,7 @@ void BossCloseRangeAttack::Update()
 			bossAnimation->SetAddFrame(0.0f);
 			phase = Phase::APPROACH;
 			bossSword->SetIsUpdate(true);
-			meshParticle->EmitPlay(particleIndex);
+			meshParticle->EmitPlay(particleIndex,false);
 		}
 		break;
 	case BossCloseRangeAttack::Phase::APPROACH:
@@ -51,10 +52,23 @@ void BossCloseRangeAttack::Update()
 			distanceTraveled = { 0.0f,0.0f,0.0f };
 	
 			bossAnimation->SetAddFrame(0.015f);
+
+			time = 0;
 		}
 		else
 		{
 			distanceTraveled = direction * frameDistance;
+		}
+
+		time++;
+
+		if ( time>80 )
+		{
+			time = 0;
+			phase = Phase::ATTACK;
+			distanceTraveled = { 0.0f,0.0f,0.0f };
+
+			bossAnimation->SetAddFrame(0.015f);
 		}
 	}
 		break;
@@ -77,11 +91,12 @@ void BossCloseRangeAttack::Update()
 
 }
 
-void BossCloseRangeAttack::Finalize()
+void BossCloseRangeAttack::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 {
 	physicsSystem = nullptr;
 	bossAnimation = nullptr;
 	meshParticle->EmitStop(particleIndex);
+	bossSword->Finalize(physicsSystem_);
 }
 
 void BossCloseRangeAttack::End()

@@ -1,26 +1,15 @@
-#include<AnimationMeshGPUParticle.hlsli>
+#include<../GPUParticle.hlsli>
 
-cbuffer timeData : register(b0)
+cbuffer Data : register(b0)
 {
-    float deltaTime;
-    float TotalTime;
-    uint computeTime;
-}
-
-cbuffer ParticleData : register(b1)
-{
+    float3 centerPos;
+    float speed;
+    float3 accel;
+    float lifeTime;
     uint maxParticles;
-    uint emitDataIndex;
-}
-
-cbuffer ParticleDatas : register(b2)
-{
-    EmitData emitDatas[EMIT_DATA_MAX];
 }
 
 RWStructuredBuffer<Particle> ParticlePool : register(u0);
-AppendStructuredBuffer<uint> freeList : register(u1);
-AppendStructuredBuffer<uint> DrawList : register(u2);
 
 [numthreads(1024, 1, 1)]
 void main(uint3 DTid : SV_DispatchThreadID)
@@ -37,29 +26,16 @@ void main(uint3 DTid : SV_DispatchThreadID)
         return;
     }
     
-    EmitData emitData = emitDatas[emitDataIndex];
+    float3 vec = particle.position - centerPos;
     
-    float t = particle.age / emitData.lifeTime;
+    float l = length(vec);
     
-    particle.age += deltaTime;
-
-    particle.alive = (float) (particle.age < particle.lifeTime);
-
-    particle.position += particle.velocity * deltaTime;
+    vec = normalize(vec);
     
-    particle.color = lerp(emitData.startColor, emitData.endColor, t);
+    //particle.age = 0;
+    particle.velocity = vec * l * speed;
+    particle.accel = accel;
+    //particle.lifeTime = lifeTime;
     
-    particle.threshold = t;
-
     ParticlePool[DTid.x] = particle;
-
-    if (particle.alive == 0.0f)
-    {
-        freeList.Append(DTid.x);
-    }
-    else
-    {
-
-        DrawList.Append(DTid.x);
-    }
 }

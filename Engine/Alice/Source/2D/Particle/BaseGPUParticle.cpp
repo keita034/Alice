@@ -53,9 +53,9 @@ void BaseGPUParticle::SetSwapChain(ISwapChain* swapChain_)
 
 void BaseGPUParticle::ParticleEnd()
 {
-	computeAdapter->GraphicCommandListExecute();
-	computeAdapter->GraphicWaitPreviousFrame();
-
 	computeAdapter->ComputeCommandListExecute();
 	computeAdapter->ComputeWaitPreviousFrame();
+
+	computeAdapter->GraphicCommandListExecute();
+	computeAdapter->GraphicWaitPreviousFrame();
 }

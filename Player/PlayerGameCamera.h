@@ -16,7 +16,8 @@ private:
 	float yAngle;
 	float xAngle;
 
-	const float ANGLE_ROTATE_SPEED = 0.0005f;
+	const float ANGLE_XROTATE_SPEED = 0.0005f;
+	const float ANGLE_YROTATE_SPEED = 0.0007f;
 	const float CAMERA_LOOK_AT_HEIGHT= 50.0f;
 	const float CAMERA_LOOK_AT_DISTANCE = 120.0f;
 

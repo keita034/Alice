@@ -59,14 +59,16 @@ void GameScene::Initialize(const std::string& previewSceneName_)
 	sGPUParticleEmitter->ModelGPUParticleEmitPlay("FieldModelParticle");
 	sGPUParticleEmitter->ModelGPUParticleEmitPlay("GroundModelParticle");
 	sGPUParticleEmitter->ModelGPUParticleEmitPlay("Field2ModelParticle");
+
 	trans.Initialize();
 	trans2.Initialize();
 	trans3.Initialize();
 
 	trans.scale = { 0.24f,0.24f ,0.24f };
 	trans2.scale = { 0.24f,0.24f ,0.24f };
-	trans3.scale = { 0.1f,0.1f ,0.1f };
-	trans2.rotation = { 0.0f,180.0f * AliceMathF::DEG_TO_RAD ,180.0f * AliceMathF::DEG_TO_RAD };
+	trans3.scale = { 0.025f,0.025f ,0.025f };
+	trans.rotation = { 0.0f,-90.0f * AliceMathF::DEG_TO_RAD ,0.0f};
+	trans2.rotation = { 0.0f,90.0f * AliceMathF::DEG_TO_RAD ,180.0f * AliceMathF::DEG_TO_RAD };
 	trans.MakeWorldMatrix();
 	trans2.MakeWorldMatrix();
 	trans3.MakeWorldMatrix();
@@ -152,7 +154,6 @@ void GameScene::Draw()
 	player->Draw();
 	boss->Draw();
 
-
 }
 
 void GameScene::SpriteDraw()
@@ -166,6 +167,10 @@ void GameScene::SpriteDraw()
 
 void GameScene::Finalize()
 {
+	sGPUParticleEmitter->ModelGPUParticleEmitStop("FieldModelParticle");
+	sGPUParticleEmitter->ModelGPUParticleEmitStop("GroundModelParticle");
+	sGPUParticleEmitter->ModelGPUParticleEmitStop("Field2ModelParticle");
+
 	player->Finalize(sPhysicsSystem);
 	boss->Finalize(sPhysicsSystem);
 	fieldObjData->Finalize(sPhysicsSystem);

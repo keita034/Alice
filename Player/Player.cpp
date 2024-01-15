@@ -20,6 +20,7 @@ void Player::Initialize(AliceInput::IInput* input_,IAudioManager* audioManager_,
 
 	input = input_;
 	audioManager = audioManager_;
+	particleEmitter = particleEmitter_;
 
 	deviceInput = std::make_unique<DeviceInput>();
 	deviceInput->Initialize(input_);
@@ -28,12 +29,13 @@ void Player::Initialize(AliceInput::IInput* input_,IAudioManager* audioManager_,
 	model = std::make_unique<AliceModel>();
 	model->SetModel(modelHandle);
 
-	transform.translation = { 0.0f,0.0f,-110.0f };
+	oldTrans = transform.translation = { 0.0f,0.0f,-1500.0f };
 
 	transform.Initialize();
 	transform.scale = { scale,scale ,scale };
 
-	transform.rotation = { 0.0f,AliceMathF::DEG_TO_RAD * 180.0f,0.0f };
+	direction = { 0,0,-1 };
+	transform.rotation = { 0.0f,AliceMathF::DEG_TO_RAD * 0.0f,0.0f };
 
 	ui = std::make_unique<PlayerUI>();
 	ui->Initialize();
@@ -72,8 +74,9 @@ void Player::Initialize(AliceInput::IInput* input_,IAudioManager* audioManager_,
 	animation->Update();
 
 	weaponParticle = particleEmitter_->GetModelGPUParticle("PiayerWeaponParticle");
-
 	greatWeaponParticle = particleEmitter_->GetModelGPUParticle("PiayerGreatWeaponParticle");
+	weaponScatteringParticle = particleEmitter_->GetMeshGPUParticle("PiayerWeaponScatteringParticle");
+	greatWeaponScatteringParticle = particleEmitter_->GetMeshGPUParticle("PiayerGreatWeaponScatteringParticle");
 
 	evacuationMat.MakeTranslation(1000,1000,1000);
 
@@ -220,8 +223,12 @@ void Player::TransUpdate(Camera* camera_)
 	//modelParticle->SetMat(transform.matWorld);
 	weapon->TransUpdate(camera_);
 	greatWeapon->TransUpdate(camera_);
+
 	weaponParticle->SetMat(weapon->GetWorldMat());
 	greatWeaponParticle->SetMat(greatWeapon->GetWorldMat());
+	weaponScatteringParticle->SetMat(weapon->GetWorldMat(),0);
+	greatWeaponScatteringParticle->SetMat(greatWeapon->GetWorldMat(),0);
+
 	camera = camera_;
 }
 
@@ -608,10 +615,12 @@ void Player::PUIUpdate()
 
 void Player::PRotate()
 {
-	direction = oldTrans - transform.translation;
+	if ( oldTrans != transform.translation )
+	{
+		direction = oldTrans - transform.translation;
 
-	direction = direction.Normal();
-
+		direction = direction.Normal();
+	}
 }
 
 void Player::PAttack()
@@ -659,6 +668,13 @@ void Player::PAttack()
 				weaponParticle->EmitStop();
 				attackCount = 0;
 				animation->SetAddFrame();
+
+				weaponScatteringParticle->EmitPlay(0);
+				particleEmitter->ScatteringSetSpeed(3.0f);
+				particleEmitter->ScatteringSetCenterPos(AliceMathF::GetWorldPosition(weapon->GetWorldMat()));
+				particleEmitter->MeshGPUParticleScattering("PiayerWeaponScatteringParticle");
+				weaponScatteringParticle->EmitStop(0);
+
 			}
 		}
 		else
@@ -701,9 +717,15 @@ void Player::PAttack()
 				usData.situation &= ~ActorSituation::ATTACK;
 				greatWeaponParticle->EmitStop();
 
-				
+
 				attackCount = 0;
 				animation->SetAddFrame();
+
+				greatWeaponScatteringParticle->EmitPlay(0);
+				particleEmitter->ScatteringSetSpeed(3.0f);
+				particleEmitter->ScatteringSetCenterPos(AliceMathF::GetWorldPosition(greatWeapon->GetWorldMat()));
+				particleEmitter->MeshGPUParticleScattering("PiayerGreatWeaponScatteringParticle");
+				greatWeaponScatteringParticle->EmitStop(0);
 			}
 		}
 	}
@@ -732,6 +754,7 @@ void Player::PAttack()
 			usData.situation |= ActorSituation::ATTACK;
 		}
 	}
+
 
 }
 

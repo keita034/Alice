@@ -28,8 +28,9 @@ struct MeshGPUParticleSetting
 	float size;
 	float speed;
 	bool isPlay = true;
+	bool isInfinityEmit = false;
 private:
-	Byte3 PADING;
+	Byte2 PADING;
 };
 
 
@@ -88,8 +89,9 @@ public://内部で使う構造体
 		float emitLifeTime;
 		float emitMaxLifeTime;
 		bool isPlay;
+		bool isInfinityEmit;
 	private:
-		Byte3 PADING;
+		Byte2 PADING;
 	};
 
 private:
@@ -134,10 +136,10 @@ public:
 	void SetMat(const AliceMathF::Matrix4& matWorld_ ,int32_t index_);
 	void SetDetermineTex(uint32_t textureHandle_);
 	void SetTex(uint32_t textureHandle_);
-	void EmitPlay(int32_t index_);
+	void EmitPlay(int32_t index_,bool flag_ = true);
 	void EmitStop(int32_t index_);
 	void SetModel(AliceModel* model_);
-	float GetDeltaTime();
+	float GetDeltaTime() const;
 
 
 private:

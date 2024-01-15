@@ -49,39 +49,39 @@ AliceMathF::Vector2 PlayerGameCamera::GetAngle()
 
 void PlayerGameCamera::PMove()
 {
-	if (input->InputStick(ControllerStick::RRIGHT))
+	if (input->InputStick(ControllerStick::RRIGHT) || input->CheckKey(Keys::RIGHT))
 	{
-		yAngle += ANGLE_ROTATE_SPEED;
+		yAngle += ANGLE_YROTATE_SPEED;
 		if (yAngle >= 180.0f)
 		{
 			yAngle -= 360.0f;
 		}
 	}
 
-	if (input->InputStick(ControllerStick::RLEFT))
+	if (input->InputStick(ControllerStick::RLEFT) || input->CheckKey(Keys::LEFT) )
 	{
-		yAngle -= ANGLE_ROTATE_SPEED;
+		yAngle -= ANGLE_YROTATE_SPEED;
 		if (yAngle <= -180.0f)
 		{
 			yAngle += 360.0f;
 		}
 	}
 
-	if (input->InputStick(ControllerStick::RUP))
+	if (input->InputStick(ControllerStick::RUP) || input->CheckKey(Keys::UP) )
 	{
-		xAngle += ANGLE_ROTATE_SPEED;
-		if (xAngle >= 80.0f)
+		xAngle += ANGLE_XROTATE_SPEED;
+		if (xAngle >= 0.015f)
 		{
-			xAngle = 80.0f;
+			xAngle = 0.015f;
 		}
 	}
 
-	if (input->InputStick(ControllerStick::RDOWN))
+	if (input->InputStick(ControllerStick::RDOWN) || input->CheckKey(Keys::DOWN) )
 	{
-		xAngle -= ANGLE_ROTATE_SPEED;
-		if (xAngle <= 0.0f)
+		xAngle -= ANGLE_XROTATE_SPEED;
+		if (xAngle <= -0.01f)
 		{
-			xAngle = 0.0f;
+			xAngle = -0.01f;
 		}
 	}
 }

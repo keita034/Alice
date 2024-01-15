@@ -48,6 +48,8 @@ private:
 
 	bool isFinish = false;
 
+	int32_t time = 0;
+
 public:
 
 	BossCloseRangeAttack() = default;
@@ -66,7 +68,7 @@ public:
    /// <summary>
    /// 後始末
    /// </summary>
-	void Finalize();
+	void Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_);
 
 	void End();
 

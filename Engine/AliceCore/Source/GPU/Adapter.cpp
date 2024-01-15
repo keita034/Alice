@@ -239,7 +239,7 @@ ID3D12CommandQueue* Adapter::GetComputeCommandQueue()
 void Adapter::ComputeWaitPreviousFrame()
 {
 	fence->Signal(commandList->GetComputeCommandQueue());
-	fence->Wait();
+	fence->CompulsionWait();
 }
 
 void Adapter::ComputeCompulsionWait()

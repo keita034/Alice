@@ -30,12 +30,12 @@ void GameMain::Initialize()
 	}
 
 	{
-		gpuParticleEmitter->AnimationMeshGPUParticleCreate(100000,"BossParticle");
-		std::unique_ptr<AliceModel>lModel = std::make_unique<AliceModel>();
-		lModel->SetModel(AliceModel::SCreateModel("Resources/Model/Boss"));
-		gpuParticleEmitter->AnimationMeshGPUParticleSetModel("BossParticle",lModel.get());
-		gpuParticleEmitter->AnimationMeshGPUParticleSetDetermineTex("BossParticle",emmisionFireElemental);
-		gpuParticleEmitter->AnimationMeshGPUParticleSetTex("BossParticle",fireEffectNoiseHandle);
+		//gpuParticleEmitter->AnimationMeshGPUParticleCreate(100000,"BossParticle");
+		//std::unique_ptr<AliceModel>lModel = std::make_unique<AliceModel>();
+		//lModel->SetModel(AliceModel::SCreateModel("Resources/Model/Boss"));
+		//gpuParticleEmitter->AnimationMeshGPUParticleSetModel("BossParticle",lModel.get());
+		//gpuParticleEmitter->AnimationMeshGPUParticleSetDetermineTex("BossParticle",emmisionFireElemental);
+		//gpuParticleEmitter->AnimationMeshGPUParticleSetTex("BossParticle",fireEffectNoiseHandle);
 	}
 
 	{
@@ -107,7 +107,7 @@ void GameMain::Initialize()
 			gpuParticleEmitter->ModelGPUParticleEmit("GroundModelParticle",lModelSetting);
 		}
 
-		lModelSetting.startColor = { 1,0,0,1 };
+		lModelSetting.startColor = { 0.0f,0.0f,1.0f,1 };
 		lModelSetting.size = 0.05f;
 		{
 			gpuParticleEmitter->ModelGPUParticleCreate(1000000,"PiayerWeaponParticle");
@@ -137,6 +137,38 @@ void GameMain::Initialize()
 		gpuParticleEmitter->MeshGPUParticleSetModel("BossWeaponParticle",lWeaponModel.get());
 		gpuParticleEmitter->MeshGPUParticleSetDetermineTex("BossWeaponParticle",white1x1Handle);
 		gpuParticleEmitter->MeshGPUParticleSetTex("BossWeaponParticle",fireEffectNoiseHandle);
+	}
+
+	{
+		gpuParticleEmitter->MeshGPUParticleCreate(1000000,"PiayerWeaponScatteringParticle");
+		std::unique_ptr<AliceModel>lWeaponModel = std::make_unique<AliceModel>();
+		lWeaponModel->SetModel(AliceModel::SCreateModel("Resources/Model/Player/Weapon/Sword"));
+		gpuParticleEmitter->MeshGPUParticleSetModel("PiayerWeaponScatteringParticle",lWeaponModel.get());
+		gpuParticleEmitter->MeshGPUParticleSetDetermineTex("PiayerWeaponScatteringParticle",white1x1Handle);
+		gpuParticleEmitter->MeshGPUParticleSetTex("PiayerWeaponScatteringParticle",fireEffectNoiseHandle);
+
+		gpuParticleEmitter->MeshGPUParticleCreate(1000000,"PiayerGreatWeaponScatteringParticle");
+		lWeaponModel->SetModel(AliceModel::SCreateModel("Resources/Model/Player/Weapon/GreatSword"));
+		gpuParticleEmitter->MeshGPUParticleSetModel("PiayerGreatWeaponScatteringParticle",lWeaponModel.get());
+		gpuParticleEmitter->MeshGPUParticleSetDetermineTex("PiayerGreatWeaponScatteringParticle",white1x1Handle);
+		gpuParticleEmitter->MeshGPUParticleSetTex("PiayerGreatWeaponScatteringParticle",fireEffectNoiseHandle);
+
+		MeshGPUParticleSetting lSetting;
+
+		lSetting.matWorld = AliceMathF::MakeIdentity();
+		lSetting.velocity = { 0,1,0 };
+		lSetting.startColor = { 0.0f,0.0f,1.0f,1 };
+		lSetting.endColor = { 0.0f,0.0f,1.0f,1 };
+		lSetting.lifeTime = 1.0f;
+		lSetting.maxParticles = 100000.0f;
+		lSetting.timeBetweenEmit = 0.001f;
+		lSetting.emitLifeTime = 0.001f;
+		lSetting.size = 0.05f;
+		lSetting.speed = 15;
+		lSetting.isPlay = false;
+
+		gpuParticleEmitter->MeshGPUParticleEmit("PiayerWeaponScatteringParticle",lSetting);
+		gpuParticleEmitter->MeshGPUParticleEmit("PiayerGreatWeaponScatteringParticle",lSetting);
 	}
 
 	{

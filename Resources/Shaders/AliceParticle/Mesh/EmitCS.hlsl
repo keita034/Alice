@@ -24,13 +24,12 @@ cbuffer BoneDatas : register(b3)
     matrix postureMat;
 }
 
-Texture2D<float4> tex : register(t0);
-StructuredBuffer<Mesh> meshs : register(t1);
-StructuredBuffer<uint> indices : register(t1);
-
 RWStructuredBuffer<Particle> ParticlePool : register(u0);
 ConsumeStructuredBuffer<uint> freeList : register(u1);
-RWStructuredBuffer<uint> DrawList : register(u2);
+
+//Texture2D<float4> tex : register(t0);
+StructuredBuffer<Mesh> meshs : register(t0);
+StructuredBuffer<uint> indices : register(t1);
 
 [numthreads(1024, 1, 1)]
 void main( uint3 DTid : SV_DispatchThreadID )
@@ -40,18 +39,18 @@ void main( uint3 DTid : SV_DispatchThreadID )
        return;
     }
     
-    int2 uv;
-    float2 texSize;
-    tex.GetDimensions(texSize.x, texSize.y);
+    //int2 uv;
+    //float2 texSize;
+    //tex.GetDimensions(texSize.x, texSize.y);
     
-    uv = int2(texSize * meshs[DTid.x].uv);
+    //uv = int2(texSize * meshs[DTid.x].uv);
     
-    float4 texcolor = tex[uv];
+    //float4 texcolor = tex[uv];
     
-    if (texcolor.a == 0.0f)
-    {
-        return;
-    }
+    //if (texcolor.a == 0.0f)
+    //{
+    //    return;
+    //}
     
     EmitData emitData = emitDatas[emitDataIndex];
 

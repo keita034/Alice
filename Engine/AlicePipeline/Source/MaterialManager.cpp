@@ -462,7 +462,7 @@ ComputeMaterial* MaterialManager::GetComputeMaterialData(const std::string& name
 				CreateBloodGushDrawArgumentUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
 
-			else if ( name_ == "ComputScatteringGPUParticle" )
+			else if ( name_ == "ComputeScattering" )
 			{
 				CreateScatteringComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
