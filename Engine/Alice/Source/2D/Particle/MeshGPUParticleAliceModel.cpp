@@ -27,7 +27,7 @@ void MeshGPUParticleAliceModel::SetModel(AliceModel* model_,BufferType type,bool
 	{
 		if ( type == BufferType::SHARED )
 		{
-			
+
 		}
 		else
 		{
@@ -42,6 +42,16 @@ void MeshGPUParticleAliceModel::SetModel(AliceModel* model_,BufferType type,bool
 			for ( std::unique_ptr<ModelMesh>& mesh : lModelData->meshes )
 			{
 				std::unique_ptr<MeshGPUParticleModelMesh> lMesh = std::make_unique<MeshGPUParticleModelMesh>();
+
+				if ( !mesh->vecBones.empty() )
+				{
+
+					for ( uint32_t index : mesh->indices )
+					{
+						AddBoneMesh(lMesh->boneMeshs,index,mesh->vertices[ index ],mesh->vecBones);
+					}
+				}
+
 
 				lMesh->name = mesh->name;
 				lMesh->vertices = &mesh->vertices;
@@ -73,7 +83,7 @@ void MeshGPUParticleAliceModel::SetModel(AliceModel* model_,BufferType type,bool
 	}
 	else
 	{
-		modelData = sModelDatas[ lFilePath].get();
+		modelData = sModelDatas[ lFilePath ].get();
 	}
 }
 
@@ -128,4 +138,49 @@ void MeshGPUParticleAliceModel::Finalize()
 const ReturnMotionNode* MeshGPUParticleAliceModel::PFindNodeAnim(const AliceMotionData* pAnimation_,const std::string& strNodeName_)
 {
 	return pAnimation_->GetMotion(strNodeName_);
+}
+
+void MeshGPUParticleAliceModel::AddBoneMesh(std::vector<std::unique_ptr<BoneMesh>>& boneMeshs_,uint32_t indice_,const PosNormUvTangeColSkin& ver_,const std::vector<Bone>& bone_)
+{
+	uint32_t lBoneIndex = GetBoneIndex(ver_);
+
+	std::string lBoneName = bone_[ lBoneIndex ].name;
+
+	auto lModelItr = find_if(boneMeshs_.begin(),boneMeshs_.end(),[ & ] (std::unique_ptr<BoneMesh,std::default_delete<BoneMesh>>& modelData)
+		{
+			return modelData->boneName == lBoneName;
+		});
+
+
+	if ( lModelItr == boneMeshs_.end() )
+	{
+		std::unique_ptr<BoneMesh> lMessh = std::make_unique<BoneMesh>();
+
+		lMessh->boneName = lBoneName;
+		lMessh->vertices.push_back(ver_);
+		lMessh->indices.push_back(indice_);
+	}
+	else
+	{
+		BoneMesh* lMessh = lModelItr->get();
+		lMessh->vertices.push_back(ver_);
+		lMessh->indices.push_back(indice_);
+	}
+}
+
+uint32_t MeshGPUParticleAliceModel::GetBoneIndex(const PosNormUvTangeColSkin& ver_)
+{
+	float lWeight = 0.0f;
+	size_t lIndex = 0;
+
+	for ( size_t i = 0; i < ver_.boneWeight.size(); i++ )
+	{
+		if ( lWeight < ver_.boneWeight[ i ] )
+		{
+			lWeight = ver_.boneWeight[ i ];
+			lIndex = i;
+		}
+	}
+
+	return ver_.boneIndex[ lIndex ];
 }

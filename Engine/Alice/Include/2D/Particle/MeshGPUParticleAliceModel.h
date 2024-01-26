@@ -5,6 +5,29 @@
 #include<CrossAdapterBuffer.h>
 #include<DrawArgumentBuffer.h>
 
+struct BoneMesh
+{
+	std::string boneName;
+	//頂点データの配列
+	std::vector<PosNormUvTangeColSkin> vertices;
+	//インデックスの配列
+	std::vector<uint32_t> indices;
+	//インデックスバッファ
+	std::unique_ptr<IIndexBuffer> indexBuffer;
+	//頂点バッファ
+	std::unique_ptr<IVertexBuffer> vertexBuffer;
+
+	BoneMesh() = default;
+	~BoneMesh() = default;
+
+private:
+
+//コピーコンストラクタ・代入演算子削除
+	BoneMesh& operator=(const BoneMesh&) = delete;
+	BoneMesh(const BoneMesh&) = delete;
+
+};
+
 class MeshGPUParticleModelMesh
 {
 public:
@@ -31,6 +54,8 @@ public:
 
 	std::unique_ptr<ICrossAdapterBuffer>particlePoolBuffer;
 	std::unique_ptr<IDrawArgumentBuffer>drawArgumentBuffer;
+
+	std::vector<std::unique_ptr<BoneMesh>>boneMeshs;
 
 public:
 
@@ -136,9 +161,11 @@ public:
 
 protected:
 
-	void PReadNodeHeirarchy(MeshGPUParticleModelMesh* mesh_,const AliceMotionData* pAnimation_,const Node* pNode_,const AliceMathF::Matrix4& mxParentTransform_);
-	void PReadNodeHeirarchy(MeshGPUParticleModelMesh* mesh_,AliceBlendTree* blendTree_,const Node* pNode_,const AliceMathF::Matrix4& mxParentTransform_);
 	const ReturnMotionNode* PFindNodeAnim(const AliceMotionData* pAnimation_,const std::string& strNodeName_);
+	
+	void AddBoneMesh(std::vector<std::unique_ptr<BoneMesh>>&boneMeshs_,uint32_t indice_, const PosNormUvTangeColSkin& ver_,const std::vector<Bone>& bone_);
+
+	uint32_t GetBoneIndex(const PosNormUvTangeColSkin& ver_);
 
 	//コピーコンストラクタ・代入演算子削除
 	MeshGPUParticleAliceModel& operator=(const MeshGPUParticleAliceModel&) = delete;
