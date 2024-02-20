@@ -65,22 +65,48 @@ void AnimationModelGPUParticle::Update(float deltaTime_)
 			{
 				gpuParticleDataBuffer->Update(&fireGPUParticleGPUData);
 
-				BoneData* lBonedata = mesh->bonedata;
-				mesh->constBoneBuffer->Update(lBonedata->boneMat.data());
+				if ( !animationStop )
+				{
+					BoneData* lBonedata = mesh->bonedata;
+					mesh->constBoneBuffer->Update(lBonedata->boneMat.data());
+				}
 
-				particleConstants.vertexSize = static_cast< uint32_t >( mesh->GetVertices().size() );
-				particleConstantsBuffer->Update(&particleConstants);
+				if ( mesh->boneMesh )
+				{
+					for ( std::unique_ptr<BoneMesh>& boneMesh : mesh->boneMeshs )
+					{
+						particleConstants.vertexSize = static_cast< uint32_t >( boneMesh->vertices.size() );
+						particleConstantsBuffer->Update(&particleConstants);
 
-				lComputeCommandList->SetComputeRootConstantBufferView(0,timeConstantsBuffer->GetAddress());//b0
-				lComputeCommandList->SetComputeRootConstantBufferView(1,gpuParticleDataBuffer->GetAddress());//b1
-				lComputeCommandList->SetComputeRootConstantBufferView(2,particleConstantsBuffer->GetAddress());//b2
-				lComputeCommandList->SetComputeRootConstantBufferView(3,mesh->constBoneBuffer->GetAddress());//b3
+						lComputeCommandList->SetComputeRootConstantBufferView(0,timeConstantsBuffer->GetAddress());//b0
+						lComputeCommandList->SetComputeRootConstantBufferView(1,gpuParticleDataBuffer->GetAddress());//b1
+						lComputeCommandList->SetComputeRootConstantBufferView(2,particleConstantsBuffer->GetAddress());//b2
+						lComputeCommandList->SetComputeRootConstantBufferView(3,mesh->constBoneBuffer->GetAddress());//b3
 
-				lComputeCommandList->SetComputeRootDescriptorTable(4,mesh->GetVertexSRVAddress());//t0
+						lComputeCommandList->SetComputeRootDescriptorTable(4,boneMesh->vertexBuffer->GetSRVAddress());//t0
 
-				lComputeCommandList->SetComputeRootDescriptorTable(5,mesh->GetCrossAdapterBuffer()->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
+						lComputeCommandList->SetComputeRootDescriptorTable(5,boneMesh->particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
 
-				lComputeCommandList->Dispatch(static_cast< uint32_t >( mesh->GetVertices().size() / 1024 + 1 ),1,1);
+						lComputeCommandList->Dispatch(static_cast< uint32_t >( boneMesh->vertices.size() / 1024 + 1 ),1,1);
+					}
+				}
+				else
+				{
+					particleConstants.vertexSize = static_cast< uint32_t >( mesh->GetVertices().size() );
+					particleConstantsBuffer->Update(&particleConstants);
+
+					lComputeCommandList->SetComputeRootConstantBufferView(0,timeConstantsBuffer->GetAddress());//b0
+					lComputeCommandList->SetComputeRootConstantBufferView(1,gpuParticleDataBuffer->GetAddress());//b1
+					lComputeCommandList->SetComputeRootConstantBufferView(2,particleConstantsBuffer->GetAddress());//b2
+					lComputeCommandList->SetComputeRootConstantBufferView(3,mesh->constBoneBuffer->GetAddress());//b3
+
+					lComputeCommandList->SetComputeRootDescriptorTable(4,mesh->GetVertexSRVAddress());//t0
+
+					lComputeCommandList->SetComputeRootDescriptorTable(5,mesh->GetCrossAdapterBuffer()->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
+
+					lComputeCommandList->Dispatch(static_cast< uint32_t >( mesh->GetVertices().size() / 1024 + 1 ),1,1);
+				}
+
 			}
 		}
 
@@ -98,22 +124,50 @@ void AnimationModelGPUParticle::Update(float deltaTime_)
 			size_t i = 0;
 			for ( const std::unique_ptr<MeshGPUParticleModelMesh>& mesh : modelData->GetMeshs() )
 			{
-				BoneData* lBonedata = mesh->bonedata;
-				mesh->constBoneBuffer->Update(lBonedata->boneMat.data());
+				if ( !animationStop )
+				{
+					BoneData* lBonedata = mesh->bonedata;
+					mesh->constBoneBuffer->Update(lBonedata->boneMat.data());
+				}
 
-				particleConstants.vertexSize = static_cast< uint32_t >( mesh->GetVertices().size() );
-				particleConstantsBuffer->Update(&particleConstants);
+				if ( mesh->boneMesh )
+				{
+					for ( std::unique_ptr<BoneMesh>& boneMesh : mesh->boneMeshs )
+					{
+						if ( boneMeshIsVisibles[ mesh->name ][ boneMesh->boneName ] )
+						{
+							particleConstants.vertexSize = static_cast< uint32_t >( boneMesh->vertices.size() );
+							particleConstantsBuffer->Update(&particleConstants);
 
-				lComputeCommandList->SetComputeRootConstantBufferView(0,timeConstantsBuffer->GetAddress());//b0
-				lComputeCommandList->SetComputeRootConstantBufferView(1,gpuParticleDataBuffer->GetAddress());//b1
-				lComputeCommandList->SetComputeRootConstantBufferView(2,particleConstantsBuffer->GetAddress());//b2
-				lComputeCommandList->SetComputeRootConstantBufferView(3,mesh->constBoneBuffer->GetAddress());//b3
+							lComputeCommandList->SetComputeRootConstantBufferView(0,timeConstantsBuffer->GetAddress());//b0
+							lComputeCommandList->SetComputeRootConstantBufferView(1,gpuParticleDataBuffer->GetAddress());//b1
+							lComputeCommandList->SetComputeRootConstantBufferView(2,particleConstantsBuffer->GetAddress());//b2
+							lComputeCommandList->SetComputeRootConstantBufferView(3,mesh->constBoneBuffer->GetAddress());//b3
 
-				lComputeCommandList->SetComputeRootDescriptorTable(4,mesh->GetCrossAdapterBuffer()->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
+							lComputeCommandList->SetComputeRootDescriptorTable(4,boneMesh->particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
 
-				lComputeCommandList->SetComputeRootDescriptorTable(5,mesh->GetVertexSRVAddress());//t0
+							lComputeCommandList->SetComputeRootDescriptorTable(5,boneMesh->vertexBuffer->GetSRVAddress());//t0
 
-				lComputeCommandList->Dispatch(static_cast< uint32_t >( mesh->GetVertices().size() / 1024 + 1 ),1,1);
+							lComputeCommandList->Dispatch(static_cast< uint32_t >( boneMesh->vertices.size() / 1024 + 1 ),1,1);
+						}
+					}
+				}
+				else
+				{
+					particleConstants.vertexSize = static_cast< uint32_t >( mesh->GetVertices().size() );
+					particleConstantsBuffer->Update(&particleConstants);
+
+					lComputeCommandList->SetComputeRootConstantBufferView(0,timeConstantsBuffer->GetAddress());//b0
+					lComputeCommandList->SetComputeRootConstantBufferView(1,gpuParticleDataBuffer->GetAddress());//b1
+					lComputeCommandList->SetComputeRootConstantBufferView(2,particleConstantsBuffer->GetAddress());//b2
+					lComputeCommandList->SetComputeRootConstantBufferView(3,mesh->constBoneBuffer->GetAddress());//b3
+
+					lComputeCommandList->SetComputeRootDescriptorTable(4,mesh->GetCrossAdapterBuffer()->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
+
+					lComputeCommandList->SetComputeRootDescriptorTable(5,mesh->GetVertexSRVAddress());//t0
+
+					lComputeCommandList->Dispatch(static_cast< uint32_t >( mesh->GetVertices().size() / 1024 + 1 ),1,1);
+				}
 
 				i++;
 			}
@@ -134,12 +188,32 @@ void AnimationModelGPUParticle::Update(float deltaTime_)
 				particleConstants.vertexSize = static_cast< uint32_t >( mesh->GetVertices().size() );
 				particleConstantsBuffer->Update(&particleConstants);
 
-				lComputeCommandList->SetComputeRootConstantBufferView(0,particleConstantsBuffer->GetAddress());//b0
+				if ( mesh->boneMesh )
+				{
+					for ( std::unique_ptr<BoneMesh>& boneMesh : mesh->boneMeshs )
+					{
+						if ( boneMeshIsVisibles[ mesh->name ][ boneMesh->boneName ] )
+						{
+							lComputeCommandList->SetComputeRootConstantBufferView(0,particleConstantsBuffer->GetAddress());//b0
 
-				lComputeCommandList->SetComputeRootDescriptorTable(1,mesh->GetDrawArgumentBuffer()->GetAddress(CrossAdapterResourceIndex::MAIN));//u1
+							lComputeCommandList->SetComputeRootDescriptorTable(1,boneMesh->drawArgumentBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u1
+
+							lComputeCommandList->Dispatch(1,1,1);
+						}
+					}
+				}
+				else
+				{
+
+					lComputeCommandList->SetComputeRootConstantBufferView(0,particleConstantsBuffer->GetAddress());//b0
+
+					lComputeCommandList->SetComputeRootDescriptorTable(1,mesh->GetDrawArgumentBuffer()->GetAddress(CrossAdapterResourceIndex::MAIN));//u1
+
+					lComputeCommandList->Dispatch(1,1,1);
+				}
+
 			}
 
-			lComputeCommandList->Dispatch(1,1,1);
 		}
 	}
 }
@@ -176,13 +250,35 @@ void AnimationModelGPUParticle::Draw(const AliceMathF::Matrix4& worldMat_,const 
 
 		for ( const std::unique_ptr<MeshGPUParticleModelMesh>& mesh : modelData->GetMeshs() )
 		{
-			lGraphicCommandList->SetGraphicsRootConstantBufferView(0,worldBillboardBuffer->GetAddress());
+			if ( mesh->boneMesh )
+			{
+				for ( std::unique_ptr<BoneMesh>& boneMesh : mesh->boneMeshs )
+				{
 
-			lGraphicCommandList->SetGraphicsRootDescriptorTable(1,mesh->GetCrossAdapterBuffer()->GetAddress(CrossAdapterResourceIndex::SUB));
+					if ( boneMeshIsVisibles[ mesh->name ][ boneMesh->boneName ] )
+					{
+						lGraphicCommandList->SetGraphicsRootConstantBufferView(0,worldBillboardBuffer->GetAddress());
 
-			lGraphicCommandList->SetGraphicsRootDescriptorTable(2,texture->gpuHandle);
+						lGraphicCommandList->SetGraphicsRootDescriptorTable(1,boneMesh->particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::SUB));
 
-			lGraphicCommandList->ExecuteIndirect(particleCommandSignature.Get(),1,mesh->GetDrawArgumentBuffer()->GetResource(CrossAdapterResourceIndex::SUB),0,nullptr,0);
+						lGraphicCommandList->SetGraphicsRootDescriptorTable(2,texture->gpuHandle);
+
+						lGraphicCommandList->ExecuteIndirect(particleCommandSignature.Get(),1,boneMesh->drawArgumentBuffer->GetResource(CrossAdapterResourceIndex::SUB),0,nullptr,0);
+					}
+				}
+			}
+			else
+			{
+
+				lGraphicCommandList->SetGraphicsRootConstantBufferView(0,worldBillboardBuffer->GetAddress());
+
+				lGraphicCommandList->SetGraphicsRootDescriptorTable(1,mesh->GetCrossAdapterBuffer()->GetAddress(CrossAdapterResourceIndex::SUB));
+
+				lGraphicCommandList->SetGraphicsRootDescriptorTable(2,texture->gpuHandle);
+
+				lGraphicCommandList->ExecuteIndirect(particleCommandSignature.Get(),1,mesh->GetDrawArgumentBuffer()->GetResource(CrossAdapterResourceIndex::SUB),0,nullptr,0);
+
+			}
 		}
 	}
 }
@@ -255,6 +351,7 @@ void AnimationModelGPUParticle::EmitStop()
 void AnimationModelGPUParticle::SetModel(AliceModel* model_)
 {
 	modelData->SetModel(model_,BufferType::SUB,true);
+	modelData->CreateBoneMeshIsVisibles(boneMeshIsVisibles);
 }
 
 float AnimationModelGPUParticle::GetDeltaTime() const
@@ -265,6 +362,26 @@ float AnimationModelGPUParticle::GetDeltaTime() const
 void AnimationModelGPUParticle::DrawListRelease()
 {
 
+}
+
+void AnimationModelGPUParticle::InvisibleBoneMesh(const std::string& meshName_,const std::string& boneName_,bool root_)
+{
+	modelData->InvisibleBoneMesh(boneMeshIsVisibles,meshName_,boneName_,root_);
+}
+
+void AnimationModelGPUParticle::VisibleBoneMesh(const std::string& meshName_,const std::string& boneName_,bool root_)
+{
+	modelData->VisibleBoneMesh(boneMeshIsVisibles,meshName_,boneName_,root_);
+}
+
+void AnimationModelGPUParticle::StopAnimation()
+{
+	animationStop = true;
+}
+
+void AnimationModelGPUParticle::PlayAnimation()
+{
+	animationStop = false;
 }
 
 void AnimationModelGPUParticle::PBufferCreate()

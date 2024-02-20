@@ -13,6 +13,9 @@ void GameMain::Initialize()
 	int32_t fireEffectNoiseInvHandle = TextureManager::SLoad("Resources/Default/Particle/FireEffectNoiseInv.png");
 	int32_t white1x1Handle = TextureManager::SLoad("Resources/Default/white1x1.png",AdaptersIndex::SUB);
 
+	std::string lParticleBossPath = "Resources/Model/Boss/Particle";
+
+
 	{
 		gpuParticleEmitter->FireParticleCreate(100000,"BossHandParticle");
 		gpuParticleEmitter->FireParticleSetTex("BossHandParticle",fireEffectNoiseHandle);
@@ -27,15 +30,6 @@ void GameMain::Initialize()
 		gpuParticleEmitter->LaserParticleCreate(10000,"BossLaserParticle");
 		gpuParticleEmitter->LaserParticleSetMainTex("BossLaserParticle",effect1Handle);
 		gpuParticleEmitter->LaserParticleSetSubTex("BossLaserParticle",effect2Handle);
-	}
-
-	{
-		//gpuParticleEmitter->AnimationMeshGPUParticleCreate(100000,"BossParticle");
-		//std::unique_ptr<AliceModel>lModel = std::make_unique<AliceModel>();
-		//lModel->SetModel(AliceModel::SCreateModel("Resources/Model/Boss"));
-		//gpuParticleEmitter->AnimationMeshGPUParticleSetModel("BossParticle",lModel.get());
-		//gpuParticleEmitter->AnimationMeshGPUParticleSetDetermineTex("BossParticle",emmisionFireElemental);
-		//gpuParticleEmitter->AnimationMeshGPUParticleSetTex("BossParticle",fireEffectNoiseHandle);
 	}
 
 	{
@@ -69,11 +63,25 @@ void GameMain::Initialize()
 
 		gpuParticleEmitter->AnimationModelGPUParticleCreate(1000000,"BossModelParticle");
 		std::unique_ptr<AliceModel>lBossModel = std::make_unique<AliceModel>();
-		lBossModel->SetModel(AliceModel::SCreateModel("Resources/Model/Boss/Particle"));
+		lBossModel->SetModel(AliceModel::SCreateModel(lParticleBossPath));
 		gpuParticleEmitter->AnimationModelGPUParticleSetModel("BossModelParticle",lBossModel.get());
 
 		gpuParticleEmitter->AnimationModelGPUParticleSetTex("BossModelParticle",effect1Handle);
 		gpuParticleEmitter->AnimationModelGPUParticleEmit("BossModelParticle",lAnimationSetting);
+
+		gpuParticleEmitter->AnimationModelGPUParticleCreate(1000000,"BossLeftHandModelParticle");
+		lBossModel->SetModel(AliceModel::SCreateModel(lParticleBossPath));
+		gpuParticleEmitter->AnimationModelGPUParticleSetModel("BossLeftHandModelParticle",lBossModel.get());
+
+		gpuParticleEmitter->AnimationModelGPUParticleSetTex("BossLeftHandModelParticle",effect1Handle);
+		gpuParticleEmitter->AnimationModelGPUParticleEmit("BossLeftHandModelParticle",lAnimationSetting);
+
+		gpuParticleEmitter->AnimationModelGPUParticleCreate(1000000,"BossRightHandModelParticle");
+		lBossModel->SetModel(AliceModel::SCreateModel(lParticleBossPath));
+		gpuParticleEmitter->AnimationModelGPUParticleSetModel("BossRightHandModelParticle",lBossModel.get());
+
+		gpuParticleEmitter->AnimationModelGPUParticleSetTex("BossRightHandModelParticle",effect1Handle);
+		gpuParticleEmitter->AnimationModelGPUParticleEmit("BossRightHandModelParticle",lAnimationSetting);
 
 		lModelSetting.startColor = { 1,1,1,1 };
 		lModelSetting.size = 1.5f;
@@ -131,6 +139,44 @@ void GameMain::Initialize()
 	}
 
 	{
+		std::string lBossLeftHandParticle = "BossLeftHandParticle";
+		std::string lBossRightHandParticle = "BossRightHandParticle";
+
+		gpuParticleEmitter->AnimationMeshGPUParticleCreate(100000,lBossLeftHandParticle);
+		std::unique_ptr<AliceModel>lBossModel = std::make_unique<AliceModel>();
+		lBossModel->SetModel(AliceModel::SCreateModel(lParticleBossPath));
+		gpuParticleEmitter->AnimationMeshGPUParticleSetModel(lBossLeftHandParticle,lBossModel.get());
+		gpuParticleEmitter->AnimationMeshGPUParticleSetDetermineTex(lBossLeftHandParticle,white1x1Handle);
+		gpuParticleEmitter->AnimationMeshGPUParticleSetTex(lBossLeftHandParticle,effect1Handle);
+
+		gpuParticleEmitter->AnimationMeshGPUParticleCreate(100000,lBossRightHandParticle);
+		gpuParticleEmitter->AnimationMeshGPUParticleSetModel(lBossRightHandParticle,lBossModel.get());
+		gpuParticleEmitter->AnimationMeshGPUParticleSetDetermineTex(lBossRightHandParticle,white1x1Handle);
+		gpuParticleEmitter->AnimationMeshGPUParticleSetTex(lBossRightHandParticle,effect1Handle);
+
+		AnimationMeshGPUParticleSetting lSetting;
+
+		lSetting.matWorld = AliceMathF::MakeIdentity();
+		lSetting.velocity = { 0,0,0 };
+		lSetting.startColor = { 0.0f,0.0f,1.0f,1 };
+		lSetting.endColor = { 0.0f,0.0f,1.0f,1 };
+		lSetting.lifeTime = 5.0f;
+		lSetting.maxParticles = 100000.0f;
+		lSetting.timeBetweenEmit = 0.001f;
+		lSetting.emitLifeTime = 0.001f;
+		lSetting.size = 0.1f;
+		lSetting.speed = 15;
+		lSetting.isPlay = false;
+
+		gpuParticleEmitter->AnimationMeshGPUParticleEmit(lBossLeftHandParticle,lSetting);
+		gpuParticleEmitter->GetAnimationMeshGPUParticle(lBossLeftHandParticle)->SetBoneMesh("elemental_element1mesh.003","mixamorig:LeftHand");
+
+		gpuParticleEmitter->AnimationMeshGPUParticleEmit(lBossRightHandParticle,lSetting);
+		gpuParticleEmitter->GetAnimationMeshGPUParticle(lBossRightHandParticle)->SetBoneMesh("elemental_element1mesh.003","mixamorig:RightHand");
+
+	}
+
+	{
 		gpuParticleEmitter->MeshGPUParticleCreate(1000000,"BossWeaponParticle");
 		std::unique_ptr<AliceModel>lWeaponModel = std::make_unique<AliceModel>();
 		lWeaponModel->SetModel(AliceModel::SCreateModel("Resources/Model/Boss/Weapon/Sword"));
@@ -169,6 +215,31 @@ void GameMain::Initialize()
 
 		gpuParticleEmitter->MeshGPUParticleEmit("PiayerWeaponScatteringParticle",lSetting);
 		gpuParticleEmitter->MeshGPUParticleEmit("PiayerGreatWeaponScatteringParticle",lSetting);
+	}
+
+	{
+		gpuParticleEmitter->AnimationMeshGPUParticleCreate(1000000,"BossHandScatteringParticle");
+		std::unique_ptr<AliceModel>lWeaponModel = std::make_unique<AliceModel>();
+		lWeaponModel->SetModel(AliceModel::SCreateModel(lParticleBossPath));
+		gpuParticleEmitter->AnimationMeshGPUParticleSetModel("BossHandScatteringParticle",lWeaponModel.get());
+		gpuParticleEmitter->AnimationMeshGPUParticleSetDetermineTex("BossHandScatteringParticle",white1x1Handle);
+		gpuParticleEmitter->AnimationMeshGPUParticleSetTex("BossHandScatteringParticle",fireEffectNoiseHandle);
+
+		AnimationMeshGPUParticleSetting lSetting;
+
+		lSetting.matWorld = AliceMathF::MakeIdentity();
+		lSetting.velocity = { 0,0,0 };
+		lSetting.startColor = { 0.0f,0.0f,1.0f,1 };
+		lSetting.endColor = { 0.0f,0.0f,1.0f,1 };
+		lSetting.lifeTime = 2.0f;
+		lSetting.maxParticles = 100000.0f;
+		lSetting.timeBetweenEmit = 0.001f;
+		lSetting.emitLifeTime = 0.001f;
+		lSetting.size = 0.05f;
+		lSetting.speed = 15;
+		lSetting.isPlay = false;
+
+		gpuParticleEmitter->AnimationMeshGPUParticleEmit("BossHandScatteringParticle",lSetting);
 	}
 
 	{

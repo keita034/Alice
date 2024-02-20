@@ -3,9 +3,7 @@
 cbuffer Data : register(b0)
 {
     float3 centerPos;
-    float speed;
-    float3 accel;
-    float lifeTime;
+    float radius;
     uint maxParticles;
 }
 
@@ -30,12 +28,10 @@ void main(uint3 DTid : SV_DispatchThreadID)
     
     float l = length(vec);
     
-    vec = normalize(vec);
-    
-    //particle.age = 0;
-    particle.velocity = vec * speed;
-    particle.accel = accel;
-    //particle.lifeTime = lifeTime;
-    
+    if (l<= radius)
+    {
+        particle.velocity = float3(0, 0, 0);
+    }
+
     ParticlePool[DTid.x] = particle;
 }

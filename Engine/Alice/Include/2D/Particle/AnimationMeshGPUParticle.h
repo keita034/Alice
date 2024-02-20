@@ -28,8 +28,9 @@ struct AnimationMeshGPUParticleSetting
 	float size;
 	float speed;
 	bool isPlay = true;
+	bool isInfinityEmit = false;
 private:
-	Byte3 PADING;
+	Byte2 PADING;
 };
 
 
@@ -88,8 +89,9 @@ public://内部で使う構造体
 		float emitLifeTime;
 		float emitMaxLifeTime;
 		bool isPlay;
+		bool isInfinityEmit;
 	private:
-		Byte3 PADING;
+		Byte2 PADING;
 	};
 
 private:
@@ -103,22 +105,23 @@ private:
 	std::unique_ptr<IConstantBuffer>worldBillboardBuffer;
 	std::unique_ptr<IConstantBuffer>timeConstantsBuffer;
 	std::unique_ptr<IConstantBuffer>gpuParticleDataBuffer;
-
+	std::unique_ptr <MeshGPUParticleAliceModel> modelData;
 
 	WorldBillboardGPUData worldBillboardGPUData;
 	TimeConstantGPUData timeGPUData;
-	Byte4 PADING;
+	bool boneMeshRoot = false;
+	Byte3 PADING;
 	FireGPUParticleGPUData fireGPUParticleGPUData;
 
 	std::vector<ParticleEmit>emitDatas;
 	std::vector<ParticleConstantGPUData>particleConstants;
 
 	size_t emitDataCount;
-	size_t maxParticles;
+	size_t verticeSize;
 
 	TextureData* texture;
 	TextureData* determineTexture;
-	std::unique_ptr <MeshGPUParticleAliceModel> modelData;
+	BoneMesh* boneMesh;
 
 public:
 
@@ -129,26 +132,29 @@ public:
 	void Update(float deltaTime_) override;
 	void Finalize() override;
 	void Draw(const AliceMathF::Matrix4& worldMat_,const AliceMathF::Matrix4& billboardMat_) override;
-	void SetSetting()override;
-
 	void Create(uint32_t maxParticles_);
 	int32_t Emit(const AnimationMeshGPUParticleSetting& setting_,int32_t index_ = -1);
-	void SetMat(const AliceMathF::Matrix4& matWorld_ ,int32_t index_);
+	void EmitStop(int32_t index_);
+	void EmitPlay(int32_t index_,bool flag_ = true);
+
+	float GetDeltaTime() const;
+	size_t GetVerticeSize()const;
+
+	void SetSetting()override;
+	void SetMat(const AliceMathF::Matrix4& matWorld_,int32_t index_);
 	void SetDetermineTex(uint32_t textureHandle_);
 	void SetTex(uint32_t textureHandle_);
-	void EmitPlay(int32_t index_);
-	void EmitStop(int32_t index_);
 	void SetModel(AliceModel* model_);
-	float GetDeltaTime();
+	void SetBoneMesh(const std::string& meshName_,const std::string& boneName_,bool root_ = true);
 
-
+	const Bone* GetBone(const std::string& meshName_,const std::string& boneName_)const;
+	AliceMathF::Vector3 GetMeshBoneCenterPos(const std::string& meshName_,const std::string& boneName_)const;
 private:
 
 	void PBufferCreate();
-
 	void PUpdateConstantBuffer(float deltaTime_)override;
-
 	bool PCanEmit(ParticleEmit& data_,float deltaTime_);
+	void PReadChildren(ID3D12GraphicsCommandList* computeCommandList_,size_t index_,MeshGPUParticleModelMesh* mesh_,BoneMesh* boneMesh_,bool root_);
 
 	//コピーコンストラクタ・代入演算子削除
 	AnimationMeshGPUParticle& operator=(const AnimationMeshGPUParticle&) = delete;

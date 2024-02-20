@@ -93,7 +93,8 @@ public:
 	void SetAudioManager(IAudioManager* audioManager_);
 	void SetFireGPUParticle(GPUParticleEmitter* particleEmitter_);
 
-	int32_t GetHp();
+	int32_t GetHp() const;
+	AnimationModelGPUParticle* GetModelParticle();
 
 	bool IsEnd();
 
@@ -104,6 +105,16 @@ public:
 	void DeathSEChangeVolume(float volume_);
 
 	void OnCollisionExit() override;
+
+	/// <summary>
+	/// ダメージ判定
+	/// </summary>
+	void DamageEnterCalculation(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_,float power_ = 1.0f);
+
+	/// <summary>
+	/// ダメージ判定
+	/// </summary>
+	bool DamageEnterCalculation(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_,int32_t& hp_,float power_ = 1.0f,bool sound_ = true,bool particle_ =true);
 
 private:
 

@@ -7,6 +7,7 @@
 
 struct BoneMesh
 {
+	Bone* bone = nullptr;
 	std::string boneName;
 	//頂点データの配列
 	std::vector<PosNormUvTangeColSkin> vertices;
@@ -16,6 +17,17 @@ struct BoneMesh
 	std::unique_ptr<IIndexBuffer> indexBuffer;
 	//頂点バッファ
 	std::unique_ptr<IVertexBuffer> vertexBuffer;
+	//ドローアギュメントバッファ
+	std::unique_ptr<IDrawArgumentBuffer>drawArgumentBuffer;
+
+	std::unique_ptr<ICrossAdapterBuffer>particlePoolBuffer;
+	std::vector<BoneMesh*> parent;
+
+	AliceMathF::Vector3 centerPos{0,0,0};
+
+	bool isVisible = true;
+
+	Byte3 PADING;
 
 	BoneMesh() = default;
 	~BoneMesh() = default;
@@ -57,6 +69,9 @@ public:
 
 	std::vector<std::unique_ptr<BoneMesh>>boneMeshs;
 
+	bool boneMesh = false;
+
+	Byte7 PADING;
 public:
 
 	/// <summary>
@@ -75,9 +90,18 @@ public:
 	IDrawArgumentBuffer* GetDrawArgumentBuffer()const;
 	ICrossAdapterBuffer* GetCrossAdapterBuffer()const;
 
+	void InvisibleBoneMesh(std::unordered_map<std::string,bool>& boneMeshIsVisibles_,const std::string& boneName_,bool root_);
+
+	void VisibleBoneMesh(std::unordered_map<std::string,bool>& boneMeshIsVisibles_,const std::string& boneName_,bool root_);
+
+	BoneMesh* GetBoneMesh(const std::string& boneName_);
+
+	void CreateBoneMeshIsVisibles(std::unordered_map<std::string,bool>& boneMeshIsVisibles_);
+
 private:
 
 //コピーコンストラクタ・代入演算子削除
+
 	MeshGPUParticleModelMesh& operator=(const MeshGPUParticleModelMesh&) = delete;
 	MeshGPUParticleModelMesh(const MeshGPUParticleModelMesh&) = delete;
 
@@ -105,6 +129,8 @@ private:
 	//姿勢行列
 	IConstantBuffer* postureMatBuff;
 
+	size_t verticeSize=0;
+
 public:
 	MeshGPUParticleAliceModelData() = default;
 	~MeshGPUParticleAliceModelData() = default;
@@ -113,6 +139,8 @@ private:
 	//コピーコンストラクタ・代入演算子削除
 	MeshGPUParticleAliceModelData& operator=(const MeshGPUParticleAliceModelData&) = delete;
 	MeshGPUParticleAliceModelData(const MeshGPUParticleAliceModelData&) = delete;
+
+
 };
 
 class MeshGPUParticleAliceModel
@@ -159,13 +187,23 @@ public:
 	/// </summary>
 	static void Finalize();
 
+	void CreateBoneMeshIsVisibles(std::unordered_map<std::string,std::unordered_map<std::string,bool>>& boneMeshIsVisibles_);
+
+	void InvisibleBoneMesh(std::unordered_map<std::string,std::unordered_map<std::string,bool>>& boneMeshIsVisibles_,const std::string& meshName_,const std::string& boneName_,bool root_ = true);
+	void VisibleBoneMesh(std::unordered_map<std::string,std::unordered_map<std::string,bool>>& boneMeshIsVisibles_,const std::string& meshName_,const std::string& boneName_,bool root_ = true);
+	BoneMesh* GetBoneMesh(const std::string& meshName_,const std::string& boneName_);
+
+	size_t GetVerticeSize();
+
 protected:
 
 	const ReturnMotionNode* PFindNodeAnim(const AliceMotionData* pAnimation_,const std::string& strNodeName_);
 	
-	void AddBoneMesh(std::vector<std::unique_ptr<BoneMesh>>&boneMeshs_,uint32_t indice_, const PosNormUvTangeColSkin& ver_,const std::vector<Bone>& bone_);
+	void AddBoneMesh(std::vector<std::unique_ptr<BoneMesh>>& boneMeshs_,uint32_t indice_,const PosNormUvTangeColSkin& ver_,const std::vector<Bone>& bone_);
 
 	uint32_t GetBoneIndex(const PosNormUvTangeColSkin& ver_);
+
+	void PReadChildren(const std::vector<Node>&nodes_,const std::vector<std::unique_ptr<BoneMesh>>&boneMeshs_,BoneMesh* boneMesh_);
 
 	//コピーコンストラクタ・代入演算子削除
 	MeshGPUParticleAliceModel& operator=(const MeshGPUParticleAliceModel&) = delete;

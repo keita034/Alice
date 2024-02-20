@@ -116,6 +116,11 @@ AliceMathF::Matrix4 AlicePhysics::JoltRigidBody::GetCenterOfMassTransform()
 	return body->GetTransformedShape().GetCenterOfMassTransform();
 }
 
+void AlicePhysics::JoltRigidBody::AddForce(const AliceMathF::Vector3& force_)
+{
+	body->AddForce(force_);
+}
+
 void AlicePhysics::JoltRigidBody::SetShape(IShape*& shape_)
 {
 	switch (shape_->GetShapeType())

@@ -72,45 +72,52 @@ void AnimationMeshGPUParticle::Update(float deltaTime_)
 			{
 				computeAdapter->ResourceTransition(determineTexture->texBuff.Get(),determineTexture->resourceState,D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
 				determineTexture->resourceState = D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE;
-
 			}
+
+			ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeAnimationMeshGPUParticleEmit",AdaptersIndex::SUB);
+
+			lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
+			lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
+
+			ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::SUB)->GetHeap() };
+			lComputeCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
 
 			for ( const std::unique_ptr<MeshGPUParticleModelMesh>& mesh : modelData->GetMeshs() )
 			{
-				fireGPUParticleGPUData.emitDataIndex = emitData.index;
-				gpuParticleDataBuffer->Update(&fireGPUParticleGPUData);
-
 				BoneData* lBonedata = mesh->bonedata;
 				mesh->constBoneBuffer->Update(lBonedata->boneMat.data());
 
-				particleConstants[ emitData.index ].vertexSize = static_cast< uint32_t >( mesh->GetVertices().size() );
-				particleConstantsBuffer->Update(particleConstants.data(),( sizeof(ParticleConstantGPUData) * particleConstants.size() ));
+				fireGPUParticleGPUData.emitDataIndex = emitDatas[ emitData.index ].index;
+				gpuParticleDataBuffer->Update(&fireGPUParticleGPUData);
 
-				ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeAnimationMeshGPUParticleEmit",AdaptersIndex::SUB);
+				if ( boneMesh )
+				{
+					PReadChildren(lComputeCommandList,emitData.index,mesh.get(),boneMesh,boneMeshRoot);
+				}
+				else
+				{
+					particleConstants[ emitDatas[ emitData.index ].index ].vertexSize = static_cast< uint32_t >( mesh->GetVertices().size() );
+					particleConstantsBuffer->Update(particleConstants.data(),( sizeof(ParticleConstantGPUData) * particleConstants.size() ));
 
-				lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
-				lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
+					lComputeCommandList->SetComputeRootConstantBufferView(0,timeConstantsBuffer->GetAddress());//b0
+					lComputeCommandList->SetComputeRootConstantBufferView(1,gpuParticleDataBuffer->GetAddress());//b1
+					lComputeCommandList->SetComputeRootConstantBufferView(2,particleConstantsBuffer->GetAddress());//b2
+					lComputeCommandList->SetComputeRootConstantBufferView(3,mesh->constBoneBuffer->GetAddress());//b2
 
-				ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::SUB)->GetHeap() };
-				lComputeCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
+					lComputeCommandList->SetComputeRootDescriptorTable(4,particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
+					lComputeCommandList->SetComputeRootDescriptorTable(5,freeListBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u1
 
-				lComputeCommandList->SetComputeRootConstantBufferView(0,timeConstantsBuffer->GetAddress());//b0
-				lComputeCommandList->SetComputeRootConstantBufferView(1,gpuParticleDataBuffer->GetAddress());//b1
-				lComputeCommandList->SetComputeRootConstantBufferView(2,particleConstantsBuffer->GetAddress());//b2
-				lComputeCommandList->SetComputeRootConstantBufferView(3,mesh->constBoneBuffer->GetAddress());//b2
+					lComputeCommandList->SetComputeRootDescriptorTable(6,determineTexture->gpuHandle);//t0
+					lComputeCommandList->SetComputeRootDescriptorTable(7,mesh->GetVertexSRVAddress());//t1
+					lComputeCommandList->SetComputeRootDescriptorTable(8,mesh->GetIndicesSRVAddress());//t2
 
-				lComputeCommandList->SetComputeRootDescriptorTable(4,particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
-				lComputeCommandList->SetComputeRootDescriptorTable(5,freeListBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u1
+					lComputeCommandList->Dispatch(static_cast< uint32_t >( mesh->GetVertices().size() / 1024 + 1 ),1,1);
 
-				lComputeCommandList->SetComputeRootDescriptorTable(6,determineTexture->gpuHandle);//t0
-				lComputeCommandList->SetComputeRootDescriptorTable(7,mesh->GetVertexSRVAddress());//t1
-				lComputeCommandList->SetComputeRootDescriptorTable(8,mesh->GetIndicesSRVAddress());//t2
+				}
 
-				lComputeCommandList->Dispatch(static_cast< uint32_t >( mesh->GetVertices().size() / 1024 + 1 ),1,1);
 			}
 		}
 	}
-
 
 	//更新
 	{
@@ -217,6 +224,7 @@ int32_t AnimationMeshGPUParticle::Emit(const AnimationMeshGPUParticleSetting& se
 		lEmitData.endColor = particleConstant.endColor = setting_.endColor;
 		lEmitData.speed = particleConstant.speed = setting_.speed;
 		lEmitData.size = particleConstant.size = setting_.size;
+		lEmitData.isInfinityEmit = setting_.isInfinityEmit;
 
 		lEmitData.timeBetweenEmit = setting_.timeBetweenEmit;
 		lEmitData.index = static_cast< uint32_t >( emitDatas.size() );
@@ -256,14 +264,74 @@ void AnimationMeshGPUParticle::SetTex(uint32_t textureHandle_)
 	texture = TextureManager::SGetTextureData(textureHandle_);
 }
 
-void AnimationMeshGPUParticle::EmitPlay(int32_t index_)
+void AnimationMeshGPUParticle::EmitPlay(int32_t index_,bool flag_)
 {
 	size_t lIndex = static_cast< size_t >( index_ );
 
 	if ( !emitDatas[ lIndex ].isPlay )
 	{
 		emitDatas[ lIndex ].isPlay = true;
-		emitDatas[ lIndex ].emitTimeCounter = 0.0f;
+
+		if ( flag_ )
+		{
+			emitDatas[ lIndex ].emitTimeCounter = emitDatas[ lIndex ].timeBetweenEmit;
+
+			BaseGPUParticle::ParticleBegin();
+
+			ID3D12GraphicsCommandList* lComputeCommandList = computeAdapter->GetComputeCommandList();
+
+			if ( determineTexture->resourceState == D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE )
+			{
+				computeAdapter->ResourceTransition(determineTexture->texBuff.Get(),determineTexture->resourceState,D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
+				determineTexture->resourceState = D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE;
+			}
+
+			ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeAnimationMeshGPUParticleEmit",AdaptersIndex::SUB);
+
+			lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
+			lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
+
+			ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::SUB)->GetHeap() };
+			lComputeCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
+
+			for ( const std::unique_ptr<MeshGPUParticleModelMesh>& mesh : modelData->GetMeshs() )
+			{
+				BoneData* lBonedata = mesh->bonedata;
+				mesh->constBoneBuffer->Update(lBonedata->boneMat.data());
+
+				fireGPUParticleGPUData.emitDataIndex = emitDatas[ lIndex ].index;
+				gpuParticleDataBuffer->Update(&fireGPUParticleGPUData);
+
+				if ( boneMesh )
+				{
+					PReadChildren(lComputeCommandList,lIndex,mesh.get(),boneMesh,boneMeshRoot);
+				}
+				else
+				{
+					particleConstants[ emitDatas[ lIndex ].index ].vertexSize = static_cast< uint32_t >( mesh->GetVertices().size() );
+					particleConstantsBuffer->Update(particleConstants.data(),( sizeof(ParticleConstantGPUData) * particleConstants.size() ));
+
+					lComputeCommandList->SetComputeRootConstantBufferView(0,timeConstantsBuffer->GetAddress());//b0
+					lComputeCommandList->SetComputeRootConstantBufferView(1,gpuParticleDataBuffer->GetAddress());//b1
+					lComputeCommandList->SetComputeRootConstantBufferView(2,particleConstantsBuffer->GetAddress());//b2
+					lComputeCommandList->SetComputeRootConstantBufferView(3,mesh->constBoneBuffer->GetAddress());//b2
+
+					lComputeCommandList->SetComputeRootDescriptorTable(4,particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
+					lComputeCommandList->SetComputeRootDescriptorTable(5,freeListBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u1
+
+					lComputeCommandList->SetComputeRootDescriptorTable(6,determineTexture->gpuHandle);//t0
+					lComputeCommandList->SetComputeRootDescriptorTable(7,mesh->GetVertexSRVAddress());//t1
+
+					lComputeCommandList->Dispatch(static_cast< uint32_t >( mesh->GetVertices().size() / 1024 + 1 ),1,1);
+
+				}
+			}
+			BaseGPUParticle::ParticleEnd();
+		}
+		else
+		{
+			emitDatas[ lIndex ].emitTimeCounter = 0.0f;
+		}
 	}
 }
 
@@ -280,11 +348,47 @@ void AnimationMeshGPUParticle::EmitStop(int32_t index_)
 void AnimationMeshGPUParticle::SetModel(AliceModel* model_)
 {
 	modelData->SetModel(model_,BufferType::SUB);
+	verticeSize = modelData->GetVerticeSize();
 }
 
-float AnimationMeshGPUParticle::GetDeltaTime()
+void ReadChildren(BoneMesh* boneMesh_,size_t& maxParticles_,bool root_)
+{
+	maxParticles_ += boneMesh_->vertices.size();
+
+	if ( root_ )
+	{
+		for ( BoneMesh* mesh : boneMesh_->parent )
+		{
+			ReadChildren(mesh,maxParticles_,root_);
+		}
+	}
+}
+
+void AnimationMeshGPUParticle::SetBoneMesh(const std::string& meshName_,const std::string& boneName_,bool root_)
+{
+	boneMesh = modelData->GetBoneMesh(meshName_,boneName_);
+	boneMeshRoot = root_;
+	//ReadChildren(boneMesh,verticeSize,boneMeshRoot);
+}
+
+const Bone* AnimationMeshGPUParticle::GetBone(const std::string& meshName_,const std::string& boneName_) const
+{
+	return modelData->GetBoneMesh(meshName_,boneName_)->bone;
+}
+
+AliceMathF::Vector3 AnimationMeshGPUParticle::GetMeshBoneCenterPos(const std::string& meshName_,const std::string& boneName_)const
+{
+	return modelData->GetBoneMesh(meshName_,boneName_)->centerPos;
+}
+
+float AnimationMeshGPUParticle::GetDeltaTime() const
 {
 	return timeGPUData.deltaTime;
+}
+
+size_t AnimationMeshGPUParticle::GetVerticeSize() const
+{
+	return verticeSize;
 }
 
 void AnimationMeshGPUParticle::PBufferCreate()
@@ -316,18 +420,68 @@ bool AnimationMeshGPUParticle::PCanEmit(ParticleEmit& data_,float deltaTime_)
 {
 	if ( data_.isPlay )
 	{
-
-		if ( data_.emitTimeCounter <= 0.0f )
+		if ( data_.isInfinityEmit )
 		{
-			data_.emitTimeCounter = data_.timeBetweenEmit;
+			if ( data_.emitTimeCounter <= 0.0f )
+			{
+				data_.emitTimeCounter = data_.timeBetweenEmit;
 
-			return true;
+				return true;
+			}
+			else
+			{
+				data_.emitTimeCounter -= deltaTime_;
+			}
 		}
 		else
 		{
-			data_.emitTimeCounter -= deltaTime_;
+			if ( data_.emitTimeCounter <= 0.0f )
+			{
+				data_.emitTimeCounter = data_.timeBetweenEmit;
+
+				return true;
+			}
+			else
+			{
+				data_.emitTimeCounter -= deltaTime_;
+				data_.emitLifeTime -= deltaTime_;
+
+				if ( data_.emitLifeTime <= 0.0f )
+				{
+					data_.isPlay = false;
+				}
+			}
 		}
+
+
 	}
 
 	return false;
+}
+
+void AnimationMeshGPUParticle::PReadChildren(ID3D12GraphicsCommandList* computeCommandList_,size_t index_,MeshGPUParticleModelMesh* mesh_,BoneMesh* boneMesh_,bool root_)
+{
+	particleConstants[ emitDatas[ index_ ].index ].vertexSize = static_cast< uint32_t >( boneMesh_->vertices.size() );
+	particleConstantsBuffer->Update(particleConstants.data(),( sizeof(ParticleConstantGPUData) * particleConstants.size() ));
+
+	computeCommandList_->SetComputeRootConstantBufferView(0,timeConstantsBuffer->GetAddress());//b0
+	computeCommandList_->SetComputeRootConstantBufferView(1,gpuParticleDataBuffer->GetAddress());//b1
+	computeCommandList_->SetComputeRootConstantBufferView(2,particleConstantsBuffer->GetAddress());//b2
+	computeCommandList_->SetComputeRootConstantBufferView(3,mesh_->constBoneBuffer->GetAddress());//b2
+
+	computeCommandList_->SetComputeRootDescriptorTable(4,particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
+	computeCommandList_->SetComputeRootDescriptorTable(5,freeListBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u1
+
+	computeCommandList_->SetComputeRootDescriptorTable(6,determineTexture->gpuHandle);//t0
+	computeCommandList_->SetComputeRootDescriptorTable(7,boneMesh_->vertexBuffer->GetSRVAddress());//t1
+
+	computeCommandList_->Dispatch(static_cast< uint32_t >( boneMesh_->vertices.size() / 1024 + 1 ),1,1);
+
+	if ( root_ )
+	{
+		for ( BoneMesh* mesh : boneMesh_->parent )
+		{
+			PReadChildren(computeCommandList_,index_,mesh_,mesh,root_);
+		}
+	}
 }

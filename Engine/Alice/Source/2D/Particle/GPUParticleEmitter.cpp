@@ -12,6 +12,9 @@ void GPUParticleEmitter::Initialize()
 	scattering = std::make_unique<ScatteringGPUParticle>();
 	scattering->Initialize();
 
+	aggregating = std::make_unique<AggregatingGPUParticle>();
+	aggregating->Initialize();
+
 	BaseGPUParticle::ParticleEnd();
 
 }
@@ -467,6 +470,35 @@ void GPUParticleEmitter::ScatteringSetLifeTime(float lifeTime_)
 void GPUParticleEmitter::ScatteringSetCenterPos(const AliceMathF::Vector3& centerPos_)
 {
 	scattering->SetCenterPos(centerPos_);
+}
+
+void GPUParticleEmitter::AnimationMeshGPUParticleAggregating(const std::string& name_)
+{
+	BaseGPUParticle::ParticleBegin();
+	aggregating->SetVelocityMeshGPUParticle(animationMeshs[ name_ ].get());
+	BaseGPUParticle::ParticleEnd();
+}
+
+void GPUParticleEmitter::MeshGPUParticleAggregating(const std::string& name_)
+{
+	BaseGPUParticle::ParticleBegin();
+	aggregating->SetVelocityMeshGPUParticle(meshs[ name_ ].get());
+	BaseGPUParticle::ParticleEnd();
+}
+
+void GPUParticleEmitter::AggregatingSetSpeed(float speed_)
+{
+	aggregating->SetSpeed(speed_);
+}
+
+void GPUParticleEmitter::AggregatingSetLifeTime(float lifeTime_)
+{
+	aggregating->SetLifeTime(lifeTime_);
+}
+
+void GPUParticleEmitter::AggregatingSetCenterPos(const AliceMathF::Vector3& centerPos_)
+{
+	aggregating->SetCenterPos(centerPos_);
 }
 
 #pragma region 血しぶき

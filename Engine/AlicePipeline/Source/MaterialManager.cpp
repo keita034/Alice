@@ -466,6 +466,14 @@ ComputeMaterial* MaterialManager::GetComputeMaterialData(const std::string& name
 			{
 				CreateScatteringComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
+			else if ( name_ == "ComputeAggregating" )
+			{
+				CreateAggregatingComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeStop" )
+			{
+				CreateStopComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
 
 			return computeMaterials[ name_ ].get();
 		}

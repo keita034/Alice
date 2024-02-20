@@ -12,9 +12,9 @@ void BossAnimation::Initialize()
 	jumpAttackAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/JumpAttack.almb");//ジャンプ攻撃
 	beamAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/Beam.almb");//ビーム
 	closeRangeAttackAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/CloseRangeAttack.almb");//近づく攻撃
+	recoveryAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/Recovery.almb");//回復
 
 	blendTree = std::make_unique<AliceBlendTree>();
-
 	blendTree->AddAnimation(standAnimationHandle);
 	blendTree->AddAnimation(walkAnimationHandle);
 	blendTree->AddAnimation(runAnimationHandle);
@@ -62,6 +62,11 @@ void BossAnimation::InserBeamAnimation()
 void BossAnimation::InsertCloseRangeAttackAnimation()
 {
 	blendTree->CoercionInsertAnimation(closeRangeAttackAnimationHandle);
+}
+
+void BossAnimation::InsertRecoveryAnimation()
+{
+	blendTree->CoercionInsertAnimation(recoveryAnimationHandle);
 }
 
 bool BossAnimation::IsInsert()

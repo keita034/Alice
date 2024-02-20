@@ -1,7 +1,8 @@
 #pragma once
 #include<GameObject.h>
 
-#include<FireGPUParticle.h>
+#include<GPUParticleEmitter.h>
+#include<ReservationFlag.h>
 
 enum class BossHandIndex
 {
@@ -15,14 +16,32 @@ struct BossUsData
 	BossHandIndex index;
 };
 
+class Boss;
+
 class BossHand : public GameObject
 {
 private:
+	Boss* boss;
+	AnimationModelGPUParticle* modelGPUParticle;
+	FireGPUParticle* fireGPUParticle;
+	GPUParticleEmitter* gpuParticleEmitter;
+	Transform* parent;
+
+	constexpr static int32_t MAX_HP = 1;
 
 	AliceModel::AnimationTransform animationTransform;
 	BossUsData bossUsData;
-	FireGPUParticle* fireGPUParticle;
+	Transform bossHandTrans;
+
 	int32_t particleIndex;
+	int32_t hp = 1;
+	int32_t timer = 0;
+
+	ReservationFlag flag;
+
+	bool death = false;
+	bool isPa = false;
+	bool cutting = false;
 public:
 
 	BossHand() = default;
@@ -31,7 +50,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(Transform* parent_,AlicePhysics::AlicePhysicsSystem* physicsSystem_,BossHandIndex index_);
+	void Initialize(Transform* parent_,AlicePhysics::AlicePhysicsSystem* physicsSystem_,BossHandIndex index_,Boss* boss_,GPUParticleEmitter* emitter_);
 
 	/// <summary>
 	/// 更新処理
@@ -56,9 +75,15 @@ public:
 
 	void Draw()override;
 
+	const AliceMathF::Matrix4 GetCenterOfMassTransform() const;
+
 	void OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_)override;
 	void OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_)override;
 	void OnCollisionExit() override;
+
+	bool GetCutting() const;
+
+	void Reset();
 
 private:
 

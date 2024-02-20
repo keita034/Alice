@@ -69,6 +69,7 @@ namespace AlicePhysics
 		AliceMathF::Vector3 GetPosition()override;
 		AliceMathF::Quaternion GetRotation()override;
 		AliceMathF::Matrix4 GetCenterOfMassTransform()override;
+		void AddForce(const AliceMathF::Vector3& force_)override;
 		void SetShape(IShape*& shape_);
 
 	private:

@@ -255,6 +255,33 @@ void MeshGPUParticle::SetTex(uint32_t textureHandle_)
 	texture = TextureManager::SGetTextureData(textureHandle_);
 }
 
+void MeshGPUParticle::PReadChildren(ID3D12GraphicsCommandList* computeCommandList_,size_t index_,MeshGPUParticleModelMesh* mesh_,BoneMesh* boneMesh_,bool root_)
+{
+	particleConstants[ emitDatas[ index_ ].index ].vertexSize = static_cast< uint32_t >( boneMesh_->vertices.size() );
+	particleConstantsBuffer->Update(particleConstants.data(),( sizeof(ParticleConstantGPUData) * particleConstants.size() ));
+
+	computeCommandList_->SetComputeRootConstantBufferView(0,timeConstantsBuffer->GetAddress());//b0
+	computeCommandList_->SetComputeRootConstantBufferView(1,gpuParticleDataBuffer->GetAddress());//b1
+	computeCommandList_->SetComputeRootConstantBufferView(2,particleConstantsBuffer->GetAddress());//b2
+	computeCommandList_->SetComputeRootConstantBufferView(3,mesh_->postureMatBuff->GetAddress());//b3
+
+	computeCommandList_->SetComputeRootDescriptorTable(4,particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
+	computeCommandList_->SetComputeRootDescriptorTable(5,freeListBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u1
+
+	computeCommandList_->SetComputeRootDescriptorTable(6,boneMesh_->vertexBuffer->GetSRVAddress());//t1
+	computeCommandList_->SetComputeRootDescriptorTable(7,mesh_->GetIndicesSRVAddress());//t2
+
+	computeCommandList_->Dispatch(static_cast< uint32_t >( boneMesh_->vertices.size() / 1024 + 1 ),1,1);
+
+	if ( root_ )
+	{
+		for ( BoneMesh* mesh : boneMesh_->parent )
+		{
+			PReadChildren(computeCommandList_,index_,mesh_,mesh,root_);
+		}
+	}
+}
+
 void MeshGPUParticle::EmitPlay(int32_t index_,bool flag_)
 {
 	size_t lIndex = static_cast< size_t >( index_ );
@@ -279,35 +306,43 @@ void MeshGPUParticle::EmitPlay(int32_t index_,bool flag_)
 
 			}
 
+			ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeMeshGPUParticleEmit",AdaptersIndex::SUB);
+
+			lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
+			lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
+
+			ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::SUB)->GetHeap() };
+			lComputeCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
+
 			for ( const std::unique_ptr<MeshGPUParticleModelMesh>& mesh : modelData->GetMeshs() )
 			{
 				fireGPUParticleGPUData.emitDataIndex = emitDatas[ lIndex ].index;
 				gpuParticleDataBuffer->Update(&fireGPUParticleGPUData);
 
-				particleConstants[ emitDatas[ lIndex ].index ].vertexSize = static_cast< uint32_t >( mesh->GetVertices().size() );
-				particleConstantsBuffer->Update(particleConstants.data(),( sizeof(ParticleConstantGPUData) * particleConstants.size() ));
+				if ( boneMesh )
+				{
+					PReadChildren(lComputeCommandList,lIndex,mesh.get(),boneMesh,boneMeshRoot);
+				}
+				else
+				{
+					particleConstants[ emitDatas[ lIndex ].index ].vertexSize = static_cast< uint32_t >( mesh->GetVertices().size() );
+					particleConstantsBuffer->Update(particleConstants.data(),( sizeof(ParticleConstantGPUData) * particleConstants.size() ));
 
-				ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeMeshGPUParticleEmit",AdaptersIndex::SUB);
+					lComputeCommandList->SetComputeRootConstantBufferView(0,timeConstantsBuffer->GetAddress());//b0
+					lComputeCommandList->SetComputeRootConstantBufferView(1,gpuParticleDataBuffer->GetAddress());//b1
+					lComputeCommandList->SetComputeRootConstantBufferView(2,particleConstantsBuffer->GetAddress());//b2
+					lComputeCommandList->SetComputeRootConstantBufferView(3,mesh->postureMatBuff->GetAddress());//b3
 
-				lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
-				lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
+					lComputeCommandList->SetComputeRootDescriptorTable(4,particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
+					lComputeCommandList->SetComputeRootDescriptorTable(5,freeListBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u1
 
-				ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::SUB)->GetHeap() };
-				lComputeCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
+					//lComputeCommandList->SetComputeRootDescriptorTable(6,determineTexture->gpuHandle);//t0
+					lComputeCommandList->SetComputeRootDescriptorTable(6,mesh->GetVertexSRVAddress());//t1
+					lComputeCommandList->SetComputeRootDescriptorTable(7,mesh->GetIndicesSRVAddress());//t2
 
-				lComputeCommandList->SetComputeRootConstantBufferView(0,timeConstantsBuffer->GetAddress());//b0
-				lComputeCommandList->SetComputeRootConstantBufferView(1,gpuParticleDataBuffer->GetAddress());//b1
-				lComputeCommandList->SetComputeRootConstantBufferView(2,particleConstantsBuffer->GetAddress());//b2
-				lComputeCommandList->SetComputeRootConstantBufferView(3,mesh->postureMatBuff->GetAddress());//b3
+					lComputeCommandList->Dispatch(static_cast< uint32_t >( mesh->GetVertices().size() / 1024 + 1 ),1,1);
+				}
 
-				lComputeCommandList->SetComputeRootDescriptorTable(4,particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
-				lComputeCommandList->SetComputeRootDescriptorTable(5,freeListBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u1
-
-				//lComputeCommandList->SetComputeRootDescriptorTable(6,determineTexture->gpuHandle);//t0
-				lComputeCommandList->SetComputeRootDescriptorTable(6,mesh->GetVertexSRVAddress());//t1
-				lComputeCommandList->SetComputeRootDescriptorTable(7,mesh->GetIndicesSRVAddress());//t2
-
-				lComputeCommandList->Dispatch(static_cast< uint32_t >( mesh->GetVertices().size() / 1024 + 1 ),1,1);
 			}
 			BaseGPUParticle::ParticleEnd();
 
@@ -332,6 +367,12 @@ void MeshGPUParticle::EmitStop(int32_t index_)
 void MeshGPUParticle::SetModel(AliceModel* model_)
 {
 	modelData->SetModel(model_,BufferType::SUB);
+}
+
+void MeshGPUParticle::SetBoneMesh(const std::string& meshName_,const std::string& boneName_,bool root_)
+{
+	boneMesh = modelData->GetBoneMesh(meshName_,boneName_);
+	boneMeshRoot = root_;
 }
 
 float MeshGPUParticle::GetDeltaTime() const

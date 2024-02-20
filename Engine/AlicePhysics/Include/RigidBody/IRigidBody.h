@@ -97,6 +97,8 @@ namespace AlicePhysics
 
 		virtual void SetMatrix(const AliceMathF::Matrix4& matRigidBody_,const AliceMathF::Matrix4& matWorld_) = 0;
 
+		virtual void AddForce(const AliceMathF::Vector3& force_) = 0;
+
 		IRigidBody() = default;
 		virtual ~IRigidBody() = default;
 	};

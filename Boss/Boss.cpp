@@ -13,7 +13,7 @@ void Boss::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 	bossParticleModel->SetModel(AliceModel::SCreateModel("Resources/Model/Boss/Particle"));
 
 	transform.translation = { 0.0f,0.0f,20.0f };
-	transform.scale = {0.01f,0.01f,0.01f };
+	transform.scale = { 0.01f,0.01f,0.01f };
 	transform.Initialize();
 
 	rigidBodyoffset = { 4.0f, 30.0f + 35.0f, 0.0f };
@@ -96,27 +96,29 @@ void Boss::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->SetFireGPUParticle(particleEmitter->GetFireParticle("BossHandParticle"));
 	hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->SetFireGPUParticle(particleEmitter->GetFireParticle("BossHandParticle"));
 
-	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->Initialize(&transform,physicsSystem_,BossHandIndex::LEFT);
-	hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->Initialize(&transform,physicsSystem_,BossHandIndex::RIGHT);
+	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->Initialize(&transform,physicsSystem_,BossHandIndex::LEFT,this,particleEmitter);
+	hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->Initialize(&transform,physicsSystem_,BossHandIndex::RIGHT,this,particleEmitter);
 
 	bossUI = std::make_unique<BossUI>();
 	bossUI->Initialize();
 
 	Reset();
+
 }
 
 void Boss::Update()
 {
-	if ( !isMove && player->GetPosition().z >= -230)
+	if ( !isMove && player->GetPosition().z >= -230 )
 	{
 		isMove = true;
 	}
+	isMove = false;
 
 	oldTrans = transform.translation;
 
 	if ( hp > 0 )
 	{
-		actionManager->Update(player->GetPosition(),transform.translation,"mixamorig:RightHand",animation->GetAnimation(),model.get(),isMove);
+		actionManager->Update(player->GetPosition(),transform.translation,"mixamorig:RightHand",animation->GetAnimation(),model.get(),isMove,{ hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->GetCenterOfMassTransform(),hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->GetCenterOfMassTransform() });
 	}
 
 	bossUI->SetHp(hp,MAX_HP);
@@ -170,11 +172,11 @@ void Boss::Update()
 	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->Update("mixamorig:LeftHandMiddle1",animation->GetAnimation(),model.get());
 	bossUI->Update();
 
-	if( situation & ActorSituation::ATTACK )
+	if ( situation & ActorSituation::ATTACK )
 	{
 		hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->ParticleEmit();
 
-		if ( animation->GetAnimation()->GetRatio() >= 0.22f && animation->GetAnimation()->GetRatio() <= 0.6f)
+		if ( animation->GetAnimation()->GetRatio() >= 0.22f && animation->GetAnimation()->GetRatio() <= 0.6f )
 		{
 			hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->SetSituation(situation);
 			hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->SetSituation(situation);
@@ -194,6 +196,14 @@ void Boss::Update()
 	{
 
 		hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->ParticleStop();
+	}
+
+	if ( hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->GetCutting() || hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->GetCutting() )
+	{
+		if ( !actionManager->IsReconstruction() )
+		{
+			actionManager->StartReconstruction();
+		}
 	}
 
 	bossParticleModel->AnimationUpdate(animation->GetAnimation());
@@ -253,9 +263,11 @@ void Boss::TransUpdate(Camera* camera_)
 	actionManager->GetBossBeamAttackMove()->TransUpdate(camera_);
 	actionManager->GetBossCloseRangeAttack()->TransUpdate(camera_);
 
-	//bossGPUParticle->SetMat(transform.matWorld,meshParticleIndex);
-	bossModelGPUParticle->SetMat(transform.matWorld);
+	//bossGPUParticle->SetMat(transform.matWorld,0);
 
+	bossModelGPUParticle->SetMat(transform.matWorld);
+	particleEmitter->GetAnimationMeshGPUParticle("BossLeftHandParticle")->SetMat(transform.matWorld,0);
+	particleEmitter->GetAnimationMeshGPUParticle("BossRightHandParticle")->SetMat(transform.matWorld,0);
 #ifdef _DEBUG
 	actionManager->GetBossJumpAttackMove()->TransUpdate(camera_);
 
@@ -266,15 +278,76 @@ void Boss::TransUpdate(Camera* camera_)
 
 void Boss::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_)
 {
+	DamageEnterCalculation(BodyData_,hitPosdition_);
+}
+
+void Boss::OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_)
+{
+}
+
+void Boss::SetPlayer(Player* player_)
+{
+	player = player_;
+}
+
+void Boss::SetAudioManager(IAudioManager* audioManager_)
+{
+	audioManager = audioManager_;
+}
+
+void Boss::SetFireGPUParticle(GPUParticleEmitter* particleEmitter_)
+{
+	particleEmitter = particleEmitter_;
+}
+
+int32_t Boss::GetHp() const
+{
+	return hp;
+}
+
+AnimationModelGPUParticle* Boss::GetModelParticle()
+{
+	return bossModelGPUParticle;
+}
+
+bool Boss::IsEnd()
+{
+	return hp <= 0 && !animation->IsInsert();
+}
+
+void Boss::AnimationStop()
+{
+	animation->AnimationStop();
+}
+
+void Boss::AnimationEndStop()
+{
+	animation->AnimationEndStop();
+
+}
+
+void Boss::DeathSEChangeVolume(float volume_)
+{
+	audioManager->ChangeVolume(deathSE,deathSEVolume * volume_);
+}
+
+void Boss::OnCollisionExit()
+{
+}
+
+void Boss::DamageEnterCalculation(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_,float power_)
+{
 	if ( BodyData_->GetGroup() == CollisionGroup::PLAYER && BodyData_->GetAttribute() == CollisionAttribute::WEAPON && player->IsAttack() && !( situation & ActorSituation::DAMAGE ) )
 	{
 		if ( BodyData_->GetName() == "PlayerGreatWeapon" )
 		{
 			PlayerGreatWeaponUsData* lUsData = static_cast< PlayerGreatWeaponUsData* > ( BodyData_->GetUserData() );
 
+			int32_t lLength = static_cast< int32_t >( player->GetGreatDamage() * power_ );
+
 			if ( hp > 0 )
 			{
-				for ( int32_t i = 0; i < player->GetDamage(); i++ )
+				for ( int32_t i = 0; i < lLength; i++ )
 				{
 					if ( hp <= 0 )
 					{
@@ -303,7 +376,9 @@ void Boss::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_,const Ali
 
 			if ( hp > 0 )
 			{
-				for ( int32_t i = 0; i < player->GetDamage(); i++ )
+				int32_t lLength = static_cast< int32_t >( player->GetDamage() * power_ );
+
+				for ( int32_t i = 0; i < lLength; i++ )
 				{
 					if ( hp <= 0 )
 					{
@@ -328,54 +403,75 @@ void Boss::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_,const Ali
 		}
 
 	}
-
 }
 
-void Boss::OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_)
+bool Boss::DamageEnterCalculation(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_,int32_t& hp_,float power_,bool sound_,bool particle_)
 {
-}
+	if ( BodyData_->GetGroup() == CollisionGroup::PLAYER && BodyData_->GetAttribute() == CollisionAttribute::WEAPON && player->IsAttack() )
+	{
+		if ( BodyData_->GetName() == "PlayerGreatWeapon" )
+		{
+			PlayerGreatWeaponUsData* lUsData = static_cast< PlayerGreatWeaponUsData* > ( BodyData_->GetUserData() );
 
-void Boss::SetPlayer(Player* player_)
-{
-	player = player_;
-}
+			int32_t lLength = static_cast< int32_t >( player->GetGreatDamage() * power_ );
 
-void Boss::SetAudioManager(IAudioManager* audioManager_)
-{
-	audioManager = audioManager_;
-}
+			if ( hp_ > 0 )
+			{
+				for ( int32_t i = 0; i < lLength; i++ )
+				{
+					if ( hp_ <= 0 )
+					{
+						break;
+					}
 
-void Boss::SetFireGPUParticle(GPUParticleEmitter* particleEmitter_)
-{
-	particleEmitter = particleEmitter_;
-}
+					hp_--;
+				}
 
-int32_t Boss::GetHp()
-{
-	return hp;
-}
+				if ( sound_ )
+				{
+					audioManager->PlayWave(damageSE);
+				}
 
-bool Boss::IsEnd()
-{
-	return hp <= 0 && !animation->IsInsert();
-}
+				if ( particle_ )
+				{
+					bloodGushGPUParticle->EmitPlay(hitPosdition_,lUsData->velocity,bloodGushParticleIndex);
+				}
+			}
 
-void Boss::AnimationStop()
-{
-	animation->AnimationStop();
-}
+			return true;
+		}
+		else
+		{
+			PlayerWeaponUsData* lUsData = static_cast< PlayerWeaponUsData* > ( BodyData_->GetUserData() );
 
-void Boss::AnimationEndStop()
-{
-	animation->AnimationEndStop();
+			if ( hp_ > 0 )
+			{
+				int32_t lLength = static_cast< int32_t >( player->GetDamage() * power_ );
 
-}
+				for ( int32_t i = 0; i < lLength; i++ )
+				{
+					if ( hp_ <= 0 )
+					{
+						break;
+					}
 
-void Boss::DeathSEChangeVolume(float volume_)
-{
-	audioManager->ChangeVolume(deathSE,deathSEVolume * volume_);
-}
+					hp_--;
+				}
 
-void Boss::OnCollisionExit()
-{
+				if ( sound_ )
+				{
+					audioManager->PlayWave(damageSE);
+				}
+
+				if ( particle_ )
+				{
+					bloodGushGPUParticle->EmitPlay(hitPosdition_,lUsData->velocity,bloodGushParticleIndex);
+				}
+			}
+
+			return true;
+		}
+	}
+
+	return false;
 }

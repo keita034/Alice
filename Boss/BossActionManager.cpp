@@ -21,12 +21,12 @@ void BossActionManager::Initialize(BossAnimation* animation_,AlicePhysics::Alice
 	closeRangeAttack->Initialize(particleEmitter,bossTransform,physicsSystem_,animation_);
 	closeRangeAttack->SetFrameDistance(460);
 	closeRangeAttack->SetDistanceFrame(200);
-	actionCount = MAX_ACTION_COUNT;
+	actionCount = 200;
 
 	animation = animation_;
 }
 
-void BossActionManager::Update(const AliceMathF::Vector3& plyerPos_,const AliceMathF::Vector3& bossPos_,const std::string& boneName_,AliceBlendTree* tree_,AliceModel* bossModel_,bool action_)
+void BossActionManager::Update(const AliceMathF::Vector3& plyerPos_,const AliceMathF::Vector3& bossPos_,const std::string& boneName_,AliceBlendTree* tree_,AliceModel* bossModel_,bool action_,const std::array< AliceMathF::Matrix4,2>& hands)
 {
 	float length = 0.0f;
 
@@ -57,8 +57,14 @@ void BossActionManager::Update(const AliceMathF::Vector3& plyerPos_,const AliceM
 		{
 			do
 			{
-				
-				bossAction = ChoiceAction(length,bossPos_,action_);
+				if ( !isReconstruction)
+				{
+					bossAction = ChoiceAction(length,bossPos_,action_);
+				}
+				else
+				{
+					bossAction = BossAction::RECONSTRUCTION;
+				}
 
 				switch ( bossAction )
 				{
@@ -88,6 +94,10 @@ void BossActionManager::Update(const AliceMathF::Vector3& plyerPos_,const AliceM
 					closeRangeAttack->SetBossPos(bossPos_);
 					animation->InsertCloseRangeAttackAnimation();
 					break;
+				case BossAction::RECONSTRUCTION:
+					animation->InsertRecoveryAnimation();
+					break;
+
 				case BossAction::BOSS_ACTION_NUM:
 				default:
 					break;
@@ -96,7 +106,7 @@ void BossActionManager::Update(const AliceMathF::Vector3& plyerPos_,const AliceM
 		}
 	}
 
-	PMoveUpdate(boneName_,tree_,bossModel_);
+	PMoveUpdate(boneName_,tree_,bossModel_,hands);
 }
 
 void BossActionManager::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
@@ -132,7 +142,7 @@ void BossActionManager::SetBossPos(const AliceMathF::Vector3& pos_)
 	}
 }
 
-void BossActionManager::PMoveUpdate(const std::string& boneName_,AliceBlendTree* tree_,AliceModel* bossModel_)
+void BossActionManager::PMoveUpdate(const std::string& boneName_,AliceBlendTree* tree_,AliceModel* bossModel_,const std::array< AliceMathF::Matrix4,2>& hands)
 {
 	switch ( bossAction )
 	{
@@ -149,6 +159,9 @@ void BossActionManager::PMoveUpdate(const std::string& boneName_,AliceBlendTree*
 		break;
 	case BossAction::CLOSERANGE_ATTACK:
 		PCloseRangeAttack(boneName_,tree_,bossModel_);
+		break;
+	case BossAction::RECONSTRUCTION:
+		PReconstruction(hands);
 		break;
 	case BossAction::BOSS_ACTION_NUM:
 		break;
@@ -251,6 +264,30 @@ void BossActionManager::PCloseRangeAttack(const std::string& boneName_,AliceBlen
 	}
 }
 
+void BossActionManager::PReconstruction(const std::array< AliceMathF::Matrix4,2>& hands)
+{
+	if ( animation->GetRatio() >= 0.4f && !reconstruction )
+	{
+		reconstruction = true;
+
+		particleEmitter->GetAnimationMeshGPUParticle("BossRightHandParticle")->EmitPlay(0);
+		particleEmitter->ScatteringSetSpeed(50.0f);
+		particleEmitter->ScatteringSetAccel({ 0,4,0 });
+		AliceMathF::Vector3 centerPos = AliceMathF::GetWorldPosition(hands[ 1 ]);
+		particleEmitter->ScatteringSetCenterPos(centerPos);
+		particleEmitter->AnimationMeshGPUParticleScattering("BossRightHandParticle");
+		particleEmitter->GetAnimationMeshGPUParticle("BossRightHandParticle")->EmitStop(0);
+		particleEmitter->GetAnimationModelGPUParticle("BossModelParticle")->VisibleBoneMesh("elemental_element1mesh.003","mixamorig:LeftHand");
+		particleEmitter->GetAnimationModelGPUParticle("BossModelParticle")->VisibleBoneMesh("elemental_element1mesh.003","mixamorig:RightHand");
+	}
+
+	if ( !animation->IsInsert() )
+	{
+		bossAction = BossAction::NONE;
+		reconstruction = false;
+	}
+}
+
 BossAction BossActionManager::ChoiceAction(float length_,const AliceMathF::Vector3& bossPos_,bool action_)
 {
 	if ( action_ )
@@ -277,6 +314,18 @@ BossAction BossActionManager::ChoiceAction(float length_,const AliceMathF::Vecto
 
 
 	return BossAction::NONE;
+}
+
+void BossActionManager::StartReconstruction()
+{
+	isReconstruction = true;
+	
+	actionCount = 60;
+}
+
+bool BossActionManager::IsReconstruction() const
+{
+	return isReconstruction;
 }
 
 #ifdef _DEBUG

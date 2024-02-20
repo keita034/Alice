@@ -129,6 +129,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Include\2D\Particle\AggregatingGPUParticle.h" />
     <ClInclude Include="Include\2D\Particle\BloodGushGPUParticle.h" />
     <ClInclude Include="Include\2D\Particle\FireGPUParticle.h" />
     <ClInclude Include="GPUTimeStamp.h" />
@@ -202,6 +203,7 @@
     <ClInclude Include="Include\2D\Particle\ShockWaveGPUParticle.h" />
     <ClInclude Include="Include\2D\Particle\AnimationModelGPUParticle.h" />
     <ClInclude Include="Include\2D\Particle\ScatteringGPUParticle.h" />
+    <ClInclude Include="StopGPUParticle.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Resources\Shaders\2D\Mesh\Mesh.hlsli" />
@@ -236,6 +238,7 @@
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\2D\Particle\AggregatingGPUParticle.cpp" />
     <ClCompile Include="Source\2D\Particle\ScatteringGPUParticle.cpp" />
     <ClCompile Include="Source\2D\Particle\AnimationModelGPUParticle.cpp" />
     <ClCompile Include="Source\2D\Particle\BloodGushGPUParticle.cpp" />
@@ -306,6 +309,7 @@
     <ClCompile Include="Source\2D\PostEffect\VignettePostEffect.cpp" />
     <ClCompile Include="Source\Util\Transform2D.cpp" />
     <ClCompile Include="Source\2D\PostEffect\StripedPostEffect.cpp" />
+    <ClCompile Include="StopGPUParticle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Resources\Shaders\2D\Mesh\MeshPS.hlsl">

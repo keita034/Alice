@@ -27,6 +27,7 @@ enum class BossAction
 	JUMP_ATTACK,
 	BEAM_ATTACK,
 	CLOSERANGE_ATTACK,
+	RECONSTRUCTION,
 	BOSS_ACTION_NUM
 };
 
@@ -53,7 +54,6 @@ private:
 	std::unique_ptr<BossBeamAttack>bossBeamAttack;
 	std::unique_ptr<BossCloseRangeAttack>closeRangeAttack;
 
-
 	int32_t MAX_ACTION_COUNT = 90;
 	int32_t actionCount = 0;
 
@@ -73,6 +73,9 @@ private:
 	int32_t shortDistanceTIme = 0;
 	int32_t longDistanceTIme = 0;
 
+	bool reconstruction;
+
+	bool isReconstruction;
 public:
 
 	/// <summary>
@@ -83,7 +86,7 @@ public:
    /// <summary>
    /// 更新処理
    /// </summary>
-	void Update(const AliceMathF::Vector3& plyerPos_, const AliceMathF::Vector3& bossPos_,const std::string& boneName_,AliceBlendTree* tree_,AliceModel* bossModel_,bool action_);
+	void Update(const AliceMathF::Vector3& plyerPos_, const AliceMathF::Vector3& bossPos_,const std::string& boneName_,AliceBlendTree* tree_,AliceModel* bossModel_,bool action_,const std::array< AliceMathF::Matrix4,2>& hands);
 
    /// <summary>
    /// 後始末
@@ -105,6 +108,10 @@ public:
 
 	BossAction ChoiceAction(float length_,const AliceMathF::Vector3& bossPos_, bool action_ = true);
 
+	void StartReconstruction();
+
+	bool IsReconstruction() const;
+
 	//デバッグ用
 #ifdef _DEBUG
 
@@ -118,11 +125,12 @@ public:
 
 private:
 
-	void PMoveUpdate(const std::string& boneName_,AliceBlendTree* tree_,AliceModel* bossModel_);
+	void PMoveUpdate(const std::string& boneName_,AliceBlendTree* tree_,AliceModel* bossModel_,const std::array< AliceMathF::Matrix4,2>& hands);
 
 	void PChaseAttack();
 	void PJumpAttack();
 	void PBeamAttack();
 	void PCloseRangeAttack(const std::string& boneName_,AliceBlendTree* tree_,AliceModel* bossModel_);
+	void PReconstruction(const std::array< AliceMathF::Matrix4,2>& hands);
 };
 

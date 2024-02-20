@@ -18,9 +18,14 @@ namespace internal
 #define AliceAssert(expr,str,...) \
     (!(expr) && printf("%s(%ld): %s: "#expr"\n", __FILE__, __LINE__,#str, __VA_ARGS__) && internal::Abort())
 
+#define AliceDebugPrint(str,...) \
+    printf("%s(%ld): %s:\n", __FILE__, __LINE__,#str)
+
 #else
 
 #define AliceAssert(expr,str,...)
+
+#define AliceDebugPrint(str,...)
 
 #endif
 

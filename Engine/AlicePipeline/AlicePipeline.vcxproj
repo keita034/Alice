@@ -114,6 +114,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\GPUParticle\Aggregating.h" />
     <ClInclude Include="Include\GPUParticle\BloodGush.h" />
     <ClInclude Include="Include\GPUParticle\GPUParticleh.h" />
     <ClInclude Include="Include\GPUParticle\Fire.h" />
@@ -160,8 +161,10 @@
     <ClInclude Include="Include\Graphic\Sprite.h" />
     <ClInclude Include="Include\GPUParticle\Model.h" />
     <ClInclude Include="Include\GPUParticle\Scattering.h" />
+    <ClInclude Include="Include\GPUParticle\Stop.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\GPUParticle\Aggregating.cpp" />
     <ClCompile Include="Source\GPUParticle\Scattering.cpp" />
     <ClCompile Include="Source\GPUParticle\Model.cpp" />
     <ClCompile Include="Source\GPUParticle\BloodGush.cpp" />
@@ -206,6 +209,7 @@
     <ClCompile Include="Source\Graphic\Mesh\TriangleSub.cpp" />
     <ClCompile Include="Source\Graphic\Model\ToonModel.cpp" />
     <ClCompile Include="Source\GPUParticle\Test.cpp" />
+    <ClCompile Include="Source\GPUParticle\Stop.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

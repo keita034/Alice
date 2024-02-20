@@ -275,7 +275,7 @@ void Player::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_,const A
 							break;
 						}
 
-						hp--;
+						//hp--;
 					}
 
 					usData.situation |= ActorSituation::DAMAGE;
@@ -310,7 +310,7 @@ void Player::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_,const A
 							break;
 						}
 
-						hp--;
+						//hp--;
 					}
 
 					usData.situation |= ActorSituation::DAMAGE;
@@ -360,7 +360,7 @@ void Player::OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_,const Al
 						break;
 					}
 
-					hp--;
+					//hp--;
 				}
 
 				usData.situation |= ActorSituation::SHOCKWAVE_DAMAGE;
@@ -401,7 +401,7 @@ void Player::OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_,const Al
 						break;
 					}
 
-					hp--;
+					//hp--;
 				}
 
 				usData.situation |= ActorSituation::DAMAGE;

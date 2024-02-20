@@ -99,6 +99,7 @@ private:
 	std::unique_ptr<IConstantBuffer>gpuParticleDataBuffer;
 
 	std::unique_ptr <MeshGPUParticleAliceModel> modelData;
+	std::unordered_map <std::string, std::unordered_map<std::string,bool>>boneMeshIsVisibles;
 
 	TextureData* texture;
 
@@ -112,8 +113,8 @@ private:
 	size_t maxParticles;
 
 	bool isEmit = false;
-
-	Byte7 PADING;
+	bool animationStop = false;
+	Byte6 PADING;
 public:
 
 	AnimationModelGPUParticle() = default;
@@ -134,7 +135,10 @@ public:
 	void SetModel(AliceModel* model_);
 	float GetDeltaTime() const;
 	void DrawListRelease();
-
+	void InvisibleBoneMesh(const std::string& meshName_,const std::string& boneName_,bool root_ = true);
+	void VisibleBoneMesh(const std::string& meshName_,const std::string& boneName_,bool root_ = true);
+	void StopAnimation();
+	void PlayAnimation();
 private:
 
 	void PBufferCreate();

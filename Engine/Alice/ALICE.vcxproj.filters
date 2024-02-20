@@ -402,6 +402,12 @@
     <ClInclude Include="Include\2D\Particle\ScatteringGPUParticle.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Include\2D\Particle\AggregatingGPUParticle.h">
+      <Filter>ヘッダー ファイル\2D\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="StopGPUParticle.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
@@ -882,22 +888,28 @@
     <ClCompile Include="Source\2D\Particle\ShockWaveGPUParticle.cpp">
       <Filter>ソース ファイル\2D\Particle\GPU</Filter>
     </ClCompile>
-    <ClCompile Include="Source\2D\Particle\AnimationMeshGPUParticle.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\Particle\MeshGPUParticleAliceModel.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Source\2D\Particle\MeshGPUParticle.cpp">
       <Filter>ソース ファイル\2D\Particle\GPU</Filter>
     </ClCompile>
-    <ClCompile Include="Source\2D\Particle\AnimationModelGPUParticle.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Source\2D\Particle\AggregatingGPUParticle.cpp">
+      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
     </ClCompile>
-    <ClCompile Include="Source\2D\Particle\ModelGPUParticle.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Source\2D\Particle\AnimationMeshGPUParticle.cpp">
+      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\2D\Particle\AnimationModelGPUParticle.cpp">
+      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
     </ClCompile>
     <ClCompile Include="Source\2D\Particle\ScatteringGPUParticle.cpp">
+      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\2D\Particle\ModelGPUParticle.cpp">
+      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\2D\Particle\MeshGPUParticleAliceModel.cpp">
+      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
+    </ClCompile>
+    <ClCompile Include="StopGPUParticle.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

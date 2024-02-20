@@ -26,7 +26,6 @@ cbuffer BoneDatas : register(b3)
 
 Texture2D<float4> tex : register(t0);
 StructuredBuffer<Mesh> meshs : register(t1);
-StructuredBuffer<uint> indices : register(t1);
 
 RWStructuredBuffer<Particle> ParticlePool : register(u0);
 ConsumeStructuredBuffer<uint> freeList : register(u1);
@@ -85,7 +84,7 @@ void main( uint3 DTid : SV_DispatchThreadID )
 {
     if (DTid.x >= maxParticles)
     {
-       return;
+        return;
     }
     
     int2 uv;
@@ -100,7 +99,7 @@ void main( uint3 DTid : SV_DispatchThreadID )
     {
         return;
     }
-    
+
     EmitData emitData = emitDatas[emitDataIndex];
 
     if (DTid.x >= emitData.vertexSize)
@@ -119,7 +118,7 @@ void main( uint3 DTid : SV_DispatchThreadID )
     ParticlePool[emitIndex].age = 0;
     ParticlePool[emitIndex].size = float2(emitData.size, emitData.size);
     ParticlePool[emitIndex].alive = 1.0f;
-    ParticlePool[emitIndex].index = emitDataIndex;
+    ParticlePool[emitIndex].index = emitIndex;
     ParticlePool[emitIndex].lifeTime = emitData.lifeTime;
     
 }

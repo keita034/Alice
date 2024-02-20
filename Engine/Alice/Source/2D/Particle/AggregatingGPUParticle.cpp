@@ -1,27 +1,26 @@
-#include "ScatteringGPUParticle.h"
+#include "AggregatingGPUParticle.h"
 
-void ScatteringGPUParticle::Initialize()
+void AggregatingGPUParticle::Initialize()
 {
 	constantBuffer = CreateUniqueConstantBuffer(sizeof(GPUData),AdaptersIndex::SUB);
 
 
 	ID3D12GraphicsCommandList* lComputeCommandList = computeAdapter->GetComputeCommandList();
 
-	ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeScattering",AdaptersIndex::SUB);
+	ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeAggregating",AdaptersIndex::SUB);
 
 	lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
 	lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
 }
 
-void ScatteringGPUParticle::SetCenterPos(const AliceMathF::Vector3& centerPos_)
+void AggregatingGPUParticle::SetCenterPos(const AliceMathF::Vector3& centerPos_)
 {
 	centerPos = centerPos_;
 	dirty = true;
 }
 
-void ScatteringGPUParticle::SetVelocityMeshGPUParticle(MeshGPUParticle* meshGPUParticle_)
+void AggregatingGPUParticle::SetVelocityMeshGPUParticle(MeshGPUParticle* meshGPUParticle_)
 {
-
 	ID3D12GraphicsCommandList* lComputeCommandList = computeAdapter->GetComputeCommandList();
 
 	{
@@ -35,7 +34,7 @@ void ScatteringGPUParticle::SetVelocityMeshGPUParticle(MeshGPUParticle* meshGPUP
 		constantBuffer->Update(&lData);
 	}
 
-	ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeScattering",AdaptersIndex::SUB);
+	ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeAggregating",AdaptersIndex::SUB);
 
 	lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
 	lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
@@ -50,7 +49,7 @@ void ScatteringGPUParticle::SetVelocityMeshGPUParticle(MeshGPUParticle* meshGPUP
 	lComputeCommandList->Dispatch(static_cast< UINT >( meshGPUParticle_->GetMaxParticles() / 1024 ) + 1,1,1);
 }
 
-void ScatteringGPUParticle::SetVelocityMeshGPUParticle(AnimationMeshGPUParticle* meshGPUParticle_)
+void AggregatingGPUParticle::SetVelocityMeshGPUParticle(AnimationMeshGPUParticle* meshGPUParticle_)
 {
 	ID3D12GraphicsCommandList* lComputeCommandList = computeAdapter->GetComputeCommandList();
 
@@ -65,7 +64,7 @@ void ScatteringGPUParticle::SetVelocityMeshGPUParticle(AnimationMeshGPUParticle*
 		constantBuffer->Update(&lData);
 	}
 
-	ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeScattering",AdaptersIndex::SUB);
+	ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeAggregating",AdaptersIndex::SUB);
 
 	lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
 	lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
@@ -80,48 +79,48 @@ void ScatteringGPUParticle::SetVelocityMeshGPUParticle(AnimationMeshGPUParticle*
 	lComputeCommandList->Dispatch(static_cast< UINT >( meshGPUParticle_->GetMaxParticles() / 1024 ) + 1,1,1);
 }
 
-void ScatteringGPUParticle::SetSpeed(float speed_)
+void AggregatingGPUParticle::SetSpeed(float speed_)
 {
 	speed = speed_;
 	dirty = true;
 
 }
 
-void ScatteringGPUParticle::SetAccel(const AliceMathF::Vector3& accel_)
+void AggregatingGPUParticle::SetAccel(const AliceMathF::Vector3& accel_)
 {
 	accel = accel_;
 	dirty = true;
 
 }
 
-void ScatteringGPUParticle::SetLifeTime(float lifeTime_)
+void AggregatingGPUParticle::SetLifeTime(float lifeTime_)
 {
 	lifeTime = lifeTime_;
 	dirty = true;
 
 }
 
-void ScatteringGPUParticle::Update(float deltaTime_)
+void AggregatingGPUParticle::Update(float deltaTime_)
 {
 	static_cast< void >( deltaTime_ );
 }
 
-void ScatteringGPUParticle::Finalize()
+void AggregatingGPUParticle::Finalize()
 {
 }
 
-void ScatteringGPUParticle::Draw(const AliceMathF::Matrix4& worldMat_,const AliceMathF::Matrix4& billboardMat_)
+void AggregatingGPUParticle::Draw(const AliceMathF::Matrix4& worldMat_,const AliceMathF::Matrix4& billboardMat_)
 {
 	static_cast< void >( worldMat_ );
 	static_cast< void >( billboardMat_ );
 
 }
 
-void ScatteringGPUParticle::SetSetting()
+void AggregatingGPUParticle::SetSetting()
 {
 }
 
-void ScatteringGPUParticle::PUpdateConstantBuffer(float deltaTime_)
+void AggregatingGPUParticle::PUpdateConstantBuffer(float deltaTime_)
 {
 	static_cast< void >( deltaTime_ );
 

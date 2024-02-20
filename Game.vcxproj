@@ -121,6 +121,8 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BossHandPhysics.cpp" />
+    <ClCompile Include="BossReconstructionMove.cpp" />
     <ClCompile Include="Boss\BossCloseRangeAttack.cpp" />
     <ClCompile Include="Boss\BossSword.cpp" />
     <ClCompile Include="Boss\BossBeamAttack.cpp" />
@@ -151,6 +153,8 @@
     <ClCompile Include="Util\GameCameraManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BossHandPhysics.h" />
+    <ClInclude Include="BossReconstructionMove.h" />
     <ClInclude Include="Boss\BossCloseRangeAttack.h" />
     <ClInclude Include="Boss\BossSword.h" />
     <ClInclude Include="Boss\BossBeamAttack.h" />

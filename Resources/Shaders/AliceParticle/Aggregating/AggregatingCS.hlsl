@@ -26,7 +26,7 @@ void main(uint3 DTid : SV_DispatchThreadID)
         return;
     }
     
-    float3 vec = particle.position - centerPos;
+    float3 vec = centerPos - particle.position;
     
     float l = length(vec);
     
@@ -34,7 +34,7 @@ void main(uint3 DTid : SV_DispatchThreadID)
     
     //particle.age = 0;
     particle.velocity = vec * speed;
-    particle.accel = accel;
+    particle.accel = float3(0,0,0);
     //particle.lifeTime = lifeTime;
     
     ParticlePool[DTid.x] = particle;
