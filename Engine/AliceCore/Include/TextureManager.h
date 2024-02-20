@@ -12,19 +12,22 @@
 #include<DirectXTex.h>
 
 #pragma warning(pop)
-#include<AliceMathUtility.h>
 
-#include<DirectX12Core.h>
+#include<MultiAdapters.h>
+#include<SwapChain.h>
 #include<TextureData.h>
 #include<AdaptersIndex.h>
+#include<DescriptorHeap.h>
 
 class TextureManager
 {
 private:
 
-	static DirectX12Core* sDirectX12Core;
-
 	static std::unique_ptr<TextureManager> sTextureManager;
+
+	static IMultiAdapters* multiAdapters;
+	static ISwapChain* swapChain;
+	static ISRVDescriptorHeap* srvDescriptorHeap;
 
 	//テクスチャ数
 	uint32_t nextTexture;
@@ -74,8 +77,8 @@ public:
 
 	static TextureData* SGetTextureData(uint32_t handle_);
 
-	static void SSetDirectX12Core(DirectX12Core* directX12Core_);
-
+	static void SSetDirectX12Core(IMultiAdapters* multiAdapters_,ISwapChain* swapChain_,ISRVDescriptorHeap* srvDescriptorHeap_);
+	
 	void Finalize();
 
 	~TextureManager() = default;

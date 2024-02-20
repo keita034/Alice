@@ -1,7 +1,7 @@
 #pragma once
 
 #include<AliceMathUtility.h>
-#include<Camera.h>
+#include<GameCamera.h>
 #include<ConstantBuffer.h>
 #include<AliceUtility.h>
 #include<WindowsApp.h>

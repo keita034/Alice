@@ -1,5 +1,5 @@
 #pragma once
-#include<Camera.h>
+#include<GameCamera.h>
 #include<Transform.h>
 
 class BaseGameCamera

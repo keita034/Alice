@@ -216,7 +216,7 @@ public:
 	/// <summary>
 	/// 共通初期化
 	/// </summary>
-	static void SCommonInitialize(DirectX12Core* directX12Core_);
+	static void SCommonInitialize(IDevice* mainDevice_,ICommandList* cmdList_);
 
 	/// <summary>
 	/// 終了処理

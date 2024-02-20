@@ -57,7 +57,7 @@ public:
 
 	static void SSetTextureManager(TextureManager* textureManager_);
 
-	static void SSetDirectX12Core(DirectX12Core* directX12Core_);
+	static void SSetDirectX12Core(IDevice* mainDevice_,ICommandList* cmdList_);
 
 protected:
 

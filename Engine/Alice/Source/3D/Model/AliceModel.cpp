@@ -358,10 +358,10 @@ uint32_t AliceModel::SCreateToonModel(const std::string& fileDirectoryPath_,cons
 	}
 }
 
-void AliceModel::SCommonInitialize(DirectX12Core* directX12Core_)
+void AliceModel::SCommonInitialize(IDevice* mainDevice_,ICommandList* cmdList_)
 {
-	sMainDevice = directX12Core_->GetDevice();
-	sCmdList = directX12Core_->GetCommandList();
+	sMainDevice = mainDevice_;
+	sCmdList = cmdList_;
 
 	sFilePaths.resize(sMAX_MODEL);
 }

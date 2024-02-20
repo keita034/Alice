@@ -26,6 +26,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AliceUtility", "Engine\Alic
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AlicePipeline", "Engine\AlicePipeline\AlicePipeline.vcxproj", "{7BE554DA-B177-4F2D-A2DE-DD9CB9426E3C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AliceCamera", "Engine\AliceCamera\AliceCamera.vcxproj", "{C8F1B45F-05FE-4004-812E-C5C436B0671A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -68,6 +70,10 @@ Global
 		{7BE554DA-B177-4F2D-A2DE-DD9CB9426E3C}.Debug|x64.Build.0 = Debug|x64
 		{7BE554DA-B177-4F2D-A2DE-DD9CB9426E3C}.Release|x64.ActiveCfg = Release|x64
 		{7BE554DA-B177-4F2D-A2DE-DD9CB9426E3C}.Release|x64.Build.0 = Release|x64
+		{C8F1B45F-05FE-4004-812E-C5C436B0671A}.Debug|x64.ActiveCfg = Debug|x64
+		{C8F1B45F-05FE-4004-812E-C5C436B0671A}.Debug|x64.Build.0 = Debug|x64
+		{C8F1B45F-05FE-4004-812E-C5C436B0671A}.Release|x64.ActiveCfg = Release|x64
+		{C8F1B45F-05FE-4004-812E-C5C436B0671A}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,6 +87,7 @@ Global
 		{819C2E88-08BA-49E9-BFB5-D31544BDA6C9} = {2F558543-424A-4AF3-B0F4-991AE2371AEC}
 		{95E30581-D29F-44FD-8802-198F6B21E809} = {2F558543-424A-4AF3-B0F4-991AE2371AEC}
 		{7BE554DA-B177-4F2D-A2DE-DD9CB9426E3C} = {2F558543-424A-4AF3-B0F4-991AE2371AEC}
+		{C8F1B45F-05FE-4004-812E-C5C436B0671A} = {2F558543-424A-4AF3-B0F4-991AE2371AEC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5EE2B56B-796C-4260-902A-8866628B8826}

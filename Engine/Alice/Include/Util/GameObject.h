@@ -1,7 +1,7 @@
 #pragma once
 #include<Transform.h>
 #include<AliceModel.h>
-#include<Camera.h>
+#include<GameCamera.h>
 #include<AliceMathUtility.h>
 #include<Sprite2D.h>
 #include<IRigidBody.h>

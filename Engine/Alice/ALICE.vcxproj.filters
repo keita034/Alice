@@ -183,9 +183,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Include\Core\TextureManager.h">
-      <Filter>ヘッダー ファイル\EnginMain</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Util\AliceUtility.h">
       <Filter>ヘッダー ファイル\Util</Filter>
     </ClInclude>
@@ -200,9 +197,6 @@
     </ClInclude>
     <ClInclude Include="Include\Util\Transform.h">
       <Filter>ヘッダー ファイル\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Camera\Camera.h">
-      <Filter>ヘッダー ファイル\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Include\2D\Particle\Particle.h">
       <Filter>ヘッダー ファイル\2D\Particle</Filter>
@@ -224,9 +218,6 @@
     </ClInclude>
     <ClInclude Include="Include\3D\3DMesh.h">
       <Filter>ヘッダー ファイル\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Camera\CinemaCamera.h">
-      <Filter>ヘッダー ファイル\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Include\2D\PostEffect\PostEffectManager.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
@@ -696,9 +687,6 @@
     <None Include="..\..\Resources\Shaders\HLSLMath.hlsli" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Core\TextureManager.cpp">
-      <Filter>ソース ファイル\Core</Filter>
-    </ClCompile>
     <ClCompile Include="Source\2D\Sprite\Sprite3D.cpp">
       <Filter>ソース ファイル\2D\Sprite</Filter>
     </ClCompile>
@@ -707,9 +695,6 @@
     </ClCompile>
     <ClCompile Include="Source\2D\Sprite\Sprite.cpp">
       <Filter>ソース ファイル\2D\Sprite</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Camera\Camera.cpp">
-      <Filter>ソース ファイル\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Source\Util\Transform.cpp">
       <Filter>ソース ファイル\3D</Filter>
@@ -740,9 +725,6 @@
     </ClCompile>
     <ClCompile Include="Source\2D\PostEffect\PostEffectManager.cpp">
       <Filter>ソース ファイル\2D\PostEffect</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Camera\CinemaCamera.cpp">
-      <Filter>ソース ファイル\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\ImGuiManager.cpp">
       <Filter>ソース ファイル\Core</Filter>

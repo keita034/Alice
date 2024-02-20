@@ -1,67 +1,62 @@
-#include "Camera.h"
-
-IWindowsApp* Camera::sWindowsApp = nullptr;
-AliceMathF::Matrix4* Camera::projectionMatrixPtr = nullptr;
-AliceMathF::Matrix4* Camera::viewMatrixPtr = nullptr;
- Camera* Camera::cameraPtr = nullptr;
+#include<GameCamera.h>
 
 void GameCamera::Initialize(UpdateProjMatrixFunc matFunc_)
 {
 	//アスペクト比を計算する
 	aspect =
-		static_cast<float>(sWindowsApp->GetWindowSize().width) /
-		static_cast<float>(sWindowsApp->GetWindowSize().height);
+		static_cast< float >( sWindowsApp->GetWindowSize().width ) /
+		static_cast< float >( sWindowsApp->GetWindowSize().height );
 
 	matrixFunc = matFunc_;
 
-	if (matFunc_ == UPDATE_PROJMATRIXFUNC_ORTHO)//平行投影
+	if ( matFunc_ == UPDATE_PROJMATRIXFUNC_ORTHO )//平行投影
 	{
-		if (nearClip == 0.0f)
+		if ( nearClip == 0.0f )
 		{
 			nearClip = 0.1f;
 		}
-		if (farClip == 0.0f)
+		if ( farClip == 0.0f )
 		{
 			farClip = 1000.0f;
 		}
-		right = static_cast<float>(sWindowsApp->GetWindowSize().width);
-		bottom = static_cast<float>(sWindowsApp->GetWindowSize().height);
+		right = static_cast< float >( sWindowsApp->GetWindowSize().width );
+		bottom = static_cast< float >( sWindowsApp->GetWindowSize().height );
 
 		//平行投影の計算
-		AliceMathF::MakeOrthogonalL(right, bottom, nearClip, farClip, projectionMatrix);
+		AliceMathF::MakeOrthogonalL(right,bottom,nearClip,farClip,projectionMatrix);
 
 	}
 	else//透視投影
 	{
-		if (nearClip == 0.0f)
+		if ( nearClip == 0.0f )
 		{
 			nearClip = 0.1f;
 		}
-		if (farClip == 0.0f)
+		if ( farClip == 0.0f )
 		{
 			farClip = 1000.0f;
 		}
-		if (fovAngleY == 0.0f)
+		if ( fovAngleY == 0.0f )
 		{
 			fovAngleY = AliceMathF::AX_PI / 4;
 		}
 
 		//透視投影行列の計算
-		AliceMathF::MakePerspectiveL(fovAngleY, aspect, nearClip, farClip, projectionMatrix);
+		AliceMathF::MakePerspectiveL(fovAngleY,aspect,nearClip,farClip,projectionMatrix);
 
 	}
 
 	updateProjMatrix = false;
 
 	//ビュー行列の算出
-	AliceMathF::MakeLookL(eye, target, up, viewMatrix);
+	AliceMathF::MakeLookL(eye,target,up,viewMatrix);
 	//ビュー行列の逆行列を計算
 	viewMatrixInv = AliceMathF::MakeInverse(&viewMatrix);
 	//ビュープロジェクション行列の作成
 	viewProjectionMatrix = viewMatrix * projectionMatrix;
 
 	//カメラの前ベクトル取得
-	forward = { viewMatrixInv.m[2][0], viewMatrixInv.m[2][1], viewMatrixInv.m[2][2] };
+	forward = { viewMatrixInv.m[ 2 ][ 0 ], viewMatrixInv.m[ 2 ][ 1 ], viewMatrixInv.m[ 2 ][ 2 ] };
 	forward.Normal();
 
 	//注視点と視点の距離取得
@@ -78,40 +73,40 @@ void GameCamera::Initialize(UpdateProjMatrixFunc matFunc_)
 
 void GameCamera::Update()
 {
-	if (updateProjMatrix)
+	if ( updateProjMatrix )
 	{
-		if (matrixFunc == UPDATE_PROJMATRIXFUNC_ORTHO)
+		if ( matrixFunc == UPDATE_PROJMATRIXFUNC_ORTHO )
 		{
 
-			right = static_cast<float>(sWindowsApp->GetWindowSize().width);
-			bottom = static_cast<float>(sWindowsApp->GetWindowSize().height);
-			AliceMathF::MakeOrthogonalL(right, bottom, nearClip, farClip, projectionMatrix);
+			right = static_cast< float >( sWindowsApp->GetWindowSize().width );
+			bottom = static_cast< float >( sWindowsApp->GetWindowSize().height );
+			AliceMathF::MakeOrthogonalL(right,bottom,nearClip,farClip,projectionMatrix);
 
 		}
 		else
 		{
-			if (nearClip == 0.0f)
+			if ( nearClip == 0.0f )
 			{
 				nearClip = 0.1f;
 			}
-			if (farClip == 0.0f)
+			if ( farClip == 0.0f )
 			{
 				farClip = 1000.0f;
 			}
-			if (fovAngleY == 0.0f)
+			if ( fovAngleY == 0.0f )
 			{
 				fovAngleY = AliceMathF::AX_PI / 4;
 			}
 
-			AliceMathF::MakePerspectiveL(fovAngleY, aspect, nearClip, farClip, projectionMatrix);
+			AliceMathF::MakePerspectiveL(fovAngleY,aspect,nearClip,farClip,projectionMatrix);
 		}
 		updateProjMatrix = false;
 	}
 
-	if (updateViewMatrix)
+	if ( updateViewMatrix )
 	{
 		//ビュー行列の算出
-		AliceMathF::MakeLookL(eye, target, up, viewMatrix);
+		AliceMathF::MakeLookL(eye,target,up,viewMatrix);
 		//ビュープロジェクション行列の作成
 		viewProjectionMatrix = viewMatrix * projectionMatrix;
 		//ビュー行列の逆行列を計算
@@ -126,7 +121,7 @@ void GameCamera::Update()
 		billboardMat.m[ 3 ][ 1 ] = 0.0f;
 		billboardMat.m[ 3 ][ 2 ] = 0.0f;
 
-		forward = { viewMatrixInv.m[2][0], viewMatrixInv.m[2][1], viewMatrixInv.m[2][2] };
+		forward = { viewMatrixInv.m[ 2 ][ 0 ], viewMatrixInv.m[ 2 ][ 1 ], viewMatrixInv.m[ 2 ][ 2 ] };
 
 		AliceMathF::Vector3 lTgtToPosLen;
 		lTgtToPosLen = eye - target;
@@ -216,7 +211,7 @@ void GameCamera::SetEye(const AliceMathF::Vector3& pos_)
 	eye = pos_;
 }
 
-void GameCamera::SetEye(float x_, float y_, float z_)
+void GameCamera::SetEye(float x_,float y_,float z_)
 {
 	updateViewMatrix = true;
 	eye.x = x_;
@@ -360,23 +355,3 @@ float GameCamera::GetBottom()const
 }
 
 #pragma endregion
-
-void Camera::SSetWindowsApp(IWindowsApp* windowsApp_)
-{
-	sWindowsApp = windowsApp_;
-}
-
-AliceMathF::Matrix4* Camera::GetViewMatrixPtr()
-{
-	return viewMatrixPtr;
-}
-
-AliceMathF::Matrix4* Camera::GetProjectionMatrixPtr()
-{
-	return projectionMatrixPtr;
-}
-
-Camera* Camera::GetCameraPtr()
-{
-	return cameraPtr;
-}

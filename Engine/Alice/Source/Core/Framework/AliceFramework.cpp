@@ -36,14 +36,14 @@ void AliceFramework::Initialize()
 	directX12Core->DirectXInitialize(static_cast<float>(windowsApp->GetWindowSize().width), static_cast<float>(windowsApp->GetWindowSize().height), windowsApp->GetHwndPtr(), windowsApp.get());//DirectX12初期化
 	directX12Core->SetBackScreenColor(0.1f, 0.25f, 0.5f, 0.0f);	//背景の色変更(R,G,B,A)
 
-	Particle::SSetDirectX12Core(directX12Core.get());
+	Particle::SSetDirectX12Core(directX12Core->GetDevice(),directX12Core->GetCommandList());
 	BasePostEffect::SSetDirectX12Core(directX12Core.get());
 	PostEffectManager::SSetDirectX12Core(directX12Core.get());
-	Sprite::SSetDirectX12Core(directX12Core.get());
+	Sprite::SSetDirectX12Core(directX12Core->GetDevice(),directX12Core->GetCommandList());
 	Mesh::SSetDirectX12Core(directX12Core.get());
 	Mesh3D::SSetDirectX12Core(directX12Core.get());
-	TextureManager::SSetDirectX12Core(directX12Core.get());
-	AliceModel::SCommonInitialize(directX12Core.get());
+	TextureManager::SSetDirectX12Core(directX12Core->GetMultiAdapters(),directX12Core->GetSwapChain(),directX12Core->GetSRVDescriptorHeap());
+	AliceModel::SCommonInitialize(directX12Core->GetDevice(),directX12Core->GetCommandList());
 
 	PipelineState::SSetDevice(directX12Core->GetDevice());
 

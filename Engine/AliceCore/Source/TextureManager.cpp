@@ -11,9 +11,11 @@ ALICE_SUPPRESS_WARNINGS_END
 #include<FileUtility.h>
 
 std::unique_ptr<TextureManager> TextureManager::sTextureManager = nullptr;
-DirectX12Core* TextureManager::sDirectX12Core = nullptr;
 std::vector<std::string>TextureManager::sFilePaths;
 std::unordered_map<std::string,std::unique_ptr<TextureData>> TextureManager::sTextureDatas;
+IMultiAdapters* TextureManager::multiAdapters;
+ISwapChain* TextureManager::swapChain;
+ISRVDescriptorHeap* TextureManager::srvDescriptorHeap;
 
 void TextureManager::PLoadFile(const std::string& path_,DirectX::TexMetadata& metadata_,DirectX::ScratchImage& scratchImg_)
 {
@@ -67,7 +69,8 @@ std::unique_ptr<TextureData> TextureManager::PFromTextureData(const std::string&
 	DirectX::ScratchImage lScratchImg{};
 	DirectX::ScratchImage lMipChain{};
 
-	lResult->srvHeap = sDirectX12Core->GetSRVDescriptorHeap()->GetHeap();
+	IAdapter* lAdapter = multiAdapters->GetAdapter(index_);
+	lResult->srvHeap = lAdapter->GetSRVDescriptorHeap()->GetHeap();
 
 	PLoadFile(path_,lMetadata,lScratchImg);
 
@@ -189,9 +192,11 @@ TextureData* TextureManager::SGetTextureData(uint32_t handle_)
 	return sTextureDatas[ sFilePaths[ handle_ ] ].get();
 }
 
-void TextureManager::SSetDirectX12Core(DirectX12Core* directX12Core_)
+void TextureManager::SSetDirectX12Core(IMultiAdapters* multiAdapters_,ISwapChain* swapChain_,ISRVDescriptorHeap* srvDescriptorHeap_)
 {
-	sDirectX12Core = directX12Core_;
+	multiAdapters = multiAdapters_;
+	swapChain = swapChain_;
+	srvDescriptorHeap = srvDescriptorHeap_;
 }
 
 void TextureManager::Finalize()
@@ -202,11 +207,12 @@ void TextureManager::Finalize()
 
 Microsoft::WRL::ComPtr<ID3D12Resource> TextureManager::PCreateTexBuff(DirectX::TexMetadata& metadata_,DirectX::ScratchImage& scratchImg_,AdaptersIndex index_)
 {
-	IAdapter* lAdapter = sDirectX12Core->GetMultiAdapters()->GetAdapter(index_);
+	IAdapter* lAdapter = multiAdapters->GetAdapter(index_);
 	ID3D12Device* lDevice = lAdapter->GetDevice()->Get();
 	ID3D12GraphicsCommandList* lCommandList = lAdapter->GetGraphicCommandList();
+	size_t bbIndex = swapChain->GetCurrentBackBufferIndex();
 
-	sDirectX12Core->GraphicBeginCommand(index_);
+	lAdapter->GraphicCommandListReset(bbIndex);
 
 	std::vector<D3D12_SUBRESOURCE_DATA> lTextureSubresources;
 
@@ -275,14 +281,15 @@ Microsoft::WRL::ComPtr<ID3D12Resource> TextureManager::PCreateTexBuff(DirectX::T
 
 	lCommandList->ResourceBarrier(1,&lBarrierTex);
 
-	sDirectX12Core->GraphicExecuteCommand(index_);
+	lAdapter->GraphicCommandListExecute();
+	lAdapter->GraphicWaitPreviousFrame();
 
 	return lResult;
 }
 
 D3D12_GPU_DESCRIPTOR_HANDLE TextureManager::PCreateShaderResourceView(ID3D12Resource* texBuff,const DirectX::TexMetadata& metadata_,AdaptersIndex index_)
 {
-	IAdapter* lAdapter = sDirectX12Core->GetMultiAdapters()->GetAdapter(index_);
+	IAdapter* lAdapter = multiAdapters->GetAdapter(index_);
 	ISRVDescriptorHeap* lSRVDescriptorHeap = lAdapter->GetSRVDescriptorHeap();
 
 	// シェーダリソースビュー設定
