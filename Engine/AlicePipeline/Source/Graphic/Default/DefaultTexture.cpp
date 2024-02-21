@@ -7,13 +7,13 @@ void CreateDefaultTextureMaterial(MaterialManager* manager_,IAdapter* adapter_)
 	ID3D12Device* lDevice = adapter_->GetDevice()->Get();
 
 	//頂点シェーダの読み込み
-	lDefaultTextureMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/ModelBasic/ModelBasicVS.hlsl");
+	lDefaultTextureMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/AliceModel/ModelBasic/ModelBasicVS.hlsl");
 
 	//ジオメトリシェーダの読み込み
-	lDefaultTextureMaterial->geometryShader = CreateUniqueShader("Resources/Shaders/3D/Model/ModelBasic/PolygonEffectGS.hlsl","main","gs_5_0",IShader::ShaderType::GS);
+	lDefaultTextureMaterial->geometryShader = CreateUniqueShader("Resources/Shaders/AliceModel/ModelBasic/PolygonEffectGS.hlsl","main","gs_5_0",IShader::ShaderType::GS);
 
 	//ピクセルシェーダの読み込み
-	lDefaultTextureMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/ModelBasic/ModelBasicPS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
+	lDefaultTextureMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/AliceModel/ModelBasic/ModelBasicPS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	lDefaultTextureMaterial->inputLayouts = {

@@ -121,6 +121,7 @@
     <ClInclude Include="Include\GPUParticle\Laser.h" />
     <ClInclude Include="Include\GPUParticle\Mesh.h" />
     <ClInclude Include="Include\Graphic\Model\Fbx.h" />
+    <ClInclude Include="Include\Graphic\Model\DefaultModel.h" />
     <ClInclude Include="Include\Graphic\PostEffect\DefaultPostEffect.h" />
     <ClInclude Include="Include\Graphic\Particle\IcosahedronParticle.h" />
     <ClInclude Include="Include\Graphic\Particle\DefaultParticle.h" />

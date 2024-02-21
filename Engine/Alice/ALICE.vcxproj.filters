@@ -85,12 +85,6 @@
     <Filter Include="リソース ファイル\シェーダー\2D\Particle">
       <UniqueIdentifier>{9cfb09d5-5397-4024-8a1c-8713836beaff}</UniqueIdentifier>
     </Filter>
-    <Filter Include="リソース ファイル\シェーダー\3D">
-      <UniqueIdentifier>{43878be6-2092-431b-89d9-95c433868fda}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="リソース ファイル\シェーダー\3D\Model">
-      <UniqueIdentifier>{b577e71c-c915-4e37-81e6-16d28bbeddbf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="リソース ファイル\シェーダー\2D\Mesh">
       <UniqueIdentifier>{cc3addfa-a80b-4c73-8e5a-03a2d123512c}</UniqueIdentifier>
     </Filter>
@@ -117,21 +111,6 @@
     </Filter>
     <Filter Include="リソース ファイル\シェーダー\2D\PostEffect\Vignette">
       <UniqueIdentifier>{a6de0675-9d7c-4f99-8a98-5d10b2444203}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="リソース ファイル\シェーダー\3D\Model\Lambert">
-      <UniqueIdentifier>{e1e7c7c1-e04f-461d-8b68-1cf5327fab64}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="リソース ファイル\シェーダー\3D\Model\Phong">
-      <UniqueIdentifier>{875e72f3-de4e-4b74-832c-cca41cd749f6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="リソース ファイル\シェーダー\3D\Model\ModelBasic">
-      <UniqueIdentifier>{828e3ebd-7c46-4be7-b285-9243503f1ae6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="リソース ファイル\シェーダー\3D\Model\DefaultModel">
-      <UniqueIdentifier>{02246949-0dbf-401b-9734-dd9df0793ffd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="リソース ファイル\シェーダー\3D\Model\ToonModel">
-      <UniqueIdentifier>{06438353-fc08-41ca-aea5-c69a5d0320a8}</UniqueIdentifier>
     </Filter>
     <Filter Include="リソース ファイル\シェーダー\2D\PostEffect\Bloom">
       <UniqueIdentifier>{1d2c254d-7acc-423b-9813-ed059f1cd29a}</UniqueIdentifier>
@@ -402,30 +381,6 @@
     <None Include="..\..\Resources\Shaders\2D\PostEffect\Vignette\VignetteShader.hlsli">
       <Filter>リソース ファイル\シェーダー\2D\PostEffect\Vignette</Filter>
     </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\Lambert\Lambert.hlsli">
-      <Filter>リソース ファイル\シェーダー\3D\Model\Lambert</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\Phong\Phong.hlsli">
-      <Filter>リソース ファイル\シェーダー\3D\Model\Phong</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\ModelBasic\ModelBasic.hlsli">
-      <Filter>リソース ファイル\シェーダー\3D\Model\ModelBasic</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\DefaultModel\Model.hlsli">
-      <Filter>リソース ファイル\シェーダー\3D\Model\DefaultModel</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\HlslFunc.hlsli">
-      <Filter>リソース ファイル\シェーダー\3D\Model</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModel.hlsli">
-      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelOutLine.hlsli">
-      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ZeldaToonModel.hlsli">
-      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
-    </None>
     <None Include="..\..\Resources\Shaders\2D\PostEffect\Bloom\Bloom.hlsli">
       <Filter>リソース ファイル\シェーダー\2D\PostEffect\Bloom</Filter>
     </None>
@@ -542,69 +497,6 @@
     </None>
     <None Include="..\..\Resources\Shaders\2D\Sprite\SpriteVS.hlsl">
       <Filter>リソース ファイル\シェーダー\2D\Sprite</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\DefaultModel\ModelAnimationVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\DefaultModel</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\DefaultModel\ModelPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\DefaultModel</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\DefaultModel\ModelVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\DefaultModel</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\Lambert\LambertPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\Lambert</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\Lambert\LambertVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\Lambert</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\ModelBasic\ModelBasicPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\ModelBasic</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\ModelBasic\ModelBasicVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\ModelBasic</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\ModelBasic\PolygonEffectGS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\ModelBasic</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\Phong\PhongPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\Phong</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\Phong\PhongVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\Phong</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelAnimationOutLineVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelAnimationVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelOutLinePS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelOutLineVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ZeldaToonModelAnimationVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ZeldaToonModelPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ZeldaToonModelVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model\ToonModel</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\BlendShapeCS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\GpuSkinningCS.hlsl">
-      <Filter>リソース ファイル\シェーダー\3D\Model</Filter>
     </None>
     <None Include="..\..\Resources\Shaders\2D\Mesh\MeshPS.hlsl">
       <Filter>リソース ファイル\シェーダー\2D\Mesh</Filter>

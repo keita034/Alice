@@ -51,9 +51,6 @@
     <ClInclude Include="Include\Utility\CreateBlend.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Graphic\PostEffect\DefaultPostEffect.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Include\GPUParticle\Test.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -180,13 +177,19 @@
     <ClInclude Include="Include\GPUParticle\Model.h">
       <Filter>ヘッダー ファイル\GPUParticleh</Filter>
     </ClInclude>
-    <ClInclude Include="Include\GPUParticle\Scattering.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Include\GPUParticle\Aggregating.h">
       <Filter>ヘッダー ファイル\GPUParticleh</Filter>
     </ClInclude>
     <ClInclude Include="Include\GPUParticle\Stop.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Graphic\Model\DefaultModel.h">
+      <Filter>ヘッダー ファイル\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\GPUParticle\Scattering.h">
+      <Filter>ヘッダー ファイル\GPUParticleh</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Graphic\PostEffect\DefaultPostEffect.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

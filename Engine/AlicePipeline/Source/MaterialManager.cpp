@@ -6,9 +6,7 @@ ALICE_SUPPRESS_WARNINGS_BEGIN
 
 ALICE_SUPPRESS_WARNINGS_END
 
-#include<DefaultTexture.h>
-#include<DefaultLambert.h>
-#include<DefaultPhong.h>
+#include<DefaultModel.h>
 #include<DefaultParticle.h>
 #include<RainParticle.h>
 #include<IcosahedronParticle.h>
@@ -25,9 +23,6 @@ ALICE_SUPPRESS_WARNINGS_END
 #include<LineMula.h>
 #include<LineInvsrc.h>
 #include<DefaultPostEffect.h>
-#include<ToonModel.h>
-#include<Fbx.h>
-
 #include<Sprite.h>
 #include<GPUParticleh.h>
 #include<AliceAssert.h>

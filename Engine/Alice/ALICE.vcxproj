@@ -214,14 +214,6 @@
     <None Include="..\..\Resources\Shaders\2D\PostEffect\Striped\StripedDraw.hlsli" />
     <None Include="..\..\Resources\Shaders\2D\PostEffect\Vignette\VignetteShader.hlsli" />
     <None Include="..\..\Resources\Shaders\2D\Sprite\Sprite.hlsli" />
-    <None Include="..\..\Resources\Shaders\3D\Model\DefaultModel\Model.hlsli" />
-    <None Include="..\..\Resources\Shaders\3D\Model\HlslFunc.hlsli" />
-    <None Include="..\..\Resources\Shaders\3D\Model\Lambert\Lambert.hlsli" />
-    <None Include="..\..\Resources\Shaders\3D\Model\ModelBasic\ModelBasic.hlsli" />
-    <None Include="..\..\Resources\Shaders\3D\Model\Phong\Phong.hlsli" />
-    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModel.hlsli" />
-    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelOutLine.hlsli" />
-    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ZeldaToonModel.hlsli" />
     <None Include="..\..\Resources\Shaders\HLSLMath.hlsli" />
     <None Include="cpp.hint" />
   </ItemGroup>
@@ -504,111 +496,6 @@
       <FileType>Document</FileType>
     </None>
     <None Include="..\..\Resources\Shaders\2D\Sprite\SpriteVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\BlendShapeCS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\DefaultModel\ModelAnimationVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\DefaultModel\ModelPS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\DefaultModel\ModelVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\GpuSkinningCS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\Lambert\LambertPS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\Lambert\LambertVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\ModelBasic\ModelBasicPS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\ModelBasic\ModelBasicVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\ModelBasic\PolygonEffectGS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\Phong\PhongPS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\Phong\PhongVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelAnimationOutLineVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelAnimationVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelOutLinePS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelOutLineVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelPS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ToonModelVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ZeldaToonModelAnimationVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ZeldaToonModelPS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\3D\Model\ToonModel\ZeldaToonModelVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <FileType>Document</FileType>

@@ -9,10 +9,10 @@ void CreateDefaultPhongMaterial(MaterialManager* manager_,IAdapter* adapter_)
 	ID3D12Device* lDevice = adapter_->GetDevice()->Get();
 
 	//頂点シェーダの読み込み
-	lDefaultPhongMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/Phong/PhongVS.hlsl");
+	lDefaultPhongMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/AliceModel/Phong/PhongVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	lDefaultPhongMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/Phong/PhongPS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
+	lDefaultPhongMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/AliceModel/Phong/PhongPS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	lDefaultPhongMaterial->inputLayouts = {
