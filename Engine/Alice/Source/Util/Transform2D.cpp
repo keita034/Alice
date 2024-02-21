@@ -1,9 +1,9 @@
-﻿#include<Transform2D.h>
+#include<Transform2D.h>
 
 void Transform2D::Initialize()
 {
 	//定数バッファ生成(3D座標変換行列)
-	constBuff = CreateSharedConstantBuffer(sizeof(worldViewpojCamera));
+	constBuff = CreateSharedConstantBuffer(sizeof(WorldViewpojCamera));
 
 	AliceMathF::Matrix4 lMatScale, lMatRot, lMatTrans;
 
@@ -103,7 +103,7 @@ ID3D12Resource* Transform2D::GetconstBuff()const
 	return constBuff->GetResource();
 }
 
-const worldViewpojCamera* Transform2D::GetWorldViewpojCamera()const
+const WorldViewpojCamera* Transform2D::GetWorldViewpojCamera()const
 {
 	return &constBuffMap;
 }

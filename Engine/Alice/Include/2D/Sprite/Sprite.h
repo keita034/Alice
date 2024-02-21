@@ -8,6 +8,7 @@
 #include<WindowsApp.h>
 #include<TextureManager.h>
 #include<BlendMode.h>
+#include<Structure.h>
 
 enum BillboardFlag
 {

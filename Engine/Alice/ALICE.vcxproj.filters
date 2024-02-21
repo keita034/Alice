@@ -20,9 +20,6 @@
     <Filter Include="ソース ファイル\3D">
       <UniqueIdentifier>{d9031e2d-06e5-494b-af79-ca90cbff5a32}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\3D\Model">
-      <UniqueIdentifier>{18770c81-ac41-4d19-b50b-e66212aabc4c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Camera">
       <UniqueIdentifier>{b784beb3-ec15-4ace-a6dd-91c611659c99}</UniqueIdentifier>
     </Filter>
@@ -59,9 +56,6 @@
     </Filter>
     <Filter Include="ヘッダー ファイル\3D">
       <UniqueIdentifier>{cd8271bf-a4a3-4345-9bd8-4f329e1c01d9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\3D\Model">
-      <UniqueIdentifier>{34f46ae7-d563-470d-ac40-0bbdf53492ba}</UniqueIdentifier>
     </Filter>
     <Filter Include="ヘッダー ファイル\Camera">
       <UniqueIdentifier>{191d4a36-453e-47f2-bbd9-301ea4d78c1e}</UniqueIdentifier>
@@ -195,20 +189,11 @@
     <ClInclude Include="Include\2D\Sprite\Sprite.h">
       <Filter>ヘッダー ファイル\2D\Sprite</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Util\Transform.h">
-      <Filter>ヘッダー ファイル\3D</Filter>
-    </ClInclude>
     <ClInclude Include="Include\2D\Particle\Particle.h">
       <Filter>ヘッダー ファイル\2D\Particle</Filter>
     </ClInclude>
     <ClInclude Include="Include\2D\Mesh.h">
       <Filter>ヘッダー ファイル\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Light\Light.h">
-      <Filter>ヘッダー ファイル\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Util\ModelMesh.h">
-      <Filter>ヘッダー ファイル\3D\Model</Filter>
     </ClInclude>
     <ClInclude Include="Include\2D\Particle\RainParticle.h">
       <Filter>ヘッダー ファイル\2D\Particle</Filter>
@@ -264,15 +249,6 @@
     <ClInclude Include="Include\2D\PostEffect\GaussianXBlurPostEffect.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Include\3D\Model\AliceMotionData.h">
-      <Filter>ヘッダー ファイル\3D\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\3D\Model\AliceModel.h">
-      <Filter>ヘッダー ファイル\3D\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\3D\Model\AliceFileStream.h">
-      <Filter>ヘッダー ファイル\3D\Model</Filter>
-    </ClInclude>
     <ClInclude Include="Include\2D\Particle\BasicParticle.h">
       <Filter>ヘッダー ファイル\2D\Particle</Filter>
     </ClInclude>
@@ -291,17 +267,11 @@
     <ClInclude Include="Include\Util\Game2DObject.h">
       <Filter>ヘッダー ファイル\Util</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Util\BaseTransform.h">
-      <Filter>ヘッダー ファイル\Util</Filter>
-    </ClInclude>
     <ClInclude Include="Include\2D\Particle\IcosahedronParticle.h">
       <Filter>ヘッダー ファイル\2D\Particle</Filter>
     </ClInclude>
     <ClInclude Include="Include\2D\PostEffect\StripedPostEffect.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\3D\Model\AliceToonModel.h">
-      <Filter>ヘッダー ファイル\3D\Model</Filter>
     </ClInclude>
     <ClInclude Include="Include\2D\PostEffect\ChromaticAberrationPostEffect.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
@@ -338,9 +308,6 @@
     </ClInclude>
     <ClInclude Include="Include\2D\Particle\FireWorkParticle.h">
       <Filter>ヘッダー ファイル\2D\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\3D\Model\AliceBlendTree.h">
-      <Filter>ヘッダー ファイル\3D</Filter>
     </ClInclude>
     <ClInclude Include="Include\Transition\ITransition.h">
       <Filter>ヘッダー ファイル\Transition</Filter>
@@ -696,17 +663,8 @@
     <ClCompile Include="Source\2D\Sprite\Sprite.cpp">
       <Filter>ソース ファイル\2D\Sprite</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Util\Transform.cpp">
-      <Filter>ソース ファイル\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Light\Light.cpp">
-      <Filter>ソース ファイル\Light</Filter>
-    </ClCompile>
     <ClCompile Include="Source\2D\Mesh.cpp">
       <Filter>ソース ファイル\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\3D\Model\ModelMesh.cpp">
-      <Filter>ソース ファイル\3D\Model</Filter>
     </ClCompile>
     <ClCompile Include="Source\3D\3DMesh.cpp">
       <Filter>ソース ファイル\3D</Filter>
@@ -762,15 +720,6 @@
     <ClCompile Include="Source\2D\PostEffect\GaussianXBlurPostEffect.cpp">
       <Filter>ソース ファイル\2D\PostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="Source\3D\Model\AliceModel.cpp">
-      <Filter>ソース ファイル\3D\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\3D\Model\AliceFileStream.cpp">
-      <Filter>ソース ファイル\3D\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\3D\Model\AliceMotionData.cpp">
-      <Filter>ソース ファイル\3D\Model</Filter>
-    </ClCompile>
     <ClCompile Include="Source\2D\Particle\BasicParticle.cpp">
       <Filter>ソース ファイル\2D\Particle</Filter>
     </ClCompile>
@@ -786,9 +735,6 @@
     <ClCompile Include="Source\Util\Game2DObject.cpp">
       <Filter>ソース ファイル\Util</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Util\BaseTransform.cpp">
-      <Filter>ソース ファイル\Util</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Util\Transform2D.cpp">
       <Filter>ソース ファイル\Util</Filter>
     </ClCompile>
@@ -797,9 +743,6 @@
     </ClCompile>
     <ClCompile Include="Source\2D\PostEffect\StripedPostEffect.cpp">
       <Filter>ソース ファイル\2D\PostEffect</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\3D\Model\AliceToonModel.cpp">
-      <Filter>ソース ファイル\3D\Model</Filter>
     </ClCompile>
     <ClCompile Include="Source\2D\PostEffect\ChromaticAberrationPostEffect.cpp">
       <Filter>ソース ファイル\2D\PostEffect</Filter>
@@ -842,9 +785,6 @@
     </ClCompile>
     <ClCompile Include="Source\Transition\ITransition.cpp">
       <Filter>ソース ファイル\Transition</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\3D\Model\AliceBlendTree.cpp">
-      <Filter>ソース ファイル\3D</Filter>
     </ClCompile>
     <ClCompile Include="GPUTimeStamp.cpp">
       <Filter>ソース ファイル\2D\Particle</Filter>
