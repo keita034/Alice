@@ -46,14 +46,14 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)Engine\ThirdPartys\Include;$(SolutionDir)Engine\AliceCore\Include;$(SolutionDir)Engine\AliceCore\Include\Buffer;$(SolutionDir)Engine\AliceCore\Include\DescriptorHeap;$(SolutionDir)Engine\AliceCore\Include\GPU;$(SolutionDir)Engine\AliceCore\Include\Pipeline;$(SolutionDir)Engine\AliceMath\Include;$(SolutionDir)Engine\AliceMath\Include\Double;$(SolutionDir)Engine\AliceMath\Include\Double\Matrix;$(SolutionDir)Engine\AliceMath\Include\Double\Vector;$(SolutionDir)Engine\AliceMath\Include\Float;$(SolutionDir)Engine\AliceMath\Include\Float\Matrix;$(SolutionDir)Engine\AliceMath\Include\Float\Vector;$(SolutionDir)Engine\AliceInput\Include;$(SolutionDir)Engine\AliceInput\Include\Controller;$(SolutionDir)Engine\AliceInput\Include\Keyboard;$(SolutionDir)Engine\AliceInput\Include\Mouse;$(SolutionDir)Engine\AliceAudio\Include;$(SolutionDir)Engine\AliceUtility\Include;$(SolutionDir)Engine\AliceUtility\Include\Enum;$(SolutionDir)Engine\AliceUtility\Include\Others;$(SolutionDir)Engine\AliceUtility\Include\Utility;$(SolutionDir)Engine\AlicePhysics;$(SolutionDir)Engine\AlicePhysics\Include;$(SolutionDir)Engine\AlicePhysics\Include\Physics;$(SolutionDir)Engine\AlicePhysics\Include\Physics\Jolt;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Box;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Sphere;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Capsule;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Mesh;$(SolutionDir)Engine\AlicePhysics\Include\DebugRenderer;$(SolutionDir)Engine\AlicePhysics\Include\RigidBody;$(SolutionDir)Engine\AlicePipeline\Include;$(SolutionDir)Engine\AlicePipeline\Include\Graphic;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Default;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Sprite2D;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Sprite3D;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Particle;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Mesh;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\PostEffect;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Model;$(SolutionDir)Engine\AlicePipeline\Include\GPUParticle;$(SolutionDir)Engine\AlicePipeline\Include\Utility;$(SolutionDir)Engine\AliceCamera\Include;$(SolutionDir)Engine\AliceModelUtility\Include;$(SolutionDir)Engine\AliceModelUtility\Include\Model;$(SolutionDir)Engine\AliceModelUtility\Include\Animation;$(SolutionDir)Engine\AliceModelUtility\Include\Transform;$(SolutionDir)Engine\AliceLight\Include</IncludePath>
+    <IncludePath>$(SolutionDir)Engine\ThirdPartys\Include;$(SolutionDir)Engine\AliceCore\Include;$(SolutionDir)Engine\AliceCore\Include\Buffer;$(SolutionDir)Engine\AliceCore\Include\DescriptorHeap;$(SolutionDir)Engine\AliceCore\Include\GPU;$(SolutionDir)Engine\AliceCore\Include\Pipeline;$(SolutionDir)Engine\AliceMath\Include;$(SolutionDir)Engine\AliceMath\Include\Double;$(SolutionDir)Engine\AliceMath\Include\Double\Matrix;$(SolutionDir)Engine\AliceMath\Include\Double\Vector;$(SolutionDir)Engine\AliceMath\Include\Float;$(SolutionDir)Engine\AliceMath\Include\Float\Matrix;$(SolutionDir)Engine\AliceMath\Include\Float\Vector;$(SolutionDir)Engine\AliceInput\Include;$(SolutionDir)Engine\AliceInput\Include\Controller;$(SolutionDir)Engine\AliceInput\Include\Keyboard;$(SolutionDir)Engine\AliceInput\Include\Mouse;$(SolutionDir)Engine\AliceAudio\Include;$(SolutionDir)Engine\AliceUtility\Include;$(SolutionDir)Engine\AliceUtility\Include\Enum;$(SolutionDir)Engine\AliceUtility\Include\Others;$(SolutionDir)Engine\AliceUtility\Include\Utility;$(SolutionDir)Engine\AlicePhysics;$(SolutionDir)Engine\AlicePhysics\Include;$(SolutionDir)Engine\AlicePhysics\Include\Physics;$(SolutionDir)Engine\AlicePhysics\Include\Physics\Jolt;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Box;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Sphere;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Capsule;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Mesh;$(SolutionDir)Engine\AlicePhysics\Include\DebugRenderer;$(SolutionDir)Engine\AlicePhysics\Include\RigidBody;$(SolutionDir)Engine\AlicePipeline\Include;$(SolutionDir)Engine\AlicePipeline\Include\Graphic;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Default;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Sprite2D;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Sprite3D;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Particle;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Mesh;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\PostEffect;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Model;$(SolutionDir)Engine\AlicePipeline\Include\GPUParticle;$(SolutionDir)Engine\AlicePipeline\Include\Utility;$(SolutionDir)Engine\AliceCamera\Include;$(SolutionDir)Engine\AliceModelUtility\Include;$(SolutionDir)Engine\AliceModelUtility\Include\Model;$(SolutionDir)Engine\AliceModelUtility\Include\Animation;$(SolutionDir)Engine\AliceModelUtility\Include\Transform;$(SolutionDir)Engine\AliceLight\Include;$(SolutionDir)Engine\AliceParticle\Include;$(SolutionDir)Engine\AliceParticle\Include\GPU;$(SolutionDir)Engine\AliceParticle\Include\CPU</IncludePath>
     <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</ExternalIncludePath>
     <LibraryPath>$(SolutionDir)Engine\ThirdPartys\lib\debug;$(LibraryPath)</LibraryPath>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)..\Generated\Lib\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)Engine\ThirdPartys\Include;$(SolutionDir)Engine\AliceCore\Include;$(SolutionDir)Engine\AliceCore\Include\Buffer;$(SolutionDir)Engine\AliceCore\Include\DescriptorHeap;$(SolutionDir)Engine\AliceCore\Include\GPU;$(SolutionDir)Engine\AliceCore\Include\Pipeline;$(SolutionDir)Engine\AliceMath\Include;$(SolutionDir)Engine\AliceMath\Include\Double;$(SolutionDir)Engine\AliceMath\Include\Double\Matrix;$(SolutionDir)Engine\AliceMath\Include\Double\Vector;$(SolutionDir)Engine\AliceMath\Include\Float;$(SolutionDir)Engine\AliceMath\Include\Float\Matrix;$(SolutionDir)Engine\AliceMath\Include\Float\Vector;$(SolutionDir)Engine\AliceInput\Include;$(SolutionDir)Engine\AliceInput\Include\Controller;$(SolutionDir)Engine\AliceInput\Include\Keyboard;$(SolutionDir)Engine\AliceInput\Include\Mouse;$(SolutionDir)Engine\AliceAudio\Include;$(SolutionDir)Engine\AliceUtility\Include;$(SolutionDir)Engine\AliceUtility\Include\Enum;$(SolutionDir)Engine\AliceUtility\Include\Others;$(SolutionDir)Engine\AliceUtility\Include\Utility;$(SolutionDir)Engine\AlicePhysics;$(SolutionDir)Engine\AlicePhysics\Include;$(SolutionDir)Engine\AlicePhysics\Include\Physics;$(SolutionDir)Engine\AlicePhysics\Include\Physics\Jolt;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Box;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Sphere;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Capsule;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Mesh;$(SolutionDir)Engine\AlicePhysics\Include\DebugRenderer;$(SolutionDir)Engine\AlicePhysics\Include\RigidBody;$(SolutionDir)Engine\AlicePipeline\Include;$(SolutionDir)Engine\AlicePipeline\Include\Graphic;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Default;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Sprite2D;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Sprite3D;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Particle;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Mesh;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\PostEffect;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Model;$(SolutionDir)Engine\AlicePipeline\Include\GPUParticle;$(SolutionDir)Engine\AlicePipeline\Include\Utility;$(SolutionDir)Engine\AliceCamera\Include;$(SolutionDir)Engine\AliceModelUtility\Include;$(SolutionDir)Engine\AliceModelUtility\Include\Model;$(SolutionDir)Engine\AliceModelUtility\Include\Animation;$(SolutionDir)Engine\AliceModelUtility\Include\Transform;$(SolutionDir)Engine\AliceLight\Include</IncludePath>
+    <IncludePath>$(SolutionDir)Engine\ThirdPartys\Include;$(SolutionDir)Engine\AliceCore\Include;$(SolutionDir)Engine\AliceCore\Include\Buffer;$(SolutionDir)Engine\AliceCore\Include\DescriptorHeap;$(SolutionDir)Engine\AliceCore\Include\GPU;$(SolutionDir)Engine\AliceCore\Include\Pipeline;$(SolutionDir)Engine\AliceMath\Include;$(SolutionDir)Engine\AliceMath\Include\Double;$(SolutionDir)Engine\AliceMath\Include\Double\Matrix;$(SolutionDir)Engine\AliceMath\Include\Double\Vector;$(SolutionDir)Engine\AliceMath\Include\Float;$(SolutionDir)Engine\AliceMath\Include\Float\Matrix;$(SolutionDir)Engine\AliceMath\Include\Float\Vector;$(SolutionDir)Engine\AliceInput\Include;$(SolutionDir)Engine\AliceInput\Include\Controller;$(SolutionDir)Engine\AliceInput\Include\Keyboard;$(SolutionDir)Engine\AliceInput\Include\Mouse;$(SolutionDir)Engine\AliceAudio\Include;$(SolutionDir)Engine\AliceUtility\Include;$(SolutionDir)Engine\AliceUtility\Include\Enum;$(SolutionDir)Engine\AliceUtility\Include\Others;$(SolutionDir)Engine\AliceUtility\Include\Utility;$(SolutionDir)Engine\AlicePhysics;$(SolutionDir)Engine\AlicePhysics\Include;$(SolutionDir)Engine\AlicePhysics\Include\Physics;$(SolutionDir)Engine\AlicePhysics\Include\Physics\Jolt;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Box;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Sphere;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Capsule;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Mesh;$(SolutionDir)Engine\AlicePhysics\Include\DebugRenderer;$(SolutionDir)Engine\AlicePhysics\Include\RigidBody;$(SolutionDir)Engine\AlicePipeline\Include;$(SolutionDir)Engine\AlicePipeline\Include\Graphic;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Default;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Sprite2D;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Sprite3D;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Particle;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Mesh;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\PostEffect;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Model;$(SolutionDir)Engine\AlicePipeline\Include\GPUParticle;$(SolutionDir)Engine\AlicePipeline\Include\Utility;$(SolutionDir)Engine\AliceCamera\Include;$(SolutionDir)Engine\AliceModelUtility\Include;$(SolutionDir)Engine\AliceModelUtility\Include\Model;$(SolutionDir)Engine\AliceModelUtility\Include\Animation;$(SolutionDir)Engine\AliceModelUtility\Include\Transform;$(SolutionDir)Engine\AliceLight\Include;$(SolutionDir)Engine\AliceParticle\Include;$(SolutionDir)Engine\AliceParticle\Include\GPU;$(SolutionDir)Engine\AliceParticle\Include\CPU</IncludePath>
     <LibraryPath>$(SolutionDir)Engine\ThirdPartys\lib;$(LibraryPath)</LibraryPath>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)..\Generated\Lib\$(Configuration)\</OutDir>
@@ -129,32 +129,17 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Include\2D\Particle\AggregatingGPUParticle.h" />
-    <ClInclude Include="Include\2D\Particle\BloodGushGPUParticle.h" />
-    <ClInclude Include="Include\2D\Particle\FireGPUParticle.h" />
     <ClInclude Include="GPUTimeStamp.h" />
-    <ClInclude Include="Include\2D\Particle\GPUParticleEmitter.h" />
-    <ClInclude Include="Include\2D\Particle\BaseGPUParticle.h" />
-    <ClInclude Include="Include\2D\Particle\BasicGPUParticle.h" />
-    <ClInclude Include="Include\2D\Particle\FireWorkParticle.h" />
-    <ClInclude Include="Include\2D\Particle\LaserGPUParticle.h" />
-    <ClInclude Include="Include\2D\Particle\AnimationMeshGPUParticle.h" />
-    <ClInclude Include="Include\2D\Particle\MeshGPUParticle.h" />
-    <ClInclude Include="Include\2D\Particle\MeshGPUParticleAliceModel.h" />
-    <ClInclude Include="Include\2D\Particle\ModelGPUParticle.h" />
     <ClInclude Include="Include\2D\PostEffect\DistortionPostEffect.h" />
     <ClInclude Include="Include\2D\PostEffect\FrostedGlassPostEffect.h" />
     <ClInclude Include="Include\2D\PostEffect\CRTPostEffect.h" />
     <ClInclude Include="Include\2D\PostEffect\BloomPostEffect.h" />
-    <ClInclude Include="Include\2D\Particle\ParticleData.h" />
     <ClInclude Include="Include\2D\PostEffect\ChromaticAberrationPostEffect.h" />
-    <ClInclude Include="Include\2D\Particle\IcosahedronParticle.h" />
     <ClInclude Include="Include\Transition\FadeInTransition.h" />
     <ClInclude Include="Include\Transition\FadeOutTransition.h" />
     <ClInclude Include="Include\Transition\ITransition.h" />
     <ClInclude Include="Include\Util\Game2DObject.h" />
     <ClInclude Include="Include\Util\GameObject.h" />
-    <ClInclude Include="Include\2D\Particle\BasicParticle.h" />
     <ClInclude Include="Include\2D\PostEffect\PostEffectFactory.h" />
     <ClInclude Include="Include\2D\PostEffect\GaussianXBlurPostEffect.h" />
     <ClInclude Include="Include\2D\PostEffect\GaussianYBlurPostEffect.h" />
@@ -170,9 +155,6 @@
     <ClInclude Include="Include\Core\Framework\AliceFramework.h" />
     <ClInclude Include="Include\Core\ImGuiManager.h" />
     <ClInclude Include="Include\2D\Mesh.h" />
-    <ClInclude Include="Include\2D\Particle\Particle.h" />
-    <ClInclude Include="Include\2D\Particle\ParticleEmitter.h" />
-    <ClInclude Include="Include\2D\Particle\RainParticle.h" />
     <ClInclude Include="Include\2D\PostEffect\PostEffectManager.h" />
     <ClInclude Include="Include\2D\Sprite\Sprite.h" />
     <ClInclude Include="Include\2D\Sprite\Sprite2D.h" />
@@ -188,9 +170,6 @@
     <ClInclude Include="Include\2D\PostEffect\SandStormPostEffect.h" />
     <ClInclude Include="Include\2D\PostEffect\MonochromePostEffect.h" />
     <ClInclude Include="Include\2D\PostEffect\MosaicPostEffect.h" />
-    <ClInclude Include="Include\2D\Particle\ShockWaveGPUParticle.h" />
-    <ClInclude Include="Include\2D\Particle\AnimationModelGPUParticle.h" />
-    <ClInclude Include="Include\2D\Particle\ScatteringGPUParticle.h" />
     <ClInclude Include="StopGPUParticle.h" />
   </ItemGroup>
   <ItemGroup>
@@ -218,22 +197,7 @@
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\2D\Particle\AggregatingGPUParticle.cpp" />
-    <ClCompile Include="Source\2D\Particle\ScatteringGPUParticle.cpp" />
-    <ClCompile Include="Source\2D\Particle\AnimationModelGPUParticle.cpp" />
-    <ClCompile Include="Source\2D\Particle\BloodGushGPUParticle.cpp" />
-    <ClCompile Include="Source\2D\Particle\LaserGPUParticle.cpp" />
-    <ClCompile Include="Source\2D\Particle\AnimationMeshGPUParticle.cpp" />
-    <ClCompile Include="Source\2D\Particle\MeshGPUParticle.cpp" />
-    <ClCompile Include="Source\2D\Particle\MeshGPUParticleAliceModel.cpp" />
-    <ClCompile Include="Source\2D\Particle\ModelGPUParticle.cpp" />
-    <ClCompile Include="Source\2D\Particle\ShockWaveGPUParticle.cpp" />
-    <ClCompile Include="Source\2D\Particle\FireGPUParticle.cpp" />
     <ClCompile Include="GPUTimeStamp.cpp" />
-    <ClCompile Include="Source\2D\Particle\GPUParticleEmitter.cpp" />
-    <ClCompile Include="Source\2D\Particle\BaseGPUParticle.cpp" />
-    <ClCompile Include="Source\2D\Particle\BasicGPUParticle.cpp" />
-    <ClCompile Include="Source\2D\Particle\FireWorkParticle.cpp" />
     <ClCompile Include="Source\Transition\FadeInTransition.cpp" />
     <ClCompile Include="Source\Transition\FadeOutTransition.cpp" />
     <ClCompile Include="Source\Transition\ITransition.cpp" />
@@ -247,7 +211,6 @@
     <ClCompile Include="Source\Core\SceneLoader.cpp" />
     <ClCompile Include="Source\2D\PostEffect\ChromaticAberrationPostEffect.cpp" />
     <ClCompile Include="Source\2D\PostEffect\OilPaintingPostEffect.cpp" />
-    <ClCompile Include="Source\2D\Particle\IcosahedronParticle.cpp" />
     <ClCompile Include="Source\Util\Game2DObject.cpp" />
     <ClCompile Include="Source\Util\GameObject.cpp" />
     <ClCompile Include="Source\2D\PostEffect\PostEffectFactory.cpp" />
@@ -259,14 +222,10 @@
     <ClCompile Include="Source\2D\PostEffect\PostEffectSprite.cpp" />
     <ClCompile Include="Source\Core\DirectX\DirectX12Core.cpp" />
     <ClCompile Include="Source\Core\DirectX\RenderTarget.cpp" />
-    <ClCompile Include="Source\2D\Particle\BasicParticle.cpp" />
     <ClCompile Include="Source\Scene\BaseScene.cpp" />
     <ClCompile Include="Source\Core\Framework\AliceFramework.cpp" />
     <ClCompile Include="Source\Core\ImGuiManager.cpp" />
     <ClCompile Include="Source\2D\Mesh.cpp" />
-    <ClCompile Include="Source\2D\Particle\Particle.cpp" />
-    <ClCompile Include="Source\2D\Particle\ParticleEmitter.cpp" />
-    <ClCompile Include="Source\2D\Particle\RainParticle.cpp" />
     <ClCompile Include="Source\2D\PostEffect\PostEffectManager.cpp" />
     <ClCompile Include="Source\2D\Sprite\Sprite.cpp" />
     <ClCompile Include="Source\2D\Sprite\Sprite2D.cpp" />
@@ -522,6 +481,9 @@
     </ProjectReference>
     <ProjectReference Include="..\AliceModelUtility\AliceModelUtility.vcxproj">
       <Project>{2c9f959b-5249-44f0-acfe-ff68636d421c}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\AliceParticle\AliceParticle.vcxproj">
+      <Project>{62a70fa7-e083-4759-b9ad-5b36fa3bd909}</Project>
     </ProjectReference>
     <ProjectReference Include="..\AlicePhysics\AlicePhysics.vcxproj">
       <Project>{819c2e88-08ba-49e9-bfb5-d31544bda6c9}</Project>

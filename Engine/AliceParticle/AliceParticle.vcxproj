@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{62a70fa7-e083-4759-b9ad-5b36fa3bd909}</ProjectGuid>
+    <RootNamespace>AliceParticle</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LibraryPath>$(SolutionDir)Engine\ThirdPartys\lib\debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Engine\ThirdPartys\Include;$(SolutionDir)Engine\AliceCore\Include;$(SolutionDir)Engine\AliceCore\Include\Buffer;$(SolutionDir)Engine\AliceCore\Include\DescriptorHeap;$(SolutionDir)Engine\AliceCore\Include\GPU;$(SolutionDir)Engine\AliceCore\Include\Pipeline;$(SolutionDir)Engine\AliceUtility\Include;$(SolutionDir)Engine\AliceUtility\Include\Enum;$(SolutionDir)Engine\AliceUtility\Include\Others;$(SolutionDir)Engine\AliceUtility\Include\Utility;$(SolutionDir)Engine\AliceMath;$(SolutionDir)Engine\AliceMath\Include;$(SolutionDir)Engine\AliceMath\Include\Double;$(SolutionDir)Engine\AliceMath\Include\Float;$(SolutionDir)Engine\AliceMath\Include\Float\Matrix;$(SolutionDir)Engine\AliceMath\Include\Float\Vector;$(SolutionDir)Engine\AliceModelUtility\Include;$(SolutionDir)Engine\AliceModelUtility\Include\Model;$(SolutionDir)Engine\AliceModelUtility\Include\Animation;$(SolutionDir)Engine\AliceModelUtility\Include\Transform;$(SolutionDir)Engine\AliceLight\Include;$(SolutionDir)Engine\AliceCamera\Include;$(SolutionDir)Engine\AlicePipeline\Include;$(SolutionDir)Engine\AlicePipeline\Include\Graphic;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Default;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Sprite2D;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Sprite3D;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Particle;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Mesh;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\PostEffect;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Model;$(SolutionDir)Engine\AlicePipeline\Include\GPUParticle;$(SolutionDir)Engine\AlicePipeline\Include\Utility</IncludePath>
+    <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)..\Generated\Lib\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(SolutionDir)Engine\ThirdPartys\Include;$(SolutionDir)Engine\AliceCore\Include;$(SolutionDir)Engine\AliceCore\Include\Buffer;$(SolutionDir)Engine\AliceCore\Include\DescriptorHeap;$(SolutionDir)Engine\AliceCore\Include\GPU;$(SolutionDir)Engine\AliceCore\Include\Pipeline;$(SolutionDir)Engine\AliceUtility\Include;$(SolutionDir)Engine\AliceUtility\Include\Enum;$(SolutionDir)Engine\AliceUtility\Include\Others;$(SolutionDir)Engine\AliceUtility\Include\Utility;$(SolutionDir)Engine\AliceMath;$(SolutionDir)Engine\AliceMath\Include;$(SolutionDir)Engine\AliceMath\Include\Double;$(SolutionDir)Engine\AliceMath\Include\Float;$(SolutionDir)Engine\AliceMath\Include\Float\Matrix;$(SolutionDir)Engine\AliceMath\Include\Float\Vector;$(SolutionDir)Engine\AliceModelUtility\Include;$(SolutionDir)Engine\AliceModelUtility\Include\Model;$(SolutionDir)Engine\AliceModelUtility\Include\Animation;$(SolutionDir)Engine\AliceModelUtility\Include\Transform;$(SolutionDir)Engine\AliceLight\Include;$(SolutionDir)Engine\AliceCamera\Include;$(SolutionDir)Engine\AlicePipeline\Include;$(SolutionDir)Engine\AlicePipeline\Include\Graphic;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Default;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Sprite2D;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Sprite3D;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Particle;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Mesh;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\PostEffect;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Model;$(SolutionDir)Engine\AlicePipeline\Include\GPUParticle;$(SolutionDir)Engine\AlicePipeline\Include\Utility</IncludePath>
+    <LibraryPath>$(SolutionDir)Engine\ThirdPartys\lib;$(LibraryPath)</LibraryPath>
+    <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)..\Generated\Lib\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(ProjectDir)Include\GPU;$(ProjectDir)Include\CPU;</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>5045;4668</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(ProjectDir)Include\GPU;$(ProjectDir)Include\CPU;</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>5045;4061;;4710;4711</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="Include\CPU\BasicParticle.h" />
+    <ClInclude Include="Include\CPU\BloodGushGPUParticle.h" />
+    <ClInclude Include="Include\CPU\FireWorkParticle.h" />
+    <ClInclude Include="Include\CPU\IcosahedronParticle.h" />
+    <ClInclude Include="Include\CPU\Particle.h" />
+    <ClInclude Include="Include\CPU\ParticleData.h" />
+    <ClInclude Include="Include\CPU\ParticleEmitter.h" />
+    <ClInclude Include="Include\CPU\RainParticle.h" />
+    <ClInclude Include="Include\GPU\AggregatingGPUParticle.h" />
+    <ClInclude Include="Include\GPU\AnimationMeshGPUParticle.h" />
+    <ClInclude Include="Include\GPU\AnimationModelGPUParticle.h" />
+    <ClInclude Include="Include\GPU\BaseGPUParticle.h" />
+    <ClInclude Include="Include\GPU\BasicGPUParticle.h" />
+    <ClInclude Include="Include\GPU\FireGPUParticle.h" />
+    <ClInclude Include="Include\GPU\GPUParticleEmitter.h" />
+    <ClInclude Include="Include\GPU\LaserGPUParticle.h" />
+    <ClInclude Include="Include\GPU\MeshGPUParticle.h" />
+    <ClInclude Include="Include\GPU\MeshGPUParticleAliceModel.h" />
+    <ClInclude Include="Include\GPU\ModelGPUParticle.h" />
+    <ClInclude Include="Include\GPU\ScatteringGPUParticle.h" />
+    <ClInclude Include="Include\GPU\ShockWaveGPUParticle.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\GPU\AggregatingGPUParticle.cpp" />
+    <ClCompile Include="Source\GPU\AnimationMeshGPUParticle.cpp" />
+    <ClCompile Include="Source\GPU\AnimationModelGPUParticle.cpp" />
+    <ClCompile Include="Source\GPU\BaseGPUParticle.cpp" />
+    <ClCompile Include="Source\GPU\BasicGPUParticle.cpp" />
+    <ClCompile Include="Source\CPU\BasicParticle.cpp" />
+    <ClCompile Include="Source\GPU\BloodGushGPUParticle.cpp" />
+    <ClCompile Include="Source\GPU\FireGPUParticle.cpp" />
+    <ClCompile Include="Source\CPU\FireWorkParticle.cpp" />
+    <ClCompile Include="Source\GPU\GPUParticleEmitter.cpp" />
+    <ClCompile Include="Source\CPU\IcosahedronParticle.cpp" />
+    <ClCompile Include="Source\GPU\LaserGPUParticle.cpp" />
+    <ClCompile Include="Source\GPU\MeshGPUParticle.cpp" />
+    <ClCompile Include="Source\GPU\MeshGPUParticleAliceModel.cpp" />
+    <ClCompile Include="Source\GPU\ModelGPUParticle.cpp" />
+    <ClCompile Include="Source\CPU\Particle.cpp" />
+    <ClCompile Include="Source\CPU\ParticleEmitter.cpp" />
+    <ClCompile Include="Source\CPU\RainParticle.cpp" />
+    <ClCompile Include="Source\GPU\ScatteringGPUParticle.cpp" />
+    <ClCompile Include="Source\GPU\ShockWaveGPUParticle.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AliceCore\AliceCore.vcxproj">
+      <Project>{0c4e6eb7-9df9-4089-b866-c3b8815bf856}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\AliceMath\AliceMath.vcxproj">
+      <Project>{e19a2bfb-b038-4bef-a6c7-364d5488e9ba}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\AliceModelUtility\AliceModelUtility.vcxproj">
+      <Project>{2c9f959b-5249-44f0-acfe-ff68636d421c}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\AlicePipeline\AlicePipeline.vcxproj">
+      <Project>{7be554da-b177-4f2d-a2de-dd9cb9426e3c}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\AliceUtility\AliceUtility.vcxproj">
+      <Project>{95e30581-d29f-44fd-8802-198f6b21e809}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -168,17 +168,8 @@
     <ClInclude Include="Include\2D\Sprite\Sprite.h">
       <Filter>ヘッダー ファイル\2D\Sprite</Filter>
     </ClInclude>
-    <ClInclude Include="Include\2D\Particle\Particle.h">
-      <Filter>ヘッダー ファイル\2D\Particle</Filter>
-    </ClInclude>
     <ClInclude Include="Include\2D\Mesh.h">
       <Filter>ヘッダー ファイル\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\2D\Particle\RainParticle.h">
-      <Filter>ヘッダー ファイル\2D\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\2D\Particle\ParticleEmitter.h">
-      <Filter>ヘッダー ファイル\2D\Particle</Filter>
     </ClInclude>
     <ClInclude Include="Include\3D\3DMesh.h">
       <Filter>ヘッダー ファイル\3D</Filter>
@@ -228,9 +219,6 @@
     <ClInclude Include="Include\2D\PostEffect\GaussianXBlurPostEffect.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Include\2D\Particle\BasicParticle.h">
-      <Filter>ヘッダー ファイル\2D\Particle</Filter>
-    </ClInclude>
     <ClInclude Include="Include\2D\PostEffect\PostEffectFactory.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
@@ -246,9 +234,6 @@
     <ClInclude Include="Include\Util\Game2DObject.h">
       <Filter>ヘッダー ファイル\Util</Filter>
     </ClInclude>
-    <ClInclude Include="Include\2D\Particle\IcosahedronParticle.h">
-      <Filter>ヘッダー ファイル\2D\Particle</Filter>
-    </ClInclude>
     <ClInclude Include="Include\2D\PostEffect\StripedPostEffect.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
@@ -260,9 +245,6 @@
     </ClInclude>
     <ClInclude Include="Include\Core\SceneLoader.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\2D\Particle\ParticleData.h">
-      <Filter>ヘッダー ファイル\2D\Particle</Filter>
     </ClInclude>
     <ClInclude Include="Include\2D\PostEffect\BloomPostEffect.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
@@ -285,9 +267,6 @@
     <ClInclude Include="Include\2D\PostEffect\FrostedGlassPostEffect.h">
       <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Include\2D\Particle\FireWorkParticle.h">
-      <Filter>ヘッダー ファイル\2D\Particle</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Transition\ITransition.h">
       <Filter>ヘッダー ファイル\Transition</Filter>
     </ClInclude>
@@ -297,50 +276,8 @@
     <ClInclude Include="Include\Transition\FadeInTransition.h">
       <Filter>ヘッダー ファイル\Transition</Filter>
     </ClInclude>
-    <ClInclude Include="Include\2D\Particle\BasicGPUParticle.h">
-      <Filter>ヘッダー ファイル\2D\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\2D\Particle\BaseGPUParticle.h">
-      <Filter>ヘッダー ファイル\2D\Particle</Filter>
-    </ClInclude>
     <ClInclude Include="GPUTimeStamp.h">
       <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\2D\Particle\GPUParticleEmitter.h">
-      <Filter>ヘッダー ファイル\2D\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\2D\Particle\ShockWaveGPUParticle.h">
-      <Filter>ヘッダー ファイル\2D\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\2D\Particle\FireGPUParticle.h">
-      <Filter>ヘッダー ファイル\2D\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\2D\Particle\LaserGPUParticle.h">
-      <Filter>ヘッダー ファイル\2D\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\2D\Particle\BloodGushGPUParticle.h">
-      <Filter>ヘッダー ファイル\2D\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\2D\Particle\AnimationMeshGPUParticle.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\2D\Particle\MeshGPUParticleAliceModel.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\2D\Particle\MeshGPUParticle.h">
-      <Filter>ヘッダー ファイル\2D\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\2D\Particle\AnimationModelGPUParticle.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\2D\Particle\ModelGPUParticle.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\2D\Particle\ScatteringGPUParticle.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\2D\Particle\AggregatingGPUParticle.h">
-      <Filter>ヘッダー ファイル\2D\Particle</Filter>
     </ClInclude>
     <ClInclude Include="StopGPUParticle.h">
       <Filter>ヘッダー ファイル</Filter>
@@ -561,15 +498,6 @@
     <ClCompile Include="Source\3D\3DMesh.cpp">
       <Filter>ソース ファイル\3D</Filter>
     </ClCompile>
-    <ClCompile Include="Source\2D\Particle\Particle.cpp">
-      <Filter>ソース ファイル\2D\Particle</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\Particle\RainParticle.cpp">
-      <Filter>ソース ファイル\2D\Particle</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\Particle\ParticleEmitter.cpp">
-      <Filter>ソース ファイル\2D\Particle</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Util\AliceUtility.cpp">
       <Filter>ソース ファイル\Util</Filter>
     </ClCompile>
@@ -612,9 +540,6 @@
     <ClCompile Include="Source\2D\PostEffect\GaussianXBlurPostEffect.cpp">
       <Filter>ソース ファイル\2D\PostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="Source\2D\Particle\BasicParticle.cpp">
-      <Filter>ソース ファイル\2D\Particle</Filter>
-    </ClCompile>
     <ClCompile Include="Source\2D\PostEffect\PostEffectFactory.cpp">
       <Filter>ソース ファイル\2D\PostEffect</Filter>
     </ClCompile>
@@ -629,9 +554,6 @@
     </ClCompile>
     <ClCompile Include="Source\Util\Transform2D.cpp">
       <Filter>ソース ファイル\Util</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\Particle\IcosahedronParticle.cpp">
-      <Filter>ソース ファイル\2D\Particle</Filter>
     </ClCompile>
     <ClCompile Include="Source\2D\PostEffect\StripedPostEffect.cpp">
       <Filter>ソース ファイル\2D\PostEffect</Filter>
@@ -657,9 +579,6 @@
     <ClCompile Include="Source\2D\PostEffect\CRTPostEffect.cpp">
       <Filter>ソース ファイル\2D\PostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="Source\2D\Particle\FireWorkParticle.cpp">
-      <Filter>ソース ファイル\2D\Particle</Filter>
-    </ClCompile>
     <ClCompile Include="Source\2D\PostEffect\MosaicPostEffect.cpp">
       <Filter>ソース ファイル\2D\PostEffect</Filter>
     </ClCompile>
@@ -680,48 +599,6 @@
     </ClCompile>
     <ClCompile Include="GPUTimeStamp.cpp">
       <Filter>ソース ファイル\2D\Particle</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\Particle\FireGPUParticle.cpp">
-      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\Particle\BaseGPUParticle.cpp">
-      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\Particle\BasicGPUParticle.cpp">
-      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\Particle\GPUParticleEmitter.cpp">
-      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\Particle\LaserGPUParticle.cpp">
-      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\Particle\BloodGushGPUParticle.cpp">
-      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\Particle\ShockWaveGPUParticle.cpp">
-      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\Particle\MeshGPUParticle.cpp">
-      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\Particle\AggregatingGPUParticle.cpp">
-      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\Particle\AnimationMeshGPUParticle.cpp">
-      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\Particle\AnimationModelGPUParticle.cpp">
-      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\Particle\ScatteringGPUParticle.cpp">
-      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\Particle\ModelGPUParticle.cpp">
-      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\Particle\MeshGPUParticleAliceModel.cpp">
-      <Filter>ソース ファイル\2D\Particle\GPU</Filter>
     </ClCompile>
     <ClCompile Include="StopGPUParticle.cpp">
       <Filter>ソース ファイル</Filter>
