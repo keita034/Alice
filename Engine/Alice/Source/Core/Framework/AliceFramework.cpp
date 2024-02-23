@@ -37,8 +37,8 @@ void AliceFramework::Initialize()
 	directX12Core->SetBackScreenColor(0.1f, 0.25f, 0.5f, 0.0f);	//背景の色変更(R,G,B,A)
 
 	Particle::SSetDirectX12Core(directX12Core->GetDevice(),directX12Core->GetCommandList());
-	BasePostEffect::SSetDirectX12Core(directX12Core.get());
-	PostEffectManager::SSetDirectX12Core(directX12Core.get());
+	BasePostEffect::SSetDirectX12Core(directX12Core->GetCommandList(),directX12Core->GetSRVDescriptorHeap(),directX12Core->GetDevice());
+	PostEffectManager::SSetDirectX12Core(directX12Core->GetCommandList(),directX12Core->GetSRVDescriptorHeap());
 	Sprite::SSetDirectX12Core(directX12Core->GetDevice(),directX12Core->GetCommandList());
 	Mesh::SSetDirectX12Core(directX12Core.get());
 	Mesh3D::SSetDirectX12Core(directX12Core.get());

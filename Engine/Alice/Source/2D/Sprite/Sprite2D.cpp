@@ -1,5 +1,5 @@
-﻿#include<Sprite2D.h>
-
+#include<Sprite2D.h>
+#include<PosUvColor.h>
 
 Sprite2D::Sprite2D()
 {

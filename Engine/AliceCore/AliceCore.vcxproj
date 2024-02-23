@@ -41,6 +41,7 @@
     <ClInclude Include="Include\Pipeline\Material.h" />
     <ClInclude Include="Include\Pipeline\RootSignature.h" />
     <ClInclude Include="Include\Pipeline\Shader.h" />
+    <ClInclude Include="Include\RenderTarget.h" />
     <ClInclude Include="Include\TextureManager.h" />
     <ClInclude Include="Include\WindowsApp.h" />
     <ClInclude Include="Include\GPU\SwapChain.h" />
@@ -80,6 +81,7 @@
     <ClCompile Include="Source\Buffer\RWStructuredBuffer.cpp" />
     <ClCompile Include="Source\Buffer\StructuredBuffer.cpp" />
     <ClCompile Include="Source\Buffer\VertexBuffer.cpp" />
+    <ClCompile Include="Source\RenderTarget.cpp" />
     <ClCompile Include="Source\TextureManager.cpp" />
     <ClCompile Include="Source\WindowsApp.cpp" />
     <ClCompile Include="Source\GPU\SwapChain.cpp" />

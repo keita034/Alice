@@ -46,14 +46,14 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)Engine\ThirdPartys\Include;$(SolutionDir)Engine\AliceCore\Include;$(SolutionDir)Engine\AliceCore\Include\Buffer;$(SolutionDir)Engine\AliceCore\Include\DescriptorHeap;$(SolutionDir)Engine\AliceCore\Include\GPU;$(SolutionDir)Engine\AliceCore\Include\Pipeline;$(SolutionDir)Engine\AliceMath\Include;$(SolutionDir)Engine\AliceMath\Include\Double;$(SolutionDir)Engine\AliceMath\Include\Double\Matrix;$(SolutionDir)Engine\AliceMath\Include\Double\Vector;$(SolutionDir)Engine\AliceMath\Include\Float;$(SolutionDir)Engine\AliceMath\Include\Float\Matrix;$(SolutionDir)Engine\AliceMath\Include\Float\Vector;$(SolutionDir)Engine\AliceInput\Include;$(SolutionDir)Engine\AliceInput\Include\Controller;$(SolutionDir)Engine\AliceInput\Include\Keyboard;$(SolutionDir)Engine\AliceInput\Include\Mouse;$(SolutionDir)Engine\AliceAudio\Include;$(SolutionDir)Engine\AliceUtility\Include;$(SolutionDir)Engine\AliceUtility\Include\Enum;$(SolutionDir)Engine\AliceUtility\Include\Others;$(SolutionDir)Engine\AliceUtility\Include\Utility;$(SolutionDir)Engine\AlicePhysics;$(SolutionDir)Engine\AlicePhysics\Include;$(SolutionDir)Engine\AlicePhysics\Include\Physics;$(SolutionDir)Engine\AlicePhysics\Include\Physics\Jolt;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Box;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Sphere;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Capsule;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Mesh;$(SolutionDir)Engine\AlicePhysics\Include\DebugRenderer;$(SolutionDir)Engine\AlicePhysics\Include\RigidBody;$(SolutionDir)Engine\AlicePipeline\Include;$(SolutionDir)Engine\AlicePipeline\Include\Graphic;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Default;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Sprite2D;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Sprite3D;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Particle;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Mesh;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\PostEffect;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Model;$(SolutionDir)Engine\AlicePipeline\Include\GPUParticle;$(SolutionDir)Engine\AlicePipeline\Include\Utility;$(SolutionDir)Engine\AliceCamera\Include;$(SolutionDir)Engine\AliceModelUtility\Include;$(SolutionDir)Engine\AliceModelUtility\Include\Model;$(SolutionDir)Engine\AliceModelUtility\Include\Animation;$(SolutionDir)Engine\AliceModelUtility\Include\Transform;$(SolutionDir)Engine\AliceLight\Include;$(SolutionDir)Engine\AliceParticle\Include;$(SolutionDir)Engine\AliceParticle\Include\GPU;$(SolutionDir)Engine\AliceParticle\Include\CPU</IncludePath>
+    <IncludePath>$(SolutionDir)Engine\ThirdPartys\Include;$(SolutionDir)Engine\AliceCore\Include;$(SolutionDir)Engine\AliceCore\Include\Buffer;$(SolutionDir)Engine\AliceCore\Include\DescriptorHeap;$(SolutionDir)Engine\AliceCore\Include\GPU;$(SolutionDir)Engine\AliceCore\Include\Pipeline;$(SolutionDir)Engine\AliceMath\Include;$(SolutionDir)Engine\AliceMath\Include\Double;$(SolutionDir)Engine\AliceMath\Include\Double\Matrix;$(SolutionDir)Engine\AliceMath\Include\Double\Vector;$(SolutionDir)Engine\AliceMath\Include\Float;$(SolutionDir)Engine\AliceMath\Include\Float\Matrix;$(SolutionDir)Engine\AliceMath\Include\Float\Vector;$(SolutionDir)Engine\AliceInput\Include;$(SolutionDir)Engine\AliceInput\Include\Controller;$(SolutionDir)Engine\AliceInput\Include\Keyboard;$(SolutionDir)Engine\AliceInput\Include\Mouse;$(SolutionDir)Engine\AliceAudio\Include;$(SolutionDir)Engine\AliceUtility\Include;$(SolutionDir)Engine\AliceUtility\Include\Enum;$(SolutionDir)Engine\AliceUtility\Include\Others;$(SolutionDir)Engine\AliceUtility\Include\Utility;$(SolutionDir)Engine\AlicePhysics;$(SolutionDir)Engine\AlicePhysics\Include;$(SolutionDir)Engine\AlicePhysics\Include\Physics;$(SolutionDir)Engine\AlicePhysics\Include\Physics\Jolt;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Box;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Sphere;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Capsule;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Mesh;$(SolutionDir)Engine\AlicePhysics\Include\DebugRenderer;$(SolutionDir)Engine\AlicePhysics\Include\RigidBody;$(SolutionDir)Engine\AlicePipeline\Include;$(SolutionDir)Engine\AlicePipeline\Include\Graphic;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Default;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Sprite2D;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Sprite3D;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Particle;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Mesh;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\PostEffect;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Model;$(SolutionDir)Engine\AlicePipeline\Include\GPUParticle;$(SolutionDir)Engine\AlicePipeline\Include\Utility;$(SolutionDir)Engine\AliceCamera\Include;$(SolutionDir)Engine\AliceModelUtility\Include;$(SolutionDir)Engine\AliceModelUtility\Include\Model;$(SolutionDir)Engine\AliceModelUtility\Include\Animation;$(SolutionDir)Engine\AliceModelUtility\Include\Transform;$(SolutionDir)Engine\AliceLight\Include;$(SolutionDir)Engine\AliceParticle\Include;$(SolutionDir)Engine\AliceParticle\Include\GPU;$(SolutionDir)Engine\AliceParticle\Include\CPU;$(SolutionDir)Engine\AlicePostEffect\Include</IncludePath>
     <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</ExternalIncludePath>
     <LibraryPath>$(SolutionDir)Engine\ThirdPartys\lib\debug;$(LibraryPath)</LibraryPath>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)..\Generated\Lib\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)Engine\ThirdPartys\Include;$(SolutionDir)Engine\AliceCore\Include;$(SolutionDir)Engine\AliceCore\Include\Buffer;$(SolutionDir)Engine\AliceCore\Include\DescriptorHeap;$(SolutionDir)Engine\AliceCore\Include\GPU;$(SolutionDir)Engine\AliceCore\Include\Pipeline;$(SolutionDir)Engine\AliceMath\Include;$(SolutionDir)Engine\AliceMath\Include\Double;$(SolutionDir)Engine\AliceMath\Include\Double\Matrix;$(SolutionDir)Engine\AliceMath\Include\Double\Vector;$(SolutionDir)Engine\AliceMath\Include\Float;$(SolutionDir)Engine\AliceMath\Include\Float\Matrix;$(SolutionDir)Engine\AliceMath\Include\Float\Vector;$(SolutionDir)Engine\AliceInput\Include;$(SolutionDir)Engine\AliceInput\Include\Controller;$(SolutionDir)Engine\AliceInput\Include\Keyboard;$(SolutionDir)Engine\AliceInput\Include\Mouse;$(SolutionDir)Engine\AliceAudio\Include;$(SolutionDir)Engine\AliceUtility\Include;$(SolutionDir)Engine\AliceUtility\Include\Enum;$(SolutionDir)Engine\AliceUtility\Include\Others;$(SolutionDir)Engine\AliceUtility\Include\Utility;$(SolutionDir)Engine\AlicePhysics;$(SolutionDir)Engine\AlicePhysics\Include;$(SolutionDir)Engine\AlicePhysics\Include\Physics;$(SolutionDir)Engine\AlicePhysics\Include\Physics\Jolt;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Box;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Sphere;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Capsule;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Mesh;$(SolutionDir)Engine\AlicePhysics\Include\DebugRenderer;$(SolutionDir)Engine\AlicePhysics\Include\RigidBody;$(SolutionDir)Engine\AlicePipeline\Include;$(SolutionDir)Engine\AlicePipeline\Include\Graphic;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Default;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Sprite2D;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Sprite3D;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Particle;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Mesh;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\PostEffect;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Model;$(SolutionDir)Engine\AlicePipeline\Include\GPUParticle;$(SolutionDir)Engine\AlicePipeline\Include\Utility;$(SolutionDir)Engine\AliceCamera\Include;$(SolutionDir)Engine\AliceModelUtility\Include;$(SolutionDir)Engine\AliceModelUtility\Include\Model;$(SolutionDir)Engine\AliceModelUtility\Include\Animation;$(SolutionDir)Engine\AliceModelUtility\Include\Transform;$(SolutionDir)Engine\AliceLight\Include;$(SolutionDir)Engine\AliceParticle\Include;$(SolutionDir)Engine\AliceParticle\Include\GPU;$(SolutionDir)Engine\AliceParticle\Include\CPU</IncludePath>
+    <IncludePath>$(SolutionDir)Engine\ThirdPartys\Include;$(SolutionDir)Engine\AliceCore\Include;$(SolutionDir)Engine\AliceCore\Include\Buffer;$(SolutionDir)Engine\AliceCore\Include\DescriptorHeap;$(SolutionDir)Engine\AliceCore\Include\GPU;$(SolutionDir)Engine\AliceCore\Include\Pipeline;$(SolutionDir)Engine\AliceMath\Include;$(SolutionDir)Engine\AliceMath\Include\Double;$(SolutionDir)Engine\AliceMath\Include\Double\Matrix;$(SolutionDir)Engine\AliceMath\Include\Double\Vector;$(SolutionDir)Engine\AliceMath\Include\Float;$(SolutionDir)Engine\AliceMath\Include\Float\Matrix;$(SolutionDir)Engine\AliceMath\Include\Float\Vector;$(SolutionDir)Engine\AliceInput\Include;$(SolutionDir)Engine\AliceInput\Include\Controller;$(SolutionDir)Engine\AliceInput\Include\Keyboard;$(SolutionDir)Engine\AliceInput\Include\Mouse;$(SolutionDir)Engine\AliceAudio\Include;$(SolutionDir)Engine\AliceUtility\Include;$(SolutionDir)Engine\AliceUtility\Include\Enum;$(SolutionDir)Engine\AliceUtility\Include\Others;$(SolutionDir)Engine\AliceUtility\Include\Utility;$(SolutionDir)Engine\AlicePhysics;$(SolutionDir)Engine\AlicePhysics\Include;$(SolutionDir)Engine\AlicePhysics\Include\Physics;$(SolutionDir)Engine\AlicePhysics\Include\Physics\Jolt;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Box;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Sphere;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Capsule;$(SolutionDir)Engine\AlicePhysics\Include\Shape\Mesh;$(SolutionDir)Engine\AlicePhysics\Include\DebugRenderer;$(SolutionDir)Engine\AlicePhysics\Include\RigidBody;$(SolutionDir)Engine\AlicePipeline\Include;$(SolutionDir)Engine\AlicePipeline\Include\Graphic;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Default;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Sprite2D;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Sprite3D;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Particle;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Mesh;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\PostEffect;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Model;$(SolutionDir)Engine\AlicePipeline\Include\GPUParticle;$(SolutionDir)Engine\AlicePipeline\Include\Utility;$(SolutionDir)Engine\AliceCamera\Include;$(SolutionDir)Engine\AliceModelUtility\Include;$(SolutionDir)Engine\AliceModelUtility\Include\Model;$(SolutionDir)Engine\AliceModelUtility\Include\Animation;$(SolutionDir)Engine\AliceModelUtility\Include\Transform;$(SolutionDir)Engine\AliceLight\Include;$(SolutionDir)Engine\AliceParticle\Include;$(SolutionDir)Engine\AliceParticle\Include\GPU;$(SolutionDir)Engine\AliceParticle\Include\CPU;$(SolutionDir)Engine\AlicePostEffect\Include</IncludePath>
     <LibraryPath>$(SolutionDir)Engine\ThirdPartys\lib;$(LibraryPath)</LibraryPath>
     <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)..\Generated\Lib\$(Configuration)\</OutDir>
@@ -130,68 +130,31 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="GPUTimeStamp.h" />
-    <ClInclude Include="Include\2D\PostEffect\DistortionPostEffect.h" />
-    <ClInclude Include="Include\2D\PostEffect\FrostedGlassPostEffect.h" />
-    <ClInclude Include="Include\2D\PostEffect\CRTPostEffect.h" />
-    <ClInclude Include="Include\2D\PostEffect\BloomPostEffect.h" />
-    <ClInclude Include="Include\2D\PostEffect\ChromaticAberrationPostEffect.h" />
     <ClInclude Include="Include\Transition\FadeInTransition.h" />
     <ClInclude Include="Include\Transition\FadeOutTransition.h" />
     <ClInclude Include="Include\Transition\ITransition.h" />
     <ClInclude Include="Include\Util\Game2DObject.h" />
     <ClInclude Include="Include\Util\GameObject.h" />
-    <ClInclude Include="Include\2D\PostEffect\PostEffectFactory.h" />
-    <ClInclude Include="Include\2D\PostEffect\GaussianXBlurPostEffect.h" />
-    <ClInclude Include="Include\2D\PostEffect\GaussianYBlurPostEffect.h" />
-    <ClInclude Include="Include\2D\PostEffect\GaussianBlurPostEffect.h" />
-    <ClInclude Include="Include\2D\PostEffect\AbstractPostEffectFactory.h" />
-    <ClInclude Include="Include\2D\PostEffect\BasePostEffect.h" />
-    <ClInclude Include="Include\2D\PostEffect\LutPostEffect.h" />
-    <ClInclude Include="Include\2D\PostEffect\PostEffectSprite.h" />
     <ClInclude Include="Include\Core\DirectX\DirectX12Core.h" />
-    <ClInclude Include="Include\Core\DirectX\RenderTarget.h" />
     <ClInclude Include="Include\Scene\AbstractSceneFactory.h" />
     <ClInclude Include="Include\Scene\BaseScene.h" />
     <ClInclude Include="Include\Core\Framework\AliceFramework.h" />
     <ClInclude Include="Include\Core\ImGuiManager.h" />
     <ClInclude Include="Include\2D\Mesh.h" />
-    <ClInclude Include="Include\2D\PostEffect\PostEffectManager.h" />
     <ClInclude Include="Include\2D\Sprite\Sprite.h" />
     <ClInclude Include="Include\2D\Sprite\Sprite2D.h" />
     <ClInclude Include="Include\2D\Sprite\Sprite3D.h" />
     <ClInclude Include="Include\3D\3DMesh.h" />
     <ClInclude Include="Include\Util\AliceUtility.h" />
     <ClInclude Include="Include\Scene\SceneManager.h" />
-    <ClInclude Include="Include\2D\PostEffect\VignettePostEffect.h" />
     <ClInclude Include="Include\Util\Transform2D.h" />
-    <ClInclude Include="Include\2D\PostEffect\StripedPostEffect.h" />
-    <ClInclude Include="Include\2D\PostEffect\OilPaintingPostEffect.h" />
     <ClInclude Include="Include\Core\SceneLoader.h" />
-    <ClInclude Include="Include\2D\PostEffect\SandStormPostEffect.h" />
-    <ClInclude Include="Include\2D\PostEffect\MonochromePostEffect.h" />
-    <ClInclude Include="Include\2D\PostEffect\MosaicPostEffect.h" />
     <ClInclude Include="StopGPUParticle.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Resources\Shaders\2D\Mesh\Mesh.hlsli" />
     <None Include="..\..\Resources\Shaders\2D\Particle\Particle.hlsli" />
     <None Include="..\..\Resources\Shaders\2D\Particle\RainParticle.hlsli" />
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Bloom\Bloom.hlsli" />
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Bloom\BloomDraw.hlsli" />
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\ChromaticAberration\ChromaticAberration.hlsli" />
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\CRT\CRT.hlsli" />
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Distortion\Distortion.hlsli" />
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\FrostedGlass\FrostedGlass.hlsli" />
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\GaussianBlur\GaussianBlur.hlsli" />
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Lut\LutShader.hlsli" />
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Monochrome\Monochrome.hlsli" />
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Mosaic\Mosaic.hlsli" />
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\OilPainting\OilPainting.hlsli" />
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\PostEffectTest\PostEffectTest.hlsli" />
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\SandStorm\SandStorm.hlsli" />
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Striped\Striped.hlsli" />
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Striped\StripedDraw.hlsli" />
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Vignette\VignetteShader.hlsli" />
     <None Include="..\..\Resources\Shaders\2D\Sprite\Sprite.hlsli" />
     <None Include="..\..\Resources\Shaders\HLSLMath.hlsli" />
     <None Include="cpp.hint" />
@@ -201,41 +164,21 @@
     <ClCompile Include="Source\Transition\FadeInTransition.cpp" />
     <ClCompile Include="Source\Transition\FadeOutTransition.cpp" />
     <ClCompile Include="Source\Transition\ITransition.cpp" />
-    <ClCompile Include="Source\2D\PostEffect\DistortionPostEffect.cpp" />
-    <ClCompile Include="Source\2D\PostEffect\FrostedGlassPostEffect.cpp" />
-    <ClCompile Include="Source\2D\PostEffect\MosaicPostEffect.cpp" />
-    <ClCompile Include="Source\2D\PostEffect\CRTPostEffect.cpp" />
-    <ClCompile Include="Source\2D\PostEffect\MonochromePostEffect.cpp" />
-    <ClCompile Include="Source\2D\PostEffect\SandStormPostEffect.cpp" />
-    <ClCompile Include="Source\2D\PostEffect\BloomPostEffect.cpp" />
     <ClCompile Include="Source\Core\SceneLoader.cpp" />
-    <ClCompile Include="Source\2D\PostEffect\ChromaticAberrationPostEffect.cpp" />
-    <ClCompile Include="Source\2D\PostEffect\OilPaintingPostEffect.cpp" />
     <ClCompile Include="Source\Util\Game2DObject.cpp" />
     <ClCompile Include="Source\Util\GameObject.cpp" />
-    <ClCompile Include="Source\2D\PostEffect\PostEffectFactory.cpp" />
-    <ClCompile Include="Source\2D\PostEffect\GaussianXBlurPostEffect.cpp" />
-    <ClCompile Include="Source\2D\PostEffect\GaussianYBlurPostEffect.cpp" />
-    <ClCompile Include="Source\2D\PostEffect\GaussianBlurPostEffect.cpp" />
-    <ClCompile Include="Source\2D\PostEffect\BasePostEffect.cpp" />
-    <ClCompile Include="Source\2D\PostEffect\LutPostEffect.cpp" />
-    <ClCompile Include="Source\2D\PostEffect\PostEffectSprite.cpp" />
     <ClCompile Include="Source\Core\DirectX\DirectX12Core.cpp" />
-    <ClCompile Include="Source\Core\DirectX\RenderTarget.cpp" />
     <ClCompile Include="Source\Scene\BaseScene.cpp" />
     <ClCompile Include="Source\Core\Framework\AliceFramework.cpp" />
     <ClCompile Include="Source\Core\ImGuiManager.cpp" />
     <ClCompile Include="Source\2D\Mesh.cpp" />
-    <ClCompile Include="Source\2D\PostEffect\PostEffectManager.cpp" />
     <ClCompile Include="Source\2D\Sprite\Sprite.cpp" />
     <ClCompile Include="Source\2D\Sprite\Sprite2D.cpp" />
     <ClCompile Include="Source\2D\Sprite\Sprite3D.cpp" />
     <ClCompile Include="Source\3D\3DMesh.cpp" />
     <ClCompile Include="Source\Util\AliceUtility.cpp" />
     <ClCompile Include="Source\Scene\SceneManager.cpp" />
-    <ClCompile Include="Source\2D\PostEffect\VignettePostEffect.cpp" />
     <ClCompile Include="Source\Util\Transform2D.cpp" />
-    <ClCompile Include="Source\2D\PostEffect\StripedPostEffect.cpp" />
     <ClCompile Include="StopGPUParticle.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -284,171 +227,6 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <FileType>Document</FileType>
     </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Bloom\BloomDrawPS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Bloom\BloomDrawVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Bloom\BloomPS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Bloom\BloomVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\ChromaticAberration\ChromaticAberrationPS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\ChromaticAberration\ChromaticAberrationVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\CRT\CRTPS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\CRT\CRTVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Distortion\DistortionPS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Distortion\DistortionVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\FrostedGlass\FrostedGlassPS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\FrostedGlass\FrostedGlassVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\GaussianBlur\GaussianBlurPS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\GaussianBlur\GaussianXBlurVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\GaussianBlur\GaussianYBlurVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Lut\LutShaderPS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Lut\LutShaderVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Monochrome\MonochromePS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Monochrome\MonochromeVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Mosaic\MosaicPS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Mosaic\MosaicVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\OilPainting\OilPaintingPS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\OilPainting\OilPaintingVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\PostEffectTest\PostEffectTestPS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\PostEffectTest\PostEffectTestVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\SandStorm\SandStormPS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\SandStorm\SandStormVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Striped\StripedDrawPS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Striped\StripedDrawVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Striped\StripedPS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Striped\StripedVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Vignette\VignetteShaderPS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Vignette\VignetteShaderVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <FileType>Document</FileType>
-    </None>
     <None Include="..\..\Resources\Shaders\2D\Sprite\SpritePS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
@@ -490,6 +268,9 @@
     </ProjectReference>
     <ProjectReference Include="..\AlicePipeline\AlicePipeline.vcxproj">
       <Project>{7be554da-b177-4f2d-a2de-dd9cb9426e3c}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\AlicePostEffect\AlicePostEffect.vcxproj">
+      <Project>{b6fdb17f-bc45-44e8-b480-1e8d2380eca2}</Project>
     </ProjectReference>
     <ProjectReference Include="..\AliceUtility\AliceUtility.vcxproj">
       <Project>{95e30581-d29f-44fd-8802-198f6b21e809}</Project>

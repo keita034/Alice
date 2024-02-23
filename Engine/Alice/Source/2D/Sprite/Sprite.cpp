@@ -1,5 +1,6 @@
 #include<Sprite.h>
 #include<DirectX12Core.h>
+#include<PosUvColor.h>
 
 IWindowsApp* Sprite::sWindowsApp = nullptr;
 IDevice* Sprite::sMainDevice = nullptr;

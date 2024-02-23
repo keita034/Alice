@@ -79,9 +79,6 @@
     <Filter Include="リソース ファイル\シェーダー\2D">
       <UniqueIdentifier>{ed8d5515-805a-4e41-8abd-7d4ea6af2d00}</UniqueIdentifier>
     </Filter>
-    <Filter Include="リソース ファイル\シェーダー\2D\PostEffect">
-      <UniqueIdentifier>{d682e23a-8d3f-4123-a1f9-67a253d52f93}</UniqueIdentifier>
-    </Filter>
     <Filter Include="リソース ファイル\シェーダー\2D\Particle">
       <UniqueIdentifier>{9cfb09d5-5397-4024-8a1c-8713836beaff}</UniqueIdentifier>
     </Filter>
@@ -90,48 +87,6 @@
     </Filter>
     <Filter Include="リソース ファイル\シェーダー\2D\Sprite">
       <UniqueIdentifier>{4766958c-3e99-466f-bb66-d0158ed23770}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="リソース ファイル\シェーダー\2D\PostEffect\ChromaticAberration">
-      <UniqueIdentifier>{20cf7f27-5706-4822-bfee-e4cf93c84f49}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="リソース ファイル\シェーダー\2D\PostEffect\GaussianBlur">
-      <UniqueIdentifier>{33376f2b-06b6-410c-8d7b-29549ca06572}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="リソース ファイル\シェーダー\2D\PostEffect\Lut">
-      <UniqueIdentifier>{9dbf6fba-2489-4389-9980-66e5c5e8e595}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="リソース ファイル\シェーダー\2D\PostEffect\OilPainting">
-      <UniqueIdentifier>{37153319-2921-474f-9104-8117cd3d2c67}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="リソース ファイル\シェーダー\2D\PostEffect\PostEffectTest">
-      <UniqueIdentifier>{c66a7d62-0eed-4b6f-92b2-39ec6c0382a7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="リソース ファイル\シェーダー\2D\PostEffect\Striped">
-      <UniqueIdentifier>{8f06359a-cf25-4b1d-abc7-322de47d33b9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="リソース ファイル\シェーダー\2D\PostEffect\Vignette">
-      <UniqueIdentifier>{a6de0675-9d7c-4f99-8a98-5d10b2444203}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="リソース ファイル\シェーダー\2D\PostEffect\Bloom">
-      <UniqueIdentifier>{1d2c254d-7acc-423b-9813-ed059f1cd29a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="リソース ファイル\シェーダー\2D\PostEffect\SandStorm">
-      <UniqueIdentifier>{5aec83dd-00b1-4615-9243-0ee1fbb97298}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="リソース ファイル\シェーダー\2D\PostEffect\CRT">
-      <UniqueIdentifier>{51779d61-4d6e-4620-85d7-21de44a62c2d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="リソース ファイル\シェーダー\2D\PostEffect\Monochrome">
-      <UniqueIdentifier>{32b6c57a-a173-43dc-8c10-98ced57af2c7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="リソース ファイル\シェーダー\2D\PostEffect\FrostedGlass">
-      <UniqueIdentifier>{d479241a-3760-48a3-9ada-ee7c1d4771d2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="リソース ファイル\シェーダー\2D\PostEffect\Mosaic">
-      <UniqueIdentifier>{663c5e2b-5a97-4677-9c6c-70dc1cb14e6c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="リソース ファイル\シェーダー\2D\PostEffect\Distortion">
-      <UniqueIdentifier>{f30a9772-705c-4511-b006-499ce98b2923}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\Transition">
       <UniqueIdentifier>{215fb3a8-c021-48ed-af09-a2e5e9395863}</UniqueIdentifier>
@@ -174,23 +129,8 @@
     <ClInclude Include="Include\3D\3DMesh.h">
       <Filter>ヘッダー ファイル\3D</Filter>
     </ClInclude>
-    <ClInclude Include="Include\2D\PostEffect\PostEffectManager.h">
-      <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Core\ImGuiManager.h">
       <Filter>ヘッダー ファイル\EnginMain</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\2D\PostEffect\AbstractPostEffectFactory.h">
-      <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\2D\PostEffect\BasePostEffect.h">
-      <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\2D\PostEffect\LutPostEffect.h">
-      <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\2D\PostEffect\VignettePostEffect.h">
-      <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="Include\Scene\AbstractSceneFactory.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
@@ -204,24 +144,6 @@
     <ClInclude Include="Include\Core\Framework\AliceFramework.h">
       <Filter>ヘッダー ファイル\EnginMain\Framework</Filter>
     </ClInclude>
-    <ClInclude Include="Include\2D\PostEffect\GaussianBlurPostEffect.h">
-      <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Core\DirectX\RenderTarget.h">
-      <Filter>ヘッダー ファイル\EnginMain\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\2D\PostEffect\PostEffectSprite.h">
-      <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\2D\PostEffect\GaussianYBlurPostEffect.h">
-      <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\2D\PostEffect\GaussianXBlurPostEffect.h">
-      <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\2D\PostEffect\PostEffectFactory.h">
-      <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Core\DirectX\DirectX12Core.h">
       <Filter>ヘッダー ファイル\EnginMain\DirectX</Filter>
     </ClInclude>
@@ -234,38 +156,8 @@
     <ClInclude Include="Include\Util\Game2DObject.h">
       <Filter>ヘッダー ファイル\Util</Filter>
     </ClInclude>
-    <ClInclude Include="Include\2D\PostEffect\StripedPostEffect.h">
-      <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\2D\PostEffect\ChromaticAberrationPostEffect.h">
-      <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\2D\PostEffect\OilPaintingPostEffect.h">
-      <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Core\SceneLoader.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\2D\PostEffect\BloomPostEffect.h">
-      <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\2D\PostEffect\SandStormPostEffect.h">
-      <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\2D\PostEffect\MonochromePostEffect.h">
-      <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\2D\PostEffect\CRTPostEffect.h">
-      <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\2D\PostEffect\MosaicPostEffect.h">
-      <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\2D\PostEffect\DistortionPostEffect.h">
-      <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\2D\PostEffect\FrostedGlassPostEffect.h">
-      <Filter>ヘッダー ファイル\2D\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="Include\Transition\ITransition.h">
       <Filter>ヘッダー ファイル\Transition</Filter>
@@ -296,138 +188,6 @@
     </None>
     <None Include="..\..\Resources\Shaders\2D\Particle\RainParticle.hlsli">
       <Filter>リソース ファイル\シェーダー\2D\Particle</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\ChromaticAberration\ChromaticAberration.hlsli">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\ChromaticAberration</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\GaussianBlur\GaussianBlur.hlsli">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\GaussianBlur</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Lut\LutShader.hlsli">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Lut</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\OilPainting\OilPainting.hlsli">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\OilPainting</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\PostEffectTest\PostEffectTest.hlsli">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\PostEffectTest</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Striped\Striped.hlsli">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Striped</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Vignette\VignetteShader.hlsli">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Vignette</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Bloom\Bloom.hlsli">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Bloom</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Bloom\BloomDraw.hlsli">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Bloom</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\SandStorm\SandStorm.hlsli">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\SandStorm</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\CRT\CRT.hlsli">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\CRT</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Monochrome\Monochrome.hlsli">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Monochrome</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\FrostedGlass\FrostedGlass.hlsli">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\FrostedGlass</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Mosaic\Mosaic.hlsli">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Mosaic</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Striped\StripedDraw.hlsli">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Striped</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Distortion\Distortion.hlsli">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Distortion</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Bloom\BloomDrawPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Bloom</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Bloom\BloomDrawVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Bloom</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Bloom\BloomPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Bloom</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Bloom\BloomVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Bloom</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\ChromaticAberration\ChromaticAberrationPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\ChromaticAberration</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\ChromaticAberration\ChromaticAberrationVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\ChromaticAberration</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\CRT\CRTPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\CRT</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\CRT\CRTVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\CRT</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Distortion\DistortionPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Distortion</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Distortion\DistortionVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Distortion</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\FrostedGlass\FrostedGlassVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\FrostedGlass</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\FrostedGlass\FrostedGlassPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\FrostedGlass</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Monochrome\MonochromePS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Monochrome</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Monochrome\MonochromeVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Monochrome</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Mosaic\MosaicPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Mosaic</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Mosaic\MosaicVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Mosaic</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\OilPainting\OilPaintingPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\OilPainting</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\OilPainting\OilPaintingVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\OilPainting</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\PostEffectTest\PostEffectTestPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\PostEffectTest</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\PostEffectTest\PostEffectTestVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\PostEffectTest</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\SandStorm\SandStormPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\SandStorm</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\SandStorm\SandStormVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\SandStorm</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Striped\StripedDrawPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Striped</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Striped\StripedDrawVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Striped</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Striped\StripedPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Striped</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Striped\StripedVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Striped</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Vignette\VignetteShaderPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Vignette</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Vignette\VignetteShaderVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Vignette</Filter>
     </None>
     <None Include="..\..\Resources\Shaders\2D\Sprite\SpritePS.hlsl">
       <Filter>リソース ファイル\シェーダー\2D\Sprite</Filter>
@@ -462,21 +222,6 @@
     <None Include="..\..\Resources\Shaders\2D\Particle\RainParticleVS.hlsl">
       <Filter>リソース ファイル\シェーダー\2D\Particle</Filter>
     </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Lut\LutShaderPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Lut</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\Lut\LutShaderVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\Lut</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\GaussianBlur\GaussianBlurPS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\GaussianBlur</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\GaussianBlur\GaussianXBlurVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\GaussianBlur</Filter>
-    </None>
-    <None Include="..\..\Resources\Shaders\2D\PostEffect\GaussianBlur\GaussianYBlurVS.hlsl">
-      <Filter>リソース ファイル\シェーダー\2D\PostEffect\GaussianBlur</Filter>
-    </None>
     <None Include="..\..\Resources\Shaders\AliceParticle\Basic\BasicGPUParticleEmitCS.hlsl">
       <Filter>リソース ファイル\シェーダー\2D\Particle</Filter>
     </None>
@@ -501,47 +246,17 @@
     <ClCompile Include="Source\Util\AliceUtility.cpp">
       <Filter>ソース ファイル\Util</Filter>
     </ClCompile>
-    <ClCompile Include="Source\2D\PostEffect\PostEffectManager.cpp">
-      <Filter>ソース ファイル\2D\PostEffect</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\ImGuiManager.cpp">
       <Filter>ソース ファイル\Core</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\Framework\AliceFramework.cpp">
       <Filter>ソース ファイル\Core\Framework</Filter>
     </ClCompile>
-    <ClCompile Include="Source\2D\PostEffect\VignettePostEffect.cpp">
-      <Filter>ソース ファイル\2D\PostEffect</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\PostEffect\LutPostEffect.cpp">
-      <Filter>ソース ファイル\2D\PostEffect</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\PostEffect\BasePostEffect.cpp">
-      <Filter>ソース ファイル\2D\PostEffect</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Scene\SceneManager.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Source\Scene\BaseScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\PostEffect\GaussianBlurPostEffect.cpp">
-      <Filter>ソース ファイル\2D\PostEffect</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Core\DirectX\RenderTarget.cpp">
-      <Filter>ソース ファイル\Core\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\PostEffect\PostEffectSprite.cpp">
-      <Filter>ソース ファイル\2D\PostEffect</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\PostEffect\GaussianYBlurPostEffect.cpp">
-      <Filter>ソース ファイル\2D\PostEffect</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\PostEffect\GaussianXBlurPostEffect.cpp">
-      <Filter>ソース ファイル\2D\PostEffect</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\PostEffect\PostEffectFactory.cpp">
-      <Filter>ソース ファイル\2D\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="Source\Core\DirectX\DirectX12Core.cpp">
       <Filter>ソース ファイル\Core\DirectX</Filter>
@@ -555,38 +270,8 @@
     <ClCompile Include="Source\Util\Transform2D.cpp">
       <Filter>ソース ファイル\Util</Filter>
     </ClCompile>
-    <ClCompile Include="Source\2D\PostEffect\StripedPostEffect.cpp">
-      <Filter>ソース ファイル\2D\PostEffect</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\PostEffect\ChromaticAberrationPostEffect.cpp">
-      <Filter>ソース ファイル\2D\PostEffect</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\PostEffect\OilPaintingPostEffect.cpp">
-      <Filter>ソース ファイル\2D\PostEffect</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Core\SceneLoader.cpp">
       <Filter>ソース ファイル\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\PostEffect\BloomPostEffect.cpp">
-      <Filter>ソース ファイル\2D\PostEffect</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\PostEffect\SandStormPostEffect.cpp">
-      <Filter>ソース ファイル\2D\PostEffect</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\PostEffect\MonochromePostEffect.cpp">
-      <Filter>ソース ファイル\2D\PostEffect</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\PostEffect\CRTPostEffect.cpp">
-      <Filter>ソース ファイル\2D\PostEffect</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\PostEffect\MosaicPostEffect.cpp">
-      <Filter>ソース ファイル\2D\PostEffect</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\PostEffect\DistortionPostEffect.cpp">
-      <Filter>ソース ファイル\2D\PostEffect</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\2D\PostEffect\FrostedGlassPostEffect.cpp">
-      <Filter>ソース ファイル\2D\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="Source\Transition\FadeOutTransition.cpp">
       <Filter>ソース ファイル\Transition</Filter>

@@ -1,5 +1,5 @@
-﻿#include<Sprite3D.h>
-
+#include<Sprite3D.h>
+#include<PosUvColor.h>
 
 Sprite3D::Sprite3D()
 {

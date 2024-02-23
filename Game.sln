@@ -34,6 +34,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AliceLight", "Engine\AliceL
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AliceParticle", "Engine\AliceParticle\AliceParticle.vcxproj", "{62A70FA7-E083-4759-B9AD-5B36FA3BD909}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AlicePostEffect", "Engine\AlicePostEffect\AlicePostEffect.vcxproj", "{B6FDB17F-BC45-44E8-B480-1E8D2380ECA2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -146,6 +148,14 @@ Global
 		{62A70FA7-E083-4759-B9AD-5B36FA3BD909}.Release|x64.Build.0 = Release|x64
 		{62A70FA7-E083-4759-B9AD-5B36FA3BD909}.Release|x86.ActiveCfg = Release|Win32
 		{62A70FA7-E083-4759-B9AD-5B36FA3BD909}.Release|x86.Build.0 = Release|Win32
+		{B6FDB17F-BC45-44E8-B480-1E8D2380ECA2}.Debug|x64.ActiveCfg = Debug|x64
+		{B6FDB17F-BC45-44E8-B480-1E8D2380ECA2}.Debug|x64.Build.0 = Debug|x64
+		{B6FDB17F-BC45-44E8-B480-1E8D2380ECA2}.Debug|x86.ActiveCfg = Debug|Win32
+		{B6FDB17F-BC45-44E8-B480-1E8D2380ECA2}.Debug|x86.Build.0 = Debug|Win32
+		{B6FDB17F-BC45-44E8-B480-1E8D2380ECA2}.Release|x64.ActiveCfg = Release|x64
+		{B6FDB17F-BC45-44E8-B480-1E8D2380ECA2}.Release|x64.Build.0 = Release|x64
+		{B6FDB17F-BC45-44E8-B480-1E8D2380ECA2}.Release|x86.ActiveCfg = Release|Win32
+		{B6FDB17F-BC45-44E8-B480-1E8D2380ECA2}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -163,6 +173,7 @@ Global
 		{2C9F959B-5249-44F0-ACFE-FF68636D421C} = {2F558543-424A-4AF3-B0F4-991AE2371AEC}
 		{ED74A8FD-C1D1-4958-B944-D38A755A17B1} = {2F558543-424A-4AF3-B0F4-991AE2371AEC}
 		{62A70FA7-E083-4759-B9AD-5B36FA3BD909} = {2F558543-424A-4AF3-B0F4-991AE2371AEC}
+		{B6FDB17F-BC45-44E8-B480-1E8D2380ECA2} = {2F558543-424A-4AF3-B0F4-991AE2371AEC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5EE2B56B-796C-4260-902A-8866628B8826}
