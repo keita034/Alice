@@ -49,51 +49,51 @@ public:
 	void Finalize();
 
 	void FireParticleCreate(uint32_t maxParticles_,const std::string& name_);
-	void FireParticleMove(const std::string& name_,const AliceMathF::Vector3& move_,int32_t index_);
-	int32_t FireParticleEmit(const std::string& name_,const FireGPUParticleSetting& setting_,int32_t index_ = -1);
+	void FireParticleMove(const std::string& name_,const AliceMathF::Vector3& move_);
+	void FireParticleEmit(const std::string& name_,const FireGPUParticleSetting& setting_);
 	void FireParticleSetTex(const std::string& name_,uint32_t textureHandle_);
-	void FireParticleEmitPlay(const std::string& name_,int32_t index_);
-	void FireParticleEmitStop(const std::string& name_,int32_t index_);
-	void FireParticleSetPos(const std::string& name_,const AliceMathF::Vector3& pos_,int32_t index_);
+	void FireParticleEmitPlay(const std::string& name_);
+	void FireParticleEmitStop(const std::string& name_);
+	void FireParticleSetPos(const std::string& name_,const AliceMathF::Vector3& pos_);
 	FireGPUParticle* GetFireParticle(const std::string& name_);
 
 	void ShockWaveParticleCreate(uint32_t maxParticles_,const std::string& name_);
-	void ShockWaveParticleMove(const std::string& name_,const AliceMathF::Vector3& move_,int32_t index_);
-	int32_t ShockWaveParticleEmit(const std::string& name_,const ShockWaveGPUParticleSetting& setting_,int32_t index_ = -1);
+	void ShockWaveParticleMove(const std::string& name_,const AliceMathF::Vector3& move_);
+	void ShockWaveParticleEmit(const std::string& name_,const ShockWaveGPUParticleSetting& setting_);
 	void ShockWaveParticleSetTex(const std::string& name_,uint32_t textureHandle_);
-	void ShockWaveParticleEmitPlay(const std::string& name_,int32_t index_);
-	void ShockWaveParticleEmitStop(const std::string& name_,int32_t index_);
-	void ShockWaveParticleSetPos(const std::string& name_,const AliceMathF::Vector3& pos_,int32_t index_);
+	void ShockWaveParticleEmitPlay(const std::string& name_);
+	void ShockWaveParticleEmitStop(const std::string& name_);
+	void ShockWaveParticleSetPos(const std::string& name_,const AliceMathF::Vector3& pos_);
 	ShockWaveGPUParticle* GetShockWaveParticle(const std::string& name_);
 
 	void LaserParticleCreate(uint32_t maxParticles_,const std::string& name_);
-	void LaserParticleMove(const std::string& name_,const AliceMathF::Vector3& move_,int32_t index_);
-	int32_t LaserParticleEmit(const std::string& name_,const LaserGPUParticleSetting& setting_,int32_t index_ = -1);
+	void LaserParticleMove(const std::string& name_,const AliceMathF::Vector3& move_);
+	void LaserParticleEmit(const std::string& name_,const LaserGPUParticleSetting& setting_);
 	void LaserParticleSetMainTex(const std::string& name_,uint32_t textureHandle_);
 	void LaserParticleSetSubTex(const std::string& name_,uint32_t textureHandle_);
-	void LaserParticleEmitPlay(const std::string& name_,int32_t index_);
-	void LaserParticleEmitStop(const std::string& name_,int32_t index_);
-	void LaserParticleSetPos(const std::string& name_,const AliceMathF::Vector3& pos_,int32_t index_);
-	void LaserParticleSetVelocity(const std::string& name_,const AliceMathF::Vector3& velocity_,int32_t index_);
+	void LaserParticleEmitPlay(const std::string& name_);
+	void LaserParticleEmitStop(const std::string& name_);
+	void LaserParticleSetPos(const std::string& name_,const AliceMathF::Vector3& pos_);
+	void LaserParticleSetVelocity(const std::string& name_,const AliceMathF::Vector3& velocity_);
 	LaserGPUParticle* GetLaserParticle(const std::string& name_);
 
 	void AnimationMeshGPUParticleCreate(uint32_t maxParticles_,const std::string& name_);
-	int32_t AnimationMeshGPUParticleEmit(const std::string& name_,const AnimationMeshGPUParticleSetting& setting_,int32_t index_ = -1);
-	void AnimationMeshGPUParticleSetMat(const std::string& name_,const AliceMathF::Matrix4& matWorld_,int32_t index_);
+	void AnimationMeshGPUParticleEmit(const std::string& name_,const AnimationMeshGPUParticleSetting& setting_);
+	void AnimationMeshGPUParticleSetMat(const std::string& name_,const AliceMathF::Matrix4& matWorld_);
 	void AnimationMeshGPUParticleSetDetermineTex(const std::string& name_,uint32_t textureHandle_);
 	void AnimationMeshGPUParticleSetTex(const std::string& name_,uint32_t textureHandle_);
-	void AnimationMeshGPUParticleEmitPlay(const std::string& name_,int32_t index_);
-	void AnimationMeshGPUParticleEmitStop(const std::string& name_,int32_t index_);
+	void AnimationMeshGPUParticleEmitPlay(const std::string& name_);
+	void AnimationMeshGPUParticleEmitStop(const std::string& name_);
 	void AnimationMeshGPUParticleSetModel(const std::string& name_,AliceModel* model_);
 	AnimationMeshGPUParticle* GetAnimationMeshGPUParticle(const std::string& name_);
 
 	void MeshGPUParticleCreate(uint32_t maxParticles_,const std::string& name_);
-	int32_t MeshGPUParticleEmit(const std::string& name_,const MeshGPUParticleSetting& setting_,int32_t index_ = -1);
-	void MeshGPUParticleSetMat(const std::string& name_,const AliceMathF::Matrix4& matWorld_,int32_t index_);
+	void MeshGPUParticleEmit(const std::string& name_,const MeshGPUParticleSetting& setting_);
+	void MeshGPUParticleSetMat(const std::string& name_,const AliceMathF::Matrix4& matWorld_);
 	void MeshGPUParticleSetDetermineTex(const std::string& name_,uint32_t textureHandle_);
 	void MeshGPUParticleSetTex(const std::string& name_,uint32_t textureHandle_);
-	void MeshGPUParticleEmitPlay(const std::string& name_,int32_t index_);
-	void MeshGPUParticleEmitStop(const std::string& name_,int32_t index_);
+	void MeshGPUParticleEmitPlay(const std::string& name_);
+	void MeshGPUParticleEmitStop(const std::string& name_);
 	void MeshGPUParticleSetModel(const std::string& name_,AliceModel* model_);
 	MeshGPUParticle* GetMeshGPUParticle(const std::string& name_);
 
@@ -111,10 +111,10 @@ public:
 	void AggregatingSetCenterPos(const AliceMathF::Vector3& centerPos_);
 
 	void BloodGushGPUParticleCreate(uint32_t maxParticles_,const std::string& name_);
-	int32_t BloodGushGPUParticleEmit(const std::string& name_,const BloodGushGPUParticleSetting& setting_,int32_t index_ = -1);
+	void BloodGushGPUParticleEmit(const std::string& name_,const BloodGushGPUParticleSetting& setting_);
 	void BloodGushGPUParticleSetTex(const std::string& name_,uint32_t textureHandle_);
-	void BloodGushGPUParticleEmitPlay(const std::string& name_,const AliceMathF::Vector3& pos_,const AliceMathF::Vector3& velocity_,int32_t index_);
-	void BloodGushGPUParticleEmitStop(const std::string& name_,int32_t index_);
+	void BloodGushGPUParticleEmitPlay(const std::string& name_,const AliceMathF::Vector3& pos_,const AliceMathF::Vector3& velocity_);
+	void BloodGushGPUParticleEmitStop(const std::string& name_);
 	BloodGushGPUParticle* GetBloodGushGPUParticle(const std::string& name_);
 
 	void AnimationModelGPUParticleCreate(uint32_t maxParticles_,const std::string& name_);

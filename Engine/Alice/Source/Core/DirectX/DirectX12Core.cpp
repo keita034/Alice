@@ -165,7 +165,7 @@ void DirectX12Core::DirectXInitialize(float width_,float height_,HWND* hwnd_,IWi
 	windowsApp = windowsApp_;
 
 #ifdef _DEBUG
-	PEnableDebugLayer();
+	//PEnableDebugLayer();
 #endif
 
 	PCheckTearingSupport();
@@ -175,7 +175,7 @@ void DirectX12Core::DirectXInitialize(float width_,float height_,HWND* hwnd_,IWi
 	subAdapters = multiAdapters->GetSubAdapter();
 
 #ifdef _DEBUG
-	PEnableInfoQueue();
+	//PEnableInfoQueue();
 #endif
 
 	BaseBuffer::SSetMultiAdapters(multiAdapters.get());

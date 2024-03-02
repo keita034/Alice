@@ -44,7 +44,7 @@ void BossBeamAttack::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_
 	lSetting.speed = 700;
 	lSetting.isPlay = false;
 
-	particleIndex = laserGPUParticle->Emit(lSetting);
+	laserGPUParticle->Emit(lSetting);
 
 	firePosition.MakeWorldMatrix();
 }
@@ -58,10 +58,10 @@ void BossBeamAttack::Update()
 			isDraw = true;
 			firePosition.MakeWorldMatrix();
 
-			laserGPUParticle->EmitPlay(particleIndex);
+			laserGPUParticle->EmitPlay();
 
 			AliceMathF::Vector3 lFirePos = AliceMathF::GetWorldPosition(firePosition);
-			laserGPUParticle->SetPos(lFirePos,particleIndex);
+			laserGPUParticle->SetPos(lFirePos);
 			lFirePos.y = 0;
 
 			AliceMathF::Vector3 lBossPos = firePosition.parent->translation;
@@ -70,7 +70,7 @@ void BossBeamAttack::Update()
 			AliceMathF::Vector3 lVelocity;
 			lVelocity = lFirePos - lBossPos;
 			lVelocity = lVelocity.Normal();
-			laserGPUParticle->SetVelocity(lVelocity,particleIndex);
+			laserGPUParticle->SetVelocity(lVelocity);
 			usData.pos = lBossPos;
 
 			rigidBodyTransform.rotation = { AliceMathF::AX_PI / 2.0f,0.0f,0.0f };
@@ -135,7 +135,7 @@ void BossBeamAttack::Fire()
 	{
 		isFire = false;
 		isDraw = false;
-		laserGPUParticle->EmitStop(particleIndex);
+		laserGPUParticle->EmitStop();
 	}
 }
 
@@ -153,7 +153,7 @@ void BossBeamAttack::TransUpdate(Camera* camera_)
 
 void BossBeamAttack::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 {
-	laserGPUParticle->EmitStop(particleIndex);
+	laserGPUParticle->EmitStop();
 	physicsSystem_->RemoveRigidBody(rigidBody);
 	bossAnimation = nullptr;
 	laserGPUParticle = nullptr;

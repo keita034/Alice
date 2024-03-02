@@ -186,9 +186,9 @@ void GPUParticleEmitter::FireParticleCreate(uint32_t maxParticles_,const std::st
 	BaseGPUParticle::ParticleEnd();
 }
 
-int32_t GPUParticleEmitter::FireParticleEmit(const std::string& name_,const FireGPUParticleSetting& setting_,int32_t index_)
+void GPUParticleEmitter::FireParticleEmit(const std::string& name_,const FireGPUParticleSetting& setting_)
 {
-	return fires[ name_ ]->Emit(setting_,index_);
+	fires[ name_ ]->Emit(setting_);
 }
 
 void GPUParticleEmitter::FireParticleSetTex(const std::string& name_,uint32_t textureHandle_)
@@ -196,19 +196,19 @@ void GPUParticleEmitter::FireParticleSetTex(const std::string& name_,uint32_t te
 	fires[ name_ ]->SetTex(textureHandle_);
 }
 
-void GPUParticleEmitter::FireParticleEmitPlay(const std::string& name_,int32_t index_)
+void GPUParticleEmitter::FireParticleEmitPlay(const std::string& name_)
 {
-	fires[ name_ ]->EmitPlay(index_);
+	fires[ name_ ]->EmitPlay();
 }
 
-void GPUParticleEmitter::FireParticleEmitStop(const std::string& name_,int32_t index_)
+void GPUParticleEmitter::FireParticleEmitStop(const std::string& name_)
 {
-	fires[ name_ ]->EmitStop(index_);
+	fires[ name_ ]->EmitStop();
 }
 
-void GPUParticleEmitter::FireParticleSetPos(const std::string& name_,const AliceMathF::Vector3& pos_,int32_t index_)
+void GPUParticleEmitter::FireParticleSetPos(const std::string& name_,const AliceMathF::Vector3& pos_)
 {
-	fires[ name_ ]->SetPos(pos_,index_);
+	fires[ name_ ]->SetPos(pos_);
 }
 
 FireGPUParticle* GPUParticleEmitter::GetFireParticle(const std::string& name_)
@@ -216,9 +216,9 @@ FireGPUParticle* GPUParticleEmitter::GetFireParticle(const std::string& name_)
 	return fires[ name_ ].get();
 }
 
-void GPUParticleEmitter::FireParticleMove(const std::string& name_,const AliceMathF::Vector3& move_,int32_t index_)
+void GPUParticleEmitter::FireParticleMove(const std::string& name_,const AliceMathF::Vector3& move_)
 {
-	fires[ name_ ]->Move(move_,index_);
+	fires[ name_ ]->Move(move_);
 }
 
 #pragma endregion
@@ -234,14 +234,14 @@ void GPUParticleEmitter::ShockWaveParticleCreate(uint32_t maxParticles_,const st
 	BaseGPUParticle::ParticleEnd();
 }
 
-void GPUParticleEmitter::ShockWaveParticleMove(const std::string& name_,const AliceMathF::Vector3& move_,int32_t index_)
+void GPUParticleEmitter::ShockWaveParticleMove(const std::string& name_,const AliceMathF::Vector3& move_)
 {
-	shockWaves[ name_ ]->Move(move_,index_);
+	shockWaves[ name_ ]->Move(move_);
 }
 
-int32_t GPUParticleEmitter::ShockWaveParticleEmit(const std::string& name_,const ShockWaveGPUParticleSetting& setting_,int32_t index_)
+void GPUParticleEmitter::ShockWaveParticleEmit(const std::string& name_,const ShockWaveGPUParticleSetting& setting_)
 {
-	return shockWaves[ name_ ]->Emit(setting_,index_);
+	return shockWaves[ name_ ]->Emit(setting_);
 }
 
 void GPUParticleEmitter::ShockWaveParticleSetTex(const std::string& name_,uint32_t textureHandle_)
@@ -249,19 +249,19 @@ void GPUParticleEmitter::ShockWaveParticleSetTex(const std::string& name_,uint32
 	shockWaves[ name_ ]->SetTex(textureHandle_);
 }
 
-void GPUParticleEmitter::ShockWaveParticleEmitPlay(const std::string& name_,int32_t index_)
+void GPUParticleEmitter::ShockWaveParticleEmitPlay(const std::string& name_)
 {
-	shockWaves[ name_ ]->EmitPlay(index_);
+	shockWaves[ name_ ]->EmitPlay();
 }
 
-void GPUParticleEmitter::ShockWaveParticleEmitStop(const std::string& name_,int32_t index_)
+void GPUParticleEmitter::ShockWaveParticleEmitStop(const std::string& name_)
 {
-	shockWaves[ name_ ]->EmitStop(index_);
+	shockWaves[ name_ ]->EmitStop();
 }
 
-void GPUParticleEmitter::ShockWaveParticleSetPos(const std::string& name_,const AliceMathF::Vector3& pos_,int32_t index_)
+void GPUParticleEmitter::ShockWaveParticleSetPos(const std::string& name_,const AliceMathF::Vector3& pos_)
 {
-	shockWaves[ name_ ]->SetPos(pos_,index_);
+	shockWaves[ name_ ]->SetPos(pos_);
 }
 
 ShockWaveGPUParticle* GPUParticleEmitter::GetShockWaveParticle(const std::string& name_)
@@ -282,14 +282,14 @@ void GPUParticleEmitter::LaserParticleCreate(uint32_t maxParticles_,const std::s
 	BaseGPUParticle::ParticleEnd();
 }
 
-void GPUParticleEmitter::LaserParticleMove(const std::string& name_,const AliceMathF::Vector3& move_,int32_t index_)
+void GPUParticleEmitter::LaserParticleMove(const std::string& name_,const AliceMathF::Vector3& move_)
 {
-	lasers[ name_ ]->Move(move_,index_);
+	lasers[ name_ ]->Move(move_);
 }
 
-int32_t GPUParticleEmitter::LaserParticleEmit(const std::string& name_,const LaserGPUParticleSetting& setting_,int32_t index_)
+void GPUParticleEmitter::LaserParticleEmit(const std::string& name_,const LaserGPUParticleSetting& setting_)
 {
-	return lasers[ name_ ]->Emit(setting_,index_);
+	lasers[ name_ ]->Emit(setting_);
 }
 
 void GPUParticleEmitter::LaserParticleSetMainTex(const std::string& name_,uint32_t textureHandle_)
@@ -302,24 +302,24 @@ void GPUParticleEmitter::LaserParticleSetSubTex(const std::string& name_,uint32_
 	lasers[ name_ ]->SetSubTex(textureHandle_);
 }
 
-void GPUParticleEmitter::LaserParticleEmitPlay(const std::string& name_,int32_t index_)
+void GPUParticleEmitter::LaserParticleEmitPlay(const std::string& name_)
 {
-	lasers[ name_ ]->EmitPlay(index_);
+	lasers[ name_ ]->EmitPlay();
 }
 
-void GPUParticleEmitter::LaserParticleEmitStop(const std::string& name_,int32_t index_)
+void GPUParticleEmitter::LaserParticleEmitStop(const std::string& name_)
 {
-	lasers[ name_ ]->EmitStop(index_);
+	lasers[ name_ ]->EmitStop();
 }
 
-void GPUParticleEmitter::LaserParticleSetPos(const std::string& name_,const AliceMathF::Vector3& pos_,int32_t index_)
+void GPUParticleEmitter::LaserParticleSetPos(const std::string& name_,const AliceMathF::Vector3& pos_)
 {
-	lasers[ name_ ]->SetPos(pos_,index_);
+	lasers[ name_ ]->SetPos(pos_);
 }
 
-void GPUParticleEmitter::LaserParticleSetVelocity(const std::string& name_,const AliceMathF::Vector3& velocity_,int32_t index_)
+void GPUParticleEmitter::LaserParticleSetVelocity(const std::string& name_,const AliceMathF::Vector3& velocity_)
 {
-	lasers[ name_ ]->SetVelocity(velocity_,index_);
+	lasers[ name_ ]->SetVelocity(velocity_);
 }
 
 LaserGPUParticle* GPUParticleEmitter::GetLaserParticle(const std::string& name_)
@@ -342,14 +342,14 @@ void GPUParticleEmitter::AnimationMeshGPUParticleCreate(uint32_t maxParticles_,c
 	BaseGPUParticle::ParticleEnd();
 }
 
-int32_t GPUParticleEmitter::AnimationMeshGPUParticleEmit(const std::string& name_,const AnimationMeshGPUParticleSetting& setting_,int32_t index_)
+void GPUParticleEmitter::AnimationMeshGPUParticleEmit(const std::string& name_,const AnimationMeshGPUParticleSetting& setting_)
 {
-	return animationMeshs[ name_ ]->Emit(setting_,index_);
+	animationMeshs[ name_ ]->Emit(setting_);
 }
 
-void GPUParticleEmitter::AnimationMeshGPUParticleSetMat(const std::string& name_,const AliceMathF::Matrix4& matWorld_,int32_t index_)
+void GPUParticleEmitter::AnimationMeshGPUParticleSetMat(const std::string& name_,const AliceMathF::Matrix4& matWorld_)
 {
-	animationMeshs[ name_ ]->SetMat(matWorld_,index_);
+	animationMeshs[ name_ ]->SetMat(matWorld_);
 }
 
 void GPUParticleEmitter::AnimationMeshGPUParticleSetDetermineTex(const std::string& name_,uint32_t textureHandle_)
@@ -362,14 +362,14 @@ void GPUParticleEmitter::AnimationMeshGPUParticleSetTex(const std::string& name_
 	animationMeshs[ name_ ]->SetTex(textureHandle_);
 }
 
-void GPUParticleEmitter::AnimationMeshGPUParticleEmitPlay(const std::string& name_,int32_t index_)
+void GPUParticleEmitter::AnimationMeshGPUParticleEmitPlay(const std::string& name_)
 {
-	animationMeshs[ name_ ]->EmitPlay(index_);
+	animationMeshs[ name_ ]->EmitPlay();
 }
 
-void GPUParticleEmitter::AnimationMeshGPUParticleEmitStop(const std::string& name_,int32_t index_)
+void GPUParticleEmitter::AnimationMeshGPUParticleEmitStop(const std::string& name_)
 {
-	animationMeshs[ name_ ]->EmitStop(index_);
+	animationMeshs[ name_ ]->EmitStop();
 }
 
 void GPUParticleEmitter::AnimationMeshGPUParticleSetModel(const std::string& name_,AliceModel* model_)
@@ -395,14 +395,14 @@ void GPUParticleEmitter::MeshGPUParticleCreate(uint32_t maxParticles_, const std
 	BaseGPUParticle::ParticleEnd();
 }
 
-int32_t GPUParticleEmitter::MeshGPUParticleEmit(const std::string& name_, const MeshGPUParticleSetting& setting_, int32_t index_)
+void GPUParticleEmitter::MeshGPUParticleEmit(const std::string& name_, const MeshGPUParticleSetting& setting_)
 {
-	return meshs[name_]->Emit(setting_, index_);
+	meshs[name_]->Emit(setting_);
 }
 
-void GPUParticleEmitter::MeshGPUParticleSetMat(const std::string& name_, const AliceMathF::Matrix4& matWorld_, int32_t index_)
+void GPUParticleEmitter::MeshGPUParticleSetMat(const std::string& name_, const AliceMathF::Matrix4& matWorld_)
 {
-	meshs[name_]->SetMat(matWorld_, index_);
+	meshs[name_]->SetMat(matWorld_);
 }
 
 void GPUParticleEmitter::MeshGPUParticleSetDetermineTex(const std::string& name_, uint32_t textureHandle_)
@@ -415,14 +415,14 @@ void GPUParticleEmitter::MeshGPUParticleSetTex(const std::string& name_, uint32_
 	meshs[name_]->SetTex(textureHandle_);
 }
 
-void GPUParticleEmitter::MeshGPUParticleEmitPlay(const std::string& name_, int32_t index_)
+void GPUParticleEmitter::MeshGPUParticleEmitPlay(const std::string& name_)
 {
-	meshs[name_]->EmitPlay(index_);
+	meshs[name_]->EmitPlay();
 }
 
-void GPUParticleEmitter::MeshGPUParticleEmitStop(const std::string& name_, int32_t index_)
+void GPUParticleEmitter::MeshGPUParticleEmitStop(const std::string& name_)
 {
-	meshs[name_]->EmitStop(index_);
+	meshs[name_]->EmitStop();
 }
 
 void GPUParticleEmitter::MeshGPUParticleSetModel(const std::string& name_, AliceModel* model_)
@@ -512,9 +512,9 @@ void GPUParticleEmitter::BloodGushGPUParticleCreate(uint32_t maxParticles_,const
 	BaseGPUParticle::ParticleEnd();
 }
 
-int32_t GPUParticleEmitter::BloodGushGPUParticleEmit(const std::string& name_,const BloodGushGPUParticleSetting& setting_,int32_t index_)
+void GPUParticleEmitter::BloodGushGPUParticleEmit(const std::string& name_,const BloodGushGPUParticleSetting& setting_)
 {
-	return bloodGushs[ name_ ]->Emit(setting_,index_);
+	bloodGushs[ name_ ]->Emit(setting_);
 }
 
 void GPUParticleEmitter::BloodGushGPUParticleSetTex(const std::string& name_,uint32_t textureHandle_)
@@ -522,14 +522,14 @@ void GPUParticleEmitter::BloodGushGPUParticleSetTex(const std::string& name_,uin
 	bloodGushs[ name_ ]->SetTex(textureHandle_);
 }
 
-void GPUParticleEmitter::BloodGushGPUParticleEmitPlay(const std::string& name_,const AliceMathF::Vector3& pos_,const AliceMathF::Vector3& velocity_,int32_t index_)
+void GPUParticleEmitter::BloodGushGPUParticleEmitPlay(const std::string& name_,const AliceMathF::Vector3& pos_,const AliceMathF::Vector3& velocity_)
 {
-	bloodGushs[ name_ ]->EmitPlay(pos_,velocity_,index_);
+	bloodGushs[ name_ ]->EmitPlay(pos_,velocity_);
 }
 
-void GPUParticleEmitter::BloodGushGPUParticleEmitStop(const std::string& name_,int32_t index_)
+void GPUParticleEmitter::BloodGushGPUParticleEmitStop(const std::string& name_)
 {
-	bloodGushs[ name_ ]->EmitStop(index_);
+	bloodGushs[ name_ ]->EmitStop();
 }
 
 BloodGushGPUParticle* GPUParticleEmitter::GetBloodGushGPUParticle(const std::string& name_)

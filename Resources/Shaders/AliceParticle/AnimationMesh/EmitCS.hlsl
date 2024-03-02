@@ -16,7 +16,7 @@ cbuffer ParticleData : register(b1)
 
 cbuffer ParticleDatas : register(b2)
 {
-    EmitData emitDatas[EMIT_DATA_MAX];
+    EmitData emitData;
 }
 
 cbuffer BoneDatas : register(b3)
@@ -99,8 +99,6 @@ void main( uint3 DTid : SV_DispatchThreadID )
     {
         return;
     }
-
-    EmitData emitData = emitDatas[emitDataIndex];
 
     if (DTid.x >= emitData.vertexSize)
     {

@@ -57,35 +57,31 @@ void LaserGPUParticle::Update(float deltaTime_)
 	PUpdateConstantBuffer(deltaTime_);
 
 	ID3D12GraphicsCommandList* lComputeCommandList = computeAdapter->GetComputeCommandList();
-
-	for ( ParticleEmit& emitData : emitDatas )
-	{
 		//生成
-		if ( PCanEmit(emitData,deltaTime_) )
-		{
-			fireGPUParticleGPUData.emitDataIndex = emitData.index;
-			fireGPUParticleDataBuffer->Update(&fireGPUParticleGPUData);
+	if ( PCanEmit(emitData,deltaTime_) )
+	{
+		fireGPUParticleGPUData.emitDataIndex = emitData.index;
+		fireGPUParticleDataBuffer->Update(&fireGPUParticleGPUData);
 
-			ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeLaserGPUParticleEmit",AdaptersIndex::SUB);
+		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeLaserGPUParticleEmit",AdaptersIndex::SUB);
 
-			lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
-			lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
+		lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
+		lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
 
-			ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::SUB)->GetHeap() };
-			lComputeCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
+		ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::SUB)->GetHeap() };
+		lComputeCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
 
-			lComputeCommandList->SetComputeRootConstantBufferView(0,timeConstantsBuffer->GetAddress());//b0
-			lComputeCommandList->SetComputeRootConstantBufferView(1,fireGPUParticleDataBuffer->GetAddress());//b1
-			lComputeCommandList->SetComputeRootConstantBufferView(2,particleConstantsBuffer->GetAddress());//b2
+		lComputeCommandList->SetComputeRootConstantBufferView(0,timeConstantsBuffer->GetAddress());//b0
+		lComputeCommandList->SetComputeRootConstantBufferView(1,fireGPUParticleDataBuffer->GetAddress());//b1
+		lComputeCommandList->SetComputeRootConstantBufferView(2,particleConstantsBuffer->GetAddress());//b2
 
-			lComputeCommandList->SetComputeRootDescriptorTable(3,particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
-			lComputeCommandList->SetComputeRootDescriptorTable(4,freeListBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u1
+		lComputeCommandList->SetComputeRootDescriptorTable(3,particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
+		lComputeCommandList->SetComputeRootDescriptorTable(4,freeListBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u1
 
-			lComputeCommandList->Dispatch(1,1,1);
-		}
+		lComputeCommandList->Dispatch(1,1,1);
 	}
 
-	//更新
+//更新
 	{
 		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeLaserGPUParticleUpdate",AdaptersIndex::SUB);
 
@@ -175,89 +171,65 @@ void LaserGPUParticle::Create(uint32_t maxParticles_)
 	Initialize();
 }
 
-int32_t LaserGPUParticle::Emit(const LaserGPUParticleSetting& setting_,int32_t index_)
+void LaserGPUParticle::Emit(const LaserGPUParticleSetting& setting_)
 {
-	if ( index_ == -1 )
+
+		emitData.velocity = particleConstant.velocity = setting_.velocity;
+		emitData.lifeTime = particleConstant.lifeTime = setting_.lifeTime;
+		emitData.position = particleConstant.position = setting_.position;
+		emitData.maxParticles = particleConstant.maxParticles = setting_.maxParticles;
+		emitData.startColor = particleConstant.startColor = setting_.startColor;
+		emitData.endColor = particleConstant.endColor = setting_.endColor;
+		emitData.speed = particleConstant.speed = setting_.speed;
+		emitData.maxSize = particleConstant.maxSize = setting_.maxSize;
+		emitData.maxSizeTime = particleConstant.maxSizeTime = setting_.maxSizeTime;
+
+		emitData.timeBetweenEmit = setting_.timeBetweenEmit;
+		emitData.index = 0;
+		emitData.isPlay = setting_.isPlay;
+
+		particleConstantsBuffer->Update(&particleConstant,sizeof(ParticleConstantGPUData) );
+}
+
+void LaserGPUParticle::Move(const AliceMathF::Vector3& move_)
+{
+	emitData.position += move_;
+
+	particleConstant.position = emitData.position;
+
+	particleConstantsBuffer->Update(&particleConstant,sizeof(ParticleConstantGPUData) );
+}
+
+void LaserGPUParticle::SetPos(const AliceMathF::Vector3& pos_)
+{
+	particleConstant.position = emitData.position = pos_;
+
+	particleConstantsBuffer->Update(&particleConstant,sizeof(ParticleConstantGPUData));
+
+}
+
+void LaserGPUParticle::SetVelocity(const AliceMathF::Vector3& velocity_)
+{
+	particleConstant.velocity = emitData.velocity = velocity_;
+
+	particleConstantsBuffer->Update(&particleConstant,sizeof(ParticleConstantGPUData));
+}
+
+void LaserGPUParticle::EmitPlay()
+{
+	if ( !emitData.isPlay )
 	{
-		ParticleEmit lEmitData;
-		ParticleConstantGPUData particleConstant;
-
-		lEmitData.velocity = particleConstant.velocity = setting_.velocity;
-		lEmitData.lifeTime = particleConstant.lifeTime = setting_.lifeTime;
-		lEmitData.position = particleConstant.position = setting_.position;
-		lEmitData.maxParticles = particleConstant.maxParticles = setting_.maxParticles;
-		lEmitData.startColor = particleConstant.startColor = setting_.startColor;
-		lEmitData.endColor = particleConstant.endColor = setting_.endColor;
-		lEmitData.speed = particleConstant.speed = setting_.speed;
-		lEmitData.maxSize = particleConstant.maxSize = setting_.maxSize;
-		lEmitData.maxSizeTime = particleConstant.maxSizeTime = setting_.maxSizeTime;
-
-		lEmitData.timeBetweenEmit = setting_.timeBetweenEmit;
-		lEmitData.index = static_cast< uint32_t >( emitDatas.size() );
-		lEmitData.isPlay = setting_.isPlay;
-
-		emitDatas.push_back(lEmitData);
-		particleConstants.push_back(particleConstant);
-
-		particleConstantsBuffer->Update(particleConstants.data(),( sizeof(ParticleConstantGPUData) * particleConstants.size() ));
-
-		return static_cast< int32_t >( emitDatas.size() - 1 );
-
-	}
-	else
-	{
-		return -1;
-	}
-}
-
-void LaserGPUParticle::Move(const AliceMathF::Vector3& move_,int32_t index_)
-{
-	size_t lIndex = static_cast< size_t >( index_ );
-
-	emitDatas[ lIndex ].position += move_;
-
-	particleConstants[ lIndex ].position = emitDatas[ lIndex ].position;
-
-	particleConstantsBuffer->Update(particleConstants.data(),sizeof(ParticleConstantGPUData) * particleConstants.size());
-}
-
-void LaserGPUParticle::SetPos(const AliceMathF::Vector3& pos_,int32_t index_)
-{
-	size_t lIndex = static_cast< size_t >( index_ );
-
-	particleConstants[ lIndex ].position = emitDatas[ lIndex ].position = pos_;
-
-	particleConstantsBuffer->Update(particleConstants.data(),sizeof(ParticleConstantGPUData) * particleConstants.size());
-
-}
-
-void LaserGPUParticle::SetVelocity(const AliceMathF::Vector3& velocity_,int32_t index_)
-{
-	size_t lIndex = static_cast< size_t >( index_ );
-
-	particleConstants[ lIndex ].velocity = emitDatas[ lIndex ].velocity = velocity_;
-
-	particleConstantsBuffer->Update(particleConstants.data(),sizeof(ParticleConstantGPUData) * particleConstants.size());
-}
-
-void LaserGPUParticle::EmitPlay(int32_t index_)
-{
-	size_t lIndex = static_cast< size_t >( index_ );
-
-	if ( !emitDatas[ lIndex ].isPlay )
-	{
-		emitDatas[ lIndex ].isPlay = true;
-		emitDatas[ lIndex ].emitTimeCounter = 0.0f;
+		emitData.isPlay = true;
+		emitData.emitTimeCounter = 0.0f;
 	}
 }
 
-void LaserGPUParticle::EmitStop(int32_t index_)
+void LaserGPUParticle::EmitStop()
 {
-	size_t lIndex = static_cast< size_t >( index_ );
 
-	if ( emitDatas[ lIndex ].isPlay )
+	if ( emitData.isPlay )
 	{
-		emitDatas[ lIndex ].isPlay = false;
+		emitData.isPlay = false;
 	}
 }
 
@@ -288,7 +260,7 @@ void LaserGPUParticle::PBufferCreate()
 	timeConstantsBuffer = CreateUniqueConstantBuffer(sizeof(TimeConstantGPUData),AdaptersIndex::SUB);
 	worldBillboardBuffer = CreateUniqueConstantBuffer(sizeof(WorldBillboardGPUData),AdaptersIndex::MAIN);
 
-	fireGPUParticleDataBuffer->Update(&fireGPUParticleGPUData);	
+	fireGPUParticleDataBuffer->Update(&fireGPUParticleGPUData);
 
 }
 

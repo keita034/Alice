@@ -33,8 +33,6 @@ private:
 
 	BossShockWaveUsData usData;
 
-	int32_t particleIndex;
-
 	bool isFinish;
 	bool animationFinish;
 	bool shockWaveFinish;

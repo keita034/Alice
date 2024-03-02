@@ -28,8 +28,6 @@ private:
 	Transform firePosition;
 	Transform rigidBodyTransform;
 
-	int32_t particleIndex;
-
 	bool isFinish = false;
 	bool isFire = false;
 

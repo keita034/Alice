@@ -24,5 +24,3 @@ struct EmitData
     float pad;
     float pad2;
 };
-
-static const uint EMIT_DATA_MAX = 100;

@@ -45,7 +45,7 @@ void BossJumpAttackMove::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSys
 	lSetting.startColor = { 1,0,0,1 };
 	lSetting.timeBetweenEmit = 1.5f;
 
-	particleIndex = shockWaveGPUParticle->Emit(lSetting);
+	shockWaveGPUParticle->Emit(lSetting);
 }
 
 void BossJumpAttackMove::Update()
@@ -105,8 +105,8 @@ void BossJumpAttackMove::SetShockWaveCollisionRadius(float radius_)
 
 void BossJumpAttackMove::ShockWave()
 {
-	shockWaveGPUParticle->SetPos(bossPosition,particleIndex);
-	shockWaveGPUParticle->EmitPlay(particleIndex);
+	shockWaveGPUParticle->SetPos(bossPosition);
+	shockWaveGPUParticle->EmitPlay();
 
 	transform.translation = bossPosition;
 	usData.pos = bossPosition;
@@ -151,7 +151,7 @@ void BossJumpAttackMove::End()
 	isFinish = false;
 	usData.isFinish = false;
 	shockWaveTime = 0;
-	shockWaveGPUParticle->EmitStop(particleIndex);
+	shockWaveGPUParticle->EmitStop();
 	time = 0.0f;
 
 	transform.translation = { 0.0f,1000.0f,0.0f };
@@ -161,7 +161,7 @@ void BossJumpAttackMove::End()
 
 void BossJumpAttackMove::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 {
-	shockWaveGPUParticle->EmitStop(particleIndex);
+	shockWaveGPUParticle->EmitStop();
 	physicsSystem_->RemoveRigidBody(rigidBody);
 	bossAnimation = nullptr;
 	shockWaveGPUParticle = nullptr;

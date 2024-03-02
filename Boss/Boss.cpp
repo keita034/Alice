@@ -71,10 +71,10 @@ void Boss::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 		lBloodGushSetting.speed = 350.0f;
 		lBloodGushSetting.timeBetweenEmit = 0.05f;
 		lBloodGushSetting.isPlay = false;
-		bloodGushParticleIndex = particleEmitter->BloodGushGPUParticleEmit("BossBloodGushParticle",lBloodGushSetting);
+		particleEmitter->BloodGushGPUParticleEmit("BossBloodGushParticle",lBloodGushSetting);
 		bloodGushGPUParticle = particleEmitter->GetBloodGushGPUParticle("BossBloodGushParticle");
 
-		//bossGPUParticle->EmitPlay(meshParticleIndex);
+		//bossGPUParticle->EmitPlay();
 		bossModelGPUParticle->EmitPlay();
 
 	}
@@ -87,6 +87,8 @@ void Boss::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 
 	actionManager = std::make_unique<BossActionManager>();
 	actionManager->SetParticleEmitter(particleEmitter);
+	actionManager->SetPlayer(player);
+	actionManager->SetBoss(this);
 	actionManager->Initialize(animation.get(),physicsSystem_,&transform);
 
 
@@ -104,6 +106,8 @@ void Boss::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 
 	Reset();
 
+
+
 }
 
 void Boss::Update()
@@ -118,7 +122,7 @@ void Boss::Update()
 
 	if ( hp > 0 )
 	{
-		actionManager->Update(player->GetPosition(),transform.translation,"mixamorig:RightHand",animation->GetAnimation(),model.get(),isMove,{ hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->GetCenterOfMassTransform(),hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->GetCenterOfMassTransform() });
+		actionManager->Update("mixamorig:RightHand",animation->GetAnimation(),model.get(),isMove,{ hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->GetCenterOfMassTransform(),hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->GetCenterOfMassTransform() });
 	}
 
 	bossUI->SetHp(hp,MAX_HP);
@@ -174,8 +178,6 @@ void Boss::Update()
 
 	if ( situation & ActorSituation::ATTACK )
 	{
-		hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->ParticleEmit();
-
 		if ( animation->GetAnimation()->GetRatio() >= 0.22f && animation->GetAnimation()->GetRatio() <= 0.6f )
 		{
 			hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->SetSituation(situation);
@@ -197,11 +199,32 @@ void Boss::Update()
 
 		hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->ParticleStop();
 	}
-
-	if ( hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->GetCutting() || hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->GetCutting() )
+	//
+		GetModelParticle()->InvisibleBoneMesh("elemental_element1mesh.003","mixamorig:RightHand");
+	if ( hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->GetCutting() && !( situation & ActorSituation::LEFT_CUTTING ) ||
+		hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->GetCutting() && !( situation & ActorSituation::RIGHT_CUTTING ))
 	{
-		if ( !actionManager->IsReconstruction() )
+		reconstruction = true;
+
+		if ( hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->GetCutting() )
 		{
+			situation |= ActorSituation::LEFT_CUTTING;
+		}
+		else if ( hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->GetCutting() )
+		{
+			situation |= ActorSituation::RIGHT_CUTTING;
+		}
+
+
+	}
+
+	if ( reconstruction )
+	{
+		reconstructionTime--;
+
+		if ( reconstructionTime <= 0 && !actionManager->IsReconstruction() || situation & ActorSituation::LEFT_CUTTING && situation & ActorSituation::RIGHT_CUTTING  )
+		{
+			situation &= ~ActorSituation::LEFT_CUTTING || ActorSituation::RIGHT_CUTTING;
 			actionManager->StartReconstruction();
 		}
 	}
@@ -233,7 +256,7 @@ void Boss::UIDraw()
 void Boss::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 {
 	//bossGPUParticle->EmitStop(meshParticleIndex);
-	bloodGushGPUParticle->EmitStop(0);
+	bloodGushGPUParticle->EmitStop();
 	//bossGPUParticle->EmitStop(0);
 	bossModelGPUParticle->EmitStop();
 
@@ -266,8 +289,9 @@ void Boss::TransUpdate(Camera* camera_)
 	//bossGPUParticle->SetMat(transform.matWorld,0);
 
 	bossModelGPUParticle->SetMat(transform.matWorld);
-	particleEmitter->GetAnimationMeshGPUParticle("BossLeftHandParticle")->SetMat(transform.matWorld,0);
-	particleEmitter->GetAnimationMeshGPUParticle("BossRightHandParticle")->SetMat(transform.matWorld,0);
+	particleEmitter->GetAnimationMeshGPUParticle("BossLeftHandParticle")->SetMat(transform.matWorld);
+	particleEmitter->GetAnimationMeshGPUParticle("BossRightHandParticle")->SetMat(transform.matWorld);
+	particleEmitter->GetMeshGPUParticle("EffectSphereParticle")->SetMat(rigidBody->GetCenterOfMassTransform());
 #ifdef _DEBUG
 	actionManager->GetBossJumpAttackMove()->TransUpdate(camera_);
 
@@ -335,6 +359,26 @@ void Boss::OnCollisionExit()
 {
 }
 
+AliceMathF::Vector3 Boss::GetPos() const
+{
+	return transform.translation;
+}
+
+AliceMathF::Vector3 Boss::GetCenterPos() const
+{
+	return AliceMathF::GetWorldPosition(rigidBody->GetCenterOfMassTransform());
+}
+
+AliceMathF::Matrix4 Boss::GetCenterOfMassTransform()
+{
+	return rigidBody->GetCenterOfMassTransform();
+}
+
+int32_t Boss::GetSituation() const
+{
+	return situation;
+}
+
 void Boss::DamageEnterCalculation(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_,float power_)
 {
 	if ( BodyData_->GetGroup() == CollisionGroup::PLAYER && BodyData_->GetAttribute() == CollisionAttribute::WEAPON && player->IsAttack() && !( situation & ActorSituation::DAMAGE ) )
@@ -359,7 +403,7 @@ void Boss::DamageEnterCalculation(AlicePhysics::RigidBodyUserData* BodyData_,con
 
 				situation |= ActorSituation::DAMAGE;
 				audioManager->PlayWave(damageSE);
-				bloodGushGPUParticle->EmitPlay(hitPosdition_,lUsData->velocity,bloodGushParticleIndex);
+				bloodGushGPUParticle->EmitPlay(hitPosdition_,lUsData->velocity);
 
 				if ( hp <= 0 )
 				{
@@ -390,7 +434,7 @@ void Boss::DamageEnterCalculation(AlicePhysics::RigidBodyUserData* BodyData_,con
 
 				situation |= ActorSituation::DAMAGE;
 				audioManager->PlayWave(damageSE);
-				bloodGushGPUParticle->EmitPlay(hitPosdition_,lUsData->velocity,bloodGushParticleIndex);
+				bloodGushGPUParticle->EmitPlay(hitPosdition_,lUsData->velocity);
 
 				if ( hp <= 0 )
 				{
@@ -434,7 +478,7 @@ bool Boss::DamageEnterCalculation(AlicePhysics::RigidBodyUserData* BodyData_,con
 
 				if ( particle_ )
 				{
-					bloodGushGPUParticle->EmitPlay(hitPosdition_,lUsData->velocity,bloodGushParticleIndex);
+					bloodGushGPUParticle->EmitPlay(hitPosdition_,lUsData->velocity);
 				}
 			}
 
@@ -465,7 +509,7 @@ bool Boss::DamageEnterCalculation(AlicePhysics::RigidBodyUserData* BodyData_,con
 
 				if ( particle_ )
 				{
-					bloodGushGPUParticle->EmitPlay(hitPosdition_,lUsData->velocity,bloodGushParticleIndex);
+					bloodGushGPUParticle->EmitPlay(hitPosdition_,lUsData->velocity);
 				}
 			}
 

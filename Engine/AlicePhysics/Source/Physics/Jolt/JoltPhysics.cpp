@@ -135,7 +135,8 @@ void AlicePhysics::JoltPhysics::CreateRigidBody(IRigidBody*& rigidBody_,const IR
 	lSetting.mMotionQuality = settings_->linearCast ? JPH::EMotionQuality::LinearCast : JPH::EMotionQuality::Discrete;
 	lSetting.mIsSensor = settings_->trigger;
 	lSetting.SetShape(lShape);
-
+	lSetting.mMaxLinearVelocity = settings_->maxLinearVelocity;
+	lSetting.mMaxAngularVelocity = settings_->maxAngularVelocity;
 	//生成
 	lRigidBody->body = lBodyInterface.CreateBody(lSetting);
 

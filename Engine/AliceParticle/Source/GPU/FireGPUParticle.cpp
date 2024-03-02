@@ -61,36 +61,33 @@ void FireGPUParticle::Update(float deltaTime_)
 
 	ID3D12GraphicsCommandList* lComputeCommandList = computeAdapter->GetComputeCommandList();
 
-	for ( ParticleEmit& emitData : emitDatas )
+	//生成
+	if ( PCanEmit(emitData,deltaTime_) )
 	{
-		//生成
-		if ( PCanEmit(emitData,deltaTime_) )
-		{
-			fireGPUParticleGPUData.emitDataIndex = emitData.index;
-			fireGPUParticleDataBuffer->Update(&fireGPUParticleGPUData);
+		fireGPUParticleGPUData.emitDataIndex = emitData.index;
+		fireGPUParticleDataBuffer->Update(&fireGPUParticleGPUData);
 
-			ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeFireGPUParticleEmit",AdaptersIndex::SUB);
+		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeFireGPUParticleEmit",AdaptersIndex::SUB);
 
-			lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
-			lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
+		lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
+		lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
 
-			ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::SUB)->GetHeap() };
-			lComputeCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
+		ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::SUB)->GetHeap() };
+		lComputeCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
 
-			lComputeCommandList->SetComputeRootConstantBufferView(0,timeConstantsBuffer->GetAddress());//b0
-			lComputeCommandList->SetComputeRootConstantBufferView(1,fireGPUParticleDataBuffer->GetAddress());//b1
-			lComputeCommandList->SetComputeRootConstantBufferView(2,particleConstantsBuffer->GetAddress());//b2
+		lComputeCommandList->SetComputeRootConstantBufferView(0,timeConstantsBuffer->GetAddress());//b0
+		lComputeCommandList->SetComputeRootConstantBufferView(1,fireGPUParticleDataBuffer->GetAddress());//b1
+		lComputeCommandList->SetComputeRootConstantBufferView(2,particleConstantsBuffer->GetAddress());//b2
 
 
-			lComputeCommandList->SetComputeRootDescriptorTable(3,particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
-			lComputeCommandList->SetComputeRootDescriptorTable(4,freeListBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u1
-			lComputeCommandList->SetComputeRootDescriptorTable(5,drawListBuffer->GetUAVAddress(CrossAdapterResourceIndex::MAIN));//u2
+		lComputeCommandList->SetComputeRootDescriptorTable(3,particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
+		lComputeCommandList->SetComputeRootDescriptorTable(4,freeListBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u1
+		lComputeCommandList->SetComputeRootDescriptorTable(5,drawListBuffer->GetUAVAddress(CrossAdapterResourceIndex::MAIN));//u2
 
-			lComputeCommandList->Dispatch(static_cast< UINT >( emitData.emitCount / 1024 ) + 1,1,1);
-		}
+		lComputeCommandList->Dispatch(static_cast< UINT >( emitData.emitCount / 1024 ) + 1,1,1);
 	}
 
-	//更新
+//更新
 	{
 		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeFireGPUParticleUpdate",AdaptersIndex::SUB);
 
@@ -179,62 +176,41 @@ void FireGPUParticle::Create(uint32_t maxParticles_)
 	Initialize();
 }
 
-int32_t FireGPUParticle::Emit(const FireGPUParticleSetting& setting_,int32_t index_)
+void FireGPUParticle::Emit(const FireGPUParticleSetting& setting_)
 {
-	if ( index_ == -1 )
-	{
-		ParticleEmit lEmitData;
-		ParticleConstantGPUData particleConstant;
+	emitData.convergePointPosition = particleConstant.convergePointPosition = setting_.convergePointPosition;
+	emitData.radius = particleConstant.radius = setting_.radius;
+	emitData.position = particleConstant.position = setting_.position;
+	emitData.maxParticles = particleConstant.maxParticles = setting_.maxParticles;
+	emitData.endColor = particleConstant.endColor = setting_.endColor;
+	emitData.startColor = particleConstant.startColor = setting_.startColor;
+	emitData.lifeTime = particleConstant.lifeTime = setting_.lifeTime;
+	emitData.size = particleConstant.size = setting_.size;
+	emitData.speed = particleConstant.speed = setting_.speed;
+	emitData.emitCount = particleConstant.emitCount = setting_.emitCount;
 
-		lEmitData.convergePointPosition = particleConstant.convergePointPosition = setting_.convergePointPosition;
-		lEmitData.radius = particleConstant.radius = setting_.radius;
-		lEmitData.position = particleConstant.position = setting_.position;
-		lEmitData.maxParticles = particleConstant.maxParticles = setting_.maxParticles;
-		lEmitData.endColor = particleConstant.endColor = setting_.endColor;
-		lEmitData.startColor = particleConstant.startColor = setting_.startColor;
-		lEmitData.lifeTime = particleConstant.lifeTime = setting_.lifeTime;
-		lEmitData.size = particleConstant.size = setting_.size;
-		lEmitData.speed = particleConstant.speed = setting_.speed;
-		lEmitData.emitCount = particleConstant.emitCount = setting_.emitCount;
+	emitData.emitLifeTime = emitData.emitMaxLifeTime = setting_.emitLifeTime;
+	emitData.timeBetweenEmit = setting_.timeBetweenEmit;
+	emitData.index = 0;
+	emitData.isPlay = setting_.isPlay;
 
-		lEmitData.emitLifeTime = lEmitData.emitMaxLifeTime = setting_.emitLifeTime;
-		lEmitData.timeBetweenEmit = setting_.timeBetweenEmit;
-		lEmitData.index = static_cast< uint32_t >( emitDatas.size() );
-		lEmitData.isPlay = setting_.isPlay;
-
-		emitDatas.push_back(lEmitData);
-		particleConstants.push_back(particleConstant);
-
-		particleConstantsBuffer->Update(particleConstants.data(),( sizeof(ParticleConstantGPUData) * particleConstants.size() ));
-
-		return static_cast< int32_t >( emitDatas.size() - 1 );
-
-	}
-	else
-	{
-		return -1;
-	}
-
+	particleConstantsBuffer->Update(&particleConstant,sizeof(ParticleConstantGPUData));
 }
 
-void FireGPUParticle::Move(const AliceMathF::Vector3& move_,int32_t index_)
+void FireGPUParticle::Move(const AliceMathF::Vector3& move_)
 {
-	size_t lIndex = static_cast< size_t >( index_ );
+	emitData.position += move_;
 
-	emitDatas[ lIndex ].position += move_;
+	particleConstant.position = emitData.position;
 
-	particleConstants[ lIndex ].position = emitDatas[ lIndex ].position;
-
-	particleConstantsBuffer->Update(particleConstants.data(),sizeof(ParticleConstantGPUData) * particleConstants.size());
+	particleConstantsBuffer->Update(&particleConstant,sizeof(ParticleConstantGPUData));
 }
 
-void FireGPUParticle::SetPos(const AliceMathF::Vector3& pos_,int32_t index_)
+void FireGPUParticle::SetPos(const AliceMathF::Vector3& pos_)
 {
-	size_t lIndex = static_cast< size_t >( index_ );
+	particleConstant.position = emitData.position = pos_;
 
-	particleConstants[ lIndex ].position = emitDatas[ lIndex ].position = pos_;
-
-	particleConstantsBuffer->Update(particleConstants.data(),sizeof(ParticleConstantGPUData) * particleConstants.size());
+	particleConstantsBuffer->Update(&particleConstant,sizeof(ParticleConstantGPUData));
 }
 
 void FireGPUParticle::SetTex(uint32_t textureHandle_)
@@ -242,25 +218,21 @@ void FireGPUParticle::SetTex(uint32_t textureHandle_)
 	texture = TextureManager::SGetTextureData(textureHandle_);
 }
 
-void FireGPUParticle::EmitPlay(int32_t index_)
+void FireGPUParticle::EmitPlay()
 {
-	size_t lIndex = static_cast< size_t >( index_ );
-
-	if ( !emitDatas[ lIndex ].isPlay )
+	if ( emitData.isPlay )
 	{
-		emitDatas[ lIndex ].isPlay = true;
-		emitDatas[ lIndex ].emitLifeTime = emitDatas[ lIndex ].emitMaxLifeTime;
-		emitDatas[ lIndex ].emitTimeCounter = 0.0f;
+		emitData.isPlay = true;
+		emitData.emitLifeTime = emitData.emitMaxLifeTime;
+		emitData.emitTimeCounter = 0.0f;
 	}
 }
 
-void FireGPUParticle::EmitStop(int32_t index_)
+void FireGPUParticle::EmitStop()
 {
-	size_t lIndex = static_cast< size_t >( index_ );
-
-	if ( emitDatas[ lIndex ].isPlay )
+	if ( emitData.isPlay )
 	{
-		emitDatas[ lIndex ].isPlay = false;
+		emitData.isPlay = false;
 	}
 }
 

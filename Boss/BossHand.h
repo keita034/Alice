@@ -33,11 +33,11 @@ private:
 	BossUsData bossUsData;
 	Transform bossHandTrans;
 
-	int32_t particleIndex;
 	int32_t hp = 1;
 	int32_t timer = 0;
 
 	ReservationFlag flag;
+	ReservationFlag flag2;
 
 	bool death = false;
 	bool isPa = false;

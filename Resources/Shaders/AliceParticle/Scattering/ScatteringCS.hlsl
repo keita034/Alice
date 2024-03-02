@@ -1,4 +1,5 @@
 #include<../GPUParticle.hlsli>
+#include<../../HLSLMath.hlsli>
 
 cbuffer Data : register(b0)
 {
@@ -35,7 +36,12 @@ void main(uint3 DTid : SV_DispatchThreadID)
     //particle.age = 0;
     particle.velocity = vec * speed;
     particle.accel = accel;
-    //particle.lifeTime = lifeTime;
+    
+    if (lifeTime != 0)
+    {
+        float rnd = RandFloat(particle .index, 1.0, 0.0);
+        particle.velocity = vec * (speed * rnd);
+    }
     
     ParticlePool[DTid.x] = particle;
 }

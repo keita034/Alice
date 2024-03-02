@@ -43,9 +43,6 @@ private:
 	AliceMathF::Vector3 retBossPos;
 	Phase phase;
 
-	int32_t particleIndex;
-
-
 	bool isFinish = false;
 
 	int32_t time = 0;

@@ -37,9 +37,6 @@ private:
 
 class MeshGPUParticle : public BaseGPUParticle
 {
-private:
-	static constexpr size_t EMIT_DATA_MAX_COUNT = 100;
-
 public://GPUで使う構造体
 
 	struct ParticleConstantGPUData
@@ -68,7 +65,7 @@ public://GPUで使う構造体
 
 	struct ParticleConstantGPUDatas
 	{
-		std::array<ParticleConstantGPUData,EMIT_DATA_MAX_COUNT>particleConstantGPUDatas;
+		ParticleConstantGPUData particleConstantGPUData;
 	};
 
 public://内部で使う構造体
@@ -96,6 +93,10 @@ public://内部で使う構造体
 
 private:
 
+	TextureData* texture;
+	TextureData* determineTexture;
+	BoneMesh* boneMesh;
+
 	std::unique_ptr<IDrawArgumentBuffer>drawArgumentBuffer;
 
 	Microsoft::WRL::ComPtr<ID3D12CommandSignature> particleCommandSignature = nullptr;
@@ -109,18 +110,15 @@ private:
 
 	WorldBillboardGPUData worldBillboardGPUData;
 	TimeConstantGPUData timeGPUData;
-	bool boneMeshRoot = false;
-	Byte3 PADING;
 	FireGPUParticleGPUData fireGPUParticleGPUData;
 
-	std::vector<ParticleEmit>emitDatas;
-	std::vector<ParticleConstantGPUData>particleConstants;
+	ParticleEmit emitData;
+	ParticleConstantGPUData particleConstant;
 
 	size_t emitDataCount;
 
-	TextureData* texture;
-	TextureData* determineTexture;
-	BoneMesh* boneMesh;
+	bool boneMeshRoot = false;
+	Byte7 PADING;
 
 public:
 
@@ -132,14 +130,14 @@ public:
 	void Finalize() override;
 	void Draw(const AliceMathF::Matrix4& worldMat_,const AliceMathF::Matrix4& billboardMat_) override;
 	void Create(uint32_t maxParticles_);
-	int32_t Emit(const MeshGPUParticleSetting& setting_,int32_t index_ = -1);
-	void EmitStop(int32_t index_);
-	void EmitPlay(int32_t index_,bool flag_ = true);
+	void Emit(const MeshGPUParticleSetting& setting_);
+	void EmitStop();
+	void EmitPlay(bool flag_ = true);
 
 	float GetDeltaTime() const;
 	void SetSetting()override;
 
-	void SetMat(const AliceMathF::Matrix4& matWorld_ ,int32_t index_);
+	void SetMat(const AliceMathF::Matrix4& matWorld_);
 	void SetDetermineTex(uint32_t textureHandle_);
 	void SetTex(uint32_t textureHandle_);
 	void SetModel(AliceModel* model_);
@@ -152,7 +150,7 @@ private:
 	void PBufferCreate();
 	void PUpdateConstantBuffer(float deltaTime_)override;
 	bool PCanEmit(ParticleEmit& data_,float deltaTime_);
-	void PReadChildren(ID3D12GraphicsCommandList* computeCommandList_,size_t index_,MeshGPUParticleModelMesh* mesh_,BoneMesh* boneMesh_,bool root_);
+	void PReadChildren(ID3D12GraphicsCommandList* computeCommandList_,MeshGPUParticleModelMesh* mesh_,BoneMesh* boneMesh_,bool root_);
 
 	//コピーコンストラクタ・代入演算子削除
 	MeshGPUParticle& operator=(const MeshGPUParticle&) = delete;

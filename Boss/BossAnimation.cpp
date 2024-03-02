@@ -7,12 +7,14 @@ void BossAnimation::Initialize()
 	walkAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/Walking.almb");//歩き
 	runAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/Run.almb");//走り
 
-	downAttackAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/Punch.almb");//パンチ
+	downRightAttackAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/PunchR.almb");//パンチ
+	downLeftAttackAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/PunchL.almb");//パンチ
 	deathAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/Dying.almb");//死んだ時
 	jumpAttackAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/JumpAttack.almb");//ジャンプ攻撃
 	beamAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/Beam.almb");//ビーム
 	closeRangeAttackAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/CloseRangeAttack.almb");//近づく攻撃
 	recoveryAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/Recovery.almb");//回復
+	blowawayAnimationHandle = AliceMotionData::SCreateMotion("Resources/Model/Boss/Motion/Blowaway.almb");//回復
 
 	blendTree = std::make_unique<AliceBlendTree>();
 	blendTree->AddAnimation(standAnimationHandle);
@@ -39,9 +41,14 @@ float BossAnimation::GetRatio()
 	return blendTree->GetRatio();
 }
 
-void BossAnimation::InsertDownAttackAnimation()
+void BossAnimation::InsertDownRightAttackAnimation()
 {
-	blendTree->CoercionInsertAnimation(downAttackAnimationHandle);
+	blendTree->CoercionInsertAnimation(downRightAttackAnimationHandle);
+}
+
+void BossAnimation::InsertDownLeftAttackAnimation()
+{
+	blendTree->CoercionInsertAnimation(downLeftAttackAnimationHandle);
 }
 
 void BossAnimation::InsertDeathAnimation()
@@ -67,6 +74,11 @@ void BossAnimation::InsertCloseRangeAttackAnimation()
 void BossAnimation::InsertRecoveryAnimation()
 {
 	blendTree->CoercionInsertAnimation(recoveryAnimationHandle);
+}
+
+void BossAnimation::InsertBlowawayAnimation()
+{
+	blendTree->CoercionInsertAnimation(blowawayAnimationHandle);
 }
 
 bool BossAnimation::IsInsert()

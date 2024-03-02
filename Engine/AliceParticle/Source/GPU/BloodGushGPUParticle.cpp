@@ -58,34 +58,31 @@ void BloodGushGPUParticle::Update(float deltaTime_)
 
 	ID3D12GraphicsCommandList* lComputeCommandList = computeAdapter->GetComputeCommandList();
 
-	for ( ParticleEmit& emitData : emitDatas )
+	//生成
+	if ( PCanEmit(emitData,deltaTime_) )
 	{
-		//生成
-		if ( PCanEmit(emitData,deltaTime_) )
-		{
-			fireGPUParticleGPUData.emitDataIndex = emitData.index;
-			fireGPUParticleDataBuffer->Update(&fireGPUParticleGPUData);
+		fireGPUParticleGPUData.emitDataIndex = emitData.index;
+		fireGPUParticleDataBuffer->Update(&fireGPUParticleGPUData);
 
-			ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeBloodGushGPUParticleEmit",AdaptersIndex::SUB);
+		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeBloodGushGPUParticleEmit",AdaptersIndex::SUB);
 
-			lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
-			lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
+		lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
+		lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
 
-			ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::SUB)->GetHeap() };
-			lComputeCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
+		ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::SUB)->GetHeap() };
+		lComputeCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
 
-			lComputeCommandList->SetComputeRootConstantBufferView(0,timeConstantsBuffer->GetAddress());//b0
-			lComputeCommandList->SetComputeRootConstantBufferView(1,fireGPUParticleDataBuffer->GetAddress());//b1
-			lComputeCommandList->SetComputeRootConstantBufferView(2,particleConstantsBuffer->GetAddress());//b2
+		lComputeCommandList->SetComputeRootConstantBufferView(0,timeConstantsBuffer->GetAddress());//b0
+		lComputeCommandList->SetComputeRootConstantBufferView(1,fireGPUParticleDataBuffer->GetAddress());//b1
+		lComputeCommandList->SetComputeRootConstantBufferView(2,particleConstantsBuffer->GetAddress());//b2
 
+		lComputeCommandList->SetComputeRootDescriptorTable(3,particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
+		lComputeCommandList->SetComputeRootDescriptorTable(4,freeListBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u1
+		lComputeCommandList->SetComputeRootDescriptorTable(5,drawListBuffer->GetUAVAddress(CrossAdapterResourceIndex::MAIN));//u2
 
-			lComputeCommandList->SetComputeRootDescriptorTable(3,particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
-			lComputeCommandList->SetComputeRootDescriptorTable(4,freeListBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u1
-			lComputeCommandList->SetComputeRootDescriptorTable(5,drawListBuffer->GetUAVAddress(CrossAdapterResourceIndex::MAIN));//u2
-
-			lComputeCommandList->Dispatch(static_cast< UINT >( emitData.emitCount / 1024 ) + 1,1,1);
-		}
+		lComputeCommandList->Dispatch(static_cast< UINT >( emitData.emitCount / 1024 ) + 1,1,1);
 	}
+
 
 	//更新
 	{
@@ -175,40 +172,25 @@ void BloodGushGPUParticle::Create(uint32_t maxParticles_)
 	Initialize();
 }
 
-int32_t BloodGushGPUParticle::Emit(const BloodGushGPUParticleSetting& setting_,int32_t index_)
+void BloodGushGPUParticle::Emit(const BloodGushGPUParticleSetting& setting_)
 {
-	if ( index_ == -1 )
-	{
-		ParticleEmit lEmitData;
-		ParticleConstantGPUData particleConstant;
 
-		lEmitData.endColor = particleConstant.endColor = setting_.endColor;
-		lEmitData.startColor = particleConstant.startColor = setting_.startColor;
-		lEmitData.lifeTime = particleConstant.lifeTime = setting_.lifeTime;
-		lEmitData.size = particleConstant.size = setting_.size;
-		lEmitData.speed = particleConstant.speed = setting_.speed;
-		lEmitData.emitCount = particleConstant.emitCount = static_cast< uint32_t >( EMIT_COUNT * setting_.amount );
-		lEmitData.accel = particleConstant.accel = setting_.accel;
+		emitData.endColor = particleConstant.endColor = setting_.endColor;
+		emitData.startColor = particleConstant.startColor = setting_.startColor;
+		emitData.lifeTime = particleConstant.lifeTime = setting_.lifeTime;
+		emitData.size = particleConstant.size = setting_.size;
+		emitData.speed = particleConstant.speed = setting_.speed;
+		emitData.emitCount = particleConstant.emitCount = static_cast< uint32_t >( 20 * setting_.amount );
+		emitData.accel = particleConstant.accel = setting_.accel;
 
-		lEmitData.timeBetweenEmit = setting_.timeBetweenEmit;
-		lEmitData.isPlay = setting_.isPlay;
+		emitData.timeBetweenEmit = setting_.timeBetweenEmit;
+		emitData.isPlay = setting_.isPlay;
 
-		lEmitData.emitLifeTime = lEmitData.emitMaxLifeTime = setting_.emitLifeTime;
-		lEmitData.index = static_cast< uint32_t >( emitDatas.size() );
+		emitData.emitLifeTime = emitData.emitMaxLifeTime = setting_.emitLifeTime;
+		emitData.index = 0;
 
+		particleConstantsBuffer->Update(&particleConstant,sizeof(ParticleConstantGPUData));
 
-		emitDatas.push_back(lEmitData);
-		particleConstants.push_back(particleConstant);
-
-		particleConstantsBuffer->Update(particleConstants.data(),( sizeof(ParticleConstantGPUData) * particleConstants.size() ));
-
-		return static_cast< int32_t >( emitDatas.size() - 1 );
-
-	}
-	else
-	{
-		return -1;
-	}
 }
 
 void BloodGushGPUParticle::SetTex(uint32_t textureHandle_)
@@ -216,29 +198,25 @@ void BloodGushGPUParticle::SetTex(uint32_t textureHandle_)
 	texture = TextureManager::SGetTextureData(textureHandle_);
 }
 
-void BloodGushGPUParticle::EmitPlay(const AliceMathF::Vector3& pos_,const AliceMathF::Vector3& velocity_,int32_t index_)
+void BloodGushGPUParticle::EmitPlay(const AliceMathF::Vector3& pos_,const AliceMathF::Vector3& velocity_)
 {
-	size_t lIndex = static_cast< size_t >( index_ );
-
-	if ( !emitDatas[ lIndex ].isPlay )
+	if ( !emitData.isPlay )
 	{
-		emitDatas[ lIndex ].isPlay = true;
-		emitDatas[ lIndex ].emitLifeTime = emitDatas[ lIndex ].emitMaxLifeTime;
-		emitDatas[ lIndex ].position = pos_;
-		emitDatas[ lIndex ].velocity = particleConstants[ lIndex ].velocity = velocity_;
-		emitDatas[ lIndex ].position = particleConstants[ lIndex ].position = pos_;
+		emitData.isPlay = true;
+		emitData.emitLifeTime = emitData.emitMaxLifeTime;
+		emitData.position = pos_;
+		emitData.velocity = particleConstant.velocity = velocity_;
+		emitData.position = particleConstant.position = pos_;
 
-		particleConstantsBuffer->Update(particleConstants.data(),( sizeof(ParticleConstantGPUData) * particleConstants.size() ));
+		particleConstantsBuffer->Update(&particleConstant,sizeof(ParticleConstantGPUData));
 	}
 }
 
-void BloodGushGPUParticle::EmitStop(int32_t index_)
+void BloodGushGPUParticle::EmitStop()
 {
-	size_t lIndex = static_cast< size_t >( index_ );
-
-	if ( emitDatas[ lIndex ].isPlay )
+	if ( emitData.isPlay )
 	{
-		emitDatas[ lIndex ].isPlay = false;
+		emitData.isPlay = false;
 	}
 }
 

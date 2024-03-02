@@ -1,7 +1,17 @@
 #include "BossActionManager.h"
+#include<Player.h>
+#include<AliceAssert.h>
+#include<Boss.h>
 
 void BossActionManager::Initialize(BossAnimation* animation_,AlicePhysics::AlicePhysicsSystem* physicsSystem_,Transform* bossTransform_)
 {
+	AliceAssertNull(particleEmitter,"ParticleEmitterIsNull");
+	AliceAssertNull(player,"PlayerIsNull");
+	AliceAssertNull(bossTransform_,"BossTransformIsNull");
+	AliceAssertNull(animation_,"AnimationIsNull");
+	AliceAssertNull(physicsSystem_,"PhysicsSystemIsNull");
+
+
 	bossTransform = bossTransform_;
 	chaseMove = std::make_unique<BossChaseMove>();
 	chaseMove->Initialize();
@@ -26,13 +36,15 @@ void BossActionManager::Initialize(BossAnimation* animation_,AlicePhysics::Alice
 	animation = animation_;
 }
 
-void BossActionManager::Update(const AliceMathF::Vector3& plyerPos_,const AliceMathF::Vector3& bossPos_,const std::string& boneName_,AliceBlendTree* tree_,AliceModel* bossModel_,bool action_,const std::array< AliceMathF::Matrix4,2>& hands)
+void BossActionManager::Update(const std::string& boneName_,AliceBlendTree* tree_,AliceModel* bossModel_,bool action_,const std::array< AliceMathF::Matrix4,2>& hands)
 {
 	float length = 0.0f;
+	AliceMathF::Vector3 lPlyerPos = player->GetPosition();
+	AliceMathF::Vector3 lBossPos = boss->GetPos();
 
 	if ( bossAction == BossAction::NONE )
 	{
-		AliceMathF::Vector3 vec = plyerPos_ - bossPos_;
+		AliceMathF::Vector3 vec = lPlyerPos - lBossPos;
 		length = AliceMathF::Abs(vec.Length());
 
 		if ( length < 300 )
@@ -57,51 +69,88 @@ void BossActionManager::Update(const AliceMathF::Vector3& plyerPos_,const AliceM
 		{
 			do
 			{
-				if ( !isReconstruction)
+				if ( !isReconstruction && !isCloseRangeAttack )
 				{
-					bossAction = ChoiceAction(length,bossPos_,action_);
+					bossAction = ChoiceAction(length,lBossPos,action_);
 				}
-				else
+				else if ( isReconstruction )
 				{
 					bossAction = BossAction::RECONSTRUCTION;
+				}
+				else if ( isCloseRangeAttack )
+				{
+					bossAction = BossAction::CLOSERANGE_ATTACK;
+					isCloseRangeAttack = false;
 				}
 
 				switch ( bossAction )
 				{
 				case BossAction::NONE:
+				{
 					actionCount = MAX_ACTION_COUNT;
-					break;
+				}
+				break;
+
 				case BossAction::CHASE_ATTACK:
+				{
 					bossInternalAction = BossInternalAction::CHASE;
-					chaseMove->SetPlayerPos(plyerPos_);
-					chaseMove->SetBossPos(bossPos_);
+					chaseMove->SetPlayerPos(lPlyerPos);
+					chaseMove->SetBossPos(lBossPos);
 					animation->SetWalkThresh();
-					break;
+				}
+				break;
+
 				case BossAction::JUMP_ATTACK:
+				{
 					bossInternalAction = BossInternalAction::JUMP_ATTACK;
 					animation->InserJumpAttackAnimation();
-					jumpAttackMove->SetBossPosition(bossPos_);
-					direction = -AliceMathF::Vector3(plyerPos_ - bossPos_).Normal();
-					break;
+					jumpAttackMove->SetBossPosition(lBossPos);
+					lPlyerPos = { lPlyerPos.x,0.0f,lPlyerPos.z };
+					lBossPos = { lBossPos.x,0.0f,lBossPos.z };
+					direction = -AliceMathF::Vector3(lPlyerPos - lBossPos).Normal();
+				}
+				break;
+
 				case BossAction::BEAM_ATTACK:
+				{
 					bossInternalAction = BossInternalAction::BEAM_ATTACK;
 					animation->InserBeamAnimation();
-					direction = -AliceMathF::Vector3(plyerPos_ - bossPos_).Normal();
-					break;
+					lPlyerPos = { lPlyerPos.x,0.0f,lPlyerPos.z };
+					lBossPos = { lBossPos.x,0.0f,lBossPos.z };
+					direction = -AliceMathF::Vector3(lPlyerPos - lBossPos).Normal();
+				}
+				break;
+
 				case BossAction::CLOSERANGE_ATTACK:
+				{
 					bossInternalAction = BossInternalAction::CLOSERANGE_ATTACK;
-					closeRangeAttack->SetPlayerPos(plyerPos_);
-					closeRangeAttack->SetBossPos(bossPos_);
+					closeRangeAttack->SetPlayerPos(lPlyerPos);
+					closeRangeAttack->SetBossPos(lBossPos);
 					animation->InsertCloseRangeAttackAnimation();
-					break;
+				}
+				break;
+
 				case BossAction::RECONSTRUCTION:
+				{
 					animation->InsertRecoveryAnimation();
-					break;
+				}
+				break;
+
+				case BossAction::BLOWAWAY_ATTACK:
+				{
+					animation->InsertBlowawayAnimation();
+					lPlyerPos = { lPlyerPos.x,0.0f,lPlyerPos.z };
+					lBossPos = { lBossPos.x,0.0f,lBossPos.z };
+					playerForce = AliceMathF::Vector3(lPlyerPos - lBossPos).Normal();
+
+				}
+				break;
 
 				case BossAction::BOSS_ACTION_NUM:
 				default:
 					break;
 				}
+
 			} while ( bossAction == BossAction::BOSS_ACTION_NUM );
 		}
 	}
@@ -163,6 +212,9 @@ void BossActionManager::PMoveUpdate(const std::string& boneName_,AliceBlendTree*
 	case BossAction::RECONSTRUCTION:
 		PReconstruction(hands);
 		break;
+	case BossAction::BLOWAWAY_ATTACK:
+		PBlowaway();
+		break;
 	case BossAction::BOSS_ACTION_NUM:
 		break;
 	default:
@@ -178,11 +230,26 @@ void BossActionManager::PChaseAttack()
 		if ( chaseMove->IsFinish() )
 		{
 			bossInternalAction = BossInternalAction::ATTACK;
-			animation->InsertDownAttackAnimation();
 			direction = -chaseMove->GetDirection();
 			chaseMove->Finalize();
 			distanceTraveled = { 0,0,0 };
 			animation->SetStandThresh();
+
+			if ( !( boss->GetSituation() & ActorSituation::RIGHT_CUTTING ) )
+			{
+				animation->InsertDownRightAttackAnimation();
+			}
+			else if ( !( boss->GetSituation() & ActorSituation::LEFT_CUTTING ) )
+			{
+				animation->InsertDownLeftAttackAnimation();
+			}
+			else
+			{
+				actionCount = 25;
+				bossInternalAction = BossInternalAction::NONE;
+				bossAction = BossAction::NONE;
+			}
+
 			return;
 		}
 
@@ -204,7 +271,20 @@ void BossActionManager::PChaseAttack()
 
 void BossActionManager::SetParticleEmitter(GPUParticleEmitter* particleEmitter_)
 {
+	AliceAssertNull(particleEmitter_,"ParticleEmitterIsNull");
 	particleEmitter = particleEmitter_;
+}
+
+void BossActionManager::SetPlayer(Player* player_)
+{
+	AliceAssertNull(player_,"PlayerIsNull");
+	player = player_;
+}
+
+void BossActionManager::SetBoss(Boss* boss_)
+{
+	AliceAssertNull(boss_,"BossIsNull");
+	boss = boss_;
 }
 
 const AliceMathF::Vector3& BossActionManager::GetDirection() const
@@ -244,6 +324,35 @@ void BossActionManager::PBeamAttack()
 	}
 }
 
+void BossActionManager::PBlowaway()
+{
+	if ( animation->GetRatio() >= 0.2f && animation->GetRatio() <= 0.5f )
+	{
+		player->SetForce(playerForce * forcepower);
+
+		if ( !blowaway )
+		{
+			blowaway = true;
+
+			MeshGPUParticle* lParticle = particleEmitter->GetMeshGPUParticle("EffectSphereParticle");
+			lParticle->EmitPlay();
+			particleEmitter->ScatteringSetSpeed(500.0f);
+			particleEmitter->ScatteringSetLifeTime(1.0f);
+			particleEmitter->ScatteringSetCenterPos(AliceMathF::GetWorldPosition(boss->GetCenterOfMassTransform()));
+			particleEmitter->MeshGPUParticleScattering("EffectSphereParticle");
+			lParticle->EmitStop();
+		}
+	}
+
+	if ( !animation->IsInsert() )
+	{
+		actionCount = 5;
+		blowaway = false;
+		isCloseRangeAttack = true;
+		bossAction = BossAction::NONE;
+	}
+}
+
 void BossActionManager::PCloseRangeAttack(const std::string& boneName_,AliceBlendTree* tree_,AliceModel* bossModel_)
 {
 	if ( bossInternalAction == BossInternalAction::CLOSERANGE_ATTACK )
@@ -270,13 +379,13 @@ void BossActionManager::PReconstruction(const std::array< AliceMathF::Matrix4,2>
 	{
 		reconstruction = true;
 
-		particleEmitter->GetAnimationMeshGPUParticle("BossRightHandParticle")->EmitPlay(0);
+		particleEmitter->GetAnimationMeshGPUParticle("BossRightHandParticle")->EmitPlay();
 		particleEmitter->ScatteringSetSpeed(50.0f);
 		particleEmitter->ScatteringSetAccel({ 0,4,0 });
 		AliceMathF::Vector3 centerPos = AliceMathF::GetWorldPosition(hands[ 1 ]);
 		particleEmitter->ScatteringSetCenterPos(centerPos);
 		particleEmitter->AnimationMeshGPUParticleScattering("BossRightHandParticle");
-		particleEmitter->GetAnimationMeshGPUParticle("BossRightHandParticle")->EmitStop(0);
+		particleEmitter->GetAnimationMeshGPUParticle("BossRightHandParticle")->EmitStop();
 		particleEmitter->GetAnimationModelGPUParticle("BossModelParticle")->VisibleBoneMesh("elemental_element1mesh.003","mixamorig:LeftHand");
 		particleEmitter->GetAnimationModelGPUParticle("BossModelParticle")->VisibleBoneMesh("elemental_element1mesh.003","mixamorig:RightHand");
 	}
@@ -292,26 +401,32 @@ BossAction BossActionManager::ChoiceAction(float length_,const AliceMathF::Vecto
 {
 	if ( action_ )
 	{
-		if ( shortDistanceTIme > 0 )
+		return BossAction::CHASE_ATTACK;
+
+		if ( shortDistanceTIme >= 200 )
 		{
-			return BossAction::CHASE_ATTACK;
+			return BossAction::BLOWAWAY_ATTACK;
+
+			shortDistanceTIme = 0;
 		}
-		else
+		else if ( shortDistanceTIme > 0 )
 		{
-			if ( longDistanceTIme >= 250 )
+			if ( !( boss->GetSituation() & ActorSituation::RIGHT_CUTTING ) || !( boss->GetSituation() & ActorSituation::LEFT_CUTTING ) )
 			{
-				longDistanceTIme = 0;
-
-				return BossAction::BEAM_ATTACK;
+				return BossAction::CHASE_ATTACK;
 			}
+		}
+		else if ( longDistanceTIme >= 250 )
+		{
+			longDistanceTIme = 0;
 
-			if ( length_ >= 200 )
-			{
-				return BossAction::CLOSERANGE_ATTACK;
-			}
+			return BossAction::BEAM_ATTACK;
+		}
+		else if ( length_ >= 200 )
+		{
+			return BossAction::CLOSERANGE_ATTACK;
 		}
 	}
-
 
 	return BossAction::NONE;
 }
@@ -319,7 +434,7 @@ BossAction BossActionManager::ChoiceAction(float length_,const AliceMathF::Vecto
 void BossActionManager::StartReconstruction()
 {
 	isReconstruction = true;
-	
+
 	actionCount = 60;
 }
 

@@ -65,7 +65,7 @@ public://GPUで使う構造体
 
 	struct ParticleConstantGPUDatas
 	{
-		std::array<ParticleConstantGPUData,EMIT_DATA_MAX_COUNT>particleConstantGPUDatas;
+		ParticleConstantGPUData particleConstantGPUData;
 	};
 
 public://内部で使う構造体
@@ -107,11 +107,11 @@ private:
 
 	WorldBillboardGPUData worldBillboardGPUData;
 	TimeConstantGPUData timeGPUData;
-	Byte4 PADING;
+
 	FireGPUParticleGPUData fireGPUParticleGPUData;
 
-	std::vector<ParticleEmit>emitDatas;
-	std::vector<ParticleConstantGPUData>particleConstants;
+	ParticleEmit emitData;
+	ParticleConstantGPUData particleConstant;
 
 	size_t emitDataCount;
 
@@ -130,12 +130,12 @@ public:
 	void SetSetting()override;
 
 	void Create(uint32_t maxParticles_);
-	int32_t Emit(const ShockWaveGPUParticleSetting& setting_,int32_t index_ = -1);
-	void Move(const AliceMathF::Vector3& move_,int32_t index_);
-	void SetPos(const AliceMathF::Vector3& pos_,int32_t index_);
+	void Emit(const ShockWaveGPUParticleSetting& setting_);
+	void Move(const AliceMathF::Vector3& move_);
+	void SetPos(const AliceMathF::Vector3& pos_);
 	void SetTex(uint32_t textureHandle_);
-	void EmitPlay(int32_t index_);
-	void EmitStop(int32_t index_);
+	void EmitPlay();
+	void EmitStop();
 	float GetDeltaTime();
 
 private:

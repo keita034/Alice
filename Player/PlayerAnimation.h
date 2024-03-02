@@ -23,6 +23,7 @@ private:
 	uint32_t deathAnimationHandle;
 	uint32_t hitAnimationHandle;
 	uint32_t healingAnimationHandle;
+	uint32_t blownawayAnimationHandle;
 
 	float walkAnimationThresh =0.0f;
 
@@ -76,6 +77,7 @@ public:
 	void InsertDeathAnimation();
 	void InsertHitAnimation();
 	void InsertHealingAnimation();
+	void InsertBlownawayAnimation();
 
 	bool IsInsert();
 

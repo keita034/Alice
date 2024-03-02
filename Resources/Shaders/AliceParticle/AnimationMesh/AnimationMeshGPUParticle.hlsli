@@ -30,7 +30,5 @@ struct EmitData
 
 static const uint RAND_MAX = 32767;
 
-static const uint EMIT_DATA_MAX = 100;
-
 static const uint BONE_MAX = 128;
 

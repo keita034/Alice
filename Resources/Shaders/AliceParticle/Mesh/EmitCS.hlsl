@@ -16,7 +16,7 @@ cbuffer ParticleData : register(b1)
 
 cbuffer ParticleDatas : register(b2)
 {
-    EmitData emitDatas[EMIT_DATA_MAX];
+    EmitData emitData;
 }
 
 cbuffer BoneDatas : register(b3)
@@ -51,8 +51,6 @@ void main( uint3 DTid : SV_DispatchThreadID )
     //{
     //    return;
     //}
-    
-    EmitData emitData = emitDatas[emitDataIndex];
 
     if (DTid.x >= emitData.vertexSize)
     {
@@ -67,7 +65,7 @@ void main( uint3 DTid : SV_DispatchThreadID )
     ParticlePool[emitIndex].age = 0;
     ParticlePool[emitIndex].size = float2(emitData.size, emitData.size);
     ParticlePool[emitIndex].alive = 1.0f;
-    ParticlePool[emitIndex].index = 0;
+    ParticlePool[emitIndex].index = emitIndex;
     ParticlePool[emitIndex].lifeTime = emitData.lifeTime;
     
 }

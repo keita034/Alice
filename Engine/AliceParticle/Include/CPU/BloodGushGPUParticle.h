@@ -36,9 +36,6 @@ private:
 
 class BloodGushGPUParticle : public BaseGPUParticle
 {
-private:
-	static constexpr size_t EMIT_DATA_MAX_COUNT = 100;
-	static constexpr size_t EMIT_COUNT = 20;
 
 public://GPUで使う構造体
 
@@ -76,7 +73,7 @@ public://GPUで使う構造体
 
 	struct ParticleConstantGPUDatas
 	{
-		std::array<ParticleConstantGPUData,EMIT_DATA_MAX_COUNT>particleConstantGPUDatas;
+		ParticleConstantGPUData particleConstantGPUData;
 	};
 
 public://内部で使う構造体
@@ -128,8 +125,8 @@ private:
 	Byte4 PADING;
 	FireGPUParticleGPUData fireGPUParticleGPUData;
 
-	std::vector<ParticleEmit>emitDatas;
-	std::vector<ParticleConstantGPUData>particleConstants;
+	ParticleEmit emitData;
+	ParticleConstantGPUData particleConstant;
 
 	size_t emitDataCount;
 
@@ -147,10 +144,10 @@ public:
 	void SetSetting()override;
 
 	void Create(uint32_t maxParticles_);
-	int32_t Emit(const BloodGushGPUParticleSetting& setting_,int32_t index_ = -1);
+	void Emit(const BloodGushGPUParticleSetting& setting_);
 	void SetTex(uint32_t textureHandle_);
-	void EmitPlay(const AliceMathF::Vector3& pos_,const AliceMathF::Vector3& velocity_,int32_t index_);
-	void EmitStop(int32_t index_);
+	void EmitPlay(const AliceMathF::Vector3& pos_,const AliceMathF::Vector3& velocity_);
+	void EmitStop();
 
 private:
 

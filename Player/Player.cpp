@@ -58,6 +58,8 @@ void Player::Initialize(AliceInput::IInput* input_,IAudioManager* audioManager_,
 	lSetting.collisionAttribute = CollisionAttribute::BODY;
 	lSetting.position = pos;
 	lSetting.shape = shape.get();
+	lSetting.mass = 0.5f;
+	lSetting.maxLinearVelocity = 180.0f;
 	lSetting.userData = static_cast< void* >( &usData );
 	physicsSystem_->CreateRigidBody(rigidBody,&lSetting);
 	physicsSystem_->AddRigidBody(rigidBody);
@@ -110,14 +112,18 @@ void Player::Update(BaseGameCamera* camera_,GameCameraManager::CameraIndex index
 		rigidBody->SetRotation(AliceMathF::Quaternion());
 
 		transform.translation = rigidBody->GetPosition() + -rigidBodyoffset;
+	}
 
+	if ( blownaway )
+	{
+		transform.translation = rigidBody->GetPosition() + -rigidBodyoffset;
 	}
 
 	if ( hp > 0 )
 	{
 		PHealing();
 
-		if ( !( usData.situation & ActorSituation::HEALING ) )
+		if ( !( usData.situation & ActorSituation::HEALING ) && !blownaway )
 		{
 			if ( !( usData.situation & ActorSituation::ATTACK ) || !( usData.situation & ActorSituation::HEALING ) )
 			{
@@ -135,7 +141,7 @@ void Player::Update(BaseGameCamera* camera_,GameCameraManager::CameraIndex index
 		}
 	}
 
-	if ( !isStationary )
+	if ( !isStationary && !blownaway )
 	{
 		PRotate();
 	}
@@ -194,6 +200,19 @@ void Player::Update(BaseGameCamera* camera_,GameCameraManager::CameraIndex index
 
 	animation->Update();
 	particleModel->AnimationUpdate(animation->GetAnimation());
+
+	if ( !force && blownaway )
+	{
+		blownawayCount--;
+
+		if ( !blownawayCount )
+		{
+			blownawayCount = 40;
+			blownaway = false;
+		}
+	}
+
+	force = false;
 }
 
 void Player::Draw()
@@ -226,8 +245,8 @@ void Player::TransUpdate(Camera* camera_)
 
 	weaponParticle->SetMat(weapon->GetWorldMat());
 	greatWeaponParticle->SetMat(greatWeapon->GetWorldMat());
-	weaponScatteringParticle->SetMat(weapon->GetWorldMat(),0);
-	greatWeaponScatteringParticle->SetMat(greatWeapon->GetWorldMat(),0);
+	weaponScatteringParticle->SetMat(weapon->GetWorldMat());
+	greatWeaponScatteringParticle->SetMat(greatWeapon->GetWorldMat());
 
 	camera = camera_;
 }
@@ -467,6 +486,21 @@ void Player::DeathSEChangeVolume(float volume_)
 	audioManager->ChangeVolume(deathSE,deathSEVolume * volume_);
 }
 
+void Player::SetForce(const AliceMathF::Vector3& force_)
+{
+	if ( !blownaway )
+	{
+		rigidBody->SetLinearVelocity({ 0.0f,0.0f,0.0f });
+		blownaway = true;
+	}
+
+	rigidBody->AddForce(force_);
+	animation->WalkAnimationUpdate(0.0f);
+	force = true;
+
+
+}
+
 void Player::PMove(BaseGameCamera* camera_)
 {
 	AliceMathF::Vector3 lMove;
@@ -545,7 +579,11 @@ void Player::PMove(BaseGameCamera* camera_)
 		lMove.x * SinParam + lMove.z * CosParam
 	};
 
-	rigidBody->SetLinearVelocity(lMove);
+	if ( !force )
+	{
+		rigidBody->SetLinearVelocity(lMove);
+	}
+
 	//dynamicBody->setAngularVelocity({ 0,0,0 });
 	transform.translation = rigidBody->GetPosition() + -rigidBodyoffset;
 }
@@ -669,11 +707,11 @@ void Player::PAttack()
 				attackCount = 0;
 				animation->SetAddFrame();
 
-				weaponScatteringParticle->EmitPlay(0);
+				weaponScatteringParticle->EmitPlay();
 				particleEmitter->ScatteringSetSpeed(3.0f);
 				particleEmitter->ScatteringSetCenterPos(AliceMathF::GetWorldPosition(weapon->GetWorldMat()));
 				particleEmitter->MeshGPUParticleScattering("PiayerWeaponScatteringParticle");
-				weaponScatteringParticle->EmitStop(0);
+				weaponScatteringParticle->EmitStop();
 
 			}
 		}
@@ -721,11 +759,11 @@ void Player::PAttack()
 				attackCount = 0;
 				animation->SetAddFrame();
 
-				greatWeaponScatteringParticle->EmitPlay(0);
+				greatWeaponScatteringParticle->EmitPlay();
 				particleEmitter->ScatteringSetSpeed(3.0f);
 				particleEmitter->ScatteringSetCenterPos(AliceMathF::GetWorldPosition(greatWeapon->GetWorldMat()));
 				particleEmitter->MeshGPUParticleScattering("PiayerGreatWeaponScatteringParticle");
-				greatWeaponScatteringParticle->EmitStop(0);
+				greatWeaponScatteringParticle->EmitStop();
 			}
 		}
 	}

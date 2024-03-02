@@ -79,12 +79,15 @@ private:
 	int32_t damageInterval = 0;
 	uint32_t deathSE = 0;
 	uint32_t attackCount = 0;
+	uint32_t blownawayCount = 20;
 
 	bool isStationary = true;
 	bool fieldHit = false;
 	bool shockwaveHit = false;
 	bool attackAdd = false;
 	bool isGreat = false;
+	bool force = false;
+	bool blownaway = false;
 public:
 
 	Player() = default;
@@ -149,7 +152,6 @@ public:
 
 	int32_t GetDamage();
 	int32_t GetGreatDamage();
-
 	int32_t GetHp() const;
 
 	bool IsEnd();
@@ -159,6 +161,8 @@ public:
 	void AnimationEndStop();
 
 	void DeathSEChangeVolume(float volume_);
+
+	void SetForce(const AliceMathF::Vector3& force_);
 
 private:
 

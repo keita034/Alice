@@ -150,7 +150,7 @@ float RandFloat(uint SEED, float MAX, float MIN)
     uint rand = WangHashRand(SEED * 1847483629);
     float result;
     result = (rand % 1024) / 1024.0f;
-    rand /= 1024;
+    rand %= 1024;
 
     result = (MAX + abs(MIN)) * result - abs(MIN);
 
@@ -160,6 +160,26 @@ float RandFloat(uint SEED, float MAX, float MIN)
     }
 
     return result;
+}
+
+float RandFloat(float2 uv)
+{
+    float2 noise = (frac(sin(dot(uv, float2(12.9898, 78.233) * 2.0)) * 43758.5453));
+    return abs(noise.x + noise.y);
+}
+
+float2 RandFloat2(float2 uv)
+{
+    float noiseX = (frac(sin(dot(uv, float2(12.9898, 78.233) * 2.0)) * 43758.5453));
+    float noiseY = sqrt(1 - noiseX * noiseX);
+    return float2(noiseX, noiseY);
+}
+
+float2 RandFloat2_2(float2 uv)
+{
+    float noiseX = (frac(sin(dot(uv, float2(12.9898, 78.233))) * 43758.5453));
+    float noiseY = (frac(sin(dot(uv, float2(12.9898, 78.233) * 2.0)) * 43758.5453));
+    return float2(noiseX, noiseY) * 0.004;
 }
 
 float3 RandomPointInUnitSphere(uint SEED)

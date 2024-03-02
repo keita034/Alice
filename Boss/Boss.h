@@ -41,10 +41,11 @@ private:
 	float deathSEVolume = 0.04f;
 	int32_t situation = 0;
 	int32_t hp = 0;
-
-	uint32_t bloodGushParticleIndex = 0;
+	int32_t reconstructionTime = 100;
 
 	bool isMove = false;
+	bool reconstruction = false;
+
 public:
 
 	Boss() = default;
@@ -105,6 +106,11 @@ public:
 	void DeathSEChangeVolume(float volume_);
 
 	void OnCollisionExit() override;
+
+	AliceMathF::Vector3 GetPos() const;
+	AliceMathF::Vector3 GetCenterPos() const;
+	AliceMathF::Matrix4 GetCenterOfMassTransform();
+	int32_t GetSituation() const;
 
 	/// <summary>
 	/// ダメージ判定

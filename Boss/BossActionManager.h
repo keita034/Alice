@@ -28,6 +28,7 @@ enum class BossAction
 	BEAM_ATTACK,
 	CLOSERANGE_ATTACK,
 	RECONSTRUCTION,
+	BLOWAWAY_ATTACK,
 	BOSS_ACTION_NUM
 };
 
@@ -42,40 +43,46 @@ enum class BossInternalAction
 	BOSS_INTERNAL_ACTION_NUM
 };
 
+class Player;
+class Boss;
+
 class BossActionManager
 {
 private:
 	BossAnimation* animation = nullptr;
 	GPUParticleEmitter* particleEmitter = nullptr;
 	Transform* bossTransform = nullptr;
+	Player* player = nullptr;
+	Boss* boss = nullptr;
 
 	std::unique_ptr<BossChaseMove> chaseMove;
 	std::unique_ptr<BossJumpAttackMove>jumpAttackMove;
 	std::unique_ptr<BossBeamAttack>bossBeamAttack;
 	std::unique_ptr<BossCloseRangeAttack>closeRangeAttack;
 
-	int32_t MAX_ACTION_COUNT = 90;
-	int32_t actionCount = 0;
-
 	BossAction bossAction;
 	BossInternalAction bossInternalAction;
 
 	AliceMathF::Vector3 distanceTraveled;
+	AliceMathF::Vector3 direction = { 0,0,1 };
+	AliceMathF::Vector3 playerForce;
 
 	float maxDistance = 80.0f;
 	float speed = 80.0f;
-
 	float fallingTime;
 	float risingTime;
-
-	AliceMathF::Vector3 direction = { 0,0,1 };
-
+	float forcepower = 65.0f;
+	
+	int32_t MAX_ACTION_COUNT = 90;
+	int32_t actionCount = 0;
 	int32_t shortDistanceTIme = 0;
 	int32_t longDistanceTIme = 0;
 
 	bool reconstruction;
-
 	bool isReconstruction;
+	bool isCloseRangeAttack;
+	bool blowaway;
+	bool right =  true;
 public:
 
 	/// <summary>
@@ -86,7 +93,7 @@ public:
    /// <summary>
    /// 更新処理
    /// </summary>
-	void Update(const AliceMathF::Vector3& plyerPos_, const AliceMathF::Vector3& bossPos_,const std::string& boneName_,AliceBlendTree* tree_,AliceModel* bossModel_,bool action_,const std::array< AliceMathF::Matrix4,2>& hands);
+	void Update(const std::string& boneName_,AliceBlendTree* tree_,AliceModel* bossModel_,bool action_,const std::array< AliceMathF::Matrix4,2>& hands);
 
    /// <summary>
    /// 後始末
@@ -97,14 +104,13 @@ public:
 	~BossActionManager() = default;
 
 	const AliceMathF::Vector3& GetDistanceTraveled() const;
-
 	const AliceMathF::Vector3& GetDirection() const;
-
-	void SetBossPos(const AliceMathF::Vector3& pos_);
-
 	const BossInternalAction GetinternalAction()const;
 
+	void SetBossPos(const AliceMathF::Vector3& pos_);
 	void SetParticleEmitter(GPUParticleEmitter* particleEmitter_);
+	void SetPlayer(Player* player_);
+	void SetBoss(Boss* boss_);
 
 	BossAction ChoiceAction(float length_,const AliceMathF::Vector3& bossPos_, bool action_ = true);
 
@@ -130,6 +136,7 @@ private:
 	void PChaseAttack();
 	void PJumpAttack();
 	void PBeamAttack();
+	void PBlowaway();
 	void PCloseRangeAttack(const std::string& boneName_,AliceBlendTree* tree_,AliceModel* bossModel_);
 	void PReconstruction(const std::array< AliceMathF::Matrix4,2>& hands);
 };
