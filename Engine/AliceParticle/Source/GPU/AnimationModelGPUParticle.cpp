@@ -42,11 +42,12 @@ void AnimationModelGPUParticle::Initialize()
 
 void AnimationModelGPUParticle::Update(float deltaTime_)
 {
+	ID3D12GraphicsCommandList* lComputeCommandList = computeAdapter->GetComputeCommandList();
+	MeshGPUParticleModelMesh* mesh = modelData->GetMeshs().front().get();
+
 	if ( emitDatas.isPlay )
 	{
 		PUpdateConstantBuffer(deltaTime_);
-
-		ID3D12GraphicsCommandList* lComputeCommandList = computeAdapter->GetComputeCommandList();
 
 		if ( !isEmit )
 		{
@@ -62,99 +63,32 @@ void AnimationModelGPUParticle::Update(float deltaTime_)
 				ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::SUB)->GetHeap() };
 				lComputeCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
 
-				
-				for ( const std::unique_ptr<MeshGPUParticleModelMesh>& mesh : modelData->GetMeshs() )
+				if ( !animationStop )
 				{
-
-					if ( !animationStop )
-					{
-						BoneData* lBonedata = mesh->bonedata;
-						mesh->constBoneBuffer->Update(lBonedata->boneMat.data());
-					}
-
-					if ( mesh->boneMesh )
-					{
-						for ( std::unique_ptr<BoneMesh>& boneMesh : mesh->boneMeshs )
-						{
-							particleConstants.vertexSize = static_cast< uint32_t >( boneMesh->vertices.size() );
-							particleConstantsBuffer->Update(&particleConstants);
-
-							lComputeCommandList->SetComputeRootConstantBufferView(0,particleConstantsBuffer->GetAddress());//b2
-							lComputeCommandList->SetComputeRootConstantBufferView(1,mesh->constBoneBuffer->GetAddress());//b3
-
-							lComputeCommandList->SetComputeRootDescriptorTable(2,boneMesh->vertexBuffer->GetSRVAddress());//t0
-
-							lComputeCommandList->SetComputeRootDescriptorTable(3,boneMesh->particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
-
-							lComputeCommandList->Dispatch(static_cast< uint32_t >( boneMesh->vertices.size() / 1024 + 1 ),1,1);
-						}
-					}
-					else
-					{
-						particleConstants.vertexSize = static_cast< uint32_t >( mesh->GetVertices().size() );
-						particleConstantsBuffer->Update(&particleConstants);
-
-						lComputeCommandList->SetComputeRootConstantBufferView(0,particleConstantsBuffer->GetAddress());//b2
-						lComputeCommandList->SetComputeRootConstantBufferView(1,mesh->constBoneBuffer->GetAddress());//b3
-
-						lComputeCommandList->SetComputeRootDescriptorTable(2,mesh->GetVertexSRVAddress());//t0
-
-						lComputeCommandList->SetComputeRootDescriptorTable(3,mesh->GetCrossAdapterBuffer()->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
-
-						lComputeCommandList->Dispatch(static_cast< uint32_t >( mesh->GetVertices().size() / 1024 + 1 ),1,1);
-					}
-
+					BoneData* lBonedata = mesh->bonedata;
+					mesh->constBoneBuffer->Update(lBonedata->boneMat.data());
 				}
-			}
 
-			//ドローアギュメント更新
-			{
-				ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeAnimationModelGPUParticleDrawArgumentUpdate",AdaptersIndex::SUB);
-
-				lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
-				lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
-
-				ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::SUB)->GetHeap() };
-				lComputeCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
-
-				for ( const std::unique_ptr<MeshGPUParticleModelMesh>& mesh : modelData->GetMeshs() )
+				for ( std::unique_ptr<BoneMesh>& boneMesh : mesh->boneMeshs )
 				{
-					particleConstants.vertexSize = static_cast< uint32_t >( mesh->GetVertices().size() );
+					particleConstants.vertexSize = static_cast< uint32_t >( boneMesh->vertices.size() );
 					particleConstantsBuffer->Update(&particleConstants);
 
-					if ( mesh->boneMesh )
-					{
-						for ( std::unique_ptr<BoneMesh>& boneMesh : mesh->boneMeshs )
-						{
-							if ( boneMeshIsVisibles[ mesh->name ][ boneMesh->boneName ] )
-							{
-								lComputeCommandList->SetComputeRootConstantBufferView(0,particleConstantsBuffer->GetAddress());//b0
+					lComputeCommandList->SetComputeRootConstantBufferView(0,particleConstantsBuffer->GetAddress());//b2
+					lComputeCommandList->SetComputeRootConstantBufferView(1,mesh->constBoneBuffer->GetAddress());//b3
 
-								lComputeCommandList->SetComputeRootDescriptorTable(1,boneMesh->drawArgumentBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u1
+					lComputeCommandList->SetComputeRootDescriptorTable(2,boneMesh->vertexBuffer->GetSRVAddress());//t0
 
-								lComputeCommandList->Dispatch(1,1,1);
-							}
-						}
-					}
-					else
-					{
+					lComputeCommandList->SetComputeRootDescriptorTable(3,boneMesh->particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
 
-						lComputeCommandList->SetComputeRootConstantBufferView(0,particleConstantsBuffer->GetAddress());//b0
-
-						lComputeCommandList->SetComputeRootDescriptorTable(1,mesh->GetDrawArgumentBuffer()->GetAddress(CrossAdapterResourceIndex::MAIN));//u1
-
-						lComputeCommandList->Dispatch(1,1,1);
-					}
-
+					lComputeCommandList->Dispatch(static_cast< uint32_t >( boneMesh->vertices.size() / 1024 + 1 ),1,1);
 				}
-
 			}
 		}
 
-		//更新
+		//ドローアギュメント更新
 		{
-
-			ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeAnimationModelGPUParticleUpdate",AdaptersIndex::SUB);
+			ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeAnimationModelGPUParticleDrawArgumentUpdate",AdaptersIndex::SUB);
 
 			lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
 			lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
@@ -162,47 +96,54 @@ void AnimationModelGPUParticle::Update(float deltaTime_)
 			ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::SUB)->GetHeap() };
 			lComputeCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
 
-			size_t i = 0;
-			for ( const std::unique_ptr<MeshGPUParticleModelMesh>& mesh : modelData->GetMeshs() )
+			particleConstants.vertexSize = static_cast< uint32_t >( mesh->GetVertices().size() );
+			particleConstantsBuffer->Update(&particleConstants);
+
+			for ( std::unique_ptr<BoneMesh>& boneMesh : mesh->boneMeshs )
 			{
-				if ( !animationStop )
+				if ( boneMeshIsVisibles[ mesh->name ][ boneMesh->boneName ] )
 				{
-					BoneData* lBonedata = mesh->bonedata;
-					mesh->constBoneBuffer->Update(lBonedata->boneMat.data());
+					lComputeCommandList->SetComputeRootConstantBufferView(0,particleConstantsBuffer->GetAddress());//b0
+
+					lComputeCommandList->SetComputeRootDescriptorTable(1,boneMesh->drawArgumentBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u1
+
+					lComputeCommandList->Dispatch(1,1,1);
 				}
+			}
+		}
+	}
 
-				if ( mesh->boneMesh )
-				{
-					for ( std::unique_ptr<BoneMesh>& boneMesh : mesh->boneMeshs )
-					{
-						if ( boneMeshIsVisibles[ mesh->name ][ boneMesh->boneName ] )
-						{
-							particleConstants.vertexSize = static_cast< uint32_t >( boneMesh->vertices.size() );
-							particleConstantsBuffer->Update(&particleConstants);
+	//更新
+	{
+		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeAnimationModelGPUParticleUpdate",AdaptersIndex::SUB);
 
-							lComputeCommandList->SetComputeRootConstantBufferView(0,particleConstantsBuffer->GetAddress());//b2
-							lComputeCommandList->SetComputeRootConstantBufferView(1,mesh->constBoneBuffer->GetAddress());//b3
+		lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
+		lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
 
-							lComputeCommandList->SetComputeRootDescriptorTable(2,boneMesh->particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
+		ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::SUB)->GetHeap() };
+		lComputeCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
 
-							lComputeCommandList->Dispatch(static_cast< uint32_t >( boneMesh->vertices.size() / 1024 + 1 ),1,1);
-						}
-					}
-				}
-				else
-				{
-					particleConstants.vertexSize = static_cast< uint32_t >( mesh->GetVertices().size() );
-					particleConstantsBuffer->Update(&particleConstants);
 
-					lComputeCommandList->SetComputeRootConstantBufferView(0,particleConstantsBuffer->GetAddress());//b2
-					lComputeCommandList->SetComputeRootConstantBufferView(1,mesh->constBoneBuffer->GetAddress());//b3
+		if ( !animationStop )
+		{
+			BoneData* lBonedata = mesh->bonedata;
+			mesh->constBoneBuffer->Update(lBonedata->boneMat.data());
+		}
 
-					lComputeCommandList->SetComputeRootDescriptorTable(2,mesh->GetCrossAdapterBuffer()->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
 
-					lComputeCommandList->Dispatch(static_cast< uint32_t >( mesh->GetVertices().size() / 1024 + 1 ),1,1);
-				}
+		for ( std::unique_ptr<BoneMesh>& boneMesh : mesh->boneMeshs )
+		{
+			if ( boneMeshIsVisibles[ mesh->name ][ boneMesh->boneName ] )
+			{
+				particleConstants.vertexSize = static_cast< uint32_t >( boneMesh->vertices.size() );
+				particleConstantsBuffer->Update(&particleConstants);
 
-				i++;
+				lComputeCommandList->SetComputeRootConstantBufferView(0,particleConstantsBuffer->GetAddress());//b2
+				lComputeCommandList->SetComputeRootConstantBufferView(1,mesh->constBoneBuffer->GetAddress());//b3
+
+				lComputeCommandList->SetComputeRootDescriptorTable(2,boneMesh->particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
+
+				lComputeCommandList->Dispatch(static_cast< uint32_t >( boneMesh->vertices.size() / 1024 + 1 ),1,1);
 			}
 		}
 	}
@@ -238,36 +179,18 @@ void AnimationModelGPUParticle::Draw(const AliceMathF::Matrix4& worldMat_,const 
 		ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::MAIN)->GetHeap() };
 		lGraphicCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
 
-		for ( const std::unique_ptr<MeshGPUParticleModelMesh>& mesh : modelData->GetMeshs() )
+		for ( std::unique_ptr<BoneMesh>& boneMesh : mesh->boneMeshs )
 		{
-			if ( mesh->boneMesh )
+
+			if ( boneMeshIsVisibles[ mesh->name ][ boneMesh->boneName ] )
 			{
-				for ( std::unique_ptr<BoneMesh>& boneMesh : mesh->boneMeshs )
-				{
-
-					if ( boneMeshIsVisibles[ mesh->name ][ boneMesh->boneName ] )
-					{
-						lGraphicCommandList->SetGraphicsRootConstantBufferView(0,worldBillboardBuffer->GetAddress());
-
-						lGraphicCommandList->SetGraphicsRootDescriptorTable(1,boneMesh->particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::SUB));
-
-						lGraphicCommandList->SetGraphicsRootDescriptorTable(2,texture->gpuHandle);
-
-						lGraphicCommandList->ExecuteIndirect(particleCommandSignature.Get(),1,boneMesh->drawArgumentBuffer->GetResource(CrossAdapterResourceIndex::SUB),0,nullptr,0);
-					}
-				}
-			}
-			else
-			{
-
 				lGraphicCommandList->SetGraphicsRootConstantBufferView(0,worldBillboardBuffer->GetAddress());
 
-				lGraphicCommandList->SetGraphicsRootDescriptorTable(1,mesh->GetCrossAdapterBuffer()->GetAddress(CrossAdapterResourceIndex::SUB));
+				lGraphicCommandList->SetGraphicsRootDescriptorTable(1,boneMesh->particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::SUB));
 
 				lGraphicCommandList->SetGraphicsRootDescriptorTable(2,texture->gpuHandle);
 
-				lGraphicCommandList->ExecuteIndirect(particleCommandSignature.Get(),1,mesh->GetDrawArgumentBuffer()->GetResource(CrossAdapterResourceIndex::SUB),0,nullptr,0);
-
+				lGraphicCommandList->ExecuteIndirect(particleCommandSignature.Get(),1,boneMesh->drawArgumentBuffer->GetResource(CrossAdapterResourceIndex::SUB),0,nullptr,0);
 			}
 		}
 	}
