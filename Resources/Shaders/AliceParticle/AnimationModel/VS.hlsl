@@ -10,8 +10,8 @@ VS_OUTPUT main(uint id : SV_InstanceID)
     ModelParticle particle = ParticlePool.Load(drawIndex);
 
     output.position = particle.position;
-    output.size = particle.size;
-    output.color = particle.color;
+    output.size = float2(particle.size, particle.size);
+    output.color = float4(particle.color,1);
     output.threshold = 0.0f;
 
     return output;

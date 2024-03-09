@@ -14,6 +14,7 @@ cbuffer BoneDatas : register(b1)
 StructuredBuffer<Mesh> meshs : register(t0);
 
 RWStructuredBuffer<ModelParticle> ParticlePool : register(u0);
+ConsumeStructuredBuffer<uint> freeList : register(u1);
 
 //スキニング計算
 SkinOutput ComputeSkin(Mesh input)
@@ -60,18 +61,18 @@ void main( uint3 DTid : SV_DispatchThreadID )
         return;
     }
     
-    uint emitIndex = DTid.x;
+    uint emitIndex = freeList.Consume();
     
     SkinOutput skin = (SkinOutput) 0;
     skin = ComputeSkin(meshs[DTid.x]);
 
-    ParticlePool[emitIndex].position = mul(emitData.matWorld, skin.pos);
-    ParticlePool[emitIndex].color = emitData.startColor;
-    ParticlePool[emitIndex].size = float2(emitData.size, emitData.size);
+    ParticlePool[emitIndex].position = mul(emitData.matWorld, skin.pos).xyz;
+    ParticlePool[emitIndex].color = emitData.startColor.xyz;
+    ParticlePool[emitIndex].size = emitData.size;
     ParticlePool[emitIndex].alive = 1.0f;
-    ParticlePool[emitIndex].meshIndex = DTid.x;
     ParticlePool[emitIndex].boneIndex = meshs[DTid.x].boneIndex;
     ParticlePool[emitIndex].boneWeight = meshs[DTid.x].boneWeight;
     ParticlePool[emitIndex].pos = meshs[DTid.x].pos.xyz;
+    ParticlePool[emitIndex].index = emitData.meshIndex;
     
 }

@@ -66,7 +66,7 @@ void main(uint3 DTid : SV_DispatchThreadID)
 
     particle.position = mul(emitData.matWorld, skin.pos);
     
-    particle.color = emitData.startColor;
+    //particle.color = emitData.startColor;
 
     ParticlePool[particleIndex] = particle;
 }

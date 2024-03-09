@@ -48,18 +48,18 @@ public:
 
 	struct ModelParticleGPUData
 	{
-		AliceMathF::Vector4 color;
-		float alive;
+		AliceMathF::Vector3 color;
+		float index;
 
 		AliceMathF::Vector3 position;
-		uint32_t meshIndex;
+		float alive;
 
 		AliceMathF::Vector3 pos;
 		float size;
-		
-		std::array<UINT,4> boneIndex;
 
-		std::array<float,4> boneWeight;
+		uint32_t boneIndex[4];
+
+		float boneWeight[4];
 	};
 
 protected:

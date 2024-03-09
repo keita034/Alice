@@ -52,7 +52,8 @@ public://GPUで使う構造体
 		float size;
 
 		uint32_t vertexSize;
-		AliceMathF::Vector3 PAD;
+		uint32_t meshIndex =0;
+		AliceMathF::Vector2 PAD;
 
 	};
 
@@ -89,6 +90,7 @@ private:
 
 	std::unique_ptr<IConstantBuffer>particleConstantsBuffer;
 	std::unique_ptr<IConstantBuffer>worldBillboardBuffer;
+	std::unique_ptr<IDrawArgumentBuffer>drawArgumentBuffer;
 
 	std::unique_ptr <MeshGPUParticleAliceModel> modelData;
 	std::unordered_map <std::string, std::unordered_map<std::string,bool>>boneMeshIsVisibles;

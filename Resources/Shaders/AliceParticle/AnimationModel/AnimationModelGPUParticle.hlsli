@@ -25,22 +25,25 @@ struct EmitData
     float size;
 
     uint vertexSize;
-    float3 PAD;
+    uint meshIndex;
+    float2 PAD;
 };
 
 struct ModelParticle
 {
-    float4 color;
-    float alive;
-
+    float3 color;
+    float index;
+    
     float3 position;
-    uint meshIndex;
-
+    float alive;
+    
     float3 pos;
     float size;
-		
-    uint4 boneIndex;
+ 
     float4 boneWeight;
+    
+    uint4 boneIndex;
+
 };
 
 struct SkinOutput

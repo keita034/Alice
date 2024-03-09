@@ -60,6 +60,7 @@ void CreateAnimationModelEmitComputeMaterial(MaterialManager* manager_,IAdapter*
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,0);//u0
+	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,1);//u0
 
 	lMaterial->rootSignature->Create(lDevice);
 
