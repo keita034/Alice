@@ -15,17 +15,17 @@ struct EmitData
 {
     matrix matWorld;
 
-    float3 velocity;
-    float maxParticles;
-
     float4 startColor;
 
     float4 endColor;
 
-    float lifeTime;
+    float deltaTime;
+    float totalTime;
+    uint computeTime;
     float size;
-    float speed;
+
     uint vertexSize;
+    float3 PAD;
 };
 
 struct ModelParticle

@@ -65,7 +65,6 @@ void AnimationModelGPUParticle::Update(float deltaTime_)
 				
 				for ( const std::unique_ptr<MeshGPUParticleModelMesh>& mesh : modelData->GetMeshs() )
 				{
-					gpuParticleDataBuffer->Update(&fireGPUParticleGPUData);
 
 					if ( !animationStop )
 					{
@@ -80,14 +79,12 @@ void AnimationModelGPUParticle::Update(float deltaTime_)
 							particleConstants.vertexSize = static_cast< uint32_t >( boneMesh->vertices.size() );
 							particleConstantsBuffer->Update(&particleConstants);
 
-							lComputeCommandList->SetComputeRootConstantBufferView(0,timeConstantsBuffer->GetAddress());//b0
-							lComputeCommandList->SetComputeRootConstantBufferView(1,gpuParticleDataBuffer->GetAddress());//b1
-							lComputeCommandList->SetComputeRootConstantBufferView(2,particleConstantsBuffer->GetAddress());//b2
-							lComputeCommandList->SetComputeRootConstantBufferView(3,mesh->constBoneBuffer->GetAddress());//b3
+							lComputeCommandList->SetComputeRootConstantBufferView(0,particleConstantsBuffer->GetAddress());//b2
+							lComputeCommandList->SetComputeRootConstantBufferView(1,mesh->constBoneBuffer->GetAddress());//b3
 
-							lComputeCommandList->SetComputeRootDescriptorTable(4,boneMesh->vertexBuffer->GetSRVAddress());//t0
+							lComputeCommandList->SetComputeRootDescriptorTable(2,boneMesh->vertexBuffer->GetSRVAddress());//t0
 
-							lComputeCommandList->SetComputeRootDescriptorTable(5,boneMesh->particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
+							lComputeCommandList->SetComputeRootDescriptorTable(3,boneMesh->particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
 
 							lComputeCommandList->Dispatch(static_cast< uint32_t >( boneMesh->vertices.size() / 1024 + 1 ),1,1);
 						}
@@ -97,14 +94,12 @@ void AnimationModelGPUParticle::Update(float deltaTime_)
 						particleConstants.vertexSize = static_cast< uint32_t >( mesh->GetVertices().size() );
 						particleConstantsBuffer->Update(&particleConstants);
 
-						lComputeCommandList->SetComputeRootConstantBufferView(0,timeConstantsBuffer->GetAddress());//b0
-						lComputeCommandList->SetComputeRootConstantBufferView(1,gpuParticleDataBuffer->GetAddress());//b1
-						lComputeCommandList->SetComputeRootConstantBufferView(2,particleConstantsBuffer->GetAddress());//b2
-						lComputeCommandList->SetComputeRootConstantBufferView(3,mesh->constBoneBuffer->GetAddress());//b3
+						lComputeCommandList->SetComputeRootConstantBufferView(0,particleConstantsBuffer->GetAddress());//b2
+						lComputeCommandList->SetComputeRootConstantBufferView(1,mesh->constBoneBuffer->GetAddress());//b3
 
-						lComputeCommandList->SetComputeRootDescriptorTable(4,mesh->GetVertexSRVAddress());//t0
+						lComputeCommandList->SetComputeRootDescriptorTable(2,mesh->GetVertexSRVAddress());//t0
 
-						lComputeCommandList->SetComputeRootDescriptorTable(5,mesh->GetCrossAdapterBuffer()->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
+						lComputeCommandList->SetComputeRootDescriptorTable(3,mesh->GetCrossAdapterBuffer()->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
 
 						lComputeCommandList->Dispatch(static_cast< uint32_t >( mesh->GetVertices().size() / 1024 + 1 ),1,1);
 					}
@@ -185,14 +180,10 @@ void AnimationModelGPUParticle::Update(float deltaTime_)
 							particleConstants.vertexSize = static_cast< uint32_t >( boneMesh->vertices.size() );
 							particleConstantsBuffer->Update(&particleConstants);
 
-							lComputeCommandList->SetComputeRootConstantBufferView(0,timeConstantsBuffer->GetAddress());//b0
-							lComputeCommandList->SetComputeRootConstantBufferView(1,gpuParticleDataBuffer->GetAddress());//b1
-							lComputeCommandList->SetComputeRootConstantBufferView(2,particleConstantsBuffer->GetAddress());//b2
-							lComputeCommandList->SetComputeRootConstantBufferView(3,mesh->constBoneBuffer->GetAddress());//b3
+							lComputeCommandList->SetComputeRootConstantBufferView(0,particleConstantsBuffer->GetAddress());//b2
+							lComputeCommandList->SetComputeRootConstantBufferView(1,mesh->constBoneBuffer->GetAddress());//b3
 
-							lComputeCommandList->SetComputeRootDescriptorTable(4,boneMesh->particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
-
-							lComputeCommandList->SetComputeRootDescriptorTable(5,boneMesh->vertexBuffer->GetSRVAddress());//t0
+							lComputeCommandList->SetComputeRootDescriptorTable(2,boneMesh->particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
 
 							lComputeCommandList->Dispatch(static_cast< uint32_t >( boneMesh->vertices.size() / 1024 + 1 ),1,1);
 						}
@@ -203,14 +194,10 @@ void AnimationModelGPUParticle::Update(float deltaTime_)
 					particleConstants.vertexSize = static_cast< uint32_t >( mesh->GetVertices().size() );
 					particleConstantsBuffer->Update(&particleConstants);
 
-					lComputeCommandList->SetComputeRootConstantBufferView(0,timeConstantsBuffer->GetAddress());//b0
-					lComputeCommandList->SetComputeRootConstantBufferView(1,gpuParticleDataBuffer->GetAddress());//b1
-					lComputeCommandList->SetComputeRootConstantBufferView(2,particleConstantsBuffer->GetAddress());//b2
-					lComputeCommandList->SetComputeRootConstantBufferView(3,mesh->constBoneBuffer->GetAddress());//b3
+					lComputeCommandList->SetComputeRootConstantBufferView(0,particleConstantsBuffer->GetAddress());//b2
+					lComputeCommandList->SetComputeRootConstantBufferView(1,mesh->constBoneBuffer->GetAddress());//b3
 
-					lComputeCommandList->SetComputeRootDescriptorTable(4,mesh->GetCrossAdapterBuffer()->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
-
-					lComputeCommandList->SetComputeRootDescriptorTable(5,mesh->GetVertexSRVAddress());//t0
+					lComputeCommandList->SetComputeRootDescriptorTable(2,mesh->GetCrossAdapterBuffer()->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
 
 					lComputeCommandList->Dispatch(static_cast< uint32_t >( mesh->GetVertices().size() / 1024 + 1 ),1,1);
 				}
@@ -292,10 +279,7 @@ void AnimationModelGPUParticle::SetSetting()
 
 void AnimationModelGPUParticle::Create(uint32_t maxParticles_)
 {
-	fireGPUParticleGPUData.maxParticles = maxParticles_;
-
-	maxParticles = static_cast< size_t >( maxParticles_ );
-
+	static_cast< void >( maxParticles_ );
 	Initialize();
 }
 
@@ -304,13 +288,9 @@ void AnimationModelGPUParticle::Emit(const AnimationModelGPUParticleSetting& set
 	ParticleEmit lEmitData;
 	ParticleConstantGPUData particleConstant;
 
-	lEmitData.velocity = particleConstant.velocity = setting_.velocity;
-	lEmitData.lifeTime = particleConstant.lifeTime = setting_.lifeTime;
 	lEmitData.matWorld = particleConstant.matWorld = setting_.matWorld;
-	lEmitData.maxParticles = particleConstant.maxParticles = setting_.maxParticles;
 	lEmitData.startColor = particleConstant.startColor = setting_.startColor;
 	lEmitData.endColor = particleConstant.endColor = setting_.endColor;
-	lEmitData.speed = particleConstant.speed = setting_.speed;
 	lEmitData.size = particleConstant.size = setting_.size;
 
 	lEmitData.timeBetweenEmit = setting_.timeBetweenEmit;
@@ -359,7 +339,7 @@ void AnimationModelGPUParticle::SetModel(AliceModel* model_)
 
 float AnimationModelGPUParticle::GetDeltaTime() const
 {
-	return timeGPUData.deltaTime;
+	return particleConstants.deltaTime;
 }
 
 void AnimationModelGPUParticle::DrawListRelease()
@@ -389,23 +369,17 @@ void AnimationModelGPUParticle::PlayAnimation()
 
 void AnimationModelGPUParticle::PBufferCreate()
 {
-
 	particleConstantsBuffer = CreateUniqueConstantBuffer(sizeof(ParticleConstantGPUDatas),AdaptersIndex::SUB);
-	gpuParticleDataBuffer = CreateUniqueConstantBuffer(sizeof(FireGPUParticleGPUData),AdaptersIndex::SUB);
-	timeConstantsBuffer = CreateUniqueConstantBuffer(sizeof(TimeConstantGPUData),AdaptersIndex::SUB);
 	worldBillboardBuffer = CreateUniqueConstantBuffer(sizeof(WorldBillboardGPUData),AdaptersIndex::MAIN);
-
-	gpuParticleDataBuffer->Update(&fireGPUParticleGPUData);
-
 }
 
 void AnimationModelGPUParticle::PUpdateConstantBuffer(float deltaTime_)
 {
-	timeGPUData.deltaTime = deltaTime_;
-	timeGPUData.totalTime += deltaTime_;
-	timeGPUData.computeTime = static_cast< uint32_t >( GetTickCount64() / 1000 );
+	particleConstants.deltaTime = deltaTime_;
+	particleConstants.totalTime += deltaTime_;
+	particleConstants.computeTime = static_cast< uint32_t >( GetTickCount64() / 1000 );
 
-	timeConstantsBuffer->Update(&timeGPUData);
+	particleConstantsBuffer->Update(&particleConstants);
 }
 
 bool AnimationModelGPUParticle::PCanEmit(ParticleEmit& data_,float deltaTime_)

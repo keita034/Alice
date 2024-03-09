@@ -42,23 +42,18 @@ public://GPUで使う構造体
 	{
 		AliceMathF::Matrix4 matWorld;
 
-		AliceMathF::Vector3 velocity;
-		float maxParticles;
-
 		AliceMathF::Vector4 startColor;
 
 		AliceMathF::Vector4 endColor;
 
-		float lifeTime;
+		float deltaTime;
+		float totalTime;
+		uint32_t computeTime;
 		float size;
-		float speed;
-		uint32_t vertexSize;
-	};
 
-	struct FireGPUParticleGPUData
-	{
-		uint32_t maxParticles = 0;
-		uint32_t emitDataIndex = 0;
+		uint32_t vertexSize;
+		AliceMathF::Vector3 PAD;
+
 	};
 
 	struct ParticleConstantGPUDatas
@@ -93,10 +88,7 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12CommandSignature> particleCommandSignature = nullptr;
 
 	std::unique_ptr<IConstantBuffer>particleConstantsBuffer;
-	std::unique_ptr<IConstantBuffer>animationConstantsBuffer;
 	std::unique_ptr<IConstantBuffer>worldBillboardBuffer;
-	std::unique_ptr<IConstantBuffer>timeConstantsBuffer;
-	std::unique_ptr<IConstantBuffer>gpuParticleDataBuffer;
 
 	std::unique_ptr <MeshGPUParticleAliceModel> modelData;
 	std::unordered_map <std::string, std::unordered_map<std::string,bool>>boneMeshIsVisibles;
@@ -104,17 +96,12 @@ private:
 	TextureData* texture;
 
 	WorldBillboardGPUData worldBillboardGPUData;
-	TimeConstantGPUData timeGPUData;
 	ParticleConstantGPUData particleConstants;
-	FireGPUParticleGPUData fireGPUParticleGPUData;
 	ParticleEmit emitDatas;
-
-	size_t emitDataCount;
-	size_t maxParticles;
 
 	bool isEmit = false;
 	bool animationStop = false;
-	Byte6 PADING;
+	Byte2 PADING;
 public:
 
 	AnimationModelGPUParticle() = default;

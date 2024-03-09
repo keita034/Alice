@@ -1,32 +1,16 @@
 #include<AnimationModelGPUParticle.hlsli>
 
-cbuffer timeData : register(b0)
-{
-    float deltaTime;
-    float TotalTime;
-    uint computeTime;
-}
-
-cbuffer ParticleData : register(b1)
-{
-    uint maxParticles;
-    uint emitDataIndex;
-}
-
-cbuffer ParticleDatas : register(b2)
+cbuffer ParticleDatas : register(b0)
 {
     EmitData emitData;
 }
 
-cbuffer BoneDatas : register(b3)
+cbuffer BoneDatas : register(b1)
 {
     matrix bones[BONE_MAX];
 }
 
-
 RWStructuredBuffer<ModelParticle> ParticlePool : register(u0);
-
-StructuredBuffer<Mesh> meshs : register(t0);
 
 //スキニング計算
 SkinOutput ComputeSkin(ModelParticle input)

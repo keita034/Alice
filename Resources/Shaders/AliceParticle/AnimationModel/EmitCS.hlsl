@@ -1,25 +1,12 @@
 #include<AnimationModelGPUParticle.hlsli>
 #include<../../HLSLMath.hlsli>
 
-cbuffer timeData : register(b0)
-{
-    float deltaTime;
-    float TotalTime;
-    uint computeTime;
-}
-
-cbuffer ParticleData : register(b1)
-{
-	uint maxParticles;
-	uint emitDataIndex;
-}
-
-cbuffer ParticleDatas : register(b2)
+cbuffer ParticleDatas : register(b0)
 {
     EmitData emitData;
 }
 
-cbuffer BoneDatas : register(b3)
+cbuffer BoneDatas : register(b1)
 {
     matrix bones[BONE_MAX];
 }
@@ -68,11 +55,6 @@ SkinOutput ComputeSkin(Mesh input)
 [numthreads(1024, 1, 1)]
 void main( uint3 DTid : SV_DispatchThreadID )
 {
-    if (DTid.x >= maxParticles)
-    {
-       return;
-    }
-
     if (DTid.x >= emitData.vertexSize)
     {
         return;

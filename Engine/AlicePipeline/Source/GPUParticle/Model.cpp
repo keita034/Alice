@@ -56,8 +56,6 @@ void CreateAnimationModelEmitComputeMaterial(MaterialManager* manager_,IAdapter*
 
 	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
 	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,1);//b1
-	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,2);//b2
-	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,3);//b3
 
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 
@@ -131,12 +129,8 @@ void CreateAnimationModelUpdateComputeMaterial(MaterialManager* manager_,IAdapte
 
 	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
 	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,1);//b1
-	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,2);//u2
-	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,3);//u3
 
-	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,0);//u0
-
-	lMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
+	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,0);//t0
 
 	lMaterial->rootSignature->Create(lDevice);
 
