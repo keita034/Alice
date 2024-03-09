@@ -44,6 +44,7 @@ void AliceFramework::Initialize()
 	Mesh3D::SSetDirectX12Core(directX12Core.get());
 	TextureManager::SSetDirectX12Core(directX12Core->GetMultiAdapters(),directX12Core->GetSwapChain(),directX12Core->GetSRVDescriptorHeap());
 	AliceModel::SCommonInitialize(directX12Core->GetDevice(),directX12Core->GetCommandList());
+	MeshGPUParticleAliceModel::SSetMultiAdapters(directX12Core->GetMultiAdapters());
 
 	PipelineState::SSetDevice(directX12Core->GetDevice());
 

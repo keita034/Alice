@@ -60,41 +60,26 @@ void BossHand::Initialize(Transform* parent_,AlicePhysics::AlicePhysicsSystem* p
 
 	}
 
-	//if ( bossUsData.index == BossHandIndex::RIGHT )
-	//{
-	//	modelGPUParticle = gpuParticleEmitter->GetAnimationModelGPUParticle("BossRightHandModelParticle");
-	//	AliceAssertNull(modelGPUParticle,"modelGPUParticleIs");
-	//	modelGPUParticle->InvisibleBoneMesh("elemental_element1mesh.003","mixamorig:Hips");
-	//	modelGPUParticle->VisibleBoneMesh("elemental_element1mesh.003","mixamorig:RightHand");
+	if ( bossUsData.index == BossHandIndex::RIGHT )
+	{
+		modelGPUParticle = gpuParticleEmitter->GetAnimationModelGPUParticle("BossRightHandModelParticle");
+		AliceAssertNull(modelGPUParticle,"modelGPUParticleIs");
+		modelGPUParticle->InvisibleBoneMesh("elemental_element1mesh.003","mixamorig:Hips");
+		modelGPUParticle->VisibleBoneMesh("elemental_element1mesh.003","mixamorig:RightHand");
 
-	//}
-	//else
-	//{
-	//	modelGPUParticle = gpuParticleEmitter->GetAnimationModelGPUParticle("BossLeftHandModelParticle");
-	//	AliceAssertNull(modelGPUParticle,"modelGPUParticleIs");
-	//	modelGPUParticle->InvisibleBoneMesh("elemental_element1mesh.003","mixamorig:Hips");
-	//	modelGPUParticle->VisibleBoneMesh("elemental_element1mesh.003","mixamorig:LeftHand");
-	//}
-
-
+	}
+	else
+	{
+		modelGPUParticle = gpuParticleEmitter->GetAnimationModelGPUParticle("BossLeftHandModelParticle");
+		AliceAssertNull(modelGPUParticle,"modelGPUParticleIs");
+		modelGPUParticle->InvisibleBoneMesh("elemental_element1mesh.003","mixamorig:Hips");
+		modelGPUParticle->VisibleBoneMesh("elemental_element1mesh.003","mixamorig:LeftHand");
+	}
 }
 
 void BossHand::Update(const std::string& boneName_,AliceBlendTree* tree_,AliceModel* playerModel_)
 {
 	animationTransform = playerModel_->GetAnimationTransform(tree_,boneName_);
-
-	if ( isPa&&!flag2 )
-	{
-		flag2.Determine();
-		if ( bossUsData.index == BossHandIndex::RIGHT )
-		{
-			//boss->GetModelParticle()->InvisibleBoneMesh("elemental_element1mesh.003","mixamorig:RightHand");
-		}
-		else
-		{
-			//boss->GetModelParticle()->InvisibleBoneMesh("elemental_element1mesh.003","mixamorig:LeftHand");
-		}
-	}
 }
 
 void BossHand::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
@@ -106,10 +91,10 @@ void BossHand::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 
 void BossHand::TransUpdate(Camera* camera_)
 {
-	transform.TransUpdate(camera_,&animationTransform.boneMatrix);
-
 	if ( hp > 0 )
 	{
+		transform.TransUpdate(camera_,&animationTransform.boneMatrix);
+
 		rigidBody->SetMatrix(transform.rigidBodyMatWorld,transform.matWorld);
 	}
 	else
@@ -139,7 +124,7 @@ void BossHand::TransUpdate(Camera* camera_)
 		}
 	}
 
-	//modelGPUParticle->SetMat(transform.matWorld);
+	modelGPUParticle->SetMat(transform.matWorld);
 }
 
 void BossHand::SetSituation(uint32_t situation_)
@@ -171,27 +156,26 @@ void BossHand::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_,const
 {
 	if ( timer >= 4 && BodyData_->GetGroup() == CollisionGroup::FIELD && !isPa )
 	{
-		//AnimationMeshGPUParticle* lParticle = gpuParticleEmitter->GetAnimationMeshGPUParticle("BossHandScatteringParticle");
-		//modelGPUParticle->EmitStop();
+		AnimationMeshGPUParticle* lParticle = gpuParticleEmitter->GetAnimationMeshGPUParticle("BossHandScatteringParticle");
+		modelGPUParticle->EmitStop();
+		modelGPUParticle->PlayAnimation();
 
 		if ( bossUsData.index == BossHandIndex::RIGHT )
 		{
-			//boss->GetModelParticle()->InvisibleBoneMesh("elemental_element1mesh.003","mixamorig:RightHand");
-			//lParticle->SetBoneMesh("elemental_element1mesh.003","mixamorig:RightHand");
+			lParticle->SetBoneMesh("elemental_element1mesh.003","mixamorig:RightHand");
 		}
 		else
 		{
-			//boss->GetModelParticle()->InvisibleBoneMesh("elemental_element1mesh.003","mixamorig:LeftHand");
-			//lParticle->SetBoneMesh("elemental_element1mesh.003","mixamorig:LeftHand");
+			lParticle->SetBoneMesh("elemental_element1mesh.003","mixamorig:LeftHand");
 		}
 
-		//lParticle->EmitPlay();
-		//gpuParticleEmitter->ScatteringSetSpeed(40.0f);
-		//gpuParticleEmitter->ScatteringSetAccel({ 0,10,0 });
-		//AliceMathF::Vector3 centerPos = AliceMathF::GetWorldPosition(rigidBody->GetCenterOfMassTransform());
-		//gpuParticleEmitter->ScatteringSetCenterPos(centerPos);
-		//gpuParticleEmitter->AnimationMeshGPUParticleScattering("BossHandScatteringParticle");
-		//lParticle->EmitStop();
+		lParticle->EmitPlay();
+		gpuParticleEmitter->ScatteringSetSpeed(200.0f);
+		gpuParticleEmitter->ScatteringSetAccel({ 0,40,0 });
+		AliceMathF::Vector3 centerPos = AliceMathF::GetWorldPosition(rigidBody->GetCenterOfMassTransform());
+		gpuParticleEmitter->ScatteringSetCenterPos(centerPos);
+		gpuParticleEmitter->AnimationMeshGPUParticleScattering("BossHandScatteringParticle");
+		lParticle->EmitStop();
 
 		timer = 0;
 		isPa = true;
@@ -199,16 +183,18 @@ void BossHand::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_,const
 		cutting = true;
 		transform.translation = { 0.0f,1000.0f,0.0f };
 		transform.parent = parent;
+		death = false;
 
 	}
 
 	boss->DamageEnterCalculation(BodyData_,hitPosdition_,0.5f);
 	boss->DamageEnterCalculation(BodyData_,hitPosdition_,hp,1.0f,false,false);
 
-	if ( !death && hp <= 0 )
+	if ( !death && !cutting && hp <= 0 )
 	{
 		death = true;
-		//modelGPUParticle->EmitPlay();
+		modelGPUParticle->EmitPlay();
+		modelGPUParticle->StopAnimation();
 		rigidBody->AddForce({ 0,200000,0 });
 		flag.SetFlag(true);
 		flag2.SetFlag(true);
@@ -216,10 +202,12 @@ void BossHand::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_,const
 		if ( bossUsData.index == BossHandIndex::RIGHT )
 		{
 			transform.translation = { 100 * 20.0f,100 * -35.0f ,100 * 40.0f };
+			boss->GetModelParticle()->InvisibleBoneMesh("elemental_element1mesh.003","mixamorig:RightHand");
 		}
 		else
 		{
-			transform.translation = { 100 * 20.0f,100 * -35.0f ,100 * 40.0f };
+			transform.translation = { 100 * -20.0f,100 * -35.0f ,100 * 40.0f };
+			boss->GetModelParticle()->InvisibleBoneMesh("elemental_element1mesh.003","mixamorig:LeftHand");
 		}
 	}
 }
@@ -229,6 +217,11 @@ void BossHand::OnCollisionExit() {}
 const AliceMathF::Matrix4 BossHand::GetCenterOfMassTransform() const
 {
 	return rigidBody->GetCenterOfMassTransform();
+}
+
+bool BossHand::GetDeath() const
+{
+	return death;
 }
 
 void BossHand::Reset()

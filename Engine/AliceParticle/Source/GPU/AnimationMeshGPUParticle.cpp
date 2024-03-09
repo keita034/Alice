@@ -162,35 +162,38 @@ void AnimationMeshGPUParticle::Finalize()
 
 void AnimationMeshGPUParticle::Draw(const AliceMathF::Matrix4& worldMat_,const AliceMathF::Matrix4& billboardMat_)
 {
-	AliceAssertNull(texture,"テクスチャがありません");
-
+	if ( draw )
 	{
-		worldBillboardGPUData.worldMat = worldMat_;
-		worldBillboardGPUData.billboardMat = billboardMat_;
+		AliceAssertNull(texture,"テクスチャがありません");
 
-		worldBillboardBuffer->Update(&worldBillboardGPUData);
+		{
+			worldBillboardGPUData.worldMat = worldMat_;
+			worldBillboardGPUData.billboardMat = billboardMat_;
+
+			worldBillboardBuffer->Update(&worldBillboardGPUData);
+		}
+
+		ID3D12GraphicsCommandList* lGraphicCommandList = graphicAdapter->GetGraphicCommandList();
+
+		Material* lMaterial = MaterialManager::SGetMaterial("AnimationMeshGPUParticleDraw",AdaptersIndex::MAIN);
+
+		lGraphicCommandList->IASetPrimitiveTopology(D3D12_PRIMITIVE_TOPOLOGY::D3D_PRIMITIVE_TOPOLOGY_POINTLIST);
+
+		lGraphicCommandList->SetPipelineState(lMaterial->pipelineState->GetPipelineState());
+		lGraphicCommandList->SetGraphicsRootSignature(lMaterial->rootSignature->GetRootSignature());
+
+		ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::MAIN)->GetHeap() };
+		lGraphicCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
+
+		lGraphicCommandList->SetGraphicsRootConstantBufferView(0,worldBillboardBuffer->GetAddress());
+
+		lGraphicCommandList->SetGraphicsRootDescriptorTable(1,particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::SUB));
+		lGraphicCommandList->SetGraphicsRootDescriptorTable(2,drawListBuffer->GetUAVAddress(CrossAdapterResourceIndex::SUB));
+
+		lGraphicCommandList->SetGraphicsRootDescriptorTable(3,texture->gpuHandle);
+
+		lGraphicCommandList->ExecuteIndirect(particleCommandSignature.Get(),1,drawArgumentBuffer->GetResource(CrossAdapterResourceIndex::SUB),0,nullptr,0);
 	}
-
-	ID3D12GraphicsCommandList* lGraphicCommandList = graphicAdapter->GetGraphicCommandList();
-
-	Material* lMaterial = MaterialManager::SGetMaterial("AnimationMeshGPUParticleDraw",AdaptersIndex::MAIN);
-
-	lGraphicCommandList->IASetPrimitiveTopology(D3D12_PRIMITIVE_TOPOLOGY::D3D_PRIMITIVE_TOPOLOGY_POINTLIST);
-
-	lGraphicCommandList->SetPipelineState(lMaterial->pipelineState->GetPipelineState());
-	lGraphicCommandList->SetGraphicsRootSignature(lMaterial->rootSignature->GetRootSignature());
-
-	ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::MAIN)->GetHeap() };
-	lGraphicCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
-
-	lGraphicCommandList->SetGraphicsRootConstantBufferView(0,worldBillboardBuffer->GetAddress());
-
-	lGraphicCommandList->SetGraphicsRootDescriptorTable(1,particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::SUB));
-	lGraphicCommandList->SetGraphicsRootDescriptorTable(2,drawListBuffer->GetUAVAddress(CrossAdapterResourceIndex::SUB));
-
-	lGraphicCommandList->SetGraphicsRootDescriptorTable(3,texture->gpuHandle);
-
-	lGraphicCommandList->ExecuteIndirect(particleCommandSignature.Get(),1,drawArgumentBuffer->GetResource(CrossAdapterResourceIndex::SUB),0,nullptr,0);
 }
 
 void AnimationMeshGPUParticle::SetSetting()
@@ -344,6 +347,16 @@ void AnimationMeshGPUParticle::SetBoneMesh(const std::string& meshName_,const st
 	boneMesh = modelData->GetBoneMesh(meshName_,boneName_);
 	boneMeshRoot = root_;
 	//ReadChildren(boneMesh,verticeSize,boneMeshRoot);
+}
+
+void AnimationMeshGPUParticle::DrawStop()
+{
+	draw = false;
+}
+
+void AnimationMeshGPUParticle::DrawStart()
+{
+	draw = true;
 }
 
 const Bone* AnimationMeshGPUParticle::GetBone(const std::string& meshName_,const std::string& boneName_) const

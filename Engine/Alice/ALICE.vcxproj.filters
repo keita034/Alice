@@ -20,9 +20,6 @@
     <Filter Include="ソース ファイル\3D">
       <UniqueIdentifier>{d9031e2d-06e5-494b-af79-ca90cbff5a32}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Camera">
-      <UniqueIdentifier>{b784beb3-ec15-4ace-a6dd-91c611659c99}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Core">
       <UniqueIdentifier>{3a78b521-049e-4756-909f-c9fb87432009}</UniqueIdentifier>
     </Filter>

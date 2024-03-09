@@ -60,6 +60,10 @@ void Boss::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 			bossModelGPUParticle = particleEmitter->GetAnimationModelGPUParticle("BossModelParticle");
 		}
 
+		{
+			deathGPUParticle = particleEmitter->GetAnimationMeshGPUParticle("BossDeathEffectParticle");
+		}
+
 		BloodGushGPUParticleSetting lBloodGushSetting;
 		lBloodGushSetting.accel = { 0.0f,-8.5f,0.0f };
 		lBloodGushSetting.amount = 1.0f;
@@ -164,11 +168,71 @@ void Boss::Update()
 			direction = -direction;
 			direction = direction.Normal();
 		}
-	}
 
-	if ( situation & ActorSituation::DAMAGE && !player->IsAttack() )
-	{
-		situation &= ~ActorSituation::DAMAGE;
+		if ( situation & ActorSituation::ATTACK )
+		{
+			if ( animation->GetAnimation()->GetRatio() >= 0.22f && animation->GetAnimation()->GetRatio() <= 0.6f )
+			{
+				hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->SetSituation(situation);
+				hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->SetSituation(situation);
+
+			}
+			else
+			{
+				int32_t lSituation = situation;
+				lSituation &= ~ActorSituation::ATTACK;
+
+				hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->SetSituation(lSituation);
+				hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->SetSituation(lSituation);
+
+			}
+		}
+		else
+		{
+
+			hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->ParticleStop();
+		}
+		//
+		if ( hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->GetCutting() && !( situation & ActorSituation::LEFT_CUTTING ) ||
+			hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->GetDeath() && !( situation & ActorSituation::LEFT_CUTTING ) ||
+			hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->GetCutting() && !( situation & ActorSituation::RIGHT_CUTTING ) ||
+			hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->GetDeath() && !( situation & ActorSituation::RIGHT_CUTTING ) )
+		{
+			reconstruction = true;
+
+			if ( hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->GetCutting() || hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->GetDeath() )
+			{
+				situation |= ActorSituation::LEFT_CUTTING;
+			}
+
+			if ( hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->GetCutting() || hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->GetDeath() )
+			{
+				situation |= ActorSituation::RIGHT_CUTTING;
+			}
+
+
+		}
+
+		if ( reconstruction && !actionManager->IsReconstruction() )
+		{
+			reconstructionTime--;
+
+			if ( reconstructionTime <= 0 || situation & ActorSituation::LEFT_CUTTING && situation & ActorSituation::RIGHT_CUTTING )
+			{
+				if ( !hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->GetDeath() && !hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->GetDeath() )
+				{
+					actionManager->StartReconstruction();
+					hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->Reset();
+					hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->Reset();
+					reconstruction = false;
+				}
+			}
+		}
+
+		if ( situation & ActorSituation::DAMAGE && !player->IsAttack() )
+		{
+			situation &= ~ActorSituation::DAMAGE;
+		}
 	}
 
 	animation->Update();
@@ -176,57 +240,36 @@ void Boss::Update()
 	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->Update("mixamorig:LeftHandMiddle1",animation->GetAnimation(),model.get());
 	bossUI->Update();
 
-	if ( situation & ActorSituation::ATTACK )
+	if ( hp <= 0 && !animation->IsInsert() )
 	{
-		if ( animation->GetAnimation()->GetRatio() >= 0.22f && animation->GetAnimation()->GetRatio() <= 0.6f )
-		{
-			hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->SetSituation(situation);
-			hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->SetSituation(situation);
-
-		}
-		else
-		{
-			int32_t lSituation = situation;
-			lSituation &= ~ActorSituation::ATTACK;
-
-			hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->SetSituation(lSituation);
-			hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->SetSituation(lSituation);
-
-		}
-	}
-	else
-	{
-
-		hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->ParticleStop();
-	}
-	//
-		GetModelParticle()->InvisibleBoneMesh("elemental_element1mesh.003","mixamorig:RightHand");
-	if ( hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->GetCutting() && !( situation & ActorSituation::LEFT_CUTTING ) ||
-		hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->GetCutting() && !( situation & ActorSituation::RIGHT_CUTTING ))
-	{
-		reconstruction = true;
-
-		if ( hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->GetCutting() )
-		{
-			situation |= ActorSituation::LEFT_CUTTING;
-		}
-		else if ( hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->GetCutting() )
-		{
-			situation |= ActorSituation::RIGHT_CUTTING;
-		}
-
-
+		death = true;
+		bossModelGPUParticle->EmitStop();
+		deathGPUParticle->EmitPlay();
+		particleEmitter->ScatteringSetSpeed(600.0f);
+		//gpuParticleEmitter->ScatteringSetAccel({ 0,10,0 });
+		AliceMathF::Vector3 centerPos = AliceMathF::GetWorldPosition(transform.matWorld);
+		centerPos += direction * rigidBodyoffset.y;
+		centerPos.y += rigidBodyoffset.x;
+		particleEmitter->ScatteringSetCenterPos(centerPos);
+		particleEmitter->AnimationMeshGPUParticleScattering("BossDeathEffectParticle");
+		deathGPUParticle->EmitStop();
 	}
 
-	if ( reconstruction )
+	if ( death )
 	{
-		reconstructionTime--;
+		deathTime--;
 
-		if ( reconstructionTime <= 0 && !actionManager->IsReconstruction() || situation & ActorSituation::LEFT_CUTTING && situation & ActorSituation::RIGHT_CUTTING  )
+		if ( deathTime <= 60 )
 		{
-			situation &= ~ActorSituation::LEFT_CUTTING || ActorSituation::RIGHT_CUTTING;
-			actionManager->StartReconstruction();
+			deathGPUParticle->DrawStop();
 		}
+
+		if ( !deathTime )
+		{
+			deathTime = 100;
+			end = true;
+		}
+
 	}
 
 	bossParticleModel->AnimationUpdate(animation->GetAnimation());
@@ -289,6 +332,7 @@ void Boss::TransUpdate(Camera* camera_)
 	//bossGPUParticle->SetMat(transform.matWorld,0);
 
 	bossModelGPUParticle->SetMat(transform.matWorld);
+	deathGPUParticle->SetMat(transform.matWorld);
 	particleEmitter->GetAnimationMeshGPUParticle("BossLeftHandParticle")->SetMat(transform.matWorld);
 	particleEmitter->GetAnimationMeshGPUParticle("BossRightHandParticle")->SetMat(transform.matWorld);
 	particleEmitter->GetMeshGPUParticle("EffectSphereParticle")->SetMat(rigidBody->GetCenterOfMassTransform());
@@ -334,9 +378,24 @@ AnimationModelGPUParticle* Boss::GetModelParticle()
 	return bossModelGPUParticle;
 }
 
-bool Boss::IsEnd()
+bool Boss::IsEnd() const
 {
-	return hp <= 0 && !animation->IsInsert();
+	return end;// hp <= 0 && !animation->IsInsert();
+}
+
+void Boss::CuttingReset()
+{
+	if ( situation & ActorSituation::LEFT_CUTTING )
+	{
+		situation &= ~ActorSituation::LEFT_CUTTING;
+	}
+
+	if ( situation & ActorSituation::RIGHT_CUTTING )
+	{
+		situation &= ~ActorSituation::RIGHT_CUTTING;
+	}
+	reconstruction = false;
+	reconstructionTime = 100;
 }
 
 void Boss::AnimationStop()

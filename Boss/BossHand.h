@@ -82,6 +82,7 @@ public:
 	void OnCollisionExit() override;
 
 	bool GetCutting() const;
+	bool GetDeath() const;
 
 	void Reset();
 

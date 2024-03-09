@@ -231,3 +231,41 @@ float3 RandomPointInUnitSphere(uint SEED, float3 RADIUS)
 
     return randomPoint;
 }
+
+struct BoundingBox
+{
+    float3 min;
+    float3 max;
+};
+
+struct FrustumPlanes
+{
+    float4 plane[6];
+};
+
+bool IsInsideFrustum(BoundingBox box, FrustumPlanes frustumPlanes)
+{
+    // フラスタム面をテスト
+    for (int i = 0; i < 6; ++i)
+    {
+        float3 normal = frustumPlanes.plane[i].xyz;
+        float d = frustumPlanes.plane[i].w;
+
+        int outCount = 0;
+        outCount += dot(normal, float3(box.min.x, box.min.y, box.min.z)) + d < 0.0 ? 1 : 0; // 000
+        outCount += dot(normal, float3(box.min.x, box.min.y, box.max.z)) + d < 0.0 ? 1 : 0; // 001
+        outCount += dot(normal, float3(box.min.x, box.max.y, box.min.z)) + d < 0.0 ? 1 : 0; // 010
+        outCount += dot(normal, float3(box.min.x, box.max.y, box.max.z)) + d < 0.0 ? 1 : 0; // 011
+        outCount += dot(normal, float3(box.max.x, box.min.y, box.min.z)) + d < 0.0 ? 1 : 0; // 100
+        outCount += dot(normal, float3(box.max.x, box.min.y, box.max.z)) + d < 0.0 ? 1 : 0; // 101
+        outCount += dot(normal, float3(box.max.x, box.max.y, box.min.z)) + d < 0.0 ? 1 : 0; // 110
+        outCount += dot(normal, float3(box.max.x, box.max.y, box.max.z)) + d < 0.0 ? 1 : 0; // 111
+
+        if (outCount == 8)
+        {
+            return false;
+        }
+    }
+
+    return true;
+}

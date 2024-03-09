@@ -379,21 +379,39 @@ void BossActionManager::PReconstruction(const std::array< AliceMathF::Matrix4,2>
 	{
 		reconstruction = true;
 
-		particleEmitter->GetAnimationMeshGPUParticle("BossRightHandParticle")->EmitPlay();
-		particleEmitter->ScatteringSetSpeed(50.0f);
-		particleEmitter->ScatteringSetAccel({ 0,4,0 });
-		AliceMathF::Vector3 centerPos = AliceMathF::GetWorldPosition(hands[ 1 ]);
-		particleEmitter->ScatteringSetCenterPos(centerPos);
-		particleEmitter->AnimationMeshGPUParticleScattering("BossRightHandParticle");
-		particleEmitter->GetAnimationMeshGPUParticle("BossRightHandParticle")->EmitStop();
-		particleEmitter->GetAnimationModelGPUParticle("BossModelParticle")->VisibleBoneMesh("elemental_element1mesh.003","mixamorig:LeftHand");
-		particleEmitter->GetAnimationModelGPUParticle("BossModelParticle")->VisibleBoneMesh("elemental_element1mesh.003","mixamorig:RightHand");
+		if ( ( boss->GetSituation() & ActorSituation::RIGHT_CUTTING ) )
+		{
+			particleEmitter->GetAnimationMeshGPUParticle("BossRightHandParticle")->EmitPlay();
+			particleEmitter->ScatteringSetSpeed(800.0f);
+			particleEmitter->ScatteringSetAccel({ 0,4,0 });
+			AliceMathF::Vector3 centerPos = AliceMathF::GetWorldPosition(hands[ 1 ]);
+			particleEmitter->ScatteringSetCenterPos(centerPos);
+			particleEmitter->AnimationMeshGPUParticleScattering("BossRightHandParticle");
+			particleEmitter->GetAnimationMeshGPUParticle("BossRightHandParticle")->EmitStop();
+
+			particleEmitter->GetAnimationModelGPUParticle("BossModelParticle")->VisibleBoneMesh("elemental_element1mesh.003","mixamorig:RightHand");
+		}
+
+		if ( ( boss->GetSituation() & ActorSituation::LEFT_CUTTING ) )
+		{
+			particleEmitter->GetAnimationMeshGPUParticle("BossLeftHandParticle")->EmitPlay();
+			particleEmitter->ScatteringSetSpeed(800.0f);
+			particleEmitter->ScatteringSetAccel({ 0,4,0 });
+			AliceMathF::Vector3 centerPos = AliceMathF::GetWorldPosition(hands[ 0 ]);
+			particleEmitter->ScatteringSetCenterPos(centerPos);
+			particleEmitter->AnimationMeshGPUParticleScattering("BossLeftHandParticle");
+			particleEmitter->GetAnimationMeshGPUParticle("BossLeftHandParticle")->EmitStop();
+
+			particleEmitter->GetAnimationModelGPUParticle("BossModelParticle")->VisibleBoneMesh("elemental_element1mesh.003","mixamorig:LeftHand");
+		}
 	}
 
 	if ( !animation->IsInsert() )
 	{
 		bossAction = BossAction::NONE;
 		reconstruction = false;
+		isReconstruction = false;
+		boss->CuttingReset();
 	}
 }
 
@@ -401,7 +419,10 @@ BossAction BossActionManager::ChoiceAction(float length_,const AliceMathF::Vecto
 {
 	if ( action_ )
 	{
-		return BossAction::CHASE_ATTACK;
+		if ( !( boss->GetSituation() & ActorSituation::RIGHT_CUTTING ) || !( boss->GetSituation() & ActorSituation::LEFT_CUTTING ) )
+		{
+			return BossAction::CHASE_ATTACK;
+		}
 
 		if ( shortDistanceTIme >= 200 )
 		{

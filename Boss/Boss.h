@@ -20,6 +20,7 @@ private:
 	GPUParticleEmitter* particleEmitter = nullptr;
 	BloodGushGPUParticle* bloodGushGPUParticle = nullptr;
 	AnimationMeshGPUParticle* bossGPUParticle = nullptr;
+	AnimationMeshGPUParticle* deathGPUParticle = nullptr;
 	AnimationModelGPUParticle* bossModelGPUParticle = nullptr;
 
 	std::unique_ptr<BossActionManager> actionManager;
@@ -30,7 +31,7 @@ private:
 	std::array< std::unique_ptr<BossHand>,2> hands;
 
 	AliceMathF::Vector3 direction = { 0,0,1 };
-	const int32_t MAX_HP = 40;
+	const int32_t MAX_HP = 1;
 	AliceMathF::Vector3 oldTrans;
 	uint32_t damageSE = 0;
 	AliceMathF::Vector3 rigidBodyoffset;
@@ -40,11 +41,15 @@ private:
 	uint32_t bossModelParticleIndex =0;
 	float deathSEVolume = 0.04f;
 	int32_t situation = 0;
+
 	int32_t hp = 0;
 	int32_t reconstructionTime = 100;
+	int32_t deathTime = 100;
 
 	bool isMove = false;
 	bool reconstruction = false;
+	bool death = false;
+	bool end = false;
 
 public:
 
@@ -97,7 +102,9 @@ public:
 	int32_t GetHp() const;
 	AnimationModelGPUParticle* GetModelParticle();
 
-	bool IsEnd();
+	bool IsEnd() const;
+
+	void CuttingReset();
 
 	void AnimationStop();
 

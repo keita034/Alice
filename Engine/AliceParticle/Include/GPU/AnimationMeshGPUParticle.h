@@ -120,7 +120,8 @@ private:
 	BoneMesh* boneMesh;
 
 	bool boneMeshRoot = false;
-	Byte7 PADING;
+	bool draw = true;
+	Byte6 PADING;
 
 public:
 
@@ -145,6 +146,8 @@ public:
 	void SetTex(uint32_t textureHandle_);
 	void SetModel(AliceModel* model_);
 	void SetBoneMesh(const std::string& meshName_,const std::string& boneName_,bool root_ = true);
+	void DrawStop();
+	void DrawStart();
 
 	const Bone* GetBone(const std::string& meshName_,const std::string& boneName_)const;
 	AliceMathF::Vector3 GetMeshBoneCenterPos(const std::string& meshName_,const std::string& boneName_)const;

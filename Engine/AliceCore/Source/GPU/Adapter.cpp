@@ -41,6 +41,7 @@ private:
 
 	AdaptersIndex index;
 
+	size_t bbIndex = 0;
 public:
 
 	Adapter() = default;
@@ -57,6 +58,7 @@ public:
 
 	void GraphicCommandListExecute()override;
 	void GraphicCommandListReset(size_t bbIndex_)override;
+	void GraphicCommandListReset()override;
 	void ResourceTransition(ID3D12Resource* resource_,uint32_t beforeState_,uint32_t afterState_)override;
 
 	ID3D12GraphicsCommandList* GetGraphicCommandList()override;
@@ -74,6 +76,7 @@ public:
 
 	void ComputeCommandListExecute()override;
 	void ComputeCommandListReset(size_t bbIndex_)override;
+	void ComputeCommandListReset()override;
 
 	ID3D12GraphicsCommandList* GetComputeCommandList()override;
 	ID3D12GraphicsCommandList** GetComputeCommandListAddressOf()override;
@@ -148,7 +151,13 @@ void Adapter::GraphicCommandListExecute()
 
 void Adapter::GraphicCommandListReset(size_t bbIndex_)
 {
+	bbIndex = bbIndex_;
 	commandList->GraphicCommandListReset(bbIndex_);
+}
+
+void Adapter::GraphicCommandListReset()
+{
+	commandList->GraphicCommandListReset(bbIndex);
 }
 
 void Adapter::ResourceTransition(ID3D12Resource* resource_,uint32_t beforeState_,uint32_t afterState_)
@@ -168,6 +177,7 @@ ID3D12GraphicsCommandList** Adapter::GetGraphicCommandListAddressOf()
 
 ID3D12CommandAllocator* Adapter::GetGraphicCommandAllocator(size_t bbIndex_)
 {
+	bbIndex = bbIndex_;
 	return commandList->GetGraphicCommandAllocator(bbIndex_);
 }
 
@@ -183,6 +193,7 @@ void Adapter::CopyCommandListExecute()
 
 void Adapter::CopyCommandListReset(size_t bbIndex_)
 {
+	bbIndex = bbIndex_;
 	commandList->CopyCommandListReset(bbIndex_);
 }
 
@@ -198,6 +209,7 @@ ID3D12GraphicsCommandList** Adapter::GetCopyCommandListAddressOf()
 
 ID3D12CommandAllocator* Adapter::GetCopyCommandAllocator(size_t bbIndex_)
 {
+	bbIndex = bbIndex_;
 	return commandList->GetCopyCommandAllocator(bbIndex_);
 }
 
@@ -213,7 +225,13 @@ void Adapter::ComputeCommandListExecute()
 
 void Adapter::ComputeCommandListReset(size_t bbIndex_)
 {
+	bbIndex = bbIndex_;
 	commandList->ComputeCommandListReset(bbIndex_);
+}
+
+void Adapter::ComputeCommandListReset()
+{
+	commandList->ComputeCommandListReset(bbIndex);
 }
 
 ID3D12GraphicsCommandList* Adapter::GetComputeCommandList()
@@ -228,6 +246,7 @@ ID3D12GraphicsCommandList** Adapter::GetComputeCommandListAddressOf()
 
 ID3D12CommandAllocator* Adapter::GetComputeCommandAllocator(size_t bbIndex_)
 {
+	bbIndex = bbIndex_;
 	return commandList->GetComputeCommandAllocator(bbIndex_);
 }
 
@@ -282,6 +301,7 @@ void Adapter::CommandListExecute()
 
 void Adapter::BeginCommand(size_t bbIndex_)
 {
+	bbIndex = bbIndex_;
 	commandList->BeginCommand(bbIndex_);
 }
 
