@@ -26,7 +26,7 @@ cbuffer BoneDatas : register(b3)
 
 StructuredBuffer<Mesh> meshs : register(t0);
 
-RWStructuredBuffer<Particle> ParticlePool : register(u0);
+RWStructuredBuffer<ModelParticle> ParticlePool : register(u0);
 
 //スキニング計算
 SkinOutput ComputeSkin(Mesh input)
@@ -43,28 +43,24 @@ SkinOutput ComputeSkin(Mesh input)
     weight = input.boneWeight.x;
     m = bones[iBone];
     output.pos += weight * mul(m, input.pos);
-    output.normal += weight * mul((float3x3) m, input.normal);
 
     //ボーン1
     iBone = input.boneIndex.y;
     weight = input.boneWeight.y;
     m = bones[iBone];
     output.pos += weight * mul(m, input.pos);
-    output.normal += weight * mul((float3x3) m, input.normal);
 
     //ボーン2
     iBone = input.boneIndex.z;
     weight = input.boneWeight.z;
     m = bones[iBone];
     output.pos += weight * mul(m, input.pos);
-    output.normal += weight * mul((float3x3) m, input.normal);
 
     //ボーン3
     iBone = input.boneIndex.w;
     weight = input.boneWeight.w;
     m = bones[iBone];
     output.pos += weight * mul(m, input.pos);
-    output.normal += weight * mul((float3x3) m, input.normal);
 
     return output;
 }
@@ -88,12 +84,12 @@ void main( uint3 DTid : SV_DispatchThreadID )
     skin = ComputeSkin(meshs[DTid.x]);
 
     ParticlePool[emitIndex].position = mul(emitData.matWorld, skin.pos);
-    ParticlePool[emitIndex].velocity = float3(0,0,0);
     ParticlePool[emitIndex].color = emitData.startColor;
-    ParticlePool[emitIndex].age = 0;
     ParticlePool[emitIndex].size = float2(emitData.size, emitData.size);
     ParticlePool[emitIndex].alive = 1.0f;
-    ParticlePool[emitIndex].index = DTid.x;
-    ParticlePool[emitIndex].lifeTime = emitData.lifeTime;
+    ParticlePool[emitIndex].meshIndex = DTid.x;
+    ParticlePool[emitIndex].boneIndex = meshs[DTid.x].boneIndex;
+    ParticlePool[emitIndex].boneWeight = meshs[DTid.x].boneWeight;
+    ParticlePool[emitIndex].pos = meshs[DTid.x].pos.xyz;
     
 }

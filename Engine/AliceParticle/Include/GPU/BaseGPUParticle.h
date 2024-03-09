@@ -45,6 +45,23 @@ public:
 		uint32_t index;
 		AliceMathF::Vector3 accel;
 	};
+
+	struct ModelParticleGPUData
+	{
+		AliceMathF::Vector4 color;
+		float alive;
+
+		AliceMathF::Vector3 position;
+		uint32_t meshIndex;
+
+		AliceMathF::Vector3 pos;
+		float size;
+		
+		std::array<UINT,4> boneIndex;
+
+		std::array<float,4> boneWeight;
+	};
+
 protected:
 
 	struct WorldBillboardGPUData

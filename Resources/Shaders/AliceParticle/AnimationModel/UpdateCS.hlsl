@@ -24,12 +24,12 @@ cbuffer BoneDatas : register(b3)
 }
 
 
-RWStructuredBuffer<Particle> ParticlePool : register(u0);
+RWStructuredBuffer<ModelParticle> ParticlePool : register(u0);
 
 StructuredBuffer<Mesh> meshs : register(t0);
 
 //スキニング計算
-SkinOutput ComputeSkin(Mesh input)
+SkinOutput ComputeSkin(ModelParticle input)
 {
     //ゼロクリア
     SkinOutput output = (SkinOutput) 0;
@@ -42,29 +42,25 @@ SkinOutput ComputeSkin(Mesh input)
     iBone = input.boneIndex.x;
     weight = input.boneWeight.x;
     m = bones[iBone];
-    output.pos += weight * mul(m, input.pos);
-    output.normal += weight * mul((float3x3) m, input.normal);
+    output.pos += weight * mul(m, float4(input.pos,1));
 
     //ボーン1
     iBone = input.boneIndex.y;
     weight = input.boneWeight.y;
     m = bones[iBone];
-    output.pos += weight * mul(m, input.pos);
-    output.normal += weight * mul((float3x3) m, input.normal);
+    output.pos += weight * mul(m, float4(input.pos, 1));
 
     //ボーン2
     iBone = input.boneIndex.z;
     weight = input.boneWeight.z;
     m = bones[iBone];
-    output.pos += weight * mul(m, input.pos);
-    output.normal += weight * mul((float3x3) m, input.normal);
+    output.pos += weight * mul(m, float4(input.pos, 1));
 
     //ボーン3
     iBone = input.boneIndex.w;
     weight = input.boneWeight.w;
     m = bones[iBone];
-    output.pos += weight * mul(m, input.pos);
-    output.normal += weight * mul((float3x3) m, input.normal);
+    output.pos += weight * mul(m, float4(input.pos, 1));
 
     return output;
 }
@@ -79,10 +75,10 @@ void main(uint3 DTid : SV_DispatchThreadID)
 
     uint particleIndex = DTid.x;
     
-    Particle particle = ParticlePool.Load(particleIndex);
+    ModelParticle particle = ParticlePool.Load(particleIndex);
  
     SkinOutput skin = (SkinOutput) 0;
-    skin = ComputeSkin(meshs[particle.index]);
+    skin = ComputeSkin(particle);
 
     particle.position = mul(emitData.matWorld, skin.pos);
     

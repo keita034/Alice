@@ -62,7 +62,7 @@ void MeshGPUParticleAliceModel::SetModel(AliceModel* model_,BufferType type,bool
 						boneMesh->vertexBuffer->CreateSRV();
 						boneMesh->indexBuffer = CreateUniqueIndexBuffer(boneMesh->indices.size(),static_cast< AdaptersIndex >( type ),boneMesh->indices.data());
 						boneMesh->drawArgumentBuffer = CreateUniqueDrawArgumentBuffer(1,sizeof(D3D12_DRAW_ARGUMENTS),BufferType::SHARED,AdaptersIndex::SUB,AdaptersIndex::MAIN);
-						boneMesh->particlePoolBuffer = CreateUniqueCrossAdapterBuffer(boneMesh->vertices.size(),sizeof(BaseGPUParticle::ParticleGPUData),AdaptersIndex::SUB,AdaptersIndex::MAIN);
+						boneMesh->particlePoolBuffer = CreateUniqueCrossAdapterBuffer(boneMesh->vertices.size(),sizeof(BaseGPUParticle::ModelParticleGPUData),AdaptersIndex::SUB,AdaptersIndex::MAIN);
 						boneMesh->indexBuffer->CreateSRV();
 						lData->verticeSize += boneMesh->vertices.size();
 					}
