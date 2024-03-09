@@ -168,6 +168,7 @@ void AnimationModelGPUParticle::Draw(const AliceMathF::Matrix4& worldMat_,const 
 		}
 
 		ID3D12GraphicsCommandList* lGraphicCommandList = graphicAdapter->GetGraphicCommandList();
+		MeshGPUParticleModelMesh* mesh = modelData->GetMeshs().front().get();
 
 		Material* lMaterial = MaterialManager::SGetMaterial("AnimationModelGPUParticleDraw",AdaptersIndex::MAIN);
 
@@ -181,7 +182,6 @@ void AnimationModelGPUParticle::Draw(const AliceMathF::Matrix4& worldMat_,const 
 
 		for ( std::unique_ptr<BoneMesh>& boneMesh : mesh->boneMeshs )
 		{
-
 			if ( boneMeshIsVisibles[ mesh->name ][ boneMesh->boneName ] )
 			{
 				lGraphicCommandList->SetGraphicsRootConstantBufferView(0,worldBillboardBuffer->GetAddress());
