@@ -11,10 +11,6 @@ struct BoneMesh
 	std::string boneName;
 	//頂点データの配列
 	std::vector<PosNormUvTangeColSkin> vertices;
-	//インデックスの配列
-	std::vector<uint32_t> indices;
-	//インデックスバッファ
-	std::unique_ptr<IIndexBuffer> indexBuffer;
 	//頂点バッファ
 	std::unique_ptr<IVertexBuffer> vertexBuffer;
 	//ドローアギュメントバッファ
@@ -49,11 +45,6 @@ public:
 
 	//頂点データの配列
 	std::vector<PosNormUvTangeColSkin>* vertices;
-	//インデックスの配列
-	std::vector<uint32_t>* indices;
-
-	//インデックスバッファ
-	std::unique_ptr<IIndexBuffer> indexBuffer;
 
 	//頂点バッファ
 	std::unique_ptr<IVertexBuffer> vertexBuffer;
@@ -81,7 +72,6 @@ public:
 	const std::vector<PosNormUvTangeColSkin>& GetVertices() const;
 
 	D3D12_GPU_DESCRIPTOR_HANDLE GetVertexSRVAddress() const;
-	D3D12_GPU_DESCRIPTOR_HANDLE GetIndicesSRVAddress() const;
 
 	IConstantBuffer* GetBoneBuffer() const;
 
@@ -199,7 +189,7 @@ protected:
 
 	const ReturnMotionNode* PFindNodeAnim(const AliceMotionData* pAnimation_,const std::string& strNodeName_);
 	
-	void AddBoneMesh(std::vector<std::unique_ptr<BoneMesh>>& boneMeshs_,uint32_t indice_,const PosNormUvTangeColSkin& ver_,const std::vector<Bone>& bone_);
+	void AddBoneMesh(std::vector<std::unique_ptr<BoneMesh>>& boneMeshs_,const PosNormUvTangeColSkin& ver_,const std::vector<Bone>& bone_);
 
 	uint32_t GetBoneIndex(const PosNormUvTangeColSkin& ver_);
 

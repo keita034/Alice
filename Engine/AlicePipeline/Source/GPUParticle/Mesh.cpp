@@ -67,7 +67,6 @@ void CreateAnimationMeshEmitComputeMaterial(MaterialManager* manager_,IAdapter* 
 
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,1);//t1
-	//lMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,2);//t1
 
 	lMaterial->rootSignature->Create(lDevice);
 
@@ -216,7 +215,6 @@ void CreateMeshEmitComputeMaterial(MaterialManager* manager_,IAdapter* adapter_)
 
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,1);//t1
-	//lMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,2);//t1
 
 	lMaterial->rootSignature->Create(lDevice);
 

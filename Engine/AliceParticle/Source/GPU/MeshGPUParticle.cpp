@@ -101,7 +101,7 @@ void MeshGPUParticle::Update(float deltaTime_)
 
 			//lComputeCommandList->SetComputeRootDescriptorTable(4,determineTexture->gpuHandle);//t0
 			lComputeCommandList->SetComputeRootDescriptorTable(6,mesh->GetVertexSRVAddress());//t1
-			lComputeCommandList->SetComputeRootDescriptorTable(7,mesh->GetIndicesSRVAddress());//t2
+			//lComputeCommandList->SetComputeRootDescriptorTable(7,mesh->GetIndicesSRVAddress());//t2
 
 			lComputeCommandList->Dispatch(static_cast< uint32_t >( mesh->GetVertices().size() / 1024 + 1 ),1,1);
 		}
@@ -248,7 +248,7 @@ void MeshGPUParticle::PReadChildren(ID3D12GraphicsCommandList* computeCommandLis
 	computeCommandList_->SetComputeRootDescriptorTable(5,freeListBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u1
 
 	computeCommandList_->SetComputeRootDescriptorTable(6,boneMesh_->vertexBuffer->GetSRVAddress());//t1
-	computeCommandList_->SetComputeRootDescriptorTable(7,mesh_->GetIndicesSRVAddress());//t2
+	//computeCommandList_->SetComputeRootDescriptorTable(7,mesh_->GetIndicesSRVAddress());//t2
 
 	computeCommandList_->Dispatch(static_cast< uint32_t >( boneMesh_->vertices.size() / 1024 + 1 ),1,1);
 
@@ -315,7 +315,7 @@ void MeshGPUParticle::EmitPlay(bool flag_)
 
 					//lComputeCommandList->SetComputeRootDescriptorTable(6,determineTexture->gpuHandle);//t0
 					lComputeCommandList->SetComputeRootDescriptorTable(6,mesh->GetVertexSRVAddress());//t1
-					lComputeCommandList->SetComputeRootDescriptorTable(7,mesh->GetIndicesSRVAddress());//t2
+					//lComputeCommandList->SetComputeRootDescriptorTable(7,mesh->GetIndicesSRVAddress());//t2
 
 					lComputeCommandList->Dispatch(static_cast< uint32_t >( mesh->GetVertices().size() / 1024 + 1 ),1,1);
 				}

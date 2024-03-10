@@ -89,6 +89,7 @@ private:
 	Microsoft::WRL::ComPtr<ID3D12CommandSignature> particleCommandSignature = nullptr;
 
 	std::unique_ptr<IConstantBuffer>particleConstantsBuffer;
+	std::unique_ptr<IConstantBuffer>particleCountBuffer;
 	std::unique_ptr<IConstantBuffer>worldBillboardBuffer;
 	std::unique_ptr<IDrawArgumentBuffer>drawArgumentBuffer;
 
@@ -101,9 +102,11 @@ private:
 	ParticleConstantGPUData particleConstants;
 	ParticleEmit emitDatas;
 
+	uint32_t particleCount =0;
+
 	bool isEmit = false;
 	bool animationStop = false;
-	Byte2 PADING;
+	Byte6 PADING;
 public:
 
 	AnimationModelGPUParticle() = default;
@@ -135,6 +138,8 @@ private:
 	void PUpdateConstantBuffer(float deltaTime_)override;
 
 	bool PCanEmit(ParticleEmit& data_,float deltaTime_);
+
+	void ParticleCountCal();
 
 	//コピーコンストラクタ・代入演算子削除
 	AnimationModelGPUParticle& operator=(const AnimationModelGPUParticle&) = delete;

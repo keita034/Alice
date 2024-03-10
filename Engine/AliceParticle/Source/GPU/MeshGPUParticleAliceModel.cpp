@@ -45,9 +45,9 @@ void MeshGPUParticleAliceModel::SetModel(AliceModel* model_,BufferType type,bool
 
 				if ( !mesh->vecBones.empty() )
 				{
-					for ( uint32_t index : mesh->indices )
+					for (const PosNormUvTangeColSkin& index : mesh->vertices )
 					{
-						AddBoneMesh(lMesh->boneMeshs,index,mesh->vertices[ index ],mesh->vecBones);
+						AddBoneMesh(lMesh->boneMeshs,index,mesh->vecBones);
 
 						lMesh->boneMesh = true;
 					}
@@ -60,10 +60,8 @@ void MeshGPUParticleAliceModel::SetModel(AliceModel* model_,BufferType type,bool
 
 						boneMesh->vertexBuffer = CreateUniqueVertexBuffer(boneMesh->vertices.size(),sizeof(boneMesh->vertices[ 0 ]),static_cast< AdaptersIndex >( type ),boneMesh->vertices.data());
 						boneMesh->vertexBuffer->CreateSRV();
-						boneMesh->indexBuffer = CreateUniqueIndexBuffer(boneMesh->indices.size(),static_cast< AdaptersIndex >( type ),boneMesh->indices.data());
 						boneMesh->drawArgumentBuffer = CreateUniqueDrawArgumentBuffer(1,sizeof(D3D12_DRAW_ARGUMENTS),BufferType::SHARED,AdaptersIndex::SUB,AdaptersIndex::MAIN);
 						boneMesh->particlePoolBuffer = CreateUniqueCrossAdapterBuffer(boneMesh->vertices.size(),sizeof(BaseGPUParticle::ModelParticleGPUData),AdaptersIndex::SUB,AdaptersIndex::MAIN);
-						boneMesh->indexBuffer->CreateSRV();
 						lData->verticeSize += boneMesh->vertices.size();
 					}
 				}
@@ -72,13 +70,10 @@ void MeshGPUParticleAliceModel::SetModel(AliceModel* model_,BufferType type,bool
 				{
 					lMesh->vertexBuffer = CreateUniqueVertexBuffer(mesh->vertices.size(),sizeof(mesh->vertices[ 0 ]),static_cast< AdaptersIndex >( type ),mesh->vertices.data());
 					lMesh->vertexBuffer->CreateSRV();
-					lMesh->indexBuffer = CreateUniqueIndexBuffer(mesh->indices.size(),static_cast< AdaptersIndex >( type ),mesh->indices.data());
-					lMesh->indexBuffer->CreateSRV();
 				}
 
 				lMesh->name = mesh->name;
 				lMesh->vertices = &mesh->vertices;
-				lMesh->indices = &mesh->indices;
 				lMesh->constBoneBuffer = CreateUniqueConstantBuffer(sizeof(BoneData),static_cast< AdaptersIndex >( type ));
 				lMesh->bonedata = &mesh->bonedata;
 				lMesh->postureMat = &mesh->node->globalTransform;
@@ -117,11 +112,6 @@ const std::vector<PosNormUvTangeColSkin>& MeshGPUParticleModelMesh::GetVertices(
 D3D12_GPU_DESCRIPTOR_HANDLE MeshGPUParticleModelMesh::GetVertexSRVAddress() const
 {
 	return vertexBuffer->GetSRVAddress();
-}
-
-D3D12_GPU_DESCRIPTOR_HANDLE MeshGPUParticleModelMesh::GetIndicesSRVAddress() const
-{
-	return indexBuffer->GetSRVAddress();
 }
 
 IConstantBuffer* MeshGPUParticleModelMesh::GetBoneBuffer() const
@@ -324,7 +314,7 @@ const ReturnMotionNode* MeshGPUParticleAliceModel::PFindNodeAnim(const AliceMoti
 	return pAnimation_->GetMotion(strNodeName_);
 }
 
-void MeshGPUParticleAliceModel::AddBoneMesh(std::vector<std::unique_ptr<BoneMesh>>& boneMeshs_,uint32_t indice_,const PosNormUvTangeColSkin& ver_,const std::vector<Bone>& bone_)
+void MeshGPUParticleAliceModel::AddBoneMesh(std::vector<std::unique_ptr<BoneMesh>>& boneMeshs_,const PosNormUvTangeColSkin& ver_,const std::vector<Bone>& bone_)
 {
 	uint32_t lBoneIndex = GetBoneIndex(ver_);
 
@@ -342,7 +332,6 @@ void MeshGPUParticleAliceModel::AddBoneMesh(std::vector<std::unique_ptr<BoneMesh
 
 		lMessh->boneName = lBone.name;
 		lMessh->vertices.push_back(ver_);
-		lMessh->indices.push_back(indice_);
 		lMessh->bone = (Bone*)&bone_[ lBoneIndex ];
 		lMessh->centerPos.x += ver_.position.x;
 		lMessh->centerPos.y += ver_.position.y;
@@ -354,7 +343,6 @@ void MeshGPUParticleAliceModel::AddBoneMesh(std::vector<std::unique_ptr<BoneMesh
 	{
 		BoneMesh* lMessh = lModelItr->get();
 		lMessh->vertices.push_back(ver_);
-		lMessh->indices.push_back(indice_);
 		lMessh->centerPos.x += ver_.position.x;
 		lMessh->centerPos.y += ver_.position.y;
 		lMessh->centerPos.z += ver_.position.z;

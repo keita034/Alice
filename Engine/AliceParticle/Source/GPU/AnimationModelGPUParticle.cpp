@@ -56,7 +56,7 @@ void AnimationModelGPUParticle::Update(float deltaTime_)
 			//生成
 			{
 				BaseGPUParticle::ParticleEnd();
-				
+
 				ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeAnimationModelGPUParticleEmit",AdaptersIndex::SUB);
 
 				if ( !animationStop )
@@ -96,31 +96,15 @@ void AnimationModelGPUParticle::Update(float deltaTime_)
 				BaseGPUParticle::ParticleBegin();
 
 			}
-		}
 
-		//ドローアギュメント更新
-		{
-			ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeAnimationModelGPUParticleDrawArgumentUpdate",AdaptersIndex::SUB);
-
-			lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
-			lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
-
-			ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::SUB)->GetHeap() };
-			lComputeCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
-
-			particleConstants.vertexSize = static_cast< uint32_t >( modelData->GetVerticeSize() );
-			particleConstantsBuffer->Update(&particleConstants);
-
-			lComputeCommandList->SetComputeRootConstantBufferView(0,particleConstantsBuffer->GetAddress());//b0
-
-			lComputeCommandList->SetComputeRootDescriptorTable(1,drawArgumentBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u1
-
-			lComputeCommandList->Dispatch(1,1,1);
 		}
 	}
 
 	//更新
 	{
+		particleConstants.vertexSize = static_cast< uint32_t >( modelData->GetVerticeSize() );
+		particleConstantsBuffer->Update(&particleConstants);
+
 		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeAnimationModelGPUParticleUpdate",AdaptersIndex::SUB);
 
 		lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
@@ -136,15 +120,30 @@ void AnimationModelGPUParticle::Update(float deltaTime_)
 			mesh->constBoneBuffer->Update(lBonedata->boneMat.data());
 		}
 
-		particleConstants.vertexSize = static_cast< uint32_t >( modelData->GetVerticeSize() );
-		particleConstantsBuffer->Update(&particleConstants);
-
 		lComputeCommandList->SetComputeRootConstantBufferView(0,particleConstantsBuffer->GetAddress());//b2
 		lComputeCommandList->SetComputeRootConstantBufferView(1,mesh->constBoneBuffer->GetAddress());//b3
 
 		lComputeCommandList->SetComputeRootDescriptorTable(2,particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
+		lComputeCommandList->SetComputeRootDescriptorTable(3,drawListBuffer->GetUAVAddress(CrossAdapterResourceIndex::MAIN));//u1
+		lComputeCommandList->SetComputeRootDescriptorTable(4,drawListBuffer->GetUAVAddress(CrossAdapterResourceIndex::MAIN));//u1
 
 		lComputeCommandList->Dispatch(static_cast< uint32_t >( modelData->GetVerticeSize() / 1024 + 1 ),1,1);
+	}
+
+	//ドローアギュメント更新
+	{
+		ComputeMaterial* lComputeMaterial = MaterialManager::SGetComputeMaterial("ComputeAnimationModelGPUParticleDrawArgumentUpdate",AdaptersIndex::SUB);
+
+		lComputeCommandList->SetPipelineState(lComputeMaterial->pipelineState->GetPipelineState());
+		lComputeCommandList->SetComputeRootSignature(lComputeMaterial->rootSignature->GetRootSignature());
+
+		ID3D12DescriptorHeap* lDescriptorHeaps[ ] = { BaseBuffer::SGetSRVDescriptorHeap(AdaptersIndex::SUB)->GetHeap() };
+		lComputeCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
+
+		lComputeCommandList->SetComputeRootDescriptorTable(0,drawListBuffer->GetUAVAddress(CrossAdapterResourceIndex::MAIN));//u1
+		lComputeCommandList->SetComputeRootDescriptorTable(1,drawArgumentBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u1
+
+		lComputeCommandList->Dispatch(1,1,1);
 	}
 }
 
@@ -181,8 +180,10 @@ void AnimationModelGPUParticle::Draw(const AliceMathF::Matrix4& worldMat_,const 
 		lGraphicCommandList->SetGraphicsRootConstantBufferView(0,worldBillboardBuffer->GetAddress());
 
 		lGraphicCommandList->SetGraphicsRootDescriptorTable(1,particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::SUB));
+		lGraphicCommandList->SetGraphicsRootDescriptorTable(2,drawListBuffer->GetUAVAddress(CrossAdapterResourceIndex::SUB));
+		lGraphicCommandList->SetGraphicsRootDescriptorTable(3,drawListBuffer->GetUAVAddress(CrossAdapterResourceIndex::SUB));
 
-		lGraphicCommandList->SetGraphicsRootDescriptorTable(2,texture->gpuHandle);
+		lGraphicCommandList->SetGraphicsRootDescriptorTable(4,texture->gpuHandle);
 
 		lGraphicCommandList->ExecuteIndirect(particleCommandSignature.Get(),1,drawArgumentBuffer->GetResource(CrossAdapterResourceIndex::SUB),0,nullptr,0);
 
@@ -281,6 +282,8 @@ void AnimationModelGPUParticle::SetModel(AliceModel* model_)
 
 	BaseGPUParticle::ParticleEnd();
 
+	ParticleCountCal();
+
 }
 
 float AnimationModelGPUParticle::GetDeltaTime() const
@@ -296,11 +299,15 @@ void AnimationModelGPUParticle::DrawListRelease()
 void AnimationModelGPUParticle::InvisibleBoneMesh(const std::string& meshName_,const std::string& boneName_,bool root_)
 {
 	modelData->InvisibleBoneMesh(boneMeshIsVisibles,meshName_,boneName_,root_);
+
+	ParticleCountCal();
 }
 
 void AnimationModelGPUParticle::VisibleBoneMesh(const std::string& meshName_,const std::string& boneName_,bool root_)
 {
 	modelData->VisibleBoneMesh(boneMeshIsVisibles,meshName_,boneName_,root_);
+
+	ParticleCountCal();
 }
 
 void AnimationModelGPUParticle::StopAnimation()
@@ -317,6 +324,7 @@ void AnimationModelGPUParticle::PBufferCreate()
 {
 	particleConstantsBuffer = CreateUniqueConstantBuffer(sizeof(ParticleConstantGPUDatas),AdaptersIndex::SUB);
 	worldBillboardBuffer = CreateUniqueConstantBuffer(sizeof(WorldBillboardGPUData),AdaptersIndex::MAIN);
+	particleCountBuffer = CreateUniqueConstantBuffer(sizeof(uint32_t),AdaptersIndex::SUB);
 }
 
 void AnimationModelGPUParticle::PUpdateConstantBuffer(float deltaTime_)
@@ -346,4 +354,19 @@ bool AnimationModelGPUParticle::PCanEmit(ParticleEmit& data_,float deltaTime_)
 	}
 
 	return false;
+}
+
+void AnimationModelGPUParticle::ParticleCountCal()
+{
+	particleCount = 0;
+
+	MeshGPUParticleModelMesh* mesh = modelData->GetMeshs().front().get();
+
+	for ( std::unique_ptr<BoneMesh>& boneMesh : mesh->boneMeshs )
+	{
+		particleCount += uint32_t( boneMesh->vertices.size() );
+	}
+
+
+	particleCountBuffer->Update(&particleCount);
 }

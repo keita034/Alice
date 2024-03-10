@@ -11,6 +11,8 @@ cbuffer BoneDatas : register(b1)
 }
 
 RWStructuredBuffer<ModelParticle> ParticlePool : register(u0);
+AppendStructuredBuffer<uint> DrawList : register(u1);
+RWStructuredBuffer<uint> drawListIncrement : register(u2);
 
 //スキニング計算
 SkinOutput ComputeSkin(ModelParticle input)
@@ -69,4 +71,9 @@ void main(uint3 DTid : SV_DispatchThreadID)
     //particle.color = emitData.startColor;
 
     ParticlePool[particleIndex] = particle;
+    
+    if (particle.alive == 1)
+    {
+        DrawList.Append(particleIndex);
+    }
 }
