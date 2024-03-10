@@ -42,10 +42,10 @@ void CreateAnimationModelUpdateComputeMaterial(MaterialManager* manager_,IAdapte
 
 	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
 	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,1);//b1
+	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,2);//u0
 
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,0);//t0
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,1);//u0
-	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,2);//u0
 
 	lMaterial->rootSignature->Create(lDevice);
 

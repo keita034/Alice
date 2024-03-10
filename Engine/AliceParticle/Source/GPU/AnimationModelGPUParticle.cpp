@@ -76,6 +76,7 @@ void AnimationModelGPUParticle::Update(float deltaTime_)
 					lComputeCommandList->SetDescriptorHeaps(_countof(lDescriptorHeaps),lDescriptorHeaps);
 
 
+					particleConstants.meshIndex  = (uint32_t)boneMesh->index;
 					particleConstants.vertexSize = static_cast< uint32_t >( boneMesh->vertices.size() );
 					particleConstantsBuffer->Update(&particleConstants,sizeof(ParticleConstantGPUData));
 
@@ -88,7 +89,6 @@ void AnimationModelGPUParticle::Update(float deltaTime_)
 					lComputeCommandList->SetComputeRootDescriptorTable(4,freeListBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
 
 					lComputeCommandList->Dispatch(static_cast< uint32_t >( boneMesh->vertices.size() / 1024 + 1 ),1,1);
-					particleConstants.meshIndex += 1;
 
 					BaseGPUParticle::ParticleEnd();
 				}
@@ -122,9 +122,9 @@ void AnimationModelGPUParticle::Update(float deltaTime_)
 
 		lComputeCommandList->SetComputeRootConstantBufferView(0,particleConstantsBuffer->GetAddress());//b2
 		lComputeCommandList->SetComputeRootConstantBufferView(1,mesh->constBoneBuffer->GetAddress());//b3
+		lComputeCommandList->SetComputeRootConstantBufferView(2,boneMeshDatasBuffer->GetAddress());//b3
 
-		lComputeCommandList->SetComputeRootDescriptorTable(2,particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
-		lComputeCommandList->SetComputeRootDescriptorTable(3,drawListBuffer->GetUAVAddress(CrossAdapterResourceIndex::MAIN));//u1
+		lComputeCommandList->SetComputeRootDescriptorTable(3,particlePoolBuffer->GetAddress(CrossAdapterResourceIndex::MAIN));//u0
 		lComputeCommandList->SetComputeRootDescriptorTable(4,drawListBuffer->GetUAVAddress(CrossAdapterResourceIndex::MAIN));//u1
 
 		lComputeCommandList->Dispatch(static_cast< uint32_t >( modelData->GetVerticeSize() / 1024 + 1 ),1,1);
@@ -280,10 +280,14 @@ void AnimationModelGPUParticle::SetModel(AliceModel* model_)
 		lComputeCommandList->Dispatch(static_cast< UINT >( modelData->GetVerticeSize() / 1024 ) + 1,1,1);
 	}
 
+	for ( BoneMeshData& index : boneMeshDatas.boneMeshisVisibles )
+	{
+		index.sVisibles = 1;
+	}
+
+	boneMeshDatasBuffer->Update(&boneMeshDatas);
+
 	BaseGPUParticle::ParticleEnd();
-
-	ParticleCountCal();
-
 }
 
 float AnimationModelGPUParticle::GetDeltaTime() const
@@ -300,14 +304,28 @@ void AnimationModelGPUParticle::InvisibleBoneMesh(const std::string& meshName_,c
 {
 	modelData->InvisibleBoneMesh(boneMeshIsVisibles,meshName_,boneName_,root_);
 
-	ParticleCountCal();
+	MeshGPUParticleModelMesh* mesh = modelData->GetMeshs().front().get();
+
+	for ( std::unique_ptr<BoneMesh>& boneMesh : mesh->boneMeshs )
+	{
+		boneMeshDatas.boneMeshisVisibles[ boneMesh->index ].sVisibles = (uint32_t)boneMeshIsVisibles[ meshName_ ][ boneMesh->boneName ];
+	}
+
+	boneMeshDatasBuffer->Update(&boneMeshDatas);
+
 }
 
 void AnimationModelGPUParticle::VisibleBoneMesh(const std::string& meshName_,const std::string& boneName_,bool root_)
 {
 	modelData->VisibleBoneMesh(boneMeshIsVisibles,meshName_,boneName_,root_);
+	MeshGPUParticleModelMesh* mesh = modelData->GetMeshs().front().get();
 
-	ParticleCountCal();
+	for ( std::unique_ptr<BoneMesh>& boneMesh : mesh->boneMeshs )
+	{
+		boneMeshDatas.boneMeshisVisibles[ boneMesh->index ].sVisibles = ( uint32_t ) boneMeshIsVisibles[ meshName_ ][ boneMesh->boneName ];
+	}
+
+	boneMeshDatasBuffer->Update(&boneMeshDatas);
 }
 
 void AnimationModelGPUParticle::StopAnimation()
@@ -324,7 +342,9 @@ void AnimationModelGPUParticle::PBufferCreate()
 {
 	particleConstantsBuffer = CreateUniqueConstantBuffer(sizeof(ParticleConstantGPUDatas),AdaptersIndex::SUB);
 	worldBillboardBuffer = CreateUniqueConstantBuffer(sizeof(WorldBillboardGPUData),AdaptersIndex::MAIN);
-	particleCountBuffer = CreateUniqueConstantBuffer(sizeof(uint32_t),AdaptersIndex::SUB);
+	boneMeshDatasBuffer = CreateUniqueConstantBuffer(sizeof(BoneMeshDatas),AdaptersIndex::SUB);
+
+
 }
 
 void AnimationModelGPUParticle::PUpdateConstantBuffer(float deltaTime_)
@@ -354,19 +374,4 @@ bool AnimationModelGPUParticle::PCanEmit(ParticleEmit& data_,float deltaTime_)
 	}
 
 	return false;
-}
-
-void AnimationModelGPUParticle::ParticleCountCal()
-{
-	particleCount = 0;
-
-	MeshGPUParticleModelMesh* mesh = modelData->GetMeshs().front().get();
-
-	for ( std::unique_ptr<BoneMesh>& boneMesh : mesh->boneMeshs )
-	{
-		particleCount += uint32_t( boneMesh->vertices.size() );
-	}
-
-
-	particleCountBuffer->Update(&particleCount);
 }

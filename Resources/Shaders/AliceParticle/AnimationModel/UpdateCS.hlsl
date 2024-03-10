@@ -10,9 +10,13 @@ cbuffer BoneDatas : register(b1)
     matrix bones[BONE_MAX];
 }
 
+cbuffer BoneMeshDatas : register(b2)
+{
+    BoneMeshData boneMeshs[BONE_MAX];
+}
+
 RWStructuredBuffer<ModelParticle> ParticlePool : register(u0);
 AppendStructuredBuffer<uint> DrawList : register(u1);
-RWStructuredBuffer<uint> drawListIncrement : register(u2);
 
 //スキニング計算
 SkinOutput ComputeSkin(ModelParticle input)
@@ -72,7 +76,7 @@ void main(uint3 DTid : SV_DispatchThreadID)
 
     ParticlePool[particleIndex] = particle;
     
-    if (particle.alive == 1)
+    if (boneMeshs[particle.index].sVisibles && particle.alive)
     {
         DrawList.Append(particleIndex);
     }

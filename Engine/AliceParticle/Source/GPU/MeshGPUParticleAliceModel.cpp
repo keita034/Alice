@@ -336,7 +336,7 @@ void MeshGPUParticleAliceModel::AddBoneMesh(std::vector<std::unique_ptr<BoneMesh
 		lMessh->centerPos.x += ver_.position.x;
 		lMessh->centerPos.y += ver_.position.y;
 		lMessh->centerPos.z += ver_.position.z;
-
+		lMessh->index = (uint8_t)lBoneIndex;
 		boneMeshs_.push_back(std::move(lMessh));
 	}
 	else
@@ -346,6 +346,7 @@ void MeshGPUParticleAliceModel::AddBoneMesh(std::vector<std::unique_ptr<BoneMesh
 		lMessh->centerPos.x += ver_.position.x;
 		lMessh->centerPos.y += ver_.position.y;
 		lMessh->centerPos.z += ver_.position.z;
+		lMessh->index = ( uint8_t )lBoneIndex;
 	}
 }
 
@@ -353,7 +354,7 @@ uint32_t MeshGPUParticleAliceModel::GetBoneIndex(const PosNormUvTangeColSkin& ve
 {
 	float lWeight = 0.0f;
 	size_t lIndex = 0;
-
+	uint32_t ret;
 	for ( size_t i = 0; i < ver_.boneWeight.size(); i++ )
 	{
 		if ( lWeight < ver_.boneWeight[ i ] )
@@ -362,8 +363,9 @@ uint32_t MeshGPUParticleAliceModel::GetBoneIndex(const PosNormUvTangeColSkin& ve
 			lIndex = i;
 		}
 	}
+	ret = ver_.boneIndex[ lIndex ];
 
-	return ver_.boneIndex[ lIndex ];
+	return ret;
 }
 
 void MeshGPUParticleAliceModel::PReadChildren(const std::vector<Node>& nodes_,const std::vector<std::unique_ptr<BoneMesh>>& boneMeshs_,BoneMesh* boneMesh_)

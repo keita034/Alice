@@ -32,10 +32,10 @@ struct EmitData
 struct ModelParticle
 {
     float3 color;
-    float index;
+    uint index;
     
     float3 position;
-    float alive;
+    uint alive;
     
     float3 pos;
     float size;
@@ -52,9 +52,13 @@ struct SkinOutput
     float3 normal;
 };
 
-static const uint RAND_MAX = 32767;
+struct BoneMeshData
+{
+    uint sVisibles;
+    float3 PAD;
+};
 
-static const uint EMIT_DATA_MAX = 100;
+static const uint RAND_MAX = 32767;
 
 static const uint BONE_MAX = 128;
 

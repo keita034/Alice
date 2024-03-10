@@ -86,10 +86,21 @@ public://内部で使う構造体
 
 private:
 
+	struct BoneMeshData
+	{
+		uint32_t sVisibles;
+		AliceMathF::Vector3 PAD;
+	};
+
+	struct BoneMeshDatas
+	{
+		std::array<BoneMeshData,128>boneMeshisVisibles;
+	};
+
 	Microsoft::WRL::ComPtr<ID3D12CommandSignature> particleCommandSignature = nullptr;
 
 	std::unique_ptr<IConstantBuffer>particleConstantsBuffer;
-	std::unique_ptr<IConstantBuffer>particleCountBuffer;
+	std::unique_ptr<IConstantBuffer>boneMeshDatasBuffer;
 	std::unique_ptr<IConstantBuffer>worldBillboardBuffer;
 	std::unique_ptr<IDrawArgumentBuffer>drawArgumentBuffer;
 
@@ -101,6 +112,7 @@ private:
 	WorldBillboardGPUData worldBillboardGPUData;
 	ParticleConstantGPUData particleConstants;
 	ParticleEmit emitDatas;
+	BoneMeshDatas boneMeshDatas;
 
 	uint32_t particleCount =0;
 
@@ -138,8 +150,6 @@ private:
 	void PUpdateConstantBuffer(float deltaTime_)override;
 
 	bool PCanEmit(ParticleEmit& data_,float deltaTime_);
-
-	void ParticleCountCal();
 
 	//コピーコンストラクタ・代入演算子削除
 	AnimationModelGPUParticle& operator=(const AnimationModelGPUParticle&) = delete;

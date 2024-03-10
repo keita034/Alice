@@ -23,7 +23,9 @@ struct BoneMesh
 
 	bool isVisible = true;
 
-	Byte3 PADING;
+	uint8_t index;
+
+	Byte2 PADING;
 
 	BoneMesh() = default;
 	~BoneMesh() = default;
