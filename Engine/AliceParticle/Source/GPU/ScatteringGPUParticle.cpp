@@ -31,7 +31,7 @@ void ScatteringGPUParticle::SetVelocityMeshGPUParticle(MeshGPUParticle* meshGPUP
 		lData.lifeTime = lifeTime;
 		lData.centerPos = centerPos;
 		lData.maxParticles =static_cast<uint32_t>(meshGPUParticle_->GetMaxParticles());
-
+		lData.computerTime = static_cast< uint32_t >( GetTickCount64() / 1000 );
 		constantBuffer->Update(&lData);
 	}
 

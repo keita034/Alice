@@ -236,6 +236,11 @@ void FireGPUParticle::EmitStop()
 	}
 }
 
+IFreeListBuffer* FireGPUParticle::GetFreeListBuffer()
+{
+	return freeListBuffer.get();
+}
+
 void FireGPUParticle::PBufferCreate()
 {
 	particlePoolBuffer = CreateUniqueCrossAdapterBuffer(maxParticles,sizeof(ParticleGPUData),AdaptersIndex::SUB,AdaptersIndex::MAIN);

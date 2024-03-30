@@ -375,6 +375,14 @@ void BossActionManager::PCloseRangeAttack(const std::string& boneName_,AliceBlen
 
 void BossActionManager::PReconstruction(const std::array< AliceMathF::Matrix4,2>& hands)
 {
+	if ( animation->GetRatio()< 0.4f && !reconstruction )
+	{
+		if ( ( boss->GetSituation() & ActorSituation::LEFT_CUTTING ) )
+		{
+			particleEmitter->GetModelSuctionGPUParticle("BossLeftHandScatterinParticle")->EmitPlay();
+		}
+	}
+
 	if ( animation->GetRatio() >= 0.4f && !reconstruction )
 	{
 		reconstruction = true;
@@ -389,7 +397,7 @@ void BossActionManager::PReconstruction(const std::array< AliceMathF::Matrix4,2>
 			particleEmitter->AnimationMeshGPUParticleScattering("BossRightHandParticle");
 			particleEmitter->GetAnimationMeshGPUParticle("BossRightHandParticle")->EmitStop();
 
-			particleEmitter->GetAnimationModelGPUParticle("BossModelParticle")->VisibleBoneMesh("elemental_element1mesh.003","mixamorig:RightHand");
+			particleEmitter->GetAnimationModelGPUParticle("BossRightHandModelParticle")->EmitPlay();
 		}
 
 		if ( ( boss->GetSituation() & ActorSituation::LEFT_CUTTING ) )
@@ -402,12 +410,15 @@ void BossActionManager::PReconstruction(const std::array< AliceMathF::Matrix4,2>
 			particleEmitter->AnimationMeshGPUParticleScattering("BossLeftHandParticle");
 			particleEmitter->GetAnimationMeshGPUParticle("BossLeftHandParticle")->EmitStop();
 
-			particleEmitter->GetAnimationModelGPUParticle("BossModelParticle")->VisibleBoneMesh("elemental_element1mesh.003","mixamorig:LeftHand");
+			particleEmitter->GetAnimationModelGPUParticle("BossLeftHandModelParticle")->EmitPlay();
+
+			particleEmitter->GetModelSuctionGPUParticle("BossLeftHandScatterinParticle")->EmitStop();
 		}
 	}
 
 	if ( !animation->IsInsert() )
 	{
+		actionCount = MAX_ACTION_COUNT;
 		bossAction = BossAction::NONE;
 		reconstruction = false;
 		isReconstruction = false;
@@ -419,11 +430,6 @@ BossAction BossActionManager::ChoiceAction(float length_,const AliceMathF::Vecto
 {
 	if ( action_ )
 	{
-		if ( !( boss->GetSituation() & ActorSituation::RIGHT_CUTTING ) || !( boss->GetSituation() & ActorSituation::LEFT_CUTTING ) )
-		{
-			return BossAction::CHASE_ATTACK;
-		}
-
 		if ( shortDistanceTIme >= 200 )
 		{
 			return BossAction::BLOWAWAY_ATTACK;

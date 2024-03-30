@@ -6,7 +6,7 @@
 void BossJumpAttackMove::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_,BossAnimation* bossAnimation_,ShockWaveGPUParticle* shockWaveGPUParticle_)
 {
 	bossAnimation = bossAnimation_;
-	shockWaveGPUParticle = shockWaveGPUParticle_;
+	//shockWaveGPUParticle = shockWaveGPUParticle_;
 
 	transform.translation = { 0.0f,1000.0f,0.0f };
 	transform.Initialize();
@@ -30,22 +30,6 @@ void BossJumpAttackMove::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSys
 		rigidBody->SetRigidBodyCollision(this);
 		physicsSystem = physicsSystem_;
 	}
-
-	ShockWaveGPUParticleSetting lSetting;
-	lSetting.emitCount = 10000;
-	lSetting.emitLifeTime = 1.0f;
-	lSetting.endColor = { 1,1,1,1 };
-	lSetting.isPlay = false;
-	lSetting.lifeTime = 3.0f;
-	lSetting.maxParticles = 1000000;
-	lSetting.position = { 0,-10,0 };
-	lSetting.size = 25.0f;
-	lSetting.speed = 150.0f;
-	lSetting.switchingTime = 1.7f;
-	lSetting.startColor = { 1,0,0,1 };
-	lSetting.timeBetweenEmit = 1.5f;
-
-	shockWaveGPUParticle->Emit(lSetting);
 }
 
 void BossJumpAttackMove::Update()
@@ -105,8 +89,8 @@ void BossJumpAttackMove::SetShockWaveCollisionRadius(float radius_)
 
 void BossJumpAttackMove::ShockWave()
 {
-	shockWaveGPUParticle->SetPos(bossPosition);
-	shockWaveGPUParticle->EmitPlay();
+	//shockWaveGPUParticle->SetPos(bossPosition);
+	//shockWaveGPUParticle->EmitPlay();
 
 	transform.translation = bossPosition;
 	usData.pos = bossPosition;
@@ -120,7 +104,7 @@ bool BossJumpAttackMove::ShockWaveUpdate()
 
 		if ( time < 2.5f )
 		{
-			time += shockWaveGPUParticle->GetDeltaTime();
+			//time += shockWaveGPUParticle->GetDeltaTime();
 
 			usData.radius = AliceMathF::Lerp(0.0f,250.0f,AliceMathF::Clamp01(time * 1.5f / 2.5f));
 		}
@@ -151,7 +135,7 @@ void BossJumpAttackMove::End()
 	isFinish = false;
 	usData.isFinish = false;
 	shockWaveTime = 0;
-	shockWaveGPUParticle->EmitStop();
+	//shockWaveGPUParticle->EmitStop();
 	time = 0.0f;
 
 	transform.translation = { 0.0f,1000.0f,0.0f };
@@ -161,10 +145,10 @@ void BossJumpAttackMove::End()
 
 void BossJumpAttackMove::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 {
-	shockWaveGPUParticle->EmitStop();
+	//shockWaveGPUParticle->EmitStop();
 	physicsSystem_->RemoveRigidBody(rigidBody);
 	bossAnimation = nullptr;
-	shockWaveGPUParticle = nullptr;
+	//shockWaveGPUParticle = nullptr;
 }
 
 void BossJumpAttackMove::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_)

@@ -12,6 +12,8 @@
 #include<ModelGPUParticle.h>
 #include<ScatteringGPUParticle.h>
 #include<AggregatingGPUParticle.h>
+#include<ModelSuctionGPUParticle.h>
+#include<AnimationModelSuctionGPUParticle.h>
 
 class GPUParticleEmitter
 {
@@ -31,6 +33,8 @@ private:
 	std::unordered_map<std::string,std::unique_ptr<BloodGushGPUParticle>>bloodGushs;
 	std::unordered_map<std::string,std::unique_ptr<AnimationModelGPUParticle>>animationModels;
 	std::unordered_map<std::string,std::unique_ptr<ModelGPUParticle>>models;
+	std::unordered_map<std::string,std::unique_ptr<ModelSuctionGPUParticle>>modelSuction;
+	std::unordered_map<std::string,std::unique_ptr<AnimationModelSuctionGPUParticle>>animationModelSuction;
 
 public:
 
@@ -135,6 +139,24 @@ public:
 	void ModelGPUParticleEmitStop(const std::string& name_);
 	void ModelGPUParticleSetModel(const std::string& name_,AliceModel* model_);
 	ModelGPUParticle* GetModelGPUParticle(const std::string& name_);
+
+	void ModelSuctionGPUParticleCreate(uint32_t maxParticles_,const std::string& name_);
+	ModelSuctionGPUParticle* GetModelSuctionGPUParticle(const std::string& name_);
+	void ModelSuctionGPUParticleEmit(const std::string& name_,const ModelSuctionGPUParticleSetting& setting_);
+	void ModelSuctionGPUParticleSetMat(const std::string& name_,const AliceMathF::Matrix4& matWorld_);
+	void ModelSuctionGPUParticleSetTex(const std::string& name_,uint32_t textureHandle_);
+	void ModelSuctionGPUParticleEmitPlay(const std::string& name_);
+	void ModelSuctionGPUParticleEmitStop(const std::string& name_);
+	void ModelSuctionGPUParticleSetModel(const std::string& name_,AliceModel* model_);
+
+	void AnimationModelSuctionGPUParticleCreate(uint32_t maxParticles_,const std::string& name_);
+	AnimationModelSuctionGPUParticle* GetAnimationModelSuctionGPUParticle(const std::string& name_);
+	void AnimationModelSuctionGPUParticleEmit(const std::string& name_,const AnimationModelSuctionGPUParticleSetting& setting_);
+	void AnimationModelSuctionGPUParticleSetMat(const std::string& name_,const AliceMathF::Matrix4& matWorld_);
+	void AnimationModelSuctionGPUParticleSetTex(const std::string& name_,uint32_t textureHandle_);
+	void AnimationModelSuctionGPUParticleEmitPlay(const std::string& name_);
+	void AnimationModelSuctionGPUParticleEmitStop(const std::string& name_);
+	void AnimationModelSuctionGPUParticleSetModel(const std::string& name_,AliceModel* model_);
 
 	void SetMultiAdapters(IMultiAdapters* multiAdapters_);
 	void SetSwapChain(ISwapChain* swapChain_);

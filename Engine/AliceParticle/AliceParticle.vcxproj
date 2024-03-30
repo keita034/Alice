@@ -158,6 +158,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Include\GPU\AnimationModelSuctionGPUParticle.h" />
     <ClInclude Include="Include\CPU\BasicParticle.h" />
     <ClInclude Include="Include\CPU\BloodGushGPUParticle.h" />
     <ClInclude Include="Include\CPU\FireWorkParticle.h" />
@@ -179,8 +180,11 @@
     <ClInclude Include="Include\GPU\ModelGPUParticle.h" />
     <ClInclude Include="Include\GPU\ScatteringGPUParticle.h" />
     <ClInclude Include="Include\GPU\ShockWaveGPUParticle.h" />
+    <ClInclude Include="Include\GPU\ModelSuctionGPUParticle.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\GPU\AnimationModelSuctionGPUParticle.cpp" />
+    <ClCompile Include="Source\GPU\ModelSuctionGPUParticle.cpp" />
     <ClCompile Include="Source\GPU\AggregatingGPUParticle.cpp" />
     <ClCompile Include="Source\GPU\AnimationMeshGPUParticle.cpp" />
     <ClCompile Include="Source\GPU\AnimationModelGPUParticle.cpp" />

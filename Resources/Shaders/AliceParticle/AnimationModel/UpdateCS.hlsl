@@ -72,11 +72,18 @@ void main(uint3 DTid : SV_DispatchThreadID)
 
     particle.position = mul(emitData.matWorld, skin.pos);
     
-    //particle.color = emitData.startColor;
+    if (boneMeshs[particle.index].sVisibles == 2)
+    {
+        particle.color = emitData.endColor;
+    }
+    else
+    {
+        particle.color = emitData.startColor;
+    }
 
     ParticlePool[particleIndex] = particle;
     
-    if (boneMeshs[particle.index].sVisibles && particle.alive)
+    if (boneMeshs[particle.index].sVisibles >=1&& particle.alive)
     {
         DrawList.Append(particleIndex);
     }

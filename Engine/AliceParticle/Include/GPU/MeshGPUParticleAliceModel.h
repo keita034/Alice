@@ -82,13 +82,11 @@ public:
 	IDrawArgumentBuffer* GetDrawArgumentBuffer()const;
 	ICrossAdapterBuffer* GetCrossAdapterBuffer()const;
 
-	void InvisibleBoneMesh(std::unordered_map<std::string,bool>& boneMeshIsVisibles_,const std::string& boneName_,bool root_);
-
-	void VisibleBoneMesh(std::unordered_map<std::string,bool>& boneMeshIsVisibles_,const std::string& boneName_,bool root_);
+	void SetValueBoneMesh(uint32_t value_,std::unordered_map<std::string,uint32_t>& boneMeshIsVisibles_,const std::string& boneName_,bool root_);
 
 	BoneMesh* GetBoneMesh(const std::string& boneName_);
 
-	void CreateBoneMeshIsVisibles(std::unordered_map<std::string,bool>& boneMeshIsVisibles_);
+	void CreateBoneMeshIsVisibles(std::unordered_map<std::string,uint32_t>& boneMeshIsVisibles_);
 
 private:
 
@@ -117,6 +115,8 @@ private:
 
 	//メッシュ配列
 	std::vector<std::unique_ptr<MeshGPUParticleModelMesh>> meshes;
+	BufferType type;
+	Byte4 PAD;
 
 	//姿勢行列
 	IConstantBuffer* postureMatBuff;
@@ -137,6 +137,8 @@ private:
 
 class MeshGPUParticleAliceModel
 {
+public:
+
 protected:
 
 	static IMultiAdapters* sMultiAdapters;
@@ -144,6 +146,7 @@ protected:
 	static std::unordered_map<std::string,std::unique_ptr<MeshGPUParticleAliceModelData>> sModelDatas;
 
 	MeshGPUParticleAliceModelData* modelData = nullptr;
+	static size_t index_;
 
 public:
 
@@ -179,10 +182,11 @@ public:
 	/// </summary>
 	static void Finalize();
 
-	void CreateBoneMeshIsVisibles(std::unordered_map<std::string,std::unordered_map<std::string,bool>>& boneMeshIsVisibles_);
+	void CreateBoneMeshIsVisibles(std::unordered_map<std::string,std::unordered_map<std::string,uint32_t>>& boneMeshIsVisibles_);
 
-	void InvisibleBoneMesh(std::unordered_map<std::string,std::unordered_map<std::string,bool>>& boneMeshIsVisibles_,const std::string& meshName_,const std::string& boneName_,bool root_ = true);
-	void VisibleBoneMesh(std::unordered_map<std::string,std::unordered_map<std::string,bool>>& boneMeshIsVisibles_,const std::string& meshName_,const std::string& boneName_,bool root_ = true);
+	void InvisibleBoneMesh(std::unordered_map<std::string,std::unordered_map<std::string,uint32_t>>& boneMeshIsVisibles_,const std::string& meshName_,const std::string& boneName_,bool root_ = true);
+	void VisibleBoneMesh(std::unordered_map<std::string,std::unordered_map<std::string,uint32_t>>& boneMeshIsVisibles_,const std::string& meshName_,const std::string& boneName_,bool root_ = true);
+	void SetValueBoneMesh(uint32_t value_,std::unordered_map<std::string,std::unordered_map<std::string,uint32_t>>& boneMeshIsVisibles_,const std::string& meshName_,const std::string& boneName_,bool root_ = true);
 	BoneMesh* GetBoneMesh(const std::string& meshName_,const std::string& boneName_);
 
 	size_t GetVerticeSize();

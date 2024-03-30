@@ -260,6 +260,14 @@ Material* MaterialManager::GetMaterialData(const std::string& name_,AdaptersInde
 			{
 				CreateBloodGushDrawMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
+			else if ( name_ == "ModelSuctionGPUParticleDraw" )
+			{
+				CreateModelSuctionDrawMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "AnimationModelSuctionGPUParticleDraw" )
+			{
+				CreateAnimationModelSuctionDrawMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
 
 			return materials[ name_ ].get();
 		}
@@ -414,7 +422,7 @@ ComputeMaterial* MaterialManager::GetComputeMaterialData(const std::string& name
 			{
 				CreateAnimationModelDrawArgumentUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
-			else if( name_ == "ComputeAnimationModelGPUParticleDrawListRelease" )
+			else if ( name_ == "ComputeAnimationModelGPUParticleDrawListRelease" )
 			{
 				CreateAnimationModelDrawListReleaseComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
@@ -456,6 +464,41 @@ ComputeMaterial* MaterialManager::GetComputeMaterialData(const std::string& name
 			{
 				CreateBloodGushDrawArgumentUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
+
+			else if ( name_ == "ComputeModelSuctionGPUParticleFreeListInit" )
+			{
+				CreateModelSuctionFreeListInitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeModelSuctionGPUParticleEmit" )
+			{
+				CreateModelSuctionEmitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeModelSuctionGPUParticleUpdate" )
+			{
+				CreateModelSuctionUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeModelSuctionGPUParticleDrawArgumentUpdate" )
+			{
+				CreateModelSuctionDrawArgumentUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+
+			else if ( name_ == "ComputeAnimationModelSuctionGPUParticleFreeListInit" )
+			{
+				CreateAnimationModelSuctionFreeListInitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeAnimationModelSuctionGPUParticleEmit" )
+			{
+				CreateAnimationModelSuctionEmitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeAnimationModelSuctionGPUParticleUpdate" )
+			{
+				CreateAnimationModelSuctionUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeAnimationModelSuctionGPUParticleDrawArgumentUpdate" )
+			{
+				CreateAnimationModelSuctionDrawArgumentUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+
 
 			else if ( name_ == "ComputeScattering" )
 			{

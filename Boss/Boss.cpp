@@ -79,7 +79,7 @@ void Boss::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 		bloodGushGPUParticle = particleEmitter->GetBloodGushGPUParticle("BossBloodGushParticle");
 
 		//bossGPUParticle->EmitPlay();
-		bossModelGPUParticle->EmitPlay();
+		//bossModelGPUParticle->EmitPlay();
 
 	}
 
@@ -98,9 +98,6 @@ void Boss::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 
 	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ] = std::make_unique<BossHand>();
 	hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ] = std::make_unique<BossHand>();
-
-	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->SetFireGPUParticle(particleEmitter->GetFireParticle("BossHandParticle"));
-	hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->SetFireGPUParticle(particleEmitter->GetFireParticle("BossHandParticle"));
 
 	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->Initialize(&transform,physicsSystem_,BossHandIndex::LEFT,this,particleEmitter);
 	hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->Initialize(&transform,physicsSystem_,BossHandIndex::RIGHT,this,particleEmitter);
@@ -187,11 +184,7 @@ void Boss::Update()
 
 			}
 		}
-		else
-		{
 
-			hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->ParticleStop();
-		}
 		//
 		if ( hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->GetCutting() && !( situation & ActorSituation::LEFT_CUTTING ) ||
 			hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->GetDeath() && !( situation & ActorSituation::LEFT_CUTTING ) ||
@@ -380,7 +373,7 @@ AnimationModelGPUParticle* Boss::GetModelParticle()
 
 bool Boss::IsEnd() const
 {
-	return end;// hp <= 0 && !animation->IsInsert();
+	return end;
 }
 
 void Boss::CuttingReset()

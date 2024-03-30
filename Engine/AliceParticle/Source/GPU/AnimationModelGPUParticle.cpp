@@ -206,8 +206,8 @@ void AnimationModelGPUParticle::Emit(const AnimationModelGPUParticleSetting& set
 	ParticleConstantGPUData particleConstant;
 
 	lEmitData.matWorld = particleConstant.matWorld = setting_.matWorld;
-	lEmitData.startColor = particleConstant.startColor = setting_.startColor;
-	lEmitData.endColor = particleConstant.endColor = setting_.endColor;
+	lEmitData.startColor = particleConstant.color = setting_.startColor;
+	lEmitData.endColor = particleConstant.setColor = setting_.endColor;
 	lEmitData.size = particleConstant.size = setting_.size;
 
 	lEmitData.timeBetweenEmit = setting_.timeBetweenEmit;
@@ -343,8 +343,6 @@ void AnimationModelGPUParticle::PBufferCreate()
 	particleConstantsBuffer = CreateUniqueConstantBuffer(sizeof(ParticleConstantGPUDatas),AdaptersIndex::SUB);
 	worldBillboardBuffer = CreateUniqueConstantBuffer(sizeof(WorldBillboardGPUData),AdaptersIndex::MAIN);
 	boneMeshDatasBuffer = CreateUniqueConstantBuffer(sizeof(BoneMeshDatas),AdaptersIndex::SUB);
-
-
 }
 
 void AnimationModelGPUParticle::PUpdateConstantBuffer(float deltaTime_)
@@ -355,6 +353,38 @@ void AnimationModelGPUParticle::PUpdateConstantBuffer(float deltaTime_)
 
 	particleConstantsBuffer->Update(&particleConstants);
 }
+
+void AnimationModelGPUParticle::ChangeColor(const AliceMathF::Vector4& color_,const std::string& meshName_,const std::string& boneName_,bool root_)
+{
+	modelData->SetValueBoneMesh(2,boneMeshIsVisibles,meshName_,boneName_,root_);
+
+	MeshGPUParticleModelMesh* mesh = modelData->GetMeshs().front().get();
+
+	for ( std::unique_ptr<BoneMesh>& boneMesh : mesh->boneMeshs )
+	{
+		boneMeshDatas.boneMeshisVisibles[ boneMesh->index ].sVisibles = boneMeshIsVisibles[ meshName_ ][ boneMesh->boneName ];
+	}
+
+	boneMeshDatasBuffer->Update(&boneMeshDatas);
+
+	particleConstants.setColor = color_;
+	particleConstantsBuffer->Update(&particleConstants);
+}
+
+void AnimationModelGPUParticle::ReturnColor(const std::string& meshName_,const std::string& boneName_,bool root_)
+{
+	modelData->SetValueBoneMesh(true,boneMeshIsVisibles,meshName_,boneName_,root_);
+
+	MeshGPUParticleModelMesh* mesh = modelData->GetMeshs().front().get();
+
+	for ( std::unique_ptr<BoneMesh>& boneMesh : mesh->boneMeshs )
+	{
+		boneMeshDatas.boneMeshisVisibles[ boneMesh->index ].sVisibles = ( uint32_t ) boneMeshIsVisibles[ meshName_ ][ boneMesh->boneName ];
+	}
+
+	boneMeshDatasBuffer->Update(&boneMeshDatas);
+}
+
 
 bool AnimationModelGPUParticle::PCanEmit(ParticleEmit& data_,float deltaTime_)
 {

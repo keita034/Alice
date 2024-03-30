@@ -8,6 +8,7 @@ cbuffer Data : register(b0)
     float3 accel;
     float lifeTime;
     uint maxParticles;
+    uint computerTime;
 }
 
 RWStructuredBuffer<Particle> ParticlePool : register(u0);
@@ -39,8 +40,9 @@ void main(uint3 DTid : SV_DispatchThreadID)
     
     if (lifeTime != 0)
     {
-        float rnd = RandFloat(particle .index, 1.0, 0.0);
+        float rnd = RandFloat(particle.index + computerTime, 1.0, 0.0);
         particle.velocity = vec * (speed * rnd);
+        particle.lifeTime = lifeTime * rnd;
     }
     
     ParticlePool[DTid.x] = particle;

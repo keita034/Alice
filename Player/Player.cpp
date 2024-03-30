@@ -79,6 +79,7 @@ void Player::Initialize(AliceInput::IInput* input_,IAudioManager* audioManager_,
 	greatWeaponParticle = particleEmitter_->GetModelGPUParticle("PiayerGreatWeaponParticle");
 	weaponScatteringParticle = particleEmitter_->GetMeshGPUParticle("PiayerWeaponScatteringParticle");
 	greatWeaponScatteringParticle = particleEmitter_->GetMeshGPUParticle("PiayerGreatWeaponScatteringParticle");
+	healingEffect = particleEmitter_->GetMeshGPUParticle("playerHealingEffect");
 
 	evacuationMat.MakeTranslation(1000,1000,1000);
 
@@ -247,6 +248,7 @@ void Player::TransUpdate(Camera* camera_)
 	greatWeaponParticle->SetMat(greatWeapon->GetWorldMat());
 	weaponScatteringParticle->SetMat(weapon->GetWorldMat());
 	greatWeaponScatteringParticle->SetMat(greatWeapon->GetWorldMat());
+	healingEffect->SetMat(rigidBody->GetCenterOfMassTransform());
 
 	camera = camera_;
 }
@@ -283,7 +285,7 @@ void Player::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_,const A
 		{
 			uint32_t lSituation = static_cast< BossUsData* >( BodyData_->GetUserData() )->situation;
 
-			if ( ( lSituation & 0xfff ) == ActorSituation::ATTACK && !( usData.situation & ActorSituation::DAMAGE ) && static_cast< BossUsData* >( BodyData_->GetUserData() )->index == BossHandIndex::RIGHT )
+			if ( ( lSituation & 0xfff ) == ActorSituation::ATTACK && !( usData.situation & ActorSituation::DAMAGE ) )
 			{
 				if ( hp > 0 && !( usData.situation & ActorSituation::ROWLING ) )
 				{
@@ -294,7 +296,7 @@ void Player::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_,const A
 							break;
 						}
 
-						//hp--;
+						hp--;
 					}
 
 					usData.situation |= ActorSituation::DAMAGE;
@@ -329,7 +331,7 @@ void Player::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_,const A
 							break;
 						}
 
-						//hp--;
+						hp--;
 					}
 
 					usData.situation |= ActorSituation::DAMAGE;
@@ -379,7 +381,7 @@ void Player::OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_,const Al
 						break;
 					}
 
-					//hp--;
+					hp--;
 				}
 
 				usData.situation |= ActorSituation::SHOCKWAVE_DAMAGE;
@@ -420,7 +422,7 @@ void Player::OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_,const Al
 						break;
 					}
 
-					//hp--;
+					hp--;
 				}
 
 				usData.situation |= ActorSituation::DAMAGE;
@@ -820,8 +822,21 @@ void Player::PHealing()
 
 	}
 
+	if ( usData.situation & ActorSituation::HEALING && animation->GetRatio()>=0.4f&&!healingEff )
+	{
+		healingEff = true;
+		healingEffect->EmitPlay();
+		particleEmitter->ScatteringSetSpeed(21.5f);
+		particleEmitter->ScatteringSetAccel(AliceMathF::Vector3(0.0f,2.3f,0.f));
+		particleEmitter->ScatteringSetLifeTime(0.4f);
+		particleEmitter->ScatteringSetCenterPos(AliceMathF::GetWorldPosition(rigidBody->GetCenterOfMassTransform()));
+		particleEmitter->MeshGPUParticleScattering("playerHealingEffect");
+		healingEffect->EmitStop();
+	}
+
 	if ( usData.situation & ActorSituation::HEALING && !animation->IsInsert() )
 	{
+		healingEff = false;
 		usData.situation &= ~ActorSituation::HEALING;
 	}
 }

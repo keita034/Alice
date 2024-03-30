@@ -107,7 +107,6 @@ void AnimationMeshGPUParticle::Update(float deltaTime_)
 
 				lComputeCommandList->SetComputeRootDescriptorTable(6,determineTexture->gpuHandle);//t0
 				lComputeCommandList->SetComputeRootDescriptorTable(7,mesh->GetVertexSRVAddress());//t1
-				//lComputeCommandList->SetComputeRootDescriptorTable(8,mesh->GetIndicesSRVAddress());//t2
 
 				lComputeCommandList->Dispatch(static_cast< uint32_t >( mesh->GetVertices().size() / 1024 + 1 ),1,1);
 

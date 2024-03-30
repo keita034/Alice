@@ -192,6 +192,12 @@
     <ClInclude Include="Include\Graphic\PostEffect\DefaultPostEffect.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Include\GPUParticle\ModelSuction.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\GPUParticle\AnimationModelSuction.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\MaterialManager.cpp">
@@ -330,6 +336,12 @@
       <Filter>ソース ファイル\GPUParticleh</Filter>
     </ClCompile>
     <ClCompile Include="Source\GPUParticle\Stop.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GPUParticle\ModelSuction.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GPUParticle\AnimationModelSuction.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

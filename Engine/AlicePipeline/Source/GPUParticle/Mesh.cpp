@@ -1,5 +1,3 @@
-#include "Fire.h"
-
 #include<CreateBlend.h>
 #include "Mesh.h"
 

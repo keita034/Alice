@@ -23,16 +23,6 @@ void GPUParticleEmitter::Update(float deltaTime_)
 {
 	BaseGPUParticle::ParticleBegin();
 
-	for ( std::pair<const std::string,std::unique_ptr<FireGPUParticle>>& particle : fires )
-	{
-		particle.second->Update(deltaTime_);
-	}
-
-	for ( std::pair<const std::string,std::unique_ptr<ShockWaveGPUParticle>>& particle : shockWaves )
-	{
-		particle.second->Update(deltaTime_);
-	}
-
 	for ( std::pair<const std::string,std::unique_ptr<LaserGPUParticle>>& particle : lasers )
 	{
 		particle.second->Update(deltaTime_);
@@ -63,22 +53,16 @@ void GPUParticleEmitter::Update(float deltaTime_)
 		particle.second->Update(deltaTime_);
 	}
 
+	for ( std::pair<const std::string,std::unique_ptr<AnimationModelSuctionGPUParticle>>& particle : animationModelSuction )
+	{
+		particle.second->Update(deltaTime_);
+	}
+
 	BaseGPUParticle::ParticleEnd();
 }
 
 void GPUParticleEmitter::Draw(const AliceMathF::Matrix4& worldMat_,const AliceMathF::Matrix4& billboardMat_)
 {
-
-	for ( std::pair<const std::string,std::unique_ptr<FireGPUParticle>>& particle : fires )
-	{
-		particle.second->Draw(worldMat_,billboardMat_);
-	}
-
-	for ( std::pair<const std::string,std::unique_ptr<ShockWaveGPUParticle>>& particle : shockWaves )
-	{
-		particle.second->Draw(worldMat_,billboardMat_);
-	}
-
 	for ( std::pair<const std::string,std::unique_ptr<LaserGPUParticle>>& particle : lasers )
 	{
 		particle.second->Draw(worldMat_,billboardMat_);
@@ -108,22 +92,15 @@ void GPUParticleEmitter::Draw(const AliceMathF::Matrix4& worldMat_,const AliceMa
 	{
 		particle.second->Draw(worldMat_,billboardMat_);
 	}
+
+	for ( std::pair<const std::string,std::unique_ptr<AnimationModelSuctionGPUParticle>>& particle : animationModelSuction )
+	{
+		particle.second->Draw(worldMat_,billboardMat_);
+	}
 }
 
 void GPUParticleEmitter::Finalize()
 {
-	for ( std::pair<const std::string,std::unique_ptr<FireGPUParticle>>& particle : fires )
-	{
-		particle.second->Finalize();
-		particle.second.reset();
-	}
-
-	for ( std::pair<const std::string,std::unique_ptr<ShockWaveGPUParticle>>& particle : shockWaves )
-	{
-		particle.second->Finalize();
-		particle.second.reset();
-	}
-
 	for ( std::pair<const std::string,std::unique_ptr<LaserGPUParticle>>& particle : lasers )
 	{
 		particle.second->Finalize();
@@ -160,13 +137,24 @@ void GPUParticleEmitter::Finalize()
 		particle.second.reset();
 	}
 
-	shockWaves.clear();
-	fires.clear();
+	for ( std::pair<const std::string,std::unique_ptr<ModelSuctionGPUParticle>>& particle : modelSuction )
+	{
+		particle.second->Finalize();
+		particle.second.reset();
+	}
+
+	for ( std::pair<const std::string,std::unique_ptr<AnimationModelSuctionGPUParticle>>& particle : animationModelSuction )
+	{
+		particle.second->Finalize();
+		particle.second.reset();
+	}
+
 	lasers.clear();
 	animationMeshs.clear();
 	meshs.clear();
 	bloodGushs.clear();
 	models.clear();
+	animationModelSuction.clear();
 
 	BaseGPUParticle::BaseGPUParticleFinalize();
 
@@ -643,7 +631,96 @@ ModelGPUParticle* GPUParticleEmitter::GetModelGPUParticle(const std::string& nam
 	return models[ name_ ].get();
 }
 
+void GPUParticleEmitter::ModelSuctionGPUParticleCreate(uint32_t maxParticles_,const std::string& name_)
+{
+	BaseGPUParticle::ParticleBegin();
+	std::unique_ptr<ModelSuctionGPUParticle> lParticle = std::make_unique<ModelSuctionGPUParticle>();
+	lParticle->Create(maxParticles_);
+	modelSuction[ name_ ] = std::move(lParticle);
+	BaseGPUParticle::ParticleEnd();
+}
+
+ModelSuctionGPUParticle* GPUParticleEmitter::GetModelSuctionGPUParticle(const std::string& name_)
+{
+	return modelSuction[ name_ ].get();
+}
+
+void GPUParticleEmitter::ModelSuctionGPUParticleEmit(const std::string& name_,const ModelSuctionGPUParticleSetting& setting_)
+{
+	modelSuction[ name_ ]->Emit(setting_);
+}
+
+void GPUParticleEmitter::ModelSuctionGPUParticleSetMat(const std::string& name_,const AliceMathF::Matrix4& matWorld_)
+{
+	modelSuction[ name_ ]->SetMat(matWorld_);
+}
+
+void GPUParticleEmitter::ModelSuctionGPUParticleSetTex(const std::string& name_,uint32_t textureHandle_)
+{
+	modelSuction[ name_ ]->SetTex(textureHandle_);
+}
+
+void GPUParticleEmitter::ModelSuctionGPUParticleEmitPlay(const std::string& name_)
+{
+	modelSuction[ name_ ]->EmitPlay();
+}
+
+void GPUParticleEmitter::ModelSuctionGPUParticleEmitStop(const std::string& name_)
+{
+	modelSuction[ name_ ]->EmitStop();
+}
+
+void GPUParticleEmitter::ModelSuctionGPUParticleSetModel(const std::string& name_,AliceModel* model_)
+{
+	modelSuction[ name_ ]->SetModel(model_);
+}
+
+
 #pragma endregion
+
+void GPUParticleEmitter::AnimationModelSuctionGPUParticleCreate(uint32_t maxParticles_,const std::string& name_)
+{
+	BaseGPUParticle::ParticleBegin();
+	std::unique_ptr<AnimationModelSuctionGPUParticle> lParticle = std::make_unique<AnimationModelSuctionGPUParticle>();
+	lParticle->Create(maxParticles_);
+	animationModelSuction[ name_ ] = std::move(lParticle);
+	BaseGPUParticle::ParticleEnd();
+}
+
+AnimationModelSuctionGPUParticle* GPUParticleEmitter::GetAnimationModelSuctionGPUParticle(const std::string& name_)
+{
+	return animationModelSuction[ name_ ].get();
+}
+
+void GPUParticleEmitter::AnimationModelSuctionGPUParticleEmit(const std::string& name_,const AnimationModelSuctionGPUParticleSetting& setting_)
+{
+	animationModelSuction[ name_ ]->Emit(setting_);
+}
+
+void GPUParticleEmitter::AnimationModelSuctionGPUParticleSetMat(const std::string& name_,const AliceMathF::Matrix4& matWorld_)
+{
+	animationModelSuction[ name_ ]->SetMat(matWorld_);
+}
+
+void GPUParticleEmitter::AnimationModelSuctionGPUParticleSetTex(const std::string& name_,uint32_t textureHandle_)
+{
+	animationModelSuction[ name_ ]->SetTex(textureHandle_);
+}
+
+void GPUParticleEmitter::AnimationModelSuctionGPUParticleEmitPlay(const std::string& name_)
+{
+	animationModelSuction[ name_ ]->EmitPlay();
+}
+
+void GPUParticleEmitter::AnimationModelSuctionGPUParticleEmitStop(const std::string& name_)
+{
+	animationModelSuction[ name_ ]->EmitStop();
+}
+
+void GPUParticleEmitter::AnimationModelSuctionGPUParticleSetModel(const std::string& name_,AliceModel* model_)
+{
+	animationModelSuction[ name_ ]->SetModel(model_);
+}
 
 #pragma endregion
 

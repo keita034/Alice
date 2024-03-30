@@ -140,6 +140,8 @@ public:
 	void EmitPlay();
 	void EmitStop();
 
+	IFreeListBuffer* GetFreeListBuffer();
+
 private:
 
 	void PBufferCreate();

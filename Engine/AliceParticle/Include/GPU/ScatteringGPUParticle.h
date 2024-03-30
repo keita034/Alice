@@ -14,6 +14,7 @@ private:
 		AliceMathF::Vector3 accel;
 		float lifeTime;
 		uint32_t maxParticles;
+		uint32_t computerTime;
 	};
 
 

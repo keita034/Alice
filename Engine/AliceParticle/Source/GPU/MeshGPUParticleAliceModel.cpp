@@ -7,6 +7,8 @@ IMultiAdapters* MeshGPUParticleAliceModel::sMultiAdapters;
 
 std::unordered_map<std::string,std::unique_ptr<MeshGPUParticleAliceModelData>> MeshGPUParticleAliceModel::sModelDatas;
 
+size_t MeshGPUParticleAliceModel::index_ = 0;
+
 
 const std::vector<std::unique_ptr<MeshGPUParticleModelMesh>>& MeshGPUParticleAliceModel::GetMeshs()
 {
@@ -18,9 +20,13 @@ void MeshGPUParticleAliceModel::SetModel(AliceModel* model_,BufferType type,bool
 {
 	std::string lFilePath = model_->modelData->filePath;
 
+	index_ += 1;
+	lFilePath += std::to_string(index_);
+
+
 	auto lModelItr = find_if(sModelDatas.begin(),sModelDatas.end(),[ & ] (std::pair<const std::string,std::unique_ptr<MeshGPUParticleAliceModelData,std::default_delete<MeshGPUParticleAliceModelData>>>& modelData)
 		{
-			return modelData.second->filePath == lFilePath;
+			return modelData.second->filePath == lFilePath && modelData.second->type == type;
 		});
 
 	if ( lModelItr == sModelDatas.end() )
@@ -36,7 +42,8 @@ void MeshGPUParticleAliceModel::SetModel(AliceModel* model_,BufferType type,bool
 			AliceModelData* lModelData = model_->modelData;
 
 			lData->name = lModelData->name;
-			lData->filePath = lModelData->filePath;
+			lData->filePath = lFilePath;
+			lData->type = type;
 			lData->postureMatBuff = lModelData->postureMatBuff.get();
 
 			for ( std::unique_ptr<ModelMesh>& mesh : lModelData->meshes )
@@ -45,7 +52,7 @@ void MeshGPUParticleAliceModel::SetModel(AliceModel* model_,BufferType type,bool
 
 				if ( !mesh->vecBones.empty() )
 				{
-					for (const PosNormUvTangeColSkin& index : mesh->vertices )
+					for ( const PosNormUvTangeColSkin& index : mesh->vertices )
 					{
 						AddBoneMesh(lMesh->boneMeshs,index,mesh->vecBones);
 
@@ -56,12 +63,10 @@ void MeshGPUParticleAliceModel::SetModel(AliceModel* model_,BufferType type,bool
 					{
 						PReadChildren(lModelData->nodes,lMesh->boneMeshs,boneMesh.get());
 
-						boneMesh->centerPos /= (float)boneMesh->vertices.size();
+						boneMesh->centerPos /= ( float ) boneMesh->vertices.size();
 
 						boneMesh->vertexBuffer = CreateUniqueVertexBuffer(boneMesh->vertices.size(),sizeof(boneMesh->vertices[ 0 ]),static_cast< AdaptersIndex >( type ),boneMesh->vertices.data());
 						boneMesh->vertexBuffer->CreateSRV();
-						boneMesh->drawArgumentBuffer = CreateUniqueDrawArgumentBuffer(1,sizeof(D3D12_DRAW_ARGUMENTS),BufferType::SHARED,AdaptersIndex::SUB,AdaptersIndex::MAIN);
-						boneMesh->particlePoolBuffer = CreateUniqueCrossAdapterBuffer(boneMesh->vertices.size(),sizeof(BaseGPUParticle::ModelParticleGPUData),AdaptersIndex::SUB,AdaptersIndex::MAIN);
 						lData->verticeSize += boneMesh->vertices.size();
 					}
 				}
@@ -134,22 +139,27 @@ ICrossAdapterBuffer* MeshGPUParticleModelMesh::GetCrossAdapterBuffer() const
 	return particlePoolBuffer.get();
 }
 
-static void ReadParent(std::unordered_map<std::string,bool>& boneMeshIsVisibles_,BoneMesh* parent_,bool isVisible_)
+static void ReadParent(std::unordered_map<std::string,uint32_t>& boneMeshIsVisibles_,BoneMesh* parent_,uint32_t value_)
 {
-	boneMeshIsVisibles_[ parent_ ->boneName] = isVisible_;
+	if ( !boneMeshIsVisibles_[ parent_->boneName ] && value_ == 1 ||
+		boneMeshIsVisibles_[ parent_->boneName ] )
+	{
+		boneMeshIsVisibles_[ parent_->boneName ] = value_;
+
+	}
 
 	for ( BoneMesh* children : parent_->parent )
 	{
-		ReadParent(boneMeshIsVisibles_,children,isVisible_);
+		ReadParent(boneMeshIsVisibles_,children,value_);
 	}
 }
 
-void MeshGPUParticleModelMesh::InvisibleBoneMesh(std::unordered_map<std::string,bool>& boneMeshIsVisibles_,const std::string& boneName_,bool root_)
+void MeshGPUParticleModelMesh::SetValueBoneMesh(uint32_t value_,std::unordered_map<std::string,uint32_t>& boneMeshIsVisibles_,const std::string& boneName_,bool root_)
 {
 	auto lModelItr = find_if(boneMeshs.begin(),boneMeshs.end(),[ & ] (std::unique_ptr<BoneMesh,std::default_delete<BoneMesh>>& modelData)
-	{
-		return modelData->boneName == boneName_;
-	});
+{
+	return modelData->boneName == boneName_;
+});
 
 	if ( lModelItr == boneMeshs.end() )
 	{
@@ -161,37 +171,16 @@ void MeshGPUParticleModelMesh::InvisibleBoneMesh(std::unordered_map<std::string,
 
 		if ( root_ )
 		{
-			ReadParent(boneMeshIsVisibles_,mesh,false);
+			ReadParent(boneMeshIsVisibles_,mesh,value_);
 		}
 		else
 		{
-			boneMeshIsVisibles_[ boneName_ ] = false;
-		}
-	}
-}
+			if ( !boneMeshIsVisibles_[ boneName_ ] && value_ == 1 ||
+				boneMeshIsVisibles_[ boneName_ ] )
+			{
+				boneMeshIsVisibles_[ boneName_ ] = value_;
 
-void MeshGPUParticleModelMesh::VisibleBoneMesh(std::unordered_map<std::string,bool>& boneMeshIsVisibles_,const std::string& boneName_,bool root_)
-{
-	auto lModelItr = find_if(boneMeshs.begin(),boneMeshs.end(),[ & ] (std::unique_ptr<BoneMesh,std::default_delete<BoneMesh>>& modelData)
-	{
-		return modelData->boneName == boneName_;
-	});
-
-	if ( lModelItr == boneMeshs.end() )
-	{
-		AliceDebugPrint("そのボーンは存在しません");
-	}
-	else
-	{
-		BoneMesh* mesh = lModelItr->get();
-
-		if ( root_ )
-		{
-			ReadParent(boneMeshIsVisibles_,mesh,true);
-		}
-		else
-		{
-			boneMeshIsVisibles_[ boneName_ ] = true;
+			}
 		}
 	}
 }
@@ -215,7 +204,7 @@ BoneMesh* MeshGPUParticleModelMesh::GetBoneMesh(const std::string& boneName_)
 	}
 }
 
-void MeshGPUParticleModelMesh::CreateBoneMeshIsVisibles(std::unordered_map<std::string,bool>& boneMeshIsVisibles_)
+void MeshGPUParticleModelMesh::CreateBoneMeshIsVisibles(std::unordered_map<std::string,uint32_t>& boneMeshIsVisibles_)
 {
 	for ( std::unique_ptr<BoneMesh>& mesh : boneMeshs )
 	{
@@ -231,39 +220,28 @@ void MeshGPUParticleAliceModel::Finalize()
 	sModelDatas.clear();
 }
 
-void MeshGPUParticleAliceModel::CreateBoneMeshIsVisibles(std::unordered_map<std::string,std::unordered_map<std::string,bool>>& boneMeshIsVisibles_)
+void MeshGPUParticleAliceModel::CreateBoneMeshIsVisibles(std::unordered_map<std::string,std::unordered_map<std::string,uint32_t>>& boneMeshIsVisibles_)
 {
 	for ( const std::unique_ptr<MeshGPUParticleModelMesh>& mesh : modelData->meshes )
 	{
-		std::unordered_map<std::string,bool> lMeshIsVisibles;
+		std::unordered_map<std::string,uint32_t> lMeshIsVisibles;
 		mesh->CreateBoneMeshIsVisibles(lMeshIsVisibles);
 		boneMeshIsVisibles_[ mesh->name ] = lMeshIsVisibles;
 	}
 }
 
-void MeshGPUParticleAliceModel::InvisibleBoneMesh(std::unordered_map<std::string,std::unordered_map<std::string,bool>>& boneMeshIsVisibles_,const std::string& meshName_,const std::string& boneName_,bool root_)
+void MeshGPUParticleAliceModel::InvisibleBoneMesh(std::unordered_map<std::string,std::unordered_map<std::string,uint32_t>>& boneMeshIsVisibles_,const std::string& meshName_,const std::string& boneName_,bool root_)
 {
-	auto lModelItr = find_if(modelData->meshes.begin(),modelData->meshes.end(),[ & ] (const std::unique_ptr<MeshGPUParticleModelMesh,std::default_delete<MeshGPUParticleModelMesh>>& modelData)
-	{
-		return modelData->name == meshName_;
-	});
-
-	if ( lModelItr == modelData->meshes.end() )
-	{
-		AliceDebugPrint("そのはメッシュは存在しません");
-	}
-	else
-	{
-		std::unordered_map<std::string,bool>& lBoneMeshIsVisibles = boneMeshIsVisibles_[ meshName_ ];
-		MeshGPUParticleModelMesh* mesh = lModelItr->get();
-
-		mesh->InvisibleBoneMesh(lBoneMeshIsVisibles,boneName_,root_);
-	}
+	SetValueBoneMesh(false,boneMeshIsVisibles_,meshName_,boneName_,root_);
 }
 
-void MeshGPUParticleAliceModel::VisibleBoneMesh(std::unordered_map<std::string,std::unordered_map<std::string,bool>>& boneMeshIsVisibles_,const std::string& meshName_,const std::string& boneName_,bool root_)
+void MeshGPUParticleAliceModel::VisibleBoneMesh(std::unordered_map<std::string,std::unordered_map<std::string,uint32_t>>& boneMeshIsVisibles_,const std::string& meshName_,const std::string& boneName_,bool root_)
 {
+	SetValueBoneMesh(true,boneMeshIsVisibles_,meshName_,boneName_,root_);
+}
 
+void MeshGPUParticleAliceModel::SetValueBoneMesh(uint32_t value_,std::unordered_map<std::string,std::unordered_map<std::string,uint32_t>>& boneMeshIsVisibles_,const std::string& meshName_,const std::string& boneName_,bool root_)
+{
 	auto lModelItr = find_if(modelData->meshes.begin(),modelData->meshes.end(),[ & ] (const std::unique_ptr<MeshGPUParticleModelMesh,std::default_delete<MeshGPUParticleModelMesh>>& modelData)
 {
 	return modelData->name == meshName_;
@@ -275,10 +253,10 @@ void MeshGPUParticleAliceModel::VisibleBoneMesh(std::unordered_map<std::string,s
 	}
 	else
 	{
-		std::unordered_map<std::string,bool>& lBoneMeshIsVisibles = boneMeshIsVisibles_[ meshName_ ];
+		std::unordered_map<std::string,uint32_t>& lBoneMeshIsVisibles = boneMeshIsVisibles_[ meshName_ ];
 		MeshGPUParticleModelMesh* mesh = lModelItr->get();
 
-		mesh->VisibleBoneMesh(lBoneMeshIsVisibles,boneName_,root_);
+		mesh->SetValueBoneMesh(value_,lBoneMeshIsVisibles,boneName_,root_);
 	}
 }
 
@@ -332,11 +310,11 @@ void MeshGPUParticleAliceModel::AddBoneMesh(std::vector<std::unique_ptr<BoneMesh
 
 		lMessh->boneName = lBone.name;
 		lMessh->vertices.push_back(ver_);
-		lMessh->bone = (Bone*)&bone_[ lBoneIndex ];
+		lMessh->bone = ( Bone* ) &bone_[ lBoneIndex ];
 		lMessh->centerPos.x += ver_.position.x;
 		lMessh->centerPos.y += ver_.position.y;
 		lMessh->centerPos.z += ver_.position.z;
-		lMessh->index = (uint8_t)lBoneIndex;
+		lMessh->index = ( uint8_t ) lBoneIndex;
 		boneMeshs_.push_back(std::move(lMessh));
 	}
 	else
@@ -346,7 +324,7 @@ void MeshGPUParticleAliceModel::AddBoneMesh(std::vector<std::unique_ptr<BoneMesh
 		lMessh->centerPos.x += ver_.position.x;
 		lMessh->centerPos.y += ver_.position.y;
 		lMessh->centerPos.z += ver_.position.z;
-		lMessh->index = ( uint8_t )lBoneIndex;
+		lMessh->index = ( uint8_t ) lBoneIndex;
 	}
 }
 

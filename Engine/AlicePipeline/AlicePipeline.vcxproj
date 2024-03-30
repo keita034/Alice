@@ -114,6 +114,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\GPUParticle\AnimationModelSuction.h" />
     <ClInclude Include="Include\GPUParticle\Aggregating.h" />
     <ClInclude Include="Include\GPUParticle\BloodGush.h" />
     <ClInclude Include="Include\GPUParticle\GPUParticleh.h" />
@@ -163,8 +164,11 @@
     <ClInclude Include="Include\GPUParticle\Model.h" />
     <ClInclude Include="Include\GPUParticle\Scattering.h" />
     <ClInclude Include="Include\GPUParticle\Stop.h" />
+    <ClInclude Include="Include\GPUParticle\ModelSuction.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\GPUParticle\AnimationModelSuction.cpp" />
+    <ClCompile Include="Source\GPUParticle\ModelSuction.cpp" />
     <ClCompile Include="Source\GPUParticle\Aggregating.cpp" />
     <ClCompile Include="Source\GPUParticle\Scattering.cpp" />
     <ClCompile Include="Source\GPUParticle\Model.cpp" />

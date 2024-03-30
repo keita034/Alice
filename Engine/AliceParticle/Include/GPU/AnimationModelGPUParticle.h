@@ -42,9 +42,9 @@ public://GPUで使う構造体
 	{
 		AliceMathF::Matrix4 matWorld;
 
-		AliceMathF::Vector4 startColor;
+		AliceMathF::Vector4 color;
 
-		AliceMathF::Vector4 endColor;
+		AliceMathF::Vector4 setColor;
 
 		float deltaTime;
 		float totalTime;
@@ -105,7 +105,7 @@ private:
 	std::unique_ptr<IDrawArgumentBuffer>drawArgumentBuffer;
 
 	std::unique_ptr <MeshGPUParticleAliceModel> modelData;
-	std::unordered_map <std::string, std::unordered_map<std::string,bool>>boneMeshIsVisibles;
+	std::unordered_map <std::string, std::unordered_map<std::string,uint32_t>>boneMeshIsVisibles;
 
 	TextureData* texture;
 
@@ -141,6 +141,8 @@ public:
 	void DrawListRelease();
 	void InvisibleBoneMesh(const std::string& meshName_,const std::string& boneName_,bool root_ = true);
 	void VisibleBoneMesh(const std::string& meshName_,const std::string& boneName_,bool root_ = true);
+	void ChangeColor(const AliceMathF::Vector4& color_,const std::string& meshName_,const std::string& boneName_,bool root_ = true);
+	void ReturnColor(const std::string& meshName_,const std::string& boneName_,bool root_ = true);
 	void StopAnimation();
 	void PlayAnimation();
 private:

@@ -25,13 +25,18 @@ private:
 	AliceInput::IInput* input = nullptr;
 	IAudioManager* audioManager = nullptr;
 	Camera* camera = nullptr;
+	GPUParticleEmitter* particleEmitter = nullptr;
+
 	ModelGPUParticle* weaponParticle = nullptr; 
 	ModelGPUParticle* greatWeaponParticle = nullptr;
+
 	AnimationModelGPUParticle* modelParticle = nullptr;
+
 	MeshGPUParticle* weaponScatteringParticle = nullptr;
 	MeshGPUParticle* greatWeaponScatteringParticle = nullptr;
+	MeshGPUParticle* healingEffect = nullptr;
+
 	PlayerUsData usData;
-	GPUParticleEmitter* particleEmitter = nullptr;
 
 	AliceMathF::Matrix4 evacuationMat;
 
@@ -88,6 +93,7 @@ private:
 	bool isGreat = false;
 	bool force = false;
 	bool blownaway = false;
+	bool healingEff = false;
 public:
 
 	Player() = default;

@@ -16,7 +16,7 @@ class BossJumpAttackMove : public GameObject
 private:
 
 	BossAnimation* bossAnimation = nullptr;
-	ShockWaveGPUParticle* shockWaveGPUParticle = nullptr;
+	//ShockWaveGPUParticle* shockWaveGPUParticle = nullptr;
 	AlicePhysics::AlicePhysicsSystem* physicsSystem = nullptr;
 
 	AliceMathF::Vector3 bossPosition;
