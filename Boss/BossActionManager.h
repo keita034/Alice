@@ -83,6 +83,8 @@ private:
 	bool isCloseRangeAttack;
 	bool blowaway;
 	bool right =  true;
+	bool leftReconstruction = false;
+	bool rightReconstruction = false;
 public:
 
 	/// <summary>

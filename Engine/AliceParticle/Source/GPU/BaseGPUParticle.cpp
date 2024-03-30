@@ -44,7 +44,7 @@ void BaseGPUParticle::ParticleBegin()
 	size_t bbIndex = static_cast< size_t >( swapChain->GetCurrentBackBufferIndex() );
 	computeAdapter->GraphicCommandListReset(bbIndex);
 	computeAdapter->ComputeCommandListReset(bbIndex);
-	graphicAdapter->GraphicCommandListReset();
+	graphicAdapter->GraphicCommandListReset(bbIndex);
 }
 
 void BaseGPUParticle::SetSwapChain(ISwapChain* swapChain_)

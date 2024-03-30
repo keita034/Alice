@@ -13,7 +13,6 @@ void CreateAnimationModelSuctionFreeListInitComputeMaterial(MaterialManager* man
 	lMaterial->rootSignature = CreateUniqueRootSignature();
 
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,0);//u0
-	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,1);//u0
 
 	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
 
@@ -38,11 +37,14 @@ void CreateAnimationModelSuctionEmitComputeMaterial(MaterialManager* manager_,IA
 
 	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
 	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,1);//b1
+	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,2);//b2
+	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,3);//b3
 
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,0);//u0
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,1);//u1
 
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,0);//t0
+	lMaterial->rootSignature->Add(IRootSignature::RangeType::SRV,1);//t1
 
 	lMaterial->rootSignature->Create(lDevice);
 
@@ -64,10 +66,13 @@ void CreateAnimationModelSuctionUpdateComputeMaterial(MaterialManager* manager_,
 	lMaterial->rootSignature = CreateUniqueRootSignature();
 
 	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,0);//b0
+	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,1);//b1
+	lMaterial->rootSignature->Add(IRootSignature::RootType::CBV,2);//u2
 
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,0);//u0
-	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,1);//u2
+	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,1);//u1
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,2);//u2
+	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,3);//u2
 
 	lMaterial->rootSignature->Create(lDevice);
 
@@ -90,6 +95,7 @@ void CreateAnimationModelSuctionDrawArgumentUpdateComputeMaterial(MaterialManage
 
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,0);//u0
 	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,1);//u1
+	lMaterial->rootSignature->Add(IRootSignature::RangeType::UAV,2);//u1
 
 	lMaterial->rootSignature->Create(lDevice);
 

@@ -52,8 +52,6 @@ void Boss::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 			lMeshSetting.speed = 15;
 			lMeshSetting.isPlay = false;
 
-			//meshParticleIndex = particleEmitter->AnimationMeshGPUParticleEmit("BossParticle",lMeshSetting);
-			//bossGPUParticle = particleEmitter->GetAnimationMeshGPUParticle("BossParticle");
 		}
 
 		{
@@ -78,8 +76,7 @@ void Boss::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 		particleEmitter->BloodGushGPUParticleEmit("BossBloodGushParticle",lBloodGushSetting);
 		bloodGushGPUParticle = particleEmitter->GetBloodGushGPUParticle("BossBloodGushParticle");
 
-		//bossGPUParticle->EmitPlay();
-		//bossModelGPUParticle->EmitPlay();
+		bossModelGPUParticle->EmitPlay();
 
 	}
 
@@ -106,9 +103,6 @@ void Boss::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 	bossUI->Initialize();
 
 	Reset();
-
-
-
 }
 
 void Boss::Update()
@@ -117,7 +111,6 @@ void Boss::Update()
 	{
 		isMove = true;
 	}
-	isMove = false;
 
 	oldTrans = transform.translation;
 
@@ -239,7 +232,6 @@ void Boss::Update()
 		bossModelGPUParticle->EmitStop();
 		deathGPUParticle->EmitPlay();
 		particleEmitter->ScatteringSetSpeed(600.0f);
-		//gpuParticleEmitter->ScatteringSetAccel({ 0,10,0 });
 		AliceMathF::Vector3 centerPos = AliceMathF::GetWorldPosition(transform.matWorld);
 		centerPos += direction * rigidBodyoffset.y;
 		centerPos.y += rigidBodyoffset.x;
@@ -271,7 +263,6 @@ void Boss::Update()
 
 void Boss::Draw()
 {
-	//model->Draw(transform,animation->GetAnimation());
 	shape->Draw(rigidBody->GetCenterOfMassTransform(),{ 1.0f,1.0f ,1.0f },{ 1.0f ,0.0f ,0.0f ,1.0f },true);
 	hands[ static_cast< size_t >( BossHandIndex::RIGHT ) ]->Draw();
 	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->Draw();
@@ -291,9 +282,7 @@ void Boss::UIDraw()
 
 void Boss::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 {
-	//bossGPUParticle->EmitStop(meshParticleIndex);
 	bloodGushGPUParticle->EmitStop();
-	//bossGPUParticle->EmitStop(0);
 	bossModelGPUParticle->EmitStop();
 
 	actionManager->Finalize(physicsSystem_);
@@ -321,8 +310,6 @@ void Boss::TransUpdate(Camera* camera_)
 
 	actionManager->GetBossBeamAttackMove()->TransUpdate(camera_);
 	actionManager->GetBossCloseRangeAttack()->TransUpdate(camera_);
-
-	//bossGPUParticle->SetMat(transform.matWorld,0);
 
 	bossModelGPUParticle->SetMat(transform.matWorld);
 	deathGPUParticle->SetMat(transform.matWorld);

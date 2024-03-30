@@ -100,7 +100,7 @@ void BossHand::Update(const std::string& boneName_,AliceBlendTree* tree_,AliceMo
 	}
 	else
 	{
-		modelGPUParticle->ChangeColor(AliceMathF::Vector4Lerp(CHANGE_COLOR,DEFAULT_COLOR,static_cast<float>(hp)/MAX_HP) ,MESH_NAME,boneName);
+		modelGPUParticle->ChangeColor(AliceMathF::Vector4Lerp(CHANGE_COLOR,DEFAULT_COLOR,static_cast< float >( hp ) / MAX_HP),MESH_NAME,boneName);
 	}
 }
 
@@ -111,27 +111,16 @@ void BossHand::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 
 void BossHand::TransUpdate(Camera* camera_)
 {
-
 	transform.TransUpdate(camera_,&animationTransform.boneMatrix);
 
 	rigidBody->SetMatrix(transform.rigidBodyMatWorld,transform.matWorld);
 
-
 	modelGPUParticle->SetMat(parent->matWorld);
-	
-	if ( bossUsData.index == BossHandIndex::LEFT )
-	{
-		suctionGPUParticle->SetMat(parent->matWorld);
 
-		if ( isHit )
-		{
-			tst = true;
-			suctionGPUParticle->EmitPlay();
-			suctionGPUParticle->EmitStop();
-		}
-	}
+	suctionGPUParticle->SetMat(parent->matWorld);
+
 	AnimationMeshGPUParticle* lParticle = gpuParticleEmitter->GetAnimationMeshGPUParticle("BossHandScatteringParticle");
-	lParticle->SetMat(transform.matWorld);
+	lParticle->SetMat(parent->matWorld);
 }
 
 void BossHand::SetSituation(uint32_t situation_)

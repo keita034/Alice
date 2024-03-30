@@ -103,20 +103,36 @@
 #include<AnimationModelSuction.hlsli>
 #include<../../HLSLMath.hlsli>
 
-cbuffer ParticleDatas : register(b0)
+cbuffer timeData : register(b0)
+{
+    float deltaTime;
+    float TotalTime;
+    uint computeTime;
+}
+
+cbuffer ParticleData : register(b1)
+{
+    uint maxParticles;
+    uint emitDataIndex;
+}
+
+cbuffer ParticleDatas : register(b2)
 {
     EmitData emitData;
 }
 
-cbuffer BoneDatas : register(b1)
+cbuffer BoneDatas : register(b3)
 {
     matrix bones[BONE_MAX];
 }
 
+Texture2D<float4> tex : register(t0);
+StructuredBuffer<Mesh> meshs : register(t1);
+
 RWStructuredBuffer<ModelParticle> ParticlePool : register(u0);
 ConsumeStructuredBuffer<uint> freeList : register(u1);
+RWStructuredBuffer<uint> DrawList : register(u2);
 
-StructuredBuffer<Mesh> meshs : register(t0);
 
 struct SkinOutput
 {
@@ -168,11 +184,24 @@ SkinOutput ComputeSkin(Mesh input)
 [numthreads(1024, 1, 1)]
 void main(uint3 DTid : SV_DispatchThreadID)
 {
-    if (DTid.x >= emitData.maxParticles)
+    if (DTid.x >= maxParticles)
     {
         return;
     }
     
+    int2 uv;
+    float2 texSize;
+    tex.GetDimensions(texSize.x, texSize.y);
+    
+    uv = int2(texSize * meshs[DTid.x].uv);
+    
+    float4 texcolor = tex[uv];
+    
+    if (texcolor.a == 0.0f)
+    {
+        return;
+    }
+
     if (DTid.x >= emitData.vertexSize)
     {
         return;
@@ -183,20 +212,22 @@ void main(uint3 DTid : SV_DispatchThreadID)
     SkinOutput skin = (SkinOutput) 0;
     skin = ComputeSkin(meshs[DTid.x]);
     
-    ModelParticle particle = (ModelParticle) 0;
+    float3 pos = mul(emitData.matWorld, skin.pos);
+    float3 vec = pos - emitData.centerPos;
+    vec = normalize(vec);
 
-    ParticlePool[emitIndex].age = 0;
-    ParticlePool[emitIndex].alive = 1.0f;
+    ParticlePool[emitIndex].position = pos + (vec * emitData.distance);
+    ParticlePool[emitIndex].meshPos = pos;
+    ParticlePool[emitIndex].movePos = pos + (vec * emitData.distance);;
+    
+    ParticlePool[emitIndex].invTime = emitData.invisibleTime * RandFloat(DTid.x + computeTime, 1.0f, 0.0f);
+    ParticlePool[emitIndex].moveTime = emitData.moveTime * RandFloat(DTid.x + computeTime + emitIndex, 1.0f, 0.0f);
+    
     ParticlePool[emitIndex].color = emitData.startColor;
-    ParticlePool[emitIndex].invTime = 0;
-    ParticlePool[emitIndex].lifeTime = emitData.lifeTime;
-    ParticlePool[emitIndex].meshPos = float3(0, 0, 0);
-    ParticlePool[emitIndex].movePos = float3(0, 0, 0);
-    ParticlePool[emitIndex].moveTime = 0;
-    ParticlePool[emitIndex].pad = float2(0, 0);
-    ParticlePool[emitIndex].position = mul(emitData.matWorld, skin.pos);
-    ParticlePool[emitIndex].size = float2(emitData.size, emitData.size);
-    ParticlePool[emitIndex].threshold = 0;
+    ParticlePool[emitIndex].age = 0;
     ParticlePool[emitIndex].totalTime = 0;
-
+    ParticlePool[emitIndex].alive = 3;
+    ParticlePool[emitIndex].size = float2(emitData.size, emitData.size);
+    ParticlePool[emitIndex].lifeTime = emitData.lifeTime;
+    
 }

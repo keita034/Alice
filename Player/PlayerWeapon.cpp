@@ -72,7 +72,6 @@ void PlayerWeapon::TransUpdate(Camera* camera_)
 
 void PlayerWeapon::Draw()
 {
-	//model->Draw(transform);
 	shape->Draw(rigidBody->GetCenterOfMassTransform(),{ 1.0f,1.0f ,1.0f },{ 1.0f ,1.0f ,1.0f ,1.0f },true);
 }
 
