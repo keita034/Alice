@@ -52,8 +52,10 @@ void BossHand::Initialize(Transform* parent_,AlicePhysics::AlicePhysicsSystem* p
 	{
 		modelGPUParticle = gpuParticleEmitter->GetAnimationModelGPUParticle("BossLeftHandModelParticle");
 		boneName = LEFT_BONE_NAME;
-		suctionGPUParticle = gpuParticleEmitter->GetAnimationModelSuctionGPUParticle("BossLeftHandScatterinParticle");
+
 	}
+
+	suctionGPUParticle = gpuParticleEmitter->GetAnimationModelSuctionGPUParticle("BossLeftHandScatterinParticle");
 
 	AliceAssertNull(modelGPUParticle,"modelGPUParticleIsNull");
 	modelGPUParticle->InvisibleBoneMesh(MESH_NAME,"mixamorig:Hips");
@@ -115,12 +117,15 @@ void BossHand::TransUpdate(Camera* camera_)
 
 	rigidBody->SetMatrix(transform.rigidBodyMatWorld,transform.matWorld);
 
-	modelGPUParticle->SetMat(parent->matWorld);
+	if ( parent )
+	{
+		modelGPUParticle->SetMat(parent->matWorld);
 
-	suctionGPUParticle->SetMat(parent->matWorld);
+		suctionGPUParticle->SetMat(parent->matWorld);
 
-	AnimationMeshGPUParticle* lParticle = gpuParticleEmitter->GetAnimationMeshGPUParticle("BossHandScatteringParticle");
-	lParticle->SetMat(parent->matWorld);
+		AnimationMeshGPUParticle* lParticle = gpuParticleEmitter->GetAnimationMeshGPUParticle("BossHandScatteringParticle");
+		lParticle->SetMat(parent->matWorld);
+	}
 }
 
 void BossHand::SetSituation(uint32_t situation_)

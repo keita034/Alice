@@ -334,7 +334,6 @@ void AnimationModelSuctionGPUParticle::SetBoneMesh(const std::string& meshName_,
 {
 	boneMesh = modelData->GetBoneMesh(meshName_,boneName_);
 	boneMeshRoot = root_;
-	//ReadChildren(boneMesh,verticeSize,boneMeshRoot);
 }
 
 void AnimationModelSuctionGPUParticle::DrawStop()

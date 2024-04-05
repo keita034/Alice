@@ -36,24 +36,6 @@ void Boss::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 	rigidBody->SetRigidBodyCollision(this);
 
 	{
-
-		{
-			AnimationMeshGPUParticleSetting lMeshSetting;
-
-			lMeshSetting.matWorld = AliceMathF::MakeIdentity();
-			lMeshSetting.velocity = { 0,1,0 };
-			lMeshSetting.startColor = { 1,0,0,1 };
-			lMeshSetting.endColor = { 1,0,0,1 };
-			lMeshSetting.lifeTime = 1.0f;
-			lMeshSetting.maxParticles = 1000000.0f;
-			lMeshSetting.timeBetweenEmit = 0.01f;
-			lMeshSetting.emitLifeTime = -1;
-			lMeshSetting.size = 2;
-			lMeshSetting.speed = 15;
-			lMeshSetting.isPlay = false;
-
-		}
-
 		{
 			bossModelGPUParticle = particleEmitter->GetAnimationModelGPUParticle("BossModelParticle");
 		}
@@ -226,8 +208,9 @@ void Boss::Update()
 	hands[ static_cast< size_t >( BossHandIndex::LEFT ) ]->Update("mixamorig:LeftHandMiddle1",animation->GetAnimation(),model.get());
 	bossUI->Update();
 
-	if ( hp <= 0 && !animation->IsInsert() )
+	if ( hp <= 0 && !animation->IsInsert() && !death )
 	{
+		PParticleClear();
 		death = true;
 		bossModelGPUParticle->EmitStop();
 		deathGPUParticle->EmitPlay();
@@ -557,4 +540,26 @@ bool Boss::DamageEnterCalculation(AlicePhysics::RigidBodyUserData* BodyData_,con
 	}
 
 	return false;
+}
+
+void Boss::PParticleClear()
+{
+	//ボスの手
+	{
+		particleEmitter->GetAnimationModelGPUParticle("BossLeftHandModelParticle")->EmitStop();
+		particleEmitter->GetAnimationModelGPUParticle("BossRightHandModelParticle")->EmitStop();
+		particleEmitter->GetAnimationModelSuctionGPUParticle("BossLeftHandScatterinParticle")->EmitStop();
+		particleEmitter->GetAnimationMeshGPUParticle("BossHandScatteringParticle")->EmitStop();
+
+		if ( !( situation & ActorSituation::LEFT_CUTTING ) )
+		{
+			bossModelGPUParticle->VisibleBoneMesh("elemental_element1mesh.003","mixamorig:LeftHand");
+		}
+
+		if ( !( situation & ActorSituation::RIGHT_CUTTING ) )
+		{
+			bossModelGPUParticle->VisibleBoneMesh("elemental_element1mesh.003","mixamorig:RightHand");
+		}
+	}
+
 }

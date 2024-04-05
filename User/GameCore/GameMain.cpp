@@ -300,10 +300,6 @@ void GameMain::Initialize()
 	}
 
 	{
-		gpuParticleEmitter->AnimationModelSuctionGPUParticleCreate(1000000,"BossLeftHandScatterinParticle");
-		gpuParticleEmitter->AnimationModelSuctionGPUParticleSetModel("BossLeftHandScatterinParticle",lBossModel.get());
-		gpuParticleEmitter->AnimationModelSuctionGPUParticleSetTex("BossLeftHandScatterinParticle",effect1Handle);
-
 		AnimationModelSuctionGPUParticleSetting lSetting;
 
 		lSetting.matWorld = AliceMathF::MakeIdentity();
@@ -318,6 +314,9 @@ void GameMain::Initialize()
 		lSetting.emitLifeTime = 0.01f;
 		lSetting.isPlay = false;
 
+		gpuParticleEmitter->AnimationModelSuctionGPUParticleCreate(1000000,"BossLeftHandScatterinParticle");
+		gpuParticleEmitter->AnimationModelSuctionGPUParticleSetModel("BossLeftHandScatterinParticle",lBossModel.get());
+		gpuParticleEmitter->AnimationModelSuctionGPUParticleSetTex("BossLeftHandScatterinParticle",effect1Handle);
 		gpuParticleEmitter->AnimationModelSuctionGPUParticleEmit("BossLeftHandScatterinParticle",lSetting);
 		gpuParticleEmitter->GetAnimationModelSuctionGPUParticle("BossLeftHandScatterinParticle")->SetDetermineTex(white1x1Handle);
 	}

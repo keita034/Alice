@@ -377,24 +377,29 @@ void BossActionManager::PReconstruction(const std::array< AliceMathF::Matrix4,2>
 {
 	if ( animation->GetRatio()>= 0.4f && !reconstruction )
 	{
-		particleEmitter->GetAnimationModelSuctionGPUParticle("BossLeftHandScatterinParticle")->DrawStart();
+		AnimationModelSuctionGPUParticle* lParticle = particleEmitter->GetAnimationModelSuctionGPUParticle("BossLeftHandScatterinParticle");
+		lParticle->DrawStart();
 
 		if ( ( boss->GetSituation() & ActorSituation::LEFT_CUTTING ) && !leftReconstruction )
 		{
 			leftReconstruction = true;
 			AliceMathF::Vector3 centerPos = AliceMathF::GetWorldPosition(hands[ 0 ]);
-			particleEmitter->GetAnimationModelSuctionGPUParticle("BossLeftHandScatterinParticle")->SetBoneMesh("elemental_element1mesh.003","mixamorig:LeftHand");
-			particleEmitter->GetAnimationModelSuctionGPUParticle("BossLeftHandScatterinParticle")->SetCenterPos(centerPos);
-			particleEmitter->GetAnimationModelSuctionGPUParticle("BossLeftHandScatterinParticle")->EmitPlay();
+			lParticle->SetBoneMesh("elemental_element1mesh.003","mixamorig:LeftHand");
+			lParticle->SetCenterPos(centerPos);
+			lParticle->EmitPlay();
+			lParticle->EmitStop();
 		}
 
 		if ( ( boss->GetSituation() & ActorSituation::RIGHT_CUTTING ) && !rightReconstruction )
 		{
 			rightReconstruction = true;
 			AliceMathF::Vector3 centerPos = AliceMathF::GetWorldPosition(hands[ 1 ]);
-			particleEmitter->GetAnimationModelSuctionGPUParticle("BossLeftHandScatterinParticle")->SetBoneMesh("elemental_element1mesh.003","mixamorig:RightHand");
-			particleEmitter->GetAnimationModelSuctionGPUParticle("BossLeftHandScatterinParticle")->SetCenterPos(centerPos);
-			particleEmitter->GetAnimationModelSuctionGPUParticle("BossLeftHandScatterinParticle")->EmitPlay();
+
+			lParticle->SetBoneMesh("elemental_element1mesh.003","mixamorig:RightHand");
+			lParticle->SetCenterPos(centerPos);
+			lParticle->EmitPlay();
+			lParticle->EmitStop();
+
 		}
 	}
 

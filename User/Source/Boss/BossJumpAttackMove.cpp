@@ -6,7 +6,6 @@
 void BossJumpAttackMove::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_,BossAnimation* bossAnimation_,ShockWaveGPUParticle* shockWaveGPUParticle_)
 {
 	bossAnimation = bossAnimation_;
-	//shockWaveGPUParticle = shockWaveGPUParticle_;
 
 	transform.translation = { 0.0f,1000.0f,0.0f };
 	transform.Initialize();
@@ -89,9 +88,6 @@ void BossJumpAttackMove::SetShockWaveCollisionRadius(float radius_)
 
 void BossJumpAttackMove::ShockWave()
 {
-	//shockWaveGPUParticle->SetPos(bossPosition);
-	//shockWaveGPUParticle->EmitPlay();
-
 	transform.translation = bossPosition;
 	usData.pos = bossPosition;
 }
@@ -104,8 +100,6 @@ bool BossJumpAttackMove::ShockWaveUpdate()
 
 		if ( time < 2.5f )
 		{
-			//time += shockWaveGPUParticle->GetDeltaTime();
-
 			usData.radius = AliceMathF::Lerp(0.0f,250.0f,AliceMathF::Clamp01(time * 1.5f / 2.5f));
 		}
 		else
@@ -135,7 +129,6 @@ void BossJumpAttackMove::End()
 	isFinish = false;
 	usData.isFinish = false;
 	shockWaveTime = 0;
-	//shockWaveGPUParticle->EmitStop();
 	time = 0.0f;
 
 	transform.translation = { 0.0f,1000.0f,0.0f };
@@ -145,10 +138,8 @@ void BossJumpAttackMove::End()
 
 void BossJumpAttackMove::Finalize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
 {
-	//shockWaveGPUParticle->EmitStop();
 	physicsSystem_->RemoveRigidBody(rigidBody);
 	bossAnimation = nullptr;
-	//shockWaveGPUParticle = nullptr;
 }
 
 void BossJumpAttackMove::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_)
