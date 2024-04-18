@@ -8,7 +8,7 @@
 /// <summary>
 /// 頂点バッファ
 /// </summary>
-class VertexBuffer : public BaseBuffer , public IVertexBuffer
+class VertexBuffer : public BaseBuffer,public IVertexBuffer
 {
 private:
 
@@ -76,7 +76,7 @@ private:
 };
 
 
-void VertexBuffer::Create(size_t length_, size_t singleSize_,AdaptersIndex index_,const void* data_)
+void VertexBuffer::Create(size_t length_,size_t singleSize_,AdaptersIndex index_,const void* data_)
 {
 	length = length_;
 	singleSize = singleSize_;
@@ -99,7 +99,7 @@ void VertexBuffer::Create(size_t length_, size_t singleSize_,AdaptersIndex index
 		nullptr,
 		IID_PPV_ARGS(resource.ReleaseAndGetAddressOf()));
 
-	if (FAILED(lResult))
+	if ( FAILED(lResult) )
 	{
 		printf("Failed to create vertex buffer resource");
 		return;
@@ -107,21 +107,21 @@ void VertexBuffer::Create(size_t length_, size_t singleSize_,AdaptersIndex index
 
 	// 頂点バッファビューの設定
 	vertexBufferView.BufferLocation = resource->GetGPUVirtualAddress();
-	vertexBufferView.SizeInBytes = static_cast<UINT>(length_ * singleSize_);
-	vertexBufferView.StrideInBytes = static_cast<UINT>(singleSize_);
+	vertexBufferView.SizeInBytes = static_cast< UINT >( length_ * singleSize_ );
+	vertexBufferView.StrideInBytes = static_cast< UINT >( singleSize_ );
 
-	lResult = resource->Map(0, nullptr, &bufferMappedPtr);
-	if (FAILED(lResult))
+	lResult = resource->Map(0,nullptr,&bufferMappedPtr);
+	if ( FAILED(lResult) )
 	{
 		printf("Vertex buffer mapping failed");
 		return;
 	}
 
 	// マッピングする
-	if (data_ != nullptr)
+	if ( data_ != nullptr )
 	{
 		// 頂点データをマッピング先に設定
-		memcpy(bufferMappedPtr, data_, length_ * singleSize_);
+		memcpy(bufferMappedPtr,data_,length_ * singleSize_);
 	}
 
 	resource->SetName(L"VertexBuffer");
@@ -130,13 +130,13 @@ void VertexBuffer::Create(size_t length_, size_t singleSize_,AdaptersIndex index
 
 void VertexBuffer::Update(void* data_)
 {
-	if (data_ == nullptr)
+	if ( data_ == nullptr )
 	{
 		return;
 	}
 
 	// 頂点データをマッピング先に設定
-	memcpy(bufferMappedPtr, data_, vertexBufferView.SizeInBytes);
+	memcpy(bufferMappedPtr,data_,vertexBufferView.SizeInBytes);
 }
 
 void VertexBuffer::Update(void* data_,size_t length_)
@@ -191,16 +191,16 @@ const D3D12_GPU_DESCRIPTOR_HANDLE& VertexBuffer::GetSRVAddress()
 	return srvHandle;
 }
 
-std::unique_ptr<IVertexBuffer> CreateUniqueVertexBuffer(size_t length_, size_t singleSize_,AdaptersIndex index_,const void* data_)
+std::unique_ptr<IVertexBuffer> CreateUniqueVertexBuffer(size_t length_,size_t singleSize_,AdaptersIndex index_,const void* data_)
 {
 	std::unique_ptr<IVertexBuffer> lVertexBuffer = std::make_unique<VertexBuffer>();
-	lVertexBuffer->Create(length_, singleSize_,index_, data_);
+	lVertexBuffer->Create(length_,singleSize_,index_,data_);
 	return std::move(lVertexBuffer);
 }
 
-std::shared_ptr<IVertexBuffer> CreateSharedVertexBuffer(size_t length_, size_t singleSize_,AdaptersIndex index_,const void* data_)
+std::shared_ptr<IVertexBuffer> CreateSharedVertexBuffer(size_t length_,size_t singleSize_,AdaptersIndex index_,const void* data_)
 {
 	std::shared_ptr<IVertexBuffer> lVertexBuffer = std::make_shared<VertexBuffer>();
-	lVertexBuffer->Create(length_, singleSize_,index_, data_);
+	lVertexBuffer->Create(length_,singleSize_,index_,data_);
 	return lVertexBuffer;
 }

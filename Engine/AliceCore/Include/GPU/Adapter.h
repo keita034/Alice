@@ -1,12 +1,20 @@
 #pragma once
-#include<Defined.h>
-
-ALICE_SUPPRESS_WARNINGS_BEGIN
-
 #include<stdint.h>
+
+#pragma warning(push)
+#pragma warning(disable: 4061)
+#pragma warning(disable: 4062)
+#pragma warning(disable: 4365)
+#pragma warning(disable: 4514)
+#pragma warning(disable: 4365)
+#pragma warning(disable: 4668)
+#pragma warning(disable: 4820)
+#pragma warning(disable: 5039)
+
 #include<memory>
 
-ALICE_SUPPRESS_WARNINGS_END
+#pragma warning(pop)
+
 
 class IDSVDescriptorHeap;
 class IRTVDescriptorHeap;
@@ -42,6 +50,7 @@ public:
 
 	virtual void GraphicCommandListExecute() = 0;
 	virtual void GraphicCommandListReset(size_t bbIndex_) = 0;
+	virtual void GraphicCommandListReset() = 0;
 	virtual void ResourceTransition(ID3D12Resource* resource_,uint32_t beforeState_,uint32_t afterState_) = 0;
 
 	virtual ID3D12GraphicsCommandList* GetGraphicCommandList() = 0;
@@ -59,6 +68,7 @@ public:
 
 	virtual void ComputeCommandListExecute() = 0;
 	virtual void ComputeCommandListReset(size_t bbIndex_) = 0;
+	virtual void ComputeCommandListReset() = 0;
 
 	virtual ID3D12GraphicsCommandList* GetComputeCommandList() = 0;
 	virtual ID3D12GraphicsCommandList** GetComputeCommandListAddressOf() = 0;

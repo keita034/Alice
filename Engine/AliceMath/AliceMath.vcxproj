@@ -66,7 +66,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)Include;$(ProjectDir)Include\Float;$(ProjectDir)Include\Float\Matrix;$(ProjectDir)Include\Float\Vector;$(ProjectDir)Include\Double;$(ProjectDir)Include\Double\Matrix;$(ProjectDir)Include\Double\Vector;$(SolutionDir)Alice;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>5045</DisableSpecificWarnings>
+      <DisableSpecificWarnings>5045;4668</DisableSpecificWarnings>
       <AdditionalOptions>/utf-8 </AdditionalOptions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
@@ -93,7 +93,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)Include;$(ProjectDir)Include\Float;$(ProjectDir)Include\Float\Matrix;$(ProjectDir)Include\Float\Vector;$(ProjectDir)Include\Double;$(ProjectDir)Include\Double\Matrix;$(ProjectDir)Include\Double\Vector;$(SolutionDir)Alice;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>5045;4710;4711</DisableSpecificWarnings>
+      <DisableSpecificWarnings>5045;4710;4711;4668</DisableSpecificWarnings>
       <AdditionalOptions>/utf-8 </AdditionalOptions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>

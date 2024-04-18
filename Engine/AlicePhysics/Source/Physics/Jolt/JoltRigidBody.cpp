@@ -22,19 +22,19 @@ void* AlicePhysics::JoltRigidBody::GetBody()
     return static_cast<void*>(&bodyData);
 }
 
-void AlicePhysics::JoltRigidBody::OnCollisionEnter(RigidBodyUserData* BodyData_)
+void AlicePhysics::JoltRigidBody::OnCollisionEnter(RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_)
 {
 	if ( rigidBodyCollision )
 	{
-		rigidBodyCollision->OnCollisionEnter(BodyData_);
+		rigidBodyCollision->OnCollisionEnter(BodyData_,hitPosdition_);
 	}
 }
 
-void AlicePhysics::JoltRigidBody::OnCollisionStay(RigidBodyUserData* BodyData_)
+void AlicePhysics::JoltRigidBody::OnCollisionStay(RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_)
 {
 	if ( rigidBodyCollision )
 	{
-		rigidBodyCollision->OnCollisionStay(BodyData_);
+		rigidBodyCollision->OnCollisionStay(BodyData_,hitPosdition_);
 	}
 }
 
@@ -114,6 +114,11 @@ void AlicePhysics::JoltRigidBody::SetMatrix(const AliceMathF::Matrix4& matRigidB
 AliceMathF::Matrix4 AlicePhysics::JoltRigidBody::GetCenterOfMassTransform()
 {
 	return body->GetTransformedShape().GetCenterOfMassTransform();
+}
+
+void AlicePhysics::JoltRigidBody::AddForce(const AliceMathF::Vector3& force_)
+{
+	body->AddForce(force_);
 }
 
 void AlicePhysics::JoltRigidBody::SetShape(IShape*& shape_)

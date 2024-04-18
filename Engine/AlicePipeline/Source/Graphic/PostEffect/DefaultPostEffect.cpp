@@ -6,10 +6,10 @@ void CreateDefaultPostEffectMaterial(MaterialManager* manager_,IAdapter* adapter
 	ID3D12Device* lDevice = adapter_->GetDevice()->Get();
 
 	//頂点シェーダの読み込み
-	lDefaultPostEffectMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/PostEffectTest/PostEffectTestVS.hlsl");
+	lDefaultPostEffectMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/AlicePostEffect/PostEffectTest/PostEffectTestVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	lDefaultPostEffectMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/2D/PostEffect/PostEffectTest/PostEffectTestPS.hlsl","main","ps_5_0");
+	lDefaultPostEffectMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/AlicePostEffect/PostEffectTest/PostEffectTestPS.hlsl","main","ps_5_0");
 
 	//頂点レイアウト設定
 	lDefaultPostEffectMaterial->inputLayouts =

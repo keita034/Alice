@@ -102,8 +102,8 @@ matrix Rotate(float3 ANGLE)
 //ランダム
 float Rand(int SEED, int SEED2, int MAX, int MIN)
 {
-    float rand = frac(sin(dot(float2(SEED, SEED), float2(12.9898, 78.233)) + (SEED2 + SEED)) * 43758.5453);
-    return (MAX + abs(MIN)) * rand - abs(MIN);
+    float rand = frac(sin(dot(float2(SEED, SEED), float2(12.9898, 78.233))) * 43758.5453);
+    return clamp(rand, MIN, MAX);
 }
 
 uint WangHashRand(uint seed)
@@ -150,7 +150,7 @@ float RandFloat(uint SEED, float MAX, float MIN)
     uint rand = WangHashRand(SEED * 1847483629);
     float result;
     result = (rand % 1024) / 1024.0f;
-    rand /= 1024;
+    rand %= 1024;
 
     result = (MAX + abs(MIN)) * result - abs(MIN);
 
@@ -160,6 +160,26 @@ float RandFloat(uint SEED, float MAX, float MIN)
     }
 
     return result;
+}
+
+float RandFloat(float2 uv)
+{
+    float2 noise = (frac(sin(dot(uv, float2(12.9898, 78.233) * 2.0)) * 43758.5453));
+    return abs(noise.x + noise.y);
+}
+
+float2 RandFloat2(float2 uv)
+{
+    float noiseX = (frac(sin(dot(uv, float2(12.9898, 78.233) * 2.0)) * 43758.5453));
+    float noiseY = sqrt(1 - noiseX * noiseX);
+    return float2(noiseX, noiseY);
+}
+
+float2 RandFloat2_2(float2 uv)
+{
+    float noiseX = (frac(sin(dot(uv, float2(12.9898, 78.233))) * 43758.5453));
+    float noiseY = (frac(sin(dot(uv, float2(12.9898, 78.233) * 2.0)) * 43758.5453));
+    return float2(noiseX, noiseY) * 0.004;
 }
 
 float3 RandomPointInUnitSphere(uint SEED)
@@ -210,4 +230,42 @@ float3 RandomPointInUnitSphere(uint SEED, float3 RADIUS)
     randomPoint.z = rZ * sin(phi) * sin(theta);
 
     return randomPoint;
+}
+
+struct BoundingBox
+{
+    float3 min;
+    float3 max;
+};
+
+struct FrustumPlanes
+{
+    float4 plane[6];
+};
+
+bool IsInsideFrustum(BoundingBox box, FrustumPlanes frustumPlanes)
+{
+    // フラスタム面をテスト
+    for (int i = 0; i < 6; ++i)
+    {
+        float3 normal = frustumPlanes.plane[i].xyz;
+        float d = frustumPlanes.plane[i].w;
+
+        int outCount = 0;
+        outCount += dot(normal, float3(box.min.x, box.min.y, box.min.z)) + d < 0.0 ? 1 : 0; // 000
+        outCount += dot(normal, float3(box.min.x, box.min.y, box.max.z)) + d < 0.0 ? 1 : 0; // 001
+        outCount += dot(normal, float3(box.min.x, box.max.y, box.min.z)) + d < 0.0 ? 1 : 0; // 010
+        outCount += dot(normal, float3(box.min.x, box.max.y, box.max.z)) + d < 0.0 ? 1 : 0; // 011
+        outCount += dot(normal, float3(box.max.x, box.min.y, box.min.z)) + d < 0.0 ? 1 : 0; // 100
+        outCount += dot(normal, float3(box.max.x, box.min.y, box.max.z)) + d < 0.0 ? 1 : 0; // 101
+        outCount += dot(normal, float3(box.max.x, box.max.y, box.min.z)) + d < 0.0 ? 1 : 0; // 110
+        outCount += dot(normal, float3(box.max.x, box.max.y, box.max.z)) + d < 0.0 ? 1 : 0; // 111
+
+        if (outCount == 8)
+        {
+            return false;
+        }
+    }
+
+    return true;
 }

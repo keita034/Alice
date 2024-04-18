@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{c8f1b45f-05fe-4004-812e-c5c436b0671a}</ProjectGuid>
+    <RootNamespace>AliceCamera</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)..\Generated\Lib\$(Configuration)\</OutDir>
+    <IncludePath>$(SolutionDir)Engine\ThirdPartys\Include;$(SolutionDir)Engine\AliceCore\Include;$(SolutionDir)Engine\AliceCore\Include\Buffer;$(SolutionDir)Engine\AliceCore\Include\DescriptorHeap;$(SolutionDir)Engine\AliceCore\Include\GPU;$(SolutionDir)Engine\AliceCore\Include\Pipeline;$(SolutionDir)Engine\AliceUtility\Include;$(SolutionDir)Engine\AliceUtility\Include\Enum;$(SolutionDir)Engine\AliceUtility\Include\Others;$(SolutionDir)Engine\AliceUtility\Include\Utility;$(SolutionDir)Engine\AliceMath;$(SolutionDir)Engine\AliceMath\Include;$(SolutionDir)Engine\AliceMath\Include\Double;$(SolutionDir)Engine\AliceMath\Include\Float;$(SolutionDir)Engine\AliceMath\Include\Float\Matrix;$(SolutionDir)Engine\AliceMath\Include\Float\Vector;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)..\Generated\Lib\$(Configuration)\</OutDir>
+    <IncludePath>$(SolutionDir)Engine\ThirdPartys\Include;$(SolutionDir)Engine\AliceCore\Include;$(SolutionDir)Engine\AliceCore\Include\Buffer;$(SolutionDir)Engine\AliceCore\Include\DescriptorHeap;$(SolutionDir)Engine\AliceCore\Include\GPU;$(SolutionDir)Engine\AliceCore\Include\Pipeline;$(SolutionDir)Engine\AliceUtility\Include;$(SolutionDir)Engine\AliceUtility\Include\Enum;$(SolutionDir)Engine\AliceUtility\Include\Others;$(SolutionDir)Engine\AliceUtility\Include\Utility;$(SolutionDir)Engine\AliceMath;$(SolutionDir)Engine\AliceMath\Include;$(SolutionDir)Engine\AliceMath\Include\Double;$(SolutionDir)Engine\AliceMath\Include\Float;$(SolutionDir)Engine\AliceMath\Include\Float\Matrix;$(SolutionDir)Engine\AliceMath\Include\Float\Vector;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\Include;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\Include;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="Include\GameCamera.h" />
+    <ClInclude Include="Include\Camera.h" />
+    <ClInclude Include="Include\CinemaCamera.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\GameCamera.cpp" />
+    <ClCompile Include="Source\Camera.cpp" />
+    <ClCompile Include="Source\CinemaCamera.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AliceCore\AliceCore.vcxproj">
+      <Project>{0c4e6eb7-9df9-4089-b866-c3b8815bf856}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\AliceMath\AliceMath.vcxproj">
+      <Project>{e19a2bfb-b038-4bef-a6c7-364d5488e9ba}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\AliceUtility\AliceUtility.vcxproj">
+      <Project>{95e30581-d29f-44fd-8802-198f6b21e809}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

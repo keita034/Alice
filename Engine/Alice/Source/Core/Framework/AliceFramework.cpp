@@ -36,20 +36,19 @@ void AliceFramework::Initialize()
 	directX12Core->DirectXInitialize(static_cast<float>(windowsApp->GetWindowSize().width), static_cast<float>(windowsApp->GetWindowSize().height), windowsApp->GetHwndPtr(), windowsApp.get());//DirectX12初期化
 	directX12Core->SetBackScreenColor(0.1f, 0.25f, 0.5f, 0.0f);	//背景の色変更(R,G,B,A)
 
-	Particle::SSetDirectX12Core(directX12Core.get());
-	BasePostEffect::SSetDirectX12Core(directX12Core.get());
-	PostEffectManager::SSetDirectX12Core(directX12Core.get());
-	Sprite::SSetDirectX12Core(directX12Core.get());
+	Particle::SSetDirectX12Core(directX12Core->GetDevice(),directX12Core->GetCommandList());
+	BasePostEffect::SSetDirectX12Core(directX12Core->GetCommandList(),directX12Core->GetSRVDescriptorHeap(),directX12Core->GetDevice());
+	PostEffectManager::SSetDirectX12Core(directX12Core->GetCommandList(),directX12Core->GetSRVDescriptorHeap());
+	Sprite::SSetDirectX12Core(directX12Core->GetDevice(),directX12Core->GetCommandList());
 	Mesh::SSetDirectX12Core(directX12Core.get());
 	Mesh3D::SSetDirectX12Core(directX12Core.get());
-	TextureManager::SSetDirectX12Core(directX12Core.get());
-	AliceModel::SCommonInitialize(directX12Core.get());
+	TextureManager::SSetDirectX12Core(directX12Core->GetMultiAdapters(),directX12Core->GetSwapChain(),directX12Core->GetSRVDescriptorHeap());
+	AliceModel::SCommonInitialize(directX12Core->GetDevice(),directX12Core->GetCommandList());
+	MeshGPUParticleAliceModel::SSetMultiAdapters(directX12Core->GetMultiAdapters());
 
 	PipelineState::SSetDevice(directX12Core->GetDevice());
 
 	BaseBuffer::SSetSwapChain(directX12Core->GetSwapChain());
-
-	MeshGPUParticleAliceModel::SSetMultiAdapters(directX12Core->GetMultiAdapters());
 	//DirectX初期化処理ここまで
 
 	//描画初期化処理ここから
@@ -188,7 +187,7 @@ void AliceFramework::Draw()
 
 		directX12Core->BeginDraw();//描画準備
 		postEffectManager->Draw();
-
+		sceneManager->SpriteDraw();
 		imGuiManager->Draw();
 		//DirectX毎フレーム処理　ここまで
 		directX12Core->EndDraw();//描画後処理
@@ -204,6 +203,8 @@ void AliceFramework::Draw()
 
 			gpuParticleEmitter->Draw(mat,sceneManager->GetSceneCamera()->GetBillboardMatrix());
 		}
+
+		sceneManager->SpriteDraw();
 
 		physicsSystem->Draw();
 

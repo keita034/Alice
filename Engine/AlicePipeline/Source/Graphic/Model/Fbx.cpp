@@ -8,10 +8,10 @@ void CreateFbxMaterial(MaterialManager* manager_,IAdapter* adapter_)
 	ID3D12Device* lDevice = adapter_->GetDevice()->Get();
 
 	//頂点シェーダの読み込み
-	lDefaultModelMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/DefaultModel/ModelVS.hlsl");
+	lDefaultModelMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/AliceModel/DefaultModel/ModelVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	lDefaultModelMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/DefaultModel/ModelPS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
+	lDefaultModelMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/AliceModel/DefaultModel/ModelPS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	lDefaultModelMaterial->inputLayouts = {
@@ -52,10 +52,10 @@ void CreateFbxAnimationMaterial(MaterialManager* manager_,IAdapter* adapter_)
 	ID3D12Device* lDevice = adapter_->GetDevice()->Get();
 
 	//頂点シェーダの読み込み
-	lDefaultModelMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/DefaultModel/ModelAnimationVS.hlsl");
+	lDefaultModelMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/AliceModel/DefaultModel/ModelAnimationVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	lDefaultModelMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/DefaultModel/ModelPS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
+	lDefaultModelMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/AliceModel/DefaultModel/ModelPS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	lDefaultModelMaterial->inputLayouts = {

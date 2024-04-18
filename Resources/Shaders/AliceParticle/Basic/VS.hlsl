@@ -3,7 +3,7 @@
 RWStructuredBuffer<Particle> ParticlePool : register(u0);
 ConsumeStructuredBuffer<uint> DrawList : register(u1);
 
-VS_OUTPUT main(uint id : SV_VertexID)
+VS_OUTPUT main(uint id : SV_InstanceID)
 {
     VS_OUTPUT output;
 

@@ -8,6 +8,7 @@
 #include<WindowsApp.h>
 #include<TextureManager.h>
 #include<BlendMode.h>
+#include<Structure.h>
 
 enum BillboardFlag
 {
@@ -113,7 +114,7 @@ public:
 
 	static void SSetWindowsApp(IWindowsApp* windowsApp_);
 
-	static void SSetDirectX12Core(DirectX12Core* directX12Core_);
+	static void SSetDirectX12Core(IDevice* nainDevice_,ICommandList* cmdList_);
 
 protected:
 

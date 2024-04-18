@@ -51,8 +51,8 @@ namespace AlicePhysics
 		JoltRigidBody() = default;
 		~JoltRigidBody() = default;
 
-		void OnCollisionEnter(RigidBodyUserData* BodyData_)override;
-		void OnCollisionStay(RigidBodyUserData* BodyData_)override;
+		void OnCollisionEnter(RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_)override;
+		void OnCollisionStay(RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_)override;
 		void OnCollisionExit()override;
 		void SetLinearVelocity(const AliceMathF::Vector3& inLinearVelocity_)override;
 		void SetRigidBodyCollision(RigidBodyCollision* rigidBodyCollision_)override;
@@ -69,6 +69,7 @@ namespace AlicePhysics
 		AliceMathF::Vector3 GetPosition()override;
 		AliceMathF::Quaternion GetRotation()override;
 		AliceMathF::Matrix4 GetCenterOfMassTransform()override;
+		void AddForce(const AliceMathF::Vector3& force_)override;
 		void SetShape(IShape*& shape_);
 
 	private:

@@ -7,7 +7,7 @@
 /// <summary>
 /// インデックスバッファ
 /// </summary>
-class IndexBuffer : public BaseBuffer, public IIndexBuffer
+class IndexBuffer : public BaseBuffer,public IIndexBuffer
 {
 private:
 
@@ -34,7 +34,7 @@ public:
 	/// </summary>
 	/// <param name="length_">インデックスバッファの要素数</param>
 	/// <param name="data">インデックス配列の先頭アドレス(uint32_t)</param>
-	void Create(size_t length_,AdaptersIndex index_, const uint32_t* data_) override;
+	void Create(size_t length_,AdaptersIndex index_,const uint32_t* data_) override;
 
 	/// <summary>
 	/// 成功したか
@@ -80,7 +80,7 @@ private:
 
 void IndexBuffer::Create(size_t length_,AdaptersIndex index_,const uint32_t* data)
 {
-	if (!isValid)
+	if ( !isValid )
 	{
 		bufferlength = length_;
 		index = index_;
@@ -102,7 +102,7 @@ void IndexBuffer::Create(size_t length_,AdaptersIndex index_,const uint32_t* dat
 			D3D12_RESOURCE_STATE_GENERIC_READ,
 			nullptr,
 			IID_PPV_ARGS(resource.ReleaseAndGetAddressOf()));
-		if (FAILED(lResult))
+		if ( FAILED(lResult) )
 		{
 			printf("Failed to create index buffer resource");
 			return;
@@ -114,23 +114,23 @@ void IndexBuffer::Create(size_t length_,AdaptersIndex index_,const uint32_t* dat
 		bufferView = {};
 		bufferView.BufferLocation = resource->GetGPUVirtualAddress();
 		bufferView.Format = DXGI_FORMAT_R32_UINT;
-		bufferView.SizeInBytes = static_cast<UINT>(length_ * sizeof(uint32_t));
+		bufferView.SizeInBytes = static_cast< UINT >( length_ * sizeof(uint32_t) );
 
-		lResult = resource->Map(0, nullptr, &bufferMappedPtr);
-		if (FAILED(lResult))
+		lResult = resource->Map(0,nullptr,&bufferMappedPtr);
+		if ( FAILED(lResult) )
 		{
 			printf("Index buffer mapping failed");
 			return;
 		}
 
 		// マッピングする
-		if (data != nullptr)
+		if ( data != nullptr )
 		{
 			// インデックスデータをマッピング先に設定
-			memcpy(bufferMappedPtr, data, length_ * sizeof(uint32_t));
+			memcpy(bufferMappedPtr,data,length_ * sizeof(uint32_t));
 
 			// マッピング解除
-			resource->Unmap(0, nullptr);
+			resource->Unmap(0,nullptr);
 		}
 
 		isValid = true;
@@ -149,7 +149,7 @@ const D3D12_INDEX_BUFFER_VIEW& IndexBuffer::GetView()
 
 void IndexBuffer::Update(void* data)
 {
-	memcpy(bufferMappedPtr, data, bufferlength * sizeof(uint32_t));
+	memcpy(bufferMappedPtr,data,bufferlength * sizeof(uint32_t));
 }
 
 
@@ -184,16 +184,16 @@ const D3D12_GPU_DESCRIPTOR_HANDLE& IndexBuffer::GetSRVAddress()
 	return srvHandle;
 }
 
-std::unique_ptr<IIndexBuffer> CreateUniqueIndexBuffer(size_t length_,AdaptersIndex index_, const uint32_t* data_)
+std::unique_ptr<IIndexBuffer> CreateUniqueIndexBuffer(size_t length_,AdaptersIndex index_,const uint32_t* data_)
 {
 	std::unique_ptr<IIndexBuffer> lIndexBuffer = std::make_unique<IndexBuffer>();
-	lIndexBuffer->Create(length_,index_, data_);
+	lIndexBuffer->Create(length_,index_,data_);
 	return std::move(lIndexBuffer);
 }
 
-std::shared_ptr<IIndexBuffer> CreateSharedIndexBuffer(size_t length_,AdaptersIndex index_, const uint32_t* data_)
+std::shared_ptr<IIndexBuffer> CreateSharedIndexBuffer(size_t length_,AdaptersIndex index_,const uint32_t* data_)
 {
 	std::shared_ptr<IIndexBuffer> lIndexBuffer = std::make_shared<IndexBuffer>();
-	lIndexBuffer->Create(length_,index_, data_);
+	lIndexBuffer->Create(length_,index_,data_);
 	return lIndexBuffer;
 }

@@ -18,9 +18,14 @@ namespace internal
 #define AliceAssert(expr,str,...) \
     (!(expr) && printf("%s(%ld): %s: "#expr"\n", __FILE__, __LINE__,#str, __VA_ARGS__) && internal::Abort())
 
+#define AliceDebugPrint(str,...) \
+    printf("%s(%ld): %s:\n", __FILE__, __LINE__,#str)
+
 #else
 
 #define AliceAssert(expr,str,...)
+
+#define AliceDebugPrint(str,...)
 
 #endif
 
@@ -42,9 +47,6 @@ namespace internal
 
 //未実装アサート
 #define ALICE_ASSERT_NOT_IMPLEMENTED AliceAssert(0,"Not implemented");
-
-#define AliceAssertError(str) AliceAssert(0,str);
-
 
 //スイッチ・ブロック内のデフォルトケースをエラーにする
 #define ALICE_DEFAULT_CASE_NOT_IMPLEMENTED \

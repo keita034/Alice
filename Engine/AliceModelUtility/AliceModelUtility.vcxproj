@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{2c9f959b-5249-44f0-acfe-ff68636d421c}</ProjectGuid>
+    <RootNamespace>AliceModelUtility</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(SolutionDir)Engine\ThirdPartys\Include;$(SolutionDir)Engine\AliceCore\Include;$(SolutionDir)Engine\AliceCore\Include\Buffer;$(SolutionDir)Engine\AliceCore\Include\DescriptorHeap;$(SolutionDir)Engine\AliceCore\Include\GPU;$(SolutionDir)Engine\AliceCore\Include\Pipeline;$(SolutionDir)Engine\AliceUtility\Include;$(SolutionDir)Engine\AliceUtility\Include\Enum;$(SolutionDir)Engine\AliceUtility\Include\Others;$(SolutionDir)Engine\AliceUtility\Include\Utility;$(SolutionDir)Engine\AliceMath;$(SolutionDir)Engine\AliceMath\Include;$(SolutionDir)Engine\AliceMath\Include\Double;$(SolutionDir)Engine\AliceMath\Include\Float;$(SolutionDir)Engine\AliceMath\Include\Float\Matrix;$(SolutionDir)Engine\AliceMath\Include\Float\Vector;$(SolutionDir)Engine\AlicePipeline\Include;$(SolutionDir)Engine\AlicePipeline\Include\Graphic;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Default;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Sprite2D;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Sprite3D;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Particle;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Mesh;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\PostEffect;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Model;$(SolutionDir)Engine\AlicePipeline\Include\GPUParticle;$(SolutionDir)Engine\AlicePipeline\Include\Utility;$(SolutionDir)Engine\AliceCamera\Include;$(SolutionDir)Engine\AliceLight\Include;$(IncludePath)$(SolutionDir)Engine\AliceModelUtility\Include;$(SolutionDir)Engine\AliceModelUtility\Include\Model;$(SolutionDir)Engine\AliceModelUtility\Include\Animation;$(SolutionDir)Engine\AliceModelUtility\Include\Transform;$(SolutionDir)Engine\AliceLight\Include;</IncludePath>
+    <LibraryPath>$(SolutionDir)Engine\ThirdPartys\lib\debug;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)..\Generated\Lib\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(SolutionDir)Engine\ThirdPartys\Include;$(SolutionDir)Engine\AliceCore\Include;$(SolutionDir)Engine\AliceCore\Include\Buffer;$(SolutionDir)Engine\AliceCore\Include\DescriptorHeap;$(SolutionDir)Engine\AliceCore\Include\GPU;$(SolutionDir)Engine\AliceCore\Include\Pipeline;$(SolutionDir)Engine\AliceUtility\Include;$(SolutionDir)Engine\AliceUtility\Include\Enum;$(SolutionDir)Engine\AliceUtility\Include\Others;$(SolutionDir)Engine\AliceUtility\Include\Utility;$(SolutionDir)Engine\AliceMath;$(SolutionDir)Engine\AliceMath\Include;$(SolutionDir)Engine\AliceMath\Include\Double;$(SolutionDir)Engine\AliceMath\Include\Float;$(SolutionDir)Engine\AliceMath\Include\Float\Matrix;$(SolutionDir)Engine\AliceMath\Include\Float\Vector;$(SolutionDir)Engine\AlicePipeline\Include;$(SolutionDir)Engine\AlicePipeline\Include\Graphic;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Default;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Sprite2D;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Sprite3D;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Particle;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Mesh;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\PostEffect;$(SolutionDir)Engine\AlicePipeline\Include\Graphic\Model;$(SolutionDir)Engine\AlicePipeline\Include\GPUParticle;$(SolutionDir)Engine\AlicePipeline\Include\Utility;$(SolutionDir)Engine\AliceCamera\Include;$(SolutionDir)Engine\AliceLight\Include;$(IncludePath)$(SolutionDir)Engine\AliceModelUtility\Include;$(SolutionDir)Engine\AliceModelUtility\Include\Model;$(SolutionDir)Engine\AliceModelUtility\Include\Animation;$(SolutionDir)Engine\AliceModelUtility\Include\Transform;$(SolutionDir)Engine\AliceLight\Include;</IncludePath>
+    <LibraryPath>$(SolutionDir)Engine\ThirdPartys\lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)..\Generated\Lib\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)..\Generated\Obj\$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(ProjectDir)Include\Model;$(ProjectDir)Include\Animation;$(ProjectDir)Include\Transform</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <DisableSpecificWarnings>5045;4668</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(ProjectDir)Include\Model;$(ProjectDir)Include\Animation;$(ProjectDir)Include\Transform</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <DisableSpecificWarnings>5045;4061;;4710;4711</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>d3d12.lib</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="Include\Animation\AliceBlendTree.h" />
+    <ClInclude Include="Include\Bone.h" />
+    <ClInclude Include="Include\ModelMaterial.h" />
+    <ClInclude Include="Include\Model\AliceFileStream.h" />
+    <ClInclude Include="Include\Model\AliceModel.h" />
+    <ClInclude Include="Include\Animation\AliceMotionData.h" />
+    <ClInclude Include="Include\Model\AliceToonModel.h" />
+    <ClInclude Include="Include\MotionNode.h" />
+    <ClInclude Include="Include\Node.h" />
+    <ClInclude Include="Include\PosNormUvTangeColSkin.h" />
+    <ClInclude Include="Include\Transform\BaseTransform.h" />
+    <ClInclude Include="Include\Model\ModelMesh.h" />
+    <ClInclude Include="Include\Transform\Transform.h" />
+    <ClInclude Include="Include\WorldViewpojCamera.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Include\ModelMaterial.cpp" />
+    <ClCompile Include="Source\Animation\AliceBlendTree.cpp" />
+    <ClCompile Include="Source\Model\AliceFileStream.cpp" />
+    <ClCompile Include="Source\Model\AliceModel.cpp" />
+    <ClCompile Include="Source\Animation\AliceMotionData.cpp" />
+    <ClCompile Include="Source\Model\AliceToonModel.cpp" />
+    <ClCompile Include="Source\Transform\BaseTransform.cpp" />
+    <ClCompile Include="Source\Model\ModelMesh.cpp" />
+    <ClCompile Include="Source\Transform\Transform.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AliceCamera\AliceCamera.vcxproj">
+      <Project>{c8f1b45f-05fe-4004-812e-c5c436b0671a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\AliceCore\AliceCore.vcxproj">
+      <Project>{0c4e6eb7-9df9-4089-b866-c3b8815bf856}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\AliceLight\AliceLight.vcxproj">
+      <Project>{ed74a8fd-c1d1-4958-b944-d38a755a17b1}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\AliceMath\AliceMath.vcxproj">
+      <Project>{e19a2bfb-b038-4bef-a6c7-364d5488e9ba}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\AlicePipeline\AlicePipeline.vcxproj">
+      <Project>{7be554da-b177-4f2d-a2de-dd9cb9426e3c}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\AliceUtility\AliceUtility.vcxproj">
+      <Project>{95e30581-d29f-44fd-8802-198f6b21e809}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

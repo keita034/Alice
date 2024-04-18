@@ -45,6 +45,8 @@ public:
 	/// </summary>
 	virtual void Draw() = 0;
 
+	virtual void SpriteDraw() = 0;
+
 	/// <summary>
 	/// 後始末
 	/// </summary>

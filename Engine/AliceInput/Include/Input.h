@@ -1,13 +1,17 @@
 #pragma once
 
-#include<Defined.h>
-
-ALICE_SUPPRESS_WARNINGS_BEGIN
+#pragma warning(push)
+#pragma warning(disable: 4365)
+#pragma warning(disable: 4668)
+#pragma warning(disable: 4710)
+#pragma warning(disable: 4711)
+#pragma warning(disable: 4820)
+#pragma warning(disable: 5039)
 
 #include<memory>
 #include<stdint.h>
 
-ALICE_SUPPRESS_WARNINGS_END
+#pragma warning(pop)
 
 #include<AliceMathUtility.h>
 #include<Keys.h>

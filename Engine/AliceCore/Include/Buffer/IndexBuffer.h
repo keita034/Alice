@@ -28,7 +28,7 @@ public:
 	/// </summary>
 	/// <param name="length_">インデックスバッファの要素数</param>
 	/// <param name="data">インデックス配列の先頭アドレス(uint32_t)</param>
-	virtual void Create(size_t length_,AdaptersIndex index_, const uint32_t* data_) = 0;
+	virtual void Create(size_t length_,AdaptersIndex index_,const uint32_t* data_) = 0;
 
 	/// <summary>
 	/// 成功したか
@@ -78,7 +78,7 @@ private:
 /// <param name="length_">インデックスバッファの要素数</param>
 /// <param name="data">インデックス配列の先頭アドレス(uint32_t)</param>
 /// <returns>生成されたポインタ</returns>
-std::unique_ptr<IIndexBuffer> CreateUniqueIndexBuffer(size_t length_,AdaptersIndex index_ = AdaptersIndex::MAIN, const uint32_t* data_ = nullptr);
+std::unique_ptr<IIndexBuffer> CreateUniqueIndexBuffer(size_t length_,AdaptersIndex index_ = AdaptersIndex::MAIN,const uint32_t* data_ = nullptr);
 
 /// <summary>
 /// インデックスバッファの生成(シェアード)
@@ -86,4 +86,4 @@ std::unique_ptr<IIndexBuffer> CreateUniqueIndexBuffer(size_t length_,AdaptersInd
 /// <param name="length_">インデックスバッファの要素数</param>
 /// <param name="data">インデックス配列の先頭アドレス(uint32_t)</param>
 /// <returns>生成されたポインタ</returns>
-std::shared_ptr<IIndexBuffer> CreateSharedIndexBuffer(size_t length_,AdaptersIndex index_ = AdaptersIndex::MAIN, const uint32_t* data_ = nullptr);
+std::shared_ptr<IIndexBuffer> CreateSharedIndexBuffer(size_t length_,AdaptersIndex index_ = AdaptersIndex::MAIN,const uint32_t* data_ = nullptr);

@@ -1,10 +1,9 @@
-#include<Defined.h>
-
-ALICE_SUPPRESS_WARNINGS_BEGIN
+﻿#pragma warning(push)
+#pragma warning(disable: 4365)
 
 #include<random>
 
-ALICE_SUPPRESS_WARNINGS_END
+#pragma warning(pop)
 
 #include "AliceMath.h"
 #include"AliceMathUtility.h"

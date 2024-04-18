@@ -144,6 +144,12 @@
     <ClInclude Include="Include\Buffer\DrawListBuffer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Include\TextureManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\RenderTarget.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\DescriptorHeap\RTVDescriptorHeap.cpp">
@@ -246,6 +252,12 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Source\Buffer\DrawListBuffer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\TextureManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RenderTarget.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

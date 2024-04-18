@@ -15,12 +15,12 @@ namespace AlicePhysics
 		/// <summary>
 		/// 当たった瞬間に呼ばれる
 		/// </summary>
-		virtual void OnCollisionEnter(RigidBodyUserData* BodyData_) = 0;
+		virtual void OnCollisionEnter(RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_) = 0;
 
 		/// <summary>
 		/// 当たってる時に呼ばれる
 		/// </summary>
-		virtual void OnCollisionStay(RigidBodyUserData* BodyData_) = 0;
+		virtual void OnCollisionStay(RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_) = 0;
 
 		/// <summary>
 		/// 離れた瞬間に呼ばれる
@@ -96,6 +96,8 @@ namespace AlicePhysics
 		virtual void SetRotation(const AliceMathF::Quaternion& rotation_) = 0;
 
 		virtual void SetMatrix(const AliceMathF::Matrix4& matRigidBody_,const AliceMathF::Matrix4& matWorld_) = 0;
+
+		virtual void AddForce(const AliceMathF::Vector3& force_) = 0;
 
 		IRigidBody() = default;
 		virtual ~IRigidBody() = default;

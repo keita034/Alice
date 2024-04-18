@@ -7,10 +7,10 @@ void CreateDefaultLambertMaterial(MaterialManager* manager_,IAdapter* adapter_)
 	ID3D12Device* lDevice = adapter_->GetDevice()->Get();
 
 	//頂点シェーダの読み込み
-	lMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/Lambert/LambertVS.hlsl");
+	lMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/AliceModel/Lambert/LambertVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	lMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/Lambert/LambertPS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
+	lMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/AliceModel/Lambert/LambertPS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	lMaterial->inputLayouts = {

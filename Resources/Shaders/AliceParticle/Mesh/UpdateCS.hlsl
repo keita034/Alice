@@ -15,7 +15,7 @@ cbuffer ParticleData : register(b1)
 
 cbuffer ParticleDatas : register(b2)
 {
-    EmitData emitDatas[EMIT_DATA_MAX];
+    EmitData emitData;
 }
 
 RWStructuredBuffer<Particle> ParticlePool : register(u0);
@@ -36,16 +36,15 @@ void main(uint3 DTid : SV_DispatchThreadID)
     {
         return;
     }
-    
-    EmitData emitData = emitDatas[emitDataIndex];
-    
+
     float t = particle.age / emitData.lifeTime;
     
     particle.age += deltaTime;
 
-    particle.alive = (float) (particle.age < particle.lifeTime);
+     particle.alive = (float) (particle.age < particle.lifeTime );
 
     particle.position += particle.velocity * deltaTime;
+    particle.velocity += particle.accel;
     
     particle.color = lerp(emitData.startColor, emitData.endColor, t);
     

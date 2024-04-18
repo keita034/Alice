@@ -8,10 +8,10 @@ void CreateToonModelMaterial(MaterialManager* manager_,IAdapter* adapter_)
 	ID3D12Device* lDevice = adapter_->GetDevice()->Get();
 
 	//頂点シェーダの読み込み
-	lDefaultModelMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ToonModelVS.hlsl");
+	lDefaultModelMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/AliceModel/ToonModel/ToonModelVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	lDefaultModelMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ToonModelPS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
+	lDefaultModelMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/AliceModel/ToonModel/ToonModelPS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	lDefaultModelMaterial->inputLayouts = {
@@ -52,10 +52,10 @@ void CreateToonModelAnimationMaterial(MaterialManager* manager_,IAdapter* adapte
 	ID3D12Device* lDevice = adapter_->GetDevice()->Get();
 
 	//頂点シェーダの読み込み
-	lDefaultModelMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ToonModelAnimationVS.hlsl");
+	lDefaultModelMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/AliceModel/ToonModel/ToonModelAnimationVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	lDefaultModelMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ToonModelPS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
+	lDefaultModelMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/AliceModel/ToonModel/ToonModelPS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	lDefaultModelMaterial->inputLayouts = {
@@ -96,10 +96,10 @@ void CreateToonModelOutLineAnimationMaterial(MaterialManager* manager_,IAdapter*
 	ID3D12Device* lDevice = adapter_->GetDevice()->Get();
 
 	//頂点シェーダの読み込み
-	lDefaultModelMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ToonModelAnimationOutLineVS.hlsl");
+	lDefaultModelMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/AliceModel/ToonModel/ToonModelAnimationOutLineVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	lDefaultModelMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ToonModelOutLinePS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
+	lDefaultModelMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/AliceModel/ToonModel/ToonModelOutLinePS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	lDefaultModelMaterial->inputLayouts = {
@@ -134,10 +134,10 @@ void CreateToonModelOutLineMaterial(MaterialManager* manager_,IAdapter* adapter_
 	ID3D12Device* lDevice = adapter_->GetDevice()->Get();
 
 	//頂点シェーダの読み込み
-	lDefaultModelMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ToonModelOutLineVS.hlsl");
+	lDefaultModelMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/AliceModel/ToonModel/ToonModelOutLineVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	lDefaultModelMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ToonModelOutLinePS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
+	lDefaultModelMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/AliceModel/ToonModel/ToonModelOutLinePS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	lDefaultModelMaterial->inputLayouts = {
@@ -172,10 +172,10 @@ void CreateZeldaToonModelMaterial(MaterialManager* manager_,IAdapter* adapter_)
 	ID3D12Device* lDevice = adapter_->GetDevice()->Get();
 
 	//頂点シェーダの読み込み
-	lDefaultModelMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ZeldaToonModelVS.hlsl");
+	lDefaultModelMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/AliceModel/ToonModel/ZeldaToonModelVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	lDefaultModelMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ZeldaToonModelPS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
+	lDefaultModelMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/AliceModel/ToonModel/ZeldaToonModelPS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	lDefaultModelMaterial->inputLayouts = {
@@ -216,10 +216,10 @@ void CreateZeldaToonModelAnimationMaterial(MaterialManager* manager_,IAdapter* a
 	ID3D12Device* lDevice = adapter_->GetDevice()->Get();
 
 	//頂点シェーダの読み込み
-	lDefaultModelMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ZeldaToonModelAnimationVS.hlsl");
+	lDefaultModelMaterial->vertexShader = CreateUniqueShader("Resources/Shaders/AliceModel/ToonModel/ZeldaToonModelAnimationVS.hlsl");
 
 	//ピクセルシェーダの読み込み
-	lDefaultModelMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/3D/Model/ToonModel/ZeldaToonModelPS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
+	lDefaultModelMaterial->pixelShader = CreateUniqueShader("Resources/Shaders/AliceModel/ToonModel/ZeldaToonModelPS.hlsl","main","ps_5_0",IShader::ShaderType::PS);
 
 	//頂点レイアウト設定
 	lDefaultModelMaterial->inputLayouts = {

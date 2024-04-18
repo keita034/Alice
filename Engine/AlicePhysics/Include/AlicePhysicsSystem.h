@@ -5,7 +5,6 @@
 ALICE_SUPPRESS_WARNINGS_BEGIN
 
 #include<memory>
-
 ALICE_SUPPRESS_WARNINGS_END
 
 #include<BasePhysics.h>

@@ -37,6 +37,8 @@ public:
 	/// </summary>
 	void Draw();
 
+	void SpriteDraw();
+
 	void SetSceneFactory(AbstractSceneFactory* factory_);
 
 	void Finalize();

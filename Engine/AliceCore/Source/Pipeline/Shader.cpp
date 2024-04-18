@@ -85,7 +85,7 @@ void Shader::Create(const std::string& fileName_, const std::string& entryPoint_
 			lError.begin());
 		lError += "\n";
 		// エラー内容を出力ウィンドウに表示
-		OutputDebugStringA(lError.c_str());
+		printf("%s",lError.c_str());
 		assert(0);
 	};
 
@@ -108,7 +108,7 @@ void Shader::Create(const std::string& fileName_, const std::string& entryPoint_
 	type = type_;
 }
 
-void Shader::Copy(IShader* shader_)
+void Shader::Copy(IShader* shader_) 
 {
 	type = shader_->GetType();
 	shaderBytecode = *shader_->GetShader();

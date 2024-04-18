@@ -1,5 +1,6 @@
 #include<Sprite.h>
 #include<DirectX12Core.h>
+#include<PosUvColor.h>
 
 IWindowsApp* Sprite::sWindowsApp = nullptr;
 IDevice* Sprite::sMainDevice = nullptr;
@@ -101,8 +102,8 @@ void Sprite::SSetWindowsApp(IWindowsApp* windowsApp_)
 	sWindowsApp = windowsApp_;
 }
 
-void Sprite::SSetDirectX12Core(DirectX12Core* directX12Core_)
+void Sprite::SSetDirectX12Core(IDevice* nainDevice_,ICommandList* cmdList_)
 {
-	sMainDevice = directX12Core_->GetDevice();
-	sCmdList = directX12Core_->GetCommandList();
+	sMainDevice = nainDevice_;
+	sCmdList = cmdList_;
 }

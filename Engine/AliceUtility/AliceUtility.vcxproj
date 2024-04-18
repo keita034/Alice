@@ -23,8 +23,10 @@
     <ClInclude Include="Include\Utility\FileUtility.h" />
     <ClInclude Include="Include\Others\PadingType.h" />
     <ClInclude Include="Include\Utility\StringUtility.h" />
+    <ClInclude Include="Include\Others\ReservationFlag.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Others\ReservationFlag.cpp" />
     <ClCompile Include="Source\Others\Color.cpp" />
     <ClCompile Include="Source\Others\AliceAssert.cpp" />
     <ClCompile Include="Source\Others\Bit.cpp" />
@@ -110,6 +112,7 @@
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
     </ClCompile>
     <Link>
       <SubSystem>

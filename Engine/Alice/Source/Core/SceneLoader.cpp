@@ -295,6 +295,11 @@ void SceneData::Object::Draw()
 	{
 		model->Draw(transform);
 	}
+	if ( shape )
+	{
+		shape->Draw(rigidBody->GetCenterOfMassTransform(),{ 1.0f,1.0f ,1.0f },{ 1.0f ,1.0f ,1.0f ,1.0f },true);
+
+	}
 }
 
 void SceneData::Object::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSystem_)
@@ -302,15 +307,17 @@ void SceneData::Object::Initialize(AlicePhysics::AlicePhysicsSystem* physicsSyst
 	static_cast< void >( physicsSystem_ );
 }
 
-void SceneData::Object::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_)
+void SceneData::Object::OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_)
 {
 	static_cast< void >( BodyData_ );
+	static_cast< void >( hitPosdition_ );
 
 }
 
-void SceneData::Object::OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_)
+void SceneData::Object::OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_)
 {
 	static_cast< void >( BodyData_ );
+	static_cast< void >( hitPosdition_ );
 
 }
 
@@ -373,6 +380,7 @@ void SceneData::Draw()
 	for (std::unique_ptr<Object>& object : objects)
 	{
 		object->Draw();
+
 	}
 }
 

@@ -1,7 +1,7 @@
 #pragma once
 #include<Transform.h>
 #include<AliceModel.h>
-#include<Camera.h>
+#include<GameCamera.h>
 #include<AliceMathUtility.h>
 #include<Sprite2D.h>
 #include<IRigidBody.h>
@@ -92,12 +92,12 @@ public:
 	/// <summary>
 	/// 当たった瞬間に呼ばれる
 	/// </summary>
-	virtual void OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_)override = 0;
+	virtual void OnCollisionEnter(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_)override = 0;
 
 	/// <summary>
 	/// 当たってる時に呼ばれる
 	/// </summary>
-	virtual void OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_)override = 0;
+	virtual void OnCollisionStay(AlicePhysics::RigidBodyUserData* BodyData_,const AliceMathF::Vector3& hitPosdition_)override = 0;
 
 	/// <summary>
 	/// 離れた瞬間に呼ばれる

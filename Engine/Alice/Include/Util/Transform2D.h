@@ -1,5 +1,6 @@
-﻿#pragma once
+#pragma once
 #include<BaseTransform.h>
+#include<WorldViewpojCamera.h>
 
 class Transform2D : public BaseTransform
 {
@@ -20,7 +21,7 @@ public:
 
 	ID3D12Resource* GetconstBuff()const;
 
-	const worldViewpojCamera* GetWorldViewpojCamera()const;
+	const WorldViewpojCamera* GetWorldViewpojCamera()const;
 
 	const D3D12_GPU_VIRTUAL_ADDRESS& GetAddress()const;
 };

@@ -30,7 +30,7 @@ public:
 	/// <param name="length_">要素数</param>
 	/// <param name="singleSize">単体のサイズ</param>
 	/// <param name="data">配列の先頭アドレス</param>
-	virtual void Create(size_t length_, size_t singleSize_,AdaptersIndex index_,const void* data_) = 0;
+	virtual void Create(size_t length_,size_t singleSize_,AdaptersIndex index_,const void* data_) = 0;
 
 	/// <summary>
 	/// 頂点バッファビューを取得
@@ -84,7 +84,7 @@ public:
 /// <param name="singleSize">単体のサイズ</param>
 /// <param name="data">配列の先頭アドレス</param>
 /// <returns>生成されたポインタ</returns>
-std::unique_ptr<IVertexBuffer> CreateUniqueVertexBuffer(size_t length_, size_t singleSize_,AdaptersIndex index_ = AdaptersIndex::MAIN,const void* data_ = nullptr);
+std::unique_ptr<IVertexBuffer> CreateUniqueVertexBuffer(size_t length_,size_t singleSize_,AdaptersIndex index_ = AdaptersIndex::MAIN,const void* data_ = nullptr);
 
 /// <summary>
 /// 頂点バッファを生成(シェアード)
@@ -93,4 +93,4 @@ std::unique_ptr<IVertexBuffer> CreateUniqueVertexBuffer(size_t length_, size_t s
 /// <param name="singleSize">単体のサイズ</param>
 /// <param name="data">配列の先頭アドレス</param>
 /// <returns>生成されたポインタ</returns>
-std::shared_ptr<IVertexBuffer> CreateSharedVertexBuffer(size_t length_, size_t singleSize_,AdaptersIndex index_ = AdaptersIndex::MAIN,const void* data_ = nullptr);
+std::shared_ptr<IVertexBuffer> CreateSharedVertexBuffer(size_t length_,size_t singleSize_,AdaptersIndex index_ = AdaptersIndex::MAIN,const void* data_ = nullptr);

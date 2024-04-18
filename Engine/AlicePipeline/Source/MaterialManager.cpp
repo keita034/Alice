@@ -6,21 +6,7 @@ ALICE_SUPPRESS_WARNINGS_BEGIN
 
 ALICE_SUPPRESS_WARNINGS_END
 
-#include<DefaultTexture.h>
-#include<DefaultLambert.h>
-#include<DefaultPhong.h>
-#include<Sprite2DNoblend.h>
-#include<Sprite2DAlpha.h>
-#include<Sprite2DAdd.h>
-#include<Sprite2DSub.h>
-#include<Sprite2DMula.h>
-#include<Sprite2DInvsrc.h>
-#include<Sprite3DNoblend.h>
-#include<Sprite3DAlpha.h>
-#include<Sprite3DAdd.h>
-#include<Sprite3DSub.h>
-#include<Sprite3DMula.h>
-#include<Sprite3DInvsrc.h>
+#include<DefaultModel.h>
 #include<DefaultParticle.h>
 #include<RainParticle.h>
 #include<IcosahedronParticle.h>
@@ -37,9 +23,7 @@ ALICE_SUPPRESS_WARNINGS_END
 #include<LineMula.h>
 #include<LineInvsrc.h>
 #include<DefaultPostEffect.h>
-#include<ToonModel.h>
-#include<Fbx.h>
-
+#include<Sprite.h>
 #include<GPUParticleh.h>
 #include<AliceAssert.h>
 
@@ -74,7 +58,7 @@ Material* MaterialManager::GetMaterialData(const std::string& name_,AdaptersInde
 		//一回読み込んだことがあるファイルはそのまま返す
 		auto itr = find_if(materials.begin(),materials.end(),[ & ] (std::pair<const std::string,std::unique_ptr<Material,std::default_delete<Material>>>& p)
 			{
-					return p.second->name == name_;
+				return p.second->name == name_;
 			});
 
 		if ( itr != materials.end() )
@@ -204,7 +188,7 @@ Material* MaterialManager::GetMaterialData(const std::string& name_,AdaptersInde
 			{
 				CreateLineMulaMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
-			else if (name_ == "MashLineInvsrc" )
+			else if ( name_ == "MashLineInvsrc" )
 			{
 				CreateLineInvsrcMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
@@ -240,7 +224,7 @@ Material* MaterialManager::GetMaterialData(const std::string& name_,AdaptersInde
 			{
 				CreateBasicDrawMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
-			else if (name_ == "MultiGPUTest")
+			else if ( name_ == "MultiGPUTest" )
 			{
 				CreateTestMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
@@ -256,15 +240,39 @@ Material* MaterialManager::GetMaterialData(const std::string& name_,AdaptersInde
 			{
 				CreateLaserDrawMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
+			else if ( name_ == "AnimationMeshGPUParticleDraw" )
+			{
+				CreateAnimationMeshDrawMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
 			else if ( name_ == "MeshGPUParticleDraw" )
 			{
 				CreateMeshDrawMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "AnimationModelGPUParticleDraw" )
+			{
+				CreateAnimationModelDrawMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ModelGPUParticleDraw" )
+			{
+				CreateModelDrawMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "BloodGushGPUParticleDraw" )
+			{
+				CreateBloodGushDrawMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ModelSuctionGPUParticleDraw" )
+			{
+				CreateModelSuctionDrawMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "AnimationModelSuctionGPUParticleDraw" )
+			{
+				CreateAnimationModelSuctionDrawMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
 
 			return materials[ name_ ].get();
 		}
 
-		AliceAssertError("その名前のマテリアルは存在しません\n");
+		AliceAssert(false,"その名前のマテリアルは存在しません\n");
 
 		return nullptr;
 	}
@@ -281,7 +289,7 @@ ComputeMaterial* MaterialManager::GetComputeMaterialData(const std::string& name
 		//一回読み込んだことがあるファイルはそのまま返す
 		auto itr = find_if(computeMaterials.begin(),computeMaterials.end(),[ & ] (std::pair<const std::string,std::unique_ptr<ComputeMaterial,std::default_delete<ComputeMaterial>>>& p)
 			{
-					return p.second->name == name_;
+				return p.second->name == name_;
 			});
 
 		if ( itr != computeMaterials.end() )
@@ -307,10 +315,12 @@ ComputeMaterial* MaterialManager::GetComputeMaterialData(const std::string& name
 			{
 				CreateBasicFreeListInitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
+
 			else if ( name_ == "ComputeMultiGPUTest" )
 			{
 				CreateTestComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
+
 			else if ( name_ == "ComputeFireGPUParticleEmit" )
 			{
 				CreateFireEmitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
@@ -327,6 +337,7 @@ ComputeMaterial* MaterialManager::GetComputeMaterialData(const std::string& name
 			{
 				CreateFireDrawArgumentUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
+
 			else if ( name_ == "ComputeShockWaveGPUParticleFreeListInit" )
 			{
 				CreateShockWaveFreeListInitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
@@ -343,6 +354,7 @@ ComputeMaterial* MaterialManager::GetComputeMaterialData(const std::string& name
 			{
 				CreateShockWaveDrawArgumentUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
+
 			else if ( name_ == "ComputeLaserGPUParticleFreeListInit" )
 			{
 				CreateLaserFreeListInitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
@@ -359,6 +371,24 @@ ComputeMaterial* MaterialManager::GetComputeMaterialData(const std::string& name
 			{
 				CreateLaserDrawArgumentUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
+
+			else if ( name_ == "ComputeAnimationMeshGPUParticleFreeListInit" )
+			{
+				CreateAnimationMeshFreeListInitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeAnimationMeshGPUParticleEmit" )
+			{
+				CreateAnimationMeshEmitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeAnimationMeshGPUParticleUpdate" )
+			{
+				CreateAnimationMeshUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeAnimationMeshGPUParticleDrawArgumentUpdate" )
+			{
+				CreateAnimationMeshDrawArgumentUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+
 			else if ( name_ == "ComputeMeshGPUParticleFreeListInit" )
 			{
 				CreateMeshFreeListInitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
@@ -374,6 +404,113 @@ ComputeMaterial* MaterialManager::GetComputeMaterialData(const std::string& name
 			else if ( name_ == "ComputeMeshGPUParticleDrawArgumentUpdate" )
 			{
 				CreateMeshDrawArgumentUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+
+			else if ( name_ == "ComputeAnimationModelGPUParticleFreeListInit" )
+			{
+				CreateAnimationModelFreeListInitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeAnimationModelGPUParticleEmit" )
+			{
+				CreateAnimationModelEmitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeAnimationModelGPUParticleUpdate" )
+			{
+				CreateAnimationModelUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeAnimationModelGPUParticleDrawArgumentUpdate" )
+			{
+				CreateAnimationModelDrawArgumentUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeAnimationModelGPUParticleDrawListRelease" )
+			{
+				CreateAnimationModelDrawListReleaseComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+
+			else if ( name_ == "ComputeModelGPUParticleFreeListInit" )
+			{
+				CreateModelFreeListInitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeModelGPUParticleEmit" )
+			{
+				CreateModelEmitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeModelGPUParticleUpdate" )
+			{
+				CreateModelUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeModelGPUParticleDrawArgumentUpdate" )
+			{
+				CreateModelDrawArgumentUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeModelGPUParticleDrawListRelease" )
+			{
+				CreateModelDrawListReleaseComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+
+			else if ( name_ == "ComputeBloodGushGPUParticleFreeListInit" )
+			{
+				CreateBloodGushFreeListInitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeBloodGushGPUParticleEmit" )
+			{
+				CreateBloodGushEmitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeBloodGushGPUParticleUpdate" )
+			{
+				CreateBloodGushUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeBloodGushGPUParticleDrawArgumentUpdate" )
+			{
+				CreateBloodGushDrawArgumentUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+
+			else if ( name_ == "ComputeModelSuctionGPUParticleFreeListInit" )
+			{
+				CreateModelSuctionFreeListInitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeModelSuctionGPUParticleEmit" )
+			{
+				CreateModelSuctionEmitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeModelSuctionGPUParticleUpdate" )
+			{
+				CreateModelSuctionUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeModelSuctionGPUParticleDrawArgumentUpdate" )
+			{
+				CreateModelSuctionDrawArgumentUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+
+			else if ( name_ == "ComputeAnimationModelSuctionGPUParticleFreeListInit" )
+			{
+				CreateAnimationModelSuctionFreeListInitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeAnimationModelSuctionGPUParticleEmit" )
+			{
+				CreateAnimationModelSuctionEmitComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeAnimationModelSuctionGPUParticleUpdate" )
+			{
+				CreateAnimationModelSuctionUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeAnimationModelSuctionGPUParticleDrawArgumentUpdate" )
+			{
+				CreateAnimationModelSuctionDrawArgumentUpdateComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+
+
+			else if ( name_ == "ComputeScattering" )
+			{
+				CreateScatteringComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeAggregating" )
+			{
+				CreateAggregatingComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
+			}
+			else if ( name_ == "ComputeStop" )
+			{
+				CreateStopComputeMaterial(this,sMultiAdapters->GetAdapter(index_));
 			}
 
 			return computeMaterials[ name_ ].get();
